@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "kit-maestro": {
+      "hosting": {
+        "kitmaestro": [
+          "kit-maestro"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "kit-maestro"
+  }
+}
