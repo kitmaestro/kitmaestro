@@ -1,1 +1,70 @@
-<p>user-settings works!</p>
+<mat-card>
+    <mat-card-content>
+        <form (ngSubmit)="onSubmit()" [formGroup]="settingsForm">
+            <h3>Datos de el/la Docente</h3>
+            <mat-form-field appearance="outline">
+                <mat-label>Titulo</mat-label>
+                <mat-select formControlName="title">
+                    <mat-option *ngFor="let title of (gender.value == 'Hombre' ? titleOptions.Hombre : titleOptions.Mujer)" [value]="title.value">{{title.label}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre(s)</mat-label>
+                <input type="text" formControlName="firstname" matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Apellido(s)</mat-label>
+                <input type="text" formControlName="lastname" matInput>
+            </mat-form-field>
+            <div style="display: grid; grid-template-columns: 1fr 2fr; margin-bottom: 12px; gap: 6px;">
+                <mat-form-field appearance="outline">
+                    <mat-label>Sexo</mat-label>
+                    <mat-select (valueChange)="settingsForm.get('title')?.setValue(gender.value == 'Mujer' ? 'Licda' : 'Licdo')"  formControlName="gender" #gender>
+                        <mat-option value="Hombre">Hombre</mat-option>
+                        <mat-option value="Mujer">Mujer</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Tel&eacute;fono</mat-label>
+                    <input type="text" matInput formControlName="phone">
+                </mat-form-field>
+            </div>
+            <h3>Datos de la Escuela</h3>
+            <div style="display: flex;">
+                <div style="max-width: 49%;">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Regional</mat-label>
+                        <input type="text" formControlName="regional" matInput>
+                    </mat-form-field>
+                </div>
+                <div style="width: 2%;"></div>
+                <div style="max-width: 49%;">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Distrito</mat-label>
+                        <input type="text" formControlName="district" matInput>
+                    </mat-form-field>
+                </div>
+            </div>
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input type="text" formControlName="schoolName" matInput>
+            </mat-form-field>
+            <h3>Cursos/Secciones</h3>
+            <mat-form-field appearance="outline">
+                <mat-label>Curso(s)</mat-label>
+                <mat-select [multiple]="true" formControlName="grades">
+                    <mat-option *ngFor="let grade of gradeOptions" [value]="grade">{{grade}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Asignatura(s)</mat-label>
+                <mat-select [multiple]="true" formControlName="subjects">
+                    <mat-option *ngFor="let subject of subjectOptions" [value]="subject">{{subject}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div style="display: flex; justify-content: end;">
+                <button mat-raised-button type="submit" color="primary">Guardar</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

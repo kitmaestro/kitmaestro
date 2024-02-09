@@ -1,1 +1,10 @@
-<p>user-profile works!</p>
+<mat-card *ngIf="user$ | async as user" class="profile-card">
+    <mat-card-content>
+        <img [src]="user.photoURL ? user.photoURL : '/assets/profile.svg'" style="width: 80%; display: block; margin: 0 auto;" alt="">
+        <h2 style="margin-top: 24px; text-align: center;" mat-card-title>{{user.displayName ? user.displayName : 'Fulanito de Tal'}}</h2>
+        <h3 style="margin-bottom: 24px; text-align: center;" mat-card-subtitle>{{user.email}}</h3>
+    </mat-card-content>
+    <mat-card-actions class="card-actions">
+        <button mat-raised-button color="primary" (click)="openFormDialog()">Editar</button>
+    </mat-card-actions>
+</mat-card>
