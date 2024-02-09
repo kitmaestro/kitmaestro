@@ -4,6 +4,8 @@ import { Auth, authState } from '@angular/fire/auth';
 import { RouterOutlet } from '@angular/router';
 import { map, tap } from 'rxjs';
 import { LoginComponent } from './auth/login/login.component';
+import { StoreModule } from '@ngrx/store';
+import { authReducer } from './state/auth.reducer';
 
 @Component({
   selector: 'app-root',

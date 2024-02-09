@@ -1,9 +1,12 @@
 <div class="flex-wrapper">
     <mat-card class="login-card">
         <mat-card-header>
-            <h2 mat-card-title>Inicia Sesi&oacute;n</h2>
+            <div style="display: flex; justify-content: center; width: 100%;">
+                <h2 mat-card-title>Inicia Sesi&oacute;n</h2>
+            </div>
         </mat-card-header>
         <mat-card-content>
+            <img src="/assets/teach.svg" class="teach-svg" alt="">
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <mat-form-field>
                     <mat-label>Email</mat-label>
@@ -13,10 +16,14 @@
                     <mat-label>Contrase&ntilde;a</mat-label>
                     <input type="password" matInput formControlName="password" >
                 </mat-form-field>
-                <div>
+                <div style="margin: 12px 0;">
                     <button [disabled]="loading || loginForm.invalid" mat-raised-button color="primary" type="submit">Entrar</button>
                 </div>
             </form>
         </mat-card-content>
+        <mat-card-actions>
+            <a mat-flat-button style="margin-left: auto; margin-right: 12px;" color="link" [routerLink]="['/auth', 'recover']">Recuperar Contrase&ntilde;a</a>
+            <a mat-flat-button style="margin-right: auto;" color="accent" target="_blank" href="https://wa.me/+18094659650?text=Hola!+Quiero+solicitar+una+cuenta+de+KitMaestro.+Me+puedes+dar+más+información?">Solicitar Cuenta</a>
+        </mat-card-actions>
     </mat-card>
 </div>
