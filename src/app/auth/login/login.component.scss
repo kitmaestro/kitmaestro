@@ -1,0 +1,39 @@
+.flex-wrapper {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.login-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        min-height: fit-content;
+
+        button {
+            width: 100%;
+            display: block;
+        }
+    }
+
+    @media screen and (min-width: 760px) {
+        position: static;
+
+    }
+}

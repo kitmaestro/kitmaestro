@@ -13,9 +13,24 @@ import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideAnimationsAsync(), importProvidersFrom(provideFirebaseApp(() => initializeApp({"projectId":"kit-maestro","appId":"1:604854508995:web:589737edbf2038209c7176","storageBucket":"kit-maestro.appspot.com","apiKey":"AIzaSyAStMcbRBeZa5VEBbCRNQUPfd1zO1Y3Kws","authDomain":"kit-maestro.firebaseapp.com","messagingSenderId":"604854508995"}))), importProvidersFrom(provideAuth(() => getAuth())), importProvidersFrom(provideAnalytics(() => getAnalytics())), ScreenTrackingService, UserTrackingService, importProvidersFrom(provideAppCheck(() => {
-  // TODO get a reCAPTCHA Enterprise here https://console.cloud.google.com/security/recaptcha?project=_
-  const provider = new ReCaptchaEnterpriseProvider(/* reCAPTCHA Enterprise site key */);
-  return initializeAppCheck(undefined, { provider, isTokenAutoRefreshEnabled: true });
-})), importProvidersFrom(provideFirestore(() => getFirestore())), importProvidersFrom(provideFunctions(() => getFunctions())), importProvidersFrom(provideMessaging(() => getMessaging())), importProvidersFrom(provideStorage(() => getStorage()))]
+  providers: [
+    provideRouter(routes),
+    provideAnimationsAsync(),
+    importProvidersFrom(provideFirebaseApp(() => initializeApp({
+      "projectId":"kit-maestro",
+      "appId":"1:604854508995:web:589737edbf2038209c7176",
+      "storageBucket":"kit-maestro.appspot.com",
+      "apiKey":"AIzaSyAStMcbRBeZa5VEBbCRNQUPfd1zO1Y3Kws",
+      "authDomain":"kit-maestro.firebaseapp.com",
+      "messagingSenderId":"604854508995"
+    }))),
+    importProvidersFrom(provideAuth(() => getAuth())), 
+    importProvidersFrom(provideAnalytics(() => getAnalytics())), 
+    ScreenTrackingService, 
+    UserTrackingService, 
+    importProvidersFrom(provideFirestore(() => getFirestore())), 
+    importProvidersFrom(provideFunctions(() => getFunctions())), 
+    importProvidersFrom(provideMessaging(() => getMessaging())), 
+    importProvidersFrom(provideStorage(() => getStorage())),
+  ]
 };
