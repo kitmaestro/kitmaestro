@@ -1,9 +1,18 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AppsHolderComponent } from './apps/apps-holder/apps-holder.component';
 
 export const routes: Routes = [
     { path: '', component: DashboardComponent, children: [
         { path: '', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent) },
+        {
+            path: 'apps',
+            component: AppsHolderComponent,
+            children: [
+                { path: '', redirectTo: '/', pathMatch: 'full' },
+                { path: 'grades-generator', loadComponent: () => import('./apps/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },
+            ]
+        },
     ] },
     {
         path: 'auth',
