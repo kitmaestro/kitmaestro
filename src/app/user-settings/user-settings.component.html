@@ -1,5 +1,6 @@
 <mat-card>
     <mat-card-content>
+        <h2 mat-card-title>Informaci&oacute;n y Ajustes</h2>
         <form (ngSubmit)="onSubmit()" [formGroup]="settingsForm">
             <h3>Datos de el/la Docente</h3>
             <mat-form-field appearance="outline">
@@ -63,7 +64,10 @@
                 </mat-select>
             </mat-form-field>
             <div style="display: flex; justify-content: end;">
-                <button mat-raised-button type="submit" color="primary">Guardar</button>
+                <button [disabled]="settingsForm.invalid || saving" mat-raised-button type="submit" color="primary">
+                    <span *ngIf="!saving; else isSaving">Guardar</span>
+                    <ng-template #isSaving>Guardando...</ng-template>
+                </button>
             </div>
         </form>
     </mat-card-content>

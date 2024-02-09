@@ -8,11 +8,11 @@
         <mat-card-content>
             <img src="/assets/teach.svg" class="teach-svg" alt="">
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                <mat-form-field>
+                <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
                     <input type="email" matInput formControlName="email" >
                 </mat-form-field>
-                <mat-form-field>
+                <mat-form-field appearance="outline">
                     <mat-label>Contrase&ntilde;a</mat-label>
                     <input type="password" matInput formControlName="password" >
                 </mat-form-field>
