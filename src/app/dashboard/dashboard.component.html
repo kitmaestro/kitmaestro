@@ -12,13 +12,12 @@
             </button>
         </mat-menu>
     </mat-toolbar>
-    
     <mat-tab-group color="primary" backgroundColor="primary" headerPosition="below" class="tab-group">
         <mat-tab>
             <ng-template mat-tab-label>
                 <mat-icon>handyman</mat-icon>
             </ng-template>
-            <div style="height: calc(100vh - 152px); margin: 20px; overflow-y: auto;">
+            <div style="height: 100vh; max-height: calc(100vh - 152px); padding: 20px; overflow-y: auto;">
                 <router-outlet></router-outlet>
             </div>
         </mat-tab>
@@ -27,7 +26,7 @@
                 <mat-icon>settings</mat-icon>
             </ng-template>
             <ng-template matTabContent>
-                <div style="height: calc(100vh - 152px); margin: 20px; overflow-y: auto;">
+                <div style="height: 100vh; max-height: calc(100vh - 152px); padding: 20px; overflow-y: auto;">
                     <app-user-settings></app-user-settings>
                 </div>
             </ng-template>
@@ -36,7 +35,8 @@
             <ng-template mat-tab-label>
                 <mat-icon>person</mat-icon>
             </ng-template>
-            <div style="height: calc(100vh - 152px); margin: 20px; overflow-y: auto; padding: 6px;">
+            <div style="height: 100vh; max-height: calc(100vh - 152px); padding: 20px; overflow-y: auto;">
+                <h2>Mi Perfil</h2>
                 <app-user-profile></app-user-profile>
             </div>
         </mat-tab>
