@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -12,6 +12,7 @@ import { getFunctions, provideFunctions } from '@angular/fire/functions';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideStore } from '@ngrx/store';
+import { provideServiceWorker } from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,6 +34,10 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(provideFunctions(() => getFunctions())),
     importProvidersFrom(provideMessaging(() => getMessaging())),
     importProvidersFrom(provideStorage(() => getStorage())),
-    provideStore()
+    provideStore(),
+    provideServiceWorker('ngsw-worker.js', {
+        enabled: !isDevMode(),
+        registrationStrategy: 'registerWhenStable:30000'
+    })
 ]
 };
