@@ -11,8 +11,8 @@ import { Observable, lastValueFrom, map, merge, zip } from 'rxjs';
 import { ClassSection } from '../datacenter/datacenter.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
-import { Attendance } from '../attendance';
-import { Student } from '../student';
+import { Attendance } from '../interfaces/attendance';
+import { Student } from '../interfaces/student';
 
 @Component({
   selector: 'app-section-attendance',

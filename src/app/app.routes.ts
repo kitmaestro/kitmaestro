@@ -42,6 +42,33 @@ export const routes: Routes = [
                 ]
             },
             {
+                path: 'assistants',
+                component: GeneratorsHolderComponent,
+                children: [
+                    { path: '', loadComponent: () => import('./assistants/assistants-dashboard/assistants-dashboard.component').then(mod => mod.AssistantsDashboardComponent) },
+                ]
+            },
+            {
+                path: 'attendance',
+                loadComponent: () => import('./attendance-dashboard/attendance-dashboard.component').then(mod => mod.AttendanceDashboardComponent)
+            },
+            {
+                path: 'attendance/:id',
+                loadComponent: () => import('./section-attendance/section-attendance.component').then(mod => mod.SectionAttendanceComponent)
+            },
+            {
+                path: 'resources',
+                loadComponent: () => import('./resources-dashboard/resources-dashboard.component').then(mod => mod.ResourcesDashboardComponent)
+            },
+            {
+                path: 'collab',
+                loadComponent: () => import('./collab-dashboard/collab-dashboard.component').then(mod => mod.CollabDashboardComponent)
+            },
+            {
+                path: 'tasks',
+                loadComponent: () => import('./tasks-dashboard/tasks-dashboard.component').then(mod => mod.TasksDashboardComponent)
+            },
+            {
                 path: 'premium',
                 loadComponent: () => import('./premium-wrapper/premium-wrapper.component').then(mod => mod.PremiumWrapperComponent),
                 children: [
