@@ -1,4 +1,50 @@
 @if (generated) {
+    <div class="table-container">
+        <table style="margin-bottom: 12px; margin-top: 12px;">
+            <thead>
+                <tr>
+                    <th scope="col">Estudiante</th>
+                    <th colspan="8" scope="col">Indicador 1</th>
+                    <th colspan="8" scope="col">Indicador 2</th>
+                    <th colspan="8" scope="col">Indicador 3</th>
+                    <th colspan="8" scope="col" *ngIf="generated.level == 'secondary'">Indicador 4</th>
+                    <th colspan="5" scope="col">Promedios</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    @for (indicator of [].constructor(generated.indicators); track $index) {
+                        <th>P1</th>
+                        <th>RP1</th>
+                        <th>P2</th>
+                        <th>RP2</th>
+                        <th>P3</th>
+                        <th>RP3</th>
+                        <th>P4</th>
+                        <th>RP4</th>
+                    }
+                    @if (generated.level == 'primary') {
+                        <th>CP1</th>
+                        <th>CP2</th>
+                        <th>CP3</th>
+                        <th>CP4</th>
+                        <th>CF</th>
+                    } @else {
+                        <th>PC1</th>
+                        <th>PC2</th>
+                        <th>PC3</th>
+                        <th>PC4</th>
+                        <th>CF</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of generated.dataSet; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td *ngFor="let cell of row">{{cell}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <button mat-raised-button color="accent" (click)="generated = null">Reiniciar</button>
 } @else {
     <mat-card>
@@ -17,7 +63,7 @@
                 <div style="margin-bottom: 16px;">
                     <mat-slide-toggle formControlName="includeRecover">Incluir Recuperaci&oacute;n (si es necesaria)</mat-slide-toggle>
                 </div>
-                <div style="margin-bottom: 16px;">
+                <div style="margin-bottom: 16px; display: none;">
                     <mat-slide-toggle formControlName="precise">C&aacute;lculos Precisos (modo robot)</mat-slide-toggle>
                 </div>
                 <div style="margin-bottom: 16px;">
@@ -40,10 +86,10 @@
                 <div style="margin-bottom: 16px;">
                     <label><b>Per&iacute;odos</b>:</label>
                     <mat-chip-listbox [multiple]="true" formControlName="grades">
-                        <mat-chip-option color="accent" value="1">P1</mat-chip-option>
-                        <mat-chip-option color="accent" value="2">P2</mat-chip-option>
-                        <mat-chip-option color="accent" value="3">P3</mat-chip-option>
-                        <mat-chip-option color="accent" value="4">P4</mat-chip-option>
+                        <mat-chip-option color="accent" value="P1">P1</mat-chip-option>
+                        <mat-chip-option color="accent" value="P2">P2</mat-chip-option>
+                        <mat-chip-option color="accent" value="P3">P3</mat-chip-option>
+                        <mat-chip-option color="accent" value="P4">P4</mat-chip-option>
                     </mat-chip-listbox>
                 </div>
                 <div style="margin-bottom: 16px;" formArrayName="students">
@@ -79,7 +125,7 @@
                         <mat-divider></mat-divider>
                     }
                     <div style="display: grid; grid-template-columns: 1fr; margin-top: 16px;">
-                        <button (click)="addStudent()" mat-raised-button color="accent">Agregar Estudiante</button>
+                        <button type="button" (click)="addStudent()" mat-raised-button color="accent">Agregar Estudiante</button>
                     </div>
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr;">
