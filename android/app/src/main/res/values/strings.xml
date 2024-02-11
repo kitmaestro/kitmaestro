@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">kit-maestro</string>
+    <string name="title_activity_main">kit-maestro</string>
+    <string name="package_name">com.kitmaestro.app</string>
+    <string name="custom_url_scheme">com.kitmaestro.app</string>
+</resources>

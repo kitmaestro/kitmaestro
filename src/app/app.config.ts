@@ -13,6 +13,10 @@ import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideStore } from '@ngrx/store';
 import { provideServiceWorker } from '@angular/service-worker';
+import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
+import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
+// import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire';
+import { USE_EMULATOR as USE_STORAGE_EMULATOR } from '@angular/fire/compat/storage';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -38,6 +42,9 @@ export const appConfig: ApplicationConfig = {
     provideServiceWorker('ngsw-worker.js', {
         enabled: !isDevMode(),
         registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    { provide: USE_AUTH_EMULATOR, useValue: isDevMode() ? ['localhost', 9099] : undefined },
+    { provide: USE_FIRESTORE_EMULATOR, useValue: isDevMode() ? ['localhost', 8080] : undefined },
+    { provide: USE_STORAGE_EMULATOR, useValue: isDevMode() ? ['localhost', 9199] : undefined },
 ]
 };
