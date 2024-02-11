@@ -23,6 +23,6 @@ import { AppEntry } from '../../interfaces/app-entry';
 })
 export class AppsDashboardComponent {
   apps: AppEntry[] = [
-    { name: 'Generador de Calificaciones', description: 'Genera facilmente las calificaciones de tus estudiantes.', link: ['/apps', 'grades-generator'], premium: false, icon: '/assets/grades.svg' },
+    // { name: 'Generador de Calificaciones', description: 'Genera facilmente las calificaciones de tus estudiantes.', link: ['/apps', 'grades-generator'], premium: false, icon: '/assets/grades.svg' },
   ];
 }

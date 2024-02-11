@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GradesGeneratorComponent } from './grades-generator.component';
+import { CollabDashboardComponent } from './collab-dashboard.component';
 
-describe('GradesGeneratorComponent', () => {
-  let component: GradesGeneratorComponent;
-  let fixture: ComponentFixture<GradesGeneratorComponent>;
+describe('CollabDashboardComponent', () => {
+  let component: CollabDashboardComponent;
+  let fixture: ComponentFixture<CollabDashboardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GradesGeneratorComponent]
+      imports: [CollabDashboardComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(GradesGeneratorComponent);
+    fixture = TestBed.createComponent(CollabDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

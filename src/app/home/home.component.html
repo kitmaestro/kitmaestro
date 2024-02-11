@@ -1,9 +1,12 @@
+<h2>Inicio</h2>
 <div class="apps-grid">
-    <mat-card class="app-card" *ngFor="let app of apps" [routerLink]="app.link">
-        <mat-card-content>
-            <img [src]="app.icon" class="app-icon" alt="">
-            <h2 mat-card-title>{{app.name}}</h2>
-            <p>{{app.description}}</p>
-        </mat-card-content>
-    </mat-card>
+    <div *ngFor="let row of columns()">
+        <mat-card class="app-card" *ngFor="let app of row" [routerLink]="app.link">
+            <mat-card-content>
+                <img [src]="app.icon" class="app-icon" alt="">
+                <h2 mat-card-title>{{app.name}}</h2>
+                <p>{{app.description}}</p>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>

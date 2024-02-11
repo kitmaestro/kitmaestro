@@ -1,19 +1,104 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppsHolderComponent } from './apps/apps-holder/apps-holder.component';
+import { GeneratorsHolderComponent } from './generators/generators-holder/generators-holder.component';
 
 export const routes: Routes = [
-    { path: '', component: DashboardComponent, children: [
-        { path: '', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent) },
-        {
-            path: 'apps',
-            component: AppsHolderComponent,
-            children: [
-                { path: '', loadComponent: () => import('./apps/apps-dashboard/apps-dashboard.component').then(mod => mod.AppsDashboardComponent) },
-                { path: 'grades-generator', loadComponent: () => import('./apps/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },
-            ]
-        },
-    ] },
+    {
+        path: '', 
+        component: DashboardComponent, 
+        children: [
+            { path: '', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent) },
+            { path: 'buy', loadComponent: () => import('./buy-subscription/buy-subscription.component').then(mod => mod.BuySubscriptionComponent) },
+            { path: 'roadmap', loadComponent: () => import('./roadmap/roadmap.component').then(mod => mod.RoadmapComponent) },
+            {
+                path: 'datacenter',
+                loadComponent: () => import('./datacenter/datacenter.component').then(mod => mod.DatacenterComponent),
+                children: [
+                    {
+                        path: 'sections',
+                        loadComponent: () => import('./class-sections/class-sections.component').then(mod => mod.ClassSectionsComponent),
+                    },
+                    {
+                        path: 'sections/:id',
+                        loadComponent: () => import('./section-details/section-details.component').then(mod => mod.SectionDetailsComponent),
+                    },
+                    { path: '', redirectTo: '/datacenter/sections', pathMatch: 'full' },
+                ]
+            },
+            {
+                path: 'apps',
+                component: AppsHolderComponent,
+                children: [
+                    { path: '', loadComponent: () => import('./apps/apps-dashboard/apps-dashboard.component').then(mod => mod.AppsDashboardComponent) },
+                ]
+            },
+            {
+                path: 'generators',
+                component: GeneratorsHolderComponent,
+                children: [
+                    { path: '', loadComponent: () => import('./generators/generators-dashboard/generators-dashboard.component').then(mod => mod.GeneratorsDashboardComponent) },
+                    { path: 'grades-generator', loadComponent: () => import('./generators/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },
+                ]
+            },
+            {
+                path: 'premium',
+                loadComponent: () => import('./premium-wrapper/premium-wrapper.component').then(mod => mod.PremiumWrapperComponent),
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('./premium-tools/premium-tools.component').then(mod => mod.PremiumToolsComponent),
+                        children: []
+                    },
+                    {
+                        path: 'class-planning',
+                        loadComponent: () => import('./class-planning-dashboard/class-planning-dashboard.component').then(mod => mod.ClassPlanningDashboardComponent),
+                        children: []
+                    },
+                    {
+                        path: 'communication',
+                        loadComponent: () => import('./communication-dashboard/communication-dashboard.component').then(mod => mod.CommunicationDashboardComponent),
+                        children: []
+                    },
+                    {
+                        path: 'formation',
+                        loadComponent: () => import('./formation-dashboard/formation-dashboard.component').then(mod => mod.FormationDashboardComponent),
+                        children: []
+                    },
+                    {
+                        path: 'tracking',
+                        loadComponent: () => import('./tracking-dashboard/tracking-dashboard.component').then(mod => mod.TrackingDashboardComponent),
+                        children: []
+                    },
+                    {
+                        path: 'event-planning',
+                        loadComponent: () => import('./event-planning-dashboard/event-planning-dashboard.component').then(mod => mod.EventPlanningDashboardComponent),
+                        children: []
+                    },
+                    {
+                        path: 'diversity',
+                        loadComponent: () => import('./diversity-dashboard/diversity-dashboard.component').then(mod => mod.DiversityDashboardComponent),
+                        children: []
+                    },
+                    {
+                        path: 'security',
+                        loadComponent: () => import('./security-dashboard/security-dashboard.component').then(mod => mod.SecurityDashboardComponent),
+                        children: []
+                    },
+                    {
+                        path: 'reviews',
+                        loadComponent: () => import('./reviews-dashboard/reviews-dashboard.component').then(mod => mod.ReviewsDashboardComponent),
+                        children: []
+                    },
+                    {
+                        path: 'tools',
+                        loadComponent: () => import('./tools-dashboard/tools-dashboard.component').then(mod => mod.ToolsDashboardComponent),
+                        children: []
+                    },
+                ]
+            },
+        ]
+    },
     {
         path: 'auth',
         loadComponent: () => import('./auth/auth-container/auth-container.component').then(mod => mod.AuthContainerComponent),
@@ -21,5 +106,5 @@ export const routes: Routes = [
             { path: 'recover', loadComponent: () => import('./auth/recover/recover.component').then(mod => mod.RecoverComponent) },
             { path: 'update', loadComponent: () => import('./auth/pass-update/pass-update.component').then(mod => mod.PassUpdateComponent) },
         ]
-    }
+    },
 ];
