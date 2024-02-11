@@ -9,7 +9,7 @@ export const routes: Routes = [
             path: 'apps',
             component: AppsHolderComponent,
             children: [
-                { path: '', redirectTo: '/', pathMatch: 'full' },
+                { path: '', loadComponent: () => import('./apps/apps-dashboard/apps-dashboard.component').then(mod => mod.AppsDashboardComponent) },
                 { path: 'grades-generator', loadComponent: () => import('./apps/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },
             ]
         },

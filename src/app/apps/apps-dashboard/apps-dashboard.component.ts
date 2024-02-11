@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 import { AppEntry } from '../../interfaces/app-entry';
 
 @Component({
-  selector: 'app-apps-holder',
+  selector: 'app-apps-dashboard',
   standalone: true,
   imports: [
     RouterModule,
@@ -18,10 +18,10 @@ import { AppEntry } from '../../interfaces/app-entry';
     MatGridListModule,
     MatBadgeModule,
   ],
-  templateUrl: './apps-holder.component.html',
-  styleUrl: './apps-holder.component.scss'
+  templateUrl: './apps-dashboard.component.html',
+  styleUrl: './apps-dashboard.component.scss'
 })
-export class AppsHolderComponent {
+export class AppsDashboardComponent {
   apps: AppEntry[] = [
     { name: 'Generador de Calificaciones', description: 'Genera facilmente las calificaciones de tus estudiantes.', link: ['/apps', 'grades-generator'], premium: false, icon: '/assets/grades.svg' },
   ];

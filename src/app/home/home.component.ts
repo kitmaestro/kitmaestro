@@ -23,6 +23,6 @@ import { MatBadgeModule } from '@angular/material/badge';
 })
 export class HomeComponent {
   apps: AppEntry[] = [
-    { name: 'Generador de Calificaciones', description: 'Genera facilmente las calificaciones de tus estudiantes.', link: ['/apps', 'grades-generator'], premium: false, icon: '/assets/grades.svg' },
+    { name: 'Herramientas', description: 'Galeria de Herramientas para maestros.', link: ['/apps'], premium: false, icon: '/assets/apps.svg' },
   ];
 }
