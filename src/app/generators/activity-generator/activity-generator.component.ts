@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component';
 
 @Component({
   selector: 'app-activity-generator',
   standalone: true,
-  imports: [],
+  imports: [
+    IsPremiumComponent,
+  ],
   templateUrl: './activity-generator.component.html',
   styleUrl: './activity-generator.component.scss'
 })

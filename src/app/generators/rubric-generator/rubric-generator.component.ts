@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component';
 
 @Component({
   selector: 'app-rubric-generator',
   standalone: true,
-  imports: [],
+  imports: [
+    IsPremiumComponent,
+  ],
   templateUrl: './rubric-generator.component.html',
   styleUrl: './rubric-generator.component.scss'
 })

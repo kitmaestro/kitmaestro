@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component';
 
 @Component({
   selector: 'app-estimation-scale-generator',
   standalone: true,
-  imports: [],
+  imports: [
+    IsPremiumComponent,
+  ],
   templateUrl: './estimation-scale-generator.component.html',
   styleUrl: './estimation-scale-generator.component.scss'
 })
