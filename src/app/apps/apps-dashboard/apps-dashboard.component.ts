@@ -23,7 +23,7 @@ import { AppEntry } from '../../interfaces/app-entry';
 })
 export class AppsDashboardComponent {
   private apps: AppEntry[] = [
-    { name: 'Calculadora de Promedios', description: 'Calcula promedios en un santiamén.', link: ['/apps', 'average-calculator'], premium: true, icon: '/assets/calculator.svg' },
+    { name: 'Calculadora de Promedios', description: 'Calcula promedios en un santiamén.', link: ['/apps', 'average-calculator'], premium: false, icon: '/assets/calculator.svg' },
     { name: 'Calculadora de Asistencias', description: 'La forma más fácil de calcular la asistencia.', link: ['/apps', 'attendance-calculator'], premium: true, icon: '/assets/attendance.svg' },
   ];
 

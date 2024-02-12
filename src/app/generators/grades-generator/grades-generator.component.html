@@ -8,7 +8,10 @@
                         <th colspan="8" scope="col" *ngFor="let col of [].constructor(generated.indicators); let i = index">Competencia {{i + 1}}</th>
                         <th colspan="6" scope="col">Promedios</th>
                     } @else {
-                        <th colspan="8" scope="col" *ngFor="let col of [].constructor(generated.indicators); let i = index">Indicador {{i + 1}}</th>
+                        <th colspan="8" scope="col">Competencia 1</th>
+                        <th colspan="8" scope="col">Competencias 2 y 3</th>
+                        <th colspan="8" scope="col">Competencias 4 y 5</th>
+                        <th colspan="8" scope="col">Competencias 6 y 7</th>
                         <th colspan="5" scope="col">Promedios</th>
                     }
                 </tr>
@@ -75,15 +78,6 @@
                         <mat-chip-option color="accent" [value]="2">Bajo</mat-chip-option>
                         <mat-chip-option color="accent" [value]="4">Normal</mat-chip-option>
                         <mat-chip-option color="accent" [value]="8">Alto</mat-chip-option>
-                    </mat-chip-listbox>
-                </div>
-                <div style="margin-bottom: 16px;" *ngIf="configForm.value.level == 'secondary'">
-                    <label><b>Indicadores de Logro</b>:</label>
-                    <mat-chip-listbox formControlName="indicators">
-                        <mat-chip-option color="accent" [value]="1">1</mat-chip-option>
-                        <mat-chip-option color="accent" [value]="2">2</mat-chip-option>
-                        <mat-chip-option color="accent" [value]="3">3</mat-chip-option>
-                        <mat-chip-option color="accent" [value]="4">4</mat-chip-option>
                     </mat-chip-listbox>
                 </div>
                 <div style="margin-bottom: 16px;">

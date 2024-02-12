@@ -63,6 +63,8 @@ export class GradesGeneratorComponent {
     this.generating = true;
     if (this.configForm.value.level == 'primary') {
       this.configForm.get('indicators')?.setValue(3);
+    } else {
+      this.configForm.get('indicators')?.setValue(4);
     }
     const config = this.configForm.value as GradesData;
     this.generated = config;

@@ -32,6 +32,7 @@ export const routes: Routes = [
                 children: [
                     { path: '', loadComponent: () => import('./apps/apps-dashboard/apps-dashboard.component').then(mod => mod.AppsDashboardComponent) },
                     { path: 'average-calculator', loadComponent: () => import('./apps/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent) },
+                    { path: 'attendance-calculator', loadComponent: () => import('./apps/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent) },
                 ]
             },
             {
