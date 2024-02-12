@@ -31,6 +31,7 @@ export const routes: Routes = [
                 component: AppsHolderComponent,
                 children: [
                     { path: '', loadComponent: () => import('./apps/apps-dashboard/apps-dashboard.component').then(mod => mod.AppsDashboardComponent) },
+                    { path: 'average-calculator', loadComponent: () => import('./apps/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent) },
                 ]
             },
             {

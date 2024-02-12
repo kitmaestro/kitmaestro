@@ -49,10 +49,11 @@ export class HomeComponent {
       [],
       [],
       [],
+      [],
     ];
     for (let app of this.apps) {
       final[next].push(app);
-      if (next == 3) {
+      if (next == 4) {
         next = 0;
       } else {
         next++;
