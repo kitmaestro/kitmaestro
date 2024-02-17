@@ -1,45 +1,61 @@
-<div class="flex-wrapper">
-    <mat-toolbar color="primary">
-        <button mat-icon-button routerLink="/"><mat-icon>home</mat-icon></button>
-        <span>Kit Maestro</span>
-        <span class="spacer"></span>
-        <button [matMenuTriggerFor]="menu" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-            <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu>
-            <button (click)="logout()" mat-menu-item>
-                <mat-icon>logout</mat-icon>
-                <span>Salir</span>
-            </button>
-        </mat-menu>
-    </mat-toolbar>
-    <mat-tab-group color="primary" backgroundColor="primary" headerPosition="below" class="tab-group">
-        <mat-tab>
-            <ng-template mat-tab-label>
-                <mat-icon>handyman</mat-icon>
-            </ng-template>
-            <div style="height: 100vh; max-height: calc(100vh - 152px); padding: 20px; overflow-y: auto;">
-                <router-outlet></router-outlet>
-            </div>
-        </mat-tab>
-        <mat-tab>
-            <ng-template mat-tab-label>
-                <mat-icon>settings</mat-icon>
-            </ng-template>
-            <ng-template matTabContent>
-                <div style="height: 100vh; max-height: calc(100vh - 152px); padding: 20px; overflow-y: auto;">
-                    <app-user-settings></app-user-settings>
-                </div>
-            </ng-template>
-        </mat-tab>
-        <mat-tab style="background-color: #f2f2f2;">
-            <ng-template mat-tab-label>
-                <mat-icon>person</mat-icon>
-            </ng-template>
-            <div style="height: 100vh; max-height: calc(100vh - 152px); padding: 20px; overflow-y: auto;">
-                <h2>Mi Perfil</h2>
-                <app-user-profile></app-user-profile>
-            </div>
-        </mat-tab>
-    </mat-tab-group>
-</div>
+<mat-sidenav-container class="example-container">
+    <mat-sidenav class="sidenav" mode="over" [opened]="false" #sidenav>
+        <mat-toolbar><span>Menu</span></mat-toolbar>
+        <mat-nav-list>
+            <a [activated]="activatedRoute == '/'" mat-list-item routerLink="/"><mat-icon matListItemIcon>dashboard</mat-icon>Inicio</a>
+            <a [activated]="activatedRoute.includes('/apps')" mat-list-item [routerLink]="['/apps']"><mat-icon matListItemIcon>handyman</mat-icon> Herramientas</a>
+            <a [activated]="activatedRoute.includes('/generators')" mat-list-item [routerLink]="['/generators']"><mat-icon matListItemIcon>smart_toy</mat-icon> Generadores</a>
+            <a [activated]="activatedRoute.includes('/assistants')" mat-list-item [routerLink]="['/assistants']"><mat-icon matListItemIcon>precision_manufacturing</mat-icon> Asistentes</a>
+            <ng-container *ngIf="!(subscription$ | async)">
+                <a [activated]="true" *ngIf="!loading" style="margin-top: 64px;" mat-list-item routerLink="/buy"><mat-icon matListItemIcon>rocket</mat-icon>Comprar Subscripci&oacute;n</a>
+            </ng-container>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="flex-wrapper">
+            <mat-toolbar color="primary">
+                <button (click)="sidenav.toggle()" mat-icon-button><mat-icon>menu</mat-icon></button>
+                <span routerLink="/" style="cursor: pointer;">Kit Maestro</span>
+                <span class="spacer"></span>
+                <button [matMenuTriggerFor]="menu" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu>
+                    <button (click)="logout()" mat-menu-item>
+                        <mat-icon>logout</mat-icon>
+                        <span>Salir</span>
+                    </button>
+                </mat-menu>
+            </mat-toolbar>
+            <mat-tab-group color="primary" backgroundColor="primary" headerPosition="below" class="tab-group">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon>handyman</mat-icon>
+                    </ng-template>
+                    <div style="height: 100vh; max-height: calc(100vh - 152px); padding: 20px; overflow-y: auto;">
+                        <router-outlet></router-outlet>
+                    </div>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon>settings</mat-icon>
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <div style="height: 100vh; max-height: calc(100vh - 152px); padding: 20px; overflow-y: auto;">
+                            <app-user-settings></app-user-settings>
+                        </div>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab style="background-color: #f2f2f2;">
+                    <ng-template mat-tab-label>
+                        <mat-icon>person</mat-icon>
+                    </ng-template>
+                    <div style="height: 100vh; max-height: calc(100vh - 152px); padding: 20px; overflow-y: auto;">
+                        <h2>Mi Perfil</h2>
+                        <app-user-profile></app-user-profile>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

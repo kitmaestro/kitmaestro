@@ -3,7 +3,7 @@
 }
 
 .flex-wrapper {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -14,4 +14,18 @@
 
 .tab-group {
     flex: 1 1 auto;
+}
+
+.example-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #eee;
+}
+
+.sidenav {
+    min-width: fit-content;
+    width: 300px;
 }
