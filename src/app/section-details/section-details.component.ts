@@ -9,15 +9,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Auth, authState } from '@angular/fire/auth';
-import { Firestore, addDoc, collectionData, deleteDoc, docData, orderBy } from '@angular/fire/firestore';
-import { collection, doc, getDoc, query, where } from '@firebase/firestore';
+import { Firestore, collectionData, deleteDoc, docData, orderBy } from '@angular/fire/firestore';
+import { collection, doc, query, where } from '@firebase/firestore';
 import { ClassSection } from '../datacenter/datacenter.component';
 import { Observable } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
 import { StudentDetailComponent } from '../student-detail/student-detail.component';
-import { ClassSectionFormComponent } from '../class-section-form/class-section-form.component';
-import { StudentFormComponent } from '../student-form/student-form.component';
+import { ClassSectionFormComponent } from '../forms/class-section-form/class-section-form.component';
+import { StudentFormComponent } from '../forms/student-form/student-form.component';
 
 @Component({
   selector: 'app-section-details',

@@ -1,0 +1,93 @@
+<h2 mat-dialog-title>Generar Registro Anecd&oacute;tico</h2>
+
+<mat-dialog-content>
+
+    @if (generated) {
+        <div *ngIf="logRegistryEntry as entry">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="4">Registro Anecd&oacute;tico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Fecha:</th>
+                        <td>{{ entry.date | date: 'dd/MM/YYYY' }}</td>
+                        <th>Hora:</th>
+                        <td>{{ entry.date | date: 'HH:mm a' }}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Estudiante(s)</th>
+                        <td colspan="2">{{ entry.students.join(', ') }}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Descripción del incidente, del hecho o situación:</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4">{{ entry.description }}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Interpretación y comentarios</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4">{{ entry.comments }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    } @else {
+        <form [formGroup]="generatorForm">
+            <mat-form-field appearance="outline">
+                <mat-label>Evento</mat-label>
+                <mat-select formControlName="type" required>
+                    <mat-option *ngFor="let eventType of eventTypes" [value]="eventType.id">{{eventType.label}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Lugar</mat-label>
+                <mat-select formControlName="place" required>
+                    <mat-option *ngFor="let place of placeOptions" [value]="place">{{place}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div style="display: flex;">
+                <div style="width: 50%; padding-right: 8px;">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Grado</mat-label>
+                        <mat-select formControlName="grade" required>
+                            <mat-option *ngFor="let section of (classSections$ | async)" [value]="section.id">{{section.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div style="width: 50%; padding-left: 8px;">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Estudiante(s)</mat-label>
+                        <mat-select [multiple]="true" formControlName="students" required>
+                            <mat-option *ngFor="let student of studentOptions()" [value]="student.id">{{student.firstname + ' ' + student.lastname}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div style="width: 50%; padding-right: 8px;">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha</mat-label>
+                        <input type="date" matInput formControlName="date" required>
+                    </mat-form-field>
+                </div>
+                <div style="width: 50%; padding-left: 8px;">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Hora</mat-label>
+                        <input type="time" matInput formControlName="time" required>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    }
+
+    <mat-dialog-actions>
+        <button *ngIf="generated" (click)="reset()" mat-raised-button color="warn">Reiniciar</button>
+        <button style="display: block; margin-left: auto;" [disabled]="generatorForm.invalid || saving || loading" (click)="generate()" mat-raised-button color="accent">{{ generated ? 'Regenerar' : 'Generar' }}</button>
+        <button *ngIf="generated" (click)="createEntry()" mat-raised-button color="primary">Guardar</button>
+    </mat-dialog-actions>
+</mat-dialog-content>

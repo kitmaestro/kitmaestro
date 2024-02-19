@@ -1,5 +1,51 @@
-<h2>Registro Anecdótico</h2>
+<div style="display: flex; padding: 12px; align-items: center; justify-content: space-between;">
+    <h2>Registro Anecdótico</h2>
+    <button (click)="createLogRegistryEntry()" mat-mini-fab><mat-icon>add</mat-icon></button>
+</div>
 <div style="width: 50%; margin-left: auto; margin-right: auto; display: none;">
     <app-chart [data]="data" type="line"></app-chart>
 </div>
 <!-- <app-in-progress></app-in-progress> -->
+<table mat-table [dataSource]="entries$">
+    <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Fecha </th>
+        <td mat-cell *matCellDef="let element"> {{ entryDate(element) | date: 'dd/MM/YYYY' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef> Hora </th>
+        <td mat-cell *matCellDef="let element"> {{ entryDate(element) | date: 'HH:mm a' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="grade">
+        <th mat-header-cell *matHeaderCellDef> Grado </th>
+        <td mat-cell *matCellDef="let element"> {{ sectionName(element.grade) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="students">
+        <th mat-header-cell *matHeaderCellDef> Estudiante(s) </th>
+        <td mat-cell *matCellDef="let element"> {{ studentsName(element.students) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="place">
+        <th mat-header-cell *matHeaderCellDef> Lugar </th>
+        <td mat-cell *matCellDef="let element"> {{ element.place }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="event">
+        <th mat-header-cell *matHeaderCellDef> Evento </th>
+        <td mat-cell *matCellDef="let element"> {{ eventTypeLabel(element.type) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let element">
+            <button style="margin-right: 12px;" color="warn" (click)="deleteLogRegistryEntry(element)" mat-mini-fab><mat-icon>delete</mat-icon></button>
+            <button style="margin-right: 12px;" color="accent" (click)="editLogRegistryEntry(element)" mat-mini-fab><mat-icon>edit</mat-icon></button>
+            <button color="primary" (click)="showLogRegistryEntry(element)" mat-mini-fab><mat-icon>open_in_new</mat-icon></button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="labels"></tr>
+    <tr mat-row *matRowDef="let row; columns: labels;"></tr>
+</table>

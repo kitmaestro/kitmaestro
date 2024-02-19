@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Detalles de la Situaci&oacute;n</h2>
+
+<mat-dialog-content *ngIf="!loading">
+    @if (entry) {
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col" colspan="4">Registro Anecd&oacute;tico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Fecha:</th>
+                    <td>{{ timestampToDate(entry.date) | date: 'dd/MM/YYYY' }}</td>
+                    <th>Hora:</th>
+                    <td>{{ timestampToDate(entry.date) | date: 'HH:mm a' }}</td>
+                </tr>
+                <tr>
+                    <th colspan="2">Estudiante(s)</th>
+                    <td colspan="2">{{ entry.students.join(', ') }}</td>
+                </tr>
+                <tr>
+                    <th>Descripción del incidente, del hecho o situación:</th>
+                </tr>
+                <tr>
+                    <td>{{ entry.description }}</td>
+                </tr>
+                <tr>
+                    <th>Interpretación y comentarios</th>
+                </tr>
+                <tr>
+                    <td>{{ entry.comments }}</td>
+                </tr>
+            </tbody>
+        </table>
+    } @else {
+        <div style="padding: 42px; text-align: center; font-size: 16px; font-family: Roboto, sans-serif; line-height: 1.5;">Registro inv&aacute;lido.</div>
+    }
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button (click)="close()" mat-raised-button>Salir</button>
+    <button (click)="closeAndEdit()" mat-raised-button color="primary">Editar</button>
+</mat-dialog-actions>
