@@ -59,15 +59,18 @@ export class LogRegistryEntryFormComponent implements OnInit {
   datePipe = new DatePipe('en-US', 'GMT-4');
 
   eventTypes = [
-    { id: 'behavior', label: 'Mejora (comportamiento)' },
-    { id: 'writing', label: 'Mejora (escritura)' },
-    { id: 'reading', label: 'Mejora (lectura)' },
-    { id: '', label: 'Mejora (comprensión)' },
-    { id: 'math', label: 'Mejora (matemática)' },
-    { id: 'irruption', label: 'Interrumpir la clase' },
+    { id: 'behavior', label: 'Mejora de comportamiento' },
+    { id: 'writing', label: 'Mejora de escritura' },
+    { id: 'reading', label: 'Mejora de lectura' },
+    { id: 'comprehension', label: 'Mejora de comprensión' },
+    { id: 'math', label: 'Mejora en matemática' },
+    { id: 'irruption', label: 'Interrupción de la clase' },
+    { id: 'leave', label: 'Salida sin permiso' },
+    { id: 'misbehavior', label: 'Comportamiento inadecuado en clase' },
     { id: 'fight', label: 'Pelea' },
-    { id: '', label: 'Incumplimiento de acuerdo' },
-    { id: '', label: 'Asignación no entregada' },
+    { id: 'broken_agreement', label: 'Incumplimiento de acuerdo' },
+    { id: 'pending_homework', label: 'Asignación no entregada' },
+    { id: 'failed_assesment', label: 'Asignación no satisfactoria' },
   ];
 
   placeOptions = [
@@ -172,7 +175,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
     if (grade) {
       return this.students.filter(student => student.section == grade);
     }
-    return this.students;
+    return [];
   }
 
   createEntry() {

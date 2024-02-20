@@ -65,12 +65,15 @@ export class LogRegistryGeneratorComponent implements OnInit {
     { id: 'behavior', label: 'Mejora de comportamiento' },
     { id: 'writing', label: 'Mejora de escritura' },
     { id: 'reading', label: 'Mejora de lectura' },
-    { id: '', label: 'Mejora de comprensión' },
+    { id: 'comprehension', label: 'Mejora de comprensión' },
     { id: 'math', label: 'Mejora en matemática' },
-    { id: 'irruption', label: 'Interrumpir la clase' },
+    { id: 'irruption', label: 'Interrupción de la clase' },
+    { id: 'leave', label: 'Salida sin permiso' },
+    { id: 'misbehavior', label: 'Comportamiento inadecuado en clase' },
     { id: 'fight', label: 'Pelea' },
-    { id: '', label: 'Incumplimiento de acuerdo' },
-    { id: '', label: 'Asignación no entregada' },
+    { id: 'broken_agreement', label: 'Incumplimiento de acuerdo' },
+    { id: 'pending_homework', label: 'Asignación no entregada' },
+    { id: 'failed_assesment', label: 'Asignación no satisfactoria' },
   ];
 
   ngOnInit(): void {
