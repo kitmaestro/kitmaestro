@@ -74,27 +74,107 @@ export class LogRegistryEntryService {
     return of(null);
   }
 
-  writingLog(students: Student[]): Observable<EntryDetails | null> {
-    return of(null);
+  private writingLog(students: Student[]): Observable<EntryDetails> {
+    const size = students.length;
+    return this.getCollectionData('writing', size == 1 ? 'singular' : 'plural').pipe(map(boilerplates => {
+      const student = students[0];
+      const randomIndex = Math.round(Math.random() * (boilerplates.length - 1));
+      const logEntry = boilerplates[randomIndex];
+      const lastStudent = students.pop();
+      const fullname = size == 1 ? `${student.firstname} ${student.lastname}` : (students.slice(0, size).map(s => `${s.firstname} ${s.lastname}`).join(', ') + ` y ${lastStudent?.firstname} ${lastStudent?.lastname}`);
+      const firstname = size == 1 ? student.firstname : (students.slice(0, size).map(s => s.firstname).join(', ') + ' y ' + lastStudent?.firstname);
+      logEntry.comments = logEntry.comments
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
+      logEntry.description = logEntry.description
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
+
+      return logEntry;
+    })) as Observable<EntryDetails>;
   }
 
-  readingLog(students: Student[]): Observable<EntryDetails | null> {
-    return of(null);
+  private readingLog(students: Student[]): Observable<EntryDetails> {
+    const size = students.length;
+    return this.getCollectionData('reading', size == 1 ? 'singular' : 'plural').pipe(map(boilerplates => {
+      const student = students[0];
+      const randomIndex = Math.round(Math.random() * (boilerplates.length - 1));
+      const logEntry = boilerplates[randomIndex];
+      const lastStudent = students.pop();
+      const fullname = size == 1 ? `${student.firstname} ${student.lastname}` : (students.slice(0, size).map(s => `${s.firstname} ${s.lastname}`).join(', ') + ` y ${lastStudent?.firstname} ${lastStudent?.lastname}`);
+      const firstname = size == 1 ? student.firstname : (students.slice(0, size).map(s => s.firstname).join(', ') + ' y ' + lastStudent?.firstname);
+      logEntry.comments = logEntry.comments
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
+      logEntry.description = logEntry.description
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
+
+      return logEntry;
+    })) as Observable<EntryDetails>;
   }
 
-  comprehensionLog(students: Student[]): Observable<EntryDetails | null> {
-    return of(null);
+  private comprehensionLog(students: Student[]): Observable<EntryDetails> {
+    const size = students.length;
+    return this.getCollectionData('comprehension', size == 1 ? 'singular' : 'plural').pipe(map(boilerplates => {
+      const student = students[0];
+      const randomIndex = Math.round(Math.random() * (boilerplates.length - 1));
+      const logEntry = boilerplates[randomIndex];
+      const lastStudent = students.pop();
+      const fullname = size == 1 ? `${student.firstname} ${student.lastname}` : (students.slice(0, size).map(s => `${s.firstname} ${s.lastname}`).join(', ') + ` y ${lastStudent?.firstname} ${lastStudent?.lastname}`);
+      const firstname = size == 1 ? student.firstname : (students.slice(0, size).map(s => s.firstname).join(', ') + ' y ' + lastStudent?.firstname);
+      logEntry.comments = logEntry.comments
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
+      logEntry.description = logEntry.description
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
+
+      return logEntry;
+    })) as Observable<EntryDetails>;
   }
 
-  mathLog(students: Student[]): Observable<EntryDetails | null> {
-    return of(null);
+  private mathLog(students: Student[]): Observable<EntryDetails> {
+    const size = students.length;
+    return this.getCollectionData('math', size == 1 ? 'singular' : 'plural').pipe(map(boilerplates => {
+      const student = students[0];
+      const randomIndex = Math.round(Math.random() * (boilerplates.length - 1));
+      const logEntry = boilerplates[randomIndex];
+      const lastStudent = students.pop();
+      const fullname = size == 1 ? `${student.firstname} ${student.lastname}` : (students.slice(0, size).map(s => `${s.firstname} ${s.lastname}`).join(', ') + ` y ${lastStudent?.firstname} ${lastStudent?.lastname}`);
+      const firstname = size == 1 ? student.firstname : (students.slice(0, size).map(s => s.firstname).join(', ') + ' y ' + lastStudent?.firstname);
+      logEntry.comments = logEntry.comments
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
+      logEntry.description = logEntry.description
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
+
+      return logEntry;
+    })) as Observable<EntryDetails>;
   }
 
-  irruptionLog(students: Student[]): Observable<EntryDetails | null> {
-    return of(null);
+  private irruptionLog(students: Student[]): Observable<EntryDetails> {
+    const size = students.length;
+    return this.getCollectionData('irruption', size == 1 ? 'singular' : 'plural').pipe(map(boilerplates => {
+      const student = students[0];
+      const randomIndex = Math.round(Math.random() * (boilerplates.length - 1));
+      const logEntry = boilerplates[randomIndex];
+      const lastStudent = students.pop();
+      const fullname = size == 1 ? `${student.firstname} ${student.lastname}` : (students.slice(0, size).map(s => `${s.firstname} ${s.lastname}`).join(', ') + ` y ${lastStudent?.firstname} ${lastStudent?.lastname}`);
+      const firstname = size == 1 ? student.firstname : (students.slice(0, size).map(s => s.firstname).join(', ') + ' y ' + lastStudent?.firstname);
+      logEntry.comments = logEntry.comments
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
+      logEntry.description = logEntry.description
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
+
+      return logEntry;
+    })) as Observable<EntryDetails>;
   }
 
-  leaveLog(students: Student[], hour: string): Observable<EntryDetails> {
+  private leaveLog(students: Student[], hour: string): Observable<EntryDetails> {
     const size = students.length;
     return this.getCollectionData('fight', size == 1 ? 'singular' : 'plural').pipe(map(boilerplates => {
       const student = students[0];
@@ -116,7 +196,7 @@ export class LogRegistryEntryService {
     })) as Observable<EntryDetails>;
   }
 
-  misbehaviorLog(students: Student[], extra: { behavior: string, decision: string }): Observable<EntryDetails> {
+  private misbehaviorLog(students: Student[], extra: { behavior: string, decision: string }): Observable<EntryDetails> {
     const size = students.length;
     return this.getCollectionData('fight', size == 1 ? 'singular' : 'plural').pipe(map(boilerplates => {
       const student = students[0];
@@ -140,7 +220,7 @@ export class LogRegistryEntryService {
     })) as Observable<EntryDetails>;
   }
 
-  fightLog(students: Student[], extra: { place: string, notes: string }): Observable<EntryDetails> {
+  private fightLog(students: Student[], extra: { place: string, notes: string }): Observable<EntryDetails> {
     const size = students.length;
     return this.getCollectionData('fight', size == 1 ? 'singular' : 'plural').pipe(map(boilerplates => {
       const student = students[0];
@@ -166,7 +246,7 @@ export class LogRegistryEntryService {
     })) as Observable<EntryDetails>;
   }
 
-  brokenAgreementLog(students: Student[], agreement: string): Observable<EntryDetails> {
+  private brokenAgreementLog(students: Student[], agreement: string): Observable<EntryDetails> {
     const size = students.length;
     return this.getCollectionData('broken_agreement', size == 1 ? 'singular' : 'plural').pipe(map(boilerplates => {
       const student = students[0];
@@ -175,14 +255,20 @@ export class LogRegistryEntryService {
       const lastStudent = students.pop();
       const fullname = size == 1 ? `${student.firstname} ${student.lastname}` : (students.slice(0, size).map(s => `${s.firstname} ${s.lastname}`).join(', ') + ` y ${lastStudent?.firstname} ${lastStudent?.lastname}`);
       const firstname = size == 1 ? student.firstname : (students.slice(0, size).map(s => s.firstname).join(', ') + ' y ' + lastStudent?.firstname);
-      logEntry.comments = logEntry.comments.replaceAll('FULL_NAME', fullname).replaceAll('FIRST_NAME', firstname).replaceAll('AGREEMENT', agreement);
-      logEntry.description = logEntry.description.replaceAll('FULL_NAME', fullname).replaceAll('FIRST_NAME', firstname).replaceAll('AGREEMENT', agreement);
+      logEntry.comments = logEntry.comments
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname)
+        .replaceAll('AGREEMENT', agreement);
+      logEntry.description = logEntry.description
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname)
+        .replaceAll('AGREEMENT', agreement);
   
       return logEntry;
     })) as Observable<EntryDetails>;
   }
 
-  pendingHomeworkLog(students: Student[], homework: string): Observable<EntryDetails> {
+  private pendingHomeworkLog(students: Student[], homework: string): Observable<EntryDetails> {
     const size = students.length;
     return this.getCollectionData('pending_homework', size == 1 ? 'singular' : 'plural').pipe(map(boilerplates => {
       const student = students[0];
@@ -191,14 +277,20 @@ export class LogRegistryEntryService {
       const lastStudent = students.pop();
       const fullname = size == 1 ? `${student.firstname} ${student.lastname}` : (students.slice(0, size).map(s => `${s.firstname} ${s.lastname}`).join(', ') + ` y ${lastStudent?.firstname} ${lastStudent?.lastname}`);
       const firstname = size == 1 ? student.firstname : (students.slice(0, size).map(s => s.firstname).join(', ') + ' y ' + lastStudent?.firstname);
-      logEntry.comments = logEntry.comments.replaceAll('FULL_NAME', fullname).replaceAll('FIRST_NAME', firstname).replaceAll('HOMEWORK', homework);
-      logEntry.description = logEntry.description.replaceAll('FULL_NAME', fullname).replaceAll('FIRST_NAME', firstname).replaceAll('HOMEWORK', homework);
+      logEntry.comments = logEntry.comments
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname)
+        .replaceAll('HOMEWORK', homework);
+      logEntry.description = logEntry.description
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname)
+        .replaceAll('HOMEWORK', homework);
   
       return logEntry;
     })) as Observable<EntryDetails>;
   }
 
-  failedAssesmentLog(students: Student[], assestment: string): Observable<EntryDetails> {
+  private failedAssesmentLog(students: Student[], assestment: string): Observable<EntryDetails> {
     const size = students.length;
     return this.getCollectionData('failed_assesment', size == 1 ? 'singular' : 'plural').pipe(map(boilerplates => {
       const student = students[0];
@@ -207,8 +299,14 @@ export class LogRegistryEntryService {
       const lastStudent = students.pop();
       const fullname = size == 1 ? `${student.firstname} ${student.lastname}` : (students.slice(0, size).map(s => `${s.firstname} ${s.lastname}`).join(', ') + ` y ${lastStudent?.firstname} ${lastStudent?.lastname}`);
       const firstname = size == 1 ? student.firstname : (students.slice(0, size).map(s => s.firstname).join(', ') + ' y ' + lastStudent?.firstname);
-      logEntry.comments = logEntry.comments.replaceAll('FULL_NAME', fullname).replaceAll('FIRST_NAME', firstname).replaceAll('ASSESTMENT', assestment);
-      logEntry.description = logEntry.description.replaceAll('FULL_NAME', fullname).replaceAll('FIRST_NAME', firstname).replaceAll('ASSESTMENT', assestment);
+      logEntry.comments = logEntry.comments
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname)
+        .replaceAll('ASSESTMENT', assestment);
+      logEntry.description = logEntry.description
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname)
+        .replaceAll('ASSESTMENT', assestment);
 
       return logEntry;
     })) as Observable<EntryDetails>;
@@ -224,8 +322,12 @@ export class LogRegistryEntryService {
       const lastStudent = students.pop();
       const fullname = size == 1 ? `${student.firstname} ${student.lastname}` : (students.slice(0, size).map(s => `${s.firstname} ${s.lastname}`).join(', ') + ` y ${lastStudent?.firstname} ${lastStudent?.lastname}`);
       const firstname = size == 1 ? student.firstname : (students.slice(0, size).map(s => s.firstname).join(', ') + ' y ' + lastStudent?.firstname);
-      logEntry.comments = logEntry.comments.replaceAll('FULL_NAME', fullname).replaceAll('FIRST_NAME', firstname);
-      logEntry.description = logEntry.description.replaceAll('FULL_NAME', fullname).replaceAll('FIRST_NAME', firstname);
+      logEntry.comments = logEntry.comments
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
+      logEntry.description = logEntry.description
+        .replaceAll('FULL_NAME', fullname)
+        .replaceAll('FIRST_NAME', firstname);
 
       return logEntry;
     })) as Observable<EntryDetails>;
