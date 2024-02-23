@@ -69,8 +69,8 @@
                 <div style="margin-bottom: 16px;">
                     <mat-slide-toggle formControlName="includeRecover">Incluir Recuperaci&oacute;n (si es necesaria)</mat-slide-toggle>
                 </div>
-                <div style="margin-bottom: 16px; display: none;">
-                    <mat-slide-toggle formControlName="precise">C&aacute;lculos Precisos (modo robot)</mat-slide-toggle>
+                <div style="margin-bottom: 16px;">
+                    <mat-slide-toggle (change)="onPreciseChange($event)" formControlName="precise">C&aacute;lculos Precisos (modo robot)</mat-slide-toggle>
                 </div>
                 <div style="margin-bottom: 16px;">
                     <label><b>Factor de Aleatoriedad</b>:</label>
@@ -98,8 +98,9 @@
                                 <mat-slide-toggle formControlName="improvements">Mostrar Progreso</mat-slide-toggle>
                             </h3>
                             <mat-form-field style="width: 100%;" appearance="outline">
-                                <mat-label>Nivel</mat-label>
-                                <mat-select formControlName="level">
+                                <mat-label>{{ configForm.get('precise')?.value ? 'Calificaci&oacute;n' : 'Nivel' }}</mat-label>
+                                <input *ngIf="configForm.get('precise')?.value" type="number" formControlName="robotModeLevel" matInput>
+                                <mat-select *ngIf="!configForm.get('precise')?.value" formControlName="level">
                                     <mat-option value="F">F (40 - 59)</mat-option>
                                     <mat-option value="D-">D- (60 - 64)</mat-option>
                                     <mat-option value="D+">D+ (65 - 69)</mat-option>

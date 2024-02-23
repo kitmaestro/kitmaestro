@@ -54,6 +54,7 @@ export class GradesGeneratorComponent {
     students: this.fb.array([
       this.fb.group({
         level: ['B+'],
+        robotModeLevel: [85],
         improvements: [true],
       }),
     ]),
@@ -76,10 +77,25 @@ export class GradesGeneratorComponent {
     this.generating = false;
   }
 
+  onPreciseChange(event: any) {
+    const { checked } = event;
+    if (checked) {
+      this.students.controls.forEach(control => {
+        const minMax = this.getMinAndMax(control.value.level)
+        control.get('robotModeLevel')?.setValue(Math.round((minMax.min + minMax.max) / 2))
+      });
+    } else {
+      this.students.controls.forEach(control => {
+        control.get('level')?.setValue('B+')
+      });
+    }
+  }
+
   addStudent() {
     this.students.push(
       this.fb.group({
         level: ['B+'],
+        robotModeLevel: [85],
         improvements: [true],
       })
     );
