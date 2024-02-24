@@ -70,8 +70,8 @@ export class GradesGeneratorComponent {
     const config = this.configForm.value as GradesData;
     this.generated = config;
     this.generated.dataSet = config.students.map<GradeDataSet>(student => {
-      const { level, improvements } = student;
-      const dataset = this.generateStudentGrades(level, improvements);
+      const { level, robotModeLevel, improvements } = student;
+      const dataset = this.generateStudentGrades(config.precise ? "" + robotModeLevel : level, improvements);
       return dataset;
     })
     this.generating = false;
@@ -82,13 +82,42 @@ export class GradesGeneratorComponent {
     if (checked) {
       this.students.controls.forEach(control => {
         const minMax = this.getMinAndMax(control.value.level)
-        control.get('robotModeLevel')?.setValue(Math.round((minMax.min + minMax.max) / 2))
+        const newValue = Math.round((minMax.min + minMax.max) / 2)
+        control.get('robotModeLevel')?.setValue(newValue)
       });
     } else {
       this.students.controls.forEach(control => {
         control.get('level')?.setValue('B+')
       });
     }
+  }
+
+  generateRandomNumbersWithAverage(a: number, x: number, y: number, n: number): number[] {
+    const range = y - x;
+
+    // Generate N random numbers within the range
+    const randomNumbers = [];
+    for (let i = 0; i < n; i++) {
+      const randomNumber = Math.round((Math.random() * range) + x);
+      randomNumbers.push(randomNumber);
+    }
+
+    // Calculate the current average of the random numbers
+    let currentAverage = Math.round(randomNumbers.reduce((acc, curr) => acc + curr, 0) / n);
+    // Adjust the numbers to match the desired average
+    let adjustment = a - currentAverage;
+    let adjustedNumbers = randomNumbers.map(num => num + adjustment);
+
+    while (true) {
+      currentAverage = Math.round(adjustedNumbers.reduce((acc, curr) => acc + curr, 0) / n);
+      if (currentAverage == a) {
+        break;
+      }
+      adjustment = a - currentAverage;
+      adjustedNumbers = randomNumbers.map(num => num + adjustment);
+    }
+
+    return adjustedNumbers;
   }
 
   addStudent() {
@@ -112,7 +141,7 @@ export class GradesGeneratorComponent {
   }
 
   getMinAndMax(level: string) {
-    if (this.configForm.value.precise) {
+    if (this.configForm.value.precise && parseInt(level)) {
       const diff = this.configForm.value.randomLevel;
       if (!diff) return { min: parseInt(level), max: parseInt(level) };
 
@@ -162,23 +191,33 @@ export class GradesGeneratorComponent {
     const max = minMax.max + additional > 100 ? minMax.max : minMax.max + additional;
     let gradeRow = 0;
     let gradeCount = 0;
-    for (let i = 0; i < qtyRequired; i++) {
-      gradeCount++;
-      if (grades.length == gradeRow) {
-        grades[gradeRow] = [];
-      }
-      const grade = { p: 0, rp: 0 };
-      grade.p = this.getRandomNumber(min, max);
-      if (grade.p < minGrade && this.generated.includeRecover) {
-        grade.rp = this.getRandomNumber(grade.p, max);
-      }
-      grades[gradeRow].push(grade);
-      if (gradeCount == 4) {
-        gradeCount = 0;
-        gradeRow++;
-      }
-    }
     if (this.configForm.value.precise) {
+      const indicators: { p: number, rp: number }[][] = [];
+      for (let i = 0; i < this.generated.indicators; i++) {
+        const indicator = this.generateRandomNumbersWithAverage(parseInt(level), min, max, this.generated.grades.length).map(n => ({ p: n, rp: n < minGrade ? this.getRandomNumber(n, max) : 0 }));
+        indicators.push(indicator);
+      }
+      for (let i = 0; i < this.generated.grades.length; i++) {
+        const row = improvements ? indicators.map(arr => arr[i]).sort((a, b) => a.p - b.p) : indicators.map(arr => arr[i]);
+        grades.push(row)
+      }
+    } else {
+      for (let i = 0; i < qtyRequired; i++) {
+        gradeCount++;
+        if (grades.length == gradeRow) {
+          grades[gradeRow] = [];
+        }
+        const grade = { p: 0, rp: 0 };
+        grade.p = this.getRandomNumber(min, max);
+        if (grade.p < minGrade && this.generated.includeRecover) {
+          grade.rp = this.getRandomNumber(grade.p, max);
+        }
+        grades[gradeRow].push(grade);
+        if (gradeCount == 4) {
+          gradeCount = 0;
+          gradeRow++;
+        }
+      }
     }
     if (improvements) {
       grades.forEach(row => row.sort((a,b) => a.p - b.p));

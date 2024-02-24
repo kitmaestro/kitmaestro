@@ -9,6 +9,7 @@ export interface GradesData {
     precise: boolean,
     students: {
         level: string,
+        robotModeLevel: number,
         improvements: boolean,
     }[],
     dataSet: GradeDataSet[];
