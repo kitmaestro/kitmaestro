@@ -99,7 +99,7 @@
                             </h3>
                             <mat-form-field style="width: 100%;" appearance="outline">
                                 <mat-label>{{ configForm.get('precise')?.value ? 'Calificaci&oacute;n' : 'Nivel' }}</mat-label>
-                                <input *ngIf="configForm.get('precise')?.value" type="number" formControlName="robotModeLevel" matInput>
+                                <input *ngIf="configForm.get('precise')?.value" type="number" max="100" min="0" formControlName="robotModeLevel" matInput>
                                 <mat-select *ngIf="!configForm.get('precise')?.value" formControlName="level">
                                     <mat-option value="F">F (40 - 59)</mat-option>
                                     <mat-option value="D-">D- (60 - 64)</mat-option>

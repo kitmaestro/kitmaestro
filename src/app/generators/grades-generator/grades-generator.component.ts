@@ -112,6 +112,13 @@ export class GradesGeneratorComponent {
   }
 
   getMinAndMax(level: string) {
+    if (this.configForm.value.precise) {
+      const diff = this.configForm.value.randomLevel;
+      if (!diff) return { min: parseInt(level), max: parseInt(level) };
+
+      return { min: parseInt(level) - diff, max: (parseInt(level) + diff) > 99 ? 99 : parseInt(level) + diff };
+    }
+
     switch(level) {
       case 'F': {
         return { min: 40, max: 59 };
@@ -147,7 +154,7 @@ export class GradesGeneratorComponent {
     if (!this.generated) return [];
     const qtyRequired: number = this.generated.indicators * this.generated.grades.length;
     const isPrimary = this.generated.level == 'primary';
-    const minGrade = this.generated.level == 'primary' ? 65 : 70;
+    const minGrade = isPrimary ? 65 : 70;
     const grades: Array<{ p: number, rp: number }[]> = [];
     const minMax = this.getMinAndMax(level);
     const additional = this.generated.randomLevel;
@@ -170,6 +177,8 @@ export class GradesGeneratorComponent {
         gradeCount = 0;
         gradeRow++;
       }
+    }
+    if (this.configForm.value.precise) {
     }
     if (improvements) {
       grades.forEach(row => row.sort((a,b) => a.p - b.p));
