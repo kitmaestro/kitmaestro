@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +15,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { GradeDataSet, GradesData } from '../../interfaces/grades-data';
 import { faker } from '@faker-js/faker';
+import { LayersModel, loadLayersModel, reshape, tensor1d, tensor2d } from '@tensorflow/tfjs';
 
 @Component({
   selector: 'app-grades-generator',
@@ -39,10 +40,12 @@ import { faker } from '@faker-js/faker';
   templateUrl: './grades-generator.component.html',
   styleUrl: './grades-generator.component.scss'
 })
-export class GradesGeneratorComponent {
+export class GradesGeneratorComponent implements OnInit {
   fb = inject(FormBuilder);
   generating = false;
   generated: GradesData | null = null;
+  model: LayersModel | null = null;
+  output: any = null;
 
   configForm = this.fb.group({
     level: ['primary'],
@@ -59,6 +62,13 @@ export class GradesGeneratorComponent {
       }),
     ]),
   });
+
+  ngOnInit(): void {
+    loadLayersModel('/assets/model.json').then(model => {
+      this.model = model;
+      this.generateRandomNumbersWithAverage(85, 80, 90, 1);
+    })
+  }
 
   onSubmit() {
     this.generating = true;
@@ -93,31 +103,14 @@ export class GradesGeneratorComponent {
   }
 
   generateRandomNumbersWithAverage(a: number, x: number, y: number, n: number): number[] {
-    const range = y - x;
-
-    // Generate N random numbers within the range
-    const randomNumbers = [];
-    for (let i = 0; i < n; i++) {
-      const randomNumber = Math.round((Math.random() * range) + x);
-      randomNumbers.push(randomNumber);
+    const input = reshape(tensor2d([[a, x, y]]), [1, 3]);
+    if (this.model) {
+      const output = this.model.predict(input);
+      this.output = output;
+      console.log(output)
+      return [];
     }
-
-    // Calculate the current average of the random numbers
-    let currentAverage = Math.round(randomNumbers.reduce((acc, curr) => acc + curr, 0) / n);
-    // Adjust the numbers to match the desired average
-    let adjustment = a - currentAverage;
-    let adjustedNumbers = randomNumbers.map(num => num + adjustment);
-
-    while (true) {
-      currentAverage = Math.round(adjustedNumbers.reduce((acc, curr) => acc + curr, 0) / n);
-      if (currentAverage == a) {
-        break;
-      }
-      adjustment = a - currentAverage;
-      adjustedNumbers = randomNumbers.map(num => num + adjustment);
-    }
-
-    return adjustedNumbers;
+    return [];
   }
 
   addStudent() {
