@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
-import { InProgressComponent } from '../../in-progress/in-progress.component';
+import { InProgressComponent } from '../../alerts/in-progress/in-progress.component';
 import { Chart, registerables } from 'chart.js';
 import { ChartComponent } from '../../ui/chart/chart.component';
 import { LogRegistryEntry } from '../../interfaces/log-registry-entry';

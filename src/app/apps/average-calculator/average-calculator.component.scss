@@ -1,4 +1,5 @@
 .calculator-frame {
+    width: 100%;
     max-width: 320px;
     padding: 12px;
     background-color: #673ab7;
@@ -46,4 +47,15 @@
             display: block;
         }
     }
+}
+
+.hide-under-md {
+    @media screen and (max-width: 720px) {
+        display: none;
+    }
+}
+
+.wrapper {
+    display: flex;
+    gap: 16px;
 }

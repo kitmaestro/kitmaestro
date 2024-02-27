@@ -6,6 +6,10 @@
                 <img [src]="app.icon" class="app-icon" alt="">
                 <h2 mat-card-title>{{app.name}}</h2>
                 <p>{{app.description}}</p>
+                <mat-icon color="accent" class="is-premium-icon" *ngIf="app.premium; else free">star</mat-icon>
+                <ng-template #free>
+                    <mat-icon color="primary" class="is-premium-icon">verified</mat-icon>
+                </ng-template>
             </mat-card-content>
         </mat-card>
     </div>

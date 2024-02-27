@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { InProgressComponent } from '../in-progress/in-progress.component';
+import { InProgressComponent } from '../alerts/in-progress/in-progress.component';
 
 @Component({
   selector: 'app-tools-dashboard',
