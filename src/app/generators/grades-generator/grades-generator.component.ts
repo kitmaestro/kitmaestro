@@ -14,8 +14,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { GradeDataSet, GradesData } from '../../interfaces/grades-data';
-import { faker } from '@faker-js/faker';
-import { LayersModel, loadLayersModel, reshape, tensor1d, tensor2d } from '@tensorflow/tfjs';
+import { AiService } from '../../services/ai.service';
 
 @Component({
   selector: 'app-grades-generator',
@@ -42,9 +41,10 @@ import { LayersModel, loadLayersModel, reshape, tensor1d, tensor2d } from '@tens
 })
 export class GradesGeneratorComponent implements OnInit {
   fb = inject(FormBuilder);
+  aiService = inject(AiService);
+
   generating = false;
   generated: GradesData | null = null;
-  model: LayersModel | null = null;
   output: any = null;
 
   configForm = this.fb.group({
@@ -64,10 +64,6 @@ export class GradesGeneratorComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    loadLayersModel('/assets/model.json').then(model => {
-      this.model = model;
-      this.generateRandomNumbersWithAverage(85, 80, 90, 1);
-    })
   }
 
   onSubmit() {
@@ -100,17 +96,6 @@ export class GradesGeneratorComponent implements OnInit {
         control.get('level')?.setValue('B+')
       });
     }
-  }
-
-  generateRandomNumbersWithAverage(a: number, x: number, y: number, n: number): number[] {
-    const input = reshape(tensor2d([[a, x, y]]), [1, 3]);
-    if (this.model) {
-      const output = this.model.predict(input);
-      this.output = output;
-      console.log(output)
-      return [];
-    }
-    return [];
   }
 
   addStudent() {
@@ -187,7 +172,7 @@ export class GradesGeneratorComponent implements OnInit {
     if (this.configForm.value.precise) {
       const indicators: { p: number, rp: number }[][] = [];
       for (let i = 0; i < this.generated.indicators; i++) {
-        const indicator = this.generateRandomNumbersWithAverage(parseInt(level), min, max, this.generated.grades.length).map(n => ({ p: n, rp: n < minGrade ? this.getRandomNumber(n, max) : 0 }));
+        const indicator = this.aiService.generatePeriod({ average: parseInt(level), min, max, elements: this.generated.grades.length, minGrade });
         indicators.push(indicator);
       }
       for (let i = 0; i < this.generated.grades.length; i++) {
@@ -301,12 +286,24 @@ export class GradesGeneratorComponent implements OnInit {
       const rf = cf && cf < minGrade && this.generated.includeRecover ? this.getRandomNumber(cf, max) : null;
       row.push(c1, c2, c3, cf, rf, null);
     } else {
-      const cp1 = Math.round(average.periods.p1 / this.generated.indicators);
-      const cp2 = Math.round(average.periods.p2 / this.generated.indicators);
-      const cp3 = Math.round(average.periods.p3 / this.generated.indicators);
-      const cp4 = Math.round(average.periods.p4 / this.generated.indicators);
-      const cf = cp1 && cp2 && cp3 && cp4 ? Math.round((cp1 + cp2 + cp3 + cp4) / 4) : null;
-      row.push(cp1 ? cp1 : null, cp2 ? cp2 : null, cp3 ? cp3 : null, cp4 ? cp4 : null, cf);
+      // const cp1 = Math.round(average.periods.p1 / this.generated.indicators);
+      // const cp2 = Math.round(average.periods.p2 / this.generated.indicators);
+      // const cp3 = Math.round(average.periods.p3 / this.generated.indicators);
+      // const cp4 = Math.round(average.periods.p4 / this.generated.indicators);
+      // const cf = cp1 && cp2 && cp3 && cp4 ? Math.round((cp1 + cp2 + cp3 + cp4) / 4) : null;
+      // row.push(cp1 ? cp1 : null, cp2 ? cp2 : null, cp3 ? cp3 : null, cp4 ? cp4 : null, cf);
+      const calculateAverage = this.generated.grades.length == 4;
+      const c1Total = flatten.slice(0, 4).map(row => row.rp ? row.rp : row.p).reduce((l, n) => l + n, 0);
+      const c2Total = flatten.slice(4, 8).map(row => row.rp ? row.rp : row.p).reduce((l, n) => l + n, 0);
+      const c3Total = flatten.slice(8, 12).map(row => row.rp ? row.rp : row.p).reduce((l, n) => l + n, 0);
+      const c4Total = flatten.slice(13, 1).map(row => row.rp ? row.rp : row.p).reduce((l, n) => l + n, 0);
+      const c1 = calculateAverage ? Math.round(c1Total / 4) : null;
+      const c2 = calculateAverage ? Math.round(c2Total / 4) : null;
+      const c3 = calculateAverage ? Math.round(c3Total / 4) : null;
+      const c4 = calculateAverage ? Math.round(c3Total / 4) : null;
+      const cf = c1 && c2 && c3 && c4 ? Math.round((c1 + c2 + c3 + c4) / 4) : null;
+      const rf = cf && cf < minGrade && this.generated.includeRecover ? this.getRandomNumber(cf, max) : null;
+      row.push(c1 ? c1 : null, c2 ? c2 : null, c3 ? c3 : null, c4 ? c4 : null, cf);
     }
     return row;
   }
