@@ -25,7 +25,7 @@ export class HomeComponent {
   private apps: AppEntry[] = [
     { name: 'Calculadora de Promedios', description: 'Calcula promedios en un santiamén.', link: ['/average-calculator'], premium: false, icon: '/assets/calculator.svg' },
     { name: 'Calculadora de Asistencias', description: 'La forma más fácil de calcular la asistencia.', link: ['/attendance-calculator'], premium: false, icon: '/assets/attendance.svg' },
-    { name: 'Generador de Calificaciones', description: 'Genera facilmente las calificaciones de tus estudiantes.', link: ['/grades-generator'], premium: false, icon: '/assets/grades.svg' },
+    { name: 'Generador de Calificaciones', description: 'Genera facilmente las calificaciones de tus estudiantes.', link: ['/grades-generator'], premium: true, icon: '/assets/grades.svg' },
     { name: 'Generador de Actividades', description: 'Actividades completas en segundos.', link: ['/activity-generator'], premium: true, icon: '/assets/activities.svg' },
     { name: 'Generador de Aspectos Trabajados', description: 'Obten fácilmente una lista de aspectos trabajados.', link: ['/aspects-generator'], premium: true, icon: '/assets/aspects.svg' },
     { name: 'Generador de Listas de Cotejo', description: 'Crea listas de cotejo perfectas sin esfuerzo.', link: ['/checklist-generator'], premium: true, icon: '/assets/checklist.svg' },

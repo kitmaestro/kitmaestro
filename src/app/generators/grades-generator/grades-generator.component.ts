@@ -15,6 +15,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { GradeDataSet, GradesData } from '../../interfaces/grades-data';
 import { AiService } from '../../services/ai.service';
+import { Auth, authState } from '@angular/fire/auth';
+import { EMPTY, Observable, map } from 'rxjs';
+import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
+import { UserSubscription } from '../../interfaces/user-subscription';
+import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component';
 
 @Component({
   selector: 'app-grades-generator',
@@ -35,6 +40,7 @@ import { AiService } from '../../services/ai.service';
     MatListModule,
     MatDividerModule,
     MatIconModule,
+    IsPremiumComponent,
   ],
   templateUrl: './grades-generator.component.html',
   styleUrl: './grades-generator.component.scss'
@@ -42,7 +48,12 @@ import { AiService } from '../../services/ai.service';
 export class GradesGeneratorComponent implements OnInit {
   fb = inject(FormBuilder);
   aiService = inject(AiService);
+  auth = inject(Auth);
+  firestore = inject(Firestore);
+  subscriptionColRef = collection(this.firestore, 'user-subscriptions');
+  userSubscription$: Observable<boolean> = EMPTY;
 
+  loading = true;
   generating = false;
   generated: GradesData | null = null;
   output: any = null;
@@ -64,6 +75,20 @@ export class GradesGeneratorComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    authState(this.auth).subscribe(user => {
+      if (user) {
+        this.userSubscription$ = (collectionData(query(this.subscriptionColRef, where('uid', '==', user.uid))) as Observable<UserSubscription[]>).pipe(
+          map(subs => {
+            const userSub = subs[0];
+            this.loading = false;
+            if (!userSub) {
+              return false;
+            }
+            return userSub.active;
+          })
+        )
+      }
+    })
   }
 
   onSubmit() {
