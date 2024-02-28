@@ -60,7 +60,7 @@ export class AverageCalculatorComponent {
         }
         default: {
           const value = parseInt(event.key);
-          if (value) {
+          if (value >= 0) {
             this.addNumber(value);
           }
           break;

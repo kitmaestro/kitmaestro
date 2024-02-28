@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,11 +15,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { GradeDataSet, GradesData } from '../../interfaces/grades-data';
 import { AiService } from '../../services/ai.service';
-import { Auth, authState } from '@angular/fire/auth';
-import { EMPTY, Observable, map } from 'rxjs';
-import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
-import { UserSubscription } from '../../interfaces/user-subscription';
+import { EMPTY, Observable, map, tap } from 'rxjs';
 import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component';
+import { UserSubscriptionService } from '../../services/user-subscription.service';
 
 @Component({
   selector: 'app-grades-generator',
@@ -45,13 +43,14 @@ import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component
   templateUrl: './grades-generator.component.html',
   styleUrl: './grades-generator.component.scss'
 })
-export class GradesGeneratorComponent implements OnInit {
+export class GradesGeneratorComponent {
   fb = inject(FormBuilder);
   aiService = inject(AiService);
-  auth = inject(Auth);
-  firestore = inject(Firestore);
-  subscriptionColRef = collection(this.firestore, 'user-subscriptions');
-  userSubscription$: Observable<boolean> = EMPTY;
+  userSubscriptionService = inject(UserSubscriptionService);
+
+  userSubscription$: Observable<boolean> = this.userSubscriptionService.isPremium().pipe(
+    tap(_ => this.loading = false)
+  );
 
   loading = true;
   generating = false;
@@ -73,23 +72,6 @@ export class GradesGeneratorComponent implements OnInit {
       }),
     ]),
   });
-
-  ngOnInit(): void {
-    authState(this.auth).subscribe(user => {
-      if (user) {
-        this.userSubscription$ = (collectionData(query(this.subscriptionColRef, where('uid', '==', user.uid))) as Observable<UserSubscription[]>).pipe(
-          map(subs => {
-            const userSub = subs[0];
-            this.loading = false;
-            if (!userSub) {
-              return false;
-            }
-            return userSub.active;
-          })
-        )
-      }
-    })
-  }
 
   onSubmit() {
     this.generating = true;
