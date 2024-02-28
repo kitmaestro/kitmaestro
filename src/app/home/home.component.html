@@ -1,6 +1,6 @@
 <h2>Inicio</h2>
 <div class="apps-grid">
-    <div *ngFor="let row of columns()">
+    <div *ngFor="let row of layout">
         <mat-card class="app-card" *ngFor="let app of row" [routerLink]="app.link">
             <mat-card-content>
                 <img [src]="app.icon" class="app-icon" alt="">
