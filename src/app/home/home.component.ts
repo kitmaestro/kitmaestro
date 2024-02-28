@@ -33,7 +33,8 @@ export class HomeComponent {
     { name: 'Calculadora de Promedios', description: 'Calcula promedios en un santiamén.', link: ['/average-calculator'], premium: false, icon: '/assets/calculator.svg' },
     { name: 'Calculadora de Asistencias', description: 'La forma más fácil de calcular la asistencia.', link: ['/attendance-calculator'], premium: false, icon: '/assets/attendance.svg' },
     { name: 'Generador de Calificaciones', description: 'Genera facilmente las calificaciones de tus estudiantes.', link: ['/grades-generator'], premium: true, icon: '/assets/grades.svg' },
-    { name: 'Generador de Ejercicios de Matemática', description: 'Los ejercicios que necesites para la clase o el examen.', link: ['/math-worksheet-generator'], premium: true, icon: '/assets/undraw_mathematics_-4-otb.svg' },
+    { name: 'Generador de Ejercicios de Matemática', description: 'Los ejercicios que necesites para la clase.', link: ['/math-worksheet-generator'], premium: true, icon: '/assets/undraw_mathematics_-4-otb.svg' },
+    { name: 'Generador de Evaluación de Matemática', description: 'Genera exámenes de matemática sin esfuerzo.', link: ['/math-test-generator'], premium: true, icon: '/assets/logic.svg' },
     { name: 'Generador de Diálogos en Inglés', description: 'Consigue diálogos en inglés (texto y audio) por nivel.', link: ['/english-dialog-generator'], premium: true, icon: '/assets/dialog.svg' },
     { name: 'Generador de Ejercicios de Inglés', description: 'Hojas de ejercicios de inglés.', link: ['/english-worksheet-generator'], premium: true, icon: '/assets/undraw_observations_re_ohja.svg' },
     { name: 'Generador de Actividades', description: 'Actividades completas en segundos.', link: ['/activity-generator'], premium: true, icon: '/assets/activities.svg' },
@@ -165,10 +166,6 @@ export class HomeComponent {
   columns() {
     let next = 0;
     const final: AppEntry[][] = [
-      [],
-      [],
-      [],
-      [],
       [],
     ];
     for (let app of this.apps) {
