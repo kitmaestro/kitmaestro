@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GradePeriod } from '../interfaces/grade-period';
 import { HfInference } from '@huggingface/inference';
-import { ModelEntry, listModels } from '@huggingface/hub';
+// import { ModelEntry, listModels } from '@huggingface/hub';
 import { Text2TextGenerationPipeline, pipeline } from '@xenova/transformers';
 import { Observable, from } from 'rxjs';
 
@@ -55,25 +55,25 @@ export class AiService {
     return data.state == 'Loadable';
   }
 
-  async research(task = 'text-to-image', minLikes = 1000) {
-    const models: ModelEntry[] = [];
+  // async research(task = 'text-to-image', minLikes = 1000) {
+  //   const models: ModelEntry[] = [];
 
-    for await (const model of listModels({
-      credentials: {
-        accessToken: this.token
-      },
-      search: {
-        task: task as any,
-      }
-    })) {
-      if (model.likes < minLikes)
-        continue;
+  //   for await (const model of listModels({
+  //     credentials: {
+  //       accessToken: this.token
+  //     },
+  //     search: {
+  //       task: task as any,
+  //     }
+  //   })) {
+  //     if (model.likes < minLikes)
+  //       continue;
 
-      if (await this.inferenceEnabled(model.name))
-        models.push(model);
-    }
-    console.log(models)
-  }
+  //     if (await this.inferenceEnabled(model.name))
+  //       models.push(model);
+  //   }
+  //   console.log(models)
+  // }
 
   private blobToBase64(blob: Blob): Promise<string> {
     return new Promise((resolve, _) => {
