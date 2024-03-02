@@ -6,8 +6,8 @@ import { AppEntry } from '../interfaces/app-entry';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { AiService } from '../services/ai.service';
 
 @Component({
   selector: 'app-home',
@@ -26,25 +26,137 @@ import { Observable } from 'rxjs';
 export class HomeComponent {
 
   private breakpointObserver = inject(BreakpointObserver);
+  private aiService = inject(AiService);
 
   layout: AppEntry[][] = [];
 
   private apps: AppEntry[] = [
-    { name: 'Calculadora de Promedios', description: 'Calcula promedios en un santiamén.', link: ['/average-calculator'], premium: false, icon: '/assets/calculator.svg' },
-    { name: 'Calculadora de Asistencias', description: 'La forma más fácil de calcular la asistencia.', link: ['/attendance-calculator'], premium: false, icon: '/assets/attendance.svg' },
-    { name: 'Generador de Calificaciones', description: 'Genera facilmente las calificaciones de tus estudiantes.', link: ['/grades-generator'], premium: true, icon: '/assets/grades.svg' },
-    { name: 'Generador de Ejercicios de Matemática', description: 'Los ejercicios que necesites para la clase.', link: ['/math-worksheet-generator'], premium: true, icon: '/assets/undraw_mathematics_-4-otb.svg' },
-    { name: 'Generador de Evaluación de Matemática', description: 'Genera exámenes de matemática sin esfuerzo.', link: ['/math-test-generator'], premium: true, icon: '/assets/logic.svg' },
-    { name: 'Generador de Diálogos en Inglés', description: 'Consigue diálogos en inglés (texto y audio) por nivel.', link: ['/english-dialog-generator'], premium: true, icon: '/assets/dialog.svg' },
-    { name: 'Generador de Ejercicios de Inglés', description: 'Hojas de ejercicios de inglés.', link: ['/english-worksheet-generator'], premium: true, icon: '/assets/undraw_observations_re_ohja.svg' },
-    { name: 'Generador de Actividades', description: 'Actividades completas en segundos.', link: ['/activity-generator'], premium: true, icon: '/assets/activities.svg' },
-    { name: 'Generador de Aspectos Trabajados', description: 'Obten fácilmente una lista de aspectos trabajados.', link: ['/aspects-generator'], premium: true, icon: '/assets/aspects.svg' },
-    { name: 'Generador de Listas de Cotejo', description: 'Crea listas de cotejo perfectas sin esfuerzo.', link: ['/checklist-generator'], premium: true, icon: '/assets/checklist.svg' },
-    { name: 'Generador de Escalas de Estimación', description: 'Produce escalas de estimación para evaluar hoy mismo.', link: ['/estimation-scale-generator'], premium: true, icon: '/assets/undraw_data_processing_yrrv.svg' },
-    { name: 'Generador de Registro Anecdótico', description: 'La forma más fácil de trabajar el registro anecdótico.', link: ['/log-registry-generator'], premium: false, icon: '/assets/undraw_upload_image_re_svxx.svg' },
-    { name: 'Generador de Plantilla de Planificación', description: 'Crea plantillas de planificación bonitas y funcionales.', link: ['/planner-generator'], premium: false, icon: '/assets/undraw_responsive_re_e1nn.svg' },
-    { name: 'Generador de Rúbricas', description: 'Genera rúbricas en instantes.', link: ['/rubric-generator'], premium: true, icon: '/assets/undraw_spreadsheet_re_cn18.svg' },
-    { name: 'Generador de Ejercicios de Español', description: 'Obtén ejercicios para trabajar en Lengua Española.', link: ['/spanish-worksheet-generator'], premium: true, icon: '/assets/undraw_real_time_sync_re_nky7.svg' },
+    {
+      name: 'Calculadora de Promedios',
+      description: 'Calcula promedios en un santiamén.',
+      link: ['/average-calculator'],
+      icon: '/assets/calculator.svg',
+      premium: false
+    },
+    {
+      name: 'Calculadora de Asistencias',
+      description: 'La forma más fácil de calcular la asistencia.',
+      link: ['/attendance-calculator'],
+      icon: '/assets/attendance.svg',
+      premium: false
+    },
+    {
+      name: 'Generador de Calificaciones',
+      description: 'Genera facilmente las calificaciones de tus estudiantes.',
+      link: ['/grades-generator'],
+      icon: '/assets/grades.svg',
+      premium: true
+    },
+    {
+      name: 'Planes Diarios',
+      description: 'Planes de clase en menos de 3 minutos.',
+      link: ['/class-plans'],
+      icon: '/assets/undraw_real_time_sync_re_nky7.svg',
+      premium: true
+    },
+    {
+      name: 'Unidades de Aprendizaje',
+      description: 'Diseña unidades de aprendizaje, para ya mismo.',
+      link: ['/unit-plans'],
+      icon: '/assets/assistant.svg',
+      premium: true
+    },
+    {
+      name: 'Hojas de Ejercicios',
+      description: 'Los ejercicios que necesites para la clase.',
+      link: ['/worksheet-builders'],
+      icon: '/assets/undraw_real_time_sync_re_nky7.svg',
+      premium: true
+    },
+    {
+      name: 'Asistentes',
+      description: 'Una colección de asistentes virtuales para ti, a tu medida.',
+      link: ['/assistants'],
+      icon: '/assets/assistant.svg',
+      premium: true
+    },
+    {
+      name: 'Generador de Conversaciones en Inglés',
+      description: 'Consigue diálogos en inglés (texto y audio) por nivel.',
+      link: ['/english-dialog-generator'],
+      icon: '/assets/dialog.svg',
+      premium: true
+    },
+    {
+      name: 'Generador de Actividades',
+      description: 'Actividades completas en segundos.',
+      link: ['/activity-generator'],
+      icon: '/assets/activities.svg',
+      premium: true
+    },
+    {
+      name: 'Generador de Aspectos Trabajados',
+      description: 'Obten fácilmente una lista de aspectos trabajados para tu registro.',
+      link: ['/aspects-generator'],
+      icon: '/assets/aspects.svg',
+      premium: true
+    },
+    {
+      name: 'Instrumentos de Evaluación',
+      description: 'Generadores de instrumentos de evaluación sin esfuerzo.',
+      link: ['/assestments'],
+      icon: '/assets/checklist.svg',
+      premium: true
+    },
+    // {
+    //   name: 'Generador de Listas de Cotejo',
+    //   description: 'Crea listas de cotejo perfectas sin esfuerzo.',
+    //   link: ['/checklist-generator'],
+    //   icon: '/assets/checklist.svg',
+    //   premium: true
+    // },
+    {
+      name: 'Generador de Informes',
+      description: 'Informes detallados para cada necesidad.',
+      link: ['/estimation-scale-generator'],
+      icon: '/assets/undraw_data_processing_yrrv.svg',
+      premium: true
+    },
+    // {
+    //   name: 'Generador de Escalas de Estimación',
+    //   description: 'Produce escalas de estimación para evaluar hoy mismo.',
+    //   link: ['/estimation-scale-generator'],
+    //   icon: '/assets/undraw_data_processing_yrrv.svg',
+    //   premium: true
+    // },
+    {
+      name: 'Registro Anecdótico',
+      description: 'La forma más fácil de trabajar el registro anecdótico.',
+      link: ['/log-registry-generator'],
+      icon: '/assets/undraw_upload_image_re_svxx.svg',
+      premium: false
+    },
+    {
+      name: 'Generador de Plantilla de Planificación',
+      description: 'Plantillas bonitas y funcionales para los menos tecnológicos.',
+      link: ['/planner-generator'],
+      icon: '/assets/undraw_responsive_re_e1nn.svg',
+      premium: false
+    },
+    // {
+    //   name: 'Generador de Rúbricas',
+    //   description: 'Genera rúbricas en instantes.',
+    //   link: ['/rubric-generator'],
+    //   icon: '/assets/undraw_spreadsheet_re_cn18.svg',
+    //   premium: true
+    // },
+    {
+      name: 'Recursos Educativos',
+      description: 'Almacenamiento y distribución de recursos educativos clasificados.',
+      link: ['/resources'],
+      icon: '/assets/library_books.svg',
+      premium: false
+    },
 
     // { link: ['/class-planning'], name: 'Planificación de Clases', icon: '/assets/timeline.svg', premium: false, description: 'Asistentes de planificación y gestión de horario.' },
     // { link: ['/formation'], name: 'Evaluación Formativa', icon: '/assets/learning.svg', premium: false, description: 'Herramientas interactivas para evaluar en tiempo real.' },
@@ -63,12 +175,24 @@ export class HomeComponent {
     // { link: ['/attendance'], name: 'Gestión de Asistencia', icon: '/assets/attend.svg', premium: false, description: 'Registra o Genera tablas de asistencia.' },
 
     // { link: ['/tasks'], name: 'Gestión de Tareas', icon: '/assets/checklist.svg', premium: false, description: 'Seguimiento de tareas y recordatorios automáticos.' },
-    // { link: ['/resources'], name: 'Recursos Educativos', icon: '/assets/library_books.svg', premium: false, description: 'Almacenamiento y distribución de recursos educativos clasificados.' },
     // { link: ['/collab'], name: 'Colaboración entre Maestros', icon: '/assets/groups.svg', premium: false, description: 'Espacio de colaboración para compartir ideas y estrategias de enseñanza.' },
   ];
 
+  async checkModel() {
+    // const inference = new HfInference('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');
+    // inference.textGeneration({
+    //   model: 'gpt2',
+    //   inputs: 'The answer to the universe is'
+    // }).then(res => {
+    //   console.log(res.generated_text)
+    // });
+
+    // this.aiService.research('text-generation', 2000)
+  }
+  
   ngOnInit() {
-    this.breakpointObserver.observe(['(max-width: 480px)', '(min-width: 481px) and (max-width: 720px)', '(min-width: 721px) and (max-width: 1024px)', '(min-width: 1025px) and (max-width: 1200px)', '(min-width: 1201px)']).subscribe({
+    this.checkModel()
+    this.breakpointObserver.observe(['(max-width: 480px)', '(min-width: 481px) and (max-width: 720px)', '(min-width: 721px) and (max-width: 1024px)', '(min-width: 1025px) and (max-width: 1400px)', '(min-width: 1401px)']).subscribe({
       next: (result) => {
         if (result.breakpoints['(max-width: 480px)']) {
           this.layout = this.columns();
@@ -79,10 +203,10 @@ export class HomeComponent {
         if (result.breakpoints['(min-width: 721px) and (max-width: 1024px)']) {
           this.layout = this.columns3();
         }
-        if (result.breakpoints['(min-width: 1025px) and (max-width: 1200px)']) {
+        if (result.breakpoints['(min-width: 1025px) and (max-width: 1400px)']) {
           this.layout = this.columns4();
         }
-        if (result.breakpoints['(min-width: 1201px)']) {
+        if (result.breakpoints['(min-width: 1401px)']) {
           this.layout = this.columns5();
         }
       }

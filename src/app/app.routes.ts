@@ -10,14 +10,8 @@ export const routes: Routes = [
             { path: 'buy', loadComponent: () => import('./buy-subscription/buy-subscription.component').then(mod => mod.BuySubscriptionComponent) },
             { path: 'roadmap', loadComponent: () => import('./roadmap/roadmap.component').then(mod => mod.RoadmapComponent) },
             // Datacenter
-            {
-                path: 'sections',
-                loadComponent: () => import('./class-sections/class-sections.component').then(mod => mod.ClassSectionsComponent),
-            },
-            {
-                path: 'sections/:id',
-                loadComponent: () => import('./section-details/section-details.component').then(mod => mod.SectionDetailsComponent),
-            },
+            { path: 'sections', loadComponent: () => import('./class-sections/class-sections.component').then(mod => mod.ClassSectionsComponent) },
+            { path: 'sections/:id', loadComponent: () => import('./section-details/section-details.component').then(mod => mod.SectionDetailsComponent) },
             // Tools
             { path: 'average-calculator', loadComponent: () => import('./apps/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent) },
             { path: 'attendance-calculator', loadComponent: () => import('./apps/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent) },
@@ -27,15 +21,38 @@ export const routes: Routes = [
             { path: 'aspects-generator', loadComponent: () => import('./generators/aspects-generator/aspects-generator.component').then(mod => mod.AspectsGeneratorComponent) },
             { path: 'checklist-generator', loadComponent: () => import('./generators/checklist-generator/checklist-generator.component').then(mod => mod.ChecklistGeneratorComponent) },
             { path: 'english-dialog-generator', loadComponent: () => import('./generators/english-dialog-generator/english-dialog-generator.component').then(mod => mod.EnglishDialogGeneratorComponent) },
-            { path: 'english-worksheet-generator', loadComponent: () => import('./generators/english-worksheet-generator/english-worksheet-generator.component').then(mod => mod.EnglishWorksheetGeneratorComponent) },
             { path: 'estimation-scale-generator', loadComponent: () => import('./generators/estimation-scale-generator/estimation-scale-generator.component').then(mod => mod.EstimationScaleGeneratorComponent) },
             { path: 'log-registry-generator', loadComponent: () => import('./generators/log-registry-generator/log-registry-generator.component').then(mod => mod.LogRegistryGeneratorComponent) },
-            { path: 'math-worksheet-generator', loadComponent: () => import('./generators/math-worksheet-generator/math-worksheet-generator.component').then(mod => mod.MathWorksheetGeneratorComponent) },
-            { path: 'math-test-generator', loadComponent: () => import('./generators/math-test-generator/math-test-generator.component').then(mod => mod.MathTestGeneratorComponent) },
             { path: 'planner-generator', loadComponent: () => import('./generators/planner-generator/planner-generator.component').then(mod => mod.PlannerGeneratorComponent) },
             { path: 'rubric-generator', loadComponent: () => import('./generators/rubric-generator/rubric-generator.component').then(mod => mod.RubricGeneratorComponent) },
+            // worksheet builders
+            {
+                path: 'worksheet-builders',
+                loadComponent() {
+                    return import(
+                        './builders/worksheet-builders/worksheet-builders.component'
+                    ).then(mod => mod.WorksheetBuildersComponent)
+                },
+                children: [
+                    { path: '', loadComponent: () => import('./builders/builder-list/builder-list.component').then(m => m.BuilderListComponent) },
+                ]
+            },
+            { path: 'math-worksheet-generator', loadComponent: () => import('./generators/math-worksheet-generator/math-worksheet-generator.component').then(mod => mod.MathWorksheetGeneratorComponent) },
             { path: 'spanish-worksheet-generator', loadComponent: () => import('./generators/spanish-worksheet-generator/spanish-worksheet-generator.component').then(mod => mod.SpanishWorksheetGeneratorComponent) },
+            { path: 'english-worksheet-generator', loadComponent: () => import('./generators/english-worksheet-generator/english-worksheet-generator.component').then(mod => mod.EnglishWorksheetGeneratorComponent) },
+            // exam builders
+            { path: 'math-test-generator', loadComponent: () => import('./generators/math-test-generator/math-test-generator.component').then(mod => mod.MathTestGeneratorComponent) },
             // Assistants
+            {
+                path: 'assistants',
+                loadComponent: () => import('./assistants/assistants-holder/assistants-holder.component').then(mod => mod.AssistantsHolderComponent),
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('./assistants/assistants-dashboard/assistants-dashboard.component').then(mod => mod.AssistantsDashboardComponent),
+                    },
+                ]
+            },
             {
                 path: 'attendance',
                 loadComponent: () => import('./attendance-dashboard/attendance-dashboard.component').then(mod => mod.AttendanceDashboardComponent)

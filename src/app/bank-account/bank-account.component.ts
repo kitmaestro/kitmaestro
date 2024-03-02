@@ -12,9 +12,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 })
 export class BankAccountComponent {
   account = {
-    number: '9606208146',
+    number: '4223648491',
     name: 'Otoniel Reyes Galay',
-    type: 'Ahorros',
+    type: 'Corriente',
     currency: 'Pesos Dominicanos',
     bank: 'BanReservas',
   }

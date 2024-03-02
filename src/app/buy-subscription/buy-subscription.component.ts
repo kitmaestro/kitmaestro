@@ -6,6 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { BankAccountComponent } from '../bank-account/bank-account.component';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-buy-subscription',
@@ -24,12 +25,17 @@ import { RouterModule } from '@angular/router';
 export class BuySubscriptionComponent implements OnInit {
   http = inject(HttpClient);
   dialog = inject(MatDialog);
+  usdPrice: Observable<number> = this.http.get<{ date: string, usd: { dop: number } }>('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json').pipe(
+    map(res => res.usd.dop)
+  );
   price = '0.00';
+  halfYear = '0.00';
 
   ngOnInit(): void {
-    this.http.get < { date: string, dop: number }>('https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd/dop.json').subscribe({
-      next: (price) => {
-        this.price = (price.dop * 35).toFixed(2);
+    this.usdPrice.subscribe({
+      next: (res) => {
+        this.price = (res * 35).toFixed(2);
+        this.halfYear = (res * 20).toFixed(2);
       }
     })
   }

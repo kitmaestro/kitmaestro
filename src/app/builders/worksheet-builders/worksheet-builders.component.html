@@ -1,5 +1,5 @@
 @if ((userSubscription$ | async) || loading) {
     <app-is-premium *ngIf="!loading"></app-is-premium>
 } @else {
-
+    <router-outlet></router-outlet>
 }
