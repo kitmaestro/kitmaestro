@@ -4,7 +4,7 @@
   </div>
 }
 
-@if (user$ | async) {
+@if ((user$ | async) || isAnAuthView) {
   <router-outlet></router-outlet>
 } @else {
   <app-login></app-login>

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from '@angular/fire/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,6 +8,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
+import { BiIconComponent } from '../../ui/bi-icon/bi-icon.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { RecoverComponent } from '../recover/recover.component';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +23,9 @@ import { RouterModule } from '@angular/router';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatDialogModule,
     RouterModule,
+    BiIconComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -29,6 +34,7 @@ export class LoginComponent {
   auth = inject(Auth);
   sb = inject(MatSnackBar);
   fb = inject(FormBuilder);
+  modal = inject(MatDialog);
 
   loading = false;
 
@@ -36,6 +42,14 @@ export class LoginComponent {
     email: ['', Validators.required],
     password: ['', Validators.required],
   });
+
+  recoverPassword() {
+    this.modal.open(RecoverComponent, { width: '100%', maxWidth: '480px' });
+  }
+
+  loginWithGoogle() {
+    signInWithPopup(this.auth, new GoogleAuthProvider()).then(console.log).catch(console.log)
+  }
 
   onSubmit() {
     if (this.loginForm.valid) {

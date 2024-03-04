@@ -1,1 +1,29 @@
-<p>pass-update works!</p>
+<mat-card>
+    <mat-card-header>
+        <h2 mat-card-title>Recuperar Contrase&ntilde;a</h2>
+    </mat-card-header>
+    <mat-card-content>
+        <img src="/assets/teach.svg" class="teach-svg" alt="">
+        <div>
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput [formControl]="email">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Nueva Contrase&ntilde;a</mat-label>
+                <input type="password" matInput [formControl]="password">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Confirma tu Contrase&ntilde;a</mat-label>
+                <input type="password" matInput [formControl]="confirmation">
+            </mat-form-field>
+            <div style="margin: 12px 0; display: flex; flex-direction: column; gap: 12px;">
+                <button (click)="onSubmit()" [disabled]="loading || (email.invalid && password.invalid) || password.value !== confirmation.value" mat-raised-button color="primary" type="submit">Guardar</button>
+            </div>
+        </div>
+        <div style="display: flex; gap: 12px;">
+            <a mat-flat-button style="margin-right: auto;" color="accent" routerLink="/app">Entrar</a>
+            <button mat-flat-button color="link" (click)="loginWithGoogle()" type="button"><bi-icon icon="google"></bi-icon> Iniciar con Google</button>
+        </div>
+    </mat-card-content>
+</mat-card>

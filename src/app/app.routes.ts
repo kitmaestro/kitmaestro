@@ -1,12 +1,22 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthContainerComponent } from './auth/auth-container/auth-container.component';
 
 export const routes: Routes = [
     {
-        path: '', 
-        component: DashboardComponent, 
+        path: 'auth',
+        component: AuthContainerComponent,
         children: [
-            { path: '', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent) },
+            { path: '', redirectTo: '/auth/reset', pathMatch: 'full' },
+            { path: 'reset', loadComponent: () => import('./auth/pass-update/pass-update.component').then(mod => mod.PassUpdateComponent) },
+        ]
+    },
+    {
+        path: 'app',
+        component: DashboardComponent,
+        children: [
+            { path: '', redirectTo: '/app/dashboard', pathMatch: 'full' },
+            { path: 'dashboard', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent) },
             { path: 'buy', loadComponent: () => import('./buy-subscription/buy-subscription.component').then(mod => mod.BuySubscriptionComponent) },
             { path: 'roadmap', loadComponent: () => import('./roadmap/roadmap.component').then(mod => mod.RoadmapComponent) },
             // Datacenter
@@ -126,12 +136,5 @@ export const routes: Routes = [
             },
         ]
     },
-    {
-        path: 'auth',
-        loadComponent: () => import('./auth/auth-container/auth-container.component').then(mod => mod.AuthContainerComponent),
-        children: [
-            { path: 'recover', loadComponent: () => import('./auth/recover/recover.component').then(mod => mod.RecoverComponent) },
-            { path: 'update', loadComponent: () => import('./auth/pass-update/pass-update.component').then(mod => mod.PassUpdateComponent) },
-        ]
-    },
+    { path: '**', redirectTo: '/app', pathMatch: 'full', },
 ];
