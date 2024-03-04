@@ -15,8 +15,7 @@ export const routes: Routes = [
         path: 'app',
         component: DashboardComponent,
         children: [
-            { path: '', redirectTo: '/app/dashboard', pathMatch: 'full' },
-            { path: 'dashboard', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent) },
+            { path: '', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent) },
             { path: 'buy', loadComponent: () => import('./buy-subscription/buy-subscription.component').then(mod => mod.BuySubscriptionComponent) },
             { path: 'roadmap', loadComponent: () => import('./roadmap/roadmap.component').then(mod => mod.RoadmapComponent) },
             // Datacenter

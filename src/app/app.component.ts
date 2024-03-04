@@ -29,5 +29,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe((u: any) => this.isAnAuthView = u.url ? u.url.startsWith('/auth/reset') : false)
+    this.router.events.subscribe(console.log)
   }
 }
