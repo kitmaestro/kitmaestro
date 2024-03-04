@@ -105,7 +105,7 @@ export class HomeComponent {
     {
       name: 'Instrumentos de Evaluación',
       description: 'Generadores de instrumentos de evaluación sin esfuerzo.',
-      link: ['/app','assestments'],
+      link: ['/app','assessments'],
       icon: '/assets/checklist.svg',
       premium: true
     },

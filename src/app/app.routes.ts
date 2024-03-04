@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthContainerComponent } from './auth/auth-container/auth-container.component';
+import { AssessmentDashboardComponent } from './assessments/assessment-dashboard/assessment-dashboard.component';
+import { ClassPlanComponent } from './class-planning/class-plan/class-plan.component';
+import { UnitPlanComponent } from './class-planning/unit-plan/unit-plan.component';
 
 export const routes: Routes = [
     {
@@ -52,6 +55,9 @@ export const routes: Routes = [
             // exam builders
             { path: 'math-test-generator', loadComponent: () => import('./generators/math-test-generator/math-test-generator.component').then(mod => mod.MathTestGeneratorComponent) },
             // Assistants
+            { path: 'assessments', component: AssessmentDashboardComponent },
+            { path: 'class-plans', component: ClassPlanComponent },
+            { path: 'unit-plans', component: UnitPlanComponent },
             {
                 path: 'assistants',
                 loadComponent: () => import('./assistants/assistants-holder/assistants-holder.component').then(mod => mod.AssistantsHolderComponent),
@@ -85,7 +91,7 @@ export const routes: Routes = [
             // Premium tools
             {
                 path: 'class-planning',
-                loadComponent: () => import('./class-planning-dashboard/class-planning-dashboard.component').then(mod => mod.ClassPlanningDashboardComponent),
+                loadComponent: () => import('./class-planning/class-planning-dashboard/class-planning-dashboard.component').then(mod => mod.ClassPlanningDashboardComponent),
                 children: []
             },
             {

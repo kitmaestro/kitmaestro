@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { InProgressComponent } from '../alerts/in-progress/in-progress.component';
 
 @Component({
   selector: 'app-resources-dashboard',
   standalone: true,
-  imports: [],
+  imports: [
+    InProgressComponent,
+  ],
   templateUrl: './resources-dashboard.component.html',
   styleUrl: './resources-dashboard.component.scss'
 })

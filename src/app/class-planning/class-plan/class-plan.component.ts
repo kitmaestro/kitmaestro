@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component';
 
 @Component({
-  selector: 'app-builder-list',
+  selector: 'app-class-plan',
   standalone: true,
   imports: [
     IsPremiumComponent,
   ],
-  templateUrl: './builder-list.component.html',
-  styleUrl: './builder-list.component.scss'
+  templateUrl: './class-plan.component.html',
+  styleUrl: './class-plan.component.scss'
 })
-export class BuilderListComponent {
+export class ClassPlanComponent {
 
 }
