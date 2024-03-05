@@ -11,4 +11,7 @@ export interface UserSettings {
     regional: string,
     grades: string,
     subjects: string,
+    likedResources: string[];
+    dislikedResources: string[];
+    bookmarks: string[];
 }
