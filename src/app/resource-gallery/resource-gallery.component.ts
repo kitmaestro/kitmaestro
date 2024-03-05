@@ -31,7 +31,7 @@ export class ResourceGalleryComponent {
   private fb = inject(FormBuilder);
   private resourcesService = inject(DidacticResourceService);
 
-  private resources$ = this.resourcesService.didacticResources$;
+  public readonly resources$ = this.resourcesService.didacticResources$;
 
   levels = [
     'Primaria',
@@ -64,7 +64,8 @@ export class ResourceGalleryComponent {
     'Planificación',
     'Ejercicios',
     'Plantillas',
-    'Instrumentos de Evaluación',
+    'Evaluaciones',
+    'Plan de Acción',
     'Actividades',
   ];
 
@@ -78,11 +79,17 @@ export class ResourceGalleryComponent {
   ];
 
   baseTopics = [
-    ''
+    'Plan Diario',
+    'Unidades de Aprendizaje',
+    'Actividades',
+    'Proyectos Educativos',
+    'Planes de Acción',
+    'Plantillas',
+    'Instrumentos de Evaluación',
+    'Hojas de Ejercicios',
   ];
 
-  topics = [
-  ];
+  topics: string[] = [];
 
   filterForm = this.fb.group({
     format: [''],
@@ -93,4 +100,8 @@ export class ResourceGalleryComponent {
     grades: [''],
     orderBy: [''],
   });
+
+  constructor() {
+    this.topics = this.baseTopics;
+  }
 }

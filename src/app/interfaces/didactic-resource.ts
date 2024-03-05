@@ -13,6 +13,7 @@ export interface DidacticResource {
     subject: string;
     topic: string;
     downloadLink: string;
+    status: 'draft' | 'preview' | 'public';
     preview: string;
     author: string;
     type: ResourceType;

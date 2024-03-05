@@ -44,3 +44,13 @@
         </form>
     </mat-card-content>
 </mat-card>
+
+<ng-container *ngIf="(resources$ | async) as resources; else error">
+    @if (resources.length) {
+        <mat-card></mat-card>
+    } @else {
+        empty!
+    }
+</ng-container>
+
+<ng-template #error></ng-template>
