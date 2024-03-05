@@ -21,6 +21,10 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu>
+                    <button routerLink="/app/my-resources" mat-menu-item>
+                        <mat-icon>analytics</mat-icon>
+                        <span>Mis Recursos</span>
+                    </button>
                     <button (click)="logout()" mat-menu-item>
                         <mat-icon>logout</mat-icon>
                         <span>Salir</span>

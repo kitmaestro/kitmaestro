@@ -1,0 +1,46 @@
+<mat-card>
+    <mat-card-header>
+        <h2 mat-card-title>Galer&iacute;a de Recursos Did&aacute;cticos</h2>
+    </mat-card-header>
+    <mat-card-content>
+        <h3>Filtro de Recursos</h3>
+        <form [formGroup]="filterForm" class="filter-form">
+            <mat-form-field appearance="outline">
+                <mat-label>Nivel</mat-label>
+                <mat-select formControlName="level">
+                    <mat-option [value]="level" *ngFor="let level of levels">{{ level }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Grado(s)</mat-label>
+                <mat-select multiple formControlName="grades">
+                    <mat-option [value]="grade" *ngFor="let grade of grades">{{ grade }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Asignatura(s)</mat-label>
+                <mat-select multiple formControlName="subjects">
+                    <mat-option [value]="subject" *ngFor="let subject of subjects">{{ subject }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo de Recurso</mat-label>
+                <mat-select formControlName="resourceType">
+                    <mat-option [value]="resourceType" *ngFor="let resourceType of resourceTypes">{{ resourceType }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Formato</mat-label>
+                <mat-select formControlName="format">
+                    <mat-option [value]="format" *ngFor="let format of formats">{{ format }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Tema</mat-label>
+                <mat-select formControlName="topics">
+                    <mat-option [value]="topic" *ngFor="let topic of topics">{{ topic }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+</mat-card>

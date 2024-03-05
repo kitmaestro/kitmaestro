@@ -76,10 +76,9 @@ export const routes: Routes = [
                 path: 'attendance/:id',
                 loadComponent: () => import('./section-attendance/section-attendance.component').then(mod => mod.SectionAttendanceComponent)
             },
-            {
-                path: 'resources',
-                loadComponent: () => import('./resources-dashboard/resources-dashboard.component').then(mod => mod.ResourcesDashboardComponent)
-            },
+            // user's resources dashboard
+            { path: 'my-resources', loadComponent: () => import('./resources-dashboard/resources-dashboard.component').then(mod => mod.ResourcesDashboardComponent) },
+            { path: 'resources', loadComponent: () => import('./resource-gallery/resource-gallery.component').then(m => m.ResourceGalleryComponent) },
             {
                 path: 'collab',
                 loadComponent: () => import('./collab-dashboard/collab-dashboard.component').then(mod => mod.CollabDashboardComponent)
