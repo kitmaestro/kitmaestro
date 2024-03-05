@@ -1,1 +1,10 @@
-<app-in-progress></app-in-progress>
+@if (underDevelopment) {
+    <app-in-progress></app-in-progress>
+} @else {
+    <div style="display: flex; gap: 12px; overflow: hidden;">
+        <div style="flex: 1 1 auto; max-height: 100%; border-radius: 12px; background-color: white; overflow-y: auto;">
+        </div>
+        <div style="height: calc(100vh - 180px); border-radius: 12px; padding: 12px; margin: auto; overflow-y: auto; width: 75%; min-width: 760px; background-color: white;">
+        </div>
+    </div>
+}

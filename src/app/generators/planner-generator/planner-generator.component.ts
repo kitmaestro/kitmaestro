@@ -11,5 +11,5 @@ import { InProgressComponent } from '../../alerts/in-progress/in-progress.compon
   styleUrl: './planner-generator.component.scss'
 })
 export class PlannerGeneratorComponent {
-
+  underDevelopment = true;
 }
