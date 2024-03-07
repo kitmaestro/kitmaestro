@@ -1,0 +1,29 @@
+.preview-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    caption {
+        display: block;
+        width: 100%;
+        text-align: center;
+        color: #444;
+    }
+
+    .preview {
+        max-width: 256px;
+        width: 100%;
+        height: auto;
+    }
+
+    // button {
+    //     position: absolute;
+    //     top: 12px;
+    //     left: 60%;
+    // }
+}
+
+mat-form-field {
+    width: 100%;
+}

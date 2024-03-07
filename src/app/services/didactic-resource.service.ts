@@ -19,6 +19,8 @@ import { Storage, getDownloadURL, ref, uploadBytesResumable } from '@angular/fir
 import { OrderByOption, ResourceFilterOptions } from '../interfaces/resource-filter-options';
 import { UserSettingsService } from './user-settings.service';
 import { UserSettings } from '../interfaces/user-settings';
+import { Auth, authState } from '@angular/fire/auth';
+import { settings } from '@angular/fire/analytics';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +28,7 @@ import { UserSettings } from '../interfaces/user-settings';
 export class DidacticResourceService {
 
   private firestore = inject(Firestore);
+  private auth = inject(Auth);
   private storage = inject(Storage);
   private userSettingsService = inject(UserSettingsService);
 
@@ -36,9 +39,20 @@ export class DidacticResourceService {
   resources: DidacticResource[] = [];
 
   constructor() {
-    this.userSettings$.subscribe(settings => {
-      this.userSettings = settings;
-    });
+    authState(this.auth).subscribe(user => {
+      if (user) {
+        (collectionData(
+          query(
+            collection(this.firestore, 'user-settings'),
+            where('uid', '==', user.uid)
+            ),
+            { idField: 'id' }
+          ) as Observable<UserSettings[]>
+        ).subscribe(settings => {
+          this.userSettings = settings[0];
+        });
+      }
+    })
     const sus = this.didacticResources$.subscribe({
       next: (resources) => {
         this.resources = resources;
@@ -49,32 +63,71 @@ export class DidacticResourceService {
     });
   }
 
-  private updateUserSettings(property: 'likes' | 'dislikes' | 'bookmarks', resource: string) {
+  private updateUserSettings(property: 'likes' | 'dislikes' | 'bookmarks', resource: string): number {
     if (!this.userSettings)
-      return;
+      return 0;
+    
+    let likedResources: string[] = this.userSettings.likedResources;
+    let dislikedResources: string[] = this.userSettings.dislikedResources;
+    let res = 0;
+
+    if (!likedResources) {
+      likedResources = [];
+    }
+    if (!dislikedResources) {
+      dislikedResources = [];
+    }
 
     if (property == 'likes') {
-      const likedResources = this.userSettings.likedResources;
-      likedResources.push(resource);
-      return updateDoc(doc(this.firestore, 'user-settings/' + this.userSettings.id), { likedResources });
+      if (!likedResources.includes(resource)) {
+        likedResources.push(resource);
+        res = 1;
+      }
+      if (dislikedResources.includes(resource)) {
+        dislikedResources = dislikedResources.filter(d => d != resource);
+      }
+      updateDoc(doc(this.firestore, 'user-settings/' + this.userSettings.id), { likedResources, dislikedResources }).then(() => {});
+      return res;
     }
 
     if (property == 'dislikes') {
-      const dislikedResources = this.userSettings.dislikedResources;
-      dislikedResources.push(resource);
-      return updateDoc(doc(this.firestore, 'user-settings/' + this.userSettings.id), { dislikedResources });
+      if (!dislikedResources.includes(resource)) {
+        dislikedResources.push(resource);
+        res = 1;
+      }
+      if (likedResources.includes(resource)) {
+        likedResources = likedResources.filter(r => r != resource);
+      }
+      updateDoc(doc(this.firestore, 'user-settings/' + this.userSettings.id), { dislikedResources, likedResources }).then(() => {});
+      return res;
     }
 
-    const bookmarks = this.userSettings.bookmarks;
-    bookmarks.push(resource);
-    return updateDoc(doc(this.firestore, 'user-settings/' + this.userSettings.id), { bookmarks });
+    let bookmarks: string[] = this.userSettings.bookmarks;
+    if (!bookmarks) {
+      bookmarks = [];
+    }
+    if (bookmarks.includes(resource)) {
+      bookmarks = bookmarks.filter(b => b != resource);
+      res = -1;
+    } else {
+      bookmarks.push(resource);
+      res = 1;
+    }
+    updateDoc(doc(this.firestore, 'user-settings/' + this.userSettings.id), { bookmarks }).then(() => { });
+    return res;
   }
 
-  async addResource(resource: DidacticResource, file: File): Promise<Observable<DocumentReference>> {
-    const docRef = ref(this.storage, file.name);
-    uploadBytesResumable(docRef, file);
-    const downloadLink = await getDownloadURL(docRef);
-    resource.downloadLink = downloadLink;
+  resourcesByUser(author: string) {
+    return collectionData(query(this.didacticResourcesColRef, where('author', '==', author))) as Observable<DidacticResource[]>;
+  }
+
+  async addResource(resource: DidacticResource, file?: File): Promise<Observable<DocumentReference>> {
+    if (file) {
+      const docRef = ref(this.storage, file.name);
+      await uploadBytesResumable(docRef, file);
+      const downloadLink = await getDownloadURL(docRef);
+      resource.downloadLink = downloadLink;
+    }
     return from(addDoc(this.didacticResourcesColRef, resource));
   }
 
@@ -115,32 +168,34 @@ export class DidacticResourceService {
         })
       })
     );
+
+    return this.didacticResources$;
   }
 
   likeResource(resourceId: string) {
-    const docRef = doc(this.firestore, 'didactic-resource/' + resourceId);
+    const docRef = doc(this.firestore, 'didactic-resources/' + resourceId);
     const sus = (docData(docRef, { idField: 'id' }) as Observable<DidacticResource>).subscribe(resource => {
       const likes = resource.likes + 1;
       updateDoc(docRef, { likes: likes }).then(() => {
-        this.updateUserSettings('likes', resource.id);
         sus.unsubscribe();
+        this.updateUserSettings('likes', resource.id);
       });
     });
   }
 
   dislikeResource(resourceId: string) {
-    const docRef = doc(this.firestore, 'didactic-resource/' + resourceId);
+    const docRef = doc(this.firestore, 'didactic-resources/' + resourceId);
     const sus = (docData(docRef, { idField: 'id' }) as Observable<DidacticResource>).subscribe(resource => {
       const dislikes = resource.dislikes + 1;
       updateDoc(docRef, { dislikes: dislikes }).then(() => {
-        this.updateUserSettings('dislikes', resource.id);
         sus.unsubscribe();
+        this.updateUserSettings('dislikes', resource.id);
       });
     });
   }
 
   downloadResource(resourceId: string) {
-    const docRef = doc(this.firestore, 'didactic-resource/' + resourceId);
+    const docRef = doc(this.firestore, 'didactic-resources/' + resourceId);
     const sus = (docData(docRef, { idField: 'id' }) as Observable<DidacticResource>).subscribe(resource => {
       const downloads = resource.downloads + 1;
       updateDoc(docRef, { downloads: downloads }).then(() => {
@@ -150,12 +205,12 @@ export class DidacticResourceService {
   }
 
   bookmarkResource(resourceId: string) {
-    const docRef = doc(this.firestore, 'didactic-resource/' + resourceId);
+    const docRef = doc(this.firestore, 'didactic-resources/' + resourceId);
     const sus = (docData(docRef, { idField: 'id' }) as Observable<DidacticResource>).subscribe(resource => {
-      const bookmarks = resource.bookmarks + 1;
+      sus.unsubscribe();
+      const res: number = this.updateUserSettings('bookmarks', resource.id);
+      const bookmarks = resource.bookmarks + res;
       updateDoc(docRef, { bookmarks: bookmarks }).then(() => {
-        this.updateUserSettings('bookmarks', resource.id);
-        sus.unsubscribe();
       });
     });
   }

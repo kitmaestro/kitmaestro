@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { tap } from 'rxjs';
+import { UserSettingsService } from '../../services/user-settings.service';
 
 @Component({
   selector: 'app-user-profile-form',
@@ -33,6 +34,7 @@ export class UserProfileFormComponent {
   auth = inject(Auth);
   user$ = authState(this.auth).pipe(tap(user => user && user.displayName ? this.profileForm.get('displayName')?.setValue(user?.displayName) : null));
   sb = inject(MatSnackBar);
+  userSettingsService = inject(UserSettingsService);
 
   saving = false;
 
@@ -67,6 +69,7 @@ export class UserProfileFormComponent {
           const storageRef = ref(this.storage, pic.name);
           uploadBytesResumable(storageRef, pic).then(async result => {
             const photoURL = await getDownloadURL(storageRef);
+            this.userSettingsService.setPhotoUrl(photoURL).subscribe();
             updateProfile(user, { photoURL }).then(() => {
               this.sb.open('Foto de perfil actualizada!', 'Ok', { duration: 2500 });
               this.saving = false;

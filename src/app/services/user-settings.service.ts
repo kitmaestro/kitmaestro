@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, User, authState } from '@angular/fire/auth';
-import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, query, updateDoc, where } from '@angular/fire/firestore';
 import { EMPTY, Observable, map } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
 
@@ -29,5 +29,18 @@ export class UserSettingsService {
       )
     }
     return EMPTY;
+  }
+
+  setPhotoUrl(photoURL: string): Observable<Promise<boolean>> {
+    return this.getSettings().pipe(
+      map(async settings => {
+        try {
+          await updateDoc(doc(this.firestore, 'user-settings/' + settings.id), { photoURL });
+          return true;
+        } catch (err) {
+          return false;
+        }
+      })
+    );
   }
 }

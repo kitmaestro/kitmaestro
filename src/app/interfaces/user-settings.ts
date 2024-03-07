@@ -11,6 +11,7 @@ export interface UserSettings {
     regional: string,
     grades: string,
     subjects: string,
+    photoURL: string,
     likedResources: string[];
     dislikedResources: string[];
     bookmarks: string[];

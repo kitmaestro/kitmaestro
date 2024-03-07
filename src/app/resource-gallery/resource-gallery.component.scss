@@ -2,3 +2,12 @@
     display: flex;
     gap: 12px;
 }
+
+.resource-card-container {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 25% 25% 25% 25%;
+    padding: 12px 0;
+    margin: 12px auto;
+    max-width: 1200px;
+}

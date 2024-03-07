@@ -79,6 +79,7 @@ export const routes: Routes = [
             // user's resources dashboard
             { path: 'my-resources', loadComponent: () => import('./resources-dashboard/resources-dashboard.component').then(mod => mod.ResourcesDashboardComponent) },
             { path: 'resources', loadComponent: () => import('./resource-gallery/resource-gallery.component').then(m => m.ResourceGalleryComponent) },
+            { path: 'resources/:id', loadComponent: () => import('./resource-details/resource-details.component').then(m => m.ResourceDetailsComponent) },
             {
                 path: 'collab',
                 loadComponent: () => import('./collab-dashboard/collab-dashboard.component').then(mod => mod.CollabDashboardComponent)

@@ -2,13 +2,27 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DidacticResourceService } from '../services/didactic-resource.service';
 import { CommonModule } from '@angular/common';
+import { IsEmptyComponent } from '../alerts/is-empty/is-empty.component';
+import { ResourceCardComponent } from '../resource-card/resource-card.component';
+import { ResourceFormComponent } from '../resource-form/resource-form.component';
+import { MatIconModule } from '@angular/material/icon';
+import { SUBJECTS } from '../data/subjects';
+import { GRADES } from '../data/grades';
+import { LEVELS } from '../data/levels';
+import { RESOURCE_TYPES } from '../data/resource-types';
+import { FORMATS } from '../data/formats';
+import { BASE_TOPICS } from '../data/base-topics';
+import { Auth, authState } from '@angular/fire/auth';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { UserSettings } from '../interfaces/user-settings';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-resource-gallery',
@@ -21,73 +35,39 @@ import { CommonModule } from '@angular/common';
     MatSelectModule,
     MatSnackBarModule,
     MatDialogModule,
+    MatIconModule,
     ReactiveFormsModule,
     CommonModule,
+    IsEmptyComponent,
+    ResourceCardComponent,
   ],
   templateUrl: './resource-gallery.component.html',
   styleUrl: './resource-gallery.component.scss'
 })
 export class ResourceGalleryComponent {
   private fb = inject(FormBuilder);
+  private auth = inject(Auth);
+  private firestore = inject(Firestore);
   private resourcesService = inject(DidacticResourceService);
+  private dialog = inject(MatDialog);
+
+  uid = '';
+  authors: UserSettings[] = [];
+  loading = true;
 
   public readonly resources$ = this.resourcesService.didacticResources$;
 
-  levels = [
-    'Primaria',
-    'Secundaria',
-  ]
+  levels = LEVELS;
 
-  grades = [
-    '1ro',
-    '2do',
-    '3ro',
-    '4to',
-    '5to',
-    '6to',
-  ];
+  grades = GRADES;
 
-  subjects = [
-    'Lengua Española',
-    'Matemática',
-    "Ciencias Sociales",
-    "Ciencias de la Naturaleza",
-    "Inglés",
-    "Francés",
-    "Educación Artística",
-    "Educación Física",
-    "Formación Integral Humana y Religiosa",
-    "Talleres Optativos",
-  ];
+  subjects = SUBJECTS;
 
-  resourceTypes = [
-    'Planificación',
-    'Ejercicios',
-    'Plantillas',
-    'Evaluaciones',
-    'Plan de Acción',
-    'Actividades',
-  ];
+  resourceTypes = RESOURCE_TYPES;
 
-  formats = [
-    'PDF',
-    'Word',
-    'Excel',
-    'Imágenes',
-    'Videos',
-    'Audio'
-  ];
+  formats = FORMATS;
 
-  baseTopics = [
-    'Plan Diario',
-    'Unidades de Aprendizaje',
-    'Actividades',
-    'Proyectos Educativos',
-    'Planes de Acción',
-    'Plantillas',
-    'Instrumentos de Evaluación',
-    'Hojas de Ejercicios',
-  ];
+  baseTopics = BASE_TOPICS;
 
   topics: string[] = [];
 
@@ -103,5 +83,22 @@ export class ResourceGalleryComponent {
 
   constructor() {
     this.topics = this.baseTopics;
+    authState(this.auth).subscribe(user => {
+      if (user) {
+        this.uid = user.uid;
+        (collectionData(collection(this.firestore, 'user-settings'), { idField: 'id' }) as Observable<UserSettings[]>).subscribe(settings => {
+          this.authors = settings;
+          this.loading = false;
+        });
+      }
+    });
+  }
+
+  openCreateResourceDialog() {
+    this.dialog.open(ResourceFormComponent, { width: '100%', maxWidth: '960px' });
+  }
+
+  findAuthor(id: string) {
+    return this.authors.find(a => a.uid == id);
   }
 }

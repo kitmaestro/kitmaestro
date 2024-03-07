@@ -41,15 +41,20 @@
                     <mat-option [value]="topic" *ngFor="let topic of topics">{{ topic }}</mat-option>
                 </mat-select>
             </mat-form-field>
+            <button mat-fab color="accent" style="margin-left: auto;" (click)="openCreateResourceDialog()"><mat-icon>upload</mat-icon></button>
         </form>
     </mat-card-content>
 </mat-card>
 
 <ng-container *ngIf="(resources$ | async) as resources; else error">
-    @if (resources.length) {
-        <mat-card></mat-card>
+    @if (resources.length && !loading) {
+        <div class="resource-card-container">
+            @for (resource of resources; track resource) {
+                <app-resource-card [author]="findAuthor(resource.author)" [owned]="resource.author == uid" [resource]="resource"></app-resource-card>
+            }
+        </div>
     } @else {
-        empty!
+        <app-is-empty (onCreateRequest)="openCreateResourceDialog()"></app-is-empty>
     }
 </ng-container>
 

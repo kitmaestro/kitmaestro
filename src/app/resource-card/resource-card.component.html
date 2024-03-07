@@ -1,1 +1,34 @@
-<p>resource-card works!</p>
+<mat-card style="max-width: 100%;" *ngIf="resource">
+    <div mat-card-image style="background-image: url('{{resource.preview}}'); background-position: center; background-repeat: no-repeat; aspect-ratio: 1/1;"></div>
+    <mat-card-header>
+        <h2 mat-card-title>{{resource.title | elipsis}}</h2>
+    </mat-card-header>
+    <mat-card-content>
+        <p>{{resource.description | elipsis : 64}}</p>
+        <div style="display: flex; align-items: center;">
+            <img [src]="author?.photoURL" style="width: 32px; margin-right: 8px; border-radius: 50%;"> <span style="flex: 1 1 auto;">{{author?.firstname}} {{author?.lastname}}</span>
+        </div>
+        <div class="price" *ngIf="resource.type == 'PAID'">
+            <div class="integer">RD${{getInteger(resource.price)}}</div>
+            <div class="decimals">.{{getDecimals(resource.price)}}</div>
+        </div>
+        <div class="price" *ngIf="resource.type == 'FREE'">
+            <div class="integer free">&iexcl;GRATIS!</div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions style="display: block;">
+        <div class="btn-group">
+            <button mat-flat-button color="link" [color]="(bookmarked | async) ? 'accent' : 'link'" (click)="bookmark()">{{resource.bookmarks}} <mat-icon>bookmark</mat-icon></button>
+            <button mat-flat-button color="primary" type="button" [routerLink]="'/app/resources/' + resource.id">Detalles</button>
+            <!-- @if (resource.price == 0) {
+                <a [download]="resource.downloadLink.split('/').reverse()[0]" [href]="resource.downloadLink" mat-flat-button color="accent">{{resource.downloads}}
+                    <mat-icon>download</mat-icon>
+                </a>
+            } @else {
+                <button mat-flat-button color="accent">{{resource.downloads}}
+                    <mat-icon>cart</mat-icon>
+                </button>
+            } -->
+        </div>
+    </mat-card-actions>
+</mat-card>
