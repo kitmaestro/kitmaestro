@@ -1,1 +1,51 @@
-<p>resource-details works!</p>
+<mat-card class="resource-card" *ngIf="(resource$ | async) as resource">
+    <mat-card-header>
+        <h2 mat-card-title class="title">{{resource.title}}</h2>
+    </mat-card-header>
+    <mat-card-content>
+        <h3 mat-card-subtitle *ngIf="(author$ | async) as author" class="subtitle">
+            <img [src]="author.photoURL" alt="{{author.firstname}} {{author.lastname}}">
+            <span>{{author.firstname}} {{author.lastname}}</span>
+        </h3>
+        <div class="content-box">
+            <div class="slider-container">
+                <app-slider [slides]="[resource.preview]"></app-slider>
+            </div>
+            <div class="details">
+                <p>
+                    <b>Nivel</b><span>{{ resource.level }}</span>
+                </p>
+                <p>
+                    <b>Grado(s)</b><span>{{ [resource.grade].flat().join(', ') }}</span>
+                </p>
+                <p>
+                    <b>Asignatura(s)</b><span>{{ [resource.subject].flat().join(', ') }}</span>
+                </p>
+                <p>
+                    <b>Tema</b><span>{{ resource.topic }}</span>
+                </p>
+                <p>
+                    <b>Formato</b><span>{{ resource.format }}</span>
+                </p>
+            </div>
+            <div class="purchase-options">
+                <div class="price">
+                    <div class="integer">RD${{getInteger(resource.price)}}</div>
+                    <div class="decimals">.{{getDecimals(resource.price)}}</div>
+                </div>
+                <div class="btn-container">
+                    <button (click)="downloadOrBuy(resource.downloadLink, resource.type == 'FREE')" mat-raised-button color="primary">
+                        <mat-icon>{{ resource.type == 'FREE' ? 'download' : 'shopping_cart' }}</mat-icon>
+                        {{ resource.downloads }}
+                        {{ resource.type == 'FREE' ? 'Descargar' : 'Comprar Ahora' }}
+                    </button>
+                    <button mat-raised-button color="link" (click)="bookmark()" [color]="(bookmarked$ | async) ? 'accent' : 'link'">
+                        <mat-icon>bookmark</mat-icon>
+                        {{ resource.bookmarks }}
+                        {{ (bookmarked$ | async) ? 'Olvidar' : 'Guardar' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

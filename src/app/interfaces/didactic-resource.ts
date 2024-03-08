@@ -15,6 +15,7 @@ export interface DidacticResource {
     downloadLink: string;
     status: 'draft' | 'preview' | 'public';
     preview: string;
+    images: string[];
     author: string;
     type: ResourceType;
     price?: number;

@@ -19,7 +19,15 @@ export class UserSettingsService {
     const sus = this.user$.subscribe(user => {this.user = user; sus.unsubscribe();});
   }
 
-  getSettings(): Observable<UserSettings> {
+  getSettings(userId?: string): Observable<UserSettings> {
+    if (userId) {
+      return (collectionData(query(this.settingsColRef, where('uid', '==', userId)), { idField: 'id' }) as Observable<UserSettings[]>).pipe(
+        map(subs => {
+          const settings = subs[0];
+          return settings;
+        })
+      )
+    }
     if (this.user) {
       return (collectionData(query(this.settingsColRef, where('uid', '==', this.user.uid)), { idField: 'id' }) as Observable<UserSettings[]>).pipe(
         map(subs => {

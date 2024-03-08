@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="mySlides">
+        <div class="numbertext">{{slideIndex + 1}} / {{slides.length}}</div>
+        <img [src]="slides[slideIndex]" style="width:100%">
+    </div>
+    <button color="link" mat-mini-fab class="prev" [disabled]="slideIndex == 0" (click)="slideIndex = slideIndex - 1">
+        <mat-icon>navigate_before</mat-icon>
+    </button>
+    <button color="link" mat-mini-fab class="next" [disabled]="slideIndex == (slides.length - 1)"
+        (click)="slideIndex = slideIndex + 1">
+        <mat-icon>navigate_next</mat-icon>
+    </button>
+    <div class="row">
+        @for (slide of slides; track $index) {
+        <div class="column">
+            <img class="demo cursor" [src]="slide" (click)="slideIndex = $index">
+        </div>
+        }
+    </div>
+</div>

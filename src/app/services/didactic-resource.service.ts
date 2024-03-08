@@ -176,8 +176,8 @@ export class DidacticResourceService {
     const docRef = doc(this.firestore, 'didactic-resources/' + resourceId);
     const sus = (docData(docRef, { idField: 'id' }) as Observable<DidacticResource>).subscribe(resource => {
       const likes = resource.likes + 1;
+      sus.unsubscribe();
       updateDoc(docRef, { likes: likes }).then(() => {
-        sus.unsubscribe();
         this.updateUserSettings('likes', resource.id);
       });
     });
@@ -187,8 +187,8 @@ export class DidacticResourceService {
     const docRef = doc(this.firestore, 'didactic-resources/' + resourceId);
     const sus = (docData(docRef, { idField: 'id' }) as Observable<DidacticResource>).subscribe(resource => {
       const dislikes = resource.dislikes + 1;
+      sus.unsubscribe();
       updateDoc(docRef, { dislikes: dislikes }).then(() => {
-        sus.unsubscribe();
         this.updateUserSettings('dislikes', resource.id);
       });
     });
@@ -197,9 +197,9 @@ export class DidacticResourceService {
   downloadResource(resourceId: string) {
     const docRef = doc(this.firestore, 'didactic-resources/' + resourceId);
     const sus = (docData(docRef, { idField: 'id' }) as Observable<DidacticResource>).subscribe(resource => {
+      sus.unsubscribe();
       const downloads = resource.downloads + 1;
       updateDoc(docRef, { downloads: downloads }).then(() => {
-        sus.unsubscribe();
       });
     });
   }

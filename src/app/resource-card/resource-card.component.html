@@ -18,7 +18,7 @@
     </mat-card-content>
     <mat-card-actions style="display: block;">
         <div class="btn-group">
-            <button mat-flat-button color="link" [color]="(bookmarked | async) ? 'accent' : 'link'" (click)="bookmark()">{{resource.bookmarks}} <mat-icon>bookmark</mat-icon></button>
+            <button mat-flat-button [color]="(bookmarked | async) ? 'accent' : 'link'" (click)="bookmark()">{{resource.bookmarks}} <mat-icon>bookmark</mat-icon></button>
             <button mat-flat-button color="primary" type="button" [routerLink]="'/app/resources/' + resource.id">Detalles</button>
             <!-- @if (resource.price == 0) {
                 <a [download]="resource.downloadLink.split('/').reverse()[0]" [href]="resource.downloadLink" mat-flat-button color="accent">{{resource.downloads}}
