@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GradePeriod } from '../interfaces/grade-period';
-// import { HfInference } from '@huggingface/inference';
+import { HfInference } from '@huggingface/inference';
 // import { ModelEntry, listModels } from '@huggingface/hub';
 import { Text2TextGenerationPipeline, pipeline } from '@xenova/transformers';
 import { Observable, from } from 'rxjs';
@@ -22,7 +22,7 @@ export class AiService {
     ],
   }
   private token = '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'
-  // private inference = new HfInference(this.token);
+  private inference = new HfInference(this.token);
 
   constructor() { }
 
@@ -83,14 +83,14 @@ export class AiService {
     });
   }
 
-  // async generateImage(inputs: string) {
-  //   const res = await this.inference.textToImage({
-  //     model: this.models.textToImage,
-  //     inputs
-  //   })
+  async generateImage(inputs: string) {
+    const res = await this.inference.textToImage({
+      model: this.models.textToImage,
+      inputs
+    })
 
-  //   return await this.blobToBase64(res);
-  // }
+    return await this.blobToBase64(res);
+  }
 
   generatePeriod(config: { average?: number, min: number, max: number, elements: number, minGrade: number }): GradePeriod[] {
     const { average, min, max, elements, minGrade } = config;

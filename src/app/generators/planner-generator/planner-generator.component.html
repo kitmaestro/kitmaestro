@@ -1,10 +1,129 @@
 @if (underDevelopment) {
     <app-in-progress></app-in-progress>
 } @else {
-    <div style="display: flex; gap: 12px; overflow: hidden;">
-        <div style="flex: 1 1 auto; max-height: 100%; border-radius: 12px; background-color: white; overflow-y: auto;">
-        </div>
-        <div style="height: calc(100vh - 180px); border-radius: 12px; padding: 12px; margin: auto; overflow-y: auto; width: 75%; min-width: 760px; background-color: white;">
-        </div>
-    </div>
+    <mat-card>
+        <mat-card-header>
+            <h2 mat-card-title>Generador De Plantillas de Planificaciones Personalizadas</h2>
+            <h3 mat-card-subtitle>Habr&aacute;n m&aacute;s tipos de plantillas diponibles muy pronto.</h3>
+        </mat-card-header>
+        <mat-card-content>
+            <form (ngSubmit)="onSubmit()" [formGroup]="plannerForm">
+                <div style="display: flex; gap: 12px;">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Tipo de Plantilla</mat-label>
+                        <mat-select formControlName="templateType">
+                            <mat-option [value]="i" *ngFor="let type of templateTypes; let i = index">{{type}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Mes</mat-label>
+                        <mat-select formControlName="date">
+                            <mat-option [value]="month.id" *ngFor="let month of months">{{month.name}} {{ month.id < 6 ? '2024' : '2023' }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Docente</mat-label>
+                        <input type="text" matInput formControlName="fullName">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Grado(s) <small>*Separados por comas*</small></mat-label>
+                        <input type="text" placeholder="5to A, 5to B, 6to A" matInput formControlName="classroom">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Asignaturas</mat-label>
+                        <mat-select multiple formControlName="subjects">
+                            <mat-option [value]="subject" *ngFor="let subject of subjects">{{subject}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Decoraci&oacute;n</mat-label>
+                        <mat-select formControlName="decoration">
+                            <mat-option [value]="decoration.option" *ngFor="let decoration of decorations">{{decoration.spanish}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Color</mat-label>
+                        <mat-select formControlName="color">
+                            <mat-option [value]="color.color" *ngFor="let color of colors">
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    <span [style]="'display: inline-block; padding: 12px; background-color: ' + color.hex + ';'"></span>
+                                    <span>{{color.spanish}}</span>
+                                </div>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <button style="display: block; margin-left: auto;" [disabled]="generating || plannerForm.invalid" type="submit" color="primary" mat-raised-button>{{ generating ? 'Generando...' : 'Generar' }}</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    @if (!generating && templates.length > 0) {
+        <h2 style="font-size: 22pt; margin-top: 24px;">Vista Previa</h2>
+        <button mat-raised-button color="accent" (click)="printTemplates()" style="position: fixed; bottom: 64px; right: 42px; z-index: 500;"><mat-icon>download</mat-icon><span> Exportar Plantillas</span></button>
+        @for (template of templates; track $index) {
+            <div class="template-container" id="template-{{$index}}" style="background-color: #fff; padding: 12mm;">
+                <table style="max-width: 100%; width: 100%;">
+                    <thead>
+                        <tr>
+                            <td style="width: 160px;"><b>Fecha</b>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/{{template.date}}</td>
+                            <td style="width: 280px;"><b>Grado y Sección</b>: {{template.classroom}}</td>
+                            <td><b>Docente</b>: {{template.fullname}}</td>
+                            <td colspan="2"><b>Área Curricular</b>: {{template.subject}}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="5"><b>Estrategias y técnicas de enseñanza-aprendizaje</b>:</th>
+                        </tr>
+                        <tr>
+                            <th colspan="5"><b>Intencion Pedag&oacute;gica</b>:</th>
+                        </tr>
+                        <tr>
+                            <th>Momento</th>
+                            <th>Competencias Especificas</th>
+                            <th>Actividades / Duración</th>
+                            <th style="width: 300px;">Organización de los Estudiantes</th>
+                            <th style="width: 180px;">Recursos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Inicio</th>
+                            <td><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Desarrollo</th>
+                            <td><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Cierre</th>
+                            <td><br><br><br><br><br><br><br><br><br><br><br><br><br></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"><b>Vocabulario del día/de la semana</b>:</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"><b>Lecturas recomendadas/ o libro de la semana</b>:</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"><b>Observaciones</b>:</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <img [src]="imgSrc" class="cover">
+            </div>
+        }
+    }
 }

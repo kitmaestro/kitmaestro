@@ -1,5 +1,5 @@
 <mat-sidenav-container class="example-container">
-    <mat-sidenav class="sidenav" mode="over" [opened]="false" #sidenav>
+    <mat-sidenav class="sidenav no-print" mode="over" [opened]="false" #sidenav>
         <mat-toolbar><span>Menu</span></mat-toolbar>
         <mat-nav-list>
             <a [activated]="activatedRoute == '/'" mat-list-item routerLink="/"><mat-icon matListItemIcon>dashboard</mat-icon>Inicio</a>
@@ -31,12 +31,12 @@
                     </button>
                 </mat-menu>
             </mat-toolbar>
-            <mat-tab-group color="primary" backgroundColor="primary" headerPosition="below" class="tab-group">
+            <mat-tab-group color="primary" backgroundColor="primary" headerPosition="below" class="tab-group no-print">
                 <mat-tab>
                     <ng-template mat-tab-label>
                         <mat-icon>handyman</mat-icon>
                     </ng-template>
-                    <div style="height: 100vh; max-height: calc(100vh - 152px); padding: 20px; overflow-y: auto;">
+                    <div class="print" style="height: 100vh; max-height: calc(100vh - 152px); padding: 20px; overflow-y: auto;">
                         <router-outlet></router-outlet>
                     </div>
                 </mat-tab>
