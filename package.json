@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild": "rm -rf node_modules/sharp node_modules/onnxruntime-node",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
