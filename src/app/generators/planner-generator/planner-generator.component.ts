@@ -1,18 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { InProgressComponent } from '../../alerts/in-progress/in-progress.component';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { PlannerTemplateViewerComponent } from '../../modals/planner-template-viewer/planner-template-viewer.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AiService } from '../../services/ai.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PdfService } from '../../services/pdf.service';
-import { SUBJECTS } from '../../data/subjects';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -27,7 +24,6 @@ interface PlannerTemplate {
   selector: 'app-planner-generator',
   standalone: true,
   imports: [
-    InProgressComponent,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
