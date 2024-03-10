@@ -1,1 +1,8 @@
-<app-is-premium></app-is-premium>
+@if (isPremium$ | async) {
+    <app-is-premium></app-is-premium>
+} @else {
+    @if (working) {
+    } @else {
+        <app-in-progress></app-in-progress>
+    }
+}
