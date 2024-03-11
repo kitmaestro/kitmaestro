@@ -1,6 +1,6 @@
 <div style="margin: 20px;">
-    <ng-container *ngIf="subscription$ | async; else buySubscription">
-        <router-outlet></router-outlet>
+    <ng-container *ngIf="isPremium$ | async; else buySubscription">
+        <ng-content></ng-content>
     </ng-container>
 
     <ng-template #buySubscription>

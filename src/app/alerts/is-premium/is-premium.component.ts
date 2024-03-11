@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { Auth, authState } from '@angular/fire/auth';
-import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
-import { Observable, EMPTY, map, tap } from 'rxjs';
-import { UserSubscription } from '../../interfaces/user-subscription';
+import { Observable, tap } from 'rxjs';
+import { UserSubscriptionService } from '../../services/user-subscription.service';
 
 @Component({
   selector: 'app-is-premium',
@@ -24,23 +22,12 @@ import { UserSubscription } from '../../interfaces/user-subscription';
 })
 export class IsPremiumComponent {
 
-  private auth = inject(Auth);
-  private firestore = inject(Firestore);
-  uid: string = '';
-  subscription$: Observable<UserSubscription | undefined> = EMPTY;
+  userSubscriptionService = inject(UserSubscriptionService);
+  
+  isPremium$: Observable<boolean> = this.userSubscriptionService.isPremium().pipe(
+    tap(premium => { this.loading = false; this.onLoaded.emit(premium) })
+  );
   loading = true;
 
-  ngOnInit(): void {
-    authState(this.auth).subscribe(user => {
-      if (user) {
-        this.uid = user.uid;
-        const suscriptionRef = collection(this.firestore, 'user-subscriptions');
-        const suscriptionsQuery = query(suscriptionRef, where('uid', '==', user.uid));
-        this.subscription$ = (collectionData(suscriptionsQuery, { idField: 'id' }) as Observable<UserSubscription[]>).pipe(
-          map(col => col[0]),
-          tap(_ => this.loading = false)
-        );
-      }
-    })
-  }
+  @Output() onLoaded: EventEmitter<boolean> = new EventEmitter();
 }

@@ -1,14 +1,12 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AuthContainerComponent } from './auth/auth-container/auth-container.component';
-import { AssessmentDashboardComponent } from './assessments/assessment-dashboard/assessment-dashboard.component';
-import { ClassPlanComponent } from './class-planning/class-plan/class-plan.component';
-import { UnitPlanComponent } from './class-planning/unit-plan/unit-plan.component';
 
 export const routes: Routes = [
     {
         path: 'auth',
-        component: AuthContainerComponent,
+        loadComponent() {
+            return import('./auth/auth-container/auth-container.component').then((mod) => mod.AuthContainerComponent);
+        },
         children: [
             { path: '', redirectTo: '/auth/reset', pathMatch: 'full' },
             { path: 'reset', loadComponent: () => import('./auth/pass-update/pass-update.component').then(mod => mod.PassUpdateComponent) },
@@ -55,19 +53,10 @@ export const routes: Routes = [
             // exam builders
             { path: 'math-test-generator', loadComponent: () => import('./generators/math-test-generator/math-test-generator.component').then(mod => mod.MathTestGeneratorComponent) },
             // Assistants
-            { path: 'assessments', component: AssessmentDashboardComponent },
-            { path: 'class-plans', component: ClassPlanComponent },
-            { path: 'unit-plans', component: UnitPlanComponent },
-            {
-                path: 'assistants',
-                loadComponent: () => import('./assistants/assistants-holder/assistants-holder.component').then(mod => mod.AssistantsHolderComponent),
-                children: [
-                    {
-                        path: '',
-                        loadComponent: () => import('./assistants/assistants-dashboard/assistants-dashboard.component').then(mod => mod.AssistantsDashboardComponent),
-                    },
-                ]
-            },
+            { path: 'assistants', loadComponent: () => import('./assistants/assistants-dashboard/assistants-dashboard.component').then(mod => mod.AssistantsDashboardComponent), },
+            { path: 'assistants/assessments', loadComponent: () => import('./assessments/assessment-dashboard/assessment-dashboard.component').then(mod => mod.AssessmentDashboardComponent) },
+            { path: 'assistants/class-plans', loadComponent: () => import('./class-planning/class-plan/class-plan.component').then(mod => mod.ClassPlanComponent) },
+            { path: 'assistants/unit-plans', loadComponent: () => import('./class-planning/unit-plan/unit-plan.component').then(mod => mod.UnitPlanComponent) },
             {
                 path: 'attendance',
                 loadComponent: () => import('./attendance-dashboard/attendance-dashboard.component').then(mod => mod.AttendanceDashboardComponent)
