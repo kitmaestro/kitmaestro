@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component';
+import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 import { UserSubscriptionService } from '../../services/user-subscription.service';
 import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';

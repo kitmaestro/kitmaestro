@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { GradeDataSet, GradesData } from '../../interfaces/grades-data';
 import { AiService } from '../../services/ai.service';
 import { EMPTY, Observable, map, tap } from 'rxjs';
-import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component';
+import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 import { UserSubscriptionService } from '../../services/user-subscription.service';
 
 @Component({

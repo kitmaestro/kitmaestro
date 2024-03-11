@@ -7,7 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { Observable, EMPTY, map, tap } from 'rxjs';
-import { UserSubscription } from '../../interfaces/user-subscription';
+import { UserSubscription } from '../../../interfaces/user-subscription';
 
 @Component({
   selector: 'app-is-premium',

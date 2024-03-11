@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component';
-import { InProgressComponent } from '../../alerts/in-progress/in-progress.component';
+import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
+import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { UserSubscriptionService } from '../../services/user-subscription.service';
 import { AsyncPipe } from '@angular/common';

@@ -22,8 +22,8 @@ export const routes: Routes = [
             { path: 'buy', loadComponent: () => import('./buy-subscription/buy-subscription.component').then(mod => mod.BuySubscriptionComponent) },
             { path: 'roadmap', loadComponent: () => import('./roadmap/roadmap.component').then(mod => mod.RoadmapComponent) },
             // Datacenter
-            { path: 'sections', loadComponent: () => import('./class-sections/class-sections.component').then(mod => mod.ClassSectionsComponent) },
-            { path: 'sections/:id', loadComponent: () => import('./section-details/section-details.component').then(mod => mod.SectionDetailsComponent) },
+            { path: 'sections', loadComponent: () => import('./class-sections/class-sections/class-sections.component').then(mod => mod.ClassSectionsComponent) },
+            { path: 'sections/:id', loadComponent: () => import('./class-sections/section-details/section-details.component').then(mod => mod.SectionDetailsComponent) },
             // Tools
             { path: 'average-calculator', loadComponent: () => import('./apps/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent) },
             { path: 'attendance-calculator', loadComponent: () => import('./apps/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent) },
@@ -74,12 +74,12 @@ export const routes: Routes = [
             },
             {
                 path: 'attendance/:id',
-                loadComponent: () => import('./section-attendance/section-attendance.component').then(mod => mod.SectionAttendanceComponent)
+                loadComponent: () => import('./class-sections/section-attendance/section-attendance.component').then(mod => mod.SectionAttendanceComponent)
             },
             // user's resources dashboard
-            { path: 'my-resources', loadComponent: () => import('./resources-dashboard/resources-dashboard.component').then(mod => mod.ResourcesDashboardComponent) },
-            { path: 'resources', loadComponent: () => import('./resource-gallery/resource-gallery.component').then(m => m.ResourceGalleryComponent) },
-            { path: 'resources/:id', loadComponent: () => import('./resource-details/resource-details.component').then(m => m.ResourceDetailsComponent) },
+            { path: 'my-resources', loadComponent: () => import('./resources/resources-dashboard/resources-dashboard.component').then(mod => mod.ResourcesDashboardComponent) },
+            { path: 'resources', loadComponent: () => import('./resources/resource-gallery/resource-gallery.component').then(m => m.ResourceGalleryComponent) },
+            { path: 'resources/:id', loadComponent: () => import('./resources/resource-details/resource-details.component').then(m => m.ResourceDetailsComponent) },
             {
                 path: 'collab',
                 loadComponent: () => import('./collab-dashboard/collab-dashboard.component').then(mod => mod.CollabDashboardComponent)

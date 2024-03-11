@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component';
+import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 
 @Component({
   selector: 'app-spanish-worksheet-generator',
