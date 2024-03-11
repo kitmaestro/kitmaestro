@@ -3,7 +3,7 @@ import { UserSubscriptionService } from '../../services/user-subscription.servic
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { IsPremiumComponent } from '../../alerts/is-premium/is-premium.component';
+import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 import { RouterOutlet } from '@angular/router';
 
 @Component({

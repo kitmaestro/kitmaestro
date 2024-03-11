@@ -1,18 +1,17 @@
-import { Component, Input, Output, inject } from '@angular/core';
-import { DidacticResource } from '../interfaces/didactic-resource';
+import { Component, Input, inject } from '@angular/core';
+import { DidacticResource } from '../../interfaces/didactic-resource';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ElipsisPipe } from '../pipes/elipsis.pipe';
+import { ElipsisPipe } from '../../pipes/elipsis.pipe';
 import { MatIconModule } from '@angular/material/icon';
-import { UserSettings } from '../interfaces/user-settings';
-import { DidacticResourceService } from '../services/didactic-resource.service';
+import { UserSettings } from '../../interfaces/user-settings';
+import { DidacticResourceService } from '../../services/didactic-resource.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Auth, authState } from '@angular/fire/auth';
 import { map } from 'rxjs';
-import { UserSettingsService } from '../services/user-settings.service';
+import { UserSettingsService } from '../../services/user-settings.service';
 
 @Component({
   selector: 'app-resource-card',

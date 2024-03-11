@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { tap } from 'rxjs';
-import { UserSettingsService } from '../../services/user-settings.service';
+import { UserSettingsService } from '../../../services/user-settings.service';
 
 @Component({
   selector: 'app-user-profile-form',

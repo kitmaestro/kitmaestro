@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Firestore, collection, collectionData, doc, docData, getDoc, orderBy, query, where } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, docData, orderBy, query, where } from '@angular/fire/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Observable, lastValueFrom, map, merge, zip } from 'rxjs';
-import { ClassSection } from '../datacenter/datacenter.component';
+import { Observable, map, zip } from 'rxjs';
+import { ClassSection } from '../../datacenter/datacenter.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
-import { Attendance } from '../interfaces/attendance';
-import { Student } from '../interfaces/student';
+import { Attendance } from '../../interfaces/attendance';
+import { Student } from '../../interfaces/student';
 
 @Component({
   selector: 'app-section-attendance',

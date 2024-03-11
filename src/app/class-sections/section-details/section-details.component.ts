@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Student } from '../interfaces/student';
+import { Student } from '../../interfaces/student';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,13 +11,13 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Auth, authState } from '@angular/fire/auth';
 import { Firestore, collectionData, deleteDoc, docData, orderBy } from '@angular/fire/firestore';
 import { collection, doc, query, where } from '@firebase/firestore';
-import { ClassSection } from '../datacenter/datacenter.component';
+import { ClassSection } from '../../datacenter/datacenter.component';
 import { Observable } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
-import { StudentDetailComponent } from '../student-detail/student-detail.component';
-import { ClassSectionFormComponent } from '../forms/class-section-form/class-section-form.component';
-import { StudentFormComponent } from '../forms/student-form/student-form.component';
+import { StudentDetailComponent } from '../../student-detail/student-detail.component';
+import { ClassSectionFormComponent } from '../../ui/forms/class-section-form/class-section-form.component';
+import { StudentFormComponent } from '../../ui/forms/student-form/student-form.component';
 
 @Component({
   selector: 'app-section-details',

@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { SliderComponent } from '../ui/slider/slider.component';
+import { SliderComponent } from '../../ui/slider/slider.component';
 import { ActivatedRoute } from '@angular/router';
-import { DidacticResource } from '../interfaces/didactic-resource';
+import { DidacticResource } from '../../interfaces/didactic-resource';
 import { CommonModule } from '@angular/common';
 import { EMPTY, Observable, map, tap } from 'rxjs';
-import { Firestore, collection, collectionData, doc, docData, query, where } from '@angular/fire/firestore';
+import { Firestore, doc, docData } from '@angular/fire/firestore';
 import { MatCardModule } from '@angular/material/card';
-import { UserSettings } from '../interfaces/user-settings';
+import { UserSettings } from '../../interfaces/user-settings';
 import { MatButtonModule } from '@angular/material/button';
-import { DidacticResourceService } from '../services/didactic-resource.service';
+import { DidacticResourceService } from '../../services/didactic-resource.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { UserSettingsService } from '../services/user-settings.service';
+import { UserSettingsService } from '../../services/user-settings.service';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({

@@ -7,14 +7,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { LogRegistryEntry } from '../../interfaces/log-registry-entry';
+import { LogRegistryEntry } from '../../../interfaces/log-registry-entry';
 import { EMPTY, Observable, tap } from 'rxjs';
-import { ClassSection } from '../../datacenter/datacenter.component';
+import { ClassSection } from '../../../datacenter/datacenter.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Student } from '../../interfaces/student';
-import { LogRegistryEntryService } from '../../services/log-registry-entry.service';
+import { Student } from '../../../interfaces/student';
+import { LogRegistryEntryService } from '../../../services/log-registry-entry.service';
 
 @Component({
   selector: 'app-log-registry-entry-form',

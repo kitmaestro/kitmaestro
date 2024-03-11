@@ -8,7 +8,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Auth, authState } from '@angular/fire/auth';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { UserProfileFormComponent } from '../forms/user-profile-form/user-profile-form.component';
+import { UserProfileFormComponent } from '../ui/forms/user-profile-form/user-profile-form.component';
 
 @Component({
   selector: 'app-user-profile',
