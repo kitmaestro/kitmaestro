@@ -52,6 +52,8 @@ export const routes: Routes = [
             { path: 'english-worksheet-generator', loadComponent: () => import('./generators/english-worksheet-generator/english-worksheet-generator.component').then(mod => mod.EnglishWorksheetGeneratorComponent) },
             // exam builders
             { path: 'math-test-generator', loadComponent: () => import('./generators/math-test-generator/math-test-generator.component').then(mod => mod.MathTestGeneratorComponent) },
+            // assessments
+            { path: 'assessments', loadComponent: () => import('./assessments/assessment-dashboard/assessment-dashboard.component').then(mod => mod.AssessmentDashboardComponent), },
             // Assistants
             { path: 'assistants', loadComponent: () => import('./assistants/assistants-dashboard/assistants-dashboard.component').then(mod => mod.AssistantsDashboardComponent), },
             { path: 'assistants/assessments', loadComponent: () => import('./assessments/assessment-dashboard/assessment-dashboard.component').then(mod => mod.AssessmentDashboardComponent) },

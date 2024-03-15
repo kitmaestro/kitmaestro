@@ -1,5 +1,11 @@
-@if ((userSubscription$ | async) || loading) {
-    <app-is-premium *ngIf="!loading"></app-is-premium>
-} @else {
-    <router-outlet></router-outlet>
-}
+<app-is-premium>
+    @if (working) {
+    <mat-card>
+        <mat-card-header>
+            <h2 mat-card-ittle></h2>
+        </mat-card-header>
+    </mat-card>
+    } @else {
+    <app-in-progress></app-in-progress>
+    }
+</app-is-premium>

@@ -56,14 +56,14 @@ export class HomeComponent {
     {
       name: 'Planes Diarios',
       description: 'Planes de clase en menos de 3 minutos.',
-      link: ['/app','class-plans'],
+      link: ['/app', 'assistants','class-plans'],
       icon: '/assets/undraw_real_time_sync_re_nky7.svg',
       premium: true
     },
     {
       name: 'Unidades de Aprendizaje',
       description: 'Diseña unidades de aprendizaje, para ya mismo.',
-      link: ['/app','unit-plans'],
+      link: ['/app', 'assistants','unit-plans'],
       icon: '/assets/assistant.svg',
       premium: true
     },

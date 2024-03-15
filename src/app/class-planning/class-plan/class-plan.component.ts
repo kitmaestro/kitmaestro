@@ -17,5 +17,5 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './class-plan.component.scss'
 })
 export class ClassPlanComponent {
-  working = true;
+  working = false;
 }
