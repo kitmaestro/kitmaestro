@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
+import { AiService } from '../../services/ai.service';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -14,6 +15,10 @@ import { MatCardModule } from '@angular/material/card';
   templateUrl: './activity-generator.component.html',
   styleUrl: './activity-generator.component.scss'
 })
-export class ActivityGeneratorComponent {
-  working = false;
+export class ActivityGeneratorComponent implements OnInit {
+  working = true;
+  aiService = inject(AiService);
+
+  ngOnInit() {
+  }
 }

@@ -14,11 +14,12 @@ export class AiService {
     textToImage: 'stabilityai/stable-diffusion-xl-base-1.0',
     text2TextGeneration: 'google/flan-t5-xxl',
     textGeneration: [
-      "bigcode/starcoder",
-      "meta-llama/Llama-2-7b-chat-hf",
-      "mistralai/Mistral-7B-v0.1",
-      "mistralai/Mixtral-8x7B-Instruct-v0.1",
-      "microsoft/phi-2"
+      // "bigcode/starcoder",
+      // "meta-llama/Llama-2-7b-chat-hf",
+      // "mistralai/Mistral-7B-v0.1",
+      // "mistralai/Mixtral-8x7B-Instruct-v0.1",
+      // "microsoft/phi-2"
+      "gemma-7b"
     ],
   }
   private token = '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'
@@ -26,11 +27,36 @@ export class AiService {
 
   constructor() { }
 
-  async generateText(input: string) {
+  async generateText(input: string, inference = false) {
+    if (inference) {
+      const args = {
+        model: this.models.text2TextGeneration,
+        inputs: input,
+        parameters: {
+          max_new_tokens: 350
+        }
+      };
+
+      const options = { use_cache: false };
+      return await this.inference.textGeneration(args, options)
+    }
     const randomPick = Math.round(Math.random() * (this.models.textGeneration.length - 1));
     const pipe = await pipeline('text-generation', this.models.textGeneration[randomPick]);
     const response = await pipe(input);
     return response;
+  }
+
+  async completeText(inputs: string) {
+    const args = {
+      model: "google/gemma-7b",
+      inputs,
+      parameters: {
+        max_new_tokens: 350
+      }
+    };
+
+    const options = { use_cache: false };
+    return await this.inference.textGeneration(args, options)
   }
 
   getTextGenerator(): Observable<Text2TextGenerationPipeline> {
@@ -90,6 +116,20 @@ export class AiService {
     })
 
     return await this.blobToBase64(res);
+  }
+
+  generateTextStream(inputs: string) {
+    const args = {
+      model: this.models.text2TextGeneration,
+      inputs,
+      parameters: {
+        max_new_tokens: 350
+      }
+    };
+
+    const options = { use_cache: false };
+
+    return from(this.inference.textGenerationStream(args, options))
   }
 
   generatePeriod(config: { average?: number, min: number, max: number, elements: number, minGrade: number }): GradePeriod[] {
