@@ -4,4 +4,6 @@ export interface AppEntry {
     link: string[];
     icon: string;
     premium: boolean;
+    isNew?: boolean;
+    isWorking?: boolean;
 }

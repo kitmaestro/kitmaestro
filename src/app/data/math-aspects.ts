@@ -779,15 +779,39 @@ export const MATH_ASPECTS: SubjectAspects = {
         [
             {
                 topic: 'Secuencia de números naturales mayores que 1,000,000',
-                aspects: []
+                aspects: [
+                    "Identificar la secuencia de números naturales mayores que 1,000,000",
+                    "Ordenar secuencias de números naturales mayores que 1,000,000",
+                    "Reconocer patrones en secuencias de números naturales mayores que 1,000,000",
+                    "Crear problemas matemáticos utilizando secuencias de números naturales mayores que 1,000,000",
+                    "Comparar y contrastar secuencias de números naturales mayores que 1,000,000",
+                    "Utilizar secuencias de números naturales mayores que 1,000,000 para entender la escala y magnitud",
+                    "Explorar el concepto de infinito a través de secuencias de números naturales mayores que 1,000,000"
+                ]
             },
             {
                 topic: 'Números en forma desarrollada',
-                aspects: []
+                aspects: [
+                    "Entender el concepto de la forma desarrollada de los números",
+                    "Escribir números en forma desarrollada para mostrar el valor de cada dígito",
+                    "Convertir números de forma estándar a forma desarrollada y viceversa",
+                    "Usar la forma desarrollada para sumar y restar números",
+                    "Practicar la forma desarrollada con tablas de valor posicional",
+                    "Crear problemas de palabras que involucren la forma desarrollada",
+                    "Comparar y ordenar números utilizando la forma desarrollada"
+                ]
             },
             {
                 topic: 'Redondeo de números naturales mayores que 1,000,000',
-                aspects: []
+                aspects: [
+                    "Comprender el concepto de redondeo de números naturales",
+                    "Practicar el redondeo de números al diez, cien, mil más cercano y más allá",
+                    "Utilizar el redondeo para estimar sumas y diferencias de números grandes",
+                    "Explorar los efectos del redondeo en el valor posicional y la magnitud del número",
+                    "Crear problemas de palabras que involucren el redondeo de números grandes",
+                    "Comparar números redondeados para determinar diferencias aproximadas",
+                    "Aplicar el redondeo a escenarios del mundo real, como estimaciones de población o cifras financieras grandes"
+                ]
             },
             {
                 topic: 'Estimación en la operatoria con números naturales mayores que 1,000,000',

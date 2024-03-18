@@ -5,9 +5,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { AppEntry } from '../interfaces/app-entry';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MatBadgeModule } from '@angular/material/badge';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { AiService } from '../services/ai.service';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +17,7 @@ import { AiService } from '../services/ai.service';
     MatIconModule,
     MatCardModule,
     MatGridListModule,
-    MatBadgeModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -26,10 +25,11 @@ import { AiService } from '../services/ai.service';
 export class HomeComponent {
 
   private breakpointObserver = inject(BreakpointObserver);
-  private aiService = inject(AiService);
   router = inject(Router);
 
-  layout: AppEntry[][] = [];
+  showAll = false;
+
+  _layout: AppEntry[][] = [];
 
   private apps: AppEntry[] = [
     {
@@ -37,77 +37,98 @@ export class HomeComponent {
       description: 'Calcula promedios en un santiamén.',
       link: ['/app/average-calculator'],
       icon: '/assets/calculator.svg',
-      premium: false
+      premium: false,
+      isWorking: true,
     },
     {
       name: 'Calculadora de Asistencias',
       description: 'La forma más fácil de calcular la asistencia.',
       link: ['/app','attendance-calculator'],
       icon: '/assets/attendance.svg',
-      premium: false
+      premium: false,
+      isWorking: true,
+    },
+    {
+      name: 'Generador de Asistencia',
+      description: 'Genera asistencia calculada para tus estudiantes.',
+      link: ['/app','attendance-generator'],
+      icon: '/assets/undraw_analysis_dq08.svg',
+      isNew: true,
+      premium: true,
+      isWorking: true,
     },
     {
       name: 'Generador de Calificaciones',
       description: 'Genera facilmente las calificaciones de tus estudiantes.',
       link: ['/app','grades-generator'],
       icon: '/assets/grades.svg',
-      premium: true
+      premium: true,
+      isWorking: true,
     },
     {
       name: 'Planes Diarios',
       description: 'Planes de clase en menos de 3 minutos.',
       link: ['/app', 'assistants','class-plans'],
       icon: '/assets/undraw_real_time_sync_re_nky7.svg',
-      premium: true
+      premium: true,
+      isWorking: false,
     },
     {
       name: 'Unidades de Aprendizaje',
       description: 'Diseña unidades de aprendizaje, para ya mismo.',
       link: ['/app', 'assistants','unit-plans'],
       icon: '/assets/assistant.svg',
-      premium: true
+      premium: true,
+      isWorking: false,
     },
     {
       name: 'Hojas de Ejercicios',
       description: 'Los ejercicios que necesites para la clase.',
       link: ['/app','worksheet-builders'],
       icon: '/assets/undraw_real_time_sync_re_nky7.svg',
-      premium: true
+      premium: true,
+      isWorking: false,
     },
     {
       name: 'Asistentes',
       description: 'Una colección de asistentes virtuales para ti, a tu medida.',
       link: ['/app','assistants'],
       icon: '/assets/assistant.svg',
-      premium: true
+      premium: true,
+      isWorking: true,
     },
     {
       name: 'Generador de Conversaciones en Inglés',
       description: 'Consigue diálogos en inglés (texto y audio) por nivel.',
       link: ['/app','english-dialog-generator'],
       icon: '/assets/dialog.svg',
-      premium: true
+      premium: true,
+      isWorking: true,
+      isNew: true,
     },
     {
       name: 'Generador de Actividades',
       description: 'Actividades completas en segundos.',
       link: ['/app','activity-generator'],
       icon: '/assets/activities.svg',
-      premium: true
+      premium: true,
+      isWorking: true,
     },
     {
       name: 'Generador de Aspectos Trabajados',
       description: 'Obten fácilmente una lista de aspectos trabajados para tu registro.',
       link: ['/app','aspects-generator'],
       icon: '/assets/aspects.svg',
-      premium: true
+      premium: true,
+      isWorking: false,
     },
     {
       name: 'Instrumentos de Evaluación',
       description: 'Generadores de instrumentos de evaluación sin esfuerzo.',
       link: ['/app','assessments'],
       icon: '/assets/checklist.svg',
-      premium: true
+      premium: true,
+      isWorking: false,
     },
     // {
     //   name: 'Generador de Listas de Cotejo',
@@ -121,7 +142,8 @@ export class HomeComponent {
       description: 'Informes detallados para cada necesidad.',
       link: ['/app','estimation-scale-generator'],
       icon: '/assets/undraw_data_processing_yrrv.svg',
-      premium: true
+      premium: true,
+      isWorking: false,
     },
     // {
     //   name: 'Generador de Escalas de Estimación',
@@ -135,14 +157,16 @@ export class HomeComponent {
       description: 'La forma más fácil de trabajar el registro anecdótico.',
       link: ['/app','log-registry-generator'],
       icon: '/assets/undraw_upload_image_re_svxx.svg',
-      premium: false
+      premium: false,
+      isWorking: true,
     },
     {
       name: 'Generador de Plantilla de Planificación',
       description: 'Plantillas bonitas y funcionales para los menos tecnológicos.',
       link: ['/app','planner-generator'],
       icon: '/assets/undraw_responsive_re_e1nn.svg',
-      premium: false
+      premium: false,
+      isWorking: true,
     },
     // {
     //   name: 'Generador de Rúbricas',
@@ -156,7 +180,8 @@ export class HomeComponent {
       description: 'Almacenamiento y distribución de recursos educativos clasificados.',
       link: ['/app','resources'],
       icon: '/assets/library_books.svg',
-      premium: false
+      premium: false,
+      isWorking: true,
     },
 
     // { link: ['/app','class-planning'], name: 'Planificación de Clases', icon: '/assets/timeline.svg', premium: false, description: 'Asistentes de planificación y gestión de horario.' },
@@ -192,25 +217,38 @@ export class HomeComponent {
   }
   
   ngOnInit() {
+    this.adjustLayout();
+  }
+
+  adjustLayout() {
     this.breakpointObserver.observe(['(max-width: 480px)', '(min-width: 481px) and (max-width: 720px)', '(min-width: 721px) and (max-width: 1024px)', '(min-width: 1025px) and (max-width: 1400px)', '(min-width: 1401px)']).subscribe({
       next: (result) => {
         if (result.breakpoints['(max-width: 480px)']) {
-          this.layout = this.columns();
+          this._layout = this.columns();
         }
         if (result.breakpoints['(min-width: 481px) and (max-width: 720px)']) {
-          this.layout = this.columns2();
+          this._layout = this.columns2();
         }
         if (result.breakpoints['(min-width: 721px) and (max-width: 1024px)']) {
-          this.layout = this.columns3();
+          this._layout = this.columns3();
         }
         if (result.breakpoints['(min-width: 1025px) and (max-width: 1400px)']) {
-          this.layout = this.columns4();
+          this._layout = this.columns4();
         }
         if (result.breakpoints['(min-width: 1401px)']) {
-          this.layout = this.columns5();
+          this._layout = this.columns5();
         }
       }
     })
+  }
+
+  toggleView() {
+    this.showAll = !this.showAll;
+    this.adjustLayout();
+  }
+
+  get layout() {
+    return this._layout;
   }
 
   columns5() {
@@ -222,7 +260,7 @@ export class HomeComponent {
       [],
       [],
     ];
-    for (let app of this.apps) {
+    for (let app of this.showAll ? this.apps : this.apps.filter(app => app.isWorking)) {
       final[next].push(app);
       if (next == 4) {
         next = 0;
@@ -241,7 +279,7 @@ export class HomeComponent {
       [],
       [],
     ];
-    for (let app of this.apps) {
+    for (let app of this.showAll ? this.apps : this.apps.filter(app => app.isWorking)) {
       final[next].push(app);
       if (next == 3) {
         next = 0;
@@ -259,7 +297,7 @@ export class HomeComponent {
       [],
       [],
     ];
-    for (let app of this.apps) {
+    for (let app of this.showAll ? this.apps : this.apps.filter(app => app.isWorking)) {
       final[next].push(app);
       if (next == 2) {
         next = 0;
@@ -276,7 +314,7 @@ export class HomeComponent {
       [],
       [],
     ];
-    for (let app of this.apps) {
+    for (let app of this.showAll ? this.apps : this.apps.filter(app => app.isWorking)) {
       final[next].push(app);
       if (next == 1) {
         next = 0;
@@ -292,7 +330,7 @@ export class HomeComponent {
     const final: AppEntry[][] = [
       [],
     ];
-    for (let app of this.apps) {
+    for (let app of this.showAll ? this.apps : this.apps.filter(app => app.isWorking)) {
       final[next].push(app);
     }
     return final;

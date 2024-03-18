@@ -3,11 +3,11 @@
         <mat-toolbar><span>Menu</span></mat-toolbar>
         <mat-nav-list>
             <a [activated]="activatedRoute == '/'" mat-list-item routerLink="/"><mat-icon matListItemIcon>dashboard</mat-icon>Inicio</a>
-            <a [activated]="activatedRoute.includes('/apps')" mat-list-item [routerLink]="['/apps']"><mat-icon matListItemIcon>handyman</mat-icon> Herramientas</a>
-            <a [activated]="activatedRoute.includes('/generators')" mat-list-item [routerLink]="['/generators']"><mat-icon matListItemIcon>smart_toy</mat-icon> Generadores</a>
-            <a [activated]="activatedRoute.includes('/assistants')" mat-list-item [routerLink]="['/assistants']"><mat-icon matListItemIcon>precision_manufacturing</mat-icon> Asistentes</a>
+            <a [activated]="activatedRoute.includes('/app/sections')" mat-list-item routerLink="/app/sections"><mat-icon matListItemIcon>class</mat-icon> Secciones</a>
+            <!-- <a [activated]="activatedRoute.includes('/generators')" mat-list-item routerLink="/app/generators"><mat-icon matListItemIcon>smart_toy</mat-icon> Generadores</a> -->
+            <a [activated]="activatedRoute.includes('/assistants')" mat-list-item routerLink="/app/assistants"><mat-icon matListItemIcon>precision_manufacturing</mat-icon> Asistentes</a>
             <ng-container *ngIf="!(subscription$ | async)">
-                <a [activated]="true" *ngIf="!loading" style="margin-top: 64px;" mat-list-item routerLink="/buy"><mat-icon matListItemIcon>rocket</mat-icon>Comprar Subscripci&oacute;n</a>
+                <a [activated]="true" *ngIf="!loading" style="margin-top: 64px;" mat-list-item routerLink="/app/buy"><mat-icon matListItemIcon>rocket</mat-icon>Comprar Subscripci&oacute;n</a>
             </ng-container>
         </mat-nav-list>
     </mat-sidenav>
