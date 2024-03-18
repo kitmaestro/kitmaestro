@@ -16,7 +16,7 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './activity-generator.component.scss'
 })
 export class ActivityGeneratorComponent implements OnInit {
-  working = true;
+  working = false;
   aiService = inject(AiService);
 
   ngOnInit() {

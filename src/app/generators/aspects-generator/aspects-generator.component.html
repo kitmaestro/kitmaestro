@@ -19,7 +19,7 @@
                             <mat-label>Grado</mat-label>
                             <mat-select formControlName="grade">
                                 @for (grade of grades; track $index) {
-                                    <mat-option [disabled]="$index < 3" [value]="$index">{{grade}}</mat-option>
+                                    <mat-option [value]="$index">{{grade}}</mat-option>
                                 }
                             </mat-select>
                         </mat-form-field>
@@ -108,3 +108,9 @@
         <app-in-progress></app-in-progress>
     }
 </app-is-premium>
+
+<!-- <ul>
+    @for(p of prompts; track $index) {
+        <li>{{p}}</li>
+    }
+</ul> -->

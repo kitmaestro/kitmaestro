@@ -22,6 +22,7 @@ import { RELIGION_CONTENTS } from '../../data/religion-contents';
 import { WORKSHOP_TOPICS } from '../../data/workshop-topics';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-aspects-generator',
@@ -39,6 +40,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatInputModule,
     MatTableModule,
     MatDividerModule,
+    JsonPipe,
   ],
   templateUrl: './aspects-generator.component.html',
   styleUrl: './aspects-generator.component.scss'
@@ -48,9 +50,10 @@ export class AspectsGeneratorComponent implements OnInit {
   fb = inject(FormBuilder);
 
   columns = ['p1', 'p2', 'p3', 'p4'];
-  working = true;
+  working = false;
   loading = false;
   dataSource: { p1: string, p2: string, p3: string, p4: string }[] = [];
+  prompts: string[] = []
 
   levels = [
     'Primaria',
@@ -78,7 +81,8 @@ export class AspectsGeneratorComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.sb.open('En estos momentos, esta herramienta solo esta disponible para el segundo ciclo de educación primaria (4to, 5to y 6to). Los demás grados y niveles se irán agregando paulatinamente.', 'Entiendo', { verticalPosition: 'bottom', horizontalPosition: 'center' });
+    this.prompts = MATH_CONTENTS.primary.map((entry, i) => entry.map(val => `Crea un array de strings en formato JSON, donde cada string es un aspecto especifico (caracteristica, elemento, actividad, contenido) que se puede trabajar en ${i == 0 ? '1er' : i == 1 ? '2do' : i == 2 ? '3er' : i == 3 ? '4to' : i == 4 ? '5to' : '6to'} grado de primaria en el area de matematica con este tema: ${val}`)).flat()
+    this.sb.open('En estos momentos, esta herramienta solo esta disponible para el segundo ciclo de educación primaria (4to, 5to y 6to). Los demás grados y niveles se irán agregando paulatinamente.', 'Entiendo', { duration: 10000 });
   }
 
   reset() {
@@ -100,7 +104,7 @@ export class AspectsGeneratorComponent implements OnInit {
 
   get subjects() {
     const { level, grade } = this.generatorForm.value;
-    if (!level || !grade) {
+    if (!level || grade == null) {
       return [];
     }
     if (level == 'Primaria') {
@@ -112,7 +116,7 @@ export class AspectsGeneratorComponent implements OnInit {
   get contents(): string[] {
     const { level, grade, subject } = this.generatorForm.value;
 
-    if (!level || !grade || !subject) {
+    if (!level || grade == null || !subject) {
       return [];
     }
 
