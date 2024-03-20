@@ -4,7 +4,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HIGH_SCHOOL_SUBJECTS, PRIMARY_SUBJECTS, PRIMARY_SUBJECTS_HIGH } from '../../data/subjects';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,13 +22,20 @@ import { WORKSHOP_TOPICS } from '../../data/workshop-topics';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { JsonPipe } from '@angular/common';
+import { MATH_ASPECTS } from '../../data/math-aspects';
+import { ART_ASPECTS } from '../../data/art-aspects';
+import { ENGLISH_ASPECTS } from '../../data/english-aspects';
+import { RELIGION_ASPECTS } from '../../data/religion-aspects';
+import { SPANISH_ASPECTS } from '../../data/spanish-aspects';
+import { SOCIETY_ASPECTS } from '../../data/society-aspects';
+import { SCIENCE_ASPECTS } from '../../data/science-aspects';
+import { SPORTS_ASPECTS } from '../../data/sports-aspects';
 
 @Component({
   selector: 'app-aspects-generator',
   standalone: true,
   imports: [
     IsPremiumComponent,
-    InProgressComponent,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
@@ -50,7 +56,8 @@ export class AspectsGeneratorComponent implements OnInit {
   fb = inject(FormBuilder);
 
   columns = ['p1', 'p2', 'p3', 'p4'];
-  working = false;
+  generating = false;
+  generated = false;
   loading = false;
   dataSource: { p1: string, p2: string, p3: string, p4: string }[] = [];
   prompts: string[] = []
@@ -81,8 +88,21 @@ export class AspectsGeneratorComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.prompts = MATH_CONTENTS.primary.map((entry, i) => entry.map(val => `Crea un array de strings en formato JSON, donde cada string es un aspecto especifico (caracteristica, elemento, actividad, contenido) que se puede trabajar en ${i == 0 ? '1er' : i == 1 ? '2do' : i == 2 ? '3er' : i == 3 ? '4to' : i == 4 ? '5to' : '6to'} grado de primaria en el area de matematica con este tema: ${val}`)).flat()
+    this.prompts = SCIENCE_CONTENTS.primary.map((entry, i) => entry.map(val => `Crea un array de strings en formato JSON, donde cada string es un aspecto especifico (caracteristica, elemento, actividad, contenido) que se puede trabajar en ${i == 0 ? '1er' : i == 1 ? '2do' : i == 2 ? '3er' : i == 3 ? '4to' : i == 4 ? '5to' : '6to'} grado de primaria en el area de ciencias de la naturaleza con este tema: ${val}`)).flat()
     this.sb.open('En estos momentos, esta herramienta solo esta disponible para el segundo ciclo de educación primaria (4to, 5to y 6to). Los demás grados y niveles se irán agregando paulatinamente.', 'Entiendo', { duration: 10000 });
+  }
+
+  private shuffleArray(array: string[]): string[] {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
   }
 
   reset() {
@@ -100,6 +120,149 @@ export class AspectsGeneratorComponent implements OnInit {
   }
 
   onSubmit() {
+    // find all of the aspects for the level, grade, subject and topics
+    const data = this.generatorForm.value;
+    const bank: { p1: Array<string[]>, p2: Array<string[]>, p3: Array<string[]>, p4: Array<string[]> } = {
+      p1: [],
+      p2: [],
+      p3: [],
+      p4: [],
+    };
+    const aspects: { p1: string[], p2: string[], p3: string[], p4: string[] } = {
+      p1: [],
+      p2: [],
+      p3: [],
+      p4: [],
+    };
+    
+    if (!data.grade || !data.qty) {
+      return;
+    }
+
+    this.generating = true;
+
+    const p1 = data.p1 as any as string[];
+    const p2 = data.p2 as any as string[];
+    const p3 = data.p3 as any as string[];
+    const p4 = data.p4 as any as string[];
+    
+    switch (data.subject) {
+      case 'Lengua Española': {
+        bank.p1 = (data.level == 'Primaria' ? SPANISH_ASPECTS.primary[data.grade] : SPANISH_ASPECTS.highSchool[data.grade]).filter(a => p1.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p2 = (data.level == 'Primaria' ? SPANISH_ASPECTS.primary[data.grade] : SPANISH_ASPECTS.highSchool[data.grade]).filter(a => p2.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p3 = (data.level == 'Primaria' ? SPANISH_ASPECTS.primary[data.grade] : SPANISH_ASPECTS.highSchool[data.grade]).filter(a => p3.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p4 = (data.level == 'Primaria' ? SPANISH_ASPECTS.primary[data.grade] : SPANISH_ASPECTS.highSchool[data.grade]).filter(a => p4.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        break;
+      }
+      case 'Matemática': {
+        bank.p1 = (data.level == 'Primaria' ? MATH_ASPECTS.primary[data.grade] : MATH_ASPECTS.highSchool[data.grade]).filter(a => p1.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p2 = (data.level == 'Primaria' ? MATH_ASPECTS.primary[data.grade] : MATH_ASPECTS.highSchool[data.grade]).filter(a => p2.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p3 = (data.level == 'Primaria' ? MATH_ASPECTS.primary[data.grade] : MATH_ASPECTS.highSchool[data.grade]).filter(a => p3.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p4 = (data.level == 'Primaria' ? MATH_ASPECTS.primary[data.grade] : MATH_ASPECTS.highSchool[data.grade]).filter(a => p4.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        break;
+      }
+      case "Ciencias Sociales": {
+        bank.p1 = (data.level == 'Primaria' ? SOCIETY_ASPECTS.primary[data.grade] : SOCIETY_ASPECTS.highSchool[data.grade]).filter(a => p1.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p2 = (data.level == 'Primaria' ? SOCIETY_ASPECTS.primary[data.grade] : SOCIETY_ASPECTS.highSchool[data.grade]).filter(a => p2.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p3 = (data.level == 'Primaria' ? SOCIETY_ASPECTS.primary[data.grade] : SOCIETY_ASPECTS.highSchool[data.grade]).filter(a => p3.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p4 = (data.level == 'Primaria' ? SOCIETY_ASPECTS.primary[data.grade] : SOCIETY_ASPECTS.highSchool[data.grade]).filter(a => p4.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        break;
+      }
+      case "Ciencias de la Naturaleza": {
+        bank.p1 = (data.level == 'Primaria' ? SCIENCE_ASPECTS.primary[data.grade] : SCIENCE_ASPECTS.highSchool[data.grade]).filter(a => p1.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p2 = (data.level == 'Primaria' ? SCIENCE_ASPECTS.primary[data.grade] : SCIENCE_ASPECTS.highSchool[data.grade]).filter(a => p2.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p3 = (data.level == 'Primaria' ? SCIENCE_ASPECTS.primary[data.grade] : SCIENCE_ASPECTS.highSchool[data.grade]).filter(a => p3.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p4 = (data.level == 'Primaria' ? SCIENCE_ASPECTS.primary[data.grade] : SCIENCE_ASPECTS.highSchool[data.grade]).filter(a => p4.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        break;
+      }
+      case "Inglés": {
+        bank.p1 = (data.level == 'Primaria' ? ENGLISH_ASPECTS.primary[data.grade] : ENGLISH_ASPECTS.highSchool[data.grade]).filter(a => p1.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p2 = (data.level == 'Primaria' ? ENGLISH_ASPECTS.primary[data.grade] : ENGLISH_ASPECTS.highSchool[data.grade]).filter(a => p2.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p3 = (data.level == 'Primaria' ? ENGLISH_ASPECTS.primary[data.grade] : ENGLISH_ASPECTS.highSchool[data.grade]).filter(a => p3.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p4 = (data.level == 'Primaria' ? ENGLISH_ASPECTS.primary[data.grade] : ENGLISH_ASPECTS.highSchool[data.grade]).filter(a => p4.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        break;
+      }
+      case "Educación Artística": {
+        bank.p1 = (data.level == 'Primaria' ? ART_ASPECTS.primary[data.grade] : ART_ASPECTS.highSchool[data.grade]).filter(a => p1.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p2 = (data.level == 'Primaria' ? ART_ASPECTS.primary[data.grade] : ART_ASPECTS.highSchool[data.grade]).filter(a => p2.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p3 = (data.level == 'Primaria' ? ART_ASPECTS.primary[data.grade] : ART_ASPECTS.highSchool[data.grade]).filter(a => p3.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p4 = (data.level == 'Primaria' ? ART_ASPECTS.primary[data.grade] : ART_ASPECTS.highSchool[data.grade]).filter(a => p4.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        break;
+      }
+      case "Educación Física": {
+        bank.p1 = (data.level == 'Primaria' ? SPORTS_ASPECTS.primary[data.grade] : SPORTS_ASPECTS.highSchool[data.grade]).filter(a => p1.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p2 = (data.level == 'Primaria' ? SPORTS_ASPECTS.primary[data.grade] : SPORTS_ASPECTS.highSchool[data.grade]).filter(a => p2.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p3 = (data.level == 'Primaria' ? SPORTS_ASPECTS.primary[data.grade] : SPORTS_ASPECTS.highSchool[data.grade]).filter(a => p3.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p4 = (data.level == 'Primaria' ? SPORTS_ASPECTS.primary[data.grade] : SPORTS_ASPECTS.highSchool[data.grade]).filter(a => p4.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        break;
+      }
+      case "Formación Integral Humana y Religiosa": {
+        bank.p1 = (data.level == 'Primaria' ? RELIGION_ASPECTS.primary[data.grade] : RELIGION_ASPECTS.highSchool[data.grade]).filter(a => p1.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p2 = (data.level == 'Primaria' ? RELIGION_ASPECTS.primary[data.grade] : RELIGION_ASPECTS.highSchool[data.grade]).filter(a => p2.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p3 = (data.level == 'Primaria' ? RELIGION_ASPECTS.primary[data.grade] : RELIGION_ASPECTS.highSchool[data.grade]).filter(a => p3.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        bank.p4 = (data.level == 'Primaria' ? RELIGION_ASPECTS.primary[data.grade] : RELIGION_ASPECTS.highSchool[data.grade]).filter(a => p4.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
+    const largerP1 = Math.max(...bank.p1.map(r => r.length));
+    const largerP2 = Math.max(...bank.p2.map(r => r.length));
+    const largerP3 = Math.max(...bank.p3.map(r => r.length));
+    const largerP4 = Math.max(...bank.p4.map(r => r.length));
+
+    const flatP1: string[] = [];
+    const flatP2: string[] = [];
+    const flatP3: string[] = [];
+    const flatP4: string[] = [];
+    
+    for (let i = 0; i < largerP1; i++) {
+      for (let row of bank.p1) {
+        if (row[i]) {
+          flatP1.push(row[i])
+        }
+      }
+    }
+    
+    for (let i = 0; i < largerP2; i++) {
+      for (let row of bank.p2) {
+        if (row[i]) {
+          flatP2.push(row[i])
+        }
+      }
+    }
+    
+    for (let i = 0; i < largerP3; i++) {
+      for (let row of bank.p3) {
+        if (row[i]) {
+          flatP3.push(row[i])
+        }
+      }
+    }
+    
+    for (let i = 0; i < largerP4; i++) {
+      for (let row of bank.p4) {
+        if (row[i]) {
+          flatP4.push(row[i])
+        }
+      }
+    }
+
+    this.dataSource = [];
+    
+    for(let i = 0; i < data.qty; i++) {
+      this.dataSource.push({
+        p1: flatP1[i] ? flatP1[i] : '',
+        p2: flatP2[i] ? flatP2[i] : '',
+        p3: flatP3[i] ? flatP3[i] : '',
+        p4: flatP4[i] ? flatP4[i] : ''
+      });
+    }
+
+    this.generated = true;
+    this.generating = false;
   }
 
   get subjects() {

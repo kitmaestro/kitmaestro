@@ -85,22 +85,22 @@
             
             <ng-container matColumnDef="Presente">
                 <th mat-header-cell *matHeaderCellDef> Presente </th>
-                <td mat-cell *matCellDef="let element"> {{ presence(element.attendance) }} </td>
+                <td mat-cell *matCellDef="let element"> {{ attendanceTotals(element.attendance).p }} </td>
             </ng-container>
             
             <ng-container matColumnDef="Tardanza">
                 <th mat-header-cell *matHeaderCellDef> Tardanza </th>
-                <td mat-cell *matCellDef="let element"> {{ late(element.attendance) }} </td>
+                <td mat-cell *matCellDef="let element"> {{ attendanceTotals(element.attendance).t }} </td>
             </ng-container>
             
             <ng-container matColumnDef="Ausente">
                 <th mat-header-cell *matHeaderCellDef> Ausente </th>
-                <td mat-cell *matCellDef="let element"> {{ unattend(element.attendance) }} </td>
+                <td mat-cell *matCellDef="let element"> {{ attendanceTotals(element.attendance).a }} </td>
             </ng-container>
             
             <ng-container matColumnDef="Excusa">
                 <th mat-header-cell *matHeaderCellDef> Excusa </th>
-                <td mat-cell *matCellDef="let element"> {{ letter(element.attendance) }} </td>
+                <td mat-cell *matCellDef="let element"> {{ attendanceTotals(element.attendance).e }} </td>
             </ng-container>
     
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -37,8 +37,8 @@
                 </mat-accordion>
             </mat-card-content>
             <mat-card-actions style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-                <button [routerLink]="['/attendance', section.id]" mat-raised-button color="accent" style="width: 100%; display: block;">Asistencia</button>
-                <button [routerLink]="['/premium', 'tracking', 'section', section.id]" mat-raised-button color="primary" style="width: 100%; display: block;">Notas</button>
+                <button [routerLink]="['/app', 'attendance', section.id]" mat-raised-button color="accent" style="width: 100%; display: block;">Asistencia</button>
+                <button [routerLink]="['/app', 'tracking', 'section', section.id]" mat-raised-button color="primary" style="width: 100%; display: block;">Notas</button>
                 <button [routerLink]="['/app', 'sections', section.id]" mat-raised-button style="width: 100%; display: block;">Detalles</button>
             </mat-card-actions>
         </mat-card>

@@ -109,6 +109,20 @@ export class AttendanceGeneratorComponent {
     return attendanceRecords;
   }
 
+  createSummaryRow(): string[] {
+    const summary: string[] = [];
+    const attendance = this.attendanceRecords.map(r => r.attendance);
+    const days = this.numberOfDays.value || 15;
+
+    for (let i = 0; i < days; i++) {
+      const qty = attendance.filter(a => a[i] == 'P' || a[i] == 'T').length;
+
+      summary.push(qty > 0 ? qty.toString() : '');
+    }
+
+    return summary;
+  }
+
   onSubmit() {
     if (this.studentsForm.valid) {
       const students = (this.studentsForm.value.students) as any as Student[];
@@ -119,6 +133,12 @@ export class AttendanceGeneratorComponent {
       }
       this.displayedColumns.push('Presente', 'Tardanza', 'Ausente', 'Excusa')
       this.attendanceRecords = this.generateAttendance(students, numberOfDays);
+      const summary: AttendanceRecord = {
+        attendance: this.createSummaryRow() as any,
+        id: '' as any,
+        name: 'TOTAL DE ASISTENCIA DIARIA'
+      }
+      this.attendanceRecords.push(summary)
     }
   }
 
@@ -166,20 +186,29 @@ export class AttendanceGeneratorComponent {
     this.students.removeAt(index);
   }
 
-  presence(attendance: string[]) {
-    return attendance.filter(a => a == 'P').length;
-  }
+  attendanceTotals(attendance: string[]) {
+    const totals = attendance.reduce(
+      (p: { p: number, t: number, a: number, e: number }, c: string) => {
+        
+        p.p += c == 'P' ? 1 : 0;
+        p.t += c == 'T' ? 1 : 0;
+        p.a += c == 'A' ? 1 : 0;
+        p.e += c == 'E' ? 1 : 0;
 
-  late(attendance: string[]) {
-    return attendance.filter(a => a == 'T').length;
-  }
+        return p;
+      }, { p: 0, t: 0, a: 0, e: 0 }
+    )
 
-  unattend(attendance: string[]) {
-    return attendance.filter(a => a == 'A').length;
-  }
+    if (!totals.a && !totals.p && !totals.e && !totals.t) {
+      return {
+        a: '',
+        p: '',
+        t: '',
+        e: ''
+      }
+    }
 
-  letter(attendance: string[]) {
-    return attendance.filter(a => a == 'E').length;
+    return totals;
   }
 
   get students() {

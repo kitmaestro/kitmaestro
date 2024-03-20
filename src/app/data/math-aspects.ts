@@ -815,253 +815,918 @@ export const MATH_ASPECTS: SubjectAspects = {
             },
             {
                 topic: 'Estimación en la operatoria con números naturales mayores que 1,000,000',
-                aspects: []
+                aspects: [
+                    "Estimación de suma de números naturales mayores que 1,000,000",
+                    "Estimación de resta de números naturales mayores que 1,000,000",
+                    "Estimación de multiplicación de números naturales mayores que 1,000,000",
+                    "Estimación de división de números naturales mayores que 1,000,000",
+                    "Estimación de problemas verbales con números naturales mayores que 1,000,000",
+                    "Estimación de potencias con números naturales mayores que 1,000,000",
+                    "Estimación de raíces cuadradas de números naturales mayores que 1,000,000",
+                    "Estimación de fracciones con números naturales mayores que 1,000,000",
+                    "Estimación de decimales con números naturales mayores que 1,000,000",
+                    "Estimación de porcentajes con números naturales mayores que 1,000,000"
+                ]
             },
             {
                 topic: 'Criterios de divisibilidad',
-                aspects: []
+                aspects: [
+                    "Identificar los criterios de divisibilidad por 2, 5 y 10",
+                    "Aplicar los criterios de divisibilidad por 3 y 9",
+                    "Utilizar los criterios de divisibilidad por 4 y 8",
+                    "Reconocer el criterio de divisibilidad por 6",
+                    "Aplicar el criterio de divisibilidad por 7",
+                    "Entender el criterio de divisibilidad por 11",
+                    "Resolver problemas que involucren los criterios de divisibilidad"
+                ]
             },
             {
                 topic: 'Potencia de números naturales mayores que 1,000,000',
-                aspects: []
+                aspects: [
+                    "Entender el concepto de potencia con números naturales mayores que 1,000,000",
+                    "Calcular potencias de base mayor que 1,000,000 y exponente pequeño",
+                    "Calcular potencias de base pequeña y exponente mayor que 1,000,000",
+                    "Relacionar las potencias con la notación científica",
+                    "Resolver problemas que involucren potencias con números naturales mayores que 1,000,000",
+                    "Comparar la magnitud de diferentes potencias con números naturales mayores que 1,000,000",
+                    "Aplicar las propiedades de las potencias en contextos con números mayores que 1,000,000",
+                    "Realizar estimaciones de potencias con números naturales mayores que 1,000,000"
+                ]
             },
             {
                 topic: 'Números primos y compuestos',
-                aspects: []
+                aspects: [
+                    "Identificar y comprender qué son los números primos",
+                    "Reconocer y comprender qué son los números compuestos",
+                    "Descomponer números en factores primos",
+                    "Identificar el menor factor primo de un número",
+                    "Reconocer el concepto de mcm (mínimo común múltiplo) y mcd (máximo común divisor)",
+                    "Resolver problemas que involucren números primos y compuestos",
+                    "Utilizar los números primos y compuestos en ejercicios de cálculo mental",
+                    "Relacionar los números primos y compuestos con situaciones de la vida cotidiana"
+                ]
             },
             {
                 topic: 'Cálculo de MCD y MCM',
-                aspects: []
+                aspects: [
+                    "Comprender el concepto de MCD (máximo común divisor) y MCM (mínimo común múltiplo)",
+                    "Identificar situaciones cotidianas donde se apliquen el MCD y MCM",
+                    "Desarrollar estrategias para encontrar el MCD y MCM de números pequeños",
+                    "Resolver problemas que involucren el cálculo de MCD y MCM",
+                    "Relacionar el MCD y MCM con la simplificación de fracciones",
+                    "Aplicar el cálculo de MCD y MCM en la resolución de problemas de la vida real",
+                    "Utilizar el cálculo de MCD y MCM en juegos y actividades lúdicas"
+                ]
             },
             {
                 topic: 'Raíz cuadrada',
-                aspects: []
+                aspects: [
+                    "Comprender el concepto de raíz cuadrada y su notación matemática",
+                    "Calcular la raíz cuadrada de números perfectos y no perfectos",
+                    "Relacionar la raíz cuadrada con el concepto de potenciación",
+                    "Resolver problemas que involucren el cálculo de la raíz cuadrada",
+                    "Aplicar la raíz cuadrada en la medición de áreas de figuras cuadradas",
+                    "Utilizar la raíz cuadrada en la resolución de situaciones de la vida cotidiana"
+                ]
             },
             {
                 topic: 'Fracciones: propias, impropias, equivalentes y números mixtos',
-                aspects: []
+                aspects: [
+                    "Identificar fracciones propias, impropias, y números mixtos",
+                    "Convertir entre fracciones impropias y números mixtos",
+                    "Determinar fracciones equivalentes",
+                    "Realizar operaciones aritméticas básicas con fracciones",
+                    "Resolver problemas que involucren el uso de fracciones en situaciones cotidianas",
+                    "Representar fracciones en modelos visuales, como rectángulos divididos o círculos divididos"
+                ]
             },
             {
                 topic: 'Operatoria con fracciones',
-                aspects: []
+                aspects: [
+                    "Suma de fracciones con el mismo denominador",
+                    "Suma de fracciones con distinto denominador",
+                    "Resta de fracciones con el mismo denominador",
+                    "Resta de fracciones con distinto denominador",
+                    "Multiplicación de fracciones",
+                    "División de fracciones",
+                    "Simplificación de fracciones",
+                    "Expresión de fracciones como números mixtos",
+                    "Expresión de fracciones impropias como fracciones mixtas",
+                    "Comparación de fracciones con el mismo denominador",
+                    "Comparación de fracciones con distinto denominador",
+                    "Resolución de problemas con fracciones",
+                    "Fracciones equivalentes",
+                    "Cálculo del mínimo común múltiplo (mcm)",
+                    "Cálculo del máximo común divisor (MCD)"
+                ]
             },
             {
                 topic: 'Números decimales: valor posicional y sus operaciones',
-                aspects: []
+                aspects: [
+                    "Identificación de las posiciones de los números decimales (unidades, décimas, centésimas, etc.)",
+                    "Representación de números decimales en la recta numérica",
+                    "Comparación de números decimales",
+                    "Ordenamiento de números decimales",
+                    "Suma y resta de números decimales",
+                    "Multiplicación de números decimales por 10, 100 y 1000 (valor posicional)",
+                    "División de números decimales por 10, 100 y 1000 (valor posicional)",
+                    "Resolución de problemas que involucran números decimales y sus operaciones",
+                    "Redondeo de números decimales a la décima y centésima más cercana",
+                    "Expresión de números decimales como fracciones y viceversa",
+                    "Identificación de patrones y regularidades en secuencias de números decimales"
+                ]
             },
             {
                 topic: 'Razones, proporciones y porcientos para el cálculo de impuestos',
-                aspects: []
+                aspects: [
+                    "Comprensión del concepto de razón y proporción",
+                    "Uso de razones para comparar cantidades",
+                    "Identificación y resolución de proporciones",
+                    "Comprensión y cálculo de porcentajes",
+                    "Aplicación de porcentajes para calcular impuestos sobre productos y servicios",
+                    "Comparación de precios con y sin impuestos",
+                    "Resolución de problemas que involucran el cálculo de impuestos usando porcentajes",
+                    "Conversión de fracciones a porcentajes para el cálculo de impuestos",
+                    "Interpretación de tablas que muestran impuestos en diferentes contextos (ventas, ingresos, propiedad)",
+                    "Análisis de cómo los impuestos afectan a los precios finales de los productos y servicios",
+                    "Uso de calculadoras o herramientas digitales para facilitar el cálculo de impuestos"
+                ]
             },
             {
                 topic: 'Ideas básicas de la geometría',
-                aspects: []
+                aspects: [
+                    "Identificación de figuras geométricas básicas (triángulos, cuadriláteros, círculos, etc.)",
+                    "Clasificación de figuras geométricas según sus propiedades (triángulos según sus lados y ángulos, cuadriláteros según sus lados y ángulos, etc.)",
+                    "Reconocimiento de figuras geométricas en el entorno",
+                    "Medición de longitudes de segmentos y perímetros de figuras simples",
+                    "Cálculo del área de figuras bidimensionales simples (cuadrados, rectángulos, triángulos)",
+                    "Identificación y construcción de líneas perpendiculares y paralelas",
+                    "Reconocimiento de simetría en figuras geométricas",
+                    "Utilización de herramientas como reglas, transportadores y escuadras para realizar mediciones y construcciones geométricas",
+                    "Resolución de problemas prácticos que involucran conceptos geométricos básicos",
+                    "Estudio de las propiedades de los polígonos regulares e irregulares",
+                    "Exploración de las transformaciones geométricas básicas: traslación, reflexión y rotación",
+                    "Aplicación de la geometría en la resolución de problemas de la vida cotidiana"
+                ]
             },
             {
                 topic: 'Instrumentos de medidas',
-                aspects: []
+                aspects: [
+                    "Identificación y uso de la regla graduada para medir longitudes en centímetros y milímetros",
+                    "Uso del metro para medir longitudes de objetos más grandes",
+                    "Utilización del calibrador o micrómetro para mediciones más precisas",
+                    "Aprendizaje sobre el uso del transportador para medir ángulos",
+                    "Exploración de la balanza para medir masa",
+                    "Uso de la probeta y el vaso medidor para medir volúmenes de líquidos",
+                    "Práctica con el termómetro para medir la temperatura",
+                    "Familiarización con el cronómetro para medir el tiempo en segundos",
+                    "Comparación de diferentes instrumentos de medida y sus unidades correspondientes",
+                    "Resolución de problemas que involucran el uso de instrumentos de medida en contextos reales",
+                    "Aplicación de habilidades de medición en actividades prácticas como experimentos científicos o proyectos de construcción"
+                ]
             },
             {
                 topic: 'Ángulos: tipos, notación medida y construcción',
-                aspects: []
+                aspects: [
+                    "Identificación de ángulos rectos, agudos y obtusos",
+                    "Clasificación de ángulos según su medida (agudo, recto, obtuso)",
+                    "Notación de medida de ángulos utilizando grados",
+                    "Uso del transportador para medir ángulos",
+                    "Construcción de ángulos utilizando regla y transportador",
+                    "Identificación de ángulos complementarios y suplementarios",
+                    "Comparación de medidas de ángulos",
+                    "Resolución de problemas que involucran conceptos de ángulos y medidas",
+                    "Reconocimiento de ángulos en formas geométricas y figuras bidimensionales",
+                    "Utilización de la simetría y la perpendicularidad en la construcción de ángulos",
+                    "Aplicación de conceptos de ángulos en la vida cotidiana, como orientación espacial y diseño"
+                ]
             },
             {
                 topic: 'Rectas y relaciones',
-                aspects: []
+                aspects: [
+                    "Identificación de tipos de líneas (rectas, curvas)",
+                    "Reconocimiento de líneas paralelas y perpendiculares",
+                    "Exploración de relaciones entre líneas (intersección, perpendicularidad, paralelismo)",
+                    "Estudio de las propiedades de las rectas en el plano cartesiano",
+                    "Uso del sistema de coordenadas cartesianas para ubicar puntos y graficar líneas simples",
+                    "Aplicación de la simetría y la reflexión en la representación de figuras geométricas y relaciones entre líneas",
+                    "Construcción de figuras geométricas simples utilizando líneas y relaciones geométricas",
+                    "Resolución de problemas que involucran relaciones entre rectas y figuras geométricas",
+                    "Análisis de patrones y secuencias geométricas basadas en relaciones entre líneas",
+                    "Aplicación de conceptos de rectas y relaciones en actividades de diseño y construcción",
+                    "Exploración de aplicaciones de rectas y relaciones en la vida cotidiana, como mapas, planos y estructuras arquitectónicas"
+                ]
             },
             {
                 topic: 'Triángulos y sus tipos',
-                aspects: []
+                aspects: [
+                    "Identificación de las partes de un triángulo (vértices, lados, ángulos)",
+                    "Clasificación de triángulos según la longitud de sus lados (equilátero, isósceles, escaleno)",
+                    "Clasificación de triángulos según la medida de sus ángulos (acutángulo, rectángulo, obtusángulo)",
+                    "Reconocimiento de las propiedades de cada tipo de triángulo",
+                    "Identificación de triángulos en el entorno y en figuras geométricas",
+                    "Construcción de triángulos utilizando regla y compás",
+                    "Comparación de diferentes tipos de triángulos en términos de sus propiedades",
+                    "Resolución de problemas que involucran conceptos de triángulos y sus propiedades",
+                    "Exploración de la relación entre los ángulos y los lados en un triángulo",
+                    "Aplicación de conceptos de triángulos en la resolución de problemas de la vida cotidiana, como la medición de terrenos o la construcción de estructuras"
+                ]
             },
             {
                 topic: 'Congruencia y semejanza de triángulos',
-                aspects: []
+                aspects: [
+                    "Identificación de la congruencia entre triángulos",
+                    "Reconocimiento de las condiciones de congruencia de triángulos (LLL, LAL, ALA, etc.)",
+                    "Utilización de reglas de congruencia para demostrar que dos triángulos son congruentes",
+                    "Aplicación de la congruencia de triángulos en la resolución de problemas geométricos",
+                    "Identificación de la semejanza entre triángulos",
+                    "Reconocimiento de las condiciones de semejanza de triángulos",
+                    "Utilización de propiedades de semejanza para resolver problemas de escalado y proporción",
+                    "Construcción de triángulos semejantes a partir de un triángulo dado",
+                    "Aplicación de la semejanza de triángulos en la resolución de problemas prácticos, como la estimación de alturas o distancias inaccesibles",
+                    "Comparación entre congruencia y semejanza y su importancia en diversas situaciones geométricas"
+                ]
             },
             {
                 topic: 'Transformaciones geométricas',
-                aspects: []
+                aspects: [
+                    "Identificación de las transformaciones geométricas básicas: traslación, reflexión y rotación",
+                    "Visualización de cómo afectan las transformaciones geométricas a las figuras geométricas en el plano",
+                    "Práctica con la traslación de figuras en el plano cartesiano",
+                    "Aplicación de la reflexión para dibujar imágenes especulares de figuras",
+                    "Exploración de la rotación y su efecto en las figuras geométricas",
+                    "Realización de actividades de construcción de figuras mediante transformaciones geométricas",
+                    "Resolución de problemas que involucran transformaciones geométricas, como encontrar la imagen de una figura bajo una secuencia de transformaciones",
+                    "Experimentación con aplicaciones digitales o físicas que permitan realizar y visualizar transformaciones geométricas de manera interactiva",
+                    "Relación entre transformaciones geométricas y simetría en figuras geométricas",
+                    "Aplicación de conceptos de transformaciones geométricas en el diseño y la composición artística"
+                ]
             },
             {
                 topic: 'Medidas de longitud con unidades arbitrarias',
-                aspects: []
+                aspects: [
+                    "Comprensión del concepto de medidas de longitud",
+                    "Identificación de diferentes unidades de medida de longitud (metros, centímetros, etc.)",
+                    "Introducción a la idea de unidades arbitrarias de medida de longitud",
+                    "Práctica con la medición de longitudes utilizando unidades arbitrarias",
+                    "Comparación de longitudes utilizando unidades arbitrarias",
+                    "Conversión entre unidades arbitrarias y unidades estándar (por ejemplo, metros)",
+                    "Estimación de longitudes utilizando unidades arbitrarias",
+                    "Resolución de problemas que involucran medidas de longitud con unidades arbitrarias",
+                    "Uso de reglas y otros instrumentos de medición para realizar mediciones precisas con unidades arbitrarias",
+                    "Aplicación de medidas de longitud con unidades arbitrarias en actividades prácticas, como la medición de objetos en el aula o en el entorno cercano"
+                ]
             },
             {
                 topic: 'Unidades de medida del sistema métrico decimal',
-                aspects: []
+                aspects: [
+                    "Identificación de las unidades básicas del sistema métrico decimal: metro, litro y gramo",
+                    "Conversión entre las unidades básicas del sistema métrico decimal (por ejemplo, de metros a centímetros, de litros a mililitros, de kilogramos a gramos)",
+                    "Comprensión de los prefijos del sistema métrico decimal (kilo, hecto, deca, deci, centi, mili)",
+                    "Práctica con la medición de longitudes utilizando el metro como unidad principal",
+                    "Medición de volúmenes utilizando el litro y el mililitro",
+                    "Pesaje de objetos utilizando el gramo y el kilogramo",
+                    "Resolución de problemas que involucran conversiones entre unidades del sistema métrico decimal",
+                    "Uso de instrumentos de medición adecuados para realizar mediciones precisas en el sistema métrico decimal",
+                    "Aplicación de unidades de medida del sistema métrico decimal en actividades cotidianas, como la compra de alimentos en el supermercado o la medición de la longitud de un campo de juego"
+                ]
             },
             {
                 topic: 'Unidades del sistema inglés',
-                aspects: []
+                aspects: [
+                    "Identificación de las principales unidades del sistema inglés: pulgadas, pies, yardas y millas",
+                    "Comparación entre las unidades del sistema inglés y las del sistema métrico",
+                    "Práctica con la medición de longitudes utilizando las unidades del sistema inglés",
+                    "Comprensión de las relaciones entre las unidades del sistema inglés (por ejemplo, 12 pulgadas en un pie, 3 pies en una yarda)",
+                    "Aplicación de las unidades del sistema inglés en la medición de objetos cotidianos",
+                    "Exploración de la relación entre las unidades del sistema inglés y su origen histórico",
+                    "Resolución de problemas que involucran conversiones entre unidades del sistema inglés y del sistema métrico",
+                    "Uso de herramientas de medición adecuadas para realizar mediciones precisas en el sistema inglés",
+                    "Reflexión sobre las ventajas y desventajas del sistema inglés en comparación con el sistema métrico"
+                ]
             },
             {
                 topic: 'Perímetro de figuras geométricas regulares e irregulares',
-                aspects: []
+                aspects: [
+                    "Comprensión del concepto de perímetro como la suma de las longitudes de todos los lados de una figura geométrica",
+                    "Identificación de figuras geométricas regulares e irregulares",
+                    "Cálculo del perímetro de figuras regulares como cuadrados, rectángulos, triángulos equiláteros y hexágonos regulares",
+                    "Aplicación de fórmulas específicas para calcular el perímetro de figuras geométricas regulares",
+                    "Utilización de estrategias de conteo y suma para calcular el perímetro de figuras irregulares",
+                    "Comparación de perímetros de diferentes figuras geométricas",
+                    "Resolución de problemas que involucran el cálculo del perímetro de figuras geométricas en contextos prácticos",
+                    "Diseño y construcción de figuras geométricas con perímetros dados",
+                    "Exploración de cómo cambiar la forma o el tamaño de una figura afecta su perímetro"
+                ]
             },
             {
                 topic: 'Estimación de perímetro',
-                aspects: []
+                aspects: [
+                    "Introducción al concepto de estimación como herramienta matemática para aproximar medidas",
+                    "Diferenciación entre cálculo exacto y estimación de perímetros",
+                    "Prácticas de estimación del perímetro de figuras regulares e irregulares usando unidades no estándar y estándar",
+                    "Uso de estrategias de redondeo para facilitar la estimación de perímetros",
+                    "Comparación de estimaciones con mediciones exactas para evaluar su precisión",
+                    "Aplicación de la estimación de perímetros en situaciones de la vida real, como la planificación de la compra de marcos para cuadros o la construcción de cercas",
+                    "Resolución de problemas que requieren la estimación de perímetros para encontrar soluciones razonables",
+                    "Desarrollo de la habilidad para elegir cuándo es adecuado estimar en lugar de calcular el perímetro exacto",
+                    "Estimulación de la discusión sobre cómo diferentes aproximaciones pueden afectar la precisión de la estimación del perímetro"
+                ]
             },
             {
                 topic: 'La circunferencia y sus elementos',
-                aspects: []
+                aspects: [
+                    "Definición de circunferencia como el conjunto de puntos en el plano que están a una distancia igual de un punto central",
+                    "Identificación y significado de elementos clave: el centro, el radio, el diámetro, la cuerda, el arco y la tangente",
+                    "Diferenciación entre circunferencia (el perímetro de un círculo) y círculo (el área dentro de la circunferencia)",
+                    "Cálculo del diámetro de la circunferencia a partir del radio y viceversa",
+                    "Introducción a la relación matemática entre el diámetro y la circunferencia de un círculo (π)",
+                    "Uso de fórmulas para calcular el perímetro (circunferencia) de un círculo, utilizando π",
+                    "Exploración de la relación proporcional entre el diámetro y la circunferencia de cualquier círculo",
+                    "Actividades prácticas para medir y calcular la circunferencia de objetos redondos",
+                    "Resolución de problemas que implican encontrar la circunferencia, el radio o el diámetro de círculos en contextos reales",
+                    "Experimentación con cuerdas y arcos para comprender su relación con la circunferencia"
+                ]
             },
             {
                 topic: 'Medida de: capacidad, peso, tiempo y dinero ',
-                aspects: []
+                aspects: [
+                    "Medición de capacidad utilizando litros y mililitros como unidades de medida",
+                    "Medición de peso utilizando kilogramos y gramos como unidades de medida",
+                    "Comprensión de las relaciones entre las diferentes unidades de medida de capacidad y peso (por ejemplo, 1 litro = 1000 mililitros, 1 kilogramo = 1000 gramos)",
+                    "Práctica con la conversión entre unidades de medida de capacidad y peso",
+                    "Medición del tiempo utilizando horas, minutos y segundos como unidades de medida",
+                    "Identificación y práctica con los diferentes formatos de tiempo (formato de 12 horas y formato de 24 horas)",
+                    "Aplicación de conceptos de tiempo para resolver problemas de duración, hora de inicio y hora de finalización",
+                    "Manejo de unidades monetarias como pesos y centavos en situaciones cotidianas",
+                    "Práctica con el manejo del dinero en transacciones simples, sumas y restas",
+                    "Resolución de problemas que implican el uso de medidas de capacidad, peso, tiempo y dinero en contextos prácticos"
+                ]
             },
             {
                 topic: 'Área y volumen de figuras y cuerpos ',
-                aspects: []
+                aspects: [
+                    "Comprensión del concepto de área como la cantidad de espacio cubierto por una figura bidimensional",
+                    "Identificación de diferentes figuras bidimensionales y tridimensionales, así como sus elementos (lados, vértices, caras)",
+                    "Cálculo del área de figuras bidimensionales simples como cuadrados, rectángulos, triángulos y círculos",
+                    "Aplicación de fórmulas específicas para el cálculo del área de diferentes figuras bidimensionales",
+                    "Práctica con la estimación del área de figuras irregulares mediante la subdivisión en formas más simples",
+                    "Comprensión del concepto de volumen como la cantidad de espacio ocupado por un cuerpo tridimensional",
+                    "Cálculo del volumen de cuerpos geométricos simples como cubos, prismas y cilindros",
+                    "Aplicación de fórmulas específicas para calcular el volumen de diferentes cuerpos geométricos",
+                    "Resolución de problemas prácticos que implican el cálculo de áreas y volúmenes en situaciones cotidianas",
+                    "Exploración de la relación entre el área de la base y la altura en el cálculo del volumen de prismas y cilindros",
+                    "Actividades de construcción de modelos tridimensionales para visualizar y comprender el concepto de volumen"
+                ]
             },
             {
                 topic: 'Medida de capacidad: Peso, tiempo, temperatura y dinero',
-                aspects: []
+                aspects: [
+                    "Medición del peso utilizando kilogramos y gramos como unidades de medida",
+                    "Práctica con la conversión entre kilogramos y gramos",
+                    "Comprensión de las relaciones entre diferentes unidades de medida de peso",
+                    "Medición del tiempo utilizando horas, minutos y segundos como unidades de medida",
+                    "Aplicación de conceptos de tiempo para resolver problemas de duración, hora de inicio y hora de finalización",
+                    "Uso del termómetro y comprensión de la escala Celsius para medir la temperatura",
+                    "Práctica con la conversión entre grados Celsius y grados Fahrenheit",
+                    "Manejo de unidades monetarias como pesos y centavos en situaciones cotidianas",
+                    "Práctica con el manejo del dinero en transacciones simples, sumas y restas",
+                    "Resolución de problemas que implican el uso de medidas de peso, tiempo, temperatura y dinero en contextos prácticos"
+                ]
             },
             {
                 topic: 'Recolección y organización de datos estadísticos no agrupados',
-                aspects: []
+                aspects: [
+                    "Comprensión del concepto de datos estadísticos y su importancia en la toma de decisiones",
+                    "Identificación de datos estadísticos en contextos cotidianos",
+                    "Práctica con la recolección de datos a través de encuestas, cuestionarios o conteo directo",
+                    "Organización de datos en tablas de frecuencia simple",
+                    "Representación de datos mediante gráficos de barras, pictogramas o diagramas de puntos",
+                    "Interpretación de la información presentada en las tablas y gráficos",
+                    "Análisis de patrones y tendencias en los datos recolectados",
+                    "Resolución de problemas que implican la recolección, organización y representación de datos",
+                    "Uso de datos estadísticos para realizar predicciones o tomar decisiones informadas",
+                    "Reflexión sobre la importancia de la precisión y la imparcialidad en la recolección de datos"
+                ]
             },
             {
                 topic: 'Representación gráfica de los datos estadísticos no agrupados',
-                aspects: []
+                aspects: [
+                    "Introducción a la representación gráfica de datos estadísticos no agrupados",
+                    "Identificación de los tipos de gráficos más comunes: gráficos de barras, pictogramas y diagramas de puntos",
+                    "Práctica con la creación de gráficos de barras para representar datos numéricos",
+                    "Uso de pictogramas para representar datos cualitativos de una manera visualmente atractiva",
+                    "Creación de diagramas de puntos para mostrar datos discretos",
+                    "Interpretación de gráficos para extraer información sobre tendencias, comparaciones y distribuciones de datos",
+                    "Análisis de gráficos para identificar valores atípicos o patrones destacados",
+                    "Resolución de problemas que implican la interpretación y creación de gráficos a partir de datos estadísticos",
+                    "Reflexión sobre la elección del tipo de gráfico más adecuado según el tipo de datos y el propósito de la representación",
+                    "Aplicación de habilidades de representación gráfica en situaciones cotidianas para comunicar información de manera efectiva"
+                ]
             },
             {
                 topic: 'Medidas de tendencia central para datos no agrupados',
-                aspects: []
+                aspects: [
+                    "Introducción al concepto de medidas de tendencia central",
+                    "Identificación de las medidas de tendencia central más comunes: media, mediana y moda",
+                    "Comprensión del cálculo de la media como la suma de todos los valores dividida por el número total de valores",
+                    "Práctica con la determinación de la mediana como el valor central en un conjunto de datos ordenados",
+                    "Identificación y cálculo de la moda como el valor que aparece con mayor frecuencia en un conjunto de datos",
+                    "Resolución de problemas que implican el cálculo de medidas de tendencia central para datos no agrupados",
+                    "Interpretación de las medidas de tendencia central en contextos prácticos",
+                    "Discusión sobre las ventajas y limitaciones de cada medida de tendencia central",
+                    "Aplicación de medidas de tendencia central en situaciones cotidianas para describir conjuntos de datos",
+                    "Reflexión sobre la importancia de las medidas de tendencia central para resumir y comprender grandes conjuntos de datos"
+                ]
             },
             {
                 topic: 'Probabilidad, espacio muestral, eventos y sucesos',
-                aspects: []
+                aspects: [
+                    "Introducción al concepto de probabilidad como la medida de la certidumbre de que ocurra un evento",
+                    "Definición de espacio muestral como el conjunto de todos los posibles resultados de un experimento aleatorio",
+                    "Identificación y clasificación de eventos como sucesos favorables y sucesos desfavorables",
+                    "Práctica con la representación de eventos mediante diagramas de árbol, diagramas de Venn u otras herramientas visuales",
+                    "Cálculo de la probabilidad de un evento como el cociente entre el número de resultados favorables y el número total de resultados posibles",
+                    "Exploración de eventos mutuamente excluyentes y eventos independientes",
+                    "Resolución de problemas de probabilidad utilizando métodos de conteo como el principio de multiplicación",
+                    "Aplicación de conceptos de probabilidad en situaciones cotidianas, como juegos de azar, lanzamientos de dados o selección de cartas",
+                    "Discusión sobre la importancia de la probabilidad en la toma de decisiones informadas",
+                    "Reflexión sobre la variabilidad de los resultados en diferentes experimentos aleatorios"
+                ]
             },
         ],
         [
             {
                 topic: 'Números naturales: concepto y notación desarrollada',
-                aspects: []
+                aspects: [
+                    "Definición de números naturales",
+                    "Representación de números naturales en la recta numérica",
+                    "Descomposición de números naturales en unidades, decenas, centenas, etc.",
+                    "Comparación y ordenación de números naturales",
+                    "Operaciones básicas con números naturales (suma, resta, multiplicación y división)",
+                    "Problemas de aplicación con números naturales",
+                    "Uso de la notación desarrollada para expresar números naturales"
+                ]
             },
             {
                 topic: 'Números enteros, fracciones y decimales: Concepto, valor posicional, comparación y operaciones',
-                aspects: []
+                aspects: [
+                    "Concepto de números enteros y su representación en la recta numérica",
+                    "Valor posicional en números enteros, fracciones y decimales",
+                    "Comparación de números enteros, fracciones y decimales",
+                    "Suma y resta de números enteros",
+                    "Multiplicación y división de números enteros",
+                    "Concepto y representación de fracciones",
+                    "Operaciones con fracciones (suma, resta, multiplicación y división)",
+                    "Concepto y representación de decimales",
+                    "Operaciones con decimales (suma, resta, multiplicación y división)",
+                    "Conversión entre fracciones y decimales",
+                    "Resolución de problemas utilizando números enteros, fracciones y decimales"
+                ]
             },
             {
                 topic: 'Potencia de números naturales y sus propiedades',
-                aspects: []
+                aspects: [
+                    "Definición de potencia de un número natural",
+                    "Base y exponente en la potencia de un número natural",
+                    "Cálculo de potencias de números naturales",
+                    "Propiedades de las potencias: producto de potencias con la misma base",
+                    "Propiedades de las potencias: división de potencias con la misma base",
+                    "Propiedades de las potencias: potencia de una potencia",
+                    "Propiedades de las potencias: potencia de un producto",
+                    "Propiedades de las potencias: potencia de un cociente",
+                    "Representación de potencias de números naturales en la recta numérica",
+                    "Aplicación de las propiedades de las potencias en la resolución de problemas"
+                ]
             },
             {
                 topic: 'Factorización',
-                aspects: []
+                aspects: [
+                    "Concepto de factorización",
+                    "Identificación de factores de un número",
+                    "Uso de la tabla de multiplicar para encontrar factores",
+                    "Factorización de números naturales",
+                    "Diferencia entre factores y múltiplos",
+                    "Descomposición en factores primos",
+                    "Uso de la factorización para simplificar fracciones",
+                    "Aplicación de la factorización en la resolución de problemas",
+                    "Factor común en expresiones algebraicas",
+                    "Técnicas de factorización: factor común, diferencia de cuadrados, trinomio cuadrado perfecto"
+                ]
             },
             {
                 topic: 'Criterios de divisibilidad',
-                aspects: []
+                aspects: [
+                    "Definición de divisibilidad y divisores",
+                    "Criterio de divisibilidad por 2: todo número cuya última cifra es par",
+                    "Criterio de divisibilidad por 3: la suma de sus cifras es múltiplo de 3",
+                    "Criterio de divisibilidad por 4: las últimas dos cifras forman un número divisible por 4",
+                    "Criterio de divisibilidad por 5: termina en 0 o 5",
+                    "Criterio de divisibilidad por 6: es divisible tanto por 2 como por 3",
+                    "Criterio de divisibilidad por 9: la suma de sus cifras es múltiplo de 9",
+                    "Criterio de divisibilidad por 10: termina en 0",
+                    "Aplicación de los criterios de divisibilidad para simplificar fracciones",
+                    "Uso de los criterios de divisibilidad en la resolución de problemas"
+                ]
             },
             {
                 topic: 'MCD Y MCM de números naturales',
-                aspects: []
+                aspects: [
+                    "Concepto de Máximo Común Divisor (MCD)",
+                    "Métodos para encontrar el MCD de números naturales",
+                    "Concepto de Mínimo Común Múltiplo (MCM)",
+                    "Métodos para encontrar el MCM de números naturales",
+                    "Aplicación del MCD y MCM en problemas de fracciones",
+                    "Uso del MCD para simplificar fracciones",
+                    "Uso del MCM para sumar y restar fracciones con diferentes denominadores",
+                    "Resolución de problemas utilizando el MCD y MCM",
+                    "Relación entre el MCD y MCM de dos números",
+                    "Actividades prácticas para calcular el MCD y MCM"
+                ]
             },
             {
                 topic: 'Concepto de razón y proporción',
-                aspects: []
+                aspects: [
+                    "Definición de razón como comparación de dos cantidades",
+                    "Explicación de proporción como igualdad de dos razones",
+                    "Uso de razones para comparar cantidades de la misma unidad",
+                    "Uso de proporciones para resolver problemas de equivalencia",
+                    "Representación de razones y proporciones en forma de fracción",
+                    "Cálculo de una cantidad desconocida en una proporción",
+                    "Identificación de razones equivalentes",
+                    "Aplicación de razones y proporciones en situaciones reales",
+                    "Resolución de problemas de proporcionalidad directa e inversa",
+                    "Creación de tablas de razones y proporciones para visualizar relaciones"
+                ]
             },
             {
                 topic: 'Interés simple: concepto y elementos',
-                aspects: []
+                aspects: [
+                    "Definición de interés simple como el costo del dinero prestado o invertido",
+                    "Elementos del interés simple: capital, tasa de interés, tiempo y monto",
+                    "Fórmula para calcular el interés simple: I = P * r * t",
+                    "Diferencia entre interés simple y compuesto",
+                    "Cálculo del monto total a pagar o recibir después de aplicar el interés simple",
+                    "Resolución de problemas que involucran el cálculo de interés simple",
+                    "Uso de porcentajes en la determinación de la tasa de interés",
+                    "Representación gráfica del crecimiento del capital con interés simple",
+                    "Comparación de diferentes tasas de interés y su impacto en el capital",
+                    "Actividades prácticas para calcular el interés simple en situaciones cotidianas"
+                ]
             },
             {
                 topic: 'Cálculo de impuestos',
-                aspects: []
+                aspects: [
+                    "Entender el concepto de impuestos y su importancia en la sociedad",
+                    "Aprender a calcular el porcentaje de impuestos en compras sencillas",
+                    "Identificar los diferentes tipos de impuestos (IVA, ISR, etc.)",
+                    "Realizar cálculos sencillos de impuestos sobre productos y servicios",
+                    "Comprender cómo los impuestos contribuyen a los servicios públicos",
+                    "Practicar el cálculo de impuestos en situaciones de la vida real",
+                    "Resolver problemas matemáticos que involucren el cálculo de impuestos",
+                    "Distinguir entre impuestos directos e indirectos",
+                    "Analizar recibos y facturas para identificar los impuestos aplicados",
+                    "Entender la diferencia entre el precio neto y el precio con impuestos"
+                ]
             },
             {
                 topic: 'Figuras semejantes y congruentes',
-                aspects: []
+                aspects: [
+                    "Definición de figuras semejantes y su relación de proporcionalidad",
+                    "Criterios para determinar si dos figuras son semejantes",
+                    "Definición de figuras congruentes y su relación de igualdad",
+                    "Criterios para determinar si dos figuras son congruentes",
+                    "Uso de la semejanza y congruencia para resolver problemas geométricos",
+                    "Transformaciones geométricas que conservan la semejanza y congruencia",
+                    "Aplicación de la semejanza y congruencia en la vida cotidiana",
+                    "Comparación de áreas y perímetros de figuras semejantes",
+                    "Construcción de figuras semejantes utilizando reglas y compás",
+                    "Resolución de problemas que involucran figuras semejantes y congruentes"
+                ]
             },
             {
                 topic: 'Polígonos regulares e irregulares',
-                aspects: []
+                aspects: [
+                    "Definición de polígono regular y sus características",
+                    "Definición de polígono irregular y sus características",
+                    "Identificación y clasificación de polígonos según su regularidad",
+                    "Cálculo del número de diagonales en polígonos regulares e irregulares",
+                    "Comparación de ángulos internos y externos en polígonos regulares e irregulares",
+                    "Construcción de polígonos regulares usando regla y compás",
+                    "Exploración de la simetría en polígonos regulares",
+                    "Resolución de problemas que involucran el área y perímetro de polígonos regulares e irregulares",
+                    "Uso de polígonos regulares e irregulares en el arte y la arquitectura",
+                    "Actividades prácticas para reconocer polígonos regulares e irregulares en el entorno"
+                ]
             },
             {
                 topic: 'Diagonales de un polígono',
-                aspects: []
+                aspects: [
+                    "Definición de diagonal en un polígono",
+                    "Cálculo del número de diagonales en un polígono",
+                    "Diferencia entre diagonales y lados de un polígono",
+                    "Identificación de diagonales en polígonos regulares e irregulares",
+                    "Construcción de diagonales en polígonos utilizando regla y compás",
+                    "Relación entre el número de lados y el número de diagonales de un polígono",
+                    "Uso de las diagonales para determinar la simetría de un polígono",
+                    "Aplicación de las diagonales en la resolución de problemas geométricos",
+                    "Exploración de las propiedades de las diagonales en polígonos regulares",
+                    "Actividades prácticas para dibujar y contar diagonales en diferentes polígonos"
+                ]
             },
             {
                 topic: 'Cuadriláteros y sus tipos',
-                aspects: []
+                aspects: [
+                    "Definición y características de un cuadrilátero",
+                    "Clasificación de cuadriláteros: paralelogramos, trapecios, trapezoides",
+                    "Identificación de cuadriláteros en el entorno",
+                    "Propiedades de los paralelogramos: lados opuestos paralelos y de igual longitud",
+                    "Propiedades de los rectángulos: cuatro ángulos rectos y lados opuestos iguales",
+                    "Propiedades de los rombos: cuatro lados de igual longitud y ángulos opuestos iguales",
+                    "Propiedades de los cuadrados: cuatro lados iguales y cuatro ángulos rectos",
+                    "Diferencias entre los distintos tipos de cuadriláteros",
+                    "Uso de la geometría para resolver problemas que involucran cuadriláteros",
+                    "Construcción de cuadriláteros utilizando regla y compás"
+                ]
             },
             {
                 topic: 'Ángulos internos y externos',
-                aspects: []
+                aspects: [
+                    "Definición de ángulos internos y externos en polígonos",
+                    "Suma de ángulos internos en diferentes tipos de polígonos",
+                    "Suma de ángulos externos en cualquier polígono",
+                    "Relación entre ángulos internos y externos en polígonos regulares",
+                    "Cálculo de ángulos internos y externos en polígonos irregulares",
+                    "Uso de ángulos internos y externos para resolver problemas geométricos",
+                    "Construcción de polígonos y medición de sus ángulos internos y externos",
+                    "Teorema de la suma de ángulos internos y su demostración",
+                    "Aplicación de la suma de ángulos externos en la resolución de problemas",
+                    "Actividades prácticas para identificar y calcular ángulos internos y externos"
+                ]
             },
             {
                 topic: 'Teorema de Pitágoras y sus elementos',
-                aspects: []
+                aspects: [
+                    "Definición del Teorema de Pitágoras",
+                    "Identificación de la hipotenusa y los catetos en un triángulo rectángulo",
+                    "Aplicación del Teorema de Pitágoras para calcular la longitud de la hipotenusa",
+                    "Uso del Teorema de Pitágoras para encontrar la longitud de los catetos",
+                    "Resolución de problemas de la vida real utilizando el Teorema de Pitágoras",
+                    "Demostración del Teorema de Pitágoras mediante construcciones geométricas",
+                    "Exploración de la relación entre el Teorema de Pitágoras y la suma de ángulos en triángulos",
+                    "Actividades prácticas para reforzar el entendimiento del Teorema de Pitágoras",
+                    "Investigación de la historia y el origen del Teorema de Pitágoras",
+                    "Ejercicios de aplicación del Teorema de Pitágoras en diferentes contextos matemáticos"
+                ]
             },
             {
                 topic: 'Ángulos: tipos, notación medida y construcción',
-                aspects: []
+                aspects: [
+                    "Definición y clasificación de ángulos: agudos, obtusos, rectos, llanos y completos",
+                    "Notación de ángulos utilizando letras mayúsculas y el símbolo de ángulo",
+                    "Medición de ángulos con un transportador",
+                    "Construcción de ángulos con regla y compás",
+                    "Suma y resta de ángulos",
+                    "Identificación de ángulos complementarios y suplementarios",
+                    "Uso de ángulos adyacentes y ángulos verticales en problemas geométricos",
+                    "Aplicación de la suma de ángulos en triángulos y cuadriláteros",
+                    "Resolución de problemas que involucran la medida de ángulos",
+                    "Actividades prácticas para el reconocimiento y construcción de ángulos"
+                ]
             },
             {
                 topic: 'Transformaciones geométricas',
-                aspects: []
+                aspects: [
+                    "Definición y ejemplos de transformaciones geométricas",
+                    "Tipos de transformaciones: traslación, rotación, reflexión y dilatación",
+                    "Propiedades de las transformaciones geométricas",
+                    "Uso de coordenadas para describir traslaciones",
+                    "Cómo realizar rotaciones con respecto a un punto",
+                    "Creación de simetrías mediante reflexiones",
+                    "Aplicación de dilataciones para cambiar el tamaño de figuras",
+                    "Combinación de transformaciones para crear nuevas figuras",
+                    "Resolución de problemas que involucran transformaciones geométricas",
+                    "Actividades prácticas para explorar transformaciones en el plano"
+                ]
             },
             {
                 topic: 'Unidades arbitrarias en el sistema métrico decimal',
-                aspects: []
+                aspects: [
+                    "Comprender el concepto de unidades de medida en el sistema métrico decimal",
+                    "Identificar las unidades de longitud, masa y volumen en el sistema métrico",
+                    "Convertir entre diferentes unidades de medida (kilómetros, metros, centímetros, milímetros)",
+                    "Utilizar unidades arbitrarias para medir objetos y distancias",
+                    "Estimar medidas utilizando unidades arbitrarias como referencia",
+                    "Resolver problemas que involucren conversiones entre unidades de medida",
+                    "Practicar la medición de objetos con reglas y cintas métricas",
+                    "Explorar la relación entre unidades de medida y su uso en la vida cotidiana",
+                    "Crear ejercicios para reforzar el entendimiento de las unidades métricas",
+                    "Discutir la importancia de la estandarización de las unidades de medida"
+                ]
             },
             {
                 topic: 'Unidades de medida del sistema métrico decimal',
-                aspects: []
+                aspects: [
+                    "Comprender la estructura del sistema métrico decimal",
+                    "Identificar las unidades de medida de longitud (metro, centímetro, milímetro)",
+                    "Reconocer las unidades de medida de masa (kilogramo, gramo, miligramo)",
+                    "Explorar las unidades de medida de capacidad (litro, mililitro)",
+                    "Practicar la conversión entre unidades de medida más grandes y más pequeñas",
+                    "Resolver problemas que involucren la estimación y medición de longitudes, masas y capacidades",
+                    "Utilizar instrumentos de medición como reglas, balanzas y recipientes graduados",
+                    "Comparar y ordenar objetos utilizando diferentes unidades de medida",
+                    "Aplicar el conocimiento de las unidades de medida en contextos de la vida real",
+                    "Entender la importancia de las unidades de medida estandarizadas en la ciencia y la tecnología"
+                ]
             },
             {
                 topic: 'Unidades del sistema inglés',
-                aspects: []
+                aspects: [
+                    "Definición y uso de unidades de longitud del sistema inglés (pulgadas, pies, yardas, millas)",
+                    "Conversión entre unidades de longitud del sistema inglés",
+                    "Definición y uso de unidades de masa del sistema inglés (onzas, libras, toneladas)",
+                    "Conversión entre unidades de masa del sistema inglés",
+                    "Definición y uso de unidades de volumen del sistema inglés (tazas, pintas, cuartos de galón, galones)",
+                    "Conversión entre unidades de volumen del sistema inglés",
+                    "Comparación entre el sistema métrico decimal y el sistema inglés",
+                    "Resolución de problemas que involucran conversiones en el sistema inglés",
+                    "Uso de unidades del sistema inglés en recetas de cocina y proyectos de construcción",
+                    "Actividades prácticas para familiarizarse con el sistema inglés de medidas"
+                ]
             },
             {
                 topic: 'Perímetro de figuras geométricas regulares e irregulares y círculo',
-                aspects: []
+                aspects: [
+                    "Definición de perímetro como la medida del contorno de una figura",
+                    "Cálculo del perímetro de figuras geométricas regulares utilizando la longitud de un lado",
+                    "Exploración del perímetro de figuras geométricas irregulares sumando la longitud de todos sus lados",
+                    "Uso de fórmulas específicas para calcular el perímetro de polígonos regulares",
+                    "Determinación del perímetro de un círculo utilizando la fórmula \( P = 2\pi r \)",
+                    "Comparación del perímetro de diferentes figuras geométricas",
+                    "Resolución de problemas prácticos que involucran el cálculo de perímetros",
+                    "Actividades de medición de perímetros en el aula con reglas y cintas métricas",
+                    "Construcción de figuras geométricas para entender mejor el concepto de perímetro",
+                    "Discusión sobre cómo el perímetro se relaciona con la vida cotidiana y aplicaciones prácticas"
+                ]
             },
             {
                 topic: 'Área de polígonos regulares, irregulares y círculo',
-                aspects: []
+                aspects: [
+                    "Definición de área como la medida de la superficie de una figura",
+                    "Cálculo del área de polígonos regulares utilizando fórmulas específicas",
+                    "Exploración del área de polígonos irregulares mediante descomposición en figuras más simples",
+                    "Uso de la fórmula del área del círculo \( A = \pi r^2 \)",
+                    "Comparación del área de diferentes figuras geométricas",
+                    "Resolución de problemas prácticos que involucran el cálculo de áreas",
+                    "Actividades de medición de áreas en el aula utilizando cuadrículas y papel milimetrado",
+                    "Construcción de figuras geométricas para entender mejor el concepto de área",
+                    "Discusión sobre cómo el área se relaciona con la vida cotidiana y aplicaciones prácticas",
+                    "Investigación de la historia y el desarrollo de las fórmulas para calcular áreas"
+                ]
             },
             {
                 topic: 'Prismas rectos y sus características',
-                aspects: []
+                aspects: [
+                    "Definición de un prisma recto",
+                    "Características de los prismas rectos",
+                    "Elementos de un prisma recto: bases, caras laterales, aristas y vértices",
+                    "Diferencia entre prismas rectos y oblicuos",
+                    "Cálculo del volumen de un prisma recto",
+                    "Cálculo del área superficial de un prisma recto",
+                    "Construcción de modelos de prismas rectos con papel y cartulina",
+                    "Identificación de prismas rectos en el entorno",
+                    "Resolución de problemas que involucran prismas rectos",
+                    "Actividades prácticas para explorar las propiedades de los prismas rectos"
+                ]
             },
             {
                 topic: 'Cálculo del volumen',
-                aspects: []
+                aspects: [
+                    "Definición de volumen como la cantidad de espacio que ocupa un objeto tridimensional",
+                    "Unidades de medida de volumen en el sistema métrico decimal (litro, mililitro, centímetro cúbico)",
+                    "Fórmula para calcular el volumen de un cubo o un prisma rectangular (V = largo x ancho x alto)",
+                    "Cálculo del volumen de cilindros (V = pi x radio^2 x altura)",
+                    "Cálculo del volumen de esferas (V = 4/3 x pi x radio^3)",
+                    "Cálculo del volumen de conos (V = 1/3 x pi x radio^2 x altura)",
+                    "Cálculo del volumen de pirámides (V = 1/3 x área de la base x altura)",
+                    "Resolución de problemas que involucran el cálculo de volumen",
+                    "Actividades prácticas para medir y calcular el volumen de objetos",
+                    "Exploración del concepto de volumen a través de experimentos y proyectos"
+                ]
             },
             {
                 topic: 'Equivalencia de unidades a partir de múltiplos y submúltiplos',
-                aspects: []
+                aspects: [
+                    "Comprender la relación entre múltiplos y submúltiplos de unidades de medida",
+                    "Convertir unidades de longitud (kilómetros a metros, metros a centímetros, centímetros a milímetros)",
+                    "Convertir unidades de masa (kilogramos a gramos, gramos a miligramos)",
+                    "Convertir unidades de capacidad (litros a mililitros)",
+                    "Utilizar la notación científica para expresar grandes cantidades",
+                    "Resolver problemas que involucren conversiones entre múltiplos y submúltiplos",
+                    "Practicar la estimación de medidas utilizando múltiplos y submúltiplos",
+                    "Explorar el uso de múltiplos y submúltiplos en la vida cotidiana",
+                    "Crear ejercicios para reforzar el entendimiento de las equivalencias de unidades",
+                    "Discutir la importancia de la estandarización de las unidades de medida"
+                ]
             },
             {
                 topic: 'Operatoria con unidades del sistema métrico decimal',
-                aspects: []
+                aspects: [
+                    "Realizar sumas y restas con unidades de longitud (metros, centímetros, milímetros)",
+                    "Efectuar multiplicaciones y divisiones con unidades de masa (kilogramos, gramos, miligramos)",
+                    "Convertir entre unidades de capacidad (litros, mililitros) al resolver operaciones",
+                    "Aplicar las reglas de operatoria para combinar unidades de medida diferentes",
+                    "Resolver problemas de la vida cotidiana que involucren medidas y cálculos",
+                    "Practicar la estimación y cálculo de medidas en situaciones reales",
+                    "Utilizar la notación adecuada para expresar medidas en el sistema métrico decimal",
+                    "Comprender la importancia de la precisión al medir y calcular con unidades de medida",
+                    "Desarrollar habilidades para el uso de instrumentos de medición como reglas y balanzas",
+                    "Fomentar el razonamiento lógico-matemático a través de la operatoria con unidades de medida"
+                ]
             },
             {
                 topic: 'Medida de capacidad: Peso, tiempo, temperatura y dinero',
-                aspects: []
+                aspects: [
+                    "Entender el concepto de capacidad y su diferencia con el volumen",
+                    "Medir y calcular el peso utilizando balanzas y unidades como kilogramos y gramos",
+                    "Aprender a leer y calcular el tiempo en horas, minutos y segundos",
+                    "Comprender la temperatura y su medición en grados Celsius y Fahrenheit",
+                    "Realizar operaciones matemáticas con dinero, incluyendo sumas, restas y cálculo de cambio",
+                    "Resolver problemas prácticos que involucren peso, tiempo, temperatura y dinero",
+                    "Estimar capacidades y pesos en situaciones cotidianas",
+                    "Utilizar termómetros para medir la temperatura en diferentes contextos",
+                    "Practicar la conversión entre diferentes unidades de medida de capacidad y peso",
+                    "Aprender a gestionar el dinero a través de ejercicios prácticos y juegos educativos"
+                ]
             },
             {
                 topic: 'Estimación con medidas de capacidad',
-                aspects: []
+                aspects: [
+                    "Entender el concepto de capacidad y sus aplicaciones prácticas",
+                    "Aprender a estimar la capacidad utilizando objetos cotidianos como puntos de referencia",
+                    "Practicar habilidades de estimación con diversos contenedores y líquidos",
+                    "Comparar capacidades estimadas con mediciones reales",
+                    "Desarrollar estrategias para realizar estimaciones más precisas",
+                    "Explorar la relación entre capacidad, volumen y masa",
+                    "Usar la estimación para resolver problemas del mundo real que involucren capacidad",
+                    "Participar en actividades que refuercen la importancia de la estimación",
+                    "Discutir el papel de la estimación en ciencias y cocina",
+                    "Crear juegos y desafíos para hacer la práctica de la estimación divertida"
+                ]
             },
             {
                 topic: 'Recolección y organización de datos estadísticos no agrupados',
-                aspects: []
+                aspects: [
+                    "Comprender el concepto de datos estadísticos no agrupados",
+                    "Aprender técnicas de recolección de datos mediante encuestas y observaciones",
+                    "Organizar datos recolectados en listas y tablas",
+                    "Utilizar gráficos de barras y pictogramas para representar datos estadísticos",
+                    "Calcular medidas de tendencia central: media, mediana y moda",
+                    "Identificar la importancia de la precisión y honestidad en la recolección de datos",
+                    "Practicar la clasificación de datos según atributos y categorías",
+                    "Analizar datos recolectados para hacer inferencias y conclusiones",
+                    "Desarrollar habilidades de pensamiento crítico mediante la interpretación de datos",
+                    "Realizar proyectos de clase que involucren la recolección y organización de datos"
+                ]
             },
             {
                 topic: 'Representación gráfica de los datos estadísticos no agrupados',
-                aspects: []
+                aspects: [
+                    "Introducción a la representación gráfica de datos estadísticos",
+                    "Uso de gráficos de barras para visualizar datos no agrupados",
+                    "Creación de gráficos de líneas para mostrar tendencias en los datos",
+                    "Aplicación de gráficos circulares para representar proporciones de datos",
+                    "Interpretación de gráficos de puntos para comparar conjuntos de datos",
+                    "Elaboración de pictogramas como herramienta visual para datos estadísticos",
+                    "Análisis de gráficos de barras apiladas para datos múltiples",
+                    "Utilización de gráficos de sectores para entender distribuciones de datos",
+                    "Desarrollo de habilidades para leer y crear diferentes tipos de gráficos",
+                    "Realización de actividades prácticas para reforzar la comprensión de gráficos estadísticos"
+                ]
             },
             {
                 topic: 'Medidas de tendencia central para datos no agrupados',
-                aspects: []
+                aspects: [
+                    "Cálculo de la media aritmética",
+                    "Identificación de la mediana en conjuntos de datos",
+                    "Determinación de la moda y su significado",
+                    "Comparación de medidas de tendencia central",
+                    "Uso de la media para resolver problemas cotidianos",
+                    "Análisis de la variabilidad de datos utilizando la media",
+                    "Interpretación de datos a través de las medidas de tendencia central"
+                ]
             },
             {
                 topic: 'Probabilidad, espacio muestral, conteo y combinaciones',
-                aspects: []
+                aspects: [
+                    "Definición y ejemplos de espacio muestral",
+                    "Cálculo de probabilidades en eventos simples",
+                    "Uso de diagramas de árbol para representar espacios muestrales",
+                    "Introducción al conteo de posibles resultados",
+                    "Exploración de combinaciones con objetos y números",
+                    "Resolución de problemas de probabilidad en contextos cotidianos",
+                    "Comparación de probabilidades teóricas y experimentales"
+                ]
             },
         ],
     ],
