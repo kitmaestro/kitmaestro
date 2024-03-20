@@ -95,7 +95,7 @@ export class HomeComponent {
       link: ['/app','assistants'],
       icon: '/assets/assistant.svg',
       premium: true,
-      isWorking: true,
+      isWorking: false,
     },
     {
       name: 'Generador de Conversaciones en Inglés',
@@ -112,7 +112,7 @@ export class HomeComponent {
       link: ['/app','activity-generator'],
       icon: '/assets/activities.svg',
       premium: true,
-      isWorking: true,
+      isWorking: false,
     },
     {
       name: 'Generador de Aspectos Trabajados',
@@ -120,7 +120,7 @@ export class HomeComponent {
       link: ['/app','aspects-generator'],
       icon: '/assets/aspects.svg',
       premium: true,
-      isWorking: false,
+      isWorking: true,
     },
     {
       name: 'Instrumentos de Evaluación',

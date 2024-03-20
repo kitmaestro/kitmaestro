@@ -56,12 +56,13 @@ export class GradesGeneratorComponent {
   generating = false;
   generated: GradesData | null = null;
   output: any = null;
+  qty = this.fb.control(1);
 
   configForm = this.fb.group({
     level: ['primary'],
     indicators: [3],
     grades: [['P1', 'P2']],
-    randomLevel: [2],
+    randomLevel: [4],
     includeRecover: [true],
     precise: [false],
     students: this.fb.array([
@@ -106,13 +107,17 @@ export class GradesGeneratorComponent {
   }
 
   addStudent() {
-    this.students.push(
-      this.fb.group({
-        level: ['B+'],
-        robotModeLevel: [85],
-        improvements: [true],
-      })
-    );
+    const qty = this.qty.value || 1;
+
+    for (let i = 0; i < qty; i++) {
+      this.students.push(
+        this.fb.group({
+          level: ['B+'],
+          robotModeLevel: [85],
+          improvements: [true],
+        })
+      );
+    }
   }
 
   removeStudent(index: number) {
