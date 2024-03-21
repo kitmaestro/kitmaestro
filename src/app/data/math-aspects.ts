@@ -5,235 +5,867 @@ export const MATH_ASPECTS: SubjectAspects = {
         [
             {
                 topic: 'Conteo y secuencia de números naturales menores que 99',
-                aspects: []
+                aspects: [
+                    "Contar números del 1 al 10",
+                    "Identificar y escribir números del 1 al 20",
+                    "Contar hacia adelante de 1 en 1 hasta 99",
+                    "Contar hacia atrás de 10 en 10 hasta 0 desde 99",
+                    "Identificar números pares y números impares menores que 99",
+                    "Resolver secuencias numéricas simples",
+                    "Completar series numéricas faltantes",
+                    "Comparar números utilizando los símbolos de mayor que (>), menor que (<) e igual (=)",
+                    "Ordenar números de menor a mayor y de mayor a menor",
+                    "Identificar el número que falta en una secuencia dada",
+                    "Crear y continuar patrones numéricos simples"
+                ]
             },
             {
                 topic: 'Valor posicional de números naturales menores que 99',
-                aspects: []
+                aspects: [
+                    "Identificar el valor de las unidades y decenas en números de dos dígitos",
+                    "Descomponer números de dos dígitos en unidades y decenas",
+                    "Comprender el concepto de lugar y valor en números",
+                    "Comparar números de dos dígitos utilizando el valor posicional",
+                    "Ordenar números de dos dígitos utilizando el valor posicional",
+                    "Resolver problemas que involucren el valor posicional de números",
+                    "Escribir números en palabras y en forma numérica",
+                    "Identificar el dígito en una posición específica en un número de dos dígitos",
+                    "Crear y completar patrones numéricos que involucren el valor posicional",
+                    "Resolver problemas de suma y resta con números de dos dígitos aplicando el concepto de valor posicional"
+                ]
             },
             {
                 topic: 'Números ordinales hasta el décimo (10mo)',
-                aspects: []
+                aspects: [
+                    "Identificar los números ordinales del primero al décimo",
+                    "Escribir los números ordinales del primero al décimo",
+                    "Comprender la secuencia de los números ordinales hasta el décimo",
+                    "Relacionar los números ordinales con la posición de los objetos en una serie",
+                    "Resolver problemas que involucren el uso de números ordinales",
+                    "Comparar la posición de los objetos utilizando números ordinales",
+                    "Identificar la posición de un objeto en una secuencia utilizando números ordinales",
+                    "Crear secuencias numéricas ordinales hasta el décimo",
+                    "Completar secuencias numéricas ordinales hasta el décimo"
+                ]
             },
             {
                 topic: 'Operatoria de números naturales menores que 99',
-                aspects: []
+                aspects: [
+                    "Suma de números naturales menores que 99 sin llevadas",
+                    "Resta de números naturales menores que 99 sin préstamos",
+                    "Resolver problemas de suma y resta con números menores que 99",
+                    "Practicar sumas y restas con números menores que 99 utilizando manipulativos",
+                    "Identificar y utilizar los símbolos matemáticos de suma (+) y resta (-)",
+                    "Comprender el concepto de adición y sustracción con números menores que 99",
+                    "Desarrollar habilidades de cálculo mental con sumas y restas básicas",
+                    "Aplicar estrategias de conteo y agrupamiento para resolver problemas de suma y resta",
+                    "Resolver problemas de la vida cotidiana utilizando operaciones básicas con números menores que 99",
+                    "Practicar la memorización de hechos básicos de suma y resta",
+                    "Utilizar diferentes métodos de representación (como dibujos, manipulativos o modelos numéricos) para comprender conceptos de suma y resta"
+                ]
             },
             {
                 topic: 'Relación de orden con números naturales menores que 99',
-                aspects: []
+                aspects: [
+                    "Comparar números naturales menores que 99 utilizando los símbolos de mayor que (>), menor que (<) e igual (=)",
+                    "Ordenar números naturales menores que 99 de menor a mayor y de mayor a menor",
+                    "Identificar el número más grande y el número más pequeño en un conjunto de números menores que 99",
+                    "Resolver problemas de la vida cotidiana que involucren la relación de orden entre números menores que 99",
+                    "Comprender los conceptos de mayor que, menor que e igual a en relación con números menores que 99",
+                    "Utilizar manipulativos y recursos visuales para ayudar a entender la relación de orden entre números menores que 99",
+                    "Clasificar conjuntos de números menores que 99 según su tamaño",
+                    "Crear y completar secuencias numéricas ascendentes y descendentes con números menores que 99",
+                    "Desarrollar habilidades de razonamiento y lógica al comparar y ordenar números menores que 99"
+                ]
             },
             {
                 topic: 'Localización de objetos',
-                aspects: []
+                aspects: [
+                    "Identificar la posición de objetos en relación con otros objetos (encima, debajo, al lado, entre, cerca, lejos)",
+                    "Utilizar términos de posición para describir la ubicación de objetos (arriba, abajo, adelante, atrás)",
+                    "Resolver problemas que involucren la ubicación de objetos en el espacio",
+                    "Dibujar o construir representaciones de la ubicación de objetos utilizando manipulativos o dibujos",
+                    "Crear mapas simples para representar la ubicación de objetos dentro de un espacio conocido (como un salón de clases)",
+                    "Desarrollar habilidades de orientación espacial al localizar objetos en el entorno",
+                    "Seguir y dar instrucciones para moverse en relación con objetos y puntos de referencia",
+                    "Comparar y contrastar la ubicación de objetos en diferentes configuraciones espaciales",
+                    "Desarrollar habilidades de vocabulario relacionadas con la ubicación y posición de objetos",
+                    "Utilizar juegos y actividades prácticas para practicar la localización de objetos en el espacio"
+                ]
             },
             {
                 topic: 'Cuerpos geométricos',
-                aspects: []
+                aspects: [
+                    "Identificar cuerpos geométricos básicos como el cubo, la esfera, el cono y el cilindro",
+                    "Describir las características básicas de los cuerpos geométricos (número de caras, aristas y vértices)",
+                    "Clasificar los cuerpos geométricos según sus propiedades (por ejemplo, cuerpos con caras planas vs cuerpos con superficies curvas)",
+                    "Explorar y manipular modelos tridimensionales de cuerpos geométricos",
+                    "Crear figuras tridimensionales simples utilizando materiales de manipulación como bloques o plastilina",
+                    "Identificar objetos cotidianos que tienen forma de cuerpos geométricos",
+                    "Resolver problemas que involucren reconocer y comparar cuerpos geométricos en el entorno",
+                    "Nombrar las partes de los cuerpos geométricos (base, vértice, cara, arista)",
+                    "Reconocer las similitudes y diferencias entre diferentes cuerpos geométricos",
+                    "Desarrollar habilidades de vocabulario relacionadas con los cuerpos geométricos"
+                ]
             },
             {
                 topic: 'Figuras planas',
-                aspects: []
+                aspects: [
+                    "Identificar y nombrar figuras planas básicas como el cuadrado, el círculo, el triángulo y el rectángulo",
+                    "Diferenciar entre figuras planas y figuras tridimensionales",
+                    "Describir las características básicas de las figuras planas (lados, vértices)",
+                    "Clasificar las figuras planas según sus propiedades (número de lados, longitudes de los lados)",
+                    "Explorar y manipular modelos de figuras planas en papel o en materiales manipulativos",
+                    "Crear figuras planas utilizando materiales de manipulación como palitos de fósforos o plastilina",
+                    "Identificar figuras planas en el entorno cotidiano (por ejemplo, en envases, señales de tráfico)",
+                    "Resolver problemas que involucren reconocer y comparar figuras planas",
+                    "Nombrar partes de las figuras planas (lados, vértices)",
+                    "Desarrollar habilidades de vocabulario relacionadas con las figuras planas"
+                ]
             },
             {
                 topic: 'Patrones geométricos',
-                aspects: []
+                aspects: [
+                    "Identificar y crear patrones geométricos simples utilizando figuras planas como cuadrados, círculos y triángulos",
+                    "Reconocer la repetición de figuras geométricas en un patrón",
+                    "Completar patrones geométricos simples que siguen reglas predefinidas (por ejemplo, patrón ABAB, AABAAB)",
+                    "Extender patrones geométricos siguiendo una secuencia lógica",
+                    "Clasificar patrones geométricos según su tipo (alternante, creciente, decreciente)",
+                    "Crear patrones geométricos utilizando materiales de manipulación como bloques o tarjetas",
+                    "Identificar patrones geométricos en el entorno cotidiano (por ejemplo, en baldosas, tejidos)",
+                    "Resolver problemas que involucren reconocer, extender y crear patrones geométricos",
+                    "Desarrollar habilidades de razonamiento y lógica al trabajar con patrones geométricos",
+                    "Utilizar diferentes colores y tamaños para crear patrones geométricos visualmente atractivos"
+                ]
             },
             {
                 topic: 'Líneas',
-                aspects: []
+                aspects: [
+                    "Identificar y nombrar tipos de líneas básicas como rectas, curvas, y segmentos",
+                    "Diferenciar entre líneas rectas y curvas",
+                    "Reconocer líneas en el entorno cotidiano (por ejemplo, líneas en carreteras, líneas en dibujos)",
+                    "Dibujar líneas rectas y curvas utilizando reglas, plantillas o materiales de dibujo",
+                    "Completar patrones que incluyan líneas rectas y curvas",
+                    "Comparar y clasificar líneas según su longitud y forma",
+                    "Desarrollar habilidades de vocabulario relacionadas con las líneas (horizontal, vertical, diagonal)",
+                    "Resolver problemas que involucren reconocer y trabajar con líneas en contextos simples",
+                    "Crear composiciones artísticas que utilicen líneas como elemento principal",
+                    "Utilizar diferentes colores y grosores para representar y distinguir líneas en dibujos y actividades"
+                ]
             },
             {
                 topic: 'Medidas y longitud',
-                aspects: []
+                aspects: [
+                    "Identificar objetos y comparar su longitud utilizando términos como más largo, más corto, igual longitud",
+                    "Medir la longitud de objetos utilizando unidades no convencionales como pasos, palmas o bloques",
+                    "Comparar longitudes utilizando unidades no convencionales",
+                    "Explorar y comparar longitudes utilizando herramientas de medición convencionales como reglas y cintas métricas",
+                    "Ordenar objetos por longitud, del más corto al más largo",
+                    "Resolver problemas de la vida cotidiana que involucren medir y comparar longitudes",
+                    "Crear dibujos o modelos que representen objetos con longitudes específicas",
+                    "Desarrollar habilidades de vocabulario relacionadas con medidas y longitud (largo, corto, unidad de medida)",
+                    "Comprender el concepto de unidad de medida y su importancia en la medición de longitud",
+                    "Utilizar la comparación de longitudes para resolver problemas de clasificación y ordenación"
+                ]
             },
             {
                 topic: 'Estimación de longitud',
-                aspects: []
+                aspects: [
+                    "Desarrollar la habilidad de estimar la longitud de objetos sin utilizar instrumentos de medición",
+                    "Comparar estimaciones de longitud con mediciones precisas utilizando herramientas de medición convencionales",
+                    "Practicar la estimación de longitud utilizando referencias visuales y táctiles",
+                    "Resolver problemas que impliquen estimar la longitud de objetos en contextos cotidianos",
+                    "Utilizar estrategias como dividir el objeto en partes más pequeñas o utilizar objetos de referencia conocidos para realizar estimaciones más precisas",
+                    "Desarrollar habilidades de razonamiento y justificación al explicar las estimaciones de longitud",
+                    "Crear juegos y actividades que fomenten la práctica de la estimación de longitud",
+                    "Explorar diferentes unidades de medida no convencionales para estimar la longitud de objetos",
+                    "Reflexionar sobre la precisión de las estimaciones y cómo mejorarlas",
+                    "Fomentar la discusión y el intercambio de ideas sobre las estimaciones de longitud entre los estudiantes"
+                ]
             },
             {
                 topic: 'Unidades arbitrarias de longitud',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de unidades arbitrarias de longitud utilizando objetos cotidianos como puntos de referencia (por ejemplo, el largo de una mesa, la altura de un pupitre)",
+                    "Comparar longitudes utilizando unidades arbitrarias de longitud",
+                    "Desarrollar la habilidad de medir y comparar longitudes utilizando pasos, palmas, bloques u otros objetos de referencia",
+                    "Resolver problemas que impliquen medir y comparar longitudes utilizando unidades arbitrarias",
+                    "Explorar y justificar diferentes elecciones de unidades arbitrarias para medir objetos en función de su tamaño y características",
+                    "Crear actividades prácticas que involucren medir objetos utilizando unidades arbitrarias y comparar los resultados",
+                    "Fomentar la estimación y la verificación de medidas utilizando unidades arbitrarias",
+                    "Utilizar dibujos y representaciones visuales para mostrar mediciones con unidades arbitrarias",
+                    "Desarrollar habilidades de vocabulario relacionadas con unidades arbitrarias de longitud",
+                    "Reflexionar sobre la importancia y la utilidad de las unidades arbitrarias en la vida cotidiana"
+                ]
             },
             {
                 topic: 'Medida de: capacidad, peso, tiempo y dinero',
-                aspects: []
+                aspects: [
+                    "Medir la capacidad utilizando recipientes como vasos, tazas y cubetas",
+                    "Comparar volúmenes de líquidos utilizando unidades no convencionales como recipientes de diferentes tamaños",
+                    "Explorar conceptos de lleno, vacío y medio lleno al medir la capacidad de contenedores",
+                    "Practicar el uso de términos de cantidad como más, menos, igual al comparar capacidades",
+                    "Medir el peso utilizando balanzas u objetos de referencia como libros o frutas",
+                    "Comparar pesos utilizando unidades no convencionales como manos llenas o bolsas de arena de diferentes tamaños",
+                    "Resolver problemas de la vida cotidiana que involucren medir y comparar pesos",
+                    "Explorar conceptos de más pesado y menos pesado al comparar objetos",
+                    "Medir el tiempo utilizando relojes o temporizadores",
+                    "Comparar duraciones de tiempo utilizando referencias como el reloj o eventos de la vida diaria",
+                    "Resolver problemas que impliquen calcular intervalos de tiempo simples",
+                    "Introducir conceptos de días, semanas y meses como unidades de tiempo",
+                    "Identificar y contar monedas y billetes de diferentes denominaciones",
+                    "Practicar la suma y resta de cantidades de dinero utilizando monedas y billetes",
+                    "Resolver problemas de la vida cotidiana que involucren el uso y el intercambio de dinero",
+                    "Comprender el valor relativo de diferentes monedas y billetes",
+                    "Desarrollar habilidades de vocabulario relacionadas con medidas de capacidad, peso, tiempo y dinero"
+                ]
             },
             {
                 topic: 'Recolección y organización de datos',
-                aspects: []
+                aspects: [
+                    "Recopilar datos sobre características simples de los compañeros de clase, como el color favorito o la mascota que tienen",
+                    "Registrar datos utilizando pictogramas simples que representen cantidades pequeñas y fáciles de contar",
+                    "Organizar datos utilizando tablas simples con categorías básicas",
+                    "Leer e interpretar pictogramas y tablas simples para extraer información",
+                    "Resolver problemas que involucren la comparación de datos recopilados",
+                    "Crear gráficos de barras simples para representar datos recopilados",
+                    "Participar en actividades de encuestas simples para recopilar datos sobre preferencias o hábitos",
+                    "Identificar y contar el número total de respuestas en una encuesta",
+                    "Describir patrones o tendencias en los datos recopilados",
+                    "Desarrollar habilidades de vocabulario relacionadas con la recolección y organización de datos"
+                ]
             },
             {
                 topic: 'Representación gráfica de los datos estadísticos',
-                aspects: []
+                aspects: [
+                    "Introducir la representación gráfica de datos utilizando pictogramas simples",
+                    "Crear pictogramas para representar datos simples como la cantidad de objetos, animales o colores favoritos",
+                    "Interpretar pictogramas simples para extraer información sobre cantidades",
+                    "Identificar y contar los símbolos en un pictograma para determinar cantidades",
+                    "Crear gráficos de barras simples utilizando barras de igual longitud para representar cantidades",
+                    "Comparar cantidades utilizando gráficos de barras",
+                    "Participar en actividades prácticas donde se recolecten datos y se representen gráficamente",
+                    "Describir y discutir patrones o tendencias en los datos representados gráficamente",
+                    "Desarrollar habilidades de vocabulario relacionadas con la representación gráfica de datos estadísticos"
+                ]
             },
         ],
         [
             {
                 topic: "Conteo y secuencia de números naturales menores que 999",
-                aspects: []
+                aspects: [
+                    "Contar en adelante y hacia atrás de 1 en 1 hasta 999",
+                    "Identificar y escribir números del 1 al 999",
+                    "Completar secuencias numéricas hasta 999",
+                    "Identificar números pares e impares hasta 999",
+                    "Comparar y ordenar números hasta 999 utilizando los símbolos de mayor que (>), menor que (<) e igual (=)",
+                    "Resolver problemas de la vida cotidiana que implican contar y secuenciar números hasta 999",
+                    "Descomponer números de hasta 999 en centenas, decenas y unidades",
+                    "Identificar el número que falta en una secuencia dada hasta 999",
+                    "Aplicar estrategias de conteo y agrupamiento para resolver problemas hasta 999",
+                    "Desarrollar habilidades de estimación al trabajar con números hasta 999"
+                ]
             },
             {
                 topic: "Valor posicional de números naturales menores que 999",
-                aspects: []
+                aspects: [
+                    "Identificar y comprender el valor de las centenas, decenas y unidades en números de hasta 999",
+                    "Descomponer números de hasta 999 en su forma expandida (por ejemplo, 356 = 300 + 50 + 6)",
+                    "Comparar y ordenar números de hasta 999 utilizando su valor posicional",
+                    "Resolver problemas que impliquen el uso del valor posicional de números hasta 999",
+                    "Identificar y escribir números en forma numérica y en palabras hasta 999",
+                    "Utilizar manipulativos como bloques base 10 o abacos para representar y comprender el valor posicional",
+                    "Completar secuencias numéricas hasta 999 utilizando el valor posicional",
+                    "Aplicar el concepto de valor posicional en operaciones de suma y resta hasta 999",
+                    "Desarrollar habilidades de razonamiento al trabajar con el valor posicional de números hasta 999",
+                    "Practicar la memorización de hechos básicos de suma y resta con números hasta 999"
+                ]
             },
             {
                 topic: "Números ordinales hasta el vigésimo (20mo)",
-                aspects: []
+                aspects: [
+                    "Identificar y escribir los números ordinales hasta el vigésimo (20mo)",
+                    "Comprender la secuencia de los números ordinales hasta el vigésimo",
+                    "Utilizar números ordinales para indicar la posición de objetos en una serie hasta el vigésimo",
+                    "Comparar y ordenar objetos utilizando números ordinales hasta el vigésimo",
+                    "Resolver problemas que involucren el uso de números ordinales hasta el vigésimo",
+                    "Crear secuencias numéricas ordinales hasta el vigésimo",
+                    "Completar secuencias numéricas ordinales hasta el vigésimo",
+                    "Identificar el número ordinal que falta en una serie hasta el vigésimo",
+                    "Desarrollar habilidades de vocabulario relacionadas con los números ordinales hasta el vigésimo",
+                    "Utilizar actividades prácticas y lúdicas para reforzar el concepto de números ordinales hasta el vigésimo"
+                ]
             },
             {
                 topic: "Operatoria de números naturales menores que 999",
-                aspects: []
+                aspects: [
+                    "Sumar y restar números de hasta tres dígitos sin llevar ni pedir prestado",
+                    "Resolver problemas de suma y resta con números menores que 999",
+                    "Utilizar manipulativos y recursos visuales para comprender las operaciones de suma y resta",
+                    "Identificar y utilizar los símbolos matemáticos de suma (+) y resta (-)",
+                    "Comprender el concepto de adición y sustracción con números menores que 999",
+                    "Aplicar estrategias de conteo y agrupamiento para resolver problemas de suma y resta",
+                    "Resolver problemas de la vida cotidiana utilizando operaciones básicas con números menores que 999",
+                    "Practicar la memorización de hechos básicos de suma y resta",
+                    "Desarrollar habilidades de cálculo mental con sumas y restas básicas",
+                    "Utilizar diferentes métodos de representación (como dibujos, manipulativos o modelos numéricos) para comprender conceptos de suma y resta"
+                ]
             },
             {
                 topic: "Relación de orden con números naturales menores que 999",
-                aspects: []
+                aspects: [
+                    "Comparar números de hasta tres dígitos utilizando los símbolos de mayor que (>), menor que (<) e igual (=)",
+                    "Ordenar números de hasta tres dígitos de menor a mayor y de mayor a menor",
+                    "Identificar el número más grande y el número más pequeño en un conjunto de números hasta 999",
+                    "Resolver problemas que involucren la relación de orden entre números menores que 999",
+                    "Comprender los conceptos de mayor que, menor que e igual a en relación con números menores que 999",
+                    "Utilizar manipulativos y recursos visuales para ayudar a entender la relación de orden entre números menores que 999",
+                    "Clasificar conjuntos de números menores que 999 según su tamaño",
+                    "Crear y completar secuencias numéricas ascendentes y descendentes con números menores que 999",
+                    "Desarrollar habilidades de razonamiento y lógica al comparar y ordenar números menores que 999"
+                ]
             },
             {
                 topic: "Figuras planas",
-                aspects: []
+                aspects: [
+                    "Identificar figuras planas básicas como el cuadrado, el círculo, el triángulo y el rectángulo",
+                    "Diferenciar entre figuras planas y figuras tridimensionales",
+                    "Reconocer y nombrar las características básicas de las figuras planas (lados, vértices)",
+                    "Clasificar figuras planas según sus propiedades (por ejemplo, número de lados, longitud de los lados)",
+                    "Explorar y manipular modelos de figuras planas utilizando materiales manipulativos",
+                    "Crear figuras planas utilizando materiales manipulativos o dibujos",
+                    "Identificar figuras planas en el entorno cotidiano (por ejemplo, en envases, señales de tráfico)",
+                    "Resolver problemas que involucren reconocer y comparar figuras planas",
+                    "Nombrar partes de las figuras planas (lados, vértices)",
+                    "Desarrollar habilidades de vocabulario relacionadas con las figuras planas"
+                ]
             },
             {
                 topic: "Semejanza y congruencia de figuras planas",
-                aspects: []
+                aspects: [
+                    "Identificar figuras planas congruentes (iguales en forma y tamaño)",
+                    "Identificar figuras planas semejantes (iguales en forma pero no necesariamente en tamaño)",
+                    "Comparar figuras planas para determinar si son congruentes o semejantes",
+                    "Reconocer y utilizar criterios visuales para determinar la semejanza y congruencia de figuras planas (por ejemplo, lados proporcionales en figuras semejantes)",
+                    "Resolver problemas que impliquen identificar figuras planas congruentes o semejantes",
+                    "Explorar y manipular modelos de figuras planas para observar semejanza y congruencia",
+                    "Dibujar figuras planas congruentes o semejantes utilizando reglas y herramientas de dibujo",
+                    "Identificar figuras planas congruentes o semejantes en el entorno cotidiano (por ejemplo, en carteles, logotipos)",
+                    "Desarrollar habilidades de vocabulario relacionadas con semejanza y congruencia de figuras planas",
+                    "Introducir conceptos básicos de geometría para preparar el camino hacia un estudio más profundo en años posteriores"
+                ]
             },
             {
                 topic: "Simetría",
-                aspects: []
+                aspects: [
+                    "Identificar y comprender el concepto de simetría en figuras planas simples",
+                    "Reconocer líneas de simetría en figuras planas como cuadrados, rectángulos y círculos",
+                    "Identificar figuras simétricas y asimétricas en el entorno cotidiano",
+                    "Crear figuras simétricas dibujando el lado opuesto de la línea de simetría",
+                    "Completar figuras simétricas dadas dibujando el lado faltante",
+                    "Resolver actividades de plegado para visualizar la simetría en figuras geométricas",
+                    "Desarrollar la habilidad de trazar líneas de simetría en figuras geométricas",
+                    "Explorar patrones simétricos utilizando materiales manipulativos como bloques o palitos",
+                    "Desarrollar habilidades de vocabulario relacionadas con la simetría (por ejemplo, línea de simetría, figuras simétricas)",
+                    "Aplicar el concepto de simetría en actividades de arte y diseño"
+                ]
             },
             {
                 topic: "Cuerpos geométricos",
-                aspects: []
+                aspects: [
+                    "Identificar y nombrar cuerpos geométricos básicos como cubos, esferas, conos y cilindros",
+                    "Reconocer características básicas de los cuerpos geométricos, como caras, vértices y aristas",
+                    "Explorar las propiedades de los cuerpos geométricos a través de la manipulación de modelos tridimensionales",
+                    "Comparar cuerpos geométricos según sus propiedades (por ejemplo, número de caras, tipo de base)",
+                    "Clasificar objetos del entorno cotidiano según su forma tridimensional",
+                    "Crear modelos tridimensionales de cuerpos geométricos utilizando materiales manipulativos como plastilina o bloques",
+                    "Identificar cuerpos geométricos en el entorno cotidiano (por ejemplo, una lata como un cilindro, un balón como una esfera)",
+                    "Resolver problemas que impliquen el reconocimiento y la comparación de cuerpos geométricos",
+                    "Desarrollar habilidades de vocabulario relacionadas con los cuerpos geométricos (por ejemplo, caras, vértices, aristas)",
+                    "Utilizar actividades prácticas y lúdicas para reforzar el aprendizaje sobre cuerpos geométricos"
+                ]
             },
             {
                 topic: "Patrones geométricos",
-                aspects: []
+                aspects: [
+                    "Identificar y crear patrones geométricos simples utilizando figuras como cuadrados, círculos y triángulos",
+                    "Reconocer y continuar patrones geométricos básicos (por ejemplo, cuadrado-círculo-cuadrado-círculo)",
+                    "Explorar patrones de traslación (desplazamiento), reflexión (simetría) y rotación (giro) con figuras geométricas básicas",
+                    "Crear patrones geométricos utilizando materiales manipulativos como bloques o tarjetas",
+                    "Identificar y describir las reglas de un patrón geométrico dado (por ejemplo, 'cada figura es un círculo rodeado por un cuadrado')",
+                    "Resolver problemas que impliquen identificar y extender patrones geométricos",
+                    "Aplicar el concepto de patrones geométricos en actividades artísticas y de diseño",
+                    "Desarrollar habilidades de razonamiento y previsión al trabajar con patrones geométricos",
+                    "Utilizar actividades prácticas y lúdicas para reforzar el aprendizaje sobre patrones geométricos",
+                    "Fomentar la creatividad al crear y explorar diferentes tipos de patrones geométricos"
+                ]
             },
             {
                 topic: "Posición y sentido espacial de los cuerpos geométricos",
-                aspects: []
+                aspects: [
+                    "Identificar y describir la posición relativa de los cuerpos geométricos en el espacio (arriba, abajo, adelante, atrás, dentro, fuera)",
+                    "Utilizar el lenguaje direccional para describir la ubicación y el movimiento de los cuerpos geométricos (a la izquierda, a la derecha, arriba, abajo)",
+                    "Explorar y manipular modelos tridimensionales para comprender la posición y el sentido espacial de los cuerpos geométricos",
+                    "Resolver problemas que involucren la ubicación y el movimiento de los cuerpos geométricos en el espacio",
+                    "Crear representaciones visuales de cuerpos geométricos en diferentes posiciones y orientaciones",
+                    "Utilizar modelos tridimensionales para explorar y comprender las relaciones espaciales entre los cuerpos geométricos (por ejemplo, cuál es más grande, cuál está al lado de otro)",
+                    "Desarrollar habilidades de razonamiento espacial al trabajar con cuerpos geométricos en diferentes posiciones y orientaciones",
+                    "Aplicar conceptos de posición y sentido espacial en actividades de construcción y diseño",
+                    "Utilizar actividades prácticas y lúdicas para reforzar el aprendizaje sobre posición y sentido espacial de los cuerpos geométricos",
+                    "Desarrollar habilidades de comunicación al describir y discutir la posición y el movimiento de los cuerpos geométricos"
+                ]
             },
             {
                 topic: "Medidas y longitud",
-                aspects: []
+                aspects: [
+                    "Medir longitudes utilizando unidades no convencionales como pasos, palmos o lápices",
+                    "Comparar longitudes de objetos utilizando términos como más largo, más corto o igual",
+                    "Utilizar regletas u otros materiales de medición para medir longitudes en centímetros",
+                    "Estimar longitudes antes de medirlas con precisión",
+                    "Resolver problemas que involucren medir y comparar longitudes de objetos del entorno cotidiano",
+                    "Explorar el concepto de perímetro como la suma de las longitudes de los lados de una figura",
+                    "Identificar y medir perímetros simples de figuras planas como cuadrados y rectángulos",
+                    "Crear y medir figuras con perímetros dados utilizando materiales manipulativos",
+                    "Desarrollar habilidades de vocabulario relacionadas con medidas y longitud",
+                    "Utilizar actividades prácticas y lúdicas para reforzar el aprendizaje sobre medidas y longitud"
+                ]
             },
             {
                 topic: "Estimación de longitud",
-                aspects: []
+                aspects: [
+                    "Desarrollar habilidades de estimación al determinar la longitud de objetos sin utilizar instrumentos de medición",
+                    "Estimar la longitud de objetos utilizando unidades no convencionales como pasos, palmos o palmas de las manos",
+                    "Comparar estimaciones con mediciones precisas para evaluar la precisión de las estimaciones",
+                    "Resolver problemas que impliquen estimar la longitud de objetos del entorno cotidiano",
+                    "Utilizar estrategias de aproximación para realizar estimaciones rápidas y cercanas a la longitud real",
+                    "Reflexionar sobre la precisión de las estimaciones y ajustarlas según sea necesario",
+                    "Explorar la relación entre la estimación y la medición precisa de la longitud",
+                    "Practicar la estimación de longitud en actividades prácticas y lúdicas",
+                    "Desarrollar habilidades de comunicación al justificar y explicar las estimaciones realizadas",
+                    "Fomentar la confianza en la capacidad de estimar longitudes"
+                ]
             },
             {
                 topic: "Unidades arbitrarias de longitud",
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de unidades arbitrarias de longitud, como pasos, palmos, lápices, etc.",
+                    "Comprender que las unidades arbitrarias de longitud son medidas no convencionales y pueden variar de una persona a otra",
+                    "Practicar la medición de objetos utilizando unidades arbitrarias de longitud",
+                    "Comparar longitudes medidas en unidades arbitrarias utilizando términos como más largo, más corto o igual",
+                    "Explorar la relación entre unidades arbitrarias de longitud y unidades convencionales como centímetros y metros",
+                    "Resolver problemas que impliquen medir y comparar longitudes utilizando unidades arbitrarias",
+                    "Desarrollar habilidades de estimación al utilizar unidades arbitrarias de longitud",
+                    "Reflexionar sobre la importancia de utilizar unidades consistentes al medir longitudes",
+                    "Utilizar actividades prácticas y lúdicas para reforzar el aprendizaje sobre unidades arbitrarias de longitud",
+                    "Fomentar la creatividad al inventar nuevas unidades arbitrarias de longitud"
+                ]
             },
             {
                 topic: "Medida de: capacidad, peso, tiempo y dinero",
-                aspects: []
+                aspects: [
+                    "Medir la capacidad utilizando unidades convencionales como litros y mililitros",
+                    "Comparar capacidades de recipientes utilizando términos como más grande, más pequeño o igual",
+                    "Practicar la medición de capacidad vertiendo líquidos de un recipiente a otro",
+                    "Explorar la relación entre diferentes unidades de capacidad (por ejemplo, 1 litro equivale a 1000 mililitros)",
+                    "Medir el peso utilizando unidades convencionales como kilogramos y gramos",
+                    "Comparar pesos de objetos utilizando términos como más pesado, más ligero o igual",
+                    "Practicar la medición de peso utilizando balanzas u otros instrumentos de pesaje",
+                    "Identificar y utilizar diferentes unidades de tiempo como horas, minutos y segundos",
+                    "Comparar duraciones de tiempo utilizando términos como más largo, más corto o igual",
+                    "Practicar la medición del tiempo utilizando relojes analógicos y digitales",
+                    "Identificar y utilizar diferentes denominaciones de monedas y billetes",
+                    "Resolver problemas que impliquen sumar, restar y comparar cantidades de dinero",
+                    "Practicar el reconocimiento y el valor de diferentes monedas y billetes",
+                    "Desarrollar habilidades de estimación al medir capacidad, peso, tiempo y dinero",
+                    "Utilizar actividades prácticas y lúdicas para reforzar el aprendizaje sobre medidas de capacidad, peso, tiempo y dinero"
+                ]
             },
             {
                 topic: "Recolección y organización de datos",
-                aspects: []
+                aspects: [
+                    "Recolectar datos mediante la observación de características de los objetos, como colores, formas o tamaños",
+                    "Registrar datos recolectados utilizando tablas simples con columnas y filas",
+                    "Organizar datos recolectados en gráficos de barras simples o pictogramas",
+                    "Interpretar información presentada en gráficos de barras o pictogramas",
+                    "Resolver problemas que impliquen la recolección y organización de datos",
+                    "Comparar conjuntos de datos para identificar tendencias y patrones",
+                    "Desarrollar habilidades de conteo al recolectar y organizar datos",
+                    "Utilizar términos matemáticos como más, menos, igual, mayor, menor para comparar datos",
+                    "Utilizar actividades prácticas y lúdicas para recolectar y organizar datos",
+                    "Fomentar la creatividad al diseñar gráficos y tablas para representar datos recolectados"
+                ]
             },
             {
                 topic: "Representación gráfica de los datos estadísticos",
-                aspects: []
+                aspects: [
+                    "Introducir gráficos simples como pictogramas y gráficos de barras",
+                    "Crear pictogramas para representar conjuntos de datos usando imágenes o símbolos",
+                    "Diseñar gráficos de barras utilizando barras para representar cantidades",
+                    "Interpretar la información presentada en pictogramas y gráficos de barras",
+                    "Comparar conjuntos de datos representados en diferentes tipos de gráficos",
+                    "Resolver problemas que impliquen la interpretación de gráficos de datos",
+                    "Identificar tendencias y patrones en los datos representados gráficamente",
+                    "Utilizar leyendas y etiquetas en los gráficos para hacerlos más comprensibles",
+                    "Crear gráficos de datos utilizando materiales manipulativos o software educativo",
+                    "Desarrollar habilidades de comunicación al explicar la información presentada en los gráficos"
+                ]
             },
         ],
         [
             {
                 topic: 'Secuencia de números naturales menores que 99,999',
-                aspects: []
+                aspects: [
+                    "Identificar y continuar secuencias numéricas ascendentes y descendentes hasta 99,999",
+                    "Reconocer y escribir números naturales de hasta cinco dígitos en secuencias numéricas",
+                    "Comprender el valor posicional de cada dígito en números de hasta cinco dígitos",
+                    "Resolver problemas que impliquen completar secuencias numéricas hasta 99,999",
+                    "Desarrollar estrategias para identificar patrones y reglas en secuencias numéricas",
+                    "Explorar la relación entre los números en una secuencia y su posición",
+                    "Utilizar materiales manipulativos como tarjetas numéricas o regletas para trabajar con secuencias numéricas",
+                    "Desarrollar habilidades de conteo y ordenamiento al trabajar con números de hasta cinco dígitos",
+                    "Aplicar el concepto de secuencia numérica en situaciones cotidianas y problemas matemáticos",
+                    "Fomentar la creatividad al diseñar nuevas secuencias numéricas y patrones"
+                ]
             },
             {
                 topic: 'Valor posicional de números naturales menores que 99,999',
-                aspects: []
+                aspects: [
+                    "Identificar números pares e impares hasta el 999",
+                    "Comprender la propiedad de los números pares e impares",
+                    "Reconocer que los números pares pueden dividirse en dos grupos iguales, mientras que los números impares no pueden",
+                    "Resolver problemas que impliquen identificar números pares e impares en contextos cotidianos y matemáticos",
+                    "Utilizar materiales manipulativos como fichas o bloques para agrupar números en pares e impares",
+                    "Crear secuencias de números pares e impares ascendentes y descendentes",
+                    "Relacionar los números pares e impares con objetos y situaciones de la vida diaria",
+                    "Desarrollar habilidades de clasificación al agrupar números en categorías de pares e impares",
+                    "Explorar patrones y propiedades de los números pares e impares",
+                    "Fomentar la creatividad al diseñar actividades y juegos que involucren números pares e impares"
+                ]
             },
             {
                 topic: 'Números pares e impares',
-                aspects: []
+                aspects: [
+                    "Realizar sumas y restas con números de hasta cinco dígitos",
+                    "Resolver problemas verbales que involucren sumas y restas con números naturales",
+                    "Comprender y aplicar la propiedad conmutativa de la suma y la resta",
+                    "Descomponer números en sus partes (por ejemplo, unidades, decenas, centenas, etc.) para facilitar la suma y la resta",
+                    "Utilizar estrategias como el uso de la recta numérica, el regrouping o el algoritmo estándar para resolver sumas y restas",
+                    "Verificar la precisión de los cálculos mediante el uso de estrategias de estimación",
+                    "Resolver problemas que impliquen la combinación de sumas y restas",
+                    "Aplicar la regla de signos al realizar operaciones combinadas (+ y -) con números naturales",
+                    "Desarrollar fluidez y precisión en la realización de cálculos mentales y escritos",
+                    "Utilizar materiales manipulativos y juegos educativos para practicar la operatoria con números naturales"
+                ]
             },
             {
                 topic: 'Números ordinales hasta el trigésimo (30mo)',
-                aspects: []
+                aspects: [
+                    "Comparar números naturales de hasta tres dígitos utilizando los símbolos de mayor que (>), menor que (<) e igual que (=)",
+                    "Ordenar números naturales de hasta tres dígitos de manera ascendente y descendente",
+                    "Resolver problemas que involucren la comparación y el ordenamiento de números naturales en contextos cotidianos y matemáticos",
+                    "Comprender la relación de orden entre los números naturales en una recta numérica",
+                    "Utilizar estrategias como la comparación de dígitos y la descomposición de números para facilitar la comparación y el ordenamiento",
+                    "Identificar patrones y tendencias al comparar y ordenar números naturales",
+                    "Desarrollar habilidades de razonamiento al justificar las comparaciones y los ordenamientos realizados",
+                    "Utilizar materiales manipulativos y juegos educativos para practicar la relación de orden con números naturales",
+                    "Explorar situaciones de la vida diaria donde se requiera comparar y ordenar números naturales",
+                    "Fomentar la creatividad al diseñar actividades y juegos que promuevan la práctica de la relación de orden con números naturales"
+                ]
             },
             {
                 topic: 'Operatoria de números naturales menores que 99,999',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de fracciones como partes de un todo",
+                    "Identificar y nombrar partes fraccionarias de una figura o conjunto",
+                    "Representar fracciones comunes utilizando figuras geométricas, como círculos y rectángulos divididos en partes iguales",
+                    "Comparar fracciones comunes utilizando términos como mayor que (>), menor que (<) o igual a (=)",
+                    "Ordenar fracciones comunes de menor a mayor o de mayor a menor",
+                    "Resolver problemas que impliquen el uso de fracciones en contextos cotidianos",
+                    "Identificar fracciones equivalentes, es decir, fracciones que representan la misma cantidad",
+                    "Realizar operaciones básicas con fracciones comunes, como sumar y restar fracciones con el mismo denominador",
+                    "Desarrollar habilidades de razonamiento al explicar y justificar el uso de fracciones en diferentes situaciones",
+                    "Utilizar actividades prácticas y lúdicas para explorar y practicar el concepto de fracciones comunes",
+                    "Fomentar la creatividad al diseñar actividades que involucren el uso de fracciones en el arte, la música u otras áreas"
+                ]
             },
             {
                 topic: 'Relación de orden con números naturales menores que 999',
-                aspects: []
+                aspects: [
+                    "Desarrollar estrategias para sumar y restar mentalmente números de hasta cinco dígitos",
+                    "Aplicar la propiedad conmutativa para facilitar el cálculo mental",
+                    "Utilizar descomposiciones numéricas para realizar sumas y restas mentales más eficientemente",
+                    "Resolver problemas verbales que impliquen sumas y restas de números naturales",
+                    "Practicar el cálculo mental a través de juegos y actividades dinámicas",
+                    "Desarrollar fluidez y precisión en el cálculo mental con números de hasta cinco dígitos",
+                    "Fomentar la estimación para verificar la precisión de los cálculos mentales",
+                    "Aplicar estrategias de redondeo para simplificar el cálculo mental con números grandes",
+                    "Resolver problemas matemáticos que requieran el uso del cálculo mental en situaciones cotidianas",
+                    "Incorporar ejercicios de cálculo mental como parte de la rutina diaria de matemáticas"
+                ]
             },
             {
                 topic: 'Fracciones: comunes y unidad',
-                aspects: []
+                aspects: [
+                    "Identificar patrones numéricos en secuencias ascendentes y descendentes",
+                    "Reconocer y extender patrones numéricos simples",
+                    "Crear y describir patrones numéricos utilizando términos como suma, resta, multiplicación y división",
+                    "Utilizar reglas algebraicas sencillas para describir patrones numéricos",
+                    "Resolver problemas que involucren la identificación y extensión de patrones numéricos",
+                    "Desarrollar habilidades de razonamiento al predecir el siguiente término en una secuencia numérica",
+                    "Explorar patrones numéricos en tablas de multiplicar y secuencias aritméticas",
+                    "Utilizar materiales manipulativos como bloques de construcción o fichas para representar y crear patrones numéricos",
+                    "Relacionar patrones numéricos con patrones visuales y situaciones de la vida diaria",
+                    "Fomentar la creatividad al diseñar nuevos patrones numéricos y explorar sus propiedades"
+                ]
             },
             {
                 topic: 'Cálculo mental con números naturales menores que 99,999',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de segmento y rayo como partes de una línea",
+                    "Identificar y diferenciar entre segmentos y rayos en figuras geométricas",
+                    "Describir un segmento como una parte de una línea limitada por dos puntos extremos",
+                    "Describir un rayo como una parte de una línea que tiene un punto inicial pero se extiende indefinidamente en una dirección",
+                    "Explorar ejemplos de segmentos y rayos en el entorno cotidiano y en el mundo natural",
+                    "Representar segmentos y rayos utilizando dibujos y modelos visuales",
+                    "Resolver problemas que involucren la identificación y clasificación de segmentos y rayos en contextos geométricos",
+                    "Utilizar materiales manipulativos como reglas, palitos o palitos de conteo para construir y explorar segmentos y rayos",
+                    "Fomentar la discusión y el intercambio de ideas sobre las características y propiedades de segmentos y rayos",
+                    "Incorporar actividades de arte y diseño que involucren la creación de segmentos y rayos en composiciones visuales"
+                ]
             },
             {
                 topic: 'Patrones numéricos',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de polígonos como figuras planas con lados rectos",
+                    "Identificar y nombrar polígonos simples, como triángulos, cuadriláteros, pentágonos y hexágonos",
+                    "Reconocer las características de diferentes tipos de polígonos, incluyendo el número de lados y ángulos",
+                    "Clasificar polígonos según el número de lados",
+                    "Identificar y describir propiedades de los polígonos, como la suma de los ángulos interiores",
+                    "Construir polígonos utilizando materiales manipulativos como palitos, reglas y papel cuadriculado",
+                    "Explorar polígonos en el entorno cotidiano y en la naturaleza",
+                    "Resolver problemas que involucren la identificación, clasificación y construcción de polígonos",
+                    "Aplicar el conocimiento sobre polígonos en actividades de arte y diseño",
+                    "Fomentar la creatividad al crear patrones y diseños utilizando polígonos"
+                ]
             },
             {
                 topic: 'Segmento y rayo',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de congruencia entre figuras geométricas",
+                    "Identificar pares de figuras congruentes",
+                    "Comprender que dos figuras son congruentes si tienen la misma forma y tamaño",
+                    "Reconocer ejemplos de figuras congruentes en el entorno cotidiano",
+                    "Realizar transformaciones geométricas simples (como traslaciones y rotaciones) para verificar la congruencia entre figuras",
+                    "Resolver problemas que impliquen identificar figuras congruentes",
+                    "Explorar la simetría como una propiedad de las figuras congruentes",
+                    "Utilizar materiales manipulativos como bloques de construcción o figuras geométricas para manipular y explorar figuras congruentes",
+                    "Aplicar el concepto de congruencia en actividades de arte y diseño",
+                    "Fomentar la creatividad al crear figuras congruentes en composiciones visuales"
+                ]
             },
             {
                 topic: 'Polígonos',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de transformaciones geométricas",
+                    "Identificar y describir diferentes tipos de transformaciones, como traslaciones, rotaciones y simetrías",
+                    "Realizar traslaciones de figuras geométricas utilizando movimientos hacia arriba, abajo, izquierda o derecha",
+                    "Explorar rotaciones de figuras geométricas en sentido horario y antihorario alrededor de un punto de referencia",
+                    "Identificar ejemplos de simetría axial y simetría central en figuras geométricas",
+                    "Resolver problemas que impliquen la aplicación de transformaciones geométricas en diferentes contextos",
+                    "Utilizar materiales manipulativos como bloques de construcción, papel cuadriculado o aplicaciones digitales para realizar y explorar transformaciones geométricas",
+                    "Aplicar el conocimiento sobre transformaciones geométricas en actividades de arte y diseño",
+                    "Fomentar la creatividad al experimentar con diferentes transformaciones geométricas y sus efectos en las figuras"
+                ]
             },
             {
                 topic: 'Congruencia',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de ángulos como la medida de la separación entre dos líneas o segmentos de línea",
+                    "Identificar ángulos como abiertos o cerrados",
+                    "Reconocer ángulos agudos, rectos y obtusos",
+                    "Medir ángulos utilizando un transportador o herramientas de medición",
+                    "Explorar ángulos en figuras geométricas simples como triángulos y cuadriláteros",
+                    "Clasificar ángulos según su medida y características",
+                    "Resolver problemas que impliquen la identificación y medición de ángulos en diferentes contextos",
+                    "Utilizar materiales manipulativos como reglas, transportadores de ángulos y palitos de conteo para manipular y explorar ángulos",
+                    "Aplicar el conocimiento sobre ángulos en actividades de arte y diseño",
+                    "Fomentar la creatividad al crear composiciones visuales que incluyan ángulos"
+                ]
             },
             {
                 topic: 'Transformaciones geométricas',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de transformaciones geométricas",
+                    "Identificar y describir diferentes tipos de transformaciones, como traslaciones, rotaciones y simetrías",
+                    "Realizar traslaciones de figuras geométricas utilizando movimientos hacia arriba, abajo, izquierda o derecha",
+                    "Explorar rotaciones de figuras geométricas en sentido horario y antihorario alrededor de un punto de referencia",
+                    "Identificar ejemplos de simetría axial y simetría central en figuras geométricas",
+                    "Resolver problemas que impliquen la aplicación de transformaciones geométricas en diferentes contextos",
+                    "Utilizar materiales manipulativos como bloques de construcción, papel cuadriculado o aplicaciones digitales para realizar y explorar transformaciones geométricas",
+                    "Aplicar el conocimiento sobre transformaciones geométricas en actividades de arte y diseño",
+                    "Fomentar la creatividad al experimentar con diferentes transformaciones geométricas y sus efectos en las figuras"
+                ]
             },
             {
                 topic: 'Ángulos',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de ángulos como la medida de la separación entre dos líneas o segmentos de línea",
+                    "Identificar ángulos como abiertos o cerrados",
+                    "Reconocer ángulos agudos, rectos y obtusos",
+                    "Medir ángulos utilizando un transportador o herramientas de medición",
+                    "Explorar ángulos en figuras geométricas simples como triángulos y cuadriláteros",
+                    "Clasificar ángulos según su medida y características",
+                    "Resolver problemas que impliquen la identificación y medición de ángulos en diferentes contextos",
+                    "Utilizar materiales manipulativos como reglas, transportadores de ángulos y palitos de conteo para manipular y explorar ángulos",
+                    "Aplicar el conocimiento sobre ángulos en actividades de arte y diseño",
+                    "Fomentar la creatividad al crear composiciones visuales que incluyan ángulos"
+                ]
             },
             {
                 topic: 'Cuerpos geométricos',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de cuerpos geométricos como figuras tridimensionales",
+                    "Identificar y nombrar cuerpos geométricos simples, como cubos, prismas, pirámides, conos y cilindros",
+                    "Reconocer las caras, vértices y aristas de los cuerpos geométricos",
+                    "Clasificar cuerpos geométricos según sus características y propiedades",
+                    "Explorar cuerpos geométricos en el entorno cotidiano y en la naturaleza",
+                    "Construir modelos de cuerpos geométricos utilizando materiales manipulativos como cubos, bloques de construcción o plastilina",
+                    "Resolver problemas que involucren la identificación, clasificación y comparación de cuerpos geométricos",
+                    "Aplicar el conocimiento sobre cuerpos geométricos en actividades de arte y diseño",
+                    "Fomentar la creatividad al crear composiciones visuales que incluyan cuerpos geométricos"
+                ]
             },
             {
                 topic: 'Patrones geométricos',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de patrones geométricos como secuencias repetitivas de formas geométricas.",
+                    "Identificar y nombrar patrones geométricos simples, como patrones de cuadrados, círculos, triángulos, etc.",
+                    "Crear patrones geométricos utilizando formas geométricas básicas.",
+                    "Extender y completar patrones geométricos dados.",
+                    "Analizar y describir las reglas que gobiernan un patrón geométrico.",
+                    "Reconocer patrones geométricos en el entorno, como azulejos en pisos, patrones en tejidos, etc.",
+                    "Resolver problemas que impliquen la identificación y continuación de patrones geométricos.",
+                    "Utilizar materiales manipulativos como bloques de construcción o formas geométricas para crear y explorar patrones geométricos.",
+                    "Aplicar el conocimiento sobre patrones geométricos en actividades de arte y diseño.",
+                    "Fomentar la creatividad al diseñar patrones geométricos originales."
+                ]
             },
             {
                 topic: 'Tesalados',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de teselados como patrones repetitivos de figuras geométricas que cubren completamente una superficie sin dejar espacios vacíos ni superposiciones.",
+                    "Identificar y nombrar diferentes tipos de teselados, como teselados regulares, semirregulares y aleatorios.",
+                    "Crear teselados utilizando formas geométricas simples, como triángulos, cuadrados, hexágonos, etc.",
+                    "Extender y completar teselados dados.",
+                    "Explorar teselados en el entorno cotidiano, como patrones en pisos, paredes o mosaicos.",
+                    "Resolver problemas que impliquen la creación y comprensión de teselados.",
+                    "Utilizar materiales manipulativos como bloques de construcción o formas geométricas para crear y explorar teselados.",
+                    "Aplicar el conocimiento sobre teselados en actividades de arte y diseño.",
+                    "Fomentar la creatividad al diseñar teselados originales.",
+                    "Discutir las propiedades y características de los teselados, como la simetría y la repetición regular de patrones."
+                ]
             },
             {
                 topic: 'Unidades de medida',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de unidades de medida y su importancia en la vida cotidiana.",
+                    "Identificar y nombrar diferentes unidades de medida, como centímetros, metros, litros, kilogramos, etc.",
+                    "Comparar y relacionar diferentes unidades de medida para la longitud, capacidad, peso y tiempo.",
+                    "Medir objetos utilizando unidades de medida estándar, como una regla para la longitud, una jarra graduada para la capacidad, una balanza para el peso, etc.",
+                    "Resolver problemas que impliquen la medición de objetos utilizando diferentes unidades de medida.",
+                    "Realizar actividades de estimación para desarrollar la capacidad de visualizar y aproximarse a medidas.",
+                    "Explorar el uso de unidades de medida en diferentes contextos, como la cocina, la construcción, el deporte, etc.",
+                    "Utilizar herramientas de medición adecuadas para medir objetos en el entorno.",
+                    "Aplicar el conocimiento sobre unidades de medida en actividades prácticas, como la elaboración de recetas o la medición de distancias en mapas.",
+                    "Fomentar la comprensión de la importancia de usar unidades de medida precisas y consistentes en la comunicación de información."
+                ]
             },
             {
                 topic: 'Medida de: capacidad, peso, tiempo y dinero',
-                aspects: []
+                aspects: [
+                    "Medida de capacidad: Introducir el concepto de capacidad y las unidades de medida comunes como litros y mililitros. Realizar actividades de medición de líquidos utilizando recipientes graduados.",
+                    "Medida de peso: Presentar el concepto de peso y las unidades de medida como kilogramos y gramos. Realizar actividades de pesaje utilizando una balanza o pesas.",
+                    "Medida de tiempo: Introducir el concepto de tiempo y las unidades de medida comunes como horas, minutos y segundos. Realizar actividades de medición de tiempo utilizando relojes analógicos y digitales.",
+                    "Medida de dinero: Familiarizarse con las monedas y billetes comunes, así como con los valores numéricos asociados. Practicar la suma y resta de cantidades de dinero en contextos cotidianos.",
+                    "Resolver problemas que impliquen la medida de capacidad, peso, tiempo y dinero en diferentes contextos y situaciones prácticas.",
+                    "Realizar actividades prácticas que involucren la medición de capacidad (por ejemplo, cocinar una receta), peso (por ejemplo, pesar ingredientes), tiempo (por ejemplo, planificar horarios) y dinero (por ejemplo, hacer compras).",
+                    "Utilizar herramientas y recursos como juegos, manipulativos y ejercicios interactivos para reforzar la comprensión de las medidas y su aplicación en situaciones cotidianas.",
+                    "Fomentar la comprensión de la importancia de las medidas en la vida diaria y la necesidad de utilizarlas con precisión y coherencia."
+                ]
             },
             {
                 topic: 'Estimación de longitudes',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de estimación de longitudes como una aproximación de la medida de una longitud sin utilizar herramientas de medición exactas.",
+                    "Desarrollar habilidades para hacer estimaciones razonables de longitudes utilizando referencias visuales y experiencia previa.",
+                    "Practicar la estimación de longitudes en diferentes contextos, como la longitud de un objeto, una distancia o una línea en un dibujo.",
+                    "Comparar y verificar estimaciones realizadas por diferentes estudiantes, discutiendo los enfoques utilizados y la precisión de las estimaciones.",
+                    "Resolver problemas que impliquen la estimación de longitudes en situaciones cotidianas, como la longitud de una habitación, un camino o un objeto.",
+                    "Utilizar estrategias como contar pasos, comparar con objetos conocidos o utilizar partes del cuerpo para estimar longitudes.",
+                    "Realizar actividades prácticas que involucren la estimación de longitudes en el entorno escolar y en la comunidad.",
+                    "Reflexionar sobre la importancia de la estimación de longitudes como una habilidad útil en la vida diaria y en la resolución de problemas.",
+                    "Fomentar la confianza en las habilidades de estimación y la capacidad para hacer aproximaciones rápidas y efectivas."
+                ]
             },
             {
                 topic: 'Instrumentos de medida',
-                aspects: []
+                aspects: [
+                    "Introducir diferentes instrumentos de medida y sus usos en la vida cotidiana.",
+                    "Identificar y nombrar varios instrumentos de medida, como reglas, cintas métricas, termómetros, balanzas, relojes, etc.",
+                    "Explorar las características y partes de diferentes instrumentos de medida.",
+                    "Practicar el uso adecuado de los instrumentos de medida para medir longitudes, temperaturas, pesos y tiempos.",
+                    "Realizar actividades prácticas que involucren el manejo y la manipulación de instrumentos de medida en diferentes contextos.",
+                    "Resolver problemas que requieran el uso de instrumentos de medida para obtener información precisa.",
+                    "Comparar y contrastar diferentes instrumentos de medida y determinar cuál es más adecuado para una tarea específica.",
+                    "Discutir la importancia de utilizar instrumentos de medida precisos y calibrados adecuadamente.",
+                    "Promover la responsabilidad y el cuidado de los instrumentos de medida para garantizar su correcto funcionamiento y durabilidad.",
+                    "Reflexionar sobre cómo los instrumentos de medida facilitan la comprensión y comunicación de información en diversos campos y situaciones."
+                ]
             },
             {
                 topic: 'Área y perímetro',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de área como la medida de la superficie de una figura bidimensional.",
+                    "Introducir el concepto de perímetro como la suma de las longitudes de todos los lados de una figura bidimensional.",
+                    "Identificar y nombrar diferentes figuras bidimensionales, como cuadrados, rectángulos, triángulos y círculos.",
+                    "Calcular el área de figuras rectangulares y cuadradas contando cuadrados unitarios o utilizando fórmulas simples.",
+                    "Calcular el perímetro de figuras rectangulares y cuadradas sumando las longitudes de sus lados.",
+                    "Resolver problemas que requieran el cálculo de áreas y perímetros en diferentes contextos y situaciones prácticas.",
+                    "Explorar el uso de unidades de medida adecuadas para el área y el perímetro, como centímetros cuadrados y metros.",
+                    "Realizar actividades prácticas que impliquen la construcción y medición de figuras con diferentes áreas y perímetros.",
+                    "Utilizar materiales manipulativos como bloques de construcción, cuadrículas y reglas para visualizar y manipular áreas y perímetros.",
+                    "Fomentar la comprensión de la importancia del área y el perímetro en la resolución de problemas y en la vida cotidiana."
+                ]
             },
             {
                 topic: 'Recolección y organización de datos estadísticos no agrupados',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de datos y estadísticas como información numérica que describe un conjunto de objetos o eventos.",
+                    "Recolectar datos de manera activa mediante encuestas, cuestionarios u observaciones.",
+                    "Organizar los datos recolectados en tablas simples utilizando categorías relevantes.",
+                    "Representar los datos recolectados mediante diagramas de barras, donde la altura de cada barra representa la frecuencia de una categoría.",
+                    "Interpretar la información presentada en un diagrama de barras, identificando las categorías más frecuentes y menos frecuentes.",
+                    "Resolver problemas que impliquen la recolección, organización y representación de datos estadísticos no agrupados.",
+                    "Realizar actividades prácticas que involucren la recolección de datos en el entorno escolar y en la comunidad.",
+                    "Fomentar la comunicación y discusión de los resultados obtenidos, promoviendo la comprensión de la importancia de los datos en la toma de decisiones.",
+                    "Introducir el concepto de la media como una medida de tendencia central, calculando la suma de los datos y dividiéndola por el número total de datos.",
+                    "Reflexionar sobre la utilidad de la estadística en la vida cotidiana y en la comprensión del mundo que nos rodea."
+                ]
             },
             {
                 topic: 'Representación gráfica de los datos estadísticos no agrupados',
-                aspects: []
+                aspects: [
+                    "Introducir el concepto de representación gráfica como una forma visual de presentar datos numéricos.",
+                    "Utilizar diagramas de barras para representar datos estadísticos no agrupados, donde la altura de cada barra corresponde a la frecuencia de una categoría o valor.",
+                    "Crear y completar diagramas de barras con datos recolectados, utilizando colores o patrones para distinguir las diferentes categorías o valores.",
+                    "Interpretar la información presentada en un diagrama de barras, identificando las categorías más frecuentes y menos frecuentes.",
+                    "Comparar y contrastar diferentes conjuntos de datos mediante la observación de sus respectivos diagramas de barras.",
+                    "Resolver problemas que impliquen la interpretación y creación de diagramas de barras en situaciones prácticas.",
+                    "Explorar otros tipos de representaciones gráficas simples, como pictogramas o diagramas de puntos, para presentar datos estadísticos.",
+                    "Realizar actividades prácticas que involucren la creación y análisis de diferentes tipos de representaciones gráficas de datos.",
+                    "Fomentar la comunicación y discusión de los resultados obtenidos a través de las representaciones gráficas, promoviendo la comprensión de la información presentada.",
+                    "Reflexionar sobre la utilidad de las representaciones gráficas en la presentación clara y efectiva de datos estadísticos."
+                ]
             },
         ],
         [

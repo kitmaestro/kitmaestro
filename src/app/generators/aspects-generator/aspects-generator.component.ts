@@ -60,7 +60,6 @@ export class AspectsGeneratorComponent implements OnInit {
   generated = false;
   loading = false;
   dataSource: { p1: string, p2: string, p3: string, p4: string }[] = [];
-  prompts: string[] = []
 
   levels = [
     'Primaria',
@@ -86,6 +85,8 @@ export class AspectsGeneratorComponent implements OnInit {
     p3: [''],
     p4: [''],
   });
+  
+  prompts: string[] = []
 
   ngOnInit() {
     this.prompts = MATH_CONTENTS.primary.map((entry, i) => entry.map(val => `Crea un array de strings en formato JSON, donde cada string es un aspecto especifico (caracteristica, elemento, actividad, contenido) que se puede trabajar en ${i == 0 ? '1er' : i == 1 ? '2do' : i == 2 ? '3er' : i == 3 ? '4to' : i == 4 ? '5to' : '6to'} grado de primaria en el area de ciencias de la naturaleza con este tema: ${val}`)).flat()
