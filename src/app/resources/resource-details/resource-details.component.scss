@@ -33,10 +33,12 @@
 .slider-container {
     flex: 1 1 auto;
     max-width: 420px;
+    min-width: 256px;
 }
 
 .details {
     flex: 1 1 auto;
+    max-width: 35%;
 
     p {
         font-size: 16px;
