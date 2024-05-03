@@ -49,6 +49,7 @@ export const routes: Routes = [
                 },
                 children: [
                     { path: '', loadComponent: () => import('./builders/builder-list/builder-list.component').then(m => m.BuilderListComponent) },
+                    { path: 'sudoku', loadComponent: () => import('./builders/sudoku/sudoku.component').then(m => m.SudokuComponent) },
                 ]
             },
             // exam builders

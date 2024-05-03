@@ -1,1 +1,16 @@
-<app-is-premium></app-is-premium>
+<div class="grid-container">
+  @for (item of builders; track $index) {
+    <mat-card class="item-card">
+      <img [src]="item.cover" mat-card-image alt="">
+      <mat-card-header>
+        <h2 mat-card-title>{{ item.name }}</h2>
+      </mat-card-header>
+      <mat-card-content>
+        <div style="margin-bottom: 12px;">{{ item.description }}</div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <a mat-raised-button [routerLink]="item.link" color="primary">Entrar</a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

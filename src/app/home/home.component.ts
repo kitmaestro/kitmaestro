@@ -87,7 +87,7 @@ export class HomeComponent {
       link: ['/app','worksheet-builders'],
       icon: '/assets/undraw_real_time_sync_re_nky7.svg',
       premium: true,
-      isWorking: false,
+      isWorking: true,
     },
     {
       name: 'Asistentes',
@@ -215,7 +215,7 @@ export class HomeComponent {
 
     // this.aiService.research('text-generation', 2000)
   }
-  
+
   ngOnInit() {
     this.adjustLayout();
   }
