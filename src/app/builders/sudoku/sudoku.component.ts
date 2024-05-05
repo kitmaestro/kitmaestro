@@ -33,6 +33,7 @@ export class SudokuComponent {
 
   sudokuLevel = this.fb.control('easy');
   sudokuTitle = this.fb.control('Sudoku');
+  sudokuIncludeSolution = this.fb.control(true);
   sudokuFields = this.fb.group({
     name: [true],
     grade: [true],
@@ -66,5 +67,20 @@ export class SudokuComponent {
     this.sudoku = this.sudokuService.generate(this.sudokuLevel.value as 'easy' | 'medium' | 'hard' | 'expert');
     this.board = this.sudokuService.string_to_board(this.sudoku.puzzle);
     this.solvedBoard = this.sudokuService.string_to_board(this.sudoku.solution);
+  }
+
+  toggleName() {
+    const current = this.sudokuFields.get('name')?.value || false;
+    this.sudokuFields.get('name')?.setValue(!current);
+  }
+
+  toggleGrade() {
+    const current = this.sudokuFields.get('grade')?.value || false;
+    this.sudokuFields.get('grade')?.setValue(!current);
+  }
+
+  toggleDate() {
+    const current = this.sudokuFields.get('date')?.value || false;
+    this.sudokuFields.get('date')?.setValue(!current);
   }
 }

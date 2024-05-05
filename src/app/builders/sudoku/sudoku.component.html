@@ -20,7 +20,14 @@
           <input type="text" matInput [formControl]="sudokuTitle">
         </mat-form-field>
       </div>
-      
+      <div>
+        <mat-label>Campos a Incluir:</mat-label>
+        <mat-chip-set>
+          <mat-chip-option [selected]="true" (selectionChange)="toggleName()">Nombre</mat-chip-option>
+          <mat-chip-option [selected]="true" (selectionChange)="toggleGrade()">Grado</mat-chip-option>
+          <mat-chip-option [selected]="true" (selectionChange)="toggleDate()">Fecha</mat-chip-option>
+        </mat-chip-set>
+      </div>
     </div>
     <button mat-raised-button color="primary" type="button" (click)="generate();">Generar</button>
   </mat-card-content>
@@ -37,28 +44,34 @@
           @for (box of board; track $index) {
             <div style="display: grid; gap: 0; border: 1px solid black; grid-template-columns: 1fr 1fr 1fr;">
               @for (tile of box; track $index) {
-                <div style="display: flex; padding: 12px; align-items: center; justify-content: center; border: 1px solid black; aspect-ratio: 1/1;">{{tile}}</div>
+                <div style="font-size: 14pt; display: flex; padding: 12px; align-items: center; justify-content: center; border: 1px solid black; aspect-ratio: 1/1;">{{tile}}</div>
               }
             </div>
           }
         </div>
       </mat-card-content>
     </mat-card>
-    <mat-card>
-      <mat-card-header>
-        <h2 mat-card-title>Soluci&oacute;n</h2>
-      </mat-card-header>
-      <mat-card-content>
-        <div style="display: grid; gap: 0; border: 1px solid black; grid-template-columns: 1fr 1fr 1fr;">
-          @for (box of solvedBoard; track $index) {
-            <div style="display: grid; gap: 0; border: 1px solid black; grid-template-columns: 1fr 1fr 1fr;">
-              @for (tile of box; track $index) {
-                <div style="display: flex; padding: 12px; align-items: center; justify-content: center; border: 1px solid black; aspect-ratio: 1/1;">{{tile}}</div>
-              }
-            </div>
-          }
-        </div>
-      </mat-card-content>
-    </mat-card>
+    @if (sudokuIncludeSolution.value) {
+      <mat-card>
+        <mat-card-header>
+          <h2 mat-card-title>Soluci&oacute;n</h2>
+        </mat-card-header>
+        <mat-card-content>
+          <div style="display: grid; gap: 0; border: 1px solid black; grid-template-columns: 1fr 1fr 1fr;">
+            @for (box of solvedBoard; track box; let i = $index) {
+              <div style="display: grid; gap: 0; border: 1px solid black; grid-template-columns: 1fr 1fr 1fr;">
+                @for (tile of box; track $index) {
+                  @if (board[i][$index] == null) {
+                    <div style="font-size: 14pt; font-weight: bold; display: flex; color: #00acc1; padding: 12px; align-items: center; justify-content: center; border: 1px solid black; aspect-ratio: 1/1;">{{tile}}</div>
+                  } @else {
+                    <div style="font-size: 14pt; display: flex; padding: 12px; align-items: center; justify-content: center; border: 1px solid black; aspect-ratio: 1/1;">{{tile}}</div>
+                  }
+                }
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
   </div>
 }
