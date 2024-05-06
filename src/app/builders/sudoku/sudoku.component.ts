@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { SudokuService } from '../../services/sudoku.service';
+import { Component, OnInit, inject } from '@angular/core';
+import { GamesService } from '../../services/games.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,6 +9,8 @@ import { Sudoku } from 'sudoku-gen/dist/types/sudoku.type';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
+import { PdfService } from '../../services/pdf.service';
+import { UserSettingsService } from '../../services/user-settings.service';
 
 @Component({
   selector: 'app-sudoku',
@@ -26,18 +28,22 @@ import { MatChipsModule } from '@angular/material/chips';
   templateUrl: './sudoku.component.html',
   styleUrl: './sudoku.component.scss'
 })
-export class SudokuComponent {
+export class SudokuComponent implements OnInit {
 
-  sudokuService = inject(SudokuService);
+  gamesService = inject(GamesService);
   fb = inject(FormBuilder);
+  pdfService = inject(PdfService);
+  userSettingsService = inject(UserSettingsService);
 
+  teacherName: string = '';
+  schoolName: string = '';
   sudokuLevel = this.fb.control('easy');
   sudokuTitle = this.fb.control('Sudoku');
   sudokuIncludeSolution = this.fb.control(true);
   sudokuFields = this.fb.group({
-    name: [true],
-    grade: [true],
-    date: [true],
+    name: [false],
+    grade: [false],
+    date: [false],
   });
 
   sudoku: Sudoku | null = null;
@@ -63,24 +69,48 @@ export class SudokuComponent {
     }
   ];
 
+  ngOnInit(): void {
+    this.userSettingsService.getSettings().subscribe(settings => {
+      this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
+      this.schoolName = settings.schoolName;
+    });
+  }
+
   generate() {
-    this.sudoku = this.sudokuService.generate(this.sudokuLevel.value as 'easy' | 'medium' | 'hard' | 'expert');
-    this.board = this.sudokuService.string_to_board(this.sudoku.puzzle);
-    this.solvedBoard = this.sudokuService.string_to_board(this.sudoku.solution);
+    this.sudoku = this.gamesService.generateSudoku(this.sudokuLevel.value as 'easy' | 'medium' | 'hard' | 'expert');
+    this.board = this.gamesService.sudoku_string_to_board(this.sudoku.puzzle);
+    this.solvedBoard = this.gamesService.sudoku_string_to_board(this.sudoku.solution);
   }
 
   toggleName() {
-    const current = this.sudokuFields.get('name')?.value || false;
-    this.sudokuFields.get('name')?.setValue(!current);
+    const val = this.sudokuFields.get('name')?.value;
+    if (!val) {
+      this.sudokuFields.get('name')?.setValue(true);
+    } else {
+      this.sudokuFields.get('name')?.setValue(false);
+    }
   }
 
   toggleGrade() {
-    const current = this.sudokuFields.get('grade')?.value || false;
-    this.sudokuFields.get('grade')?.setValue(!current);
+    const val = this.sudokuFields.get('grade')?.value;
+    if (!val) {
+      this.sudokuFields.get('grade')?.setValue(true);
+    } else {
+      this.sudokuFields.get('grade')?.setValue(false);
+    }
   }
 
   toggleDate() {
-    const current = this.sudokuFields.get('date')?.value || false;
-    this.sudokuFields.get('date')?.setValue(!current);
+    const val = this.sudokuFields.get('date')?.value;
+    if (!val) {
+      this.sudokuFields.get('date')?.setValue(true);
+    } else {
+      this.sudokuFields.get('date')?.setValue(false);
+    }
+  }
+
+  print() {
+    this.pdfService.createAndDownloadFromHTML("sudoku", `${this.sudokuTitle.value}`);
+    this.pdfService.createAndDownloadFromHTML("sudoku-solution", `${this.sudokuTitle.value}-Solucion`);
   }
 }

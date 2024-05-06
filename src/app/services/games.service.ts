@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
 import { getSudoku } from 'sudoku-gen';
+import { wordsearch } from '../lib';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SudokuService {
+export class GamesService {
 
   constructor() { }
 
-  generate(level: 'easy' | 'medium' | 'hard' | 'expert') {
+  generateWordSearch(words: string[], size: { w: number, h: number }, opt?: any) {
+    return wordsearch(words, size.w, size.h, opt);
+  }
+
+  generateSudoku(level: 'easy' | 'medium' | 'hard' | 'expert') {
     return getSudoku(level);
   }
 
-  string_to_board(board_string: string): Array<number | null>[] {
+  sudoku_string_to_board(board_string: string): Array<number | null>[] {
     const rows: Array<number | null>[] = [];
     let cur_row: Array<number | null> = [];
     const board = board_string.split('');

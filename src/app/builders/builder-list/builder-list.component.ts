@@ -15,21 +15,41 @@ import { RouterLink } from '@angular/router';
   styleUrl: './builder-list.component.scss'
 })
 export class BuilderListComponent {
-  builders: {
-    name: string;
-    description: string;
-    link: string[],
-    cover: string,
-  }[] = [
+  builders: Array<{
+    title: string,
+    description: string,
+    list: {
+      name: string;
+      description: string;
+      link: string[],
+      cover: string,
+    }[]
+  }> = [
     {
-      name: 'Sudoku',
-      description: 'Genera Hojas de Sudoku de diferentes niveles de dificultad con sus respectivas respuestas.',
-      link: [
-        '/app',
-        'worksheet-builders',
-        'sudoku'
-      ],
-      cover: '/assets/undraw_game_day_ucx9.svg'
-    }
+      title: 'Juegos',
+      description: 'Generadores de Hojas de Juego para tus alumnos',
+      list: [
+        {
+          name: 'Sudoku',
+          description: 'Genera Hojas de Sudoku de diferentes niveles de dificultad con sus respectivas respuestas.',
+          link: [
+            '/app',
+            'worksheet-builders',
+            'sudoku'
+          ],
+          cover: '/assets/undraw_game_day_ucx9.svg'
+        },
+        {
+          name: 'Sopas de Letras',
+          description: 'Genera sopas de letras con diferentes niveles de dificultad y sus respuestas.',
+          link: [
+            '/app',
+            'worksheet-builders',
+            'wordsearch'
+          ],
+          cover: '/assets/undraw_file_searching_re_3evy.svg'
+        },
+      ]
+    },
   ];
 }
