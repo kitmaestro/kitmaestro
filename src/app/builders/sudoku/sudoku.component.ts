@@ -9,6 +9,7 @@ import { Sudoku } from 'sudoku-gen/dist/types/sudoku.type';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PdfService } from '../../services/pdf.service';
 import { UserSettingsService } from '../../services/user-settings.service';
 
@@ -24,6 +25,7 @@ import { UserSettingsService } from '../../services/user-settings.service';
     MatIconModule,
     MatCardModule,
     MatChipsModule,
+    MatSnackBarModule,
   ],
   templateUrl: './sudoku.component.html',
   styleUrl: './sudoku.component.scss'
@@ -34,6 +36,7 @@ export class SudokuComponent implements OnInit {
   fb = inject(FormBuilder);
   pdfService = inject(PdfService);
   userSettingsService = inject(UserSettingsService);
+  sb = inject(MatSnackBar);
 
   teacherName: string = '';
   schoolName: string = '';
@@ -110,6 +113,7 @@ export class SudokuComponent implements OnInit {
   }
 
   print() {
+    this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
     this.pdfService.createAndDownloadFromHTML("sudoku", `${this.sudokuTitle.value}`);
     this.pdfService.createAndDownloadFromHTML("sudoku-solution", `${this.sudokuTitle.value}-Solucion`);
   }

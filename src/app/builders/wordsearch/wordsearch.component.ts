@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { PdfService } from '../../services/pdf.service';
@@ -29,6 +30,7 @@ interface VocabularyEntry { id: number, topic_id: number, level_id: number, voca
     MatInputModule,
     MatChipsModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
   ],
   templateUrl: './wordsearch.component.html',
   styleUrl: './wordsearch.component.scss'
@@ -39,6 +41,7 @@ export class WordsearchComponent implements OnInit {
   fb = inject(FormBuilder);
   userSettingsService = inject(UserSettingsService);
   pdfService = inject(PdfService);
+  sb = inject(MatSnackBar);
 
   teacherName: string = '';
   schoolName: string = '';
@@ -966,6 +969,7 @@ export class WordsearchComponent implements OnInit {
   }
 
   print() {
+    this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
     const topic = this.topics.find(t => t.id == this.wsForm.get('topic')?.value);
     this.pdfService.createAndDownloadFromHTML("wordsearch", `Sopa de Letras - ${topic?.topic}`);
   }

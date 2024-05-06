@@ -1,8 +1,9 @@
 @for (builder of builders; track $index) {
-  <div style="margin-bottom: 24px;">
+  <div style="margin-bottom: 24px; margin-top: 24px;">
     <mat-card>
       <mat-card-header>
-        <h2 mat-card-title>{{builder.title}}</h2>
+        <h2 mat-card-title>{{ builder.title }}</h2>
+        <h3 mat-card-subtitle>{{ builder.description }}</h3>
       </mat-card-header>
     </mat-card>
   </div>
