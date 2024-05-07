@@ -88,7 +88,7 @@ export class CrosswordsComponent implements OnInit {
     if (!list)
       return;
 
-    const selection: string[] = size > list.vocabulary.length ? shuffle(list.vocabulary) : shuffle(list.vocabulary).slice(0, size);
+    const selection: string[] = size >= list.vocabulary.length ? shuffle(list.vocabulary) : shuffle(list.vocabulary).slice(0, size);
     this.crossword = this.gamesService.generateCrossWord(selection.map(s => ({ clue: WORD_CLUES.find(c => c.answer == s)?.clue || '', answer: s })));
     console.log(this.crossword)
   }
@@ -138,8 +138,8 @@ export class CrosswordsComponent implements OnInit {
 
   print() {
     this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
-    this.pdfService.createAndDownloadFromHTML("crossword", `Crucigrama - ${this.topicName()}`);
-    this.pdfService.createAndDownloadFromHTML("crossword-solution", `Crucigrama - ${this.topicName()}`);
+    this.pdfService.createAndDownloadFromHTML("crossword", `Crucigrama de ${this.topicName()}`);
+    this.pdfService.createAndDownloadFromHTML("crossword-solution", `Crucigrama de ${this.topicName()} - Solucion`);
   }
 
 }

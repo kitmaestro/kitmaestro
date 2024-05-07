@@ -32,7 +32,7 @@
     @if (board.length) {
       <button type="button" (click)="print()" style="margin-right: 12px;" mat-raised-button color="accent">Imprimir</button>
     }
-    <button mat-raised-button color="primary" type="button" (click)="generate();">Generar</button>
+    <button mat-raised-button color="primary" type="button" (click)="generate();">{{ board.length ? 'Regenerar' : 'Generar' }}</button>
   </mat-card-content>
 </mat-card>
 

@@ -46,9 +46,7 @@ export class WordScrambleComponent implements OnInit {
 
   teacherName: string = '';
   schoolName: string = '';
-  wordsearch: WordSearchResult | null = null;
-  includedWords: string[] = [];
-  wordLists: VocabularyEntry[] = WORD_LISTS;
+  wordScramble: { scrambled: string, answer: string }[] = [];
   topics: TopicEntry[] = TOPICS;
   levels: LevelEntry[] = [
     {
@@ -78,22 +76,20 @@ export class WordScrambleComponent implements OnInit {
     });
   }
 
-  generateWordSearch() {
-    const { words, level, topic, size } = this.wsForm.value;
+  generateWordScramble() {
+    const { level, topic, size } = this.wsForm.value;
 
     if (!level || !topic || !size)
       return;
 
-    const list = this.wordLists.find(l => l.level_id == level && l.topic_id == topic);
+    const list = WORD_LISTS.find(l => l.level_id == level && l.topic_id == topic);
 
     if (!list)
       return;
 
-    const selection: string[] = shuffle(list.vocabulary).slice(0, size);
-
-    const longerWord = selection.reduce((l, n) => n.length > l ? n.length : l, 0) + 3;
-    this.wordsearch = this.gamesService.generateWordSearch(selection, { w: longerWord, h: longerWord });
-    this.includedWords = selection.filter(w => !this.wordsearch?.unplaced.includes(w));
+    const selection: string[] = size >= list.vocabulary.length ? shuffle(list.vocabulary) : shuffle(list.vocabulary).slice(0, size);
+    
+    this.wordScramble = selection.map(w => ({ scrambled: shuffle(w.split('')).join(''), answer: w }));
   }
 
   toggleName() {
@@ -123,10 +119,31 @@ export class WordScrambleComponent implements OnInit {
     }
   }
 
+  changeWord(index: number) {
+    const { level, topic, size } = this.wsForm.value;
+
+    if (!level || !topic || !size)
+      return;
+
+    const target = this.wordScramble[index];
+    const list = WORD_LISTS.find(l => l.level_id == level && l.topic_id == topic);
+
+    if (!list) 
+      return;
+
+    const available = list.vocabulary.filter(w => !this.wordScramble.map(s => s.answer).includes(w));
+    const randomWord = shuffle(available).pop();
+    if (!randomWord)
+      return;
+
+    this.wordScramble[index] = { answer: randomWord, scrambled: shuffle(randomWord.split('')).join('') };
+  }
+
   print() {
     this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
     const topic = this.topics.find(t => t.id == this.wsForm.get('topic')?.value);
-    this.pdfService.createAndDownloadFromHTML("wordsearch", `Sopa de Letras - ${topic?.topic}`);
+    this.pdfService.createAndDownloadFromHTML("wordscramble", `Palabras Revueltas - ${topic?.topic}`);
+    this.pdfService.createAndDownloadFromHTML("wordscramble-solution", `Palabras Revueltas - ${topic?.topic}`);
   }
 
 }

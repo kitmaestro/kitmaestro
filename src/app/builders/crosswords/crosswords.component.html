@@ -44,7 +44,7 @@
                 <button type="button" (click)="print()" style="margin-right: 12px;" mat-raised-button
                     color="accent">Imprimir</button>
             }
-            <button type="submit" mat-raised-button color="primary">Generar</button>
+            <button type="submit" mat-raised-button color="primary">{{ crossword ? 'Regenerar' : 'Generar' }}</button>
         </form>
     </mat-card-content>
 </mat-card>
