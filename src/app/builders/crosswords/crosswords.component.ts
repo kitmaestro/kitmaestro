@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { GamesService } from '../../services/games.service';
-import { WordSearchResult } from '../../lib';
+import { CrossWordLayout, WordSearchResult } from '../../lib';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -18,9 +18,10 @@ import { TopicEntry } from '../../interfaces/topic-entry';
 import { VocabularyEntry } from '../../interfaces/vocabulary-entry';
 import { WORD_LISTS } from '../../data/word-lists';
 import { TOPICS } from '../../data/topics';
+import { WORD_CLUES } from '../../data/word-clues';
 
 @Component({
-  selector: 'app-wordsearch',
+  selector: 'app-crosswords',
   standalone: true,
   imports: [
     MatCardModule,
@@ -33,10 +34,10 @@ import { TOPICS } from '../../data/topics';
     ReactiveFormsModule,
     MatSnackBarModule,
   ],
-  templateUrl: './wordsearch.component.html',
-  styleUrl: './wordsearch.component.scss'
+  templateUrl: './crosswords.component.html',
+  styleUrl: './crosswords.component.scss'
 })
-export class WordsearchComponent implements OnInit {
+export class CrosswordsComponent implements OnInit {
 
   gamesService = inject(GamesService);
   fb = inject(FormBuilder);
@@ -46,8 +47,7 @@ export class WordsearchComponent implements OnInit {
 
   teacherName: string = '';
   schoolName: string = '';
-  wordsearch: WordSearchResult | null = null;
-  includedWords: string[] = [];
+  crossword: CrossWordLayout | null = null;
   wordLists: VocabularyEntry[] = WORD_LISTS;
   topics: TopicEntry[] = TOPICS;
   levels: LevelEntry[] = [
@@ -61,8 +61,7 @@ export class WordsearchComponent implements OnInit {
     },
   ];
 
-  wsForm = this.fb.group({
-    words: [0],
+  crossWordForm = this.fb.group({
     level: [1],
     topic: [1],
     size: [10],
@@ -78,58 +77,69 @@ export class WordsearchComponent implements OnInit {
     });
   }
 
-  generateWordSearch() {
-    const { words, level, topic, size } = this.wsForm.value;
-    
+  generateCrossWord() {
+    const { level, topic, size } = this.crossWordForm.value;
+
     if (!level || !topic || !size)
       return;
-    
+
     const list = this.wordLists.find(l => l.level_id == level && l.topic_id == topic);
 
     if (!list)
       return;
 
-    const selection: string[] = shuffle(list.vocabulary).slice(0, size);
-
-    const longerWord = selection.reduce((l, n) => n.length > l ? n.length : l, 0) + 3;
-    this.wordsearch = this.gamesService.generateWordSearch(selection, { w: longerWord, h: longerWord });
-    this.includedWords = selection.filter(w => !this.wordsearch?.unplaced.includes(w));
+    const selection: string[] = size > list.vocabulary.length ? shuffle(list.vocabulary) : shuffle(list.vocabulary).slice(0, size);
+    this.crossword = this.gamesService.generateCrossWord(selection.map(s => ({ clue: WORD_CLUES.find(c => c.answer == s)?.clue || '', answer: s })));
+    console.log(this.crossword)
   }
 
   toggleName() {
-    const val = this.wsForm.get('name')?.value;
+    const val = this.crossWordForm.get('name')?.value;
     if (!val) {
-      this.wsForm.get('name')?.setValue(true);
+      this.crossWordForm.get('name')?.setValue(true);
     } else {
-      this.wsForm.get('name')?.setValue(false);
+      this.crossWordForm.get('name')?.setValue(false);
     }
   }
 
   toggleGrade() {
-    const val = this.wsForm.get('grade')?.value;
+    const val = this.crossWordForm.get('grade')?.value;
     if (!val) {
-      this.wsForm.get('grade')?.setValue(true);
+      this.crossWordForm.get('grade')?.setValue(true);
     } else {
-      this.wsForm.get('grade')?.setValue(false);
+      this.crossWordForm.get('grade')?.setValue(false);
     }
   }
 
   toggleDate() {
-    const val = this.wsForm.get('date')?.value;
+    const val = this.crossWordForm.get('date')?.value;
     if (!val) {
-      this.wsForm.get('date')?.setValue(true);
+      this.crossWordForm.get('date')?.setValue(true);
     } else {
-      this.wsForm.get('date')?.setValue(false);
+      this.crossWordForm.get('date')?.setValue(false);
     }
   }
 
+  markIfAble(x: number, y: number): string {
+    if (this.crossword) {
+      const answer = this.crossword.result.find(r => r.startx == (x + 1) && r.starty == (y + 1));
+      if (answer) {
+        return answer.position.toString();
+      }
+      return '';
+    }
+    return '';
+  }
+
   topicName(): string {
-    const topic = this.topics.find(t => t.id == this.wsForm.get('topic')?.value);
+    const topic = this.topics.find(t => t.id == this.crossWordForm.get('topic')?.value);
     return topic ? topic.topic : '';
   }
 
   print() {
     this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
-    this.pdfService.createAndDownloadFromHTML("wordsearch", `Sopa de Letras - ${this.topicName()}`);
+    this.pdfService.createAndDownloadFromHTML("crossword", `Crucigrama - ${this.topicName()}`);
+    this.pdfService.createAndDownloadFromHTML("crossword-solution", `Crucigrama - ${this.topicName()}`);
   }
+
 }

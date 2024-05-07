@@ -20,7 +20,7 @@ import { WORD_LISTS } from '../../data/word-lists';
 import { TOPICS } from '../../data/topics';
 
 @Component({
-  selector: 'app-wordsearch',
+  selector: 'app-word-scramble',
   standalone: true,
   imports: [
     MatCardModule,
@@ -33,10 +33,10 @@ import { TOPICS } from '../../data/topics';
     ReactiveFormsModule,
     MatSnackBarModule,
   ],
-  templateUrl: './wordsearch.component.html',
-  styleUrl: './wordsearch.component.scss'
+  templateUrl: './word-scramble.component.html',
+  styleUrl: './word-scramble.component.scss'
 })
-export class WordsearchComponent implements OnInit {
+export class WordScrambleComponent implements OnInit {
 
   gamesService = inject(GamesService);
   fb = inject(FormBuilder);
@@ -80,10 +80,10 @@ export class WordsearchComponent implements OnInit {
 
   generateWordSearch() {
     const { words, level, topic, size } = this.wsForm.value;
-    
+
     if (!level || !topic || !size)
       return;
-    
+
     const list = this.wordLists.find(l => l.level_id == level && l.topic_id == topic);
 
     if (!list)
@@ -123,13 +123,10 @@ export class WordsearchComponent implements OnInit {
     }
   }
 
-  topicName(): string {
-    const topic = this.topics.find(t => t.id == this.wsForm.get('topic')?.value);
-    return topic ? topic.topic : '';
-  }
-
   print() {
     this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
-    this.pdfService.createAndDownloadFromHTML("wordsearch", `Sopa de Letras - ${this.topicName()}`);
+    const topic = this.topics.find(t => t.id == this.wsForm.get('topic')?.value);
+    this.pdfService.createAndDownloadFromHTML("wordsearch", `Sopa de Letras - ${topic?.topic}`);
   }
+
 }

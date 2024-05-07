@@ -2,14 +2,16 @@ import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-builder-list',
   standalone: true,
   imports: [
+    RouterLink,
+    CommonModule,
     MatCardModule,
     MatButtonModule,
-    RouterLink,
   ],
   templateUrl: './builder-list.component.html',
   styleUrl: './builder-list.component.scss'
@@ -35,9 +37,9 @@ export class BuilderListComponent {
           link: [
             '/app',
             'worksheet-builders',
-            'wordsearch'
+            'word-scramble'
           ],
-          cover: '/assets/undraw_file_searching_re_3evy.svg'
+          cover: '/assets/undraw_specs_re_546x.svg'
         },
         {
           name: 'Parea Sinónimos',
@@ -56,6 +58,16 @@ export class BuilderListComponent {
             '/app',
             'worksheet-builders',
             'wordsearch'
+          ],
+          cover: '/assets/undraw_file_searching_re_3evy.svg'
+        },
+        {
+          name: 'Crucigramas',
+          description: 'Genera crucigramas para tus alumnos.',
+          link: [
+            '/app',
+            'worksheet-builders',
+            'crosswords'
           ],
           cover: '/assets/undraw_file_searching_re_3evy.svg'
         },
@@ -126,7 +138,7 @@ export class BuilderListComponent {
           cover: '/assets/undraw_new_entries_re_cffr.svg'
         },
         {
-          name: 'Ubicación de Números en la Recta Numérica',
+          name: 'Recta Numérica',
           description: 'Genera Hojas de ejercicios con la recta numérica.',
           link: [
             '/app',
@@ -160,6 +172,16 @@ export class BuilderListComponent {
             'sudoku'
           ],
           cover: '/assets/undraw_game_day_ucx9.svg'
+        },
+        {
+          name: 'Crucigramas',
+          description: 'Genera crucigramas para tus alumnos.',
+          link: [
+            '/app',
+            'worksheet-builders',
+            'crosswords'
+          ],
+          cover: '/assets/undraw_file_searching_re_3evy.svg'
         },
         {
           name: 'Sopas de Letras',

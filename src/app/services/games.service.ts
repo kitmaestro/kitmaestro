@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { getSudoku } from 'sudoku-gen';
-import { wordsearch } from '../lib';
+import { wordsearch, generateLayout } from '../lib';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,10 @@ import { wordsearch } from '../lib';
 export class GamesService {
 
   constructor() { }
+
+  generateCrossWord(input: { clue: string, answer: string }[]) {
+    return generateLayout(input);
+  }
 
   generateWordSearch(words: string[], size: { w: number, h: number }, opt?: any) {
     return wordsearch(words, size.w, size.h, opt);
