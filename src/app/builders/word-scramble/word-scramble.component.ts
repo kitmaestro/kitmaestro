@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { GamesService } from '../../services/games.service';
-import { WordSearchResult } from '../../lib';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -15,7 +14,6 @@ import { PdfService } from '../../services/pdf.service';
 import { shuffle } from 'lodash';
 import { LevelEntry } from '../../interfaces/level-entry';
 import { TopicEntry } from '../../interfaces/topic-entry';
-import { VocabularyEntry } from '../../interfaces/vocabulary-entry';
 import { WORD_LISTS } from '../../data/word-lists';
 import { TOPICS } from '../../data/topics';
 
@@ -88,7 +86,7 @@ export class WordScrambleComponent implements OnInit {
       return;
 
     const selection: string[] = size >= list.vocabulary.length ? shuffle(list.vocabulary) : shuffle(list.vocabulary).slice(0, size);
-    
+
     this.wordScramble = selection.map(w => ({ scrambled: shuffle(w.split('')).join(''), answer: w }));
   }
 
@@ -128,7 +126,7 @@ export class WordScrambleComponent implements OnInit {
     const target = this.wordScramble[index];
     const list = WORD_LISTS.find(l => l.level_id == level && l.topic_id == topic);
 
-    if (!list) 
+    if (!list)
       return;
 
     const available = list.vocabulary.filter(w => !this.wordScramble.map(s => s.answer).includes(w));

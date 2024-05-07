@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { GamesService } from '../../services/games.service';
-import { CrossWordLayout, WordSearchResult } from '../../lib';
+import { CrossWordLayout } from '../../lib';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';

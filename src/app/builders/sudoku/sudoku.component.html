@@ -30,7 +30,7 @@
       </div>
     </div>
     @if (board.length) {
-      <button type="button" (click)="print()" style="margin-right: 12px;" mat-raised-button color="accent">Imprimir</button>
+      <button type="button" (click)="print()" style="margin-right: 12px;" mat-raised-button color="accent">Exportar</button>
     }
     <button mat-raised-button color="primary" type="button" (click)="generate();">{{ board.length ? 'Regenerar' : 'Generar' }}</button>
   </mat-card-content>
