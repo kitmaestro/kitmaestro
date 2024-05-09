@@ -141,7 +141,7 @@ export class WordScrambleComponent implements OnInit {
     this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
     const topic = this.topics.find(t => t.id == this.wsForm.get('topic')?.value);
     this.pdfService.createAndDownloadFromHTML("wordscramble", `Palabras Revueltas - ${topic?.topic}`);
-    this.pdfService.createAndDownloadFromHTML("wordscramble-solution", `Palabras Revueltas - ${topic?.topic}`);
+    this.pdfService.createAndDownloadFromHTML("wordscramble-solution", `Palabras Revueltas - ${topic?.topic} - Solucion`);
   }
 
 }

@@ -161,9 +161,8 @@ export class SynonymsComponent implements OnInit {
 
   print() {
     this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
-    const topic = this.synonymsForm.get('topic')?.value;
-    this.pdfService.createAndDownloadFromHTML("synonyms", `Palabras Revueltas - ${topic}`);
-    this.pdfService.createAndDownloadFromHTML("synonyms-solution", `Palabras Revueltas - ${topic}`);
+    this.pdfService.createAndDownloadFromHTML("synonyms", `Sinonimos`);
+    this.pdfService.createAndDownloadFromHTML("synonyms-solution", `Sinonimos - Solucion`);
   }
 
 }

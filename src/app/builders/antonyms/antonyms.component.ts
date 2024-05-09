@@ -161,8 +161,7 @@ export class AntonymsComponent implements OnInit {
 
   print() {
     this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
-    const topic = this.antonymsForm.get('topic')?.value;
-    this.pdfService.createAndDownloadFromHTML("antonyms", `Palabras Revueltas - ${topic}`);
-    this.pdfService.createAndDownloadFromHTML("antonyms-solution", `Palabras Revueltas - ${topic}`);
+    this.pdfService.createAndDownloadFromHTML("antonyms", `Antonimos`);
+    this.pdfService.createAndDownloadFromHTML("antonyms-solution", `Antonimos - Solucion`);
   }
 }
