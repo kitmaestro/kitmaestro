@@ -47,7 +47,7 @@ export class BuilderListComponent {
           link: [
             '/app',
             'worksheet-builders',
-            'wordsearch'
+            'synonyms'
           ],
           cover: '/assets/undraw_file_searching_re_3evy.svg'
         },
@@ -57,7 +57,7 @@ export class BuilderListComponent {
           link: [
             '/app',
             'worksheet-builders',
-            'wordsearch'
+            'antonyms'
           ],
           cover: '/assets/undraw_file_searching_re_3evy.svg'
         },

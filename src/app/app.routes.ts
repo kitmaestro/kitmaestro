@@ -49,10 +49,12 @@ export const routes: Routes = [
                 },
                 children: [
                     { path: '', loadComponent: () => import('./builders/builder-list/builder-list.component').then(m => m.BuilderListComponent) },
-                    { path: 'sudoku', loadComponent: () => import('./builders/sudoku/sudoku.component').then(m => m.SudokuComponent) },
                     { path: 'wordsearch', loadComponent: () => import('./builders/wordsearch/wordsearch.component').then(m => m.WordsearchComponent) },
                     { path: 'word-scramble', loadComponent: () => import('./builders/word-scramble/word-scramble.component').then(m => m.WordScrambleComponent) },
                     { path: 'crosswords', loadComponent: () => import('./builders/crosswords/crosswords.component').then(m => m.CrosswordsComponent) },
+                    { path: 'synonyms', loadComponent: () => import('./builders/synonyms/synonyms.component').then(m => m.SynonymsComponent) },
+                    { path: 'antonyms', loadComponent: () => import('./builders/antonyms/antonyms.component').then(m => m.AntonymsComponent) },
+                    { path: 'sudoku', loadComponent: () => import('./builders/sudoku/sudoku.component').then(m => m.SudokuComponent) },
                     { path: 'addition', loadComponent: () => import('./builders/addition/addition.component').then(m => m.AdditionComponent) },
                 ]
             },
