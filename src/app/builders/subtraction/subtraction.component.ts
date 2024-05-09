@@ -13,7 +13,7 @@ import { PdfService } from '../../services/pdf.service';
 import { shuffle } from 'lodash';
 
 @Component({
-  selector: 'app-addition',
+  selector: 'app-subtraction',
   standalone: true,
   imports: [
     MatCardModule,
@@ -26,10 +26,10 @@ import { shuffle } from 'lodash';
     ReactiveFormsModule,
     MatSnackBarModule,
   ],
-  templateUrl: './addition.component.html',
-  styleUrl: './addition.component.scss'
+  templateUrl: './subtraction.component.html',
+  styleUrl: './subtraction.component.scss'
 })
-export class AdditionComponent implements OnInit {
+export class SubtractionComponent implements OnInit {
 
   fb = inject(FormBuilder);
   userSettingsService = inject(UserSettingsService);
@@ -38,9 +38,9 @@ export class AdditionComponent implements OnInit {
 
   teacherName: string = '';
   schoolName: string = '';
-  additions: Array<number[]> = [];
+  subtractions: Array<number[]> = [];
 
-  additionsForm = this.fb.group({
+  subtractionsForm = this.fb.group({
     addends: [2, Validators.min(2)],
     minDigits: [2],
     maxDigits: [2],
@@ -57,7 +57,7 @@ export class AdditionComponent implements OnInit {
     });
   }
 
-  generateAddend(min: number, max: number): number {
+  generateNumber(min: number, max: number): number {
     const digits = min == max ? min : Math.round(Math.random() * (max - min)) + min;
     let str = "";
 
@@ -72,63 +72,63 @@ export class AdditionComponent implements OnInit {
     return parseInt(str);
   }
 
-  generateAdditions() {
-    const { addends, minDigits, maxDigits, size } = this.additionsForm.value;
+  generateSubtractions() {
+    const { addends, minDigits, maxDigits, size } = this.subtractionsForm.value;
 
     if (!addends || !minDigits || !maxDigits || !size)
       return;
 
-    this.additions = [];
+    this.subtractions = [];
 
     for (let i = 0; i < size; i++) {
       const addition: number[] = [];
       const addendQty = Math.round(Math.random() * addends) + 2;
       for (let j = 0; j < addends; j++) {
-        addition.push(this.generateAddend(minDigits, maxDigits));
+        addition.push(this.generateNumber(minDigits, maxDigits));
       }
-      this.additions.push(addition);
+      this.subtractions.push(addition);
     }
   }
 
   toggleName() {
-    const val = this.additionsForm.get('name')?.value;
+    const val = this.subtractionsForm.get('name')?.value;
     if (!val) {
-      this.additionsForm.get('name')?.setValue(true);
+      this.subtractionsForm.get('name')?.setValue(true);
     } else {
-      this.additionsForm.get('name')?.setValue(false);
+      this.subtractionsForm.get('name')?.setValue(false);
     }
   }
 
   toggleGrade() {
-    const val = this.additionsForm.get('grade')?.value;
+    const val = this.subtractionsForm.get('grade')?.value;
     if (!val) {
-      this.additionsForm.get('grade')?.setValue(true);
+      this.subtractionsForm.get('grade')?.setValue(true);
     } else {
-      this.additionsForm.get('grade')?.setValue(false);
+      this.subtractionsForm.get('grade')?.setValue(false);
     }
   }
 
   toggleDate() {
-    const val = this.additionsForm.get('date')?.value;
+    const val = this.subtractionsForm.get('date')?.value;
     if (!val) {
-      this.additionsForm.get('date')?.setValue(true);
+      this.subtractionsForm.get('date')?.setValue(true);
     } else {
-      this.additionsForm.get('date')?.setValue(false);
+      this.subtractionsForm.get('date')?.setValue(false);
     }
   }
 
   changeAddend(index: number) {
-    const { addends, minDigits, maxDigits, size } = this.additionsForm.value;
+    const { addends, minDigits, maxDigits, size } = this.subtractionsForm.value;
 
     if (!addends || !minDigits || !maxDigits || !size)
       return;
 
     const addition: number[] = [];
     for (let j = 0; j < addends; j++) {
-      addition.push(this.generateAddend(minDigits, maxDigits));
+      addition.push(this.generateNumber(minDigits, maxDigits));
     }
 
-    this.additions[index] = addition;
+    this.subtractions[index] = addition;
   }
 
   calculate(arr: number[]) {
@@ -137,7 +137,8 @@ export class AdditionComponent implements OnInit {
 
   print() {
     this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
-    this.pdfService.createAndDownloadFromHTML("additions", `Suma`);
-    this.pdfService.createAndDownloadFromHTML("additions-solution", `Suma - Solucion`);
+    this.pdfService.createAndDownloadFromHTML("subtractions", `Suma`);
+    this.pdfService.createAndDownloadFromHTML("subtractions-solution", `Suma - Solucion`);
   }
+
 }

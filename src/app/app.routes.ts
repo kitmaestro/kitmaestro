@@ -56,6 +56,7 @@ export const routes: Routes = [
                     { path: 'antonyms', loadComponent: () => import('./builders/antonyms/antonyms.component').then(m => m.AntonymsComponent) },
                     { path: 'sudoku', loadComponent: () => import('./builders/sudoku/sudoku.component').then(m => m.SudokuComponent) },
                     { path: 'addition', loadComponent: () => import('./builders/addition/addition.component').then(m => m.AdditionComponent) },
+                    { path: 'subtraction', loadComponent: () => import('./builders/subtraction/subtraction.component').then(m => m.SubtractionComponent) },
                 ]
             },
             // exam builders

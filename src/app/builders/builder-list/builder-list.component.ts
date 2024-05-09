@@ -103,7 +103,7 @@ export class BuilderListComponent {
           link: [
             '/app',
             'worksheet-builders',
-            'addition'
+            'subtraction'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
         },
