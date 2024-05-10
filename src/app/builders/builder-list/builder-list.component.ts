@@ -113,7 +113,7 @@ export class BuilderListComponent {
           link: [
             '/app',
             'worksheet-builders',
-            'addition'
+            'multiplication'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
         },
@@ -123,7 +123,7 @@ export class BuilderListComponent {
           link: [
             '/app',
             'worksheet-builders',
-            'addition'
+            'division'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
         },

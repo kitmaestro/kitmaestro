@@ -6,6 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserSettingsService } from '../../services/user-settings.service';
@@ -25,6 +26,7 @@ import { shuffle } from 'lodash';
     MatChipsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    MatRadioModule,
   ],
   templateUrl: './subtraction.component.html',
   styleUrl: './subtraction.component.scss'
@@ -41,7 +43,11 @@ export class SubtractionComponent implements OnInit {
   subtractions: Array<number[]> = [];
 
   subtractionsForm = this.fb.group({
-    addends: [2, Validators.min(2)],
+    title: ["Resta"],
+    subtractionType: ['unsigned'],
+    subtrahendQty: [2, Validators.min(2)],
+    orientation: ["vertical"],
+    results: ["positive"],
     minDigits: [2],
     maxDigits: [2],
     size: [10],
@@ -59,7 +65,7 @@ export class SubtractionComponent implements OnInit {
 
   generateNumber(min: number, max: number): number {
     const digits = min == max ? min : Math.round(Math.random() * (max - min)) + min;
-    let str = "";
+    let str = this.subtractionsForm.get("subtractionType")?.value == "signed" ? (Math.round(Math.random()) ? "" : "-") : "";
 
     for (let i = 0; i < digits; i++) {
       if (i == 0) {
@@ -73,20 +79,22 @@ export class SubtractionComponent implements OnInit {
   }
 
   generateSubtractions() {
-    const { addends, minDigits, maxDigits, size } = this.subtractionsForm.value;
+    const { subtrahendQty, minDigits, maxDigits, size } = this.subtractionsForm.value;
 
-    if (!addends || !minDigits || !maxDigits || !size)
+    if (!subtrahendQty || !minDigits || !maxDigits || !size)
       return;
 
     this.subtractions = [];
 
     for (let i = 0; i < size; i++) {
-      const addition: number[] = [];
-      const addendQty = Math.round(Math.random() * addends) + 2;
-      for (let j = 0; j < addends; j++) {
-        addition.push(this.generateNumber(minDigits, maxDigits));
+      const subtraction: number[] = [];
+      for (let j = 0; j < subtrahendQty; j++) {
+        subtraction.push(this.generateNumber(minDigits, maxDigits));
       }
-      this.subtractions.push(addition);
+      if (this.subtractionsForm.get("results")?.value == "positive") {
+        subtraction.sort((a, b) => b - a);
+      }
+      this.subtractions.push(subtraction);
     }
   }
 
@@ -117,28 +125,36 @@ export class SubtractionComponent implements OnInit {
     }
   }
 
-  changeAddend(index: number) {
-    const { addends, minDigits, maxDigits, size } = this.subtractionsForm.value;
+  changeSustrahend(index: number) {
+    const { subtrahendQty, minDigits, maxDigits, size } = this.subtractionsForm.value;
 
-    if (!addends || !minDigits || !maxDigits || !size)
+    if (!subtrahendQty || !minDigits || !maxDigits || !size)
       return;
 
-    const addition: number[] = [];
-    for (let j = 0; j < addends; j++) {
-      addition.push(this.generateNumber(minDigits, maxDigits));
+    const subtraction: number[] = [];
+    for (let j = 0; j < subtrahendQty; j++) {
+      subtraction.push(this.generateNumber(minDigits, maxDigits));
     }
 
-    this.subtractions[index] = addition;
+    if (this.subtractionsForm.get("results")?.value == "positive") {
+      subtraction.sort((a, b) => b - a);
+    }
+    this.subtractions[index] = subtraction;
   }
 
   calculate(arr: number[]) {
-    return arr.reduce((p, c) => c + p, 0);
+    return +eval(arr.join(" - "));
   }
 
   print() {
     this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
-    this.pdfService.createAndDownloadFromHTML("subtractions", `Suma`);
-    this.pdfService.createAndDownloadFromHTML("subtractions-solution", `Suma - Solucion`);
+    const title = this.subtractionsForm.get('title')?.value || '';
+    this.pdfService.createAndDownloadFromHTML("subtractions", `${title}`);
+    this.pdfService.createAndDownloadFromHTML("subtractions-solution", `${title} - Solucion`);
+  }
+
+  get orientation(): string {
+    return this.subtractionsForm.get('orientation')?.value || "horizontal";
   }
 
 }
