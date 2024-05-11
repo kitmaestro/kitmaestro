@@ -128,12 +128,22 @@ export class BuilderListComponent {
           cover: '/assets/undraw_new_entries_re_cffr.svg'
         },
         {
+          name: 'Ejercicios Mixtos',
+          description: 'Genera Hojas con plantillas de planos cartesianos.',
+          link: [
+            '/app',
+            'worksheet-builders',
+            'mixed-operations'
+          ],
+          cover: '/assets/undraw_new_entries_re_cffr.svg'
+        },
+        {
           name: 'Papel Cuadriculado',
           description: 'Genera Hojas cuadriculadas para geometría.',
           link: [
             '/app',
             'worksheet-builders',
-            'addition'
+            'graph-paper'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
         },
@@ -143,7 +153,7 @@ export class BuilderListComponent {
           link: [
             '/app',
             'worksheet-builders',
-            'addition'
+            'number-line'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
         },
@@ -153,7 +163,7 @@ export class BuilderListComponent {
           link: [
             '/app',
             'worksheet-builders',
-            'addition'
+            'cartesian-plane'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
         },

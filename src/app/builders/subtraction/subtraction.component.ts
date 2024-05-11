@@ -143,7 +143,13 @@ export class SubtractionComponent implements OnInit {
   }
 
   calculate(arr: number[]) {
-    return +eval(arr.join(" - "));
+    let result = arr[0] - arr[1];
+
+    for (let i = 2; i < arr.length; i++) {
+        result -= arr[i];
+    }
+
+    return result;
   }
 
   print() {

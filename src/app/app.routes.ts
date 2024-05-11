@@ -59,6 +59,8 @@ export const routes: Routes = [
                     { path: 'subtraction', loadComponent: () => import('./builders/subtraction/subtraction.component').then(m => m.SubtractionComponent) },
                     { path: 'multiplication', loadComponent: () => import('./builders/multiplication/multiplication.component').then(m => m.MultiplicationComponent) },
                     { path: 'division', loadComponent: () => import('./builders/division/division.component').then(m => m.DivisionComponent) },
+                    { path: 'mixed-operations', loadComponent: () => import('./builders/mixed-operations/mixed-operations.component').then(m => m.MixedOperationsComponent) },
+                    { path: 'number-line', loadComponent: () => import('./builders/number-line/number-line.component').then(m => m.NumberLineComponent) },
                 ]
             },
             // exam builders

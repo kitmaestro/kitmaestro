@@ -1,13 +1,13 @@
 <mat-card style="margin-bottom: 24px;">
     <mat-card-header>
-        <h2 mat-card-title>Generador de Ejercicios de Suma</h2>
+        <h2 mat-card-title>Generador de Ejercicios de Division</h2>
     </mat-card-header>
     <mat-card-content>
         <form [formGroup]="additionsForm" (ngSubmit)="generateAdditions()">
             <div style="display: flex; gap: 16px;">
                 <div style="min-width: 20%;">
                     <mat-form-field appearance="outline">
-                        <mat-label>Cantidad de Sumandos</mat-label>
+                        <mat-label>Cantidad de Operandos</mat-label>
                         <input type="number" formControlName="addends" matInput>
                     </mat-form-field>
                 </div>
@@ -39,16 +39,14 @@
                 </div>
             </div>
             @if (additions.length) {
-            <div style="padding: 20px; background-color: #46a7f5; color: white; margin-bottom: 15px;">
-                Para reemplazar cualquiera de los ejercicios generados, haz click sobre &eacute;l.
-            </div>
+                <div style="padding: 20px; background-color: #46a7f5; color: white; margin-bottom: 15px;">
+                    Para reemplazar cualquiera de los ejercicios generados, haz click sobre &eacute;l.
+                </div>
             }
             @if (additions.length) {
-            <button type="button" (click)="print()" style="margin-right: 12px;" mat-raised-button
-                color="accent">Imprimir</button>
+                <button type="button" (click)="print()" style="margin-right: 12px;" mat-raised-button color="accent">Imprimir</button>
             }
-            <button type="submit" mat-raised-button color="primary">{{ additions.length ? 'Regenerar' : 'Generar'
-                }}</button>
+            <button type="submit" mat-raised-button color="primary">{{ additions.length ? 'Regenerar' : 'Generar' }}</button>
         </form>
     </mat-card-content>
 </mat-card>
