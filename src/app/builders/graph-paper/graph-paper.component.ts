@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-number-line',
+  selector: 'app-graph-paper',
   standalone: true,
   imports: [
     InProgressComponent,
     MatCardModule,
   ],
-  templateUrl: './number-line.component.html',
-  styleUrl: './number-line.component.scss'
+  templateUrl: './graph-paper.component.html',
+  styleUrl: './graph-paper.component.scss'
 })
-export class NumberLineComponent {
+export class GraphPaperComponent {
 
 }

@@ -163,7 +163,7 @@ export class BuilderListComponent {
           link: [
             '/app',
             'worksheet-builders',
-            'cartesian-plane'
+            'cartesian-coordinates'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
         },
