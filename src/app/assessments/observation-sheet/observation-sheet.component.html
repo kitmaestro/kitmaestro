@@ -1,0 +1,106 @@
+<mat-card>
+    <mat-card-header>
+        <h2 mat-card-title>Gu&iacute;as de Observaci&oacute;n</h2>
+    </mat-card-header>
+    <mat-card-content>
+        <div>
+            <form [formGroup]="sheetForm" (ngSubmit)="onSubmit()">
+                <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                    <div style="flex: 1 1 auto; width: 100%; max-width: 25%;">
+                        <mat-checkbox
+                            class="example-margin"
+                            #blank
+                            (change)="blank.checked ? sheetForm.get('date')?.disable() : sheetForm.get('date')?.enable()"
+                            formControlName="blankDate">
+                            Dejar Fecha en Blanco
+                        </mat-checkbox>
+                    </div>
+                    <div style="flex: 1 1 auto; width: 100%; max-width: 25%;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Fecha</mat-label>
+                            <input type="date" matInput formControlName="date">
+                        </mat-form-field>
+                    </div>
+                    <div style="flex: 1 1 auto; width: 100%; max-width: 25%;">
+                        <mat-checkbox
+                            class="example-margin"
+                            #indiv
+                            (change)="indiv.checked ? sheetForm.get('group')?.disable() : sheetForm.get('group')?.enable()"
+                            formControlName="individual">
+                            Reporte Individual
+                        </mat-checkbox>
+                    </div>
+                    <div style="flex: 1 1 auto; width: 100%; max-width: 25%;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Grupo</mat-label>
+                            <mat-select formControlName="group">
+                                @for (group of groups; track group.id) {
+                                    <mat-option [value]="group.id">{{group.name}}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                    <div style="flex: 1 1 auto; width: 100%; max-width: 25%;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Asignatura(s)</mat-label>
+                            <mat-select multiple formControlName="subject">
+                                @for (subject of gradeSubjects; track $index) {
+                                    @if (subjectLabel(subject)) {
+                                        <mat-option [value]="subject">{{subjectLabel(subject)}}</mat-option>
+                                    }
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div style="flex: 1 1 auto; width: 100%; max-width: 25%;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Duraci&oacute;n</mat-label>
+                            <mat-select formControlName="duration">
+                                @for (option of durationOptions; track $index) {
+                                    <mat-option [value]="option">{{option}}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div style="flex: 1 1 auto; width: 100%; max-width: 25%;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Competencias</mat-label>
+                            <mat-select formControlName="competence" multiple>
+                                @for (option of compentenceOptions; track $index) {
+                                    <mat-option [value]="option">{{option}}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div style="flex: 1 1 auto; width: 100%; max-width: 25%;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Aspectos a Observar</mat-label>
+                            <mat-select formControlName="aspects" multiple>
+                                @for (aspect of aspects; track $index) {
+                                    <mat-option [value]="aspect">{{aspect}}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                    <div style="flex: 1 1 auto; width: 50%;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Descripci&oacute;n</mat-label>
+                            <textarea rows="4" matInput formControlName="description"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div style="flex: 1 1 auto; width: 50%;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Otros Aspectos (separados por comas)</mat-label>
+                            <textarea rows="4" matInput formControlName="customAspects"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <button mat-raised-button color="primary" type="submit">Generar</button>
+            </form>
+        </div>
+    </mat-card-content>
+</mat-card>

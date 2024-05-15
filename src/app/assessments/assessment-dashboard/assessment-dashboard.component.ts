@@ -1,19 +1,24 @@
 import { Component } from '@angular/core';
-import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-assessment-dashboard',
   standalone: true,
   imports: [
-    IsPremiumComponent,
-    InProgressComponent,
     MatCardModule,
+    MatButtonModule,
+    RouterLink,
   ],
   templateUrl: './assessment-dashboard.component.html',
   styleUrl: './assessment-dashboard.component.scss'
 })
 export class AssessmentDashboardComponent {
-  working = false;
+  tools = [
+    {
+      name: "Guía de Observación",
+      link: "observation-sheet",
+    }
+  ]
 }

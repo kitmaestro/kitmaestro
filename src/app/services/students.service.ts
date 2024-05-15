@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, authState } from '@angular/fire/auth';
+import { Auth, User, authState } from '@angular/fire/auth';
 import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
 import { Student } from '../interfaces/student';
 import { Observable, concatAll, map, of } from 'rxjs';
@@ -12,7 +12,7 @@ export class StudentsService {
   auth = inject(Auth);
   firestore = inject(Firestore);
 
-  user$ = authState(this.auth);
+  user$: Observable<User | null> = authState(this.auth);
   studentsRef = collection(this.firestore, 'students');
   classSections$: Observable<Student[]> = this.user$.pipe(
     map(user => {

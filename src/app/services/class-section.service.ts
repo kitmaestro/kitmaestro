@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, authState } from '@angular/fire/auth';
+import { Auth, User, authState } from '@angular/fire/auth';
 import { Firestore, addDoc, collection, collectionData, doc, query, updateDoc, where } from '@angular/fire/firestore';
 import { Observable, concatAll, map, of } from 'rxjs';
 import { ClassSection } from '../datacenter/datacenter.component';
@@ -9,11 +9,12 @@ import { ClassSection } from '../datacenter/datacenter.component';
 })
 export class ClassSectionService {
 
-  auth = inject(Auth);
-  firestore = inject(Firestore);
+  private auth = inject(Auth);
+  private firestore = inject(Firestore);
 
-  user$ = authState(this.auth);
-  classSectionsRef = collection(this.firestore, 'class-sections');
+  private user$: Observable<User|null> = authState(this.auth);
+  private classSectionsRef = collection(this.firestore, 'class-sections');
+  
   classSections$: Observable<ClassSection[]> = this.user$.pipe(
     map(user => {
       if (user) {

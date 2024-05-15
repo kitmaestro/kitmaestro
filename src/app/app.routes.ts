@@ -68,7 +68,14 @@ export const routes: Routes = [
             // exam builders
             { path: 'math-test-generator', loadComponent: () => import('./generators/math-test-generator/math-test-generator.component').then(mod => mod.MathTestGeneratorComponent) },
             // assessments
-            { path: 'assessments', loadComponent: () => import('./assessments/assessment-dashboard/assessment-dashboard.component').then(mod => mod.AssessmentDashboardComponent), },
+            {
+                path: 'assessments',
+                loadComponent: () => import('./assessments/assessments/assessments.component').then(mod => mod.AssessmentsComponent),
+                children: [
+                    { path: '', loadComponent: () => import('./assessments/assessment-dashboard/assessment-dashboard.component').then(mod => mod.AssessmentDashboardComponent), },
+                    { path: 'observation-sheet', loadComponent: () => import('./assessments/observation-sheet/observation-sheet.component').then(mod => mod.ObservationSheetComponent), },
+                ]
+            },
             // Assistants
             { path: 'assistants', loadComponent: () => import('./assistants/assistants-dashboard/assistants-dashboard.component').then(mod => mod.AssistantsDashboardComponent), },
             { path: 'assistants/assessments', loadComponent: () => import('./assessments/assessment-dashboard/assessment-dashboard.component').then(mod => mod.AssessmentDashboardComponent) },

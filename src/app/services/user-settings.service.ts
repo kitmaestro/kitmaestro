@@ -31,7 +31,7 @@ export class UserSettingsService {
   private auth = inject(Auth);
   private firestore = inject(Firestore);
   private settingsColRef = collection(this.firestore, 'user-settings');
-  private user$ = authState(this.auth);
+  private user$: Observable<User | null> = authState(this.auth);
 
   createSettings(data: UserSettings = defaultUserSettings): Observable<UserSettings> {
     return this.user$.pipe(

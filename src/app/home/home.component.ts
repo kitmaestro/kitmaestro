@@ -28,6 +28,7 @@ export class HomeComponent {
   router = inject(Router);
 
   showAll = false;
+  devMode = true;
 
   _layout: AppEntry[][] = [];
 
@@ -260,7 +261,7 @@ export class HomeComponent {
       [],
       [],
     ];
-    for (let app of this.showAll ? this.apps : this.apps.filter(app => app.isWorking)) {
+    for (let app of this.showAll ? this.apps : this.apps.filter(app => this.devMode ? !app.isWorking : app.isWorking)) {
       final[next].push(app);
       if (next == 4) {
         next = 0;
@@ -279,7 +280,7 @@ export class HomeComponent {
       [],
       [],
     ];
-    for (let app of this.showAll ? this.apps : this.apps.filter(app => app.isWorking)) {
+    for (let app of this.showAll ? this.apps : this.apps.filter(app => this.devMode ? !app.isWorking : app.isWorking)) {
       final[next].push(app);
       if (next == 3) {
         next = 0;
@@ -297,7 +298,7 @@ export class HomeComponent {
       [],
       [],
     ];
-    for (let app of this.showAll ? this.apps : this.apps.filter(app => app.isWorking)) {
+    for (let app of this.showAll ? this.apps : this.apps.filter(app => this.devMode ? !app.isWorking : app.isWorking)) {
       final[next].push(app);
       if (next == 2) {
         next = 0;
@@ -314,7 +315,7 @@ export class HomeComponent {
       [],
       [],
     ];
-    for (let app of this.showAll ? this.apps : this.apps.filter(app => app.isWorking)) {
+    for (let app of this.showAll ? this.apps : this.apps.filter(app => this.devMode ? !app.isWorking : app.isWorking)) {
       final[next].push(app);
       if (next == 1) {
         next = 0;
@@ -330,7 +331,7 @@ export class HomeComponent {
     const final: AppEntry[][] = [
       [],
     ];
-    for (let app of this.showAll ? this.apps : this.apps.filter(app => app.isWorking)) {
+    for (let app of this.showAll ? this.apps : this.apps.filter(app => this.devMode ? !app.isWorking : app.isWorking)) {
       final[next].push(app);
     }
     return final;
