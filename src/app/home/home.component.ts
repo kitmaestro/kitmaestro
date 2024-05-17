@@ -28,7 +28,7 @@ export class HomeComponent {
   router = inject(Router);
 
   showAll = false;
-  devMode = true;
+  devMode = false;
 
   _layout: AppEntry[][] = [];
 
@@ -129,7 +129,7 @@ export class HomeComponent {
       link: ['/app','assessments'],
       icon: '/assets/checklist.svg',
       premium: true,
-      isWorking: false,
+      isWorking: true,
     },
     // {
     //   name: 'Generador de Listas de Cotejo',
