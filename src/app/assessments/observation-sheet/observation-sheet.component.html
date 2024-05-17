@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card style="margin-bottom: 24px;">
     <mat-card-header>
         <h2 mat-card-title>Gu&iacute;as de Observaci&oacute;n</h2>
     </mat-card-header>
@@ -24,8 +24,6 @@
                     <div style="flex: 1 1 auto; width: 100%; max-width: 25%;">
                         <mat-checkbox
                             class="example-margin"
-                            #indiv
-                            (change)="indiv.checked ? sheetForm.get('group')?.disable() : sheetForm.get('group')?.enable()"
                             formControlName="individual">
                             Reporte Individual
                         </mat-checkbox>
@@ -33,7 +31,10 @@
                     <div style="flex: 1 1 auto; width: 100%; max-width: 25%;">
                         <mat-form-field appearance="outline">
                             <mat-label>Grupo</mat-label>
-                            <mat-select formControlName="group">
+                            <mat-select
+                                formControlName="group"
+                                (change)="onGradeSelect()"
+                                >
                                 @for (group of groups; track group.id) {
                                     <mat-option [value]="group.id">{{group.name}}</mat-option>
                                 }
@@ -45,7 +46,7 @@
                     <div style="flex: 1 1 auto; width: 100%; max-width: 25%;">
                         <mat-form-field appearance="outline">
                             <mat-label>Asignatura(s)</mat-label>
-                            <mat-select multiple formControlName="subject">
+                            <mat-select formControlName="subject">
                                 @for (subject of gradeSubjects; track $index) {
                                     @if (subjectLabel(subject)) {
                                         <mat-option [value]="subject">{{subjectLabel(subject)}}</mat-option>
@@ -99,8 +100,16 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <button mat-raised-button color="primary" type="submit">Generar</button>
+                @if (observationSheet) {
+                    <button type="button" (click)="print()" style="margin-right: 12px;" mat-raised-button
+                        color="accent">Imprimir</button>
+                }
+                <button [disabled]="sheetForm.invalid" mat-raised-button color="primary" type="submit">Generar</button>
             </form>
         </div>
     </mat-card-content>
 </mat-card>
+
+@if (observationSheet) {
+    <app-observation-guide [students]="students" [guide]="observationSheet"></app-observation-guide>
+}

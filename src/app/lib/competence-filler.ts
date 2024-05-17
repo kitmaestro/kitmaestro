@@ -1,8 +1,8 @@
-const competence = [
+export const COMPETENCE = [
     {
         name: 'Comunicativa',
         grade: 'PRIMERO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -10,7 +10,7 @@ const competence = [
     {
         name: 'Comunicativa',
         grade: 'SEGUNDO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -18,7 +18,7 @@ const competence = [
     {
         name: 'Comunicativa',
         grade: 'TERCERO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -26,7 +26,7 @@ const competence = [
     {
         name: 'Comunicativa',
         grade: 'CUARTO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -34,7 +34,7 @@ const competence = [
     {
         name: 'Comunicativa',
         grade: 'QUINTO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -42,7 +42,7 @@ const competence = [
     {
         name: 'Comunicativa',
         grade: 'SEXTO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -50,7 +50,7 @@ const competence = [
     {
         name: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
         grade: 'PRIMERO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -58,7 +58,7 @@ const competence = [
     {
         name: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
         grade: 'SEGUNDO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -66,7 +66,7 @@ const competence = [
     {
         name: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
         grade: 'TERCERO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -74,7 +74,7 @@ const competence = [
     {
         name: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
         grade: 'CUARTO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -82,7 +82,7 @@ const competence = [
     {
         name: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
         grade: 'QUINTO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -90,7 +90,7 @@ const competence = [
     {
         name: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
         grade: 'SEXTO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -98,7 +98,7 @@ const competence = [
     {
         name: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
         grade: 'PRIMERO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -106,7 +106,7 @@ const competence = [
     {
         name: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
         grade: 'SEGUNDO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -114,7 +114,7 @@ const competence = [
     {
         name: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
         grade: 'TERCERO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -122,7 +122,7 @@ const competence = [
     {
         name: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
         grade: 'CUARTO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -130,7 +130,7 @@ const competence = [
     {
         name: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
         grade: 'QUINTO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
@@ -138,7 +138,7 @@ const competence = [
     {
         name: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
         grade: 'SEXTO',
-        subject: 'EDUCACION_FISICA',
+        subject: 'EDUCACION_ARTISTICA',
         level: 'PRIMARIA',
         entries: [],
         criteria: [],
