@@ -77,10 +77,16 @@ export const routes: Routes = [
                 ]
             },
             // Assistants
-            { path: 'assistants', loadComponent: () => import('./assistants/assistants-dashboard/assistants-dashboard.component').then(mod => mod.AssistantsDashboardComponent), },
-            { path: 'assistants/assessments', loadComponent: () => import('./assessments/assessment-dashboard/assessment-dashboard.component').then(mod => mod.AssessmentDashboardComponent) },
-            { path: 'assistants/class-plans', loadComponent: () => import('./class-planning/class-plan/class-plan.component').then(mod => mod.ClassPlanComponent) },
-            { path: 'assistants/unit-plans', loadComponent: () => import('./class-planning/unit-plan/unit-plan.component').then(mod => mod.UnitPlanComponent) },
+            {
+                path: 'assistants',
+                loadComponent: () => import('./assistants/assistants-holder/assistants-holder.component').then(mod => mod.AssistantsHolderComponent),
+                children: [
+                    { path: '', loadComponent: () => import('./assistants/assistants-dashboard/assistants-dashboard.component').then(mod => mod.AssistantsDashboardComponent) },
+                    { path: 'attendance-calc', loadComponent: () => import('./assistants/attendance-calc-assistant/attendance-calc-assistant.component').then(mod => mod.AttendanceCalcAssistantComponent) },
+                ]
+            },
+            { path: 'class-plans', loadComponent: () => import('./class-planning/class-plan/class-plan.component').then(mod => mod.ClassPlanComponent) },
+            { path: 'unit-plans', loadComponent: () => import('./class-planning/unit-plan/unit-plan.component').then(mod => mod.UnitPlanComponent) },
             {
                 path: 'attendance',
                 loadComponent: () => import('./attendance-dashboard/attendance-dashboard.component').then(mod => mod.AttendanceDashboardComponent)

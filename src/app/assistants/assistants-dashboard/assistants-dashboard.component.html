@@ -1,11 +1,13 @@
-<app-is-premium>
-    @if (working) {
-        <mat-card>
+<div class="container">
+    @for(assistant of assistants; track $index) {
+        <mat-card style="cursor: pointer;" class="card" [routerLink]="['/app', 'assistants', assistant.url]">
+            <img mat-card-image [src]="assistant.icon" style="aspect-ratio: 1/1;" [alt]="assistant.title">
             <mat-card-header>
-                <h2 mat-card-ittle></h2>
+                <h2 mat-card-title>{{ assistant.title }}</h2>
             </mat-card-header>
+            <mat-card-content>
+                {{ assistant.description }}
+            </mat-card-content>
         </mat-card>
-    } @else {
-        <app-in-progress></app-in-progress>
     }
-</app-is-premium>
+</div>

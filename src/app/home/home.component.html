@@ -9,7 +9,12 @@
         <mat-card class="app-card" *ngFor="let app of row" [routerLink]="app.link">
             <mat-card-content>
                 <img [src]="app.icon" class="app-icon" alt="">
-                <h2 mat-card-title>{{app.name}}</h2>
+                <div style="display: flex; align-items: center;">
+                    <h2 mat-card-title>{{app.name}}</h2>
+                    @if (!app.isWorking) {
+                        <mat-icon color="warn" style="margin-left: 12px; margin-bottom: auto; margin-top: 4px;" matTooltip="Este módulo todavía no está totalmente listo y puede contener errores.">warning</mat-icon>
+                    }
+                </div>
                 <p>{{app.description}}</p>
                 <mat-icon color="accent" class="is-premium-icon" *ngIf="app.premium; else free">star</mat-icon>
                 <ng-template #free>

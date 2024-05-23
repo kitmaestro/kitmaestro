@@ -5,6 +5,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { AppEntry } from '../interfaces/app-entry';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
@@ -18,6 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatCardModule,
     MatGridListModule,
     MatSlideToggleModule,
+    MatTooltipModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -60,7 +62,7 @@ export class HomeComponent {
     },
     {
       name: 'Generador de Calificaciones',
-      description: 'Genera facilmente las calificaciones de tus estudiantes.',
+      description: 'Genera calificaciones para tus estudiantes.',
       link: ['/app','grades-generator'],
       icon: '/assets/grades.svg',
       premium: true,
@@ -76,7 +78,7 @@ export class HomeComponent {
     },
     {
       name: 'Unidades de Aprendizaje',
-      description: 'Diseña unidades de aprendizaje, para ya mismo.',
+      description: 'Diseña unidades de aprendizaje, para ya.',
       link: ['/app', 'assistants','unit-plans'],
       icon: '/assets/assistant.svg',
       premium: true,
@@ -92,15 +94,15 @@ export class HomeComponent {
     },
     {
       name: 'Asistentes',
-      description: 'Una colección de asistentes virtuales para ti, a tu medida.',
+      description: 'Colección de asistentes virtuales a tu medida.',
       link: ['/app','assistants'],
       icon: '/assets/assistant.svg',
       premium: true,
-      isWorking: false,
+      isWorking: true,
     },
     {
-      name: 'Generador de Conversaciones en Inglés',
-      description: 'Consigue diálogos en inglés (texto y audio) por nivel.',
+      name: 'Conversaciones en Inglés',
+      description: 'Consigue diálogos en inglés por nivel.',
       link: ['/app','english-dialog-generator'],
       icon: '/assets/dialog.svg',
       premium: true,
@@ -117,7 +119,7 @@ export class HomeComponent {
     },
     {
       name: 'Generador de Aspectos Trabajados',
-      description: 'Obten fácilmente una lista de aspectos trabajados para tu registro.',
+      description: 'Aspectos trabajados para el registro.',
       link: ['/app','aspects-generator'],
       icon: '/assets/aspects.svg',
       premium: true,
@@ -125,7 +127,7 @@ export class HomeComponent {
     },
     {
       name: 'Instrumentos de Evaluación',
-      description: 'Generadores de instrumentos de evaluación sin esfuerzo.',
+      description: 'Instrumentos de evaluación sin esfuerzo.',
       link: ['/app','assessments'],
       icon: '/assets/checklist.svg',
       premium: true,
@@ -155,15 +157,15 @@ export class HomeComponent {
     // },
     {
       name: 'Registro Anecdótico',
-      description: 'La forma más fácil de trabajar el registro anecdótico.',
+      description: 'El registro anecdótico hecho fácil.',
       link: ['/app','log-registry-generator'],
       icon: '/assets/undraw_upload_image_re_svxx.svg',
       premium: false,
       isWorking: true,
     },
     {
-      name: 'Generador de Plantilla de Planificación',
-      description: 'Plantillas bonitas y funcionales para los menos tecnológicos.',
+      name: 'Plantillas de Planificación',
+      description: 'Plantillas funcionales para los tradicionales.',
       link: ['/app','planner-generator'],
       icon: '/assets/undraw_responsive_re_e1nn.svg',
       premium: false,
