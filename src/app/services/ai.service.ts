@@ -1,14 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { GradePeriod } from '../interfaces/grade-period';
 import { HfInference } from '@huggingface/inference';
 // import { ModelEntry, listModels } from '@huggingface/hub';
 import { Text2TextGenerationPipeline, pipeline } from '@xenova/transformers';
 import { Observable, from } from 'rxjs';
+import { GeminiResponse } from '../interfaces/gemini-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AiService {
+  private http = inject(HttpClient);
 
   private models = {
     textToImage: 'stabilityai/stable-diffusion-xl-base-1.0',
@@ -26,6 +29,19 @@ export class AiService {
   private inference = new HfInference(this.token);
 
   constructor() { }
+
+  askGemini(text: string): Observable<GeminiResponse> {
+    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + atob("QUl6YVN5QkpQQnlReGFjUHlfUThsTzk2NENjVUVUUUVNdzJ1Mzhj");
+    const body = {
+      contents: [
+        {
+          parts: [ { text } ]
+        }
+      ]
+    };
+
+    return this.http.post<GeminiResponse>(url, body);
+  }
 
   async generateText(input: string, inference = false) {
     if (inference) {
@@ -149,7 +165,7 @@ export class AiService {
       let currentAverage: number = Math.round(grades.reduce((acc, curr) => acc + (curr.rp > 0 ? curr.rp : curr.p), 0) / elements);
       let adjustment: number = average - currentAverage;
       let adjustedNumbers: GradePeriod[] = grades.map(num => num.rp > 0 ? ({ rp: num.rp + adjustment, p: num.p }) : ({ p: num.p + adjustment, rp: 0 }));
-  
+
       while (true) {
         currentAverage = Math.round(adjustedNumbers.reduce((acc, curr) => acc + (curr.rp > 0 ? curr.rp : curr.p), 0) / elements);
         if (currentAverage == average) {
