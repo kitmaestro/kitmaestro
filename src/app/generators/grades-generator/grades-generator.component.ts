@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -183,9 +183,17 @@ export class GradesGeneratorComponent {
     let gradeCount = 0;
     if (this.configForm.value.precise) {
       const indicators: { p: number, rp: number }[][] = [];
-      for (let i = 0; i < this.generated.indicators; i++) {
-        const indicator = this.aiService.generatePeriod({ average: parseInt(level), min, max, elements: this.generated.grades.length, minGrade });
-        indicators.push(indicator);
+      if (this.generated.grades.length == 1) {
+        const config = { average: parseInt(level), min, max, elements: this.generated.indicators, minGrade };
+        const indicator = this.aiService.generatePeriod(config);
+        for (let ind of indicator) {
+          indicators.push([ind]);
+        }
+      } else {
+        for (let i = 0; i < this.generated.indicators; i++) {
+          const indicator = this.aiService.generatePeriod({ average: parseInt(level), min, max, elements: this.generated.grades.length, minGrade });
+          indicators.push(indicator);
+        }
       }
       for (let i = 0; i < this.generated.grades.length; i++) {
         const row = improvements ? indicators.map(arr => arr[i]).sort((a, b) => a.p - b.p) : indicators.map(arr => arr[i]);

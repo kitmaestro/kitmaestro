@@ -1,18 +1,16 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { GradePeriod } from '../interfaces/grade-period';
 import { HfInference } from '@huggingface/inference';
 // import { ModelEntry, listModels } from '@huggingface/hub';
 import { Text2TextGenerationPipeline, pipeline } from '@xenova/transformers';
 import { Observable, from } from 'rxjs';
 import { GeminiResponse } from '../interfaces/gemini-response';
+import { Anthropic } from '@anthropic-ai/sdk';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AiService {
-  private http = inject(HttpClient);
-
   private models = {
     textToImage: 'stabilityai/stable-diffusion-xl-base-1.0',
     text2TextGeneration: 'google/flan-t5-xxl',
@@ -30,6 +28,22 @@ export class AiService {
 
   constructor() { }
 
+  askClaude(text: string, max_tokens: number = 1024) {
+    const anthropic = new Anthropic({
+      apiKey: 'my_api_key', // defaults to process.env["ANTHROPIC_API_KEY"]
+    });
+
+    return from(anthropic.messages.create({
+      model: "claude-3-opus-20240229",
+      max_tokens,
+      messages: [{ role: "user", content: text }],
+    }));
+  }
+
+  async readFetch(url: string, config: any): Promise<any> {
+    return (await fetch(url, config)).json();
+  }
+
   askGemini(text: string): Observable<GeminiResponse> {
     const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + atob("QUl6YVN5QkpQQnlReGFjUHlfUThsTzk2NENjVUVUUUVNdzJ1Mzhj");
     const body = {
@@ -40,7 +54,12 @@ export class AiService {
       ]
     };
 
-    return this.http.post<GeminiResponse>(url, body);
+    return from(
+      this.readFetch(url, {
+        method: "POST",
+        body: JSON.stringify(body)
+      })
+    ) as Observable<GeminiResponse>;
   }
 
   async generateText(input: string, inference = false) {

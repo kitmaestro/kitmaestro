@@ -3,11 +3,14 @@ import { createWorker } from 'tesseract.js';
 import { AttendanceTableData } from '../../interfaces/attendance-table-data';
 import { AttendanceRowTotals } from '../../interfaces/attendance-row-totals';
 import { AttendanceColumnTotals } from '../../interfaces/attendance-column-totals';
+import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
 
 @Component({
   selector: 'app-attendance-calc-assistant',
   standalone: true,
-  imports: [],
+  imports: [
+    InProgressComponent,
+  ],
   templateUrl: './attendance-calc-assistant.component.html',
   styleUrl: './attendance-calc-assistant.component.scss'
 })
