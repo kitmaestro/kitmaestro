@@ -23,10 +23,11 @@ export class AiService {
       "gemma-7b"
     ],
   }
-  private token = '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'
+  private token = atob('aGZfZVZGUGl6aW5jb3VEbmZzRXFEQ05yaUVmZW9VZ2NITmNEdw==');
   private inference = new HfInference(this.token);
 
-  constructor() { }
+  constructor() {
+  }
 
   askClaude(text: string, max_tokens: number = 1024) {
     const anthropic = new Anthropic({

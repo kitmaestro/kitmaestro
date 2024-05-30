@@ -2,6 +2,62 @@
     <mat-card-header>
         <h2 mat-card-title>Generador de Papel Cuadriculado</h2>
     </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="paperForm">
+        <div class="row">
+          <div>
+            <mat-form-field>
+              <mat-label>Cuadros Por Pulgadas</mat-label>
+              <input type="number" min="1" formControlName="squaresPerInch" matInput>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Estilo del Borde</mat-label>
+              <mat-select formControlName="border">
+                @for(border of borderOptions; track $index) {
+                  <mat-option [value]="border.name">{{border.label}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <mat-form-field>
+              <mat-label>Grosor del Borde</mat-label>
+              <mat-select formControlName="thickness">
+                @for(thickness of borderThickness; track $index) {
+                  <mat-option [value]="thickness.id">{{thickness.label}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Color del Borde</mat-label>
+              <input type="color" matInput formControlName="color">
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+      <button type="button" (click)="print()" style="margin-right: 12px;" mat-raised-button color="accent">Imprimir</button>
+    </mat-card-content>
 </mat-card>
 
-<app-in-progress></app-in-progress>
+<mat-card style="margin-top: 24px;">
+  <mat-card-content>
+    <div class="page" id="graph-paper">
+      @for(line of lines; track $index) {
+        <div class="holder">
+          @for(square of squares; track $index) {
+            <div
+              [style]="'border-color: ' + paperForm.get('color')?.value + '; width: ' + (8 / squares.length) + 'in;'"
+              class="square border-{{paperForm.get('thickness')?.value}} {{paperForm.get('border')?.value}}">
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

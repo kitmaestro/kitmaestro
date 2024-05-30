@@ -1,0 +1,76 @@
+.dotted {
+  border-style: dotted;
+}
+
+.dashed {
+  border-style: dashed;
+}
+
+.solid {
+  border-style: solid;
+}
+
+.double {
+  border-style: double;
+}
+
+.groove {
+  border-style: groove;
+}
+
+.ridge {
+  border-style: ridge;
+}
+
+.inset {
+  border-style: inset;
+}
+
+.outset {
+  border-style: outset;
+}
+
+.border {
+  &-1 {
+    border-width: 1px;
+  }
+
+  &-2 {
+    border-width: 2px;
+  }
+
+  &-3 {
+    border-width: 4px;
+  }
+}
+
+form {
+  display: flex;
+  gap: 16px;
+}
+
+.row {
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+.page {
+  width: 8in;
+  margin: 0 auto;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.holder {
+  display: flex;
+}
+
+.square {
+  aspect-ratio: 1 / 1;
+}
