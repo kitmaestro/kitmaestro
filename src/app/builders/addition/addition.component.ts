@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { formatNumber } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -132,7 +133,7 @@ export class AdditionComponent implements OnInit {
   }
 
   calculate(arr: number[]) {
-    return arr.reduce((p, c) => c + p, 0);
+    return formatNumber(arr.reduce((p, c) => c + p, 0), 'en');
   }
 
   print() {

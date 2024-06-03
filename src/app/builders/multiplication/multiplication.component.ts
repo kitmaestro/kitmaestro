@@ -11,6 +11,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { PdfService } from '../../services/pdf.service';
 import { shuffle } from 'lodash';
+import { formatNumber } from '@angular/common';
 
 @Component({
   selector: 'app-multiplication',
@@ -135,7 +136,7 @@ export class MultiplicationComponent implements OnInit {
   }
 
   calculate(arr: number[]) {
-    return arr.reduce((p, c) => c * p, 1);
+    return formatNumber(arr.reduce((p, c) => c * p, 1), 'en');
   }
 
   print() {

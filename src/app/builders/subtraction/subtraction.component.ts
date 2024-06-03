@@ -12,6 +12,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { PdfService } from '../../services/pdf.service';
 import { shuffle } from 'lodash';
+import { formatNumber } from '@angular/common';
 
 @Component({
   selector: 'app-subtraction',
@@ -149,7 +150,7 @@ export class SubtractionComponent implements OnInit {
         result -= arr[i];
     }
 
-    return result;
+    return formatNumber(result, 'en');
   }
 
   print() {
