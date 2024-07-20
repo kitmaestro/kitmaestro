@@ -320,10 +320,10 @@ export class GradesGeneratorComponent {
       const c1 = calculateAverage ? Math.round(c1Total / 4) : null;
       const c2 = calculateAverage ? Math.round(c2Total / 4) : null;
       const c3 = calculateAverage ? Math.round(c3Total / 4) : null;
-      const c4 = calculateAverage ? Math.round(c3Total / 4) : null;
+      const c4 = calculateAverage ? Math.round(c4Total / 4) : null;
       const cf = c1 && c2 && c3 && c4 ? Math.round((c1 + c2 + c3 + c4) / 4) : null;
       const rf = cf && cf < minGrade && this.generated.includeRecover ? this.getRandomNumber(cf, max) : null;
-      row.push(c1 ? c1 : null, c2 ? c2 : null, c3 ? c3 : null, c4 ? c4 : null, cf);
+      row.push(c1 ? c1 : null, c2 ? c2 : null, c3 ? c3 : null, c4 ? c4 : null, cf, rf);
     }
     return row;
   }

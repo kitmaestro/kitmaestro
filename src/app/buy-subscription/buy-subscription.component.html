@@ -22,7 +22,7 @@
             <h3>Explora todas las herramientas disponibles y futuras:</h3>
             <mat-list>
                 <mat-list-item>
-                    Accede a <button mat-raised-button routerLink="/roadmap" color="primary">todas las herramientas</button> actuales y futuras que KitMaestro tiene para ti con la suscripción premium.
+                    Accede a <button mat-raised-button [routerLink]="['/app', 'roadmap']" color="primary">todas las herramientas</button> actuales y futuras que KitMaestro tiene para ti con la suscripción premium.
                 </mat-list-item>
             </mat-list>
             <h3>Precio y duración de la suscripción</h3>
@@ -43,10 +43,10 @@
             </mat-list>
             <h3>Métodos de pago disponibles:</h3>
             <p>
-                <b>PayPal</b>: Envía el pago de $20USD o $35 USD vía <a href="https://paypal.me/reyesgalay" target="_blank">PayPal</a> con el correo de tu cuenta en el mensaje del envío y una captura/recibo por <a href="https://wa.me/+18094659650?text=Hola!+He+hecho+el+pago+para+mi+subscripcion+premium+de+KitMaestro." target="_blank">WhatsApp</a>. El proceso de activación se realizará en un plazo de 0 a 6 horas tras confirmación.
+                <b>PayPal</b>: Envía el pago de $20USD o $35 USD vía <a href="https://paypal.me/reyesgalay" target="_blank">PayPal</a> con el correo de tu cuenta en el mensaje del envío y una captura/recibo por <a href="https://wa.me/+18093247080?text=Hola!+He+hecho+el+pago+para+mi+subscripcion+premium+de+KitMaestro." target="_blank">WhatsApp</a>. El proceso de activación se realizará en un plazo de 0 a 6 horas tras confirmación.
             </p>
             <p>
-                <b>Transferencia bancaria</b>: Envía el pago de RD${{halfYear}} o RD${{price}} a la <button mat-flat-button color="accent" (click)="showBankAccount()">Cuenta</button> designada con el correo de tu cuenta en el concepto de la transferencia y una captura/recibo por <a href="https://wa.me/+18094659650?text=Hola!+He+hecho+el+pago+para+mi+subscripcion+premium+de+KitMaestro.">WhatsApp</a>. El proceso de activación se realizará en un plazo de 0 a 6 horas tras confirmación.
+                <b>Transferencia bancaria</b>: Envía el pago de RD${{halfYear}} o RD${{price}} a la <button mat-flat-button color="accent" (click)="showBankAccount()">Cuenta</button> designada con el correo de tu cuenta en el concepto de la transferencia y una captura/recibo por <a href="https://wa.me/+18093247080?text=Hola!+He+hecho+el+pago+para+mi+subscripcion+premium+de+KitMaestro.">WhatsApp</a>. El proceso de activación se realizará en un plazo de 0 a 6 horas tras confirmación.
             </p>
             <p>
                 Con la suscripción premium de KitMaestro, tendrás acceso a todas las herramientas actuales y futuras que estamos desarrollando para facilitar tu labor como docente. No te pierdas esta oportunidad de potenciar tu desempeño educativo a un precio muy accesible.
