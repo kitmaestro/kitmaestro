@@ -52,7 +52,7 @@ export class AttendanceGeneratorComponent {
   fb = inject(FormBuilder);
   studentsService = inject(StudentsService);
   classSectionService = inject(ClassSectionService);
-  
+
   sections$ = this.classSectionService.classSections$.pipe(tap(s => this.section.setValue(s[0] ? s[0].id : '')));
 
   working = true;
@@ -170,7 +170,7 @@ export class AttendanceGeneratorComponent {
     const qty = this.numberOfStudents.value;
     if (!qty)
       return;
-    
+
     for (let i = 0; i < qty; i++) {
       const control = this.fb.group({
         name: [''],
@@ -189,7 +189,7 @@ export class AttendanceGeneratorComponent {
   attendanceTotals(attendance: string[]) {
     const totals = attendance.reduce(
       (p: { p: number, t: number, a: number, e: number }, c: string) => {
-        
+
         p.p += c == 'P' ? 1 : 0;
         p.t += c == 'T' ? 1 : 0;
         p.a += c == 'A' ? 1 : 0;
