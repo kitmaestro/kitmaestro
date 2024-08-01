@@ -98,5 +98,29 @@ export class ActivityGeneratorComponent implements OnInit {
   generateReinforcementActivity() {}
 
   onSubmit() {
+    if (this.activityTypeSelector.value == 'reading') {
+      this.generateReadingActivity();
+    }
+    if (this.activityTypeSelector.value == 'groupProject') {
+      this.generateGroupProjectActivity();
+    }
+    if (this.activityTypeSelector.value == 'game') {
+      this.generateGameActivity();
+    }
+    if (this.activityTypeSelector.value == 'discussion') {
+      this.generateDiscussionActivity();
+    }
+    if (this.activityTypeSelector.value == 'experiment') {
+      this.generateExperimentActivity();
+    }
+    if (this.activityTypeSelector.value == 'writing') {
+      this.generateWritingActivity();
+    }
+    if (this.activityTypeSelector.value == 'art') {
+      this.generateArtActivity();
+    }
+    if (this.activityTypeSelector.value == 'reinforcement') {
+      this.generateReinforcementActivity();
+    }
   }
 }

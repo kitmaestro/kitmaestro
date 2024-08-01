@@ -25,7 +25,7 @@
               <form (ngSubmit)="onSubmit()" [formGroup]="activityForm">
                 <div class="cols-3">
                   <div class="form-block">
-                    <mat-form-field>
+                    <mat-form-field appearance="outline">
                       <mat-label>Nivel de Dificultad</mat-label>
                       <mat-select formControlName="difficulty">
                         @for (level of difficultyLevels; track $index) {
@@ -35,7 +35,7 @@
                     </mat-form-field>
                   </div>
                   <div class="form-block">
-                    <mat-form-field>
+                    <mat-form-field appearance="outline">
                       <mat-label>Proceso Cognitivo</mat-label>
                       <mat-select formControlName="level">
                         @for (level of bloomLevels; track $index) {
@@ -45,7 +45,7 @@
                     </mat-form-field>
                   </div>
                   <div class="form-block">
-                    <mat-form-field>
+                    <mat-form-field appearance="outline">
                       <mat-label>Cantidad de Preguntas de Comprensi&oacute;n</mat-label>
                       <input type="number" formControlName="questions" matInput max="15">
                     </mat-form-field>
