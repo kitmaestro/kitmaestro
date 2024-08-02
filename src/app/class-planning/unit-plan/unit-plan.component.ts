@@ -50,6 +50,9 @@ export class UnitPlanComponent {
 
   learningSituationTitle = this.fb.control('');
   learningSituation = this.fb.control('');
+  contents: { subject: string, concepts: string[], procedures: string[], attitudes: string[] }[] = [];
+  resources = this.fb.control<string[]>([]);
+  learningCriteria = this.fb.control<string[]>([]);
 
   levels = [
     'Primaria',
@@ -238,15 +241,11 @@ export class UnitPlanComponent {
   });
 
   unitPlanForm = this.fb.group({
-    type: ['primary'],
-    title: [''],
-    learningSituation: [''],
-    subjects: [['LENGUA_ESPANOLA']],
     duration: [2],
     fundamentalCompetence: [[]],
     specificCompetence: [[]],
-    content: [],
-  })
+    activities: this.fb.array([]),
+  });
 
   learningSituationPrompt = `Una situación de aprendizaje debe incluir los siguientes elementos clave:
 
@@ -273,6 +272,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
 {
   title: string; // titulo de la situacion de aprendizaje
   content: string; // la situacion de aprendizaje en si
+  learningCriteria: string[]; // Criterios de evaluacion para medir el desempeño de los alumnos
 }
 `;
 
@@ -302,9 +302,10 @@ La respuesta debe ser json valido, coherente con esta interfaz:
 
     this.aiService.askGemini(text, true).subscribe({
       next: (response) => {
-        const learningSituation: { title: string, content: string } = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
+        const learningSituation: { title: string, content: string, learningCriteria: string[] } = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
         this.learningSituationTitle.setValue(learningSituation.title);
         this.learningSituation.setValue(learningSituation.content);
+        this.learningCriteria.setValue(learningSituation.learningCriteria);
         this.generating = false;
       }
     })

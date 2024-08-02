@@ -198,10 +198,22 @@
                     </mat-step>
                     <mat-step [stepControl]="unitPlanForm">
                         <form [formGroup]="unitPlanForm">
-                            <ng-template matStepLabel>Fill out your address</ng-template>
+                            <ng-template matStepLabel>Delimitaci&oacute;n</ng-template>
                             <mat-form-field>
                                 <mat-label>Address</mat-label>
-                                <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+                                <input matInput formControlName="duration" required>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Address</mat-label>
+                                <input matInput formControlName="fundamentalCompetence" required>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Address</mat-label>
+                                <input matInput formControlName="specificCompetence" required>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Address</mat-label>
+                                <input matInput formControlName="activities" required>
                             </mat-form-field>
                             <div>
                                 <button mat-button matStepperPrevious>Back</button>
@@ -210,7 +222,7 @@
                         </form>
                     </mat-step>
                     <mat-step>
-                        <ng-template matStepLabel>Done</ng-template>
+                        <ng-template matStepLabel>Finalizaci&oacute;n</ng-template>
                         <p>You are now done.</p>
                         <div>
                             <button mat-button matStepperPrevious>Back</button>
