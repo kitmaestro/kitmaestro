@@ -11,6 +11,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { AiService } from '../../services/ai.service';
+import { SPANISH_CONTENTS } from '../../data/spanish-contents';
+import { MATH_CONTENTS } from '../../data/math-contents';
+import { SOCIETY_CONTENTS } from '../../data/society-contents';
+import { SCIENCE_CONTENTS } from '../../data/science-contents';
+import { ENGLISH_CONTENTS } from '../../data/english-contents';
+import { FRENCH_CONTENTS } from '../../data/french-contents';
+import { RELIGION_CONTENTS } from '../../data/religion-contents';
+import { SPORTS_CONTENTS } from '../../data/sports-contents';
+import { ART_CONTENTS } from '../../data/art-contents';
 
 @Component({
   selector: 'app-unit-plan',
@@ -214,15 +223,15 @@ export class UnitPlanComponent {
     level: ['Primaria', Validators.required],
     year: ['Primero', Validators.required],
     subjects: [['LENGUA_ESPANOLA'], Validators.required],
-    spanishContent: [[]],
-    mathContent: [[]],
-    societyContent: [[]],
-    scienceContent: [[]],
-    englishContent: [[]],
-    frenchContent: [[]],
-    religionContent: [[]],
-    physicalEducationContent: [[]],
-    artisticEducationContent: [[]],
+    spanishContent: [''],
+    mathContent: [''],
+    societyContent: [''],
+    scienceContent: [''],
+    englishContent: [''],
+    frenchContent: [''],
+    religionContent: [''],
+    physicalEducationContent: [''],
+    artisticEducationContent: [''],
     situationType: ['fiction'],
     reality: ['Falta de disciplina'],
     environment: ['Salón de clases']
@@ -279,11 +288,15 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     if (!environment || !reality || !situationType)
       return;
 
+    const contents = this.collectContents();
+
     const text = this.learningSituationPrompt.replace('nivel_y_grado', `${year} de ${level}`)
       .replace('ambiente_operativo', environment)
       .replace('situacion_o_problema', situationType == 'fiction' ? 'situacion, problema o evento ficticio' : reality)
       .replace('condicion_inicial', 'Los alumnos aun no saben nada sobre el tema')
-      .replace('contenido_especifico', 'La carta de excusas');
+      .replace('contenido_especifico', contents);
+
+      console.log(contents)
 
     this.generating = true;
 
@@ -297,48 +310,173 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     })
   }
 
+  collectContents() {
+    const {
+      spanishContent,
+      mathContent,
+      societyContent,
+      scienceContent,
+      englishContent,
+      frenchContent,
+      religionContent,
+      physicalEducationContent,
+      artisticEducationContent
+    } = this.learningSituationForm.value;
+    
+    return [
+      spanishContent ? spanishContent : null,
+      mathContent ? mathContent : null,
+      societyContent ? societyContent : null,
+      scienceContent ? scienceContent : null,
+      englishContent ? englishContent : null,
+      frenchContent ? frenchContent : null,
+      religionContent ? religionContent : null,
+      physicalEducationContent ? physicalEducationContent : null,
+      artisticEducationContent ? artisticEducationContent : null,
+    ].filter(c => !!c).join(', ');
+  }
+
   get spanishContents() {
-    const contents: string[] = [];
-    return contents;
+    const {
+      level,
+      year
+    } = this.learningSituationForm.value;
+    if (!level || !year)
+      return[];
+
+    const index = this.years.indexOf(year);
+    if (level == 'Primaria') {
+      return SPANISH_CONTENTS.primary[index]
+    } else {
+      return SPANISH_CONTENTS.highSchool[index];
+    }
   }
 
   get mathContents() {
-    const contents: string[] = [];
-    return contents;
+    const {
+      level,
+      year
+    } = this.learningSituationForm.value;
+    if (!level || !year)
+      return [];
+
+    const index = this.years.indexOf(year);
+    if (level == 'Primaria') {
+      return MATH_CONTENTS.primary[index]
+    } else {
+      return MATH_CONTENTS.highSchool[index];
+    }
   }
 
   get societyContents() {
-    const contents: string[] = [];
-    return contents;
+    const {
+      level,
+      year
+    } = this.learningSituationForm.value;
+    if (!level || !year)
+      return [];
+
+    const index = this.years.indexOf(year);
+    if (level == 'Primaria') {
+      return SOCIETY_CONTENTS.primary[index]
+    } else {
+      return SOCIETY_CONTENTS.highSchool[index];
+    }
   }
 
   get scienceContents() {
-    const contents: string[] = [];
-    return contents;
+    const {
+      level,
+      year
+    } = this.learningSituationForm.value;
+    if (!level || !year)
+      return [];
+
+    const index = this.years.indexOf(year);
+    if (level == 'Primaria') {
+      return SCIENCE_CONTENTS.primary[index]
+    } else {
+      return SCIENCE_CONTENTS.highSchool[index];
+    }
   }
 
   get englishContents() {
-    const contents: string[] = [];
-    return contents;
+    const {
+      level,
+      year
+    } = this.learningSituationForm.value;
+    if (!level || !year)
+      return [];
+
+    const index = this.years.indexOf(year);
+    if (level == 'Primaria') {
+      return ENGLISH_CONTENTS.primary[index]
+    } else {
+      return ENGLISH_CONTENTS.highSchool[index];
+    }
   }
 
   get frenchContents() {
-    const contents: string[] = [];
-    return contents;
+    const {
+      level,
+      year
+    } = this.learningSituationForm.value;
+    if (!level || !year)
+      return [];
+
+    const index = this.years.indexOf(year);
+    if (level == 'Primaria') {
+      return FRENCH_CONTENTS.primary[index]
+    } else {
+      return FRENCH_CONTENTS.highSchool[index];
+    }
   }
 
   get religionContents() {
-    const contents: string[] = [];
-    return contents;
+    const {
+      level,
+      year
+    } = this.learningSituationForm.value;
+    if (!level || !year)
+      return [];
+
+    const index = this.years.indexOf(year);
+    if (level == 'Primaria') {
+      return RELIGION_CONTENTS.primary[index]
+    } else {
+      return RELIGION_CONTENTS.highSchool[index];
+    }
   }
 
   get physicalEducationContents() {
-    const contents: string[] = [];
-    return contents;
+    const {
+      level,
+      year
+    } = this.learningSituationForm.value;
+    if (!level || !year)
+      return [];
+
+    const index = this.years.indexOf(year);
+    if (level == 'Primaria') {
+      return SPORTS_CONTENTS.primary[index]
+    } else {
+      return SPORTS_CONTENTS.highSchool[index];
+    }
   }
 
   get artisticEducationContents() {
-    const contents: string[] = [];
-    return contents;
+    const {
+      level,
+      year
+    } = this.learningSituationForm.value;
+    if (!level || !year)
+      return [];
+
+    const index = this.years.indexOf(year);
+    if (level == 'Primaria') {
+      return ART_CONTENTS.primary[index]
+    } else {
+      return ART_CONTENTS.highSchool[index];
+    }
   }
 }
