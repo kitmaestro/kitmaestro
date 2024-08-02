@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
 import { AiService } from '../../services/ai.service';
 import { SPANISH_CONTENTS } from '../../data/spanish-contents';
 import { MATH_CONTENTS } from '../../data/math-contents';
@@ -36,6 +37,7 @@ import { ART_CONTENTS } from '../../data/art-contents';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatChipsModule,
   ],
   templateUrl: './unit-plan.component.html',
   styleUrl: './unit-plan.component.scss'
@@ -219,6 +221,15 @@ export class UnitPlanComponent {
     "Área de naturaleza"
   ];
 
+  bloomLevels = [
+    { id: 'knowledge', label: 'Recordar' },
+    { id: 'undertanding', label: 'Comprender' },
+    { id: 'application', label: 'Aplicar' },
+    { id: 'analysis', label: 'Analizar' },
+    { id: 'evaluation', label: 'Evaluar' },
+    { id: 'creation', label: 'Crear' },
+  ];
+
   // steps:
   // 1 - choose level
   // 2 - choose subjects
@@ -242,10 +253,18 @@ export class UnitPlanComponent {
 
   unitPlanForm = this.fb.group({
     duration: [2],
-    fundamentalCompetence: [[]],
+    fundamentalCompetence: [['Comunicativa', 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Ciencia y Tecnología', 'Ética y Ciudadana; Personal y Espiritual; Ambiental y de Salud']],
     specificCompetence: [[]],
     activities: this.fb.array([]),
   });
+
+  activitiesForm = this.fb.array([
+    this.fb.group({
+      bloomLevel: ['knowledge'],
+      title: [''],
+      description: ['']
+    })
+  ]);
 
   learningSituationPrompt = `Una situación de aprendizaje debe incluir los siguientes elementos clave:
 
@@ -323,7 +342,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
       physicalEducationContent,
       artisticEducationContent
     } = this.learningSituationForm.value;
-    
+
     return [
       spanishContent ? spanishContent : null,
       mathContent ? mathContent : null,
@@ -479,5 +498,9 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     } else {
       return ART_CONTENTS.highSchool[index];
     }
+  }
+
+  get specificCompetences() {
+    return [];
   }
 }

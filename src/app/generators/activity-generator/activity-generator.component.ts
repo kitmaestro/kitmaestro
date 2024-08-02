@@ -56,8 +56,8 @@ export class ActivityGeneratorComponent implements OnInit {
     { id: 'undertanding', label: 'Comprender' },
     { id: 'application', label: 'Aplicar' },
     { id: 'analysis', label: 'Analizar' },
-    { id: 'synthesis', label: 'Evaluar' },
-    { id: 'evaluation', label: 'Crear' },
+    { id: 'evaluation', label: 'Evaluar' },
+    { id: 'creation', label: 'Crear' },
   ]
 
   activityTypeSelector = this.fb.control('reading');
