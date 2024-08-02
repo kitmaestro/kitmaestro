@@ -4,6 +4,221 @@
             <mat-card-header>
                 <h2 mat-card-ittle>Generador de Unidades de Aprendizaje</h2>
             </mat-card-header>
+            <mat-card-content>
+                <mat-stepper linear #stepper>
+                    <mat-step [stepControl]="learningSituationForm">
+                        <form [formGroup]="learningSituationForm" style="padding-top: 16px;">
+                            <ng-template matStepLabel>Situaci&oacute;n de Aprendizaje</ng-template>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Nivel</mat-label>
+                                    <mat-select formControlName="level" required>
+                                        @for (level of levels; track $index) {
+                                            <mat-option [value]="level">{{level}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Grado</mat-label>
+                                    <mat-select formControlName="year" required>
+                                        @for (year of years; track $index) {
+                                            <mat-option [value]="year">{{year}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Asignatura(s)</mat-label>
+                                    <mat-select formControlName="subjects" required multiple>
+                                        @for (subject of subjects; track $index) {
+                                            <mat-option [value]="subject.id">{{subject.label}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Ambiente Operativo</mat-label>
+                                    <mat-select formControlName="environment" required>
+                                        @for (env of environments; track $index) {
+                                            <mat-option [value]="env">{{env}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            @if (learningSituationForm.value.subjects?.includes('LENGUA_ESPANOLA')) {
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contenidos de Lengua Española</mat-label>
+                                    <mat-select formControlName="spanishContent" required>
+                                        @for (content of spanishContents; track $index) {
+                                            <mat-option [value]="content">{{content}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            }
+                            @if (learningSituationForm.value.subjects?.includes('MATEMATICA')) {
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contenidos de Matemática</mat-label>
+                                    <mat-select formControlName="mathContent" required>
+                                        @for (content of mathContents; track $index) {
+                                            <mat-option [value]="content">{{content}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            }
+                            @if (learningSituationForm.value.subjects?.includes('CIENCIAS_SOCIALES')) {
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contenidos de Ciencias Sociales</mat-label>
+                                    <mat-select formControlName="societyContent" required>
+                                        @for (content of societyContents; track $index) {
+                                            <mat-option [value]="content">{{content}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            }
+                            @if (learningSituationForm.value.subjects?.includes('CIENCIAS_NATURALES')) {
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contenidos de Ciencias de la Naturaleza</mat-label>
+                                    <mat-select formControlName="scienceContent" required>
+                                        @for (content of scienceContents; track $index) {
+                                            <mat-option [value]="content">{{content}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            }
+                            @if (learningSituationForm.value.subjects?.includes('INGLES')) {
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contenidos de Inglés</mat-label>
+                                    <mat-select formControlName="englishContent" required>
+                                        @for (content of englishContents; track $index) {
+                                            <mat-option [value]="content">{{content}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            }
+                            @if (learningSituationForm.value.subjects?.includes('FRANCES')) {
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contenidos de Francés</mat-label>
+                                    <mat-select formControlName="frenchContent" required>
+                                        @for (content of frenchContents; track $index) {
+                                            <mat-option [value]="content">{{content}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            }
+                            @if (learningSituationForm.value.subjects?.includes('FORMACION_HUMANA')) {
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contenidos de Formación Integral Humana y Religiosa</mat-label>
+                                    <mat-select formControlName="religionContent" required>
+                                        @for (content of religionContents; track $index) {
+                                            <mat-option [value]="content">{{content}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            }
+                            @if (learningSituationForm.value.subjects?.includes('EDUCACION_FISICA')) {
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contenidos de Educación Física</mat-label>
+                                    <mat-select formControlName="physicalEducationContent" required>
+                                        @for (content of physicalEducationContents; track $index) {
+                                            <mat-option [value]="content">{{content}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            }
+                            @if (learningSituationForm.value.subjects?.includes('EDUCACION_ARTISTICA')) {
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contenidos de Educación Artística</mat-label>
+                                    <mat-select formControlName="artisticEducationContent" required>
+                                        @for (content of artisticEducationContents; track $index) {
+                                            <mat-option [value]="content">{{content}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            }
+                            <div style="display: flex; gap: 16px; margin-top: 16px;">
+                                <div style="flex: 1 1 auto;">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Tipo de Situaci&oacute;n</mat-label>
+                                        <mat-select formControlName="situationType" required>
+                                            @for (type of situationTypes; track $index) {
+                                                <mat-option [value]="type.id">{{type.label}}</mat-option>
+                                            }
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                @if (learningSituationForm.value.situationType == 'realityProblem') {
+                                    <div style="flex: 1 1 auto;">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Problema a Abordar</mat-label>
+                                            <mat-select formControlName="reality" required>
+                                                @for (problem of problems; track $index) {
+                                                    <mat-option [value]="problem">{{problem}}</mat-option>
+                                                }
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                }
+                                @if (learningSituationForm.value.situationType == 'reality') {
+                                    <div style="flex: 1 1 auto;">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Realidad del Curso</mat-label>
+                                            <input matInput type="text" formControlName="reality" required>
+                                        </mat-form-field>
+                                    </div>
+                                }
+                            </div>
+                            @if (learningSituation.value) {
+                                <div style="margin-top: 16px; margin-bottom: 16px;">
+                                    <h3 style="font-weight: bold;">Situaci&oacute;n de Aprendizaje: {{learningSituationTitle.value}}</h3>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>T&iacute;tulo</mat-label>
+                                        <input type="text" matInput [formControl]="learningSituationTitle">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Situaci&oacute;n de Aprendizaje</mat-label>
+                                        <textarea rows="8" [formControl]="learningSituation" matInput></textarea>
+                                    </mat-form-field>
+                                </div>
+                            }
+                            <div style="text-align: end;">
+                                <button style="margin-right: 8px;" [disabled]="generating" mat-raised-button type="button" color="primary" (click)="generateLearningSituation()">
+                                    @if (generating) {
+                                        <span>Generando...</span>
+                                    } @else {
+                                        @if (learningSituation.value) {
+                                            <span>Regenerar</span>
+                                        } @else {
+                                            <span>Generar</span>
+                                        }
+                                    }
+                                </button>
+                                @if (learningSituation.value) {
+                                    <button mat-raised-button matStepperNext>Siguiente</button>
+                                }
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="unitPlanForm">
+                        <form [formGroup]="unitPlanForm">
+                            <ng-template matStepLabel>Fill out your address</ng-template>
+                            <mat-form-field>
+                                <mat-label>Address</mat-label>
+                                <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button matStepperPrevious>Back</button>
+                                <button mat-button matStepperNext>Next</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Done</ng-template>
+                        <p>You are now done.</p>
+                        <div>
+                            <button mat-button matStepperPrevious>Back</button>
+                            <button mat-button (click)="stepper.reset()">Reset</button>
+                        </div>
+                    </mat-step>
+                </mat-stepper>
+            </mat-card-content>
         </mat-card>
     } @else {
         <app-in-progress></app-in-progress>

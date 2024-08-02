@@ -71,7 +71,7 @@ export class HomeComponent {
     {
       name: 'Planes Diarios',
       description: 'Planes de clase en menos de 3 minutos.',
-      link: ['/app', 'assistants','class-plans'],
+      link: ['/app','class-plans'],
       icon: '/assets/undraw_real_time_sync_re_nky7.svg',
       premium: true,
       isWorking: false,
@@ -79,7 +79,7 @@ export class HomeComponent {
     {
       name: 'Unidades de Aprendizaje',
       description: 'Diseña unidades de aprendizaje, para ya.',
-      link: ['/app', 'assistants','unit-plans'],
+      link: ['/app', 'unit-plans'],
       icon: '/assets/assistant.svg',
       premium: true,
       isWorking: false,
@@ -115,7 +115,7 @@ export class HomeComponent {
       link: ['/app','activity-generator'],
       icon: '/assets/activities.svg',
       premium: true,
-      isWorking: false,
+      isWorking: true,
     },
     {
       name: 'Generador de Aspectos Trabajados',

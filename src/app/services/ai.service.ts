@@ -45,14 +45,17 @@ export class AiService {
     return (await fetch(url, config)).json();
   }
 
-  askGemini(text: string): Observable<GeminiResponse> {
+  askGemini(text: string, jsonResponse: boolean = false): Observable<GeminiResponse> {
     const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + atob("QUl6YVN5QkpQQnlReGFjUHlfUThsTzk2NENjVUVUUUVNdzJ1Mzhj");
     const body = {
       contents: [
         {
           parts: [ { text } ]
         }
-      ]
+      ],
+      generationConfig: jsonResponse ? {
+        response_mime_type: 'application/json',
+      } : undefined,
     };
 
     return from(
