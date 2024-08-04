@@ -53,7 +53,6 @@ export class UnitPlanComponent {
   learningSituationTitle = this.fb.control('');
   learningSituation = this.fb.control('');
   contents: { subject: string, concepts: string[], procedures: string[], attitudes: string[] }[] = [];
-  resources = this.fb.control<string[]>([]);
   learningCriteria = this.fb.control<string[]>([]);
 
   levels = [
@@ -230,6 +229,34 @@ export class UnitPlanComponent {
     { id: 'creation', label: 'Crear' },
   ];
 
+  resources = [
+    "Pizarra",
+    "Proyector",
+    "Laptop / Computadora",
+    "Tablets",
+    "Libros de texto",
+    "Cuadernos",
+    "Lápices y bolígrafos",
+    "Internet",
+    "Presentaciones en PowerPoint",
+    "Juegos educativos",
+    "Materiales de arte (papel, colores, pinceles)",
+    "Laboratorios de ciencias",
+    "Mapas y globos terráqueos",
+    "Calculadoras",
+    "Software Educativo",
+    "Módulos de aprendizaje en línea",
+    "Videos educativos",
+    "Recursos digitales interactivos",
+    "Cuadernos de ejercicios",
+    "Fichas didácticas",
+    "Bocina",
+    "Instrumentos musicales",
+    "Modelos anatómicos",
+    "Maquetas",
+    "Material de lectura"
+  ];
+
   // steps:
   // 1 - choose level
   // 2 - choose subjects
@@ -256,6 +283,7 @@ export class UnitPlanComponent {
     fundamentalCompetence: [['Comunicativa', 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Ciencia y Tecnología', 'Ética y Ciudadana; Personal y Espiritual; Ambiental y de Salud']],
     specificCompetence: [[]],
     activities: this.fb.array([]),
+    resources: [["Pizarra", "Libros de texto", "Cuadernos", "Lápices y bolígrafos", "Materiales de arte (papel, colores, pinceles)", "Cuadernos de ejercicios"]]
   });
 
   activitiesForm = this.fb.array([
@@ -313,8 +341,6 @@ La respuesta debe ser json valido, coherente con esta interfaz:
       .replace('situacion_o_problema', situationType == 'fiction' ? 'situacion, problema o evento ficticio' : reality)
       .replace('condicion_inicial', 'Los alumnos aun no saben nada sobre el tema')
       .replace('contenido_especifico', contents);
-
-      console.log(contents)
 
     this.generating = true;
 

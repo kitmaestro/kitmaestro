@@ -183,7 +183,7 @@
                                 </div>
                             }
                             <div style="text-align: end;">
-                                <button style="margin-right: 8px;" [disabled]="generating" mat-raised-button type="button" color="primary" (click)="generateLearningSituation()">
+                                <button [disabled]="generating" mat-raised-button type="button" color="accent" (click)="generateLearningSituation()">
                                     @if (generating) {
                                         <span>Generando...</span>
                                     } @else {
@@ -195,7 +195,7 @@
                                     }
                                 </button>
                                 @if (learningSituation.value) {
-                                    <button mat-raised-button matStepperNext>Siguiente</button>
+                                    <button style="margin-left: 8px;" mat-raised-button matStepperNext>Siguiente</button>
                                 }
                             </div>
                         </form>
@@ -203,33 +203,27 @@
                     <mat-step [stepControl]="unitPlanForm">
                         <form [formGroup]="unitPlanForm">
                             <ng-template matStepLabel>Delimitaci&oacute;n</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Duraci&oacute;n</mat-label>
-                                <mat-select formControlName="duration" required>
-                                  @for (n of [].constructor(6); track $index) {
-                                    <mat-option [value]="$index + 1">{{$index + 1}} Semana{{$index > 0 ? 's' : ''}}</mat-option>
-                                  }
-                                </mat-select>
-                            </mat-form-field>
-                            <div style="margin-bottom: 16px;">
-                                <mat-label>Competencias Fundamentales</mat-label>
-                                <mat-chip-listbox multiple formControlName="fundamentalCompetence">
-                                  <mat-chip-option>Comunicativa</mat-chip-option>
-                                  <mat-chip-option>Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Ciencia y Tecnología</mat-chip-option>
-                                  <mat-chip-option>Ética y Ciudadana; Personal y Espiritual; Ambiental y de Salud</mat-chip-option>
-                                </mat-chip-listbox>
+                            <div style="padding-top: 16px;">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Duraci&oacute;n</mat-label>
+                                    <mat-select formControlName="duration" required>
+                                      @for (n of [].constructor(6); track $index) {
+                                        <mat-option [value]="$index + 1">{{$index + 1}} Semana{{$index > 0 ? 's' : ''}}</mat-option>
+                                      }
+                                    </mat-select>
+                                </mat-form-field>
+                                <div style="margin-bottom: 16px;">
+                                    <mat-label>Recursos Disponibles</mat-label>
+                                    <mat-chip-listbox formControlName="resources" multiple>
+                                      @for (resource of resources; track resource) {
+                                        <mat-chip-option>{{resource}}</mat-chip-option>
+                                      }
+                                    </mat-chip-listbox>
+                                </div>
                             </div>
-                            <div style="margin-bottom: 16px;">
-                                <mat-label>Competencias Espec&iacute;ficas</mat-label>
-                                <mat-chip-listbox formControlName="specificCompetence">
-                                  @for (comp of specificCompetences; track comp) {
-                                    <mat-chip-option>{{comp}}</mat-chip-option>
-                                  }
-                                </mat-chip-listbox>
-                            </div>
-                            <div>
+                            <div style="text-align: end;">
                                 <button mat-raised-button matStepperPrevious>Back</button>
-                                <button mat-raised-button matStepperNext>Next</button>
+                                <button style="margin-left: 8px;" mat-raised-button matStepperNext>Next</button>
                             </div>
                         </form>
                     </mat-step>
@@ -237,16 +231,16 @@
                         <ng-template matStepLabel>Secuencia Did&aacute;ctica</ng-template>
                         <p>You are now done.</p>
                         <div>
-                            <button mat-button matStepperPrevious>Back</button>
-                            <button mat-button (click)="stepper.reset()">Reset</button>
+                            <button mat-raised-button matStepperPrevious>Back</button>
+                            <button mat-raised-button (click)="stepper.reset()">Reset</button>
                         </div>
                     </mat-step>
                     <mat-step>
                         <ng-template matStepLabel>Finalizaci&oacute;n</ng-template>
                         <p>You are now done.</p>
                         <div>
-                            <button mat-button matStepperPrevious>Back</button>
-                            <button mat-button (click)="stepper.reset()">Reset</button>
+                            <button mat-raised-button matStepperPrevious>Back</button>
+                            <button mat-raised-button (click)="stepper.reset()">Reset</button>
                         </div>
                     </mat-step>
                 </mat-stepper>
