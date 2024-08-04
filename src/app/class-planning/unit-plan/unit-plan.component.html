@@ -30,7 +30,11 @@
                                     <mat-label>Asignatura(s)</mat-label>
                                     <mat-select formControlName="subjects" required multiple>
                                         @for (subject of subjects; track $index) {
-                                            <mat-option [value]="subject.id">{{subject.label}}</mat-option>
+                                            @if (learningSituationForm.value.level == 'Primaria' && ['Primero', 'Segundo', 'Tercero'].includes(learningSituationForm.value.year || '') && ['INGLES', 'FRANCES'].includes(subject.id)) {
+                                            } @else if (learningSituationForm.value.level == 'Primaria' && ['Cuarto', 'Quinto', 'Sexto'].includes(learningSituationForm.value.year || '') && ['FRANCES'].includes(subject.id)) {
+                                            } @else {
+                                                <mat-option [value]="subject.id">{{subject.label}}</mat-option>
+                                            }
                                         }
                                     </mat-select>
                                 </mat-form-field>
@@ -199,15 +203,15 @@
                     <mat-step [stepControl]="unitPlanForm">
                         <form [formGroup]="unitPlanForm">
                             <ng-template matStepLabel>Delimitaci&oacute;n</ng-template>
-                            <mat-form-field>
+                            <mat-form-field appearance="outline">
                                 <mat-label>Duraci&oacute;n</mat-label>
                                 <mat-select formControlName="duration" required>
                                   @for (n of [].constructor(6); track $index) {
-                                    <mat-option [value]="$index + 1">{{$index}} Semana{{$index > 1 ? 's' : ''}}</mat-option>
+                                    <mat-option [value]="$index + 1">{{$index + 1}} Semana{{$index > 0 ? 's' : ''}}</mat-option>
                                   }
                                 </mat-select>
                             </mat-form-field>
-                            <div>
+                            <div style="margin-bottom: 16px;">
                                 <mat-label>Competencias Fundamentales</mat-label>
                                 <mat-chip-listbox multiple formControlName="fundamentalCompetence">
                                   <mat-chip-option>Comunicativa</mat-chip-option>
@@ -215,10 +219,10 @@
                                   <mat-chip-option>Ética y Ciudadana; Personal y Espiritual; Ambiental y de Salud</mat-chip-option>
                                 </mat-chip-listbox>
                             </div>
-                            <div>
+                            <div style="margin-bottom: 16px;">
                                 <mat-label>Competencias Espec&iacute;ficas</mat-label>
                                 <mat-chip-listbox formControlName="specificCompetence">
-                                  @for (comp of specificCompetences; track $comp) {
+                                  @for (comp of specificCompetences; track comp) {
                                     <mat-chip-option>{{comp}}</mat-chip-option>
                                   }
                                 </mat-chip-listbox>

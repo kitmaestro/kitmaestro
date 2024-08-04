@@ -291,7 +291,6 @@ La respuesta debe ser json valido, coherente con esta interfaz:
 {
   title: string; // titulo de la situacion de aprendizaje
   content: string; // la situacion de aprendizaje en si
-  learningCriteria: string[]; // Criterios de evaluacion para medir el desempeño de los alumnos
 }
 `;
 
