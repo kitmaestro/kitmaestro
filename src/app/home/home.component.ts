@@ -58,7 +58,7 @@ export class HomeComponent {
       icon: '/assets/undraw_analysis_dq08.svg',
       isNew: true,
       premium: true,
-      isWorking: true,
+      isWorking: false,
     },
     {
       name: 'Generador de Calificaciones',
@@ -66,7 +66,7 @@ export class HomeComponent {
       link: ['/app','grades-generator'],
       icon: '/assets/grades.svg',
       premium: true,
-      isWorking: true,
+      isWorking: false,
     },
     {
       name: 'Planes Diarios',
@@ -82,7 +82,7 @@ export class HomeComponent {
       link: ['/app', 'unit-plans'],
       icon: '/assets/assistant.svg',
       premium: true,
-      isWorking: false,
+      isWorking: true,
     },
     {
       name: 'Hojas de Ejercicios',
@@ -115,7 +115,7 @@ export class HomeComponent {
       link: ['/app','activity-generator'],
       icon: '/assets/activities.svg',
       premium: true,
-      isWorking: true,
+      isWorking: false,
     },
     {
       name: 'Generador de Aspectos Trabajados',

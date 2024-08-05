@@ -222,25 +222,26 @@
                                 </div>
                             </div>
                             <div style="text-align: end;">
-                                <button mat-raised-button matStepperPrevious>Back</button>
-                                <button style="margin-left: 8px;" mat-raised-button matStepperNext>Next</button>
+                                <button mat-raised-button matStepperPrevious>Anterior</button>
+                                <button style="margin-left: 8px;" mat-raised-button matStepperNext>Siguiente</button>
                             </div>
                         </form>
                     </mat-step>
                     <mat-step [stepControl]="activitiesForm">
                         <ng-template matStepLabel>Secuencia Did&aacute;ctica</ng-template>
-                        <p>You are now done.</p>
-                        <div>
-                            <button mat-raised-button matStepperPrevious>Back</button>
-                            <button mat-raised-button (click)="stepper.reset()">Reset</button>
+                        <div style="padding-top: 16px;"></div>
+                        <div style="text-align: end;">
+                            <button mat-raised-button matStepperPrevious>Anterior</button>
+                            <button style="margin-left: 8px;" mat-raised-button matStepperNext>Siguiente</button>
                         </div>
                     </mat-step>
                     <mat-step>
                         <ng-template matStepLabel>Finalizaci&oacute;n</ng-template>
-                        <p>You are now done.</p>
-                        <div>
-                            <button mat-raised-button matStepperPrevious>Back</button>
-                            <button mat-raised-button (click)="stepper.reset()">Reset</button>
+                        <div style="padding-top: 16px;"></div>
+                        <div style="text-align: end;">
+                            <button mat-raised-button matStepperPrevious>Anterior</button>
+                            <button style="margin-left: 8px;" mat-raised-button (click)="stepper.reset()">Reiniciar</button>
+                            <button style="margin-left: 8px;" color="primary" mat-raised-button type="button">Guardar</button>
                         </div>
                     </mat-step>
                 </mat-stepper>
