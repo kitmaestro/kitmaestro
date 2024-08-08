@@ -1,20 +1,19 @@
-import { Injectable, inject } from '@angular/core';
-import { Auth, User, authState } from '@angular/fire/auth';
-import { Firestore, addDoc, collection, collectionData, doc, query, updateDoc, where } from '@angular/fire/firestore';
-import { Observable, concatAll, map, of } from 'rxjs';
-import { ClassSection } from '../datacenter/datacenter.component';
+import { inject, Injectable } from '@angular/core';
+import { Auth, authState, User } from '@angular/fire/auth';
+import { collection, Firestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClassSectionService {
+export class SubjectsService {
 
   private auth = inject(Auth);
   private firestore = inject(Firestore);
 
-  private user$: Observable<User|null> = authState(this.auth);
+  private user$: Observable<User | null> = authState(this.auth);
   private classSectionsRef = collection(this.firestore, 'class-sections');
-  
+
   classSections$: Observable<ClassSection[]> = this.user$.pipe(
     map(user => {
       if (user) {
@@ -24,7 +23,7 @@ export class ClassSectionService {
     }),
     concatAll()
   )
-  
+
   constructor() { }
 
   addSection(section: ClassSection) {

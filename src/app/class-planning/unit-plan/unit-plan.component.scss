@@ -1,3 +1,17 @@
 mat-form-field {
     width: 100%;
 }
+
+td, th {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+td {
+    vertical-align: top;
+}
+
+th {
+    font-weight: bold;
+    text-align: center;
+}
