@@ -78,7 +78,7 @@
             </mat-card-content>
         </mat-card>
 
-        @if (plan.value?.intencion_pedagogica) {
+        @if (plan.value.intencion_pedagogica) {
             <div class="shadow">
                 <div class="page" id="class-plan">
                     <table style="border-collapse: collapse; border: 1px solid gray; background-color: white; width: 100%;">
@@ -166,7 +166,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="5"><b>Vocabulario del día/de la semana</b>: {{plan.value?.vocabulario?.join(', ')}}</td>
+                                <td colspan="5"><b>Vocabulario del día/de la semana</b>: {{plan.value.vocabulario?.join(', ')}}</td>
                             </tr>
                             <tr>
                                 <td colspan="5"><b>Lecturas recomendadas/ o libro de la semana</b>: {{plan.value.lectura_recomendada}}</td>
