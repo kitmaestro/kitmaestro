@@ -230,15 +230,15 @@
                     <mat-step [stepControl]="activitiesForm">
                         <ng-template matStepLabel>Secuencia Did&aacute;ctica</ng-template>
                         <div style="padding-top: 16px;">
-                            @if (teacher_activities.value?.length) {
+                            @if (teacher_activities.value.length) {
                                 <div style="display: flex; gap: 16px;">
-                                    <div style="flex: 1 1 auto; width: 100%;">
+                                    <div style="flex: 1 1 auto; width: 100%;" formArrayName="teacher_activities">
                                         <h3>Actividades de Ense&ntilde;anza</h3>
-                                        <ul>
-                                            @for (activity of teacher_activities.value; track activity) {
-                                                <li>{{activity}}</li>
-                                            }
-                                        </ul>
+                                        @for (activity of teacher_activities.controls; track $index) {
+                                            <mat-form-field style="margin-bottom: 8px;">
+                                                <input type="text" [formControl]="activity" matInput>
+                                            </mat-form-field>
+                                        }
                                     </div>
                                     <div style="flex: 1 1 auto; width: 100%;">
                                         <h3>Actividades de Aprendizaje</h3>
@@ -265,15 +265,15 @@
                                 @if (generating) {
                                     <span>Generando...</span>
                                 } @else {
-                                    @if (teacher_activities.value?.length) {
+                                    @if (teacher_activities.value.length) {
                                         <span>Regenerar</span>
                                     } @else {
                                         <span>Generar</span>
                                     }
                                 }
                             </button>
-                            @if (teacher_activities.value?.length) {
-                                <button style="margin-left: 8px;" mat-raised-button matStepperNext>Siguiente</button>
+                            @if (teacher_activities.value.length) {
+                                <button style="margin-left: 8px;" mat-raised-button matStepperNext (click)="fillFinalForm()">Siguiente</button>
                             }
                         </div>
                     </mat-step>
@@ -359,7 +359,7 @@
                                     <tr>
                                         <th>Estrategias de Ense&ntilde;anza y Aprendizaje</th>
                                         <td colspan="5">
-                                            {{strategies.value?.join(', ')}}
+                                            {{strategies.value.join(', ')}}
                                         </td>
                                     </tr>
                                     <tr>
@@ -461,10 +461,10 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div style="text-align: end;">
+                        <div style="text-align: end; margin-top: 24px;">
                             <button mat-raised-button matStepperPrevious>Anterior</button>
                             <button style="margin-left: 8px;" mat-raised-button (click)="stepper.reset()">Reiniciar</button>
-                            <button style="margin-left: 8px;" color="primary" mat-raised-button type="button">Guardar</button>
+                            <button style="margin-left: 8px;" color="primary" mat-raised-button (click)="savePlan()" [disabled]="finalForm.invalid" type="button">Guardar</button>
                         </div>
                     </mat-step>
                 </mat-stepper>

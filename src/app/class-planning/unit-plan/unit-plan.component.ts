@@ -91,12 +91,12 @@ export class UnitPlanComponent implements OnInit {
   learningSituationTitle = this.fb.control('');
   learningSituation = this.fb.control('');
   contents: { subject: string, concepts: string[], procedures: string[], attitudes: string[] }[] = [];
-  learningCriteria = this.fb.control<string[]>([]);
-  strategies = this.fb.control<string[]>([]);
-  teacher_activities = this.fb.control<string[]>([]);
-  student_activities = this.fb.control<string[]>([]);
-  evaluation_activities = this.fb.control<string[]>([]);
-  instruments = this.fb.control<string[]>([]);
+  learningCriteria = this.fb.array<string[]>([]);
+  strategies = this.fb.array<string[]>([]);
+  teacher_activities = this.fb.array<string[]>([]);
+  student_activities = this.fb.array<string[]>([]);
+  evaluation_activities = this.fb.array<string[]>([]);
+  instruments = this.fb.array<string[]>([]);
   mainTheme = this.fb.control<string>('Salud y Bienestar');
 
   levels = [
@@ -324,7 +324,7 @@ export class UnitPlanComponent implements OnInit {
   });
 
   unitPlanForm = this.fb.group({
-    duration: [2],
+    duration: [4],
     fundamentalCompetence: [['Comunicativa', 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Ciencia y Tecnología', 'Ética y Ciudadana; Personal y Espiritual; Ambiental y de Salud']],
     specificCompetence: [[]],
     activities: this.fb.array([]),
@@ -338,6 +338,20 @@ export class UnitPlanComponent implements OnInit {
       description: ['']
     })
   ]);
+
+  finalForm = this.fb.group({
+    schoolName: ['', Validators.required],
+    teacherName: ['', Validators.required],
+    sectionName: ['', Validators.required],
+    duration: [4, [Validators.required, Validators.min(1), Validators.max(6)]],
+    learningSituation: ['', Validators.required],
+    fundamentalCompetence: [[''], Validators.required],
+    specificCompetences: [[''], Validators.required],
+    mainThemeCategory: ['', Validators.required],
+    mainThemes: [[''], Validators.required],
+    subjectNames: [[''], Validators.required],
+    //
+  })
 
   activitiesPrompt = `Quiero impartir estos contenidos en classroom_year de classroom_level en unit_duration semanas:
 content_list
@@ -434,6 +448,12 @@ La respuesta debe ser json valido, coherente con esta interfaz:
         this.generating = false;
       }
     })
+  }
+
+  fillFinalForm() {
+  }
+
+  savePlan() {
   }
 
   generateLearningSituation() {

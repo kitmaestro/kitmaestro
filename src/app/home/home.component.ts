@@ -74,7 +74,7 @@ export class HomeComponent {
       link: ['/app','class-plans'],
       icon: '/assets/undraw_real_time_sync_re_nky7.svg',
       premium: true,
-      isWorking: false,
+      isWorking: true,
     },
     {
       name: 'Unidades de Aprendizaje',

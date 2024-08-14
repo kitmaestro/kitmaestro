@@ -189,7 +189,7 @@ export class PlannerGeneratorComponent implements OnInit {
     }
 
     const templates: PlannerTemplate[] = [];
-    const d = typeof(date) !== 'number' ? `${new Date().getMonth() + 1}/2024` : date < 6 ? `${date + 1}/2024` : `${date + 1}/2023`;
+    const d = typeof(date) !== 'number' ? `${new Date().getMonth() + 1}/2025` : date < 6 ? `${date + 1}/2025` : `${date + 1}/2024`;
 
     const classrooms = classroom ? classroom.split(',') : [];
 
