@@ -48,6 +48,11 @@ export interface ClassPlan {
     recursos_necesarios: string[],
     layout: string,
   },
+  complementarias: {
+    actividades: string[],
+    recursos_necesarios: string[],
+    layout: string,
+  },
   vocabulario: string[],
   lectura_recomendada: string,
   competencia: string,
@@ -103,6 +108,11 @@ export class ClassPlanComponent implements OnInit {
     }),
     cierre: this.fb.group({
       duracion: [0],
+      actividades: [['']],
+      recursos_necesarios: [['']],
+      layout: [''],
+    }),
+    complementarias: this.fb.group({
       actividades: [['']],
       recursos_necesarios: [['']],
       layout: [''],
@@ -178,6 +188,11 @@ interface Plan {
   },
   cierre: {
     duracion: number,
+    actividades: string[],
+    recursos_necesarios: string[],
+    layout: string, // class layout
+  },
+  complementarias: { // actividades extra/opcionales (son opciones para que el docente implemente en caso de que le sobre tiempo o para intercambiar con alguna otra del plan)
     actividades: string[],
     recursos_necesarios: string[],
     layout: string, // class layout

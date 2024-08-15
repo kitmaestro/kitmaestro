@@ -96,9 +96,9 @@
                                 <td colspan="5"><b>Intencion Pedag&oacute;gica</b>: {{plan.value.intencion_pedagogica}}</td>
                             </tr>
                             <tr>
-                                <th>Momento</th>
+                                <th>Momento / Duración</th>
                                 <th style="width: 18%;">Competencias Especificas</th>
-                                <th>Actividades / Duración</th>
+                                <th>Actividades</th>
                                 <th style="width: 18%;">Organización de los Estudiantes</th>
                                 <th style="width: 15%;">Recursos</th>
                             </tr>
@@ -106,7 +106,7 @@
                         <tbody>
                             <tr>
                                 <td><b>Inicio</b> ({{plan.value.inicio?.duracion}} Minutos)</td>
-                                <td rowspan="3">{{plan.value.competencia}}</td>
+                                <td rowspan="4">{{plan.value.competencia}}</td>
                                 <td>
                                     <ul style="margin: 0; padding: 0; list-style: none;">
                                         @for (actividad of plan.value.inicio?.actividades; track actividad) {
@@ -130,7 +130,7 @@
                                 <td>
                                     <ul style="margin: 0; padding: 0; list-style: none;">
                                         @for (actividad of plan.value.desarrollo?.actividades; track actividad) {
-                                        <li>{{actividad}}</li>
+                                            <li>{{actividad}}</li>
                                         }
                                     </ul>
                                 </td>
@@ -160,6 +160,26 @@
                                 <td>
                                     <ul style="margin: 0; padding: 0; list-style: none;">
                                         @for (recurso of plan.value.cierre?.recursos_necesarios; track recurso) {
+                                            <li>- {{recurso}}</li>
+                                        }
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Actividades Complementarias</b></td>
+                                <td>
+                                    <ul style="margin: 0; padding: 0; list-style: none;">
+                                        @for (actividad of plan.value.complementarias?.actividades; track actividad) {
+                                            <li>{{actividad}}</li>
+                                        }
+                                    </ul>
+                                </td>
+                                <td>
+                                    {{plan.value.complementarias?.layout}}
+                                </td>
+                                <td>
+                                    <ul style="margin: 0; padding: 0; list-style: none;">
+                                        @for (recurso of plan.value.complementarias?.recursos_necesarios; track recurso) {
                                             <li>- {{recurso}}</li>
                                         }
                                     </ul>
