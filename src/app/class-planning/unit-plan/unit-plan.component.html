@@ -280,8 +280,12 @@
                     <mat-step>
                         <ng-template matStepLabel>Finalizaci&oacute;n</ng-template>
                         <div style="padding-top: 16px;">
-                            <h2>{{learningSituationTitle.value}}</h2>
                             <table style="border-collapse: collapse; border: 1px solid #ccc;">
+                                <thead>
+                                    <tr>
+                                        <th colspan="6">{{learningSituationTitle.value}}</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     <tr>
                                         <th>Centro Educativo</th>

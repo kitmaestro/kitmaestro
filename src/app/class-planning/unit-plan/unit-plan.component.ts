@@ -350,7 +350,6 @@ export class UnitPlanComponent implements OnInit {
     mainThemeCategory: ['', Validators.required],
     mainThemes: [[''], Validators.required],
     subjectNames: [[''], Validators.required],
-    //
   })
 
   activitiesPrompt = `Quiero impartir estos contenidos en classroom_year de classroom_level en unit_duration semanas:
