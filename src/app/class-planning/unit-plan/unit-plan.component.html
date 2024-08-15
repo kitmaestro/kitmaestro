@@ -232,13 +232,13 @@
                         <div style="padding-top: 16px;">
                             @if (teacher_activities.value.length) {
                                 <div style="display: flex; gap: 16px;">
-                                    <div style="flex: 1 1 auto; width: 100%;" formArrayName="teacher_activities">
+                                    <div style="flex: 1 1 auto; width: 100%;">
                                         <h3>Actividades de Ense&ntilde;anza</h3>
-                                        @for (activity of teacher_activities.controls; track $index) {
-                                            <mat-form-field style="margin-bottom: 8px;">
-                                                <input type="text" [formControl]="activity" matInput>
-                                            </mat-form-field>
-                                        }
+                                        <ul>
+                                            @for (activity of teacher_activities.value; track $index) {
+                                                <li>{{activity}}</li>
+                                            }
+                                        </ul>
                                     </div>
                                     <div style="flex: 1 1 auto; width: 100%;">
                                         <h3>Actividades de Aprendizaje</h3>
@@ -313,21 +313,21 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <ul>
+                                                <ul style="margin: 0; padding: 0; list-style: none;">
                                                     @for (el of competence.Comunicativa; track el) {
                                                         <li>{{ el }}</li>
                                                     }
                                                 </ul>
                                             </td>
                                             <td colspan="2">
-                                                <ul>
+                                                <ul style="margin: 0; padding: 0; list-style: none;">
                                                     @for (el of competence.PensamientoLogico; track el) {
                                                         <li>{{ el }}</li>
                                                     }
                                                 </ul>
                                             </td>
                                             <td colspan="2">
-                                                <ul>
+                                                <ul style="margin: 0; padding: 0; list-style: none;">
                                                     @for (el of competence.EticaYCiudadana; track el) {
                                                         <li>{{ el }}</li>
                                                     }
@@ -339,9 +339,9 @@
                                         <th>Eje Transversal</th>
                                         <td colspan="5">
                                             <h4>{{mainTheme.value}}:</h4>
-                                            <ul>
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (theme of mainThemes; track theme) {
-                                                    <li>{{theme}}</li>
+                                                    <li>- {{theme}}</li>
                                                 }
                                             </ul>
                                         </td>
@@ -349,9 +349,9 @@
                                     <tr>
                                         <th>&Aacute;rea(s) Curricular(es)</th>
                                         <td colspan="5">
-                                            <ul>
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (subject of subjectNames; track subject) {
-                                                    <li>{{subject}}</li>
+                                                    <li><b>{{subject}}</b></li>
                                                 }
                                             </ul>
                                         </td>
@@ -359,30 +359,34 @@
                                     <tr>
                                         <th>Estrategias de Ense&ntilde;anza y Aprendizaje</th>
                                         <td colspan="5">
-                                            {{strategies.value.join(', ')}}
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
+                                                @for (strategy of strategies.value; track strategy) {
+                                                    <li>- {{strategy}}</li>
+                                                }
+                                            </ul>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>Criterios de Evaluaci&oacute;n</th>
                                         <td colspan="5">
-                                            <ul>
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (criteria of evaluationCriteria.Comunicativa; track criteria) {
                                                     @if (criteria) {
-                                                        <li>{{criteria}}</li>
+                                                        <li>- {{criteria}}</li>
                                                     }
                                                 }
                                             </ul>
-                                            <ul>
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (criteria of evaluationCriteria.PensamientoLogico; track criteria) {
                                                     @if (criteria) {
-                                                        <li>{{criteria}}</li>
+                                                        <li>- {{criteria}}</li>
                                                     }
                                                 }
                                             </ul>
-                                            <ul>
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (criteria of evaluationCriteria.EticaYCiudadana; track criteria) {
                                                     @if (criteria) {
-                                                        <li>{{criteria}}</li>
+                                                        <li>- {{criteria}}</li>
                                                     }
                                                 }
                                             </ul>
@@ -393,9 +397,17 @@
                                         <td colspan="5">
                                             <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (indicator of indicators; track indicator) {
-                                                    <li><b>{{indicator.subject}}</b></li>
-                                                    @for (achievement of indicator.achievement_indicators; track $index) {
-                                                        <ul>{{achievement}}</ul>
+                                                    @if (indicators.length == 1) {
+                                                        @for (achievement of indicator.achievement_indicators; track $index) {
+                                                            <li>- {{achievement}}</li>
+                                                        }
+                                                    } @else {
+                                                        <li><b>{{pretifySubject(indicator.subject)}}</b></li>
+                                                        <ul>
+                                                            @for (achievement of indicator.achievement_indicators; track $index) {
+                                                                <li>{{achievement}}</li>
+                                                            }
+                                                        </ul>
                                                     }
                                                 }
                                             </ul>
@@ -413,36 +425,54 @@
                                         <td colspan="2">
                                             <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (block of contents; track block) {
-                                                    <li><b>{{block.subject}}</b></li>
-                                                    <ul>
+                                                    @if (contents.length == 1) {
                                                         @for (content of block.concepts; track content) {
-                                                            <li>{{content}}</li>
+                                                            <li>- {{content}}</li>
                                                         }
-                                                    </ul>
+                                                    } @else {
+                                                        <li><b>{{pretifySubject(block.subject)}}</b></li>
+                                                        <ul>
+                                                            @for (content of block.concepts; track content) {
+                                                                <li>{{content}}</li>
+                                                            }
+                                                        </ul>
+                                                    }
                                                 }
                                             </ul>
                                         </td>
                                         <td colspan="2">
                                             <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (block of contents; track block) {
-                                                    <li><b>{{block.subject}}</b></li>
-                                                    <ul>
+                                                    @if (contents.length == 1) {
                                                         @for (content of block.procedures; track content) {
-                                                            <li>{{content}}</li>
+                                                            <li>- {{content}}</li>
                                                         }
-                                                    </ul>
+                                                    } @else {
+                                                        <li><b>{{pretifySubject(block.subject)}}</b></li>
+                                                        <ul>
+                                                            @for (content of block.procedures; track content) {
+                                                                <li>{{content}}</li>
+                                                            }
+                                                        </ul>
+                                                    }
                                                 }
                                             </ul>
                                         </td>
                                         <td colspan="2">
                                             <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (block of contents; track block) {
-                                                    <li><b>{{block.subject}}</b></li>
-                                                    <ul>
+                                                    @if (contents.length == 1) {
                                                         @for (content of block.attitudes; track content) {
-                                                            <li>{{content}}</li>
+                                                            <li>- {{content}}</li>
                                                         }
-                                                    </ul>
+                                                    } @else {
+                                                        <li><b>{{pretifySubject(block.subject)}}</b></li>
+                                                        <ul>
+                                                            @for (content of block.attitudes; track content) {
+                                                                <li>{{content}}</li>
+                                                            }
+                                                        </ul>
+                                                    }
                                                 }
                                             </ul>
                                         </td>
@@ -457,39 +487,39 @@
                                         <th>De Aprendizaje</th>
                                         <th>De Evaluaci&oacute;n</th>
                                         <td rowspan="2" colspan="2">
-                                            <ul>
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (instrument of instruments.value; track instrument) {
-                                                    <li>{{instrument}}</li>
+                                                    <li>- {{instrument}}</li>
                                                 }
                                             </ul>
                                         </td>
                                         <td rowspan="2">
-                                            <ul>
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (resource of resources; track resource) {
-                                                    <li>{{resource}}</li>
+                                                    <li>- {{resource}}</li>
                                                 }
                                             </ul>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <ul>
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (activity of teacher_activities.value; track activity) {
-                                                    <li>{{activity}}</li>
+                                                    <li>- {{activity}}</li>
                                                 }
                                             </ul>
                                         </td>
                                         <td>
-                                            <ul>
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (activity of student_activities.value; track activity) {
-                                                    <li>{{activity}}</li>
+                                                    <li>- {{activity}}</li>
                                                 }
                                             </ul>
                                         </td>
                                         <td>
-                                            <ul>
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (activity of evaluation_activities.value; track activity) {
-                                                    <li>{{activity}}</li>
+                                                    <li>- {{activity}}</li>
                                                 }
                                             </ul>
                                         </td>

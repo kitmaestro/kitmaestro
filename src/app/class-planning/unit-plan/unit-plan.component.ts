@@ -441,11 +441,23 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     this.aiService.askGemini(text, true).subscribe({
       next: (response) => {
         const activities: { teacher_activities: string[], student_activities: string[], evaluation_activities: string[], instruments: string[] } = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
-        this.teacher_activities.setValue(activities.teacher_activities);
-        this.student_activities.setValue(activities.student_activities);
-        this.evaluation_activities.setValue(activities.evaluation_activities);
-        this.instruments.setValue(activities.instruments);
         this.generating = false;
+        this.teacher_activities.clear();
+        this.student_activities.clear();
+        this.evaluation_activities.clear();
+        this.instruments.clear();
+        activities.teacher_activities.forEach(activity => {
+          this.teacher_activities.push(this.fb.control(activity));
+        });
+        activities.student_activities.forEach(activity => {
+          this.student_activities.push(this.fb.control(activity));
+        });
+        activities.evaluation_activities.forEach(activity => {
+          this.evaluation_activities.push(this.fb.control(activity));
+        });
+        activities.instruments.forEach(activity => {
+          this.instruments.push(this.fb.control(activity));
+        });
       }
     })
   }
@@ -480,11 +492,13 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     this.aiService.askGemini(text, true).subscribe({
       next: (response) => {
         const learningSituation: { title: string, content: string, learningCriteria: string[], strategies: string[] } = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
+        this.generating = false;
         this.learningSituationTitle.setValue(learningSituation.title);
         this.learningSituation.setValue(learningSituation.content);
-        this.learningCriteria.setValue(learningSituation.learningCriteria);
-        this.strategies.setValue(learningSituation.strategies);
-        this.generating = false;
+        this.strategies.clear();
+        learningSituation.strategies.forEach(strategy => {
+          this.strategies.push(this.fb.control(strategy))
+        });
       }
     })
   }
@@ -1034,5 +1048,48 @@ La respuesta debe ser json valido, coherente con esta interfaz:
 
   get indicators() {
     return this.contents.map(c => ({achievement_indicators: c.achievement_indicators, subject: c.subject}))
+  }
+
+
+
+  pretifySubject(subject: string) {
+
+    if (subject == 'LENGUA_ESPANOLA') {
+      return 'Lengua Española';
+    }
+
+    if (subject == 'MATEMATICA') {
+      return 'Matemática';
+    }
+
+    if (subject == 'CIENCIAS_SOCIALES') {
+      return 'Ciencias Sociales';
+    }
+
+    if (subject == 'CIENCIAS_NATURALES') {
+      return 'Ciencias de la Naturaleza';
+    }
+
+    if (subject == 'INGLES') {
+      return 'Inglés';
+    }
+
+    if (subject == 'FRANCES') {
+      return 'Francés';
+    }
+
+    if (subject == 'FORMACION_HUMANA') {
+      return 'Formación Integral Humana y Religiosa';
+    }
+
+    if (subject == 'EDUCACION_FISICA') {
+      return 'Educación Física';
+    }
+
+    if (subject == 'EDUCACION_ARTISTICA') {
+      return 'Educación Artística';
+    }
+
+    return 'Talleres Optativos';
   }
 }
