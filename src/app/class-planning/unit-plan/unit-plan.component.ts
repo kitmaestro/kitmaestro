@@ -43,6 +43,7 @@ import { SCIENCE_MAIN_THEMES } from '../../data/science-main-themes';
 import { FRENCH_MAIN_THEMES } from '../../data/french-main-themes';
 import { RELIGION_MAIN_THEMES } from '../../data/religion-main-themes';
 import { SPORTS_MAIN_THEMES } from '../../data/sports-main-themes';
+import spanishContentBlocks from '../../data/spanish-content-blocks.json';
 
 @Component({
   selector: 'app-unit-plan',
@@ -90,7 +91,6 @@ export class UnitPlanComponent implements OnInit {
 
   learningSituationTitle = this.fb.control('');
   learningSituation = this.fb.control('');
-  contents: { subject: string, concepts: string[], procedures: string[], attitudes: string[] }[] = [];
   learningCriteria = this.fb.array<string[]>([]);
   strategies = this.fb.array<string[]>([]);
   teacher_activities = this.fb.array<string[]>([]);
@@ -1008,5 +1008,31 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     }
 
     return subjectNames;
+  }
+
+  get contents(): { subject: string, concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] {
+    const year = this.classSectionYear;
+    const level = this.classSectionLevel;
+    const { subjects, spanishContent } = this.learningSituationForm.value;
+    const contents: { subject: string, concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
+
+    if (subjects?.includes('LENGUA_ESPANOLA')) {
+      const spanish = spanishContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == spanishContent);
+      if (spanish) {
+        contents.push({
+          subject: 'LENGUA_ESPANOLA',
+          concepts: spanish.concepts,
+          procedures: spanish.procedures,
+          attitudes: spanish.attitudes,
+          achievement_indicators: spanish.achievement_indicators || [],
+        })
+      }
+    }
+
+    return contents;
+  }
+
+  get indicators() {
+    return this.contents.map(c => ({achievement_indicators: c.achievement_indicators, subject: c.subject}))
   }
 }

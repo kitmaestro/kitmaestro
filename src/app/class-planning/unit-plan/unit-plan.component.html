@@ -391,9 +391,12 @@
                                     <tr>
                                         <th>Indicadores de Logro</th>
                                         <td colspan="5">
-                                            <ul>
-                                                @for (subject of subjectNames; track subject) {
-                                                    <li>{{subject}}</li>
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
+                                                @for (indicator of indicators; track indicator) {
+                                                    <li><b>{{indicator.subject}}</b></li>
+                                                    @for (achievement of indicator.achievement_indicators; track $index) {
+                                                        <ul>{{achievement}}</ul>
+                                                    }
                                                 }
                                             </ul>
                                         </td>
@@ -407,9 +410,42 @@
                                         <th colspan="2">Actitudinales</th>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"></td>
-                                        <td colspan="2"></td>
-                                        <td colspan="2"></td>
+                                        <td colspan="2">
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
+                                                @for (block of contents; track block) {
+                                                    <li><b>{{block.subject}}</b></li>
+                                                    <ul>
+                                                        @for (content of block.concepts; track content) {
+                                                            <li>{{content}}</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </ul>
+                                        </td>
+                                        <td colspan="2">
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
+                                                @for (block of contents; track block) {
+                                                    <li><b>{{block.subject}}</b></li>
+                                                    <ul>
+                                                        @for (content of block.procedures; track content) {
+                                                            <li>{{content}}</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </ul>
+                                        </td>
+                                        <td colspan="2">
+                                            <ul style="margin: 0; padding: 0; list-style: none;">
+                                                @for (block of contents; track block) {
+                                                    <li><b>{{block.subject}}</b></li>
+                                                    <ul>
+                                                        @for (content of block.attitudes; track content) {
+                                                            <li>{{content}}</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </ul>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th colspan="3">Actividades</th>
