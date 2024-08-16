@@ -115,7 +115,7 @@ export class HomeComponent {
       link: ['/app','activity-generator'],
       icon: '/assets/activities.svg',
       premium: true,
-      isWorking: false,
+      isWorking: true,
     },
     {
       name: 'Generador de Aspectos Trabajados',

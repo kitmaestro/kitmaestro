@@ -26,37 +26,9 @@ import { FRENCH_COMPETENCE } from '../../data/french-competence';
 import { RELIGION_COMPETENCE } from '../../data/religion-competence';
 import { SPORTS_COMPETENCE } from '../../data/sports-competence';
 import { MatChipsModule } from '@angular/material/chips';
-
-export interface ClassPlan {
-  intencion_pedagogica: string,
-  estrategias: string[],
-  inicio: {
-    duracion: number,
-    actividades: string[],
-    recursos_necesarios: string[],
-    layout: string,
-  },
-  desarrollo: {
-    duracion: number,
-    actividades: string[],
-    recursos_necesarios: string[],
-    layout: string,
-  },
-  cierre: {
-    duracion: number,
-    actividades: string[],
-    recursos_necesarios: string[],
-    layout: string,
-  },
-  complementarias: {
-    actividades: string[],
-    recursos_necesarios: string[],
-    layout: string,
-  },
-  vocabulario: string[],
-  lectura_recomendada: string,
-  competencia: string,
-}
+import { ClassPlan } from '../../interfaces/class-plan';
+import { ClassPlansService } from '../../services/class-plans.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-class-plan',
@@ -74,6 +46,7 @@ export interface ClassPlan {
     MatInputModule,
     MatCardModule,
     MatChipsModule,
+    RouterModule,
   ],
   templateUrl: './class-plan.component.html',
   styleUrl: './class-plan.component.scss'
@@ -86,6 +59,9 @@ export class ClassPlanComponent implements OnInit {
   aiService = inject(AiService);
   userSettingsService = inject(UserSettingsService);
   pdfService = inject(PdfService);
+  classPlanService = inject(ClassPlansService);
+  router = inject(Router);
+
   todayDate = new Date().toISOString().split('T')[0];
   classSections: ClassSection[] = [];
   userSettings: UserSettings | null = null;
@@ -123,13 +99,13 @@ export class ClassPlanComponent implements OnInit {
   });
 
   bloomLevels = [
-    { id: 'knowledge', label: "Conocimiento" },
-    { id: 'undertanding', label: "Comprensión" },
-    { id: 'application', label: "Aplicación" },
-    { id: 'analysis', label: "Análisis" },
-    { id: 'evaluation', label: "Síntesis" },
-    { id: 'creation', label: "Evaluación" },
-  ];
+    { id: 'knowledge', label: 'Recordar' },
+    { id: 'undertanding', label: 'Comprender' },
+    { id: 'application', label: 'Aplicar' },
+    { id: 'analysis', label: 'Analizar' },
+    { id: 'evaluation', label: 'Evaluar' },
+    { id: 'creation', label: 'Crear' },
+  ]
 
   resources = [
     "Pizarra",
@@ -268,8 +244,27 @@ Las competencias a desarrollorar debe ser una de estas:
     }
   }
 
+  savePlan() {
+    const uid = this.userSettings?.uid;
+    if (uid) {
+      const plan = this.plan.value as ClassPlan;
+      plan.uid = uid;
+      plan.date = this.planForm.value.date || this.todayDate;
+      plan.sectionName = this.classSectionName;
+      plan.sectionId = this.planForm.value.classSection || '';
+      plan.level = this.classSectionLevel;
+      plan.year = this.classSectionYear;
+      plan.subject = this.planForm.value.subject || '';
+      this.classPlanService.addPlan(plan).then((saved) => {
+        this.router.navigate(['/app', 'class-plans', saved.id]).then(() => {
+          this.sb.open('Tu plan ha sido guardado!', undefined, { duration: 2500 });
+        });
+      });
+    }
+  }
+
   printPlan() {
-    this.sb.open('La descarga empezara en unos instantes. No quites esta pantalla hasta que finalicen las descargas.', undefined, { duration: 3000 });
+    this.sb.open('La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.', undefined, { duration: 3000 });
     this.pdfService.createAndDownloadFromHTML('class-plan', `Plan de Clases ${this.classSectionName} de ${this.classSectionLevel} - ${this.pretify(this.planForm.value.subject || '')}`, false);
   }
 

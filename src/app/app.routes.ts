@@ -86,7 +86,10 @@ export const routes: Routes = [
                 ]
             },
             { path: 'class-plans', loadComponent: () => import('./class-planning/class-plan/class-plan.component').then(mod => mod.ClassPlanComponent) },
+            { path: 'class-plans/:id', loadComponent: () => import('./class-planning/class-plan-detail/class-plan-detail.component').then(mod => mod.ClassPlanDetailComponent) },
+            { path: 'class-plans/:id/edit', loadComponent: () => import('./class-planning/class-plan-edit/class-plan-edit.component').then(mod => mod.ClassPlanEditComponent) },
             { path: 'unit-plans', loadComponent: () => import('./class-planning/unit-plan/unit-plan.component').then(mod => mod.UnitPlanComponent) },
+            { path: 'unit-plans/:id', loadComponent: () => import('./class-planning/unit-plan/unit-plan.component').then(mod => mod.UnitPlanComponent) },
             {
                 path: 'attendance',
                 loadComponent: () => import('./attendance-dashboard/attendance-dashboard.component').then(mod => mod.AttendanceDashboardComponent)
