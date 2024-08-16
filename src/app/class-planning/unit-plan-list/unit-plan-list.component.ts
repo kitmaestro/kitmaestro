@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ClassPlansService } from '../../services/class-plans.service';
+import { UnitPlansService } from '../../services/unit-plans.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-class-plan-list',
+  selector: 'app-unit-plan-list',
   standalone: true,
   imports: [
     MatButtonModule,
@@ -21,17 +21,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     RouterModule,
     MatIconModule,
   ],
-  templateUrl: './class-plan-list.component.html',
-  styleUrl: './class-plan-list.component.scss'
+  templateUrl: './unit-plan-list.component.html',
+  styleUrl: './unit-plan-list.component.scss'
 })
-export class ClassPlanListComponent {
+export class UnitPlanListComponent {
 
-  classPlansService = inject(ClassPlansService);
-  classPlans$ = this.classPlansService.classPlans$;
+  unitPlansService = inject(UnitPlansService);
+  unitPlans$ = this.unitPlansService.unitPlans$;
   sb = inject(MatSnackBar);
 
   deletePlan(id: string) {
-    this.classPlansService.deletePlan(id).then(() => {
+    this.unitPlansService.deletePlan(id).then(() => {
       this.sb.open('El Plan fue eliminado!');
     });
   }

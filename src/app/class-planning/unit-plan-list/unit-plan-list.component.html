@@ -1,0 +1,20 @@
+<app-is-premium>
+  <mat-card>
+    <mat-card-header>
+      <h2 mat-card-title>Mis Unidades de Aprendizaje</h2>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-nav-list>
+        @for (plan of unitPlans$ | async; track $index) {
+        <mat-list-item>
+          <a mat-list-item [routerLink]="['/app', 'unit-plans', plan.id]">#{{ $index + 1 }} - {{ plan.title }} - {{ plan.sectionName }} -
+            {{ plan.subjectNames.join(', ') }}</a>
+          <button mat-icon-button color="warn" (click)="deletePlan(plan.id)" matListItemMeta>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+        }
+      </mat-nav-list>
+    </mat-card-content>
+  </mat-card>
+</app-is-premium>

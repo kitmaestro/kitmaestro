@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Auth, authState, User } from '@angular/fire/auth';
-import { addDoc, collection, collectionData, doc, docData, DocumentReference, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, deleteDoc, doc, docData, DocumentReference, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
 import { concatAll, map, Observable, of } from 'rxjs';
 import { ClassPlan } from '../interfaces/class-plan';
 
@@ -37,5 +37,9 @@ export class ClassPlansService {
 
   updatePlan(id: string, plan: any) {
     return updateDoc(doc(this.firestore, 'class-plans', id), plan);
+  }
+
+  deletePlan(id: string) {
+    return deleteDoc(doc(this.firestore, 'class-plans', id));
   }
 }

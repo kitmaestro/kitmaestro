@@ -70,7 +70,7 @@ export class HomeComponent {
     },
     {
       name: 'Planes Diarios',
-      description: 'Planes de clase en menos de 3 minutos.',
+      description: 'Planes de clase en menos de 1 minuto.',
       link: ['/app','class-plans'],
       icon: '/assets/undraw_real_time_sync_re_nky7.svg',
       premium: true,
@@ -98,11 +98,11 @@ export class HomeComponent {
       link: ['/app','assistants'],
       icon: '/assets/assistant.svg',
       premium: true,
-      isWorking: true,
+      isWorking: false,
     },
     {
       name: 'Conversaciones en Inglés',
-      description: 'Consigue diálogos en inglés por nivel.',
+      description: 'Diálogos en inglés por nivel.',
       link: ['/app','english-dialog-generator'],
       icon: '/assets/dialog.svg',
       premium: true,

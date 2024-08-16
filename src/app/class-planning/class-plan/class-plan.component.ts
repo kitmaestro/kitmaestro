@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
-import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
 import { AsyncPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -36,7 +35,6 @@ import { Router, RouterModule } from '@angular/router';
   imports: [
     AsyncPipe,
     IsPremiumComponent,
-    InProgressComponent,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
@@ -52,7 +50,6 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './class-plan.component.scss'
 })
 export class ClassPlanComponent implements OnInit {
-  working = true;
   sb = inject(MatSnackBar);
   fb = inject(FormBuilder);
   classSectionService = inject(ClassSectionService);

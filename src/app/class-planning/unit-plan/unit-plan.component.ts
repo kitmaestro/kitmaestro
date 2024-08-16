@@ -44,6 +44,9 @@ import { FRENCH_MAIN_THEMES } from '../../data/french-main-themes';
 import { RELIGION_MAIN_THEMES } from '../../data/religion-main-themes';
 import { SPORTS_MAIN_THEMES } from '../../data/sports-main-themes';
 import spanishContentBlocks from '../../data/spanish-content-blocks.json';
+import { UnitPlan } from '../../interfaces/unit-plan';
+import { UnitPlansService } from '../../services/unit-plans.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-unit-plan',
@@ -61,6 +64,7 @@ import spanishContentBlocks from '../../data/spanish-content-blocks.json';
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
+    RouterModule,
   ],
   templateUrl: './unit-plan.component.html',
   styleUrl: './unit-plan.component.scss'
@@ -72,6 +76,8 @@ export class UnitPlanComponent implements OnInit {
   sb = inject(MatSnackBar);
   classSectionService = inject(ClassSectionService);
   userSettingsService = inject(UserSettingsService);
+  unitPlanService = inject(UnitPlansService);
+  router = inject(Router);
 
   userSettings: UserSettings | null = null;
 
@@ -97,7 +103,10 @@ export class UnitPlanComponent implements OnInit {
   student_activities = this.fb.array<string[]>([]);
   evaluation_activities = this.fb.array<string[]>([]);
   instruments = this.fb.array<string[]>([]);
+  resourceList = this.fb.array<string[]>([]);
   mainTheme = this.fb.control<string>('Salud y Bienestar');
+
+  plan: UnitPlan | null = null;
 
   levels = [
     'Primaria',
@@ -126,9 +135,9 @@ export class UnitPlanComponent implements OnInit {
   ];
 
   situationTypes = [
-    { id: 'fiction', label: 'Ficticia' },
-    { id: 'reality', label: 'Basada en la Realidad' },
     { id: 'realityProblem', label: 'Problema Real' },
+    { id: 'reality', label: 'Basada en mi Realidad' },
+    { id: 'fiction', label: 'Ficticia' },
   ];
 
   problems = [
@@ -318,7 +327,7 @@ export class UnitPlanComponent implements OnInit {
     religionContent: [''],
     physicalEducationContent: [''],
     artisticEducationContent: [''],
-    situationType: ['fiction'],
+    situationType: ['realityProblem'],
     reality: ['Falta de disciplina'],
     environment: ['Salón de clases']
   });
@@ -338,19 +347,6 @@ export class UnitPlanComponent implements OnInit {
       description: ['']
     })
   ]);
-
-  finalForm = this.fb.group({
-    schoolName: ['', Validators.required],
-    teacherName: ['', Validators.required],
-    sectionName: ['', Validators.required],
-    duration: [4, [Validators.required, Validators.min(1), Validators.max(6)]],
-    learningSituation: ['', Validators.required],
-    fundamentalCompetence: [[''], Validators.required],
-    specificCompetences: [[''], Validators.required],
-    mainThemeCategory: ['', Validators.required],
-    mainThemes: [[''], Validators.required],
-    subjectNames: [[''], Validators.required],
-  })
 
   activitiesPrompt = `Quiero impartir estos contenidos en classroom_year de classroom_level en unit_duration semanas:
 content_list
@@ -372,7 +368,8 @@ Tu respuesta debe ser json valido con esta interfaz:
   teacher_activities: string[],
   student_activities: string[],
   evaluation_activities: string[],
-  instruments: string[] // nombre de las tecnicas e instrumentos de evaluacion a utilizar
+  instruments: string[] // nombre de las tecnicas e instrumentos de evaluacion a utilizar,
+  resources: string[], // los recursos que voy a necesitar para toda la unidad
 }`;
 
   learningSituationPrompt = `Una situación de aprendizaje debe incluir los siguientes elementos clave:
@@ -426,7 +423,10 @@ La respuesta debe ser json valido, coherente con esta interfaz:
       resources
     } = this.unitPlanForm.value;
 
-    const contents = this.collectContents('\n- ');
+    // const contents = this.collectContents('\n- ');
+    const contents = this.contents.map(c => {
+      return `${this.pretifySubject(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\nProcedimentales:\n- ${c.procedures.join('\n- ')}\nActitudinales:\n- ${c.attitudes.join('\n- ')}`;
+    }).join('\n');
 
     const text = this.activitiesPrompt.replace('classroom_year', `${this.classSectionYear}`)
       .replace('classroom_level', `${this.classSectionLevel}`)
@@ -439,12 +439,13 @@ La respuesta debe ser json valido, coherente con esta interfaz:
 
     this.aiService.askGemini(text, true).subscribe({
       next: (response) => {
-        const activities: { teacher_activities: string[], student_activities: string[], evaluation_activities: string[], instruments: string[] } = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
+        const activities: { teacher_activities: string[], student_activities: string[], evaluation_activities: string[], instruments: string[], resources: string[] } = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
         this.generating = false;
         this.teacher_activities.clear();
         this.student_activities.clear();
         this.evaluation_activities.clear();
         this.instruments.clear();
+        this.resourceList.clear();
         activities.teacher_activities.forEach(activity => {
           this.teacher_activities.push(this.fb.control(activity));
         });
@@ -457,14 +458,54 @@ La respuesta debe ser json valido, coherente con esta interfaz:
         activities.instruments.forEach(activity => {
           this.instruments.push(this.fb.control(activity));
         });
+        activities.resources.forEach(resource => {
+          this.resourceList.push(this.fb.control(resource));
+        });
+      },
+      error: (err) => {
+        this.sb.open('Hubo un error generando las actividades. Intentalo de nuevo', undefined, { duration: 2500 })
+        console.log(err.message)
+        this.generating = false;
       }
     })
   }
 
   fillFinalForm() {
+    const plan: UnitPlan = {
+      uid: this.userSettings?.uid || '',
+      schoolName: this.userSettings?.schoolName || '',
+      sectionName: this.classSectionName,
+      sectionId: this.learningSituationForm.value.classSection || '',
+      level: this.classSectionLevel,
+      duration: this.unitPlanForm.value.duration || 4,
+      learningSituation: this.learningSituation.value,
+      title: this.learningSituationTitle.value,
+      specificCompetences: this.competence,
+      mainThemeCategory: this.mainTheme.value,
+      mainThemes: this.mainThemes,
+      subjectNames: this.subjectNames,
+      strategies: this.strategies.value,
+      evaluationCriteria: this.evaluationCriteria,
+      contents: this.contents,
+        resources: this.resourceList.value,
+        instruments: this.instruments.value,
+        teacher_activities: this.teacher_activities.value,
+        student_activities: this.student_activities.value,
+        evaluation_activities: this.evaluation_activities.value,
+    } as any as UnitPlan;
+    this.plan = plan;
   }
 
   savePlan() {
+    if (this.plan) {
+      this.unitPlanService.addPlan(this.plan).then((saved) => {
+        if (saved) {
+          this.router.navigate(['/app', 'unit-plans', saved.id]).then(() => {
+            this.sb.open('Tu unidad de aprendizaje ha sido guardada!')
+          })
+        }
+      })
+    }
   }
 
   generateLearningSituation() {
@@ -573,7 +614,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
 
   get spanishContents() {
     const level = this.formatedLevel(this.classSectionLevel);
-    
+
     const index = this.yearIndex(this.classSectionYear);
     if (level == 'Primaria') {
       return SPANISH_CONTENTS.primary[index]

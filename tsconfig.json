@@ -32,6 +32,7 @@
     "strictTemplates": true
   },
   "include": [
-    "src/app/types/*.d.ts"
+    "src/app/types/*.d.ts",
+    "src/types/html2pdf.js.d.ts"
   ]
 }

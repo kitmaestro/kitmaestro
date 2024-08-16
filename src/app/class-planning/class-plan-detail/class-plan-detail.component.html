@@ -4,7 +4,7 @@
             <h2 style="text-align: center;">Opciones</h2>
             <div style="display: flex; justify-content: space-around; gap: 12px;">
                 <button type="button" mat-raised-button color="link" (click)="goBack()">Volver</button>
-                <button type="button" mat-raised-button color="accent" (click)="goBack()">Editar</button>
+                <button type="button" mat-raised-button color="accent" [routerLink]="['/app', 'class-plans', planId, 'edit']">Editar</button>
                 <button type="button" mat-raised-button color="primary" (click)="printPlan()">Descargar PDF</button>
             </div>
         </mat-card-content>
@@ -22,7 +22,7 @@
                     </tr>
                     <tr>
                         <td colspan="5"><b>Estrategias y técnicas de enseñanza-aprendizaje</b>:
-                            {{plan.estrategias?.join(', ')}}</td>
+                            {{plan.estrategias.join(', ')}}</td>
                     </tr>
                     <tr>
                         <td colspan="5"><b>Intencion Pedag&oacute;gica</b>: {{plan.intencion_pedagogica}}</td>
@@ -37,61 +37,61 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><b>Inicio</b> ({{plan.inicio?.duracion}} Minutos)</td>
+                        <td><b>Inicio</b> ({{plan.inicio.duracion}} Minutos)</td>
                         <td rowspan="4">{{plan.competencia}}</td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (actividad of plan.inicio?.actividades; track actividad) {
+                                @for (actividad of plan.inicio.actividades; track actividad) {
                                 <li>{{actividad}}</li>
                                 }
                             </ul>
                         </td>
                         <td>
-                            {{plan.inicio?.layout}}
+                            {{plan.inicio.layout}}
                         </td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (recurso of plan.inicio?.recursos_necesarios; track recurso) {
+                                @for (recurso of plan.inicio.recursos_necesarios; track recurso) {
                                 <li>- {{recurso}}</li>
                                 }
                             </ul>
                         </td>
                     </tr>
                     <tr>
-                        <td><b>Desarrollo</b> ({{plan.desarrollo?.duracion}} Minutos)</td>
+                        <td><b>Desarrollo</b> ({{plan.desarrollo.duracion}} Minutos)</td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (actividad of plan.desarrollo?.actividades; track actividad) {
+                                @for (actividad of plan.desarrollo.actividades; track actividad) {
                                 <li>{{actividad}}</li>
                                 }
                             </ul>
                         </td>
                         <td>
-                            {{plan.desarrollo?.layout}}
+                            {{plan.desarrollo.layout}}
                         </td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (recurso of plan.desarrollo?.recursos_necesarios; track recurso) {
+                                @for (recurso of plan.desarrollo.recursos_necesarios; track recurso) {
                                 <li>- {{recurso}}</li>
                                 }
                             </ul>
                         </td>
                     </tr>
                     <tr>
-                        <td><b>Cierre</b> ({{plan.cierre?.duracion}} Minutos)</td>
+                        <td><b>Cierre</b> ({{plan.cierre.duracion}} Minutos)</td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (actividad of plan.cierre?.actividades; track actividad) {
+                                @for (actividad of plan.cierre.actividades; track actividad) {
                                 <li>{{actividad}}</li>
                                 }
                             </ul>
                         </td>
                         <td>
-                            {{plan.cierre?.layout}}
+                            {{plan.cierre.layout}}
                         </td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (recurso of plan.cierre?.recursos_necesarios; track recurso) {
+                                @for (recurso of plan.cierre.recursos_necesarios; track recurso) {
                                 <li>- {{recurso}}</li>
                                 }
                             </ul>
@@ -101,24 +101,24 @@
                         <td><b>Actividades Complementarias</b></td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (actividad of plan.complementarias?.actividades; track actividad) {
+                                @for (actividad of plan.complementarias.actividades; track actividad) {
                                 <li>{{actividad}}</li>
                                 }
                             </ul>
                         </td>
                         <td>
-                            {{plan.complementarias?.layout}}
+                            {{plan.complementarias.layout}}
                         </td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (recurso of plan.complementarias?.recursos_necesarios; track recurso) {
+                                @for (recurso of plan.complementarias.recursos_necesarios; track recurso) {
                                 <li>- {{recurso}}</li>
                                 }
                             </ul>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="5"><b>Vocabulario del día/de la semana</b>: {{plan.vocabulario?.join(', ')}}
+                        <td colspan="5"><b>Vocabulario del día/de la semana</b>: {{plan.vocabulario.join(', ')}}
                         </td>
                     </tr>
                     <tr>

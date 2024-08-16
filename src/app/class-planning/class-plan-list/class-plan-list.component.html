@@ -1,1 +1,19 @@
-<p>class-plan-list works!</p>
+<app-is-premium>
+  <mat-card>
+    <mat-card-header>
+      <h2 mat-card-title>Mis Planes Diarios</h2>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-nav-list>
+        @for (plan of classPlans$ | async; track plan) {
+          <mat-list-item>
+            <a mat-list-item [routerLink]="['/app', 'class-plans', plan.id]">{{ plan.sectionName }} - {{ pretify(plan.subject) }} - {{ plan.date ? plan.date.split('-').reverse().join('/') : '' }}</a>
+            <button mat-icon-button color="warn" (click)="deletePlan(plan.id)" matListItemMeta>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-list-item>
+        }
+      </mat-nav-list>
+    </mat-card-content>
+  </mat-card>
+</app-is-premium>

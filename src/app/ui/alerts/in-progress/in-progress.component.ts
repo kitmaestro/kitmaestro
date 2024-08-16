@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-in-progress',
@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './in-progress.component.scss'
 })
 export class InProgressComponent {
+  @Input() feature = 'Esta herramienta';
 
 }

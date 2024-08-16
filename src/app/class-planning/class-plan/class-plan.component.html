@@ -1,206 +1,201 @@
 <app-is-premium>
-    @if (working) {
-        <mat-card>
-            <mat-card-header>
-                <h2 mat-card-tittle>Generador de Plan de Clase (Plan Diario)</h2>
-            </mat-card-header>
-            <mat-card-content>
-                <form (ngSubmit)="onSubmit()" [formGroup]="planForm">
-                    <div style="display: flex; gap: 12px;">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Curso</mat-label>
-                            <mat-select formControlName="classSection">
-                                @for (section of classSections; track section) {
-                                    <mat-option [value]="section.id">{{section.name}}</mat-option>
-                                }
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Asignatura</mat-label>
-                            <mat-select formControlName="subject">
-                                @for (subject of sectionSubjects; track subject) {
-                                    <mat-option [value]="subject">{{pretify(subject)}}</mat-option>
-                                }
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Fecha</mat-label>
-                            <input type="date" formControlName="date" matInput>
-                        </mat-form-field>
-                    </div>
-                    <div style="display: flex; gap: 12px; margin-top: 12px;">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Temas (separados por comas)</mat-label>
-                            <input formControlName="topics" matInput>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Proceso Cognitivo</mat-label>
-                            <mat-select formControlName="bloomLevel">
-                                @for (level of bloomLevels; track level) {
-                                    <mat-option [value]="level.id">{{level.label}}</mat-option>
-                                }
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Tiempo</mat-label>
-                            <mat-select formControlName="duration">
-                                @for (minutes of [45, 50, 90]; track minutes) {
-                                    <mat-option [value]="minutes">{{minutes}} Minutos</mat-option>
-                                }
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div style="margin-bottom: 16px;">
-                        <mat-label>Recursos Disponibles</mat-label>
-                        <mat-chip-listbox formControlName="resources" multiple>
-                            @for (resource of resources; track resource) {
-                            <mat-chip-option>{{resource}}</mat-chip-option>
-                            }
-                        </mat-chip-listbox>
-                    </div>
-                    <div style="margin-top: 12px; text-align: end;">
-                        @if (plan.value.intencion_pedagogica) {
-                            <button type="button" style="margin-right: 12px;" (click)="printPlan()" mat-raised-button color="accent">Descargar</button>
-                            <button type="button" style="margin-right: 12px;" (click)="savePlan()" mat-raised-button color="primary">Guardar</button>
-                        }
-                        <button type="submit" [disabled]="generating || planForm.invalid" mat-raised-button>
-                            @if (generating) {
-                                Generando...
-                            } @else {
-                                @if (plan.value.intencion_pedagogica) {
-                                    Regenerar
-                                } @else {
-                                    Generar
-                                }
-                            }
-                        </button>
-                    </div>
-                </form>
-            </mat-card-content>
-        </mat-card>
+	<mat-card>
+		<mat-card-header class="header">
+			<h2 class="title" mat-card-tittle>Generador de Plan de Clase (Plan Diario)</h2>
+      <button class="title-button" mat-flat-button [routerLink]="['/app', 'class-plans', 'list']" color="accent">Ver mis Planes</button>
+		</mat-card-header>
+		<mat-card-content>
+			<form (ngSubmit)="onSubmit()" [formGroup]="planForm">
+				<div class="controls-container-6">
+					<mat-form-field appearance="outline">
+						<mat-label>Curso</mat-label>
+						<mat-select formControlName="classSection">
+							@for (section of classSections; track section) {
+								<mat-option [value]="section.id">{{section.name}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>Asignatura</mat-label>
+						<mat-select formControlName="subject">
+							@for (subject of sectionSubjects; track subject) {
+								<mat-option [value]="subject">{{pretify(subject)}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>Fecha</mat-label>
+						<input type="date" formControlName="date" matInput>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>Temas (separados por comas)</mat-label>
+						<input formControlName="topics" matInput>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>Proceso Cognitivo</mat-label>
+						<mat-select formControlName="bloomLevel">
+							@for (level of bloomLevels; track level) {
+								<mat-option [value]="level.id">{{level.label}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>Tiempo</mat-label>
+						<mat-select formControlName="duration">
+							@for (minutes of [45, 50, 90]; track minutes) {
+								<mat-option [value]="minutes">{{minutes}} Minutos</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div style="margin-bottom: 16px;">
+					<mat-label>Recursos Disponibles</mat-label>
+					<mat-chip-listbox formControlName="resources" multiple>
+						@for (resource of resources; track resource) {
+							<mat-chip-option>{{resource}}</mat-chip-option>
+						}
+					</mat-chip-listbox>
+				</div>
+				<div style="margin-top: 12px; text-align: end;">
+					@if (plan.value.intencion_pedagogica) {
+						<button type="button" style="margin-right: 12px;" (click)="printPlan()" mat-raised-button color="accent">Descargar</button>
+						<button type="button" style="margin-right: 12px;" (click)="savePlan()" mat-raised-button color="primary">Guardar</button>
+					}
+					<button type="submit" [disabled]="generating || planForm.invalid" mat-raised-button>
+						@if (generating) {
+							Generando...
+						} @else {
+							@if (plan.value.intencion_pedagogica) {
+								Regenerar
+							} @else {
+								Generar
+							}
+						}
+					</button>
+				</div>
+			</form>
+		</mat-card-content>
+	</mat-card>
 
-        @if (plan.value.intencion_pedagogica) {
-            <div class="shadow">
-                <div class="page" id="class-plan">
-                    <table style="border-collapse: collapse; border: 1px solid gray; background-color: white; width: 100%;">
-                        <thead>
-                            <tr>
-                                <td style="width: 160px;"><b>Fecha</b>: {{planForm.value.date}}</td>
-                                <td style="width: 280px;"><b>Grado y Sección</b>: {{classSectionName}}</td>
-                                <td><b>Docente</b>: {{userSettings?.title}}. {{userSettings?.firstname}} {{userSettings?.lastname}}</td>
-                                <td colspan="2"><b>Área Curricular</b>: {{pretify(planForm.value.subject || '')}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5"><b>Estrategias y técnicas de enseñanza-aprendizaje</b>: {{plan.value.estrategias?.join(', ')}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5"><b>Intencion Pedag&oacute;gica</b>: {{plan.value.intencion_pedagogica}}</td>
-                            </tr>
-                            <tr>
-                                <th>Momento / Duración</th>
-                                <th style="width: 18%;">Competencias Especificas</th>
-                                <th>Actividades</th>
-                                <th style="width: 18%;">Organización de los Estudiantes</th>
-                                <th style="width: 15%;">Recursos</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><b>Inicio</b> ({{plan.value.inicio?.duracion}} Minutos)</td>
-                                <td rowspan="4">{{plan.value.competencia}}</td>
-                                <td>
-                                    <ul style="margin: 0; padding: 0; list-style: none;">
-                                        @for (actividad of plan.value.inicio?.actividades; track actividad) {
-                                            <li>{{actividad}}</li>
-                                        }
-                                    </ul>
-                                </td>
-                                <td>
-                                    {{plan.value.inicio?.layout}}
-                                </td>
-                                <td>
-                                    <ul style="margin: 0; padding: 0; list-style: none;">
-                                        @for (recurso of plan.value.inicio?.recursos_necesarios; track recurso) {
-                                            <li>- {{recurso}}</li>
-                                        }
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><b>Desarrollo</b> ({{plan.value.desarrollo?.duracion}} Minutos)</td>
-                                <td>
-                                    <ul style="margin: 0; padding: 0; list-style: none;">
-                                        @for (actividad of plan.value.desarrollo?.actividades; track actividad) {
-                                            <li>{{actividad}}</li>
-                                        }
-                                    </ul>
-                                </td>
-                                <td>
-                                    {{plan.value.desarrollo?.layout}}
-                                </td>
-                                <td>
-                                    <ul style="margin: 0; padding: 0; list-style: none;">
-                                        @for (recurso of plan.value.desarrollo?.recursos_necesarios; track recurso) {
-                                            <li>- {{recurso}}</li>
-                                        }
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><b>Cierre</b> ({{plan.value.cierre?.duracion}} Minutos)</td>
-                                <td>
-                                    <ul style="margin: 0; padding: 0; list-style: none;">
-                                        @for (actividad of plan.value.cierre?.actividades; track actividad) {
-                                        <li>{{actividad}}</li>
-                                        }
-                                    </ul>
-                                </td>
-                                <td>
-                                    {{plan.value.cierre?.layout}}
-                                </td>
-                                <td>
-                                    <ul style="margin: 0; padding: 0; list-style: none;">
-                                        @for (recurso of plan.value.cierre?.recursos_necesarios; track recurso) {
-                                            <li>- {{recurso}}</li>
-                                        }
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><b>Actividades Complementarias</b></td>
-                                <td>
-                                    <ul style="margin: 0; padding: 0; list-style: none;">
-                                        @for (actividad of plan.value.complementarias?.actividades; track actividad) {
-                                            <li>{{actividad}}</li>
-                                        }
-                                    </ul>
-                                </td>
-                                <td>
-                                    {{plan.value.complementarias?.layout}}
-                                </td>
-                                <td>
-                                    <ul style="margin: 0; padding: 0; list-style: none;">
-                                        @for (recurso of plan.value.complementarias?.recursos_necesarios; track recurso) {
-                                            <li>- {{recurso}}</li>
-                                        }
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="5"><b>Vocabulario del día/de la semana</b>: {{plan.value.vocabulario?.join(', ')}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5"><b>Lecturas recomendadas/ o libro de la semana</b>: {{plan.value.lectura_recomendada}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5"><b>Observaciones</b>:</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        }
-    } @else {
-        <app-in-progress></app-in-progress>
-    }
+	@if (plan.value.intencion_pedagogica) {
+		<div class="shadow">
+			<div class="page" id="class-plan">
+				<table style="border-collapse: collapse; border: 1px solid gray; background-color: white; width: 100%;">
+					<thead>
+						<tr>
+							<td style="width: 160px;"><b>Fecha</b>: {{planForm.value.date}}</td>
+							<td style="width: 280px;"><b>Grado y Sección</b>: {{classSectionName}}</td>
+							<td><b>Docente</b>: {{userSettings?.title}}. {{userSettings?.firstname}} {{userSettings?.lastname}}</td>
+							<td colspan="2"><b>Área Curricular</b>: {{pretify(planForm.value.subject || '')}}</td>
+						</tr>
+						<tr>
+							<td colspan="5"><b>Estrategias y técnicas de enseñanza-aprendizaje</b>: {{plan.value.estrategias?.join(', ')}}</td>
+						</tr>
+						<tr>
+							<td colspan="5"><b>Intencion Pedag&oacute;gica</b>: {{plan.value.intencion_pedagogica}}</td>
+						</tr>
+						<tr>
+							<th>Momento / Duración</th>
+							<th style="width: 18%;">Competencias Especificas</th>
+							<th>Actividades</th>
+							<th style="width: 18%;">Organización de los Estudiantes</th>
+							<th style="width: 15%;">Recursos</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><b>Inicio</b> ({{plan.value.inicio?.duracion}} Minutos)</td>
+							<td rowspan="4">{{plan.value.competencia}}</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none;">
+									@for (actividad of plan.value.inicio?.actividades; track actividad) {
+										<li>{{actividad}}</li>
+									}
+								</ul>
+							</td>
+							<td>
+								{{plan.value.inicio?.layout}}
+							</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none;">
+									@for (recurso of plan.value.inicio?.recursos_necesarios; track recurso) {
+										<li>- {{recurso}}</li>
+									}
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td><b>Desarrollo</b> ({{plan.value.desarrollo?.duracion}} Minutos)</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none;">
+									@for (actividad of plan.value.desarrollo?.actividades; track actividad) {
+										<li>{{actividad}}</li>
+									}
+								</ul>
+							</td>
+							<td>
+								{{plan.value.desarrollo?.layout}}
+							</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none;">
+									@for (recurso of plan.value.desarrollo?.recursos_necesarios; track recurso) {
+										<li>- {{recurso}}</li>
+									}
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td><b>Cierre</b> ({{plan.value.cierre?.duracion}} Minutos)</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none;">
+									@for (actividad of plan.value.cierre?.actividades; track actividad) {
+										<li>{{actividad}}</li>
+									}
+								</ul>
+							</td>
+							<td>
+								{{plan.value.cierre?.layout}}
+							</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none;">
+									@for (recurso of plan.value.cierre?.recursos_necesarios; track recurso) {
+										<li>- {{recurso}}</li>
+									}
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td><b>Actividades Complementarias</b></td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none;">
+									@for (actividad of plan.value.complementarias?.actividades; track actividad) {
+										<li>{{actividad}}</li>
+									}
+								</ul>
+							</td>
+							<td>
+								{{plan.value.complementarias?.layout}}
+							</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none;">
+									@for (recurso of plan.value.complementarias?.recursos_necesarios; track recurso) {
+										<li>- {{recurso}}</li>
+									}
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5"><b>Vocabulario del día/de la semana</b>: {{plan.value.vocabulario?.join(', ')}}</td>
+						</tr>
+						<tr>
+							<td colspan="5"><b>Lecturas recomendadas/ o libro de la semana</b>: {{plan.value.lectura_recomendada}}</td>
+						</tr>
+						<tr>
+							<td colspan="5"><b>Observaciones</b>:</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	}
 </app-is-premium>

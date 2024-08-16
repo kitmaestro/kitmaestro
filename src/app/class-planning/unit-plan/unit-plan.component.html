@@ -1,15 +1,16 @@
 <app-is-premium>
     @if (working) {
         <mat-card>
-            <mat-card-header>
-                <h2 mat-card-ittle>Generador de Unidades de Aprendizaje</h2>
+            <mat-card-header class="header">
+                <h2 class="title" mat-card-ittle>Generador de Unidades de Aprendizaje</h2>
+                <button class="title-button" mat-flat-button [routerLink]="['/app', 'unit-plans', 'list']" color="accent">Ver mis Planes</button>
             </mat-card-header>
             <mat-card-content>
                 <mat-stepper linear #stepper>
                     <mat-step [stepControl]="learningSituationForm">
                         <form [formGroup]="learningSituationForm" style="padding-top: 16px;">
                             <ng-template matStepLabel>Situaci&oacute;n de Aprendizaje</ng-template>
-                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
+                            <div class="cols-2">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Grado</mat-label>
                                     <mat-select formControlName="classSection" required>
@@ -137,7 +138,7 @@
                                     </mat-select>
                                 </mat-form-field>
                             }
-                            <div style="display: flex; gap: 16px; margin-top: 16px;">
+                            <div class="flex-on-md">
                                 <div style="flex: 1 1 auto;">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Tipo de Situaci&oacute;n</mat-label>
@@ -231,7 +232,7 @@
                         <ng-template matStepLabel>Secuencia Did&aacute;ctica</ng-template>
                         <div style="padding-top: 16px;">
                             @if (teacher_activities.value.length) {
-                                <div style="display: flex; gap: 16px;">
+                                <div class="flex-on-md">
                                     <div style="flex: 1 1 auto; width: 100%;">
                                         <h3>Actividades de Ense&ntilde;anza</h3>
                                         <ul>
@@ -342,7 +343,7 @@
                                     <tr>
                                         <th>Eje Transversal</th>
                                         <td colspan="5">
-                                            <h4>{{mainTheme.value}}:</h4>
+                                            <!-- <h4>{{mainTheme.value}}:</h4> -->
                                             <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (theme of mainThemes; track theme) {
                                                     <li>- {{theme}}</li>
@@ -355,7 +356,7 @@
                                         <td colspan="5">
                                             <ul style="margin: 0; padding: 0; list-style: none;">
                                                 @for (subject of subjectNames; track subject) {
-                                                    <li><b>{{subject}}</b></li>
+                                                    <li>{{subject}}</li>
                                                 }
                                             </ul>
                                         </td>
@@ -373,27 +374,29 @@
                                     <tr>
                                         <th>Criterios de Evaluaci&oacute;n</th>
                                         <td colspan="5">
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (criteria of evaluationCriteria.Comunicativa; track criteria) {
-                                                    @if (criteria) {
-                                                        <li>- {{criteria}}</li>
-                                                    }
-                                                }
-                                            </ul>
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (criteria of evaluationCriteria.PensamientoLogico; track criteria) {
-                                                    @if (criteria) {
-                                                        <li>- {{criteria}}</li>
-                                                    }
-                                                }
-                                            </ul>
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (criteria of evaluationCriteria.EticaYCiudadana; track criteria) {
-                                                    @if (criteria) {
-                                                        <li>- {{criteria}}</li>
-                                                    }
-                                                }
-                                            </ul>
+                                            @if (classSectionLevel == 'PRIMARIA') {
+                                              <ul style="margin: 0; padding: 0; list-style: none;">
+                                                  @for (criteria of evaluationCriteria.Comunicativa; track criteria) {
+                                                      @if (criteria) {
+                                                          <li>- {{criteria}}</li>
+                                                      }
+                                                  }
+                                              </ul>
+                                              <ul style="margin: 0; padding: 0; list-style: none;">
+                                                  @for (criteria of evaluationCriteria.PensamientoLogico; track criteria) {
+                                                      @if (criteria) {
+                                                          <li>- {{criteria}}</li>
+                                                      }
+                                                  }
+                                              </ul>
+                                              <ul style="margin: 0; padding: 0; list-style: none;">
+                                                  @for (criteria of evaluationCriteria.EticaYCiudadana; track criteria) {
+                                                      @if (criteria) {
+                                                          <li>- {{criteria}}</li>
+                                                      }
+                                                  }
+                                              </ul>
+                                            }
                                         </td>
                                     </tr>
                                     <tr>
@@ -499,7 +502,7 @@
                                         </td>
                                         <td rowspan="2">
                                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (resource of resources; track resource) {
+                                                @for (resource of resourceList.value; track resource) {
                                                     <li>- {{resource}}</li>
                                                 }
                                             </ul>
@@ -534,7 +537,7 @@
                         <div style="text-align: end; margin-top: 24px;">
                             <button mat-raised-button matStepperPrevious>Anterior</button>
                             <button style="margin-left: 8px;" mat-raised-button (click)="stepper.reset()">Reiniciar</button>
-                            <button style="margin-left: 8px;" color="primary" mat-raised-button (click)="savePlan()" [disabled]="finalForm.invalid" type="button">Guardar</button>
+                            <button style="margin-left: 8px;" color="primary" mat-raised-button (click)="savePlan()" [disabled]="!plan" type="button">Guardar</button>
                         </div>
                     </mat-step>
                 </mat-stepper>
