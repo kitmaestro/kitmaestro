@@ -83,7 +83,7 @@
 				<table style="border-collapse: collapse; border: 1px solid gray; background-color: white; width: 100%;">
 					<thead>
 						<tr>
-							<td style="width: 160px;"><b>Fecha</b>: {{planForm.value.date}}</td>
+							<td style="width: 160px;"><b>Fecha</b>: {{planForm.value.date | date : 'dd/MM/YYYY'}}</td>
 							<td style="width: 280px;"><b>Grado y Sección</b>: {{classSectionName}}</td>
 							<td><b>Docente</b>: {{userSettings?.title}}. {{userSettings?.firstname}} {{userSettings?.lastname}}</td>
 							<td colspan="2"><b>Área Curricular</b>: {{pretify(planForm.value.subject || '')}}</td>
@@ -197,5 +197,6 @@
 				</table>
 			</div>
 		</div>
+		<div style="height: 24px;"></div>
 	}
 </app-is-premium>

@@ -15,6 +15,9 @@ import { CommonModule } from '@angular/common';
 import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
 import { EMPTY, Observable, map, tap } from 'rxjs';
 import { UserSubscription } from '../interfaces/user-subscription';
+import { UserSettingsService } from '../services/user-settings.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { QuoteDialogComponent } from '../ui/quote-dialog/quote-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,6 +33,7 @@ import { UserSubscription } from '../interfaces/user-subscription';
     MatMenuModule,
     MatSidenavModule,
     MatListModule,
+    MatDialogModule,
     CommonModule,
   ],
   templateUrl: './dashboard.component.html',
@@ -42,7 +46,10 @@ export class DashboardComponent implements OnInit {
   private firestore = inject(Firestore);
   activatedRoute = '';
   subscription$: Observable<UserSubscription> = EMPTY;
+  userSettingsService = inject(UserSettingsService);
+  userSettings$ = this.userSettingsService.getSettings();
   loading = true;
+  dialog = inject(MatDialog);
 
   ngOnInit() {
     this.activatedRoute = location.pathname;
@@ -65,5 +72,9 @@ export class DashboardComponent implements OnInit {
 
   logout() {
     signOut(this.auth).then(() => this.sb.open('Haz cerrado sesión. Hasta luego!', 'Ok', { duration: 4000 }));
+  }
+
+  openQuoteDialog() {
+    this.dialog.open(QuoteDialogComponent, { })
   }
 }

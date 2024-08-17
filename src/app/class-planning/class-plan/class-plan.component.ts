@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -45,6 +45,7 @@ import { Router, RouterModule } from '@angular/router';
     MatCardModule,
     MatChipsModule,
     RouterModule,
+    DatePipe,
   ],
   templateUrl: './class-plan.component.html',
   styleUrl: './class-plan.component.scss'
@@ -58,6 +59,7 @@ export class ClassPlanComponent implements OnInit {
   pdfService = inject(PdfService);
   classPlanService = inject(ClassPlansService);
   router = inject(Router);
+  datePipe = new DatePipe('en');
 
   todayDate = new Date().toISOString().split('T')[0];
   classSections: ClassSection[] = [];
@@ -212,7 +214,7 @@ Las competencias a desarrollorar debe ser una de estas:
         const text = this.planPrompt
           .replace('class_subject', this.pretify(subject))
           .replace('class_duration', duration.toString())
-          .replace('class_topics', `${topics} (etapa segun bloom: ${bloomLevel})`)
+          .replace('class_topics', `${topics} (proceso cognitivo de la taxonomia de bloom: ${this.pretifyBloomLevel(bloomLevel || '')})`)
           .replace('class_year', sectionYear)
           .replace('class_level', sectionLevel)
           .replace('plan_resources', resources.join(', '))
@@ -261,8 +263,9 @@ Las competencias a desarrollorar debe ser una de estas:
   }
 
   printPlan() {
+    const date = this.datePipe.transform(this.planForm.value.date, 'dd-MM-YYYY');
     this.sb.open('La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.', undefined, { duration: 3000 });
-    this.pdfService.createAndDownloadFromHTML('class-plan', `Plan de Clases ${this.classSectionName} de ${this.classSectionLevel} - ${this.pretify(this.planForm.value.subject || '')}`, false);
+    this.pdfService.createAndDownloadFromHTML('class-plan', `Plan de Clases de ${this.pretify(this.planForm.value.subject || '')} para ${this.classSectionName} - ${date}`, false);
   }
 
   pretify(str: string) {
@@ -393,6 +396,21 @@ Las competencias a desarrollorar debe ser una de estas:
       default:
         return '';
     }
+  }
+
+  pretifyBloomLevel(level: string) {
+    if (level == 'knowledge') 
+      return 'Recordar';
+    if (level == 'undertanding')
+        return 'Comprender';
+    if (level == 'application')
+      return 'Aplicar';
+    if (level == 'analysis')
+      return 'Analizar';
+    if (level == 'evaluation')
+      return 'Evaluar';
+    
+    return 'Crear';
   }
 
   get sectionSubjects() {

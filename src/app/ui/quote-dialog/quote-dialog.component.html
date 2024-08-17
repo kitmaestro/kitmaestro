@@ -1,0 +1,10 @@
+<h2 mat-dialog-title style="text-align: center;">Cita de Motivaci&oacute;n</h2>
+<mat-dialog-content>
+    <q style="padding: 12px; margin-bottom: 12px;">{{ selectedQuote.quote }}</q>
+    <p style="color: #0097a7; text-align: center; margin-top: 12px;"><i>- {{ selectedQuote.author }}</i></p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <div style="text-align: center; min-width: 100%; padding-bottom: 12px;">
+        <button (click)="selectQuote()" mat-raised-button color="primary">Otra</button>
+    </div>
+</mat-dialog-actions>
