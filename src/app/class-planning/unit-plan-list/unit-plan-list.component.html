@@ -1,7 +1,8 @@
 <app-is-premium>
   <mat-card>
-    <mat-card-header>
-      <h2 mat-card-title>Mis Unidades de Aprendizaje</h2>
+    <mat-card-header class="header">
+      <h2 mat-card-title class="title">Mis Unidades de Aprendizaje</h2>
+      <button mat-raised-button class="title-button" color="accent" [routerLink]="['/app', 'unit-plans']">Crear Nueva Unidad</button>
     </mat-card-header>
     <mat-card-content>
       <mat-nav-list>

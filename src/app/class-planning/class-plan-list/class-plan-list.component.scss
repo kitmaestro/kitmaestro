@@ -1,0 +1,21 @@
+@media screen and (max-width: 959px) {
+    h2.title {
+        display: block;
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .title-button {
+        display: block;
+        width: 100%;
+        margin-bottom: 24px;
+    }
+
+    .header {
+        display: block;
+    }
+}
+
+.title-button {
+    margin-left: auto;
+}

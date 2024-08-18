@@ -24,12 +24,32 @@ import { RouterModule } from '@angular/router';
 export class UpdatesComponent implements OnInit {
   public updates: Update[] = [
     {
+      type: 'notice',
+      date: new Date(2024, 7, 17),
+      author: 'Otoniel Reyes Galay',
+      title: 'Unidades de Aprendizaje de Lengua Española y Ciencias Sociales',
+      description: 'Los contenidos de Lengua y Sociales ya están en la plataforma.',
+      actions: [],
+      content: `Hoy le damos la bienvenida a los contenidos de primer y segundo ciclo de educación primaria de la adecuación curricular en las áreas de Lengua Española y Ciencias Sociales.
+Esto significa que ya puedes generar unidades de aprendizaje completas para estas asignaturas para el nivel primario.
+Nos encontramos trabajando arduamente y sin descanso para agregar todos los contenidos mediadores y sus respectivas dependencias a la plataforma para proveerte la experiencia que tanto mereces y anhelas. No desesperes, cada vez estamos más cerca.`,
+    },
+    {
       type: 'feature',
       date: new Date(2024, 7, 14),
       author: 'Otoniel Reyes Galay',
       title: 'Guardar y Exportar Planes',
       description: 'Los planes generados se pueden guardar y exportar',
-      actions: [],
+      actions: [
+        {
+          label: 'Ver mis Unidades de Aprendizaje',
+          link: ['/app', 'unit-plans', 'list'],
+        },
+        {
+          label: 'Ver mis Planes Diarios',
+          link: ['/app', 'class-plans', 'list'],
+        },
+      ],
       content: `Ahora contamos con la opción de guardar los planes que has generado. Tanto las unidades de aprendizaje como los planes de clase (planes diarios).
 En el generador, tienes un boton amarillo alineado a la derecha con el que podrás acceder a la lista de los planes que has guardado, para tenerlos siempre cerca.
 Una vez guardado, puedes exportar tu plan como PDF y guardarlo para su uso offline o compartirlo con tus compañeros y superiores según tus necesidades.`,
@@ -44,7 +64,14 @@ Los mas observadores notaran que ya no estan visibles las herramientas de genera
       title: 'Lanzamiento beta 3',
       type: 'feature',
       actions: [
-
+        {
+          label: 'Crear una Unidad de Aprendizaje',
+          link: ['/app', 'unit-plans']
+        },
+        {
+          label: 'Crear un Plan Diario',
+          link: ['/app', 'class-plans']
+        },
       ],
     },
   ];

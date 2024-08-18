@@ -1,7 +1,8 @@
 <app-is-premium>
   <mat-card>
-    <mat-card-header>
-      <h2 mat-card-title>Mis Planes Diarios</h2>
+    <mat-card-header class="header">
+      <h2 mat-card-title class="title">Mis Planes Diarios</h2>
+      <button class="title-button" mat-raised-button color="accent" [routerLink]="['/app', 'class-plans']">Crear Nuevo Plan</button>
     </mat-card-header>
     <mat-card-content>
       <mat-nav-list>

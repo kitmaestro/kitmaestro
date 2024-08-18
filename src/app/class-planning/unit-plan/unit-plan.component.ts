@@ -43,10 +43,11 @@ import { SCIENCE_MAIN_THEMES } from '../../data/science-main-themes';
 import { FRENCH_MAIN_THEMES } from '../../data/french-main-themes';
 import { RELIGION_MAIN_THEMES } from '../../data/religion-main-themes';
 import { SPORTS_MAIN_THEMES } from '../../data/sports-main-themes';
-import spanishContentBlocks from '../../data/spanish-content-blocks.json';
 import { UnitPlan } from '../../interfaces/unit-plan';
 import { UnitPlansService } from '../../services/unit-plans.service';
 import { Router, RouterModule } from '@angular/router';
+import spanishContentBlocks from '../../data/spanish-content-blocks.json';
+import societyContentBlocks from '../../data/society-content-blocks.json';
 
 @Component({
   selector: 'app-unit-plan',
@@ -313,23 +314,40 @@ export class UnitPlanComponent implements OnInit {
   // steps:
   // 1 - choose level
   // 2 - choose subjects
-  learningSituationForm = this.fb.group({
-    level: ['Primaria', Validators.required],
-    year: ['Primero', Validators.required],
-    classSection: [''],
-    subjects: [['LENGUA_ESPANOLA'], Validators.required],
-    spanishContent: [''],
-    mathContent: [''],
-    societyContent: [''],
-    scienceContent: [''],
-    englishContent: [''],
-    frenchContent: [''],
-    religionContent: [''],
-    physicalEducationContent: [''],
-    artisticEducationContent: [''],
-    situationType: ['realityProblem'],
-    reality: ['Falta de disciplina'],
-    environment: ['Salón de clases']
+  learningSituationForm = this.fb.group<{
+    level: string,
+    year: string,
+    classSection: string,
+    subjects: string[],
+    spanishContent: string,
+    mathContent: string,
+    societyContent: string,
+    scienceContent: string,
+    englishContent: string,
+    frenchContent: string,
+    religionContent: string,
+    physicalEducationContent: string,
+    artisticEducationContent: string,
+    situationType: string,
+    reality: string,
+    environment: string,
+  }>({
+    level: 'Primaria',
+    year: 'Primero',
+    classSection: '',
+    subjects: [],
+    spanishContent: '',
+    mathContent: '',
+    societyContent: '',
+    scienceContent: '',
+    englishContent: '',
+    frenchContent: '',
+    religionContent: '',
+    physicalEducationContent: '',
+    artisticEducationContent: '',
+    situationType: 'realityProblem',
+    reality: 'Falta de disciplina',
+    environment: 'Salón de clases'
   });
 
   unitPlanForm = this.fb.group({
@@ -1067,7 +1085,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
   get contents(): { subject: string, concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] {
     const year = this.classSectionYear;
     const level = this.classSectionLevel;
-    const { subjects, spanishContent } = this.learningSituationForm.value;
+    const { subjects, spanishContent, societyContent } = this.learningSituationForm.value;
     const contents: { subject: string, concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
 
     if (subjects?.includes('LENGUA_ESPANOLA')) {
@@ -1079,6 +1097,19 @@ La respuesta debe ser json valido, coherente con esta interfaz:
           procedures: spanish.procedures,
           attitudes: spanish.attitudes,
           achievement_indicators: spanish.achievement_indicators || [],
+        })
+      }
+    }
+
+    if (subjects?.includes('CIENCIAS_SOCIALES')) {
+      const society = societyContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == societyContent);
+      if (society) {
+        contents.push({
+          subject: 'CIENCIAS_SOCIALES',
+          concepts: society.concepts,
+          procedures: society.procedures,
+          attitudes: society.attitudes,
+          achievement_indicators: society.achievement_indicators || [],
         })
       }
     }

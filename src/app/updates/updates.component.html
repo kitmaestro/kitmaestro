@@ -28,9 +28,9 @@
                         <br><br>
                     }
                 }
-                <span style="display: block;">
+                <span style="display: block; margin-top: 24px;">
                     @for (action of update.actions; track action) {
-                        <button mat-raised-button color="link" [routerLink]="action.link">{{action.label}}</button>
+                        <button mat-raised-button color="link" style="margin-right: 12px;" [routerLink]="action.link">{{action.label}}</button>
                     }
                 </span>
             </p>
