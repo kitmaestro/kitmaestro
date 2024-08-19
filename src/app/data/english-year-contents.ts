@@ -1,97 +1,28 @@
 import { SubjectYearContents } from "../interfaces/subject-year-contents";
 
-export const societyYearContents: SubjectYearContents[] = [
-    {
-        nivel: 'PRIMARIA',
-        grado: 'PRIMERO',
-        area: 'CIENCIAS_SOCIALES',
-        competencias: [
-            {
-                fundamental: 'Comunicativa',
-                especificas: [],
-            },
-            {
-                fundamental: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
-                especificas: [],
-            },
-            {
-                fundamental: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
-                especificas: [],
-            },
-        ],
-        contenidos: {
-            conceptos: [],
-            procedimientos: [],
-            actitudesYValores: [],
-        },
-        indicadoresDeLogro: [],
-    },
-    {
-        nivel: 'PRIMARIA',
-        grado: 'SEGUNDO',
-        area: 'CIENCIAS_SOCIALES',
-        competencias: [
-            {
-                fundamental: 'Comunicativa',
-                especificas: [],
-            },
-            {
-                fundamental: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
-                especificas: [],
-            },
-            {
-                fundamental: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
-                especificas: [],
-            },
-        ],
-        contenidos: {
-            conceptos: [],
-            procedimientos: [],
-            actitudesYValores: [],
-        },
-        indicadoresDeLogro: [],
-    },
-    {
-        nivel: 'PRIMARIA',
-        grado: 'TERCERO',
-        area: 'CIENCIAS_SOCIALES',
-        competencias: [
-            {
-                fundamental: 'Comunicativa',
-                especificas: [],
-            },
-            {
-                fundamental: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
-                especificas: [],
-            },
-            {
-                fundamental: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
-                especificas: [],
-            },
-        ],
-        contenidos: {
-            conceptos: [],
-            procedimientos: [],
-            actitudesYValores: [],
-        },
-        indicadoresDeLogro: [],
-    },
+export const englishYearContents: SubjectYearContents[] = [
     {
         nivel: 'PRIMARIA',
         grado: 'CUARTO',
-        area: 'CIENCIAS_SOCIALES',
+        area: 'INGLES',
         competencias: [
             {
                 fundamental: 'Comunicativa',
-                especificas: [],
+                especificas: [
+                    "Comprende y expresa información, ideas y valores culturales, utilizando un repertorio muy limitado y ensayado de vocabulario y expresiones muy breves y sencillas para identificarse, saludar, presentarse a sí mismo/a y a otras personas, compartir información personal básica, describir objetos de su entorno, actividades cotidianas, gustos y preferencias en situaciones concretas de comunicación.",
+                ],
             },
             {
                 fundamental: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
-                especificas: [],
+                especificas: [
+                    "Interactúa sobre informaciones básicas, problemas y situaciones cotidianas de su entorno inmediato, relativas a temas científicos y tecnológicos, tales como la descripción de seres vivos, gustos y preferencias y la ubicación en el espacio, utilizando un repertorio ensayado de expresiones muy breves y sencillas de manera lógica, ordenada y creativa en inglés, con ayuda de su interlocutor.",
+                ],
             },
             {
                 fundamental: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
-                especificas: [],
+                especificas: [
+                    "Se relaciona con cortesía y actitud de respeto con las demás personas y su entorno, utilizando vocabulario y expresiones muy breves y sencillas en inglés, identificando las diferencias individuales básicas y la identidad social y cultural propia y de otras personas, cuidado de la salud y el medio ambiente en distintas situaciones concretas de comunicación oral y escrita.",
+                ],
             },
         ],
         contenidos: {
@@ -104,7 +35,7 @@ export const societyYearContents: SubjectYearContents[] = [
     {
         nivel: 'PRIMARIA',
         grado: 'QUINTO',
-        area: 'CIENCIAS_SOCIALES',
+        area: 'INGLES',
         competencias: [
             {
                 fundamental: 'Comunicativa',
@@ -129,7 +60,7 @@ export const societyYearContents: SubjectYearContents[] = [
     {
         nivel: 'PRIMARIA',
         grado: 'SEXTO',
-        area: 'CIENCIAS_SOCIALES',
+        area: 'INGLES',
         competencias: [
             {
                 fundamental: 'Comunicativa',
@@ -154,7 +85,7 @@ export const societyYearContents: SubjectYearContents[] = [
     {
         nivel: 'SECUNDARIA',
         grado: 'PRIMERO',
-        area: 'CIENCIAS_SOCIALES',
+        area: 'INGLES',
         competencias: [
             {
                 fundamental: 'Comunicativa',
@@ -195,7 +126,7 @@ export const societyYearContents: SubjectYearContents[] = [
     {
         nivel: 'SECUNDARIA',
         grado: 'SEGUNDO',
-        area: 'CIENCIAS_SOCIALES',
+        area: 'INGLES',
         competencias: [
             {
                 fundamental: 'Comunicativa',
@@ -236,7 +167,7 @@ export const societyYearContents: SubjectYearContents[] = [
     {
         nivel: 'SECUNDARIA',
         grado: 'TERCERO',
-        area: 'CIENCIAS_SOCIALES',
+        area: 'INGLES',
         competencias: [
             {
                 fundamental: 'Comunicativa',
@@ -277,7 +208,7 @@ export const societyYearContents: SubjectYearContents[] = [
     {
         nivel: 'SECUNDARIA',
         grado: 'CUARTO',
-        area: 'CIENCIAS_SOCIALES',
+        area: 'INGLES',
         competencias: [
             {
                 fundamental: 'Comunicativa',
@@ -318,7 +249,7 @@ export const societyYearContents: SubjectYearContents[] = [
     {
         nivel: 'SECUNDARIA',
         grado: 'QUINTO',
-        area: 'CIENCIAS_SOCIALES',
+        area: 'INGLES',
         competencias: [
             {
                 fundamental: 'Comunicativa',
@@ -359,7 +290,7 @@ export const societyYearContents: SubjectYearContents[] = [
     {
         nivel: 'SECUNDARIA',
         grado: 'SEXTO',
-        area: 'CIENCIAS_SOCIALES',
+        area: 'INGLES',
         competencias: [
             {
                 fundamental: 'Comunicativa',

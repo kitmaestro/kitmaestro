@@ -31,11 +31,7 @@
                                     <mat-label>Asignatura(s)</mat-label>
                                     <mat-select formControlName="subjects" required multiple>
                                         @for (subject of subjects; track $index) {
-                                            @if (learningSituationForm.value.level == 'Primaria' && ['Primero', 'Segundo', 'Tercero'].includes(learningSituationForm.value.year || '') && ['INGLES', 'FRANCES'].includes(subject.id)) {
-                                            } @else if (learningSituationForm.value.level == 'Primaria' && ['Cuarto', 'Quinto', 'Sexto'].includes(learningSituationForm.value.year || '') && ['FRANCES'].includes(subject.id)) {
-                                            } @else {
-                                                <mat-option [value]="subject.id">{{subject.label}}</mat-option>
-                                            }
+                                            <mat-option [value]="subject.id">{{subject.label}}</mat-option>
                                         }
                                     </mat-select>
                                 </mat-form-field>

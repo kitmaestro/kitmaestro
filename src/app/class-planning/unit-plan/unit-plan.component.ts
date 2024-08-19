@@ -48,6 +48,7 @@ import { UnitPlansService } from '../../services/unit-plans.service';
 import { Router, RouterModule } from '@angular/router';
 import spanishContentBlocks from '../../data/spanish-content-blocks.json';
 import societyContentBlocks from '../../data/society-content-blocks.json';
+import englishContentBlocks from '../../data/english-content-blocks.json';
 
 @Component({
   selector: 'app-unit-plan',
@@ -121,18 +122,6 @@ export class UnitPlanComponent implements OnInit {
     'Cuarto',
     'Quinto',
     'Sexto',
-  ];
-
-  subjects = [
-    { id: 'LENGUA_ESPANOLA', label: 'Lengua Española' },
-    { id: 'MATEMATICA', label: 'Matemática' },
-    { id: 'CIENCIAS_SOCIALES', label: 'Ciencias Sociales' },
-    { id: 'CIENCIAS_NATURALES', label: 'Ciencias de la Naturaleza' },
-    { id: 'INGLES', label: 'Inglés' },
-    { id: 'FRANCES', label: 'Francés' },
-    { id: 'FORMACION_HUMANA', label: 'Formación Integral Humana y Religiosa' },
-    { id: 'EDUCACION_FISICA', label: 'Educación Física' },
-    { id: 'EDUCACION_ARTISTICA', label: 'Educación Artística' },
   ];
 
   situationTypes = [
@@ -1085,7 +1074,12 @@ La respuesta debe ser json valido, coherente con esta interfaz:
   get contents(): { subject: string, concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] {
     const year = this.classSectionYear;
     const level = this.classSectionLevel;
-    const { subjects, spanishContent, societyContent } = this.learningSituationForm.value;
+    const {
+      subjects,
+      spanishContent,
+      societyContent,
+      englishContent
+    } = this.learningSituationForm.value;
     const contents: { subject: string, concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
 
     if (subjects?.includes('LENGUA_ESPANOLA')) {
@@ -1114,14 +1108,25 @@ La respuesta debe ser json valido, coherente con esta interfaz:
       }
     }
 
+    if (subjects?.includes('INGLES')) {
+      const english = englishContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == englishContent);
+      if (english) {
+        contents.push({
+          subject: 'INGLES',
+          concepts: english.concepts,
+          procedures: english.procedures,
+          attitudes: english.attitudes,
+          achievement_indicators: english.achievement_indicators || [],
+        })
+      }
+    }
+
     return contents;
   }
 
   get indicators() {
     return this.contents.map(c => ({achievement_indicators: c.achievement_indicators, subject: c.subject}))
   }
-
-
 
   pretifySubject(subject: string) {
 
@@ -1162,5 +1167,13 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     }
 
     return 'Talleres Optativos';
+  }
+
+  get subjects(): { id: string, label: string }[] {
+    const subjectsFromClassSection = this.classSections.find(cs => cs.id == this.learningSituationForm.value.classSection)?.subjects as any as string[];
+    if (subjectsFromClassSection && subjectsFromClassSection.length) {
+      return subjectsFromClassSection.map(sId => ({ id: sId, label: this.pretifySubject(sId) }));
+    }
+    return [];
   }
 }

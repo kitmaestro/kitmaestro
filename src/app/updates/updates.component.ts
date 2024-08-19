@@ -25,6 +25,16 @@ export class UpdatesComponent implements OnInit {
   public updates: Update[] = [
     {
       type: 'notice',
+      date: new Date(2024, 7, 18),
+      author: 'Otoniel Reyes Galay',
+      title: 'Unidades de Aprendizaje de Inglés',
+      description: 'Los contenidos de Inglés',
+      actions: [],
+      content: `Es día de hoy hemos incorporado los contenidos correspondientes al segundo ciclo de educación primaria de Inglés. De manera que ya puedes empezar a crear tus unidades de aprendizaje de inglés sin ningun problema, tan facil como siempre.
+Repetimos que nos encontramos trabajando arduamente y sin descanso para agregar todos los contenidos mediadores y sus respectivas dependencias a la plataforma para proveerte la experiencia que tanto mereces y anhelas. No desesperes, cada vez estamos más cerca.`,
+    },
+    {
+      type: 'notice',
       date: new Date(2024, 7, 17),
       author: 'Otoniel Reyes Galay',
       title: 'Unidades de Aprendizaje de Lengua Española y Ciencias Sociales',
