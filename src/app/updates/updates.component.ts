@@ -25,12 +25,24 @@ export class UpdatesComponent implements OnInit {
   public updates: Update[] = [
     {
       type: 'notice',
+      date: new Date(2024, 7, 19),
+      author: 'Otoniel Reyes Galay',
+      title: 'Unidades de Aprendizaje de Educación Física',
+      description: 'Los contenidos de Educación Física ya están disponibles',
+      actions: [],
+      content: `El día de hoy hemos agregado todos los contenidos correspondientes al primer y segundo ciclo de educación primaria de Educación Física. De manera que ya puedes empezar a crear tus unidades de aprendizaje de Educación Física en la educación primaria.
+Seguimos avanzando hacia la totalidad de los contenidos. Ya estamos trabjando con Matemáticas y Ciencias de la Naturaleza, que serán la próxima incorporación, junto a la inclusión del tan esperado sistema de referidos.
+Esto significa que ya a partir de la próxima actualización, podrás referir a tus conocidos y ganar el 20% de su contribución.
+Recuerda que siempre puedes realizar un reporte de error si encuentras uno, la vía más fácil es el WhatsApp del creador: +1809-465-9650`,
+    },
+    {
+      type: 'notice',
       date: new Date(2024, 7, 18),
       author: 'Otoniel Reyes Galay',
       title: 'Unidades de Aprendizaje de Inglés',
-      description: 'Los contenidos de Inglés',
+      description: 'Los contenidos de Inglés ya están disponibles',
       actions: [],
-      content: `Es día de hoy hemos incorporado los contenidos correspondientes al segundo ciclo de educación primaria de Inglés. De manera que ya puedes empezar a crear tus unidades de aprendizaje de inglés sin ningun problema, tan facil como siempre.
+      content: `En el día de hoy hemos incorporado los contenidos correspondientes al segundo ciclo de educación primaria de Inglés. De manera que ya puedes empezar a crear tus unidades de aprendizaje de inglés sin ningun problema, tan facil como siempre.
 Repetimos que nos encontramos trabajando arduamente y sin descanso para agregar todos los contenidos mediadores y sus respectivas dependencias a la plataforma para proveerte la experiencia que tanto mereces y anhelas. No desesperes, cada vez estamos más cerca.`,
     },
     {
