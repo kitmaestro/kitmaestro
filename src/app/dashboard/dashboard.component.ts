@@ -6,7 +6,7 @@ import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Auth, authState, signOut } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -18,6 +18,7 @@ import { UserSubscription } from '../interfaces/user-subscription';
 import { UserSettingsService } from '../services/user-settings.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { QuoteDialogComponent } from '../ui/quote-dialog/quote-dialog.component';
+import { UserSubscriptionService } from '../services/user-subscription.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,11 +44,13 @@ export class DashboardComponent implements OnInit {
   auth = inject(Auth);
   sb = inject(MatSnackBar);
   router = inject(Router);
+  route = inject(ActivatedRoute);
   private firestore = inject(Firestore);
   activatedRoute = '';
-  subscription$: Observable<UserSubscription> = EMPTY;
   userSettingsService = inject(UserSettingsService);
+  userSubscriptionService = inject(UserSubscriptionService);
   userSettings$ = this.userSettingsService.getSettings();
+  subscription$: Observable<UserSubscription | undefined> = this.userSubscriptionService.subscription$.pipe(tap(_ => this.loading = false));
   loading = true;
   dialog = inject(MatDialog);
 
@@ -60,12 +63,38 @@ export class DashboardComponent implements OnInit {
     })
     authState(this.auth).subscribe(user => {
       if (user) {
-        const suscriptionRef = collection(this.firestore, 'user-subscriptions');
-        const suscriptionsQuery = query(suscriptionRef, where('uid', '==', user.uid));
-        this.subscription$ = (collectionData(suscriptionsQuery, { idField: 'id' }) as Observable<UserSubscription[]>).pipe(
-          map(col => col[0]),
-          tap(_ => this.loading = false),
-        );
+        this.route.queryParamMap.subscribe(params => {
+          if (params.get('ref')) {
+            const referral = params.get('ref') || '';
+            this.subscription$.subscribe({
+              next: (subscription) => {
+                console.log(subscription)
+                if (!subscription) {
+                  const sub: UserSubscription = {
+                    active: false,
+                    referral,
+                    referries: '',
+                    refsCount: 0,
+                    expiresAt: new Date(),
+                    method: 'none',
+                    purchaseDate: new Date(),
+                    refCode: '',
+                    uid: user.uid
+                  } as any as UserSubscription;
+                  this.userSubscriptionService.subscribe(sub);
+                }
+                if (subscription && !subscription.referral) {
+                  // assign a referral
+                  subscription.referral = referral;
+                  // update subscription
+                  this.userSubscriptionService.updateSubscription(subscription)
+                }
+              },
+              error: (error) => {
+              }
+            })
+          }
+        });
       }
     })
   }

@@ -5,6 +5,7 @@ export interface UserSubscription {
     purchaseDate: Date;
     expiresAt: Date;
     method: string;
+    referral: string;
     refCode: string;
     referries: string;
     refsCount: number;
