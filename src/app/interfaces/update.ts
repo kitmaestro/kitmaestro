@@ -5,6 +5,10 @@ export interface Update {
     description: string,
     content: string,
     author: string,
+    links?: {
+        label: string,
+        link: string
+    }[],
     actions: {
         label: string,
         link: string[],
