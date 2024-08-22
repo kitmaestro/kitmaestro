@@ -25,6 +25,41 @@ export class UpdatesComponent implements OnInit {
   public updates: Update[] = [
     {
       type: 'feature',
+      date: new Date(2024, 7, 22),
+      author: 'Otoniel Reyes Galay',
+      title: 'Lista de Pendientes',
+      description: 'Nueva Herramienta: Lista de Pendientes',
+      actions: [
+        {
+          link: [
+            '/app',
+            'todos'
+          ],
+          label: 'Lista de Pendientes'
+        },
+        {
+          link: [
+            '/app',
+            'roadmap'
+          ],
+          label: 'Todas la Herramientas'
+        },
+      ],
+      links: [
+        {
+          external: true,
+          label: "WhatsApp del Creador",
+          link: "https://wa.me/+18094659650"
+        }
+      ],
+      content: `Hoy le damos la bienvenida a una nueva herramienta que esperamos sea muy útil para nuestros usuarios.
+Se trata de una herramienta gratuita, así que no es necesaria la suscripción premium para utilizarla.
+Con esta herramienta puedes organizar mejor tu día a día dentro y fuera del aula, obteniendo una vista rápida y ágil de lo que te espera y lo que haz realizado ya.
+Pruebala hoy mismo!
+Recuerda que puedes solicitar las herramientas que sientes que nos hacen falta y reportar cualquier error con el que te topes, la vía más fácil es el WhatsApp del creador: +1809-465-9650`,
+    },
+    {
+      type: 'feature',
       date: new Date(2024, 7, 21),
       author: 'Otoniel Reyes Galay',
       title: 'Sistema de Referidos Activo',
