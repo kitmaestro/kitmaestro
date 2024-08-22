@@ -49,6 +49,7 @@ import { Router, RouterModule } from '@angular/router';
 import spanishContentBlocks from '../../data/spanish-content-blocks.json';
 import mathContentBlocks from '../../data/math-content-blocks.json';
 import societyContentBlocks from '../../data/society-content-blocks.json';
+import scienceContentBlocks from '../../data/science-content-blocks.json';
 import englishContentBlocks from '../../data/english-content-blocks.json';
 import sportsContentBlocks from '../../data/sports-content-blocks.json';
 import religionContentBlocks from '../../data/religion-content-blocks.json';
@@ -1097,6 +1098,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
       spanishContent,
       mathContent,
       societyContent,
+      scienceContent,
       englishContent,
       physicalEducationContent,
       artisticEducationContent,
@@ -1150,6 +1152,28 @@ La respuesta debe ser json valido, coherente con esta interfaz:
           achievement_indicators: society.achievement_indicators || [],
         })
       }
+    }
+
+    if (subjects?.includes('CIENCIAS_NATURALES')) {
+      const scienceContents: { concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
+      (!scienceContent ? [] : typeof (scienceContent) == 'string' ? scienceContent.split(',') : scienceContent as any as string[]).forEach(content => {
+        const science = scienceContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == content);
+        if (science) {
+          scienceContents.push({
+            concepts: science.concepts,
+            procedures: science.procedures,
+            attitudes: science.attitudes,
+            achievement_indicators: science.achievement_indicators || [],
+          })
+        }
+      });
+      contents.push({
+        subject: 'CIENCIAS_NATURALES',
+        concepts: this.removeDuplicates(scienceContents.map(mc => mc.concepts).flat()),
+        procedures: this.removeDuplicates(scienceContents.map(mc => mc.procedures).flat()),
+        attitudes: this.removeDuplicates(scienceContents.map(mc => mc.attitudes).flat()),
+        achievement_indicators: this.removeDuplicates(scienceContents.map(mc => mc.achievement_indicators).flat()),
+      });
     }
 
     if (subjects?.includes('INGLES')) {
