@@ -57,7 +57,7 @@
                             @if (learningSituationForm.value.subjects?.includes('MATEMATICA')) {
                                 <mat-form-field appearance="outline">
                                     <mat-label>Contenidos de Matemática</mat-label>
-                                    <mat-select formControlName="mathContent" required>
+                                    <mat-select multiple formControlName="mathContent" required>
                                         @for (content of mathContents; track $index) {
                                             <mat-option [value]="content">{{content}}</mat-option>
                                         }
@@ -77,7 +77,7 @@
                             @if (learningSituationForm.value.subjects?.includes('CIENCIAS_NATURALES')) {
                                 <mat-form-field appearance="outline">
                                     <mat-label>Contenidos de Ciencias de la Naturaleza</mat-label>
-                                    <mat-select formControlName="scienceContent" required>
+                                    <mat-select multiple formControlName="scienceContent" required>
                                         @for (content of scienceContents; track $index) {
                                             <mat-option [value]="content">{{content}}</mat-option>
                                         }
@@ -107,7 +107,7 @@
                             @if (learningSituationForm.value.subjects?.includes('FORMACION_HUMANA')) {
                                 <mat-form-field appearance="outline">
                                     <mat-label>Contenidos de Formación Integral Humana y Religiosa</mat-label>
-                                    <mat-select formControlName="religionContent" required>
+                                    <mat-select multiple formControlName="religionContent" required>
                                         @for (content of religionContents; track $index) {
                                             <mat-option [value]="content">{{content}}</mat-option>
                                         }
@@ -117,7 +117,7 @@
                             @if (learningSituationForm.value.subjects?.includes('EDUCACION_FISICA')) {
                                 <mat-form-field appearance="outline">
                                     <mat-label>Contenidos de Educación Física</mat-label>
-                                    <mat-select formControlName="physicalEducationContent" required>
+                                    <mat-select multiple formControlName="physicalEducationContent" required>
                                         @for (content of physicalEducationContents; track $index) {
                                             <mat-option [value]="content">{{content}}</mat-option>
                                         }
@@ -127,7 +127,7 @@
                             @if (learningSituationForm.value.subjects?.includes('EDUCACION_ARTISTICA')) {
                                 <mat-form-field appearance="outline">
                                     <mat-label>Contenidos de Educación Artística</mat-label>
-                                    <mat-select formControlName="artisticEducationContent" required>
+                                    <mat-select multiple formControlName="artisticEducationContent" required>
                                         @for (content of artisticEducationContents; track $index) {
                                             <mat-option [value]="content">{{content}}</mat-option>
                                         }

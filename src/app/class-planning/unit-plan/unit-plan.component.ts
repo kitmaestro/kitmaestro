@@ -47,6 +47,7 @@ import { UnitPlan } from '../../interfaces/unit-plan';
 import { UnitPlansService } from '../../services/unit-plans.service';
 import { Router, RouterModule } from '@angular/router';
 import spanishContentBlocks from '../../data/spanish-content-blocks.json';
+import mathContentBlocks from '../../data/math-content-blocks.json';
 import societyContentBlocks from '../../data/society-content-blocks.json';
 import englishContentBlocks from '../../data/english-content-blocks.json';
 import sportsContentBlocks from '../../data/sports-content-blocks.json';
@@ -312,14 +313,14 @@ export class UnitPlanComponent implements OnInit {
     classSection: string,
     subjects: string[],
     spanishContent: string,
-    mathContent: string,
+    mathContent: string[],
     societyContent: string,
-    scienceContent: string,
+    scienceContent: string[],
     englishContent: string,
     frenchContent: string,
-    religionContent: string,
-    physicalEducationContent: string,
-    artisticEducationContent: string,
+    religionContent: string[],
+    physicalEducationContent: string[],
+    artisticEducationContent: string[],
     situationType: string,
     reality: string,
     environment: string,
@@ -329,14 +330,14 @@ export class UnitPlanComponent implements OnInit {
     classSection: '',
     subjects: [],
     spanishContent: '',
-    mathContent: '',
+    mathContent: [],
     societyContent: '',
-    scienceContent: '',
+    scienceContent: [],
     englishContent: '',
     frenchContent: '',
-    religionContent: '',
-    physicalEducationContent: '',
-    artisticEducationContent: '',
+    religionContent: [],
+    physicalEducationContent: [],
+    artisticEducationContent: [],
     situationType: 'realityProblem',
     reality: 'Falta de disciplina',
     environment: 'Salón de clases'
@@ -1074,12 +1075,27 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     return subjectNames;
   }
 
+  removeDuplicates(strings: string[]): string[] {
+    // Use a Set to store unique strings encountered so far.
+    const seen = new Set<string>();
+
+    // Filter the input array, keeping only those strings not present in 'seen'.
+    return strings.filter((str) => {
+      if (!seen.has(str)) {
+        seen.add(str);
+        return true;
+      }
+      return false;
+    });
+  }
+
   get contents(): { subject: string, concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] {
     const year = this.classSectionYear;
     const level = this.classSectionLevel;
     const {
       subjects,
       spanishContent,
+      mathContent,
       societyContent,
       englishContent,
       physicalEducationContent,
@@ -1099,6 +1115,28 @@ La respuesta debe ser json valido, coherente con esta interfaz:
           achievement_indicators: spanish.achievement_indicators || [],
         })
       }
+    }
+
+    if (subjects?.includes('MATEMATICA')) {
+      const mathContents: { concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
+      (!mathContent ? [] : typeof(mathContent) == 'string' ? mathContent.split(',') : mathContent as any as string[]).forEach(content => {
+        const math = mathContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == content);
+        if (math) {
+          mathContents.push({
+            concepts: math.concepts,
+            procedures: math.procedures,
+            attitudes: math.attitudes,
+            achievement_indicators: math.achievement_indicators || [],
+          })
+        }
+      });
+      contents.push({
+        subject: 'MATEMATICA',
+        concepts: this.removeDuplicates(mathContents.map(mc => mc.concepts).flat()),
+        procedures: this.removeDuplicates(mathContents.map(mc => mc.procedures).flat()),
+        attitudes: this.removeDuplicates(mathContents.map(mc => mc.attitudes).flat()),
+        achievement_indicators: this.removeDuplicates(mathContents.map(mc => mc.achievement_indicators).flat()),
+      });
     }
 
     if (subjects?.includes('CIENCIAS_SOCIALES')) {
@@ -1128,42 +1166,69 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     }
 
     if (subjects?.includes('EDUCACION_FISICA')) {
-      const sports = sportsContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == physicalEducationContent);
-      if (sports) {
-        contents.push({
-          subject: 'EDUCACION_FISICA',
-          concepts: sports.concepts,
-          procedures: sports.procedures,
-          attitudes: sports.attitudes,
-          achievement_indicators: sports.achievement_indicators || [],
-        })
-      }
+      const sportsContents: { concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
+      (!physicalEducationContent ? [] : typeof (physicalEducationContent) == 'string' ? physicalEducationContent.split(',') : physicalEducationContent as any as string[]).forEach(content => {
+        const sports = sportsContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == content);
+        if (sports) {
+          sportsContents.push({
+            concepts: sports.concepts,
+            procedures: sports.procedures,
+            attitudes: sports.attitudes,
+            achievement_indicators: sports.achievement_indicators || [],
+          })
+        }
+      });
+      contents.push({
+        subject: 'EDUCACION_FISICA',
+        concepts: this.removeDuplicates(sportsContents.map(mc => mc.concepts).flat()),
+        procedures: this.removeDuplicates(sportsContents.map(mc => mc.procedures).flat()),
+        attitudes: this.removeDuplicates(sportsContents.map(mc => mc.attitudes).flat()),
+        achievement_indicators: this.removeDuplicates(sportsContents.map(mc => mc.achievement_indicators).flat()),
+      });
     }
 
     if (subjects?.includes('FORMACION_HUMANA')) {
-      const religion = religionContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == religionContent);
-      if (religion) {
-        contents.push({
-          subject: 'FORMACION_HUMANA',
-          concepts: religion.concepts,
-          procedures: religion.procedures,
-          attitudes: religion.attitudes,
-          achievement_indicators: religion.achievement_indicators || [],
-        })
-      }
+      const religionContents: { concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
+      (!religionContent ? [] : typeof (religionContent) == 'string' ? religionContent.split(',') : religionContent as any as string[]).forEach(content => {
+        const religion = religionContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == content);
+        if (religion) {
+          religionContents.push({
+            concepts: religion.concepts,
+            procedures: religion.procedures,
+            attitudes: religion.attitudes,
+            achievement_indicators: religion.achievement_indicators || [],
+          })
+        }
+      });
+      contents.push({
+        subject: 'FORMACION_HUMANA',
+        concepts: this.removeDuplicates(religionContents.map(mc => mc.concepts).flat()),
+        procedures: this.removeDuplicates(religionContents.map(mc => mc.procedures).flat()),
+        attitudes: this.removeDuplicates(religionContents.map(mc => mc.attitudes).flat()),
+        achievement_indicators: this.removeDuplicates(religionContents.map(mc => mc.achievement_indicators).flat()),
+      });
     }
 
     if (subjects?.includes('EDUCACION_ARTISTICA')) {
-      const art = artContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == artisticEducationContent);
-      if (art) {
-        contents.push({
-          subject: 'EDUCACION_ARTISTICA',
-          concepts: art.concepts,
-          procedures: art.procedures,
-          attitudes: art.attitudes,
-          achievement_indicators: art.achievement_indicators || [],
-        })
-      }
+      const artContents: { concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
+      (!artisticEducationContent ? [] : typeof (artisticEducationContent) == 'string' ? artisticEducationContent.split(',') : artisticEducationContent as any as string[]).forEach(content => {
+        const art = artContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == content);
+        if (art) {
+          artContents.push({
+            concepts: art.concepts,
+            procedures: art.procedures,
+            attitudes: art.attitudes,
+            achievement_indicators: art.achievement_indicators || [],
+          })
+        }
+      });
+      contents.push({
+        subject: 'EDUCACION_ARTISTICA',
+        concepts: this.removeDuplicates(artContents.map(mc => mc.concepts).flat()),
+        procedures: this.removeDuplicates(artContents.map(mc => mc.procedures).flat()),
+        attitudes: this.removeDuplicates(artContents.map(mc => mc.attitudes).flat()),
+        achievement_indicators: this.removeDuplicates(artContents.map(mc => mc.achievement_indicators).flat()),
+      });
     }
 
     return contents;
