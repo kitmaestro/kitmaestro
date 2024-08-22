@@ -24,6 +24,20 @@ import { RouterModule } from '@angular/router';
 export class UpdatesComponent implements OnInit {
   public updates: Update[] = [
     {
+      type: 'notice',
+      date: new Date(2024, 7, 22),
+      author: 'Otoniel Reyes Galay',
+      title: 'Nuevos contenidos completados',
+      description: 'Actualización de Contenidos',
+      actions: [
+      ],
+      links: [
+      ],
+      content: `Ya se han subido la totalidad de contenidos de Formación Integral Humana y Religiosa, el 50% de los contenidos de Matemáticas y se ha arreglado un error detectado en Educación Artística.
+El día de hoy, se procederá a la culminación de la subida de los contenidos de Matemáticas para el nivel primario.
+Cada vez estamos mas cerca, mantente atento para saber lo último.`,
+    },
+    {
       type: 'feature',
       date: new Date(2024, 7, 22),
       author: 'Otoniel Reyes Galay',

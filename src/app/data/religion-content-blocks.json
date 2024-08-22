@@ -1,33 +1,1512 @@
 [
     {
-        "title": "",
+        "title": "Nacimiento de Jesús",
         "level": "PRIMARIA",
         "year": "PRIMERO",
         "subject": "FORMACION_HUMANA",
-        "concepts": [],
-        "procedures": [],
-        "attitudes": [],
-        "achievement_indicators": []
+        "concepts": [
+            "Nacimiento de Jesús"
+        ],
+        "procedures": [
+			"Recreación por medio de dibujos, narración o gestos del texto bíblico del nacimiento de Jesús (Lucas 2: 1-20)",
+			"Descripción de diferentes momentos del relato del nacimiento de Jesús, visita de los pastores y adoración de los reyes (Mateo 2: 1-12)",
+			"Construcción y exposición de un pesebre con recursos del medio",
+			"Presentación de diferentes valores sobre el nacimiento de Jesús a partir de textos bíblicos"
+		],
+		"attitudes": [
+			"Reconocimiento de los valores del nacimiento de Jesús",
+			"Gratitud a Dios por enviar a su Hijo Jesús como regalo",
+			"Admiración del comportamiento de los personajes que están presentes en el nacimiento de Jesús"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
     },
     {
-        "title": "",
+        "title": "Sentido religioso de la Navidad",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Sentido religioso de la Navidad"
+        ],
+        "procedures": [
+			"Construcción de un mural artístico donde se presenten las diferentes formas de celebrar la navidad desde el ámbito social y religioso",
+			"Identificación y dibujo de los diferentes símbolos de la Navidad",
+			"Socialización sobre la manera en que su familia celebra la Navidad"
+		],
+		"attitudes": [
+			"Respeto por las diferentes maneras en que las personas celebran la Navidad",
+			"Agradecimiento a Dios por la celebración de la navidad en familia",
+			"Disfrute de las celebraciones navideñas"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "Celebraciones en la Navidad",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Celebraciones en la Navidad"
+        ],
+        "procedures": [
+			"Socialización sobre la manera en que su familia celebra la Navidad",
+			"Identificación de las costumbres y valores familiares, escolares y comunitarias en el tiempo de navidad",
+			"Organización de una fiesta navideña y exposición de las producciones artísticas"
+		],
+		"attitudes": [
+			"Alegría y esperanza por las fiestas navideñas",
+			"Solidaridad con los demás",
+			"Disfrute de las celebraciones navideñas"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "Costumbres en la época de navidad",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Costumbres en la época de navidad"
+        ],
+        "procedures": [
+			"Identificación de las costumbres y valores familiares, escolares y comunitarias en el tiempo de navidad",
+			"Construcción de manualidades religiosas alusivas a la navidad tomando como bases materiales reciclables",
+			"Participación en actividades de solidaridad organizadas por su maestro o maestra, para beneficiar a niños y niñas en tiempo de Navidad"
+		],
+		"attitudes": [
+			"Solidaridad con los demás",
+			"Respeto por las diferentes maneras en que las personas celebran la Navidad",
+			"Disfrute de las celebraciones navideñas"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "Normas de convivencia",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Normas de convivencia"
+        ],
+        "procedures": [
+			"Socialización de normas que ayudan al bienestar personal, familiar y sociocultural",
+			"Identificación de normas que favorecen el bien personal, familiar y social en relatos de textos bíblicos",
+			"Dramatización de acciones que favorecen la buena convivencia en la escuela, la familia y otros ambientes socioculturales"
+		],
+		"attitudes": [
+			"Respeto por las normas de convivencia",
+			"Admiración por las personas que son respetuosas en el trato hacia los demás",
+			"Agradecimiento a Dios por las normas que favorecen el bien personal, familiar y social"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "Convivencia escolar y familiar",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Convivencia escolar y familiar"
+        ],
+        "procedures": [
+			"Realización de juegos individuales y grupales que necesitan el establecimiento de normas claras",
+			"Socialización de normas de convivencia a partir de las enseñanzas de Jesús de Nazaret",
+			"Comparación de las normas establecidas en la familia, la escuela y la comunidad con las enseñanzas de Jesús de Nazaret en relación a las relaciones armónicas entre las personas"
+		],
+		"attitudes": [
+			"Respeto por las normas de convivencia",
+			"Curiosidad por las enseñanzas de Jesús en relación a la convivencia armónica",
+			"Admiración por las personas que son respetuosas en el trato hacia los demás"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "Las normas en el juego",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Las normas en el juego"
+        ],
+        "procedures": [
+			"Realización de juegos individuales y grupales que necesitan el establecimiento de normas claras",
+			"Organización de una celebración con sus juegos favoritos",
+			"Creación de proyecto para el fomento del uso respetuoso de las tecnologías en el juego, la escuela, la familia y la comunidad"
+		],
+		"attitudes": [
+			"Disfrute de juegos grupales respetando las normas establecidas",
+			"Respeto de las normas establecidas en el uso de las tecnologías y en el juego",
+			"Admiración por las personas que son respetuosas en el trato hacia los demás"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "Normas en el uso de las tecnologías",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Normas en el uso de las tecnologías"
+        ],
+        "procedures": [
+			"Elaboración de objetos tecnológicos sencillos con materiales reciclables del entorno",
+			"Creación de proyecto para el fomento del uso respetuoso de las tecnologías en el juego, la escuela, la familia y la comunidad",
+			"Socialización de normas de convivencia a partir de las enseñanzas de Jesús de Nazaret"
+		],
+		"attitudes": [
+			"Respeto de las normas establecidas en el uso de las tecnologías y en el juego",
+			"Curiosidad por las enseñanzas de Jesús en relación a la convivencia armónica",
+			"Agradecimiento a Dios por las normas que favorecen el bien personal, familiar y social"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "Enseñanzas de Jesús de Nazaret sobre las normas de convivencia",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Enseñanzas de Jesús de Nazaret sobre las normas de convivencia"
+        ],
+        "procedures": [
+			"Socialización de normas de convivencia a partir de las enseñanzas de Jesús de Nazaret",
+			"Comparación de las normas establecidas en la familia, la escuela y la comunidad con las enseñanzas de Jesús de Nazaret en relación a las relaciones armónicas entre las personas",
+			"Organización de espacio festivo en que se expongan los aprendizajes desarrollados y se agradezca a Dios por las normas que favorecen las relaciones armoniosas en los diferentes contextos"
+		],
+		"attitudes": [
+			"Curiosidad por las enseñanzas de Jesús en relación a la convivencia armónica",
+			"Agradecimiento a Dios por las normas que favorecen el bien personal, familiar y social",
+			"Admiración por las personas que son respetuosas en el trato hacia los demás"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "Dios es creador, todo lo hizo bueno",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Dios es creador, todo lo hizo bueno"
+        ],
+        "procedures": [
+			"Identificación de las cosas presentes en su entorno natural creadas por Dios",
+			"Dramatización de textos bíblicos y otros textos sobre la creación (Génesis 1, 31 y Génesis 2, 21-24)",
+			"Reconstrucción del relato de la creación a través de imágenes e ilustraciones"
+		],
+		"attitudes": [
+			"Admiración y gratitud a Dios por todo lo bueno que recibe de la naturaleza",
+			"Alegría al contemplar en la naturaleza la presencia amorosa y bondadosa de Dios",
+			"Rechazo de acciones que agreden o contaminan la naturaleza creada por Dios"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "La naturaleza es creación de Dios",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "La naturaleza es creación de Dios"
+        ],
+        "procedures": [
+			"Distinción de las cosas creadas por Dios y las hechas por las personas a través de observación de láminas, lectura de cuentos, relatos bíblicos y otros textos",
+			"Dibujo e interpretación de canciones sobre elementos de la naturaleza que exigen respeto y protección",
+			"Realización de proyectos para realizar acciones de cuidado de la creación"
+		],
+		"attitudes": [
+			"Admiración y gratitud a Dios por todo lo bueno que recibe de la naturaleza",
+			"Alegría al contemplar en la naturaleza la presencia amorosa y bondadosa de Dios",
+			"Rechazo de acciones que agreden o contaminan la naturaleza creada por Dios"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "Somos parte de la naturaleza",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Somos parte de la naturaleza"
+        ],
+        "procedures": [
+			"Dibujo e interpretación de canciones sobre elementos de la naturaleza que exigen respeto y protección",
+			"Realización de proyectos para realizar acciones de cuidado de la creación",
+			"Reconstrucción del relato de la creación a través de imágenes e ilustraciones"
+		],
+		"attitudes": [
+			"Alegría al contemplar en la naturaleza la presencia amorosa y bondadosa de Dios",
+			"Admiración y gratitud a Dios por todo lo bueno que recibe de la naturaleza",
+			"Rechazo de acciones que agreden o contaminan la naturaleza creada por Dios"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "Utilidad de las partes del cuerpo y su cuidado",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Utilidad de las partes del cuerpo y su cuidado"
+        ],
+        "procedures": [
+			"Descripción de las partes del cuerpo humano, su utilidad y las formas de cuidarlo",
+			"Dramatización de acciones que favorecen la buena convivencia en la escuela, la familia y otros ambientes socioculturales",
+			"Realización de juegos individuales y grupales que necesitan el establecimiento de normas claras"
+		],
+		"attitudes": [
+			"Valoración y aceptación de su cuerpo",
+			"Cuidado y defensa de su integridad física",
+			"Agradecimiento a Dios por su cuerpo"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "El cuerpo humano tesoro y regalo de Dios",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "El cuerpo humano tesoro y regalo de Dios"
+        ],
+        "procedures": [
+			"Interpretación de canciones, poesías y dramatizaciones sobre el valor del cuerpo humano como tesoro y regalo de Dios",
+			"Realización de una feria en que se expongan los aprendizajes desarrollados sobre el valor del cuerpo humano, la naturaleza y de agradecimiento a Dios por el regalo del cuerpo humano",
+			"Identificación y descripción de posibles situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+		],
+		"attitudes": [
+			"Valoración y aceptación de su cuerpo",
+			"Cuidado y defensa de su integridad física",
+			"Agradecimiento a Dios por su cuerpo"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "Situaciones de riesgo en la niñez",
+        "level": "PRIMARIA",
+        "year": "PRIMERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Situaciones de riesgo en la niñez"
+        ],
+        "procedures": [
+			"Identificación y descripción de posibles situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad",
+			"Dramatización de acciones que favorecen la buena convivencia en la escuela, la familia y otros ambientes socioculturales",
+			"Socialización de normas que ayudan al bienestar personal, familiar y sociocultural"
+		],
+		"attitudes": [
+			"Cuidado y defensa de su integridad física",
+			"Valoración y aceptación de su cuerpo",
+			"Rechazo de acciones que ponen en riesgo la integridad física o emocional"
+		],
+        "achievement_indicators": [
+            "Argumenta sobre la celebración de la navidad a partir de textos bíblicos y la experiencia vivida en su familia",
+            "Explica los valores del nacimiento de Jesús y los compara con los vividos en la familia, escuela y comunidad",
+            "Comenta sobre las festividades religiosas que se realizan en su familia, la escuela y la comunidad en el tiempo de navidad y los valores presentes en ellas",
+            "Muestra claridad en explicaciones sencillas sobre las normas de convivencia en la familia, la escuela, la comunidad y sigue las reglas establecidas en el juego",
+            "Señala prácticas beneficiosas para mejorar la convivencia con los demás y hacer buen uso de las tecnologías",
+            "Expresa normas de convivencias tomando como referencia la vida de Jesús de Nazaret",
+            "Argumenta sobre la importancia y utilidad de las partes de su cuerpo, la naturaleza y las cosas que le rodean",
+            "Se involucra y colabora en actividades para cuidar la naturaleza creada por Dios y el cuidado de su cuerpo",
+            "Identifica y comenta situaciones de violencia, abuso, peligro físico, sexual, psicológico y emocional en su familia, en la escuela y en su comunidad"
+        ]
+    },
+    {
+        "title": "La historia de Jesús de Nazaret",
         "level": "PRIMARIA",
         "year": "SEGUNDO",
         "subject": "FORMACION_HUMANA",
-        "concepts": [],
-        "procedures": [],
-        "attitudes": [],
-        "achievement_indicators": []
+        "concepts": [
+            "La historia de Jesús de Nazaret"
+        ],
+        "procedures": [
+			"Narración o escenificación del nacimiento de Jesús de Nazaret",
+			"Descripción de los detalles del nacimiento de Jesús de Nazaret, lugar, personajes, animales (Lucas 2, 1-20)"
+		],
+		"attitudes": [
+			"Gratitud por el nacimiento del Niño Jesús de Nazaret",
+			"Disfrute y alegría de la época de la Navidad con la familia y sus compañeros"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
     },
     {
-        "title": "",
+        "title": "Nacimiento e infancia de Jesús de Nazaret",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Nacimiento e infancia de Jesús de Nazaret"
+        ],
+        "procedures": [
+			"Construcción de pequeños murales con láminas que reflejan aspectos de la niñez de Jesús de Nazaret y su familia",
+			"Indagación sobre las costumbres y tradiciones de las celebraciones navideñas que observa en su entorno"
+		],
+		"attitudes": [
+			"Aceptación del cuidado y cariño que le brinda su familia",
+			"Valoración de la obediencia de Jesús de Nazaret a sus padres"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Jesús de Nazaret y su familia",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Jesús de Nazaret y su familia"
+        ],
+        "procedures": [
+			"Descripción del comportamiento de Jesús de Nazaret con sus padres durante su infancia después de escuchar textos, observar láminas o videos",
+			"Socialización de textos bíblicos cortos o frases alusivas a la familia, a la tecnología y la convivencia armónica"
+		],
+		"attitudes": [
+			"Aprecio y respeto por sus familiares",
+			"Agradecimiento a Dios por el regalo de su familia"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Costumbres y ambientes de la época de Jesús de Nazaret",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Costumbres y ambientes de la época de Jesús de Nazaret"
+        ],
+        "procedures": [
+			"Indagación sobre las costumbres y tradiciones de las celebraciones navideñas que observa en su entorno",
+			"Identificación de costumbres y prácticas religiosas que vive con su familia y en su comunidad"
+		],
+		"attitudes": [
+			"Valoración de la obediencia de Jesús de Nazaret a sus padres",
+			"Aprecio de la manera como Jesús de Nazaret trataba a las personas"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Jesús de Nazaret sana, ama y perdona",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Jesús de Nazaret sana, ama y perdona"
+        ],
+        "procedures": [
+			"Dramatizaciones de situaciones en las que Jesús de Nazaret sana a las personas y acoge a los niños",
+			"Identificación, en lecturas bíblicas que escucha, de acciones de buen trato que Jesús de Nazaret realiza a favor de las personas"
+		],
+		"attitudes": [
+			"Alegría por el buen trato dado por Jesús de Nazaret a los niños de su tiempo",
+			"Disposición a seguir los ejemplos de Jesús de Nazaret al tratar a las demás personas"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Jesús de Nazaret es bueno y obediente a su Padre Dios",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Jesús de Nazaret es bueno y obediente a su Padre Dios"
+        ],
+        "procedures": [
+			"Expresión de diferentes maneras de cómo ayudar y amar a las personas como lo hizo Jesús",
+			"Socialización de textos bíblicos cortos o frases alusivas a la obediencia y amor hacia Dios"
+		],
+		"attitudes": [
+			"Valoración de la obediencia de Jesús de Nazaret a su Padre Dios",
+			"Admiración hacia Jesús de Nazaret por entregar su vida en la cruz para salvar a la humanidad"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Jesús de Nazaret muere y resucita para salvarnos",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Jesús de Nazaret muere y resucita para salvarnos"
+        ],
+        "procedures": [
+			"Secuenciación de los momentos de la pasión, muerte y resurrección de Jesús a través de ilustraciones y textos bíblicos (Marcos 15, 1-47)"
+		],
+		"attitudes": [
+			"Admiración hacia Jesús de Nazaret por entregar su vida en la cruz para salvar a la humanidad"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Jesús de Nazaret en la cultura dominicana",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Jesús de Nazaret en la cultura dominicana"
+        ],
+        "procedures": [
+			"Creación de un mural donde se muestren elementos de la cultura dominicana relacionados con los valores enseñados por Jesús de Nazaret"
+		],
+		"attitudes": [
+			"Valoración de los valores culturales y religiosos que enseñan sobre Jesús de Nazaret"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "La alegría de compartir del juego",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "La alegría de compartir del juego"
+        ],
+        "procedures": [
+			"Exposición de los diferentes juegos que realiza en su hogar, escuela y comunidad a través de dibujos, conversaciones, murales, simulaciones, dramatizaciones",
+			"Dramatización sobre los diferentes sentimientos expresados cuando se pierde o se gana un juego"
+		],
+		"attitudes": [
+			"Alegría por el éxito de sus compañeros en el juego",
+			"Disposición para compartir el juego con otros"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Normas de convivencia en el juego",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Normas de convivencia en el juego"
+        ],
+        "procedures": [
+			"Análisis de la importancia del cumplimiento de las normas establecidas en el juego",
+			"Argumentación del juego como espacio pacífico de recreación, diversión colaboración e inclusión"
+		],
+		"attitudes": [
+			"Respeto a las reglas establecidas en los juegos",
+			"Valoración de los juegos propios y de los demás"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Juegos y cuidados del entorno natural",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Juegos y cuidados del entorno natural"
+        ],
+        "procedures": [
+			"Conversación sobre cómo cuidar el entorno natural durante la realización del juego",
+			"Organización de un encuentro familiar-escolar para festejar los valores, costumbres y las buenas relaciones familiares"
+		],
+		"attitudes": [
+			"Respeto por los elementos de su entorno natural",
+			"Agradecimiento a Dios por los regalos de la naturaleza"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Juego, estudio y tecnología",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Juego, estudio y tecnología"
+        ],
+        "procedures": [
+			"Representaciones sobre el uso adecuado de las tecnologías para el bien personal, escolar, social, en la recreación y los juegos y el cuidado del entorno natural",
+			"Identificación del modo en que las tecnologías favorecen la vida de las personas y del entorno natural"
+		],
+		"attitudes": [
+			"Uso adecuado de las tecnologías",
+			"Agradecimiento a Dios por las tecnologías que favorecen la vida"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Familia y convivencia",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Familia y convivencia"
+        ],
+        "procedures": [
+			"Socialización de láminas, videos y otros recursos sobre los valores y la convivencia familiar",
+			"Organización de una celebración con actividades que resalten la importancia de la familia"
+		],
+		"attitudes": [
+			"Disfrute al compartir momentos felices en su familia, su escuela y su comunidad",
+			"Agradecimiento a Dios por el regalo de su familia"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Los valores de la familia dominicana",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Los valores de la familia dominicana"
+        ],
+        "procedures": [
+			"Identificación de los valores que se cultivan en la familia dominicana",
+			"Socialización de frases y textos que resaltan los valores familiares"
+		],
+		"attitudes": [
+			"Aprecio y respeto por sus familiares",
+			"Valoración de los valores tradicionales en la familia"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Importancia de la tecnología",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Importancia de la tecnología"
+        ],
+        "procedures": [
+			"Identificación del modo en que las tecnologías favorecen la vida de las personas y del entorno natural",
+			"Organización de una celebración en que se exponga y se agradezca a Dios por las tecnologías que favorecen la vida"
+		],
+		"attitudes": [
+			"Agradecimiento a Dios por las tecnologías que favorecen la vida",
+			"Uso adecuado de las tecnologías"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Tecnología y cuidado de la vida",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Tecnología y cuidado de la vida"
+        ],
+        "procedures": [
+			"Representaciones sobre el uso adecuado de las tecnologías para el bien personal, escolar, social, en la recreación y los juegos y el cuidado del entorno natural"
+		],
+		"attitudes": [
+			"Respeto y cuidado de su cuerpo para evitar acciones que puedan afectar al de los demás",
+			"Valoración y respeto hacia las personas diferentes y con condiciones especiales"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Cuidado del cuerpo",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Cuidado del cuerpo"
+        ],
+        "procedures": [
+			"Interpretación de canciones que destacan las bondades del cuerpo humano y la importancia de cuidarlo como regalo de Dios",
+			"Diseño de murales del cuerpo humano y el modo de cuidarlo como regalo especial de Dios"
+		],
+		"attitudes": [
+			"Agradecimiento a Dios por el regalo maravilloso de su cuerpo",
+			"Respeto y cuidado de su cuerpo para evitar acciones que puedan afectar al de los demás"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "El cuerpo regalo de Dios",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "El cuerpo regalo de Dios"
+        ],
+        "procedures": [
+			"Interpretación de canciones que destacan las bondades del cuerpo humano y la importancia de cuidarlo como regalo de Dios",
+			"Representación de textos bíblicos (1 Cor. 6, 19-20; Sal. 139, 13-14) en que se destaca el cuerpo humano como expresión hacia Dios y del amor de Dios hacia las personas"
+		],
+		"attitudes": [
+			"Agradecimiento a Dios por el regalo maravilloso de su cuerpo",
+			"Valoración y respeto hacia las personas diferentes y con condiciones especiales"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "El cuerpo como expresión del amor de Dios",
+        "level": "PRIMARIA",
+        "year": "SEGUNDO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "El cuerpo como expresión del amor de Dios"
+        ],
+        "procedures": [
+			"Representación de textos bíblicos (1 Cor. 6, 19-20; Sal. 139, 13-14) en que se destaca el cuerpo humano como expresión hacia Dios y del amor de Dios hacia las personas",
+			"Diseño de murales del cuerpo humano y el modo de cuidarlo como regalo especial de Dios"
+		],
+		"attitudes": [
+			"Valoración y respeto hacia las personas diferentes y con condiciones especiales"
+		],
+        "achievement_indicators": [
+            "Describe ordenadamente los momentos de la vida de Jesús de Nazaret y sus enseñanzas para la familia y la cultura dominicana.",
+            "Expresa de manera creativa y auténtica acciones que Jesús de Nazaret realizó a favor de las personas durante su vida.",
+            "Muestra respeto y aceptación por sí mismo y a los demás en sus relaciones cuando juega y se divierte",
+            "Muestra disposición para integrarse y colaborar con entusiasmo en juegos y actividades recreativas.",
+            "Identifica acciones que la familia debe realizar para cuidar y proteger a sus integrantes.",
+            "Describe la importancia del uso adecuado de las tecnologías para la vida de las personas y del entorno natural.",
+            "Especifica acciones que favorecen el cuidado y protección de la naturaleza como creación de Dios.",
+            "Identifica en diferentes escenarios, acciones de cuidado, respeto y protección de su cuerpo.",
+            "Promueve relaciones de paz en los desacuerdos encontrados en el juego y en sus relaciones interpersonales."
+        ]
+    },
+    {
+        "title": "Valores culturales y valores cristianos",
         "level": "PRIMARIA",
         "year": "TERCERO",
         "subject": "FORMACION_HUMANA",
-        "concepts": [],
-        "procedures": [],
-        "attitudes": [],
-        "achievement_indicators": []
+        "concepts": [
+            "Valores culturales y valores cristianos"
+        ],
+        "procedures": [
+            "Identificación de valores culturales y cristianos presentes en su familia, escuela y en su entorno sociocultural a partir de textos bíblicos y otros textos",
+            "Exposición acerca de la manera en que su familia festeja la fiesta de la Navidad y otras fiestas y tradiciones"
+        ],
+        "attitudes": [
+            "Cultivo de valores cristianos y culturales en su vínculo con los demás en los diferentes entornos",
+            "Respeto y cariño por sus padres, madres, tutores/as y familiares"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Etapas de la vida de Jesús de Nazaret",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Etapas de la vida de Jesús de Nazaret"
+        ],
+        "procedures": [
+            "Socialización sobre las fiestas y tradiciones que vivió Jesús de Nazaret y su parecido con las locales apoyándose en el texto bíblico de Lucas 2,22ss; 2,41ss",
+            "Exposición acerca de acontecimientos relacionados con la pasión, muerte y resurrección de Jesús de Nazaret de forma cronológica y usando diversas técnicas y recursos"
+        ],
+        "attitudes": [
+            "Gratitud a Jesús de Nazaret por haber entregado su vida por amor a todas las personas",
+            "Sensibilidad al escuchar el relato de la pasión, muerte y resurrección de Jesús de Nazaret"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Las enseñanzas de Jesús",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Las enseñanzas de Jesús"
+        ],
+        "procedures": [
+            "Dramatización de acciones de Jesús de Nazaret haciendo el bien a las personas apoyándose en textos bíblicos",
+            "Socialización de por qué debemos amarnos y respetarnos unos a otros como Dios manda, apoyándose en el texto bíblico Juan 13: 34"
+        ],
+        "attitudes": [
+            "Solidaridad, perdón y amor en las relaciones",
+            "Disposición para excusar y perdonar"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "El nacimiento de Jesús",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "El nacimiento de Jesús"
+        ],
+        "procedures": [
+            "Escenificación del nacimiento de Jesús de Nazaret tomando como referencia textos bíblicos",
+            "Exposición acerca de la manera en que su familia festeja la fiesta de la Navidad y otras fiestas y tradiciones"
+        ],
+        "attitudes": [
+            "Gratitud a Jesús de Nazaret por haber entregado su vida por amor a todas las personas",
+            "Disfrute de los momentos festivos que realiza en su familia, escuela y comunidad"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Jesús hace el bien a las personas",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Jesús hace el bien a las personas"
+        ],
+        "procedures": [
+            "Dramatización de acciones de Jesús de Nazaret haciendo el bien a las personas apoyándose en textos bíblicos",
+            "Investigación acerca de qué se celebra durante la Semana Santa y cuáles actividades se realizan en su familia, su comunidad y en la sociedad dominicana"
+        ],
+        "attitudes": [
+            "Solidaridad, perdón y amor en las relaciones",
+            "Amabilidad en su relación con las demás personas"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Jesús muere y resucita",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Jesús muere y resucita"
+        ],
+        "procedures": [
+            "Presentación de acontecimientos relacionados con la pasión, muerte y resurrección de Jesús de Nazaret de forma cronológica y usando diversas técnicas y recursos",
+            "Investigación acerca de qué se celebra durante la Semana Santa y cuáles actividades se realizan en su familia, su comunidad y en la sociedad dominicana"
+        ],
+        "attitudes": [
+            "Admiración hacia Jesús de Nazaret por perdonar a los que lo crucificaron",
+            "Sensibilidad al escuchar el relato de la pasión, muerte y resurrección de Jesús de Nazaret"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Familia y valores cristianos",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Familia y valores cristianos"
+        ],
+        "procedures": [
+            "Identificación de valores culturales y cristianos presentes en su familia, escuela y en su entorno sociocultural a partir de textos bíblicos y otros textos",
+            "Exposición acerca de cómo las normas favorecen la convivencia entre las personas en los ambientes familiares, escolares, sociales y culturales"
+        ],
+        "attitudes": [
+            "Respeto y cariño por sus padres, madres, tutores/as y familiares",
+            "Agradecimiento a Dios por haberle dado una familia que le quiere y le cuida"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Buenas relaciones interpersonales en la familia y la escuela",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Buenas relaciones interpersonales en la familia y la escuela"
+        ],
+        "procedures": [
+            "Exposición acerca de cómo las normas favorecen la convivencia entre las personas en los ambientes familiares, escolares, sociales y culturales",
+            "Representación sobre las características de la buena convivencia familiar"
+        ],
+        "attitudes": [
+            "Respeto, cortesía y buen trato a los demás",
+            "Amabilidad en su relación con las demás personas"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Familia y Convivencia",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Familia y Convivencia"
+        ],
+        "procedures": [
+            "Exposición acerca de cómo las normas favorecen la convivencia entre las personas en los ambientes familiares, escolares, sociales y culturales",
+            "Organización de un espacio celebrativo en que se representen los aprendizajes desarrollados y se agradezca a Dios por la importancia de las normas para la convivencia armónica en la casa, la escuela y el entorno sociocultural"
+        ],
+        "attitudes": [
+            "Respeto, cortesía y buen trato a los demás",
+            "Disfrute de los momentos festivos que realiza en su familia, escuela y comunidad"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Normas de convivencia",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Normas de convivencia"
+        ],
+        "procedures": [
+            "Exposición acerca de cómo las normas favorecen la convivencia entre las personas en los ambientes familiares, escolares, sociales y culturales",
+            "Dramatización donde se presenten juegos cooperativos e inclusivos que muestren la importancia del cumplimiento de normas"
+        ],
+        "attitudes": [
+            "Amabilidad en su relación con las demás personas",
+            "Respeto por las diferencias de sus compañeros"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Juego y diversión",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Juego y diversión"
+        ],
+        "procedures": [
+            "Dramatización donde se presenten juegos cooperativos e inclusivos que muestren la importancia del cumplimiento de normas",
+            "Identificación de elementos o situaciones que provocan desacuerdos y discusiones en el juego y la manera de resolver las situaciones de conflictos"
+        ],
+        "attitudes": [
+            "Disfrute y alegría por el juego, la amistad y el compartir",
+            "Respeto por las diferencias de sus compañeros"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Ventajas y desventajas de los juegos electrónicos",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Ventajas y desventajas de los juegos electrónicos"
+        ],
+        "procedures": [
+            "Identificación del uso adecuado de los juegos electrónicos indicando sus ventajas y desventajas",
+            "Identificación de elementos o situaciones que provocan desacuerdos y discusiones en el juego y la manera de resolver las situaciones de conflictos"
+        ],
+        "attitudes": [
+            "Disfrute y alegría por el juego, la amistad y el compartir",
+            "Reconocimientos de sus errores y aprendizaje de éstos"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Diversidad, amistad y fraternidad",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Diversidad, amistad y fraternidad"
+        ],
+        "procedures": [
+            "Descripción de situaciones en las que puede mostrar su amistad sin distinción de personas, color, religión, raza, sexo, género o discapacidad",
+            "Socialización de por qué debemos amarnos y respetarnos unos a otros como Dios manda, apoyándose en el texto bíblico Juan 13: 34"
+        ],
+        "attitudes": [
+            "Acogida y respeto a todo tipo de diversidad: prácticas religiosas, color, nacionalidad, limitaciones físicas, habilidades, sexo y género",
+            "Respeto por las diferencias de sus compañeros"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Beneficios de la tecnología",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Beneficios de la tecnología"
+        ],
+        "procedures": [
+            "Investigación sobre los beneficios que proporciona la tecnología a las personas",
+            "Exposición acerca de cómo las normas favorecen la convivencia entre las personas en los ambientes familiares, escolares, sociales y culturales"
+        ],
+        "attitudes": [
+            "Reconocimientos de sus errores y aprendizaje de éstos",
+            "Agradecimiento a Dios por haberle dado una familia que le quiere y le cuida"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "La vida viene de Dios",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "La vida viene de Dios"
+        ],
+        "procedures": [
+            "Exposición acerca de la vida como regalo de Dios a través de diversos recursos (láminas, canciones, videos, dibujos, pinturas, murales)",
+            "Exposición acerca de cómo Dios da la vida a las personas a partir del texto bíblico Génesis 2 y otros textos"
+        ],
+        "attitudes": [
+            "Respeto y defensa de la vida",
+            "Admira y agradece a Dios por su vida y la de los demás"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "El valor de la vida humana",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "El valor de la vida humana"
+        ],
+        "procedures": [
+            "Socialización sobre situaciones y acciones que dañan o ponen en peligro la vida",
+            "Exposición acerca de cómo Dios da la vida a las personas a partir del texto bíblico Génesis 2 y otros textos"
+        ],
+        "attitudes": [
+            "Respeto y admiración por su vida y la de los demás",
+            "Agradecimiento a Dios por haberle dado una familia que le quiere y le cuida"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "La familia da y protege vida",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "La familia da y protege vida"
+        ],
+        "procedures": [
+            "Exposición acerca de cómo Dios da la vida a las personas a partir del texto bíblico Génesis 2 y otros textos",
+            "Representación de acciones que protegen la vida en la familia y en la comunidad"
+        ],
+        "attitudes": [
+            "Respeto y defensa de la vida",
+            "Admira y agradece a Dios por su vida y la de los demás"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "La madre, protectora de la vida",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "La madre, protectora de la vida"
+        ],
+        "procedures": [
+            "Exposición sobre los cuidados que ofrecen las madres a sus hijos/as antes y después de nacer a partir del testimonio de sus padres",
+            "Exposición acerca de cómo Dios da la vida a las personas a partir del texto bíblico Génesis 2 y otros textos"
+        ],
+        "attitudes": [
+            "Admira y agradece a Dios por su vida y la de los demás",
+            "Amabilidad en su relación con las demás personas"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
+    },
+    {
+        "title": "Jesús ama a los niños/as",
+        "level": "PRIMARIA",
+        "year": "TERCERO",
+        "subject": "FORMACION_HUMANA",
+        "concepts": [
+            "Jesús ama a los niños/as"
+        ],
+        "procedures": [
+            "Investigación acerca de qué se celebra durante la Semana Santa y cuáles actividades se realizan en su familia, su comunidad y en la sociedad dominicana",
+            "Exposición acerca de acontecimientos relacionados con la pasión, muerte y resurrección de Jesús de Nazaret de forma cronológica y usando diversas técnicas y recursos"
+        ],
+        "attitudes": [
+            "Admira y agradece a Dios por su vida y la de los demás",
+            "Sensibilidad al escuchar el relato de la pasión, muerte y resurrección de Jesús de Nazaret"
+        ],
+        "achievement_indicators": [
+            "Narra las diferentes etapas de la vida de Jesús de Nazaret y sus enseñanzas para la familia.",
+            "Identifica en la persona de Jesús de Nazaret valores y actitudes que favorecen el desarrollo de la amistad y la fraternidad.",
+            "Expresa de agradecimiento a Dios por los valores culturales y cristianos que favorecen la convivencia armónica en la familia y en la escuela.",
+            "Relata situaciones de violencia, abuso, riesgo físico, sexual, psicológico y emocional que se dan en las familias y en el juego",
+            "Exhibe respeto y cortesía en las relaciones con sus compañeros y compañeras sin distinción de raza, sexo, género, condición social o discapacidad.",
+            "Implementa acciones para solucionar conflictos en sus diferentes entornos y promover el bienestar y buenas relaciones con los demás",
+            "Argumenta lo que sus padres, tutores y familiares realizan para proteger y cuidar su vida y su entorno natural.",
+            "Argumenta sobre el respeto y cuidado que se debe a la vida de las personas y la naturaleza creada por Dios.",
+            "Se involucra en acciones para la promoción y defensa de la vida humana y protección del entorno natural."
+        ]
     },
     {
         "title": "El cuerpo",
