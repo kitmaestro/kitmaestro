@@ -1815,7 +1815,9 @@
         "level": "PRIMARIA",
         "year": "CUARTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "Crecimiento físico, afectivo-sexual y espiritual",
+        "concepts": [
+            "Crecimiento físico, afectivo-sexual y espiritual"
+        ],
         "procedures": [
             "Descripción de cambios ocurridos en su desarrollo físico, socio afectivo, sexual, cognitivo, moral y espiritual",
             "Identificación de situaciones de abuso físico, emocional y sexual en niños, niñas y adolescentes que violentan su crecimiento integral",
@@ -1844,7 +1846,9 @@
         "level": "PRIMARIA",
         "year": "CUARTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "La naturaleza, creación de Dios",
+        "concepts": [
+            "La naturaleza, creación de Dios"
+        ],
         "procedures": [
             "Exploración de las maravillas creadas por la bondad de Dios en su entorno para disfrutarlas y cuidarlas",
             "Realización de obra de teatro cuyo eje sea la admiración y gratitud a Dios por todo lo bueno que recibe de la naturaleza",
@@ -1873,7 +1877,9 @@
         "level": "PRIMARIA",
         "year": "CUARTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "Cuidado y respeto por la naturaleza",
+        "concepts": [
+            "Cuidado y respeto por la naturaleza"
+        ],
         "procedures": [
             "Exposición sobre el cuidado y respeto de la naturaleza creada por Dios",
             "Elaboración de elementos de la naturaleza que demandan respeto y atención utilizando diferentes técnicas"
@@ -1901,7 +1907,9 @@
         "level": "PRIMARIA",
         "year": "CUARTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "El amor de Dios expresado en Jesús de Nazaret",
+        "concepts": [
+            "El amor de Dios expresado en Jesús de Nazaret"
+        ],
         "procedures": [
             "Representación de las características del amor de Dios expresado en la persona de Jesús de Nazaret hacia las personas y la naturaleza creada por Dios",
             "Organización de una celebración de agradecimiento por el proceso vivido, el amor que Dios tiene a cada persona sin distinción y por el regalo de la vida"
@@ -3136,7 +3144,9 @@
         "level": "PRIMARIA",
         "year": "SEXTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "Desarrollo físico, cognitivo, afectivo, sexual y espiritual del adolescente",
+        "concepts": [
+            "Desarrollo físico, cognitivo, afectivo, sexual y espiritual del adolescente"
+        ],
         "procedures": [
             "Dramatizaciones sobre el desarrollo físico, cognitivo, afectivo-sexual y espiritual de los adolescentes",
             "Investigación acerca de cómo los cambios que experimentan en su desarrollo físico, cognitivo, afectivo-sexual y espiritual intervienen en su relación con los demás",
@@ -3172,7 +3182,9 @@
         "level": "PRIMARIA",
         "year": "SEXTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "La familia como lugar de afecto y cariño",
+        "concepts": [
+            "La familia como lugar de afecto y cariño"
+        ],
         "procedures": [
             "Socialización acerca de los tipos de relaciones que desarrolla el adolescente con su familia, la escuela y la comunidad y las consecuencias de estas relaciones en su desarrollo personal y espiritual",
             "Constatación y análisis en el texto bíblico de Efesios 6, 1-4 de la importancia de las relaciones y el trato en la familia para el fortalecimiento de su desarrollo cognitivo, emocional, social y espiritual",
@@ -3209,7 +3221,9 @@
         "level": "PRIMARIA",
         "year": "SEXTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "Relaciones del adolescente con la familia, la escuela y el entorno",
+        "concepts": [
+            "Relaciones del adolescente con la familia, la escuela y el entorno"
+        ],
         "procedures": [
             "Socialización acerca de los tipos de relaciones que desarrolla el adolescente con su familia, la escuela y la comunidad y las consecuencias de estas relaciones en su desarrollo personal y espiritual"
         ],
@@ -3242,7 +3256,9 @@
         "level": "PRIMARIA",
         "year": "SEXTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "Cuidado y protección del entorno natural",
+        "concepts": [
+            "Cuidado y protección del entorno natural"
+        ],
         "procedures": [
             "Investigación sobre instituciones y personas que realizan actividades y acciones a favor y protección del entorno natural",
             "Realización de una mesa redonda donde analicen situaciones que dañan al entorno natural y se expongan alternativas para cuidar y proteger al Medioambiente, tomando en cuenta: la contaminación sonora, contaminación y escasez de agua, contaminación de desperdicio sólido, contaminación de gases",
@@ -3278,7 +3294,9 @@
         "level": "PRIMARIA",
         "year": "SEXTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "Búsqueda de soluciones a situaciones que afectan el entorno natural",
+        "concepts": [
+            "Búsqueda de soluciones a situaciones que afectan el entorno natural"
+        ],
         "procedures": [
             "Realización de una mesa redonda donde analicen situaciones que dañan al entorno natural y se expongan alternativas para cuidar y proteger al Medioambiente, tomando en cuenta: la contaminación sonora, contaminación y escasez de agua, contaminación de desperdicio sólido, contaminación de gases",
             "Construcción y ejecución de proyectos con acciones dirigidas al cuidado y protección del entorno natural en la familia, la escuela, la comunidad y las redes sociales"
@@ -3312,7 +3330,9 @@
         "level": "PRIMARIA",
         "year": "SEXTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "Jesús nace y crece en sabiduría y gracia",
+        "concepts": [
+            "Jesús nace y crece en sabiduría y gracia"
+        ],
         "procedures": [
             "Dramatización acerca del crecimiento de Jesús de Nazaret destacando los valores espirituales a partir del texto bíblico de Lucas 2, 41-52"
         ],
@@ -3345,7 +3365,9 @@
         "level": "PRIMARIA",
         "year": "SEXTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "Estilo de vida de Jesús",
+        "concepts": [
+            "Estilo de vida de Jesús"
+        ],
         "procedures": [
             "Organización de un panel en el que se establezca el estilo de vida de Jesús, su amor y compromiso con el bienestar de las personas a partir de los siguientes textos: Mateo 4, 18-22 y Mateo 4, 23-25"
         ],
@@ -3378,7 +3400,9 @@
         "level": "PRIMARIA",
         "year": "SEXTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "Jesús ante el sufrimiento y muerte en la cruz",
+        "concepts": [
+            "Jesús ante el sufrimiento y muerte en la cruz"
+        ],
         "procedures": [
             "Identificación de los momentos clave del sufrimiento en la vida de Jesús a partir de los textos que siguen: arresto de Jesús y traición de Judas (Marcos 14,43-51), acusaciones y burlas (Marcos 14, 53-65), negación de Pedro (Marcos 14, 66-72), Jesús ante Pilatos (Marcos 15, 1-15), el camino de la cruz y la crucifixión (Marcos 15, 21-27)",
             "Elaboración de un mural donde se presenten signos de la pasión, muerte y resurrección de Jesús y los valores que nos enseña"
@@ -3412,7 +3436,9 @@
         "level": "PRIMARIA",
         "year": "SEXTO",
         "subject": "FORMACION_HUMANA",
-        "concept": "La resurrección, triunfo de Jesús",
+        "concepts": [
+            "La resurrección, triunfo de Jesús"
+        ],
         "procedures": [
             "Organización de una celebración con espacios de oración, cantos y reflexión acerca del nacimiento, la vida, la pasión, la muerte y la resurrección de Jesús de Nazaret y presentación de los trabajos elaborados donde se resalten los valores de su persona de Jesús"
         ],

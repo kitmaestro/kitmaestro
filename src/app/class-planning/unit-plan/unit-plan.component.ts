@@ -50,6 +50,7 @@ import spanishContentBlocks from '../../data/spanish-content-blocks.json';
 import societyContentBlocks from '../../data/society-content-blocks.json';
 import englishContentBlocks from '../../data/english-content-blocks.json';
 import sportsContentBlocks from '../../data/sports-content-blocks.json';
+import religionContentBlocks from '../../data/religion-content-blocks.json';
 import artContentBlocks from '../../data/art-content-blocks.json';
 
 @Component({
@@ -1082,7 +1083,8 @@ La respuesta debe ser json valido, coherente con esta interfaz:
       societyContent,
       englishContent,
       physicalEducationContent,
-      artisticEducationContent
+      artisticEducationContent,
+      religionContent
     } = this.learningSituationForm.value;
     const contents: { subject: string, concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
 
@@ -1134,6 +1136,19 @@ La respuesta debe ser json valido, coherente con esta interfaz:
           procedures: sports.procedures,
           attitudes: sports.attitudes,
           achievement_indicators: sports.achievement_indicators || [],
+        })
+      }
+    }
+
+    if (subjects?.includes('FORMACION_HUMANA')) {
+      const religion = religionContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == religionContent);
+      if (religion) {
+        contents.push({
+          subject: 'FORMACION_HUMANA',
+          concepts: religion.concepts,
+          procedures: religion.procedures,
+          attitudes: religion.attitudes,
+          achievement_indicators: religion.achievement_indicators || [],
         })
       }
     }
