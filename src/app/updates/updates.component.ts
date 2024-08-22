@@ -33,6 +33,7 @@ export class UpdatesComponent implements OnInit {
       links: [
         {
           label: "Contacta con el Administrador",
+          external: true,
           link: "https://wa.me/+18094659650?text=Hola!+Quiero+empezar+a+promocionar+KitMaestro.+Me+puedes+dar+un+link+de+referido?"
         }
       ],

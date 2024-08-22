@@ -32,6 +32,9 @@
                     @for (action of update.actions; track action) {
                         <button mat-raised-button color="link" style="margin-right: 12px;" [routerLink]="action.link">{{action.label}}</button>
                     }
+                    @for (link of update.links || []; track link) {
+                        <a mat-raised-button color="link" style="margin-right: 12px;" [target]="link.external ? '_blank' : ''" [href]="link.link">{{link.label}}</a>
+                    }
                 </span>
             </p>
         </mat-expansion-panel>

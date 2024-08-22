@@ -19,6 +19,8 @@ export const routes: Routes = [
         children: [
             { path: '', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent) },
             { path: 'tutorials', loadComponent: () => import('./tutorials/tutorials.component').then(mod => mod.TutorialsComponent) },
+            { path: 'todos', loadComponent: () => import('./todo-lists/todo-lists.component').then(mod => mod.TodoListsComponent) },
+            { path: 'todos/:id', loadComponent: () => import('./todos/todos.component').then(mod => mod.TodosComponent) },
             { path: 'settings', loadComponent: () => import('./user-settings/user-settings.component').then(mod => mod.UserSettingsComponent) },
             { path: 'profile', loadComponent: () => import('./user-profile/user-profile.component').then(mod => mod.UserProfileComponent) },
             { path: 'updates', loadComponent: () => import('./updates/updates.component').then(mod => mod.UpdatesComponent) },

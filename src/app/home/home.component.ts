@@ -93,6 +93,14 @@ export class HomeComponent {
       isWorking: true,
     },
     {
+      name: 'Lista de Pendientes',
+      description: 'Organiza mejor tu jornada con una lista de pendientes.',
+      link: ['/app','todos'],
+      icon: '/assets/undraw_to_do_list_re_9nt7 (1).svg',
+      premium: false,
+      isWorking: true,
+    },
+    {
       name: 'Asistentes',
       description: 'Colección de asistentes virtuales a tu medida.',
       link: ['/app','assistants'],

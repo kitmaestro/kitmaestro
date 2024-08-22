@@ -7,7 +7,8 @@ export interface Update {
     author: string,
     links?: {
         label: string,
-        link: string
+        link: string,
+        external: boolean,
     }[],
     actions: {
         label: string,
