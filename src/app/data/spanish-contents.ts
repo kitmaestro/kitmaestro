@@ -3,12 +3,12 @@ import { SubjectContents } from "../interfaces/subject-contents";
 export const SPANISH_CONTENTS: SubjectContents = {
     primary: [
         [
-            'La tarjeta de identidad',
-            'El letrero',
-            'La lista de compras',
-            'El mensaje corto',
-            'La noticia',
-            'El cuento',
+            "La tarjeta de identidad",
+            "El letrero",
+            "La lista de compras",
+            "El mensaje corto",
+            "La noticia",
+            "El cuento",
         ],
         [
             "El documento de identidad",

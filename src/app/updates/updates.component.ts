@@ -27,6 +27,21 @@ export class UpdatesComponent implements OnInit {
       type: 'notice',
       date: new Date(2024, 7, 22),
       author: 'Otoniel Reyes Galay',
+      title: 'Planes para educación primaria completa',
+      description: 'Actualización de Contenidos',
+      actions: [
+      ],
+      links: [
+      ],
+      content: `Ya se han subido la totalidad de contenidos de educación primaria. Finalmente se han agregado todos los contenidos de Matemáticas y Ciencias de la Naturaleza.
+La siguiente etapa es la incorporación de las guias de secuencias didacticas de Lengua Española (segundo ciclo) y la integración de las guías con base de lengua española y Matemática (primer ciclo).
+Una vez completado esto, se procederá a integrar la malla curricular actualizada para educación secundaria.
+Cada vez estamos mas cerca, mantente atento para saber lo último.`,
+    },
+    {
+      type: 'notice',
+      date: new Date(2024, 7, 22),
+      author: 'Otoniel Reyes Galay',
       title: 'Nuevos contenidos completados',
       description: 'Actualización de Contenidos',
       actions: [
