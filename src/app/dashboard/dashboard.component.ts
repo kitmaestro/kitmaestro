@@ -63,9 +63,40 @@ export class DashboardComponent implements OnInit {
     })
     authState(this.auth).subscribe(user => {
       if (user) {
+        const referrer = localStorage.getItem('referrer');
+        if (referrer) {
+          this.subscription$.subscribe({
+            next: (subscription) => {
+              console.log(subscription)
+              if (!subscription) {
+                const sub: UserSubscription = {
+                  active: false,
+                  referral: referrer,
+                  referries: '',
+                  refsCount: 0,
+                  expiresAt: new Date(),
+                  method: 'none',
+                  purchaseDate: new Date(),
+                  refCode: '',
+                  uid: user.uid
+                } as any as UserSubscription;
+                this.userSubscriptionService.subscribe(sub);
+              }
+              if (subscription && !subscription.referral) {
+                // assign a referral
+                subscription.referral = referrer;
+                // update subscription
+                this.userSubscriptionService.updateSubscription(subscription)
+                localStorage.removeItem('referrer');
+              }
+            },
+            error: (error) => {
+            }
+          })
+        }
         this.route.queryParamMap.subscribe(params => {
-          if (params.get('ref')) {
-            const referral = params.get('ref') || '';
+          const referral = params.get('ref');
+          if (referral) {
             this.subscription$.subscribe({
               next: (subscription) => {
                 console.log(subscription)
@@ -95,6 +126,8 @@ export class DashboardComponent implements OnInit {
             })
           }
         });
+      } else {
+        console.log('No user!!!')
       }
     })
   }

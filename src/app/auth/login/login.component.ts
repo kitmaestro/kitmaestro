@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from '@angular/fire/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BiIconComponent } from '../../ui/bi-icon/bi-icon.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RecoverComponent } from '../recover/recover.component';
@@ -30,11 +30,12 @@ import { RecoverComponent } from '../recover/recover.component';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   auth = inject(Auth);
   sb = inject(MatSnackBar);
   fb = inject(FormBuilder);
   modal = inject(MatDialog);
+  route = inject(ActivatedRoute);
 
   loading = false;
 
@@ -42,6 +43,16 @@ export class LoginComponent {
     email: ['', Validators.required],
     password: ['', Validators.required],
   });
+
+  ngOnInit() {
+    this.route.queryParamMap.subscribe(params => {
+      const referrer = params.get('ref');
+
+      if (referrer) {
+        localStorage.setItem('referrer', referrer);
+      }
+    });
+  }
 
   recoverPassword() {
     this.modal.open(RecoverComponent, { width: '100%', maxWidth: '480px' });
