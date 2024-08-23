@@ -89,7 +89,7 @@ export class HomeComponent {
       description: 'Los ejercicios que necesites para la clase.',
       link: ['/app','worksheet-builders'],
       icon: '/assets/undraw_real_time_sync_re_nky7.svg',
-      premium: true,
+      premium: false,
       isWorking: true,
     },
     {

@@ -1,0 +1,77 @@
+<mat-card>
+    <mat-card-header>
+        <h2 mat-card-title>Generador de Ecuaciones</h2>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="exerciseForm" (ngSubmit)="generateExercises()">
+            <div>
+                <mat-form-field>
+                    <mat-label>Tipo de ecuación</mat-label>
+                    <mat-select formControlName="equationType">
+                        <mat-option value="linear">Lineal</mat-option>
+                        <mat-option value="quadratic">Cuadrática</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+                
+            <div>
+                <mat-form-field>
+                    <mat-label for="difficulty">Nivel de dificultad</mat-label>
+                    <mat-select id="difficulty" formControlName="difficulty">
+                        <mat-option value="basic">Básico</mat-option>
+                        <mat-option value="intermediate">Intermedio</mat-option>
+                        <mat-option value="advanced">Avanzado</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+                
+            <div>
+                <mat-form-field>
+                    <mat-label for="numExercises">Número de ejercicios</mat-label>
+                    <input matInput type="number" id="numExercises" formControlName="numExercises" min="1" max="20">
+                </mat-form-field>
+            </div>
+            
+            <div>
+                <mat-label for="valueRange">Rango de valores</mat-label>
+                <div>
+                    <mat-slider min="-100" max="100" step="1" formControlName="valueRange" discrete>
+                        <input matSliderStartThumb>
+                        <input matSliderEndThumb>
+                    </mat-slider>
+                </div>
+            </div>
+            
+            <div>
+                <mat-form-field>
+                    <mat-label for="responseFormat">Formato de respuesta</mat-label>
+                    <mat-select id="responseFormat" formControlName="responseFormat">
+                        <mat-option value="multipleChoice">Opción múltiple</mat-option>
+                        <mat-option value="openResponse">Respuesta abierta</mat-option>
+                        <mat-option value="trueFalse">Verdadero/Falso</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+                
+            <div>
+                <mat-form-field>
+                    <mat-label for="additionalInstructions">Instrucciones adicionales</mat-label>
+                    <textarea matInput id="additionalInstructions" formControlName="additionalInstructions" placeholder="Añadir instrucciones específicas..."></textarea>
+                </mat-form-field>
+            </div>
+        
+            <button mat-raised-button color="primary" [disabled]="exerciseForm.invalid" type="submit">Generar Ejercicios</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+
+@if (exercises.length > 0) {
+    <div>
+        <h3>Ejercicios:</h3>
+        <ul>
+            @for (exercise of exercises; track exercise) {
+                <li>{{ exercise }}</li>
+            }
+        </ul>
+    </div>
+}

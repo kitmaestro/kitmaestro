@@ -129,11 +129,21 @@ export class BuilderListComponent {
         },
         {
           name: 'Ejercicios Mixtos',
-          description: 'Genera Hojas con plantillas de planos cartesianos.',
+          description: 'Genera ejercicios mixtos de operaciones basicas.',
           link: [
             '/app',
             'worksheet-builders',
             'mixed-operations'
+          ],
+          cover: '/assets/undraw_new_entries_re_cffr.svg'
+        },
+        {
+          name: 'Ecuaciones',
+          description: 'Ejercicios con ecuaciones',
+          link: [
+            '/app',
+            'worksheet-builders',
+            'equations'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
         },

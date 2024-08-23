@@ -33,14 +33,9 @@ export class GraphPaperComponent {
   private pdfService = inject(PdfService);
 
   borderOptions = [
+    { name: 'solid', label: 'Sólido' },
     { name: 'dotted', label: 'Punteado' },
     { name: 'dashed', label: 'Guiones' },
-    { name: 'solid', label: 'Sólido' },
-    { name: 'double', label: 'Doble' },
-    { name: 'groove', label: 'Ranuras' },
-    { name: 'ridge', label: 'Cadena' },
-    { name: 'inset', label: 'Interior' },
-    { name: 'outset', label: 'Exterior' },
   ];
 
   borderThickness = [

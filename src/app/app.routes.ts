@@ -64,6 +64,7 @@ export const routes: Routes = [
                     { path: 'sudoku', loadComponent: () => import('./builders/sudoku/sudoku.component').then(m => m.SudokuComponent) },
                     { path: 'addition', loadComponent: () => import('./builders/addition/addition.component').then(m => m.AdditionComponent) },
                     { path: 'subtraction', loadComponent: () => import('./builders/subtraction/subtraction.component').then(m => m.SubtractionComponent) },
+                    { path: 'equations', loadComponent: () => import('./builders/equations/equations.component').then(m => m.EquationsComponent) },
                     { path: 'multiplication', loadComponent: () => import('./builders/multiplication/multiplication.component').then(m => m.MultiplicationComponent) },
                     { path: 'division', loadComponent: () => import('./builders/division/division.component').then(m => m.DivisionComponent) },
                     { path: 'mixed-operations', loadComponent: () => import('./builders/mixed-operations/mixed-operations.component').then(m => m.MixedOperationsComponent) },
