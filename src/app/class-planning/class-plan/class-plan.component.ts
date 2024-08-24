@@ -28,6 +28,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ClassPlan } from '../../interfaces/class-plan';
 import { ClassPlansService } from '../../services/class-plans.service';
 import { Router, RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-class-plan',
@@ -46,6 +47,7 @@ import { Router, RouterModule } from '@angular/router';
     MatChipsModule,
     RouterModule,
     DatePipe,
+    HttpClientModule,
   ],
   templateUrl: './class-plan.component.html',
   styleUrl: './class-plan.component.scss'

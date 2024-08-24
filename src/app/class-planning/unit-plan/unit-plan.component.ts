@@ -54,6 +54,7 @@ import englishContentBlocks from '../../data/english-content-blocks.json';
 import sportsContentBlocks from '../../data/sports-content-blocks.json';
 import religionContentBlocks from '../../data/religion-content-blocks.json';
 import artContentBlocks from '../../data/art-content-blocks.json';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-unit-plan',
@@ -72,6 +73,7 @@ import artContentBlocks from '../../data/art-content-blocks.json';
     MatIconModule,
     MatChipsModule,
     RouterModule,
+    HttpClientModule,
   ],
   templateUrl: './unit-plan.component.html',
   styleUrl: './unit-plan.component.scss'

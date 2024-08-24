@@ -6,11 +6,14 @@ import { Text2TextGenerationPipeline, pipeline } from '@xenova/transformers';
 import { Observable, from } from 'rxjs';
 import { GeminiResponse } from '../interfaces/gemini-response';
 import { Anthropic } from '@anthropic-ai/sdk';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AiService {
+  // http = inject(HttpClient);
+
   private models = {
     textToImage: 'stabilityai/stable-diffusion-xl-base-1.0',
     text2TextGeneration: 'google/flan-t5-xxl',
@@ -24,6 +27,7 @@ export class AiService {
     ],
   }
   private token = atob('aGZfZVZGUGl6aW5jb3VEbmZzRXFEQ05yaUVmZW9VZ2NITmNEdw==');
+  private anthropicApiKey = atob("c2stYW50LWFwaTAzLXdCZHVhalZUczh2UER5UTZHN3MzazYxVms0SXg3Wm1fTHZhbGEtODNtWHFXcU9TR3VOUmpHc3ROVnkyLWFTTTlYMWZRaGhaVkpxU21lbnBpSHUwcWZnLURiSm9qd0FB");
   private inference = new HfInference(this.token);
 
   constructor() {
@@ -31,13 +35,24 @@ export class AiService {
 
   askClaude(text: string, max_tokens: number = 1024) {
     const anthropic = new Anthropic({
-      apiKey: 'my_api_key', // defaults to process.env["ANTHROPIC_API_KEY"]
+      apiKey: this.anthropicApiKey,
     });
 
     return from(anthropic.messages.create({
-      model: "claude-3-opus-20240229",
+      model: "claude-3-5-sonnet-20240620",
       max_tokens,
-      messages: [{ role: "user", content: text }],
+      temperature: 0,
+      messages: [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": text
+            }
+          ]
+        }
+      ]
     }));
   }
 
