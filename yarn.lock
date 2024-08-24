@@ -6450,6 +6450,13 @@ make-fetch-happen@^13.0.0:
     promise-retry "^2.0.1"
     ssri "^10.0.0"
 
+mathjax-angular@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/mathjax-angular/-/mathjax-angular-2.2.1.tgz#26a8efa88c325dde7f62ffcfe4b6342f3cdc51b8"
+  integrity sha512-ndXIzO0MyedTH6BhZYJaQT10RaRyeieCj1L8mQWS3kwLD2cM/I69kKz21RJL6FMMDiXamtzVS6U5iEsXX0xN9g==
+  dependencies:
+    tslib "^2.4.0"
+
 media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"

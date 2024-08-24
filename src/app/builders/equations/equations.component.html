@@ -5,7 +5,14 @@
     <mat-card-content>
         <form [formGroup]="exerciseForm" (ngSubmit)="generateExercises()">
             <div>
-                <mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>T&iacute;tulo</mat-label>
+                    <input formControlName="title" matInput>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field appearance="outline">
                     <mat-label>Tipo de ecuación</mat-label>
                     <mat-select formControlName="equationType">
                         <mat-option value="linear">Lineal</mat-option>
@@ -15,7 +22,7 @@
             </div>
                 
             <div>
-                <mat-form-field>
+                <mat-form-field appearance="outline">
                     <mat-label for="difficulty">Nivel de dificultad</mat-label>
                     <mat-select id="difficulty" formControlName="difficulty">
                         <mat-option value="basic">Básico</mat-option>
@@ -26,7 +33,7 @@
             </div>
                 
             <div>
-                <mat-form-field>
+                <mat-form-field appearance="outline">
                     <mat-label for="numExercises">Número de ejercicios</mat-label>
                     <input matInput type="number" id="numExercises" formControlName="numExercises" min="1" max="20">
                 </mat-form-field>
@@ -35,43 +42,88 @@
             <div>
                 <mat-label for="valueRange">Rango de valores</mat-label>
                 <div>
-                    <mat-slider min="-100" max="100" step="1" formControlName="valueRange" discrete>
-                        <input matSliderStartThumb>
-                        <input matSliderEndThumb>
+                    <mat-slider min="-100" max="100" step="1" discrete>
+                        <input formControlName="valueRangeMin" matSliderStartThumb>
+                        <input formControlName="valueRangeMax" matSliderEndThumb>
                     </mat-slider>
                 </div>
             </div>
-            
-            <div>
-                <mat-form-field>
-                    <mat-label for="responseFormat">Formato de respuesta</mat-label>
-                    <mat-select id="responseFormat" formControlName="responseFormat">
-                        <mat-option value="multipleChoice">Opción múltiple</mat-option>
-                        <mat-option value="openResponse">Respuesta abierta</mat-option>
-                        <mat-option value="trueFalse">Verdadero/Falso</mat-option>
-                    </mat-select>
-                </mat-form-field>
+
+            <div style="margin-bottom: 12px;">
+                <mat-label>Campos a Incluir:</mat-label>
+                <mat-chip-set>
+                    <mat-chip-option [selected]="true" (selectionChange)="toggleName()">Nombre</mat-chip-option>
+                    <mat-chip-option [selected]="true" (selectionChange)="toggleGrade()">Grado</mat-chip-option>
+                    <mat-chip-option [selected]="true" (selectionChange)="toggleDate()">Fecha</mat-chip-option>
+                </mat-chip-set>
             </div>
-                
-            <div>
-                <mat-form-field>
-                    <mat-label for="additionalInstructions">Instrucciones adicionales</mat-label>
-                    <textarea matInput id="additionalInstructions" formControlName="additionalInstructions" placeholder="Añadir instrucciones específicas..."></textarea>
-                </mat-form-field>
-            </div>
+            @if (exercises.length) {
+                <div style="padding: 20px; background-color: #46a7f5; color: white; margin-bottom: 15px;">
+                    Para reemplazar cualquiera de los ejercicios generados, haz click sobre &eacute;l.
+                </div>
+                <button mat-raised-button style="margin-right: 12px;" (click)="print()" color="accent" type="button">Imprimir</button>
+            }
         
             <button mat-raised-button color="primary" [disabled]="exerciseForm.invalid" type="submit">Generar Ejercicios</button>
         </form>
     </mat-card-content>
 </mat-card>
 
-@if (exercises.length > 0) {
-    <div>
-        <h3>Ejercicios:</h3>
-        <ul>
-            @for (exercise of exercises; track exercise) {
-                <li>{{ exercise }}</li>
-            }
-        </ul>
+@if(exercises.length > 0) {
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px;">
+        <mat-card>
+            <mat-card-content>
+                <div class="page" id="equations" style="padding: 12px;">
+                    <div style="text-align: center;">
+                        <h3 style="margin-bottom: 0; font-weight: bold; font-size: large;">{{ schoolName }}</h3>
+                        <h4 style="margin-bottom: 0;">{{ teacherName }}</h4>
+                        <h5 style="font-size: medium; margin-bottom: 24px;">{{ exerciseForm.get('title')?.value }}</h5>
+                    </div>
+                    <br>
+                    <div style="margin-bottom: 42px; display: flex;">
+                        @if(exerciseForm.get('name')?.value == true) {
+                        <div><b>Nombre</b>:</div>
+                        <div class="blank"></div>
+                        }
+                        @if(exerciseForm.get('grade')?.value == true) {
+                        <div style="margin-left: 12px;"><b>Grado</b>:</div>
+                        <div class="blank"></div>
+                        }
+                        @if(exerciseForm.get('date')?.value == true) {
+                        <div style="margin-left: 12px;"><b>Fecha</b>:</div>
+                        <div style="max-width: 25%;" class="blank"></div>
+                        }
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 42px;">
+                        @for(line of exercises; track $index) {
+                            <div style="display: flex; gap: 12px; align-items: center;" (click)="changeEquation($index)">
+                                <b>{{ ($index + 1).toString().padStart(2, '0') }})</b>
+                                <div [innerHTML]="line"></div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card style="display: none;">
+            <mat-card-content>
+                <div class="page" id="equations-solution" style="padding: 12px;">
+                    <div style="text-align: center; margin-bottom: 24px;">
+                        <h4 style="margin-bottom: 0;">{{ exerciseForm.get('title')?.value }}</h4>
+                        <h5 style="font-size: medium; margin-bottom: 24px;">Hoja de Respuestas</h5>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        @for(line of exercises; track $index) {
+                        <div style="display: flex; justify-content: space-between;">
+                            <div style="margin-left: 12px;"><b>{{ ($index + 1).toString().padStart(2, '0') }}) <span
+                                        style="letter-spacing: 3px; font-family: serif;">{{ line
+                                        }}</span></b>=</div>
+                            <div style="max-width: 50%; margin-left: auto; text-align: start;" class="blank">{{ calculate(line) }}</div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
     </div>
 }

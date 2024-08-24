@@ -1,13 +1,17 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, importProvidersFrom, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { UserSettingsService } from '../../services/user-settings.service';
+import { PdfService } from '../../services/pdf.service';
+import { MathjaxModule } from 'mathjax-angular';
 
 @Component({
   selector: 'app-equations',
@@ -22,26 +26,41 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatInputModule,
     MatSnackBarModule,
     MatSliderModule,
+    MatChipsModule,
+    MathjaxModule
   ],
   templateUrl: './equations.component.html',
   styleUrl: './equations.component.scss'
 })
 export class EquationsComponent implements OnInit {
   fb = inject(FormBuilder);
+  userSettingsService = inject(UserSettingsService);
+  pdfService = inject(PdfService);
+  sb = inject(MatSnackBar);
 
+  teacherName: string = '';
+  schoolName: string = '';
   exercises: string[] = [];
+
   exerciseForm: FormGroup = this.fb.group({
+    title: ['Resuelve estas ecuaciones'],
     equationType: ['linear'],
     difficulty: ['basic'],
     numExercises: [10],
-    valueRange: ['-10 a 10'],
-    responseFormat: ['multipleChoice'],
-    additionalInstructions: ['']
+    valueRangeMin: [-10],
+    valueRangeMax: [10],
+    name: [false],
+    grade: [false],
+    date: [false],
   });
 
   constructor() { }
 
   ngOnInit(): void {
+    this.userSettingsService.getSettings().subscribe(settings => {
+      this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
+      this.schoolName = settings.schoolName;
+    });
   }
 
   generateExercises(): void {
@@ -52,9 +71,8 @@ export class EquationsComponent implements OnInit {
   createExercises(formValues: any): string[] {
     const exercises: string[] = [];
     const numExercises = formValues.numExercises;
-    const valueRange = formValues.valueRange.split(' a ').map(Number);
-    const minValue = valueRange[0];
-    const maxValue = valueRange[1];
+    const minValue = formValues.valueRangeMin;
+    const maxValue = formValues.valueRangeMax;
 
     for (let i = 0; i < numExercises; i++) {
       let equation = '';
@@ -68,7 +86,7 @@ export class EquationsComponent implements OnInit {
           const a = this.getRandomInt(minValue, maxValue);
           const bQuad = this.getRandomInt(minValue, maxValue);
           const c = this.getRandomInt(minValue, maxValue);
-          equation = `${a}x^2 + ${bQuad}x + ${c} = 0`;
+          equation = `${a}x<sup>2</sup> + ${bQuad}x + ${c} = 0`;
           break;
         // Agrega más casos para otros tipos de ecuaciones
       }
@@ -80,5 +98,55 @@ export class EquationsComponent implements OnInit {
 
   getRandomInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  toggleName() {
+    const val = this.exerciseForm.get('name')?.value;
+    if (!val) {
+      this.exerciseForm.get('name')?.setValue(true);
+    } else {
+      this.exerciseForm.get('name')?.setValue(false);
+    }
+  }
+
+  toggleGrade() {
+    const val = this.exerciseForm.get('grade')?.value;
+    if (!val) {
+      this.exerciseForm.get('grade')?.setValue(true);
+    } else {
+      this.exerciseForm.get('grade')?.setValue(false);
+    }
+  }
+
+  toggleDate() {
+    const val = this.exerciseForm.get('date')?.value;
+    if (!val) {
+      this.exerciseForm.get('date')?.setValue(true);
+    } else {
+      this.exerciseForm.get('date')?.setValue(false);
+    }
+  }
+
+  changeEquation(index: number) {
+    const { valueRangeMin, valueRangeMax, equationType } = this.exerciseForm.value;
+
+    if (!valueRangeMin || !valueRangeMax || !equationType)
+      return;
+
+    const config = { numExercises: 1, valueRangeMin, valueRangeMax, equationType };
+    const exercise = this.createExercises(config);
+    this.exercises[index] = exercise[0];
+  }
+
+  calculate(exercise: string) {
+    return ''
+  }
+
+  print() {
+    const linear = this.exerciseForm.get('equationType')?.value;
+    this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
+    const title = this.exerciseForm.get('title')?.value || `Ecuaciones ${linear ? "Lineales" : "Cuatraticas"}`;
+    this.pdfService.createAndDownloadFromHTML("equations", `${title}`);
+    // this.pdfService.createAndDownloadFromHTML("equations-solution", `${title} - Solución`);
   }
 }

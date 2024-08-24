@@ -11,6 +11,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { PdfService } from '../../services/pdf.service';
 import { shuffle } from 'lodash';
+import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
 
 @Component({
   selector: 'app-division',
@@ -25,6 +26,7 @@ import { shuffle } from 'lodash';
     MatChipsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    InProgressComponent,
   ],
   templateUrl: './division.component.html',
   styleUrl: './division.component.scss'
@@ -39,6 +41,8 @@ export class DivisionComponent implements OnInit {
   teacherName: string = '';
   schoolName: string = '';
   additions: Array<number[]> = [];
+
+  ready = false;
 
   additionsForm = this.fb.group({
     addends: [2, Validators.min(2)],
