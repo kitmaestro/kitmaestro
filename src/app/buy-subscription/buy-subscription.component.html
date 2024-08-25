@@ -1,49 +1,99 @@
-<div style="margin: 20px;">
-    <mat-card>
-        <mat-card-header>
-            <h1>Suscripción Premium de KitMaestro</h1>
-        </mat-card-header>
-        <mat-card-content>
-            <h2>Adquiere un paquete de suscripción y disfruta de los siguientes beneficios:</h2>
-            <ul>
-                <li>
-                    Herramientas de control de datos, como registro de secciones y estudiantes, especialmente útiles cuando aún no hay registros en el centro.
-                </li>
-                <li>
-                    Asistentes de llenado de registro con generadores de contenido y guías de llenado.
-                </li>
-                <li>
-                    Asistentes de planificación diaria y unidades de aprendizaje.
-                </li>
-                <li>
-                    Varias calculadoras indispensables para el docente dominicano.
-                </li>
-            </ul>
-            <h2>Explora todas las herramientas disponibles y futuras:</h2>
-            <ul>
-                <li>
-                    Accede a <button mat-raised-button [routerLink]="['/app', 'roadmap']" color="link">todas las herramientas</button> actuales y futuras que KitMaestro tiene para ti con la suscripción premium.
-                </li>
-            </ul>
-            <h2>Precio y duración de la suscripción</h2>
-            <ul>
-                <li>La suscripción premium tiene un costo de USD$49.99 por todo un año.</li>
-            </ul>
-            <h2>Beneficios adicionales:</h2>
-            <ul>
-                <li>
-                    Al adquirir la suscripción premium, recibirás un código de afiliado exclusivo para compartir con tus colegas.
-                </li>
-                <li>
-                    Cada vez que alguien se registre con tu código, obtendrá un descuento de USD$9.99 en su suscripción.
-                </li>
-                <li>
-                    Como agradecimiento por tu recomendación, recibirás USD$9.99 por cada usuario que se registre con tu código.
-                </li>
-            </ul>
-            <p>
-                Con la suscripción premium de KitMaestro, tendrás acceso a todas las herramientas actuales y futuras que estamos desarrollando para facilitar tu labor como docente. No te pierdas esta oportunidad de potenciar tu desempeño educativo a un precio muy accesible.
-            </p>
+@if (!loading) {
+    @if (!alreadyPremium) {
+        <div class="pricing-grid" style="margin-top: 24px; margin-bottom: 42px;">
+            <mat-card>
+                <mat-card-header>
+                    <h2 style="width: 100%; text-align: center">Premium Individual</h2>
+                </mat-card-header>
+                <mat-card-content>
+                    <p style="text-decoration: line-through; font-size: 2.5em; color: #EE544C;">USD$72.00</p>
+                    <p style="font-size: 4em;">USD$49.99 <span style="font-size: 12px; display: block;">(RD{{fullPrice | currency}})</span></p>
+                    <p>Precio Anual</p>
+                    <div id="paypal-button-container-P-6BD57811KP573641CM3FUYCA"></div>
+                    <div id="paypal-button-container-P-34132758Y2605242XM3FVFMY"></div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <mat-card-header>
+                    <h2 style="width: 100%; text-align: center">Premium Grupal</h2>
+                </mat-card-header>
+                <mat-card-content>
+                    <p style="text-decoration: line-through; font-size: 2.5em; color: #EE544C;">USD$60.00</p>
+                    <p style="font-size: 4em;">USD$34.99 <span style="font-size: 12px; display: block;">(RD{{groupPrice | currency}})</span></p>
+                    <p>Precio Anual</p>
+                    <p>Escr&iacute;benos por <a href="https://wa.me/+18093247080?text=Hola!+Quiero+una+suscripción+premium+grupal+de+KitMaestro.">WhatsApp</a> para obtener el premium grupal.</p>
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <mat-card-header>
+                    <h2 style="width: 100%; text-align: center">Despliegue Privado</h2>
+                </mat-card-header>
+                <mat-card-content>
+                    <p style="line-height: 1; margin: 0;"><mat-icon style="color: #5CE594;">check</mat-icon> Un solo pago de por vida</p>
+                    <p style="line-height: 1; margin: 0;"><mat-icon style="color: #5CE594;">check</mat-icon> Permiso para vender cuentas</p>
+                    <p style="font-size: 4em;">USD$1,990.00 <span style="font-size: 12px; display: block;">(RD{{privateDeploy | currency}})</span></p>
+                    <p>Escr&iacute;benos por <a href="https://wa.me/+18093247080?text=Hola!+Quiero+un+despliegue+privado+de+KitMaestro.">WhatsApp</a> para un despliegue privado personalizado.</p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    }
+}
+
+<mat-card>
+    <mat-card-header>
+        <h1>Suscripción Premium de KitMaestro</h1>
+    </mat-card-header>
+    <mat-card-content>
+        <h2>Adquiere un paquete de suscripción y disfruta de los siguientes beneficios:</h2>
+        <ul>
+            <li>
+                Herramientas de control de datos, como registro de secciones y estudiantes, especialmente útiles cuando
+                aún no hay registros en el centro.
+            </li>
+            <li>
+                Asistentes de llenado de registro con generadores de contenido y guías de llenado.
+            </li>
+            <li>
+                Asistentes de planificación diaria y unidades de aprendizaje.
+            </li>
+            <li>
+                Varias calculadoras indispensables para el docente dominicano.
+            </li>
+        </ul>
+        <h2>Explora todas las herramientas disponibles y futuras:</h2>
+        <ul>
+            <li>
+                Accede a <button mat-raised-button [routerLink]="['/app', 'roadmap']" color="link">todas las
+                    herramientas</button> actuales y futuras que KitMaestro tiene para ti con la suscripción premium.
+            </li>
+        </ul>
+        <h2>Precio y duración de la suscripción</h2>
+        <ul>
+            <li>La suscripción premium individual tiene un costo de USD$49.99 por todo un año.</li>
+            <li>La suscripción premium grupal (5 o mas maestros) tiene un costo de USD$34.99 por usuario por año.</li>
+            <li>El despliegue personalizado se realiza con un pago único de USD$1,990.00. Esto incluye actualizaciones
+                de seguridad al código y mantenimiento por 3 meses.</li>
+        </ul>
+        <h2>Beneficios adicionales:</h2>
+        <ul>
+            <li>
+                Al adquirir la suscripción premium, recibirás un código de afiliado exclusivo para compartir con tus
+                colegas.
+            </li>
+            <li>
+                Cada vez que alguien se registre con tu código, obtendrá un descuento de USD$9.99 en su suscripción.
+            </li>
+            <li>
+                Como agradecimiento por tu recomendación, recibirás USD$9.99 por cada usuario que se registre con tu
+                código.
+            </li>
+        </ul>
+        <p>
+            Con la suscripción premium de KitMaestro, tendrás acceso a todas las herramientas actuales y futuras que
+            estamos desarrollando para facilitar tu labor como docente. No te pierdas esta oportunidad de potenciar tu
+            desempeño educativo a un precio muy accesible.
+        </p>
+        @if (!loading) {
             @if (alreadyPremium) {
                 <h2>Ya eres parte de la familia PRO de Kit Maestro!</h2>
             } @else {
@@ -51,16 +101,20 @@
                 <p>
                     Los pagos se realizan de manera segura y están protegidos por PayPal.
                 </p>
-                <p>Al registrarte con Paypal obtienes una prueba gratuita de 3 días para que vayas experimentando como se siente ser premium.</p>
-                <div id="paypal-button-container-P-6BD57811KP573641CM3FUYCA"></div>
-                <div id="paypal-button-container-P-34132758Y2605242XM3FVFMY"></div>
+                <p>Al registrarte con Paypal obtienes una prueba gratuita de 3 días para que vayas experimentando como se siente
+                    ser premium.</p>
                 <p>
-                    <b>Transferencia bancaria</b>: También puedes realizar una transferencia a la <button mat-flat-button color="accent" (click)="showBankAccount()">Cuenta</button> designada con el correo de tu cuenta en el concepto de la transferencia y una captura/recibo por <a href="https://wa.me/+18093247080?text=Hola!+He+hecho+el+pago+para+mi+subscripcion+premium+de+KitMaestro.">WhatsApp</a>.
+                    <b>Transferencia bancaria</b>: También puedes realizar una transferencia a la <button mat-flat-button
+                        color="accent" (click)="showBankAccount()">Cuenta</button> designada con el correo de tu cuenta en el
+                    concepto de la transferencia y una captura/recibo por <a
+                        href="https://wa.me/+18093247080?text=Hola!+He+hecho+el+pago+para+mi+subscripcion+premium+de+KitMaestro.">WhatsApp</a>.
                 </p>
                 <p>
                     El proceso de activación se realizará en un plazo de 0 a 6 horas tras confirmación del pago.
                 </p>
             }
-        </mat-card-content>
-    </mat-card>
-</div>
+        }
+    </mat-card-content>
+</mat-card>
+
+<div style="height: 42px;"></div>

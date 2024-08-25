@@ -13,6 +13,8 @@ import { UserSettingsService } from '../services/user-settings.service';
 import { UserSettings } from '../interfaces/user-settings';
 import { Auth, authState, User } from '@angular/fire/auth';
 import { UserSubscription } from '../interfaces/user-subscription';
+import { MatIconModule } from '@angular/material/icon';
+import { CurrencyPipe } from '@angular/common';
 
 declare const paypal: any;
 
@@ -23,10 +25,12 @@ declare const paypal: any;
     MatCardModule,
     MatButtonModule,
     HttpClientModule,
+    MatIconModule,
     MatDialogModule,
     MatListModule,
     MatSnackBarModule,
     RouterModule,
+    CurrencyPipe,
   ],
   templateUrl: './buy-subscription.component.html',
   styleUrl: './buy-subscription.component.scss',
@@ -47,18 +51,26 @@ export class BuySubscriptionComponent implements OnInit {
   auth = inject(Auth);
   user$ = authState(this.auth);
   user: User | null = null;
+  fullPrice = '';
+  groupPrice = '';
+  privateDeploy = '';
+  loading = true;
 
   ngOnInit(): void {
     this.usdPrice.subscribe({
       next: (res) => {
         this.price = (res * 35).toFixed(2);
         this.halfYear = (res * 20).toFixed(2);
+        this.fullPrice = (res * 49.99).toFixed(2);
+        this.groupPrice = (res * 34.99).toFixed(2);
+        this.privateDeploy = (res * 1500).toFixed(2);
       }
     })
     this.userSettingsService.getSettings().subscribe(settings => this.settings = settings);
     this.user$.subscribe(user => this.user = user);
     this.userSubscriptionService.subscription$.subscribe({
       next: (subscription) => {
+        this.loading = false;
         if (subscription) {
           if (subscription.active) {
             this.alreadyPremium = true;

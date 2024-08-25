@@ -9,3 +9,14 @@ p {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+.pricing-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr;
+    text-align: center;
+    
+    @media screen and (min-width: 1200px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
