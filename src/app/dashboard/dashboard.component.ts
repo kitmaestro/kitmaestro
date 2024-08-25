@@ -17,6 +17,7 @@ import { EMPTY, Observable, map, tap } from 'rxjs';
 import { UserSubscription } from '../interfaces/user-subscription';
 import { UserSettingsService } from '../services/user-settings.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatBadgeModule } from '@angular/material/badge';
 import { QuoteDialogComponent } from '../ui/quote-dialog/quote-dialog.component';
 import { UserSubscriptionService } from '../services/user-subscription.service';
 
@@ -25,6 +26,7 @@ import { UserSubscriptionService } from '../services/user-subscription.service';
   standalone: true,
   imports: [
     MatTabsModule,
+    MatBadgeModule,
     UserSettingsComponent,
     UserProfileComponent,
     MatToolbarModule,

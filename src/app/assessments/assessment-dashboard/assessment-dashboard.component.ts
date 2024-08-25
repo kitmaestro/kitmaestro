@@ -19,6 +19,14 @@ export class AssessmentDashboardComponent {
     {
       name: "Guía de Observación",
       link: "observation-sheet",
-    }
+    },
+    {
+      name: "Rúbrica",
+      link: "rubric",
+    },
+    {
+      name: "Escala de Estimación",
+      link: "estimation-scale",
+    },
   ]
 }

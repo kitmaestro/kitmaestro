@@ -24,6 +24,28 @@ import { RouterModule } from '@angular/router';
 export class UpdatesComponent implements OnInit {
   public updates: Update[] = [
     {
+      type: 'feature',
+      date: new Date(2024, 7, 25),
+      author: 'Otoniel Reyes Galay',
+      title: 'Generador de Rúbricas',
+      description: 'Ya tenemos un generador de rúbricas',
+      actions: [
+        {
+          label: 'Prueba el Generador',
+          link: [
+            '/app',
+            'assessments',
+            'rubric'
+          ]
+        }
+      ],
+      links: [
+      ],
+      content: `Hoy nos sentimos orgullosos de lanzar nuestro nuevo generador: Generador de Rúbricas.
+Este generador utiliza inteligencia artificial generativa. Es capaz de crear tanto rúbricas sintéticas como analíticas basadas en el curriculo dominicano actualizado (Adecuación Curricular).
+Por ahora, solo está disponible para primaria, ya que los contenidos de secundaria siguen incompletos, pero una vez se sumen estos (se anunciará por esta vía) las rúbricas de secundaria serán una realidad.`,
+    },
+    {
       type: 'notice',
       date: new Date(2024, 7, 22),
       author: 'Otoniel Reyes Galay',

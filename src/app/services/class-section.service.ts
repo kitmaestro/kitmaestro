@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, User, authState } from '@angular/fire/auth';
-import { Firestore, addDoc, collection, collectionData, doc, query, updateDoc, where } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, query, updateDoc, where } from '@angular/fire/firestore';
 import { Observable, concatAll, map, of } from 'rxjs';
 import { ClassSection } from '../datacenter/datacenter.component';
 
@@ -27,11 +27,23 @@ export class ClassSectionService {
   
   constructor() { }
 
+  getSection(id: string) {
+    return doc(this.firestore, 'class-sections', id);
+  }
+
+  findSection(id: string) {
+    return docData(this.getSection(id));
+  }
+
   addSection(section: ClassSection) {
     return addDoc(this.classSectionsRef, section);
   }
 
   updateSection(id: string, section: any) {
-    return updateDoc(doc(this.firestore, 'class-sections', id), section);
+    return updateDoc(this.getSection(id), section);
+  }
+
+  deleteSection(id: string) {
+    return deleteDoc(this.getSection(id));
   }
 }

@@ -21,12 +21,12 @@
                 <button (click)="sidenav.toggle()" mat-icon-button><mat-icon>menu</mat-icon></button>
                 <span routerLink="/" style="cursor: pointer;">Kit Maestro</span>
                 <span class="spacer"></span>
-                <span title="¡Motívame!" style="font-weight: lighter; font-size: 12pt; margin-right: 16px; cursor: pointer;" (click)="openQuoteDialog()" *ngIf="(userSettings$ | async) as settings">Hola, {{ settings.firstname ? settings.firstname : 'Profe' }}</span>
+                <span class="md" title="¡Motívame!" style="font-weight: lighter; font-size: 12pt; margin-right: 16px; cursor: pointer;" (click)="openQuoteDialog()" *ngIf="(userSettings$ | async) as settings">Hola, {{ settings.firstname ? settings.firstname : 'Profe' }}</span>
                 <a mat-icon-button [routerLink]="['/app', 'tutorials']" style="margin-right: 6px;">
                     <mat-icon>video_library</mat-icon>
                 </a>
                 <a mat-icon-button [routerLink]="['/app', 'updates']" style="margin-right: 6px;">
-                    <mat-icon>notifications</mat-icon>
+                    <mat-icon matBadge="1" matBadgeOverlap="true" matBadgeColor="accent">notifications</mat-icon>
                 </a>
                 <button [matMenuTriggerFor]="menu" mat-icon-button>
                     <mat-icon>more_vert</mat-icon>
