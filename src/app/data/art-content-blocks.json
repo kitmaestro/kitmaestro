@@ -3435,5 +3435,15 @@
         "attitudes": [],
         "procedures": [],
         "achievement_indicators": []
+    },
+    {
+        "title": "",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "EDUCACION_ARTISTICA",
+        "concepts": [],
+        "attitudes": [],
+        "procedures": [],
+        "achievement_indicators": []
     }
 ]
