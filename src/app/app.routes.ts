@@ -114,6 +114,7 @@ export const routes: Routes = [
             // user's resources dashboard
             { path: 'my-resources', loadComponent: () => import('./resources/resources-dashboard/resources-dashboard.component').then(mod => mod.ResourcesDashboardComponent) },
             { path: 'resources', loadComponent: () => import('./resources/resource-gallery/resource-gallery.component').then(m => m.ResourceGalleryComponent) },
+            { path: 'resources/by/:id', loadComponent: () => import('./resources/creator/creator.component').then(m => m.CreatorComponent) },
             { path: 'resources/:id', loadComponent: () => import('./resources/resource-details/resource-details.component').then(m => m.ResourceDetailsComponent) },
             {
                 path: 'collab',
