@@ -214,7 +214,7 @@ export const SPANISH_COMPETENCE = {
                     'Creatividad en la comunicación de sus pensamientos y sentimientos mediante producciones literarias, como manera de comprender y expresar la realidad del mundo que le rodea.',
                 ],
             },
-            cuarto: {
+            Cuarto: {
                 competenciasEspecificas: [
                     'Emplea adecuadamente un género textual, siguiendo los procesos de compresión y producción oral y escrita con creatividad, así como el uso de las TIC y otros recursos y medios, al comunicarse en diferentes contextos. ',
                 ],
@@ -276,7 +276,7 @@ export const SPANISH_COMPETENCE = {
                     'Validez de las informaciones que sostienen los juicios y puntos de vista, en la construcción de un pensamiento que deriva en conclusiones lógicas, disposicióna a la acción y respeto de opiniones ajenas.',
                 ],
             },
-            cuarto: {
+            Cuarto: {
                 competenciasEspecificas: [
                     'Usa secuencias argumentativas (hechos, ejemplos, analogías, argumentos y contraargumentos), en discursos orales y escritos, abordados con temas sociales de su realidad y fuera de esta.',
                 ],
@@ -338,7 +338,7 @@ export const SPANISH_COMPETENCE = {
                     'Presentación de resultados de investigaciones a través de textos específicos orales y escritos como ensayos e informes de investigación, que evidencian la solución de problemas en un contexto determinado.',
                 ],
             },
-            cuarto: {
+            Cuarto: {
                 competenciasEspecificas: [
                     'Describe problemas de su vida estudiantil, familiar y social, utilizando un tipo de texto como el informe de investigación, en el punto de partida para su estudio y aporte de posibles soluciones.',
                 ],
@@ -400,7 +400,7 @@ export const SPANISH_COMPETENCE = {
                     'Elaboración de proyectos colaborativos, utilizando variados tipos de textos, como elemento clave en la construcción de una ciudadanía en búsqueda de soluciones colectivas a los problemas sociales',
                 ],
             },
-            cuarto: {
+            Cuarto: {
                 competenciasEspecificas: [
                     'Sintetiza a través de textos variados relaciones socioculturales de entornos diversos, valorando las propiedades naturales que ponen de relieve hechos y tradiciones históricas.',
                 ],
@@ -462,7 +462,7 @@ export const SPANISH_COMPETENCE = {
                     'Exposición de investigaciones científicas sencillas mediante textos de secuencia expositivo-explicativa en intercambios escolares y comunitarios a través de soportes tecnológicos disponibles.',
                 ],
             },
-            cuarto: {
+            Cuarto: {
                 competenciasEspecificas: [
                     'Explica conocimientos de procesos investigativos científicos y del uso de tecnología, a través de textos de secuencia expositivo-explicativa, acorde con su grado y las necesidades contextuales.',
                 ],
@@ -524,7 +524,7 @@ export const SPANISH_COMPETENCE = {
                     'Construcción, aplicación y difusión de conocimientos, comportamientos y valores sobre la preservación de la naturaleza, haciendo uso de la salud y textos apropiados.',
                 ],
             },
-            cuarto: {
+            Cuarto: {
                 competenciasEspecificas: [
                     'Manifiesta conocimientos y experiencia sobre situaciones relacionadas con salud, medioambiente y la comunidad, mediante textos de secuencias y géneros variados, a través de herramientas tecnológicas y otros medios y recursos.',
                 ],
@@ -586,7 +586,7 @@ export const SPANISH_COMPETENCE = {
                     'Valoración y promoción del uso de la lengua para canalizar emociones y sentimientos, mediante la lectura y la escritura reflexivas en discursos variados, fortaleciendo las buenas relaciones humanas y el respeto a la dignidad.',
                 ],
             },
-            cuarto: {
+            Cuarto: {
                 competenciasEspecificas: [
                     'Evidencia conocimiento y comprensión de sí mismo y de los demás, expresando su percepción del mundo, mediante un tipo de texto adecuado a las situaciones personales y sociales.',
                 ],

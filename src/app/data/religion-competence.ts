@@ -188,189 +188,438 @@ export const RELIGION_COMPETENCE = {
         Comunicativa: {
             Primero: {
                 competenciasEspecificas: [
-                    'Se comunica con claridad en diferentes contextos, siguiendo los procesos de compresión y producción oral y escrita, al emplear debidamente un tipo de texto (funcional o literario), las TIC, así como otros recursos y medios.',
+                    "Constata el respeto a la vida presente en las manifestaciones culturales y religiosas de su familia y comunidad, a fin de promover y asimilar derechos humanos, valores morales y religiosos, en los diferentes contextos.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Análisis del respeto y promoción de la vida a partir de los derechos humanos, valores culturales y religiosos presentes en su familia, comunidad y en otros contextos.",
+                    "Elaboración de criterios sobre el respeto la vida en todas sus etapas, tomando en cuenta los derechos humanos, valores éticos y religiosos de su contexto familiar, escolar y social.",
+                    "Promoción del valor de la vida en sus relaciones interpersonales tomando como referencia los derechos humanos y las enseñanzas de las diferentes concepciones religiosas.",
+                ],
             },
             Segundo: {
                 competenciasEspecificas: [
-                    'Comunica sus ideas y experiencias de manera apropiada en diferentes situaciones, mediante un género textual (funcional o literario) abordado desde la comprensión y producción oral y escrita, mostrando creatividad y destrezas en el uso de herramientas tecnológicas y recursos diversos.',
+                    "Establece criterios sobre el respeto a la vida humana en todas sus etapas, a partir de los derechos humanos, los valores éticos y religiosos presentes en su contexto familiar, escolar y social.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Análisis del respeto y promoción de la vida a partir de los derechos humanos, valores culturales y religiosos presentes en su familia, comunidad y en otros contextos.",
+                    "Elaboración de criterios sobre el respeto la vida en todas sus etapas, tomando en cuenta los derechos humanos, valores éticos y religiosos de su contexto familiar, escolar y social.",
+                    "Promoción del valor de la vida en sus relaciones interpersonales tomando como referencia los derechos humanos y las enseñanzas de las diferentes concepciones religiosas.",
+                ],
             },
             Tercero: {
                 competenciasEspecificas: [
-                    'Demuestra dominio, desenvolvimiento y creatividad al comunicarse eficazmente de manera personal y colectiva en su entorno familiar, escolar y de la comunidad, utilizando un género textual (funcional o literario), a partir de la comprensión y producción oral y escrita, la utilización responsable de las TIC y demás medios.',
+                    "Promueve el valor de la vida a partir de los derechos humanos, las enseñanzas del Cristianismo y de otras concepciones religiosas en sus relaciones interpersonales.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Análisis del respeto y promoción de la vida a partir de los derechos humanos, valores culturales y religiosos presentes en su familia, comunidad y en otros contextos.",
+                    "Elaboración de criterios sobre el respeto la vida en todas sus etapas, tomando en cuenta los derechos humanos, valores éticos y religiosos de su contexto familiar, escolar y social.",
+                    "Promoción del valor de la vida en sus relaciones interpersonales tomando como referencia los derechos humanos y las enseñanzas de las diferentes concepciones religiosas.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Plantea la importancia de construir relaciones de paz y de respeto ante situaciones personales, familiares, sociales, culturales y religiosas, a fin de resolver los conflictos interpersonales en su vida cotidiana.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Uso de la comunicación para resolver conflictos que se presentan en su vida cotidiana; cultiva la escucha, el diálogo y el consenso ante puntos de vista diferentes al suyo, en la construcción de la paz y del respeto.",
+                    "Presentación de criterios y evidencias del análisis de las enseñanzas de Jesús de Nazaret y el fomento del respeto y el diálogo entre las confesiones cristianas.",
+                    "Exposición mediante diversas técnicas y actividades del mensaje de Jesús de Nazaret sobre la promoción de principios y valores para la vida, la relaciones armoniosas y respetuosas, tomando como referente el Evangelio y otros escritos del Nuevo Testamento.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza las enseñanzas de Jesús de Nazaret en el Evangelio, con la finalidad fomentar el respeto y el diálogo entre las diferentes confesiones cristianas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Uso de la comunicación para resolver conflictos que se presentan en su vida cotidiana; cultiva la escucha, el diálogo y el consenso ante puntos de vista diferentes al suyo, en la construcción de la paz y del respeto.",
+                    "Presentación de criterios y evidencias del análisis de las enseñanzas de Jesús de Nazaret y el fomento del respeto y el diálogo entre las confesiones cristianas.",
+                    "Exposición mediante diversas técnicas y actividades del mensaje de Jesús de Nazaret sobre la promoción de principios y valores para la vida, la relaciones armoniosas y respetuosas, tomando como referente el Evangelio y otros escritos del Nuevo Testamento.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Promueve principios y valores para la vida, a partir del mensaje de Jesús de Nazaret en los evangelios y otros escritos del Nuevo Testamento, con la finalidad de fomentar relaciones armoniosas y respetuosas en diferentes contextos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Uso de la comunicación para resolver conflictos que se presentan en su vida cotidiana; cultiva la escucha, el diálogo y el consenso ante puntos de vista diferentes al suyo, en la construcción de la paz y del respeto.",
+                    "Presentación de criterios y evidencias del análisis de las enseñanzas de Jesús de Nazaret y el fomento del respeto y el diálogo entre las confesiones cristianas.",
+                    "Exposición mediante diversas técnicas y actividades del mensaje de Jesús de Nazaret sobre la promoción de principios y valores para la vida, la relaciones armoniosas y respetuosas, tomando como referente el Evangelio y otros escritos del Nuevo Testamento.",
+                ],
             },
         },
         PensamientoLogico: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Presenta la importancia del trabajo, a fin de promover su implementación para la calidad de vida de las personas, la familia y la comunidad.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Argumentación sobre la importancia del trabajo y valoración del impacto que han tenido en el desarrollo de la vida humana.",
+                    "Análisis de la práctica de valores vinculados al trabajo para el desarrollo de las personas, la familia y la sociedad.",
+                    "Establecimiento de criterios que lo vinculan al mundo del trabajo, reconociendo de manera lógica y coherente sus habilidades, fortalezas y debilidades para orientar sus esfuerzos en el mundo laboral.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Argumenta sobre la práctica de valores vinculados al trabajo para identificar su aporte al desarrollo de las personas, la familia y la sociedad.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Argumentación sobre la importancia del trabajo y valoración del impacto que han tenido en el desarrollo de la vida humana.",
+                    "Análisis de la práctica de valores vinculados al trabajo para el desarrollo de las personas, la familia y la sociedad.",
+                    "Establecimiento de criterios que lo vinculan al mundo del trabajo, reconociendo de manera lógica y coherente sus habilidades, fortalezas y debilidades para orientar sus esfuerzos en el mundo laboral.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza las habilidades, actitudes, características, talentos, intereses y valores vinculados al mundo laboral, con tal de visualizar su proyecto de vida en la sociedad.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Argumentación sobre la importancia del trabajo y valoración del impacto que han tenido en el desarrollo de la vida humana.",
+                    "Análisis de la práctica de valores vinculados al trabajo para el desarrollo de las personas, la familia y la sociedad.",
+                    "Establecimiento de criterios que lo vinculan al mundo del trabajo, reconociendo de manera lógica y coherente sus habilidades, fortalezas y debilidades para orientar sus esfuerzos en el mundo laboral.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Se interroga y busca respuestas sobre el sentido de la vida, a partir de las enseñanzas de Jesús, a fin de fundamentar en principios y valores su realización personal.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de análisis, argumentaciones y representaciones de situaciones favorables o no a la búsqueda del sentido de la vida como forma de alcanzar su realización personal, fundamentada en principios y valores humanos y cristianos.",
+                    "Planteamiento de criterios y evidencias sobre la aplicación de las enseñanzas de personajes del Antiguo y del Nuevo Testamento en la vivencia de sus valores.",
+                    "Presentación de diferentes recursos y actividades para la promoción de principios y valores entorno al mensaje de Jesús de Nazaret, para la concientización sobre el respeto a la vida en las relaciones interpersonales.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica las enseñanzas de personajes del Antiguo y del Nuevo Testamento, con la finalidad de dirigir su vida mediante la vivencia de valores en diferentes contextos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de análisis, argumentaciones y representaciones de situaciones favorables o no a la búsqueda del sentido de la vida como forma de alcanzar su realización personal, fundamentada en principios y valores humanos y cristianos.",
+                    "Planteamiento de criterios y evidencias sobre la aplicación de las enseñanzas de personajes del Antiguo y del Nuevo Testamento en la vivencia de sus valores.",
+                    "Presentación de diferentes recursos y actividades para la promoción de principios y valores entorno al mensaje de Jesús de Nazaret, para la concientización sobre el respeto a la vida en las relaciones interpersonales.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Promueve principios y valores, a partir del mensaje de Jesús de Nazaret con la finalidad de crear conciencia sobre el respeto a la vida en sus relaciones interpersonales.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de análisis, argumentaciones y representaciones de situaciones favorables o no a la búsqueda del sentido de la vida como forma de alcanzar su realización personal, fundamentada en principios y valores humanos y cristianos.",
+                    "Planteamiento de criterios y evidencias sobre la aplicación de las enseñanzas de personajes del Antiguo y del Nuevo Testamento en la vivencia de sus valores.",
+                    "Presentación de diferentes recursos y actividades para la promoción de principios y valores entorno al mensaje de Jesús de Nazaret, para la concientización sobre el respeto a la vida en las relaciones interpersonales.",
+                ],
             },
         },
         ResolucionDeProblemas: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Constata las principales dificultades que viven los adolescentes en su desarrollo y en sus relaciones sociales y familiares, a fin de buscar alternativas de solución a los conflictos que se les presenten.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Descripción y análisis de la realidad que viven los adolescentes en su desarrollo y las situaciones que se les presentan en el ámbito personal, social y familiar.",
+                    "Argumentación sobre las estrategias para la solución de conflictos en la familia y la sociedad, a partir de valores humanos y cristianos.",
+                    "Implementación del diálogo y la escucha en la resolución y prevención de conflictos interpersonales, para favorecer la convivencia armónica en la familia, la escuela y la sociedad.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza su realidad familiar y social, tomando en cuenta valores humanos y cristianos, para plantear y promover estrategias de solución a los conflictos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Descripción y análisis de la realidad que viven los adolescentes en su desarrollo y las situaciones que se les presentan en el ámbito personal, social y familiar.",
+                    "Argumentación sobre las estrategias para la solución de conflictos en la familia y la sociedad, a partir de valores humanos y cristianos.",
+                    "Implementación del diálogo y la escucha en la resolución y prevención de conflictos interpersonales, para favorecer la convivencia armónica en la familia, la escuela y la sociedad.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Fomenta la resolución y prevención de conflictos interpersonales, a través del diálogo y la escucha para propiciar la convivencia armónica en su familia, la escuela y la sociedad.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Descripción y análisis de la realidad que viven los adolescentes en su desarrollo y las situaciones que se les presentan en el ámbito personal, social y familiar.",
+                    "Argumentación sobre las estrategias para la solución de conflictos en la familia y la sociedad, a partir de valores humanos y cristianos.",
+                    "Implementación del diálogo y la escucha en la resolución y prevención de conflictos interpersonales, para favorecer la convivencia armónica en la familia, la escuela y la sociedad.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Formula alternativas a situaciones, problemáticas y conflictos personales y familiares, tomando como referencia actitudes y valores de Jesús de Nazaret, a fin de fomentar relaciones armoniosas en su contexto familiar.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Análisis de las situaciones, problemáticas y conflictos que afectan a la familia y realización de propuestas para el cultivo de actitudes y valores que fomenten las relaciones armónicas en su contexto familiar. ",
+                    "Identificación, análisis y resolución de situaciones conflictivas en su ámbito familiar, escolar y social, utilizando procesos de razonamientos a partir de las enseñanzas de Jesús.",
+                    "Creación de herramientas, instrumentos y actividades para la promoción de valores y actitudes del cristianismo que coadyuvan al análisis y resolución de situaciones conflictivas, que afectan a los jóvenes, la sociedad y al desarrollo de relaciones armoniosas y constructivas.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Plantea alternativas de solución a situaciones sociales que afectan a la persona, la familia, la escuela y la comunidad, tomando en cuenta las enseñanzas de Jesús, con la finalidad de promover relaciones armoniosas en diferentes contextos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Análisis de las situaciones, problemáticas y conflictos que afectan a la familia y realización de propuestas para el cultivo de actitudes y valores que fomenten las relaciones armónicas en su contexto familiar. ",
+                    "Identificación, análisis y resolución de situaciones conflictivas en su ámbito familiar, escolar y social, utilizando procesos de razonamientos a partir de las enseñanzas de Jesús.",
+                    "Creación de herramientas, instrumentos y actividades para la promoción de valores y actitudes del cristianismo que coadyuvan al análisis y resolución de situaciones conflictivas, que afectan a los jóvenes, la sociedad y al desarrollo de relaciones armoniosas y constructivas.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Fomenta valores y actitudes del cristianismo en la resolución de problemas que afectan la realización personal de los jóvenes, con la finalidad de desarrollar relaciones armoniosas y constructivas para la promoción propia y comunitaria.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Análisis de las situaciones, problemáticas y conflictos que afectan a la familia y realización de propuestas para el cultivo de actitudes y valores que fomenten las relaciones armónicas en su contexto familiar. ",
+                    "Identificación, análisis y resolución de situaciones conflictivas en su ámbito familiar, escolar y social, utilizando procesos de razonamientos a partir de las enseñanzas de Jesús.",
+                    "Creación de herramientas, instrumentos y actividades para la promoción de valores y actitudes del cristianismo que coadyuvan al análisis y resolución de situaciones conflictivas, que afectan a los jóvenes, la sociedad y al desarrollo de relaciones armoniosas y constructivas.",
+                ],
             },
         },
         EticaYCiudadana: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Descubre en los evangelios la novedad de la vida y los valores practicados por Jesús de Nazaret, a fin de compararlos con los asumidos en su familia, escuela y la comunidad e integrarlos en su relación con los demás.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de los valores practicados por Jesús de Nazaret y los elementos novedosos de su vida y los relaciona con los asumidos en su contexto e integra en sus relaciones interpersonales.",
+                    "Representación de actitudes y acciones que favorecen el bienestar personal y el de los demás, desde las manifestaciones del amor de Dios identificadas en la misión de Jesús de Nazaret.",
+                    "Identificación en el contexto sociocultural dominicano de los valores practicados y enseñados por Jesús de Nazaret.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Constata en la misión de Jesús de Nazaret la manifestación del amor de Dios hacia las personas, con la finalidad de desarrollar actitudes y acciones que favorezcan el bienestar de los demás.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de los valores practicados por Jesús de Nazaret y los elementos novedosos de su vida y los relaciona con los asumidos en su contexto e integra en sus relaciones interpersonales.",
+                    "Representación de actitudes y acciones que favorecen el bienestar personal y el de los demás, desde las manifestaciones del amor de Dios identificadas en la misión de Jesús de Nazaret.",
+                    "Identificación en el contexto sociocultural dominicano de los valores practicados y enseñados por Jesús de Nazaret.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Plantea la forma en que los valores practicados por Jesús de Nazaret están presentes en el contexto sociocultural dominicano, a fin de incorporarlos en su relación con las demás personas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de los valores practicados por Jesús de Nazaret y los elementos novedosos de su vida y los relaciona con los asumidos en su contexto e integra en sus relaciones interpersonales.",
+                    "Representación de actitudes y acciones que favorecen el bienestar personal y el de los demás, desde las manifestaciones del amor de Dios identificadas en la misión de Jesús de Nazaret.",
+                    "Identificación en el contexto sociocultural dominicano de los valores practicados y enseñados por Jesús de Nazaret.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Plantea el trabajo como participación y desarrollo de la obra creadora de Dios, a fin identificar su contribución en la realización personal y en el progreso de la sociedad. ",
+                ],
+                criteriosDeEvaluacion: [
+                    "Organización de una exposición sobre el trabajo como instrumento que aporta a la perfección de la obra creada por Dios y fuente de realización personal y desarrollo de los pueblos. ",
+                    "Implementación de estrategias, actividades y técnicas que posibilitan analizar criterios, habilidades y valores relacionados con el trabajo y su papel en la obra creadora de Dios.",
+                    "Planificación de su proyecto de vida, tomando en cuenta sus valores, intereses, posibilidades, aspiraciones, limitaciones y habilidades.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza los valores y el papel del trabajo en el desarrollo de los pueblos como continuación de la obra creada por Dios, para reconocer la importancia del trabajo en su vida y la sociedad.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Organización de una exposición sobre el trabajo como instrumento que aporta a la perfección de la obra creada por Dios y fuente de realización personal y desarrollo de los pueblos. ",
+                    "Implementación de estrategias, actividades y técnicas que posibilitan analizar criterios, habilidades y valores relacionados con el trabajo y su papel en la obra creadora de Dios.",
+                    "Planificación de su proyecto de vida, tomando en cuenta sus valores, intereses, posibilidades, aspiraciones, limitaciones y habilidades.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Plantea sus valores, habilidades y actitudes relacionadas al mundo laboral con la finalidad de establecer su proyecto de vida en la búsqueda de su realización personal.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Organización de una exposición sobre el trabajo como instrumento que aporta a la perfección de la obra creada por Dios y fuente de realización personal y desarrollo de los pueblos. ",
+                    "Implementación de estrategias, actividades y técnicas que posibilitan analizar criterios, habilidades y valores relacionados con el trabajo y su papel en la obra creadora de Dios.",
+                    "Planificación de su proyecto de vida, tomando en cuenta sus valores, intereses, posibilidades, aspiraciones, limitaciones y habilidades.",
+                ],
             },
         },
         CienciaYTecnologia: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Constata la importancia de aplicar criterios éticos en el uso de las ciencias y las tecnologías, a fin de mejorar la calidad de vida de las personas y del entorno natural.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de hechos, acontecimientos y situaciones, a partir de criterios éticos, sobre el impacto que tiene la tecnología en la vida de las personas y el entorno natural.",
+                    "Argumentación de la contribución de la tecnología al desarrollo de la vida humana, las sociedades y el entorno natural a partir de criterios éticos.",
+                    "Representación a partir de criterios éticos de la incidencia de los avances científicos y tecnológicos en la persona, la sociedad y el entorno natural.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Explica a partir de criterios éticos la contribución de las ciencias y las tecnologías para el desarrollo de la sociedad, la vida humana y el entorno natural.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de hechos, acontecimientos y situaciones, a partir de criterios éticos, sobre el impacto que tiene la tecnología en la vida de las personas y el entorno natural.",
+                    "Argumentación de la contribución de la tecnología al desarrollo de la vida humana, las sociedades y el entorno natural a partir de criterios éticos.",
+                    "Representación a partir de criterios éticos de la incidencia de los avances científicos y tecnológicos en la persona, la sociedad y el entorno natural.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza criterios éticos, los avances científicos y tecnológicos con la finalidad de proteger la vida y la sostenibilidad del entorno natural.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de hechos, acontecimientos y situaciones, a partir de criterios éticos, sobre el impacto que tiene la tecnología en la vida de las personas y el entorno natural.",
+                    "Argumentación de la contribución de la tecnología al desarrollo de la vida humana, las sociedades y el entorno natural a partir de criterios éticos.",
+                    "Representación a partir de criterios éticos de la incidencia de los avances científicos y tecnológicos en la persona, la sociedad y el entorno natural.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Aplica criterios éticos en el uso de las tecnologías de la información y la comunicación, a fin de favorecer la calidad de vida y la convivencia armónica en los diferentes contextos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Argumentación a partir de criterios éticos sobre el uso responsable de la tecnología de la información y la comunicación, para garantizar la calidad de vida y la convivencia armónica entre las personas. ",
+                    "Planteamiento de valores éticos sobre las ciencias y las tecnologías que promueven valores que protegen la vida, la cultura y la familia.",
+                    "Establecimiento de criterios para la construcción de proyectos que promueven valores éticos y morales en la ",
+                    "aplicación de la ciencia y la tecnología, para el cuidado de la vida y de las relaciones sociales.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Formula juicios éticos sobre el impacto de las ciencias y las tecnologías en la persona, la familia y la cultura con la finalidad de asumir valores que protejan la vida en el uso de los avances tecnológicos que se dan en la sociedad.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Argumentación a partir de criterios éticos sobre el uso responsable de la tecnología de la información y la comunicación, para garantizar la calidad de vida y la convivencia armónica entre las personas. ",
+                    "Planteamiento de valores éticos sobre las ciencias y las tecnologías que promueven valores que protegen la vida, la cultura y la familia.",
+                    "Establecimiento de criterios para la construcción de proyectos que promueven valores éticos y morales en la ",
+                    "aplicación de la ciencia y la tecnología, para el cuidado de la vida y de las relaciones sociales.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Desarrolla proyectos que promueven criterios éticos y valores morales en el uso de las ciencias y las tecnologías con la finalidad de proteger la vida en todas sus manifestaciones y la convivencia del ser humano en sociedad.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Argumentación a partir de criterios éticos sobre el uso responsable de la tecnología de la información y la comunicación, para garantizar la calidad de vida y la convivencia armónica entre las personas. ",
+                    "Planteamiento de valores éticos sobre las ciencias y las tecnologías que promueven valores que protegen la vida, la cultura y la familia.",
+                    "Establecimiento de criterios para la construcción de proyectos que promueven valores éticos y morales en la ",
+                    "aplicación de la ciencia y la tecnología, para el cuidado de la vida y de las relaciones sociales.",
+                ],
             },
         },
         AmbientalYDeLaSalud: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Identifica acciones a favor del cuidado de la vida y en todas sus manifestaciones, a fin de garantizar su salud personal y colectiva desde los diferentes contextos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Descripción de acciones a favor del cuidado de la vida y la sostenibilidad del entorno natural creado por Dios en todas sus manifestaciones.",
+                    "Argumentación acerca del uso adecuado de los recursos del entorno natural.",
+                    "Implementación de acciones en torno al cuidado de la vida desde su contexto comunitario, tomando en cuenta los valores practicados por Jesús de Nazaret y de otros líderes espirituales.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Propone acciones que fomentan el cuidado y sostenibilidad del entorno natural como casa común, en su familia, escuela y comunidad, a fin de asumirlas y promoverlas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Descripción de acciones a favor del cuidado de la vida y la sostenibilidad del entorno natural creado por Dios en todas sus manifestaciones.",
+                    "Argumentación acerca del uso adecuado de los recursos del entorno natural.",
+                    "Implementación de acciones en torno al cuidado de la vida desde su contexto comunitario, tomando en cuenta los valores practicados por Jesús de Nazaret y de otros líderes espirituales.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Desarrolla acciones de protección y cuidado al entorno natural, a partir de los valores de Jesús de Nazaret y otros líderes, en su familia, escuela y comunidad, con la finalidad de fomentar el cuidado de la casa común creada por Dios para el disfrute de todos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Descripción de acciones a favor del cuidado de la vida y la sostenibilidad del entorno natural creado por Dios en todas sus manifestaciones.",
+                    "Argumentación acerca del uso adecuado de los recursos del entorno natural.",
+                    "Implementación de acciones en torno al cuidado de la vida desde su contexto comunitario, tomando en cuenta los valores practicados por Jesús de Nazaret y de otros líderes espirituales.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Constata la universalidad del hecho religioso como apertura a la trascendencia en su contexto a fin de reconocer el fenómeno religioso en cada cultura y asumir una postura de respeto ante las creencias de las personas. ",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de las manifestaciones del hecho religioso y la multiplicidad de creencias religiosas en su contexto y la importancia de asumir una postura de respeto ante la diversidad creencias.",
+                    "Integración de actitudes y valores del Evangelio como estilo de vida que da sentido a las personas y a su mundo en la construcción de una sociedad mejor.",
+                    "Implementación de iniciativas que procuren la defensa de la vida y el entorno natural y así garantizar un desarrollo sostenible.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Asume la propuesta de Jesús como un estilo de vida que da sentido a las personas y a sus relaciones, con la finalidad de proyectar valores en su proyecto de vida y en sus relaciones.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de las manifestaciones del hecho religioso y la multiplicidad de creencias religiosas en su contexto y la importancia de asumir una postura de respeto ante la diversidad creencias.",
+                    "Integración de actitudes y valores del Evangelio como estilo de vida que da sentido a las personas y a su mundo en la construcción de una sociedad mejor.",
+                    "Implementación de iniciativas que procuren la defensa de la vida y el entorno natural y así garantizar un desarrollo sostenible.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Fomenta iniciativas de defensa de la vida y protección del entorno natural creado por Dios para las presentes y futuras generaciones, con la finalidad de desarrollar en la sociedad el medioambiente sostenible natural.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de las manifestaciones del hecho religioso y la multiplicidad de creencias religiosas en su contexto y la importancia de asumir una postura de respeto ante la diversidad creencias.",
+                    "Integración de actitudes y valores del Evangelio como estilo de vida que da sentido a las personas y a su mundo en la construcción de una sociedad mejor.",
+                    "Implementación de iniciativas que procuren la defensa de la vida y el entorno natural y así garantizar un desarrollo sostenible.",
+                ],
             },
         },
         DesarrolloPersonalYEspiritual: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Identifica los cambios físicos, emocionales, sexuales y espirituales de la etapa de la adolescencia, con la finalidad de afianzar su conocimiento personal y espiritual.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Argumentación acerca de su conocimiento personal y espiritual tomando como referencia los cambios experimentados durante la etapa de la adolescencia.",
+                    "Constatación de que el desarrollo humano y espiritual en la etapa de la adolescencia están relacionados con los cambios, los comportamientos y decisiones que se asumen.",
+                    "Argumentación de la vivencia de valores humanos, trascendentes, morales, éticos y religiosos como forma de dar respuestas a las interrogantes y búsqueda de sentido a la vida en la adolescencia, en su relación con los demás en los diferentes contextos.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Reconoce los cambios que experimenta en la etapa de la adolescencia e identifica su influencia en sus intereses y comportamientos, a fin de tomar decisiones que favorezcan su desarrollo humano y espiritual.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Argumentación acerca de su conocimiento personal y espiritual tomando como referencia los cambios experimentados durante la etapa de la adolescencia.",
+                    "Constatación de que el desarrollo humano y espiritual en la etapa de la adolescencia están relacionados con los cambios, los comportamientos y decisiones que se asumen.",
+                    "Argumentación de la vivencia de valores humanos, trascendentes, morales, éticos y religiosos como forma de dar respuestas a las interrogantes y búsqueda de sentido a la vida en la adolescencia, en su relación con los demás en los diferentes contextos.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Responde a las interrogantes que se surgen en la etapa de la adolescencia mediante el cultivo de valores humanos, morales, éticos y religiosos, con la finalidad de actuar de forma apropiada en su familia, la escuela y la comunidad.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Argumentación acerca de su conocimiento personal y espiritual tomando como referencia los cambios experimentados durante la etapa de la adolescencia.",
+                    "Constatación de que el desarrollo humano y espiritual en la etapa de la adolescencia están relacionados con los cambios, los comportamientos y decisiones que se asumen.",
+                    "Argumentación de la vivencia de valores humanos, trascendentes, morales, éticos y religiosos como forma de dar respuestas a las interrogantes y búsqueda de sentido a la vida en la adolescencia, en su relación con los demás en los diferentes contextos.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Constata la universalidad del hecho religioso como apertura a la trascendencia en su contexto, a fin de reconocer el fenómeno religioso en cada cultura y asumir una postura de respeto ante las creencias de las personas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de las manifestaciones del hecho religioso y la multiplicidad de creencias religiosas en su contexto y la importancia de asumir una postura de respeto ante la diversidad creencias.",
+                    "Integración de actitudes y valores del Evangelio como estilo de vida que da sentido a las personas y a su mundo relacional en la construcción de una sociedad mejor.",
+                    "Implementación de características y valores, a partir del estilo de vida de Jesús de Nazaret en acciones fraternas y solidarias que posibilitan el desarrollo de la dimensión personal, comunitaria y espiritual, a través de su proyecto de vida.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Asume la propuesta de Jesús como un estilo de vida que da sentido a las personas y a sus relaciones, con la finalidad de insertar valores en su proyecto de vida y en sus relaciones.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de las manifestaciones del hecho religioso y la multiplicidad de creencias religiosas en su contexto y la importancia de asumir una postura de respeto ante la diversidad creencias.",
+                    "Integración de actitudes y valores del Evangelio como estilo de vida que da sentido a las personas y a su mundo relacional en la construcción de una sociedad mejor.",
+                    "Implementación de características y valores, a partir del estilo de vida de Jesús de Nazaret en acciones fraternas y solidarias que posibilitan el desarrollo de la dimensión personal, comunitaria y espiritual, a través de su proyecto de vida.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Plantea las características y valores del estilo de vida de Jesús de Nazaret, con la finalidad de tomar en cuenta sus enseñanzas en los planes y proyectos desarrollados en su vida.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de las manifestaciones del hecho religioso y la multiplicidad de creencias religiosas en su contexto y la importancia de asumir una postura de respeto ante la diversidad creencias.",
+                    "Integración de actitudes y valores del Evangelio como estilo de vida que da sentido a las personas y a su mundo relacional en la construcción de una sociedad mejor.",
+                    "Implementación de características y valores, a partir del estilo de vida de Jesús de Nazaret en acciones fraternas y solidarias que posibilitan el desarrollo de la dimensión personal, comunitaria y espiritual, a través de su proyecto de vida.",
+                ],
             },
         },
     }

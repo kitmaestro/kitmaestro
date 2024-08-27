@@ -191,189 +191,435 @@ export const SOCIETY_COMPETENCE = {
         Comunicativa: {
             Primero: {
                 competenciasEspecificas: [
-                    'Se comunica con claridad en diferentes contextos, siguiendo los procesos de compresión y producción oral y escrita, al emplear debidamente un tipo de texto (funcional o literario), las TIC, así como otros recursos y medios.',
+                    "Identifica en medios impresos y digitales, fuentes primarias y secundarias relacionadas con procesos sociales, políticos, económicos, culturales, históricos, y geográficos; con la finalidad de obtener informaciones confiables.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Búsqueda en fuentes de información confiables sobre el tema de investigación.",
+                    "Respeto de la autoría de las informaciones obtenidas en las fuentes analizadas.",
+                    "Presentación de sus conclusiones a partir de las informaciones derivadas de las fuentes consultadas.",
+                ],
             },
             Segundo: {
                 competenciasEspecificas: [
-                    'Comunica sus ideas y experiencias de manera apropiada en diferentes situaciones, mediante un género textual (funcional o literario) abordado desde la comprensión y producción oral y escrita, mostrando creatividad y destrezas en el uso de herramientas tecnológicas y recursos diversos.',
+                    "Compara de manera rigurosa la autoría de las fuentes primarias y secundarias consultadas en medios impresos y digitales sobre procesos sociales, políticos, económicos, históricos, geográficos o culturales; con la finalidad de garantizar la credibilidad de las informaciones.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Búsqueda en fuentes de información confiables sobre el tema de investigación.",
+                    "Respeto de la autoría de las informaciones obtenidas en las fuentes analizadas.",
+                    "Presentación de sus conclusiones a partir de las informaciones derivadas de las fuentes consultadas.",
+                ],
             },
             Tercero: {
                 competenciasEspecificas: [
-                    'Demuestra dominio, desenvolvimiento y creatividad al comunicarse eficazmente de manera personal y colectiva en su entorno familiar, escolar y de la comunidad, utilizando un género textual (funcional o literario), a partir de la comprensión y producción oral y escrita, la utilización responsable de las TIC y demás medios.',
+                    "Demuestra en sus proyectos de investigación respeto por la autoría de las fuentes primaria y secundaria consultadas sobre procesos sociales, políticos, económicos, históricos, geográficos o culturales; con la finalidad de avalar la originalidad y credibilidad de sus informaciones.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Búsqueda en fuentes de información confiables sobre el tema de investigación.",
+                    "Respeto de la autoría de las informaciones obtenidas en las fuentes analizadas.",
+                    "Presentación de sus conclusiones a partir de las informaciones derivadas de las fuentes consultadas.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Analiza en fuentes primarias y secundarias procesos sociales, políticos, económicos, históricos, geográficos o culturales, con la finalidad de elaborar proyectos fundamentados en información verificable y confiable.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Evaluación de la pertinencia, validez y confiabilidad de las fuentes de información seleccionadas, tanto en formatos impresos como digitales.",
+                    "Selección de informaciones confiables, mostrando capacidad de sintetizar las informaciones obtenidas.",
+                    "Realización de investigaciones seleccionando fuentes de información confiable, tanto impresa como digitales, demostrando capacidad de sintetizar al plantear sus conclusiones.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Desarrolla análisis críticos de información, utilizando fuentes de primarias y secundarias, con la finalidad de establecer comparaciones respaldadas en información verificable y confiable entre eventos sociales, políticos, económicos, históricos, geográficos o culturales.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Evaluación de la pertinencia, validez y confiabilidad de las fuentes de información seleccionadas, tanto en formatos impresos como digitales.",
+                    "Selección de informaciones confiables, mostrando capacidad de sintetizar las informaciones obtenidas.",
+                    "Realización de investigaciones seleccionando fuentes de información confiable, tanto impresa como digitales, demostrando capacidad de sintetizar al plantear sus conclusiones.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Reconoce en proyectos de investigación el valor de utilizar fuentes primarias y secundarias, con la finalidad de presentar argumentos sólidos y confiables sobre hechos sociales, políticos, económicos, históricos, geográficos o cultural.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Evaluación de la pertinencia, validez y confiabilidad de las fuentes de información seleccionadas, tanto en formatos impresos como digitales.",
+                    "Selección de informaciones confiables, mostrando capacidad de sintetizar las informaciones obtenidas.",
+                    "Realización de investigaciones seleccionando fuentes de información confiable, tanto impresa como digitales, demostrando capacidad de sintetizar al plantear sus conclusiones.",
+                ],
             },
         },
         PensamientoLogico: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Relaciona a través de propuestas y proyectos de investigación, hechos históricos con el espacio geográfico, ocurridos en diferentes periodos, con la finalidad de desarrollar una conciencia crítica en cuanto al tiempo y el espacio.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de explicaciones claras sobre las diferencias y similitudes entre hechos históricos ocurridos en el espacio geográfico.",
+                    "Realización de análisis riguroso y científico de las informaciones consultadas, presentando sus argumentos y conclusiones respaldados por datos y evidencias.",
+                    "Argumentación de las relaciones pertinentes entre un hecho histórico, el tiempo y el espacio en el que ocurrió. ",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Interpreta por medio de investigaciones, hechos históricos y su relación con el espacio geográfico, con la finalidad de evaluar críticamente los cambios que se producen en el tiempo y el espacio.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de explicaciones claras sobre las diferencias y similitudes entre hechos históricos ocurridos en el espacio geográfico.",
+                    "Realización de análisis riguroso y científico de las informaciones consultadas, presentando sus argumentos y conclusiones respaldados por datos y evidencias.",
+                    "Argumentación de las relaciones pertinentes entre un hecho histórico, el tiempo y el espacio en el que ocurrió. ",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Comprende las relaciones geopolíticas entre las diferentes naciones y regiones a lo largo de la historia, así como los cambios ocurridos por los factores geográficos; con la finalidad de fomentar el desarrollo del pensamiento crítico y el análisis de informaciones en el tiempo y el espacio.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de explicaciones claras sobre las diferencias y similitudes entre hechos históricos ocurridos en el espacio geográfico.",
+                    "Realización de análisis riguroso y científico de las informaciones consultadas, presentando sus argumentos y conclusiones respaldados por datos y evidencias.",
+                    "Argumentación de las relaciones pertinentes entre un hecho histórico, el tiempo y el espacio en el que ocurrió. ",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Reconoce a través de propuestas o proyectos de investigación, hechos históricos ocurridos en diferentes periodos con el espacio geográfico; con la finalidad de desarrollar una conciencia crítica sobre los cambios económicos, políticos, sociales y culturales que se produjeron en el tiempo y el espacio.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Interpretación clara de procesos históricos y el espacio geográfico en el que se producen diversos cambios.",
+                    "Coherencia de las hipótesis planteadas con el contexto histórico y geográfico en el que ocurrió.",
+                    "Utilización de evidencia histórica y geográfica relevante para respaldar las conclusiones presentadas.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Contextualiza la relación existente entre los procesos históricos ocurridos en espacios geográficos de la isla de Santo Domingo, mediante el uso de hipótesis; con la finalidad de presentar argumentaciones que evidencien su influencia en los cambios económicos, sociales, políticos y culturales del contexto en el que se produjeron.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Interpretación clara de procesos históricos y el espacio geográfico en el que se producen diversos cambios.",
+                    "Coherencia de las hipótesis planteadas con el contexto histórico y geográfico en el que ocurrió.",
+                    "Utilización de evidencia histórica y geográfica relevante para respaldar las conclusiones presentadas.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Compara la relación existente entre los procesos históricos ocurridos en espacios geográficos de la isla de la Repúblicaa Dominicana, mediante el uso de hipótesis; con la finalidad de presentar argumentaciones que evidencien su influencia en los cambios económicos, sociales, políticos y culturales del contexto en el que se produjeron.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Interpretación clara de procesos históricos y el espacio geográfico en el que se producen diversos cambios.",
+                    "Coherencia de las hipótesis planteadas con el contexto histórico y geográfico en el que ocurrió.",
+                    "Utilización de evidencia histórica y geográfica relevante para respaldar las conclusiones presentadas.",
+                ],
             },
         },
         ResolucionDeProblemas: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Verifica en el levantamiento de informaciones, la existencia de un problema, con la finalidad de ubicar el contexto social en el que se produce.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de las causas de problemas y conflictos sociales a través de análisis detallados. ",
+                    "Presentación de análisis sobre la relación existente entre el problema planteado y el contexto en el que este surge.",
+                    "Solución de problemáticas ocurridas en el tiempo y el espacio, utilizando fuentes de información confiables, para la toma de decisiones.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Explica mediante el levantamiento de información, la existencia de un problema social y el contexto en el que se produce, con la finalidad de comprender su incidencia en el tiempo y el espacio.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de las causas de problemas y conflictos sociales a través de análisis detallados. ",
+                    "Presentación de análisis sobre la relación existente entre el problema planteado y el contexto en el que este surge.",
+                    "Solución de problemáticas ocurridas en el tiempo y el espacio, utilizando fuentes de información confiables, para la toma de decisiones.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica procedimientos científicos en el levantamiento de informaciones para solucionar un problema, con la finalidad de comprobar su impacto en el tiempo y en el espacio.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de las causas de problemas y conflictos sociales a través de análisis detallados. ",
+                    "Presentación de análisis sobre la relación existente entre el problema planteado y el contexto en el que este surge.",
+                    "Solución de problemáticas ocurridas en el tiempo y el espacio, utilizando fuentes de información confiables, para la toma de decisiones.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Relaciona en investigaciones y producciones la existencia de un problema y situaciones que se presentan, con la finalidad de ubicarlos en un espacio y tiempo determinado.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de las causas y consecuencias de un problema dado, demostrando una interpretación coherente.",
+                    "Reconocimiento del contexto en el que se presenta un problema determinado, identificando las características y factores que los definen.",
+                    "Interpretación clara y detallada sobre la ubicación de un problema, incorporando datos relevantes de diversas fuentes.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Comprende la naturaleza y contexto de un problema o situación específica, incluyendo su ubicación temporal y espacial, con la finalidad de identificar sus posibles causas mediante la realización de investigaciones pertinentes que permitan desarrollar estrategias efectivas en garantes de su resolución.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de las causas y consecuencias de un problema dado, demostrando una interpretación coherente.",
+                    "Reconocimiento del contexto en el que se presenta un problema determinado, identificando las características y factores que los definen.",
+                    "Interpretación clara y detallada sobre la ubicación de un problema, incorporando datos relevantes de diversas fuentes.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Explica en investigaciones y producciones la existencia de un problema y las diversas situaciones que pueden surgir en torno a él; con la finalidad de comprender sus implicaciones y las posibles soluciones que puedan ser implementadas en función de su contexto.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de las causas y consecuencias de un problema dado, demostrando una interpretación coherente.",
+                    "Reconocimiento del contexto en el que se presenta un problema determinado, identificando las características y factores que los definen.",
+                    "Interpretación clara y detallada sobre la ubicación de un problema, incorporando datos relevantes de diversas fuentes.",
+                ],
             },
         },
         EticaYCiudadana: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Realiza propuestas que promueven la interacción sociocultural, el respeto a la Constitución y la construcción ciudadana, con la finalidad de fortalecer la democracia, la cultura de paz y el respeto a los derechos humanos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Análisis de la relación entre la convivencia democrática y el respeto a los derechos humanos como parte de la consolidación de sociedades más justas y equitativas.",
+                    "Valoración de su identidad personal y de la diversidad cultural, como elementos fundamentales de la construcción de una cultura de paz y una convivencia armoniosa en la sociedad.",
+                    "Realización de análisis crítico de los valores interculturales a nivel nacional, regional e internacional, identificando las fortalezas y debilidades en términos de inclusión, tolerancia y respeto mutuo.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Promueve proyectos e iniciativas que fomenten una cultura de paz, el respeto por los valores culturales e interculturales y los derechos humanos, con la finalidad de lograr una convivencia pacífica y armoniosa en la sociedad.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Análisis de la relación entre la convivencia democrática y el respeto a los derechos humanos como parte de la consolidación de sociedades más justas y equitativas.",
+                    "Valoración de su identidad personal y de la diversidad cultural, como elementos fundamentales de la construcción de una cultura de paz y una convivencia armoniosa en la sociedad.",
+                    "Realización de análisis crítico de los valores interculturales a nivel nacional, regional e internacional, identificando las fortalezas y debilidades en términos de inclusión, tolerancia y respeto mutuo.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Incorpora en sus proyectos e investigaciones, estrategias que propicien la cultura de paz y el respeto por los valores culturales e interculturales, con la finalidad de promover una convivencia democrática y el respeto a los derechos humanos. ",
+                ],
+                criteriosDeEvaluacion: [
+                    "Análisis de la relación entre la convivencia democrática y el respeto a los derechos humanos como parte de la consolidación de sociedades más justas y equitativas.",
+                    "Valoración de su identidad personal y de la diversidad cultural, como elementos fundamentales de la construcción de una cultura de paz y una convivencia armoniosa en la sociedad.",
+                    "Realización de análisis crítico de los valores interculturales a nivel nacional, regional e internacional, identificando las fortalezas y debilidades en términos de inclusión, tolerancia y respeto mutuo.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Utiliza habilidades y conocimientos adquiridos al promover la convivencia democrática en cualquier contexto y en la defensa de los valores culturales e interculturales, con la finalidad de fomentar el respeto por la Constitución y los derechos humanos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Demostración de habilidades y conocimientos sobre la comprensión de la Constitución y el valor de los derechos humanos en diversas situaciones.",
+                    "Elaboración de propuesta de investigación orientada hacia la identidad cultural e intercultural, la convivencia y los valores democráticos.",
+                    "Presentación de proyectos sustentados en argumentos y evidencias que garantizan el respeto por la Constitución y los derechos humanos.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Diseña propuestas de investigación que promuevan valores culturales e interculturales, la construcción ciudadana y la convivencia democrática, con la finalidad de propiciar el respeto por la Constitución y los derechos humanos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Demostración de habilidades y conocimientos sobre la comprensión de la Constitución y el valor de los derechos humanos en diversas situaciones.",
+                    "Elaboración de propuesta de investigación orientada hacia la identidad cultural e intercultural, la convivencia y los valores democráticos.",
+                    "Presentación de proyectos sustentados en argumentos y evidencias que garantizan el respeto por la Constitución y los derechos humanos.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Elabora proyectos de investigación que fomenten la promoción de los valores culturales e interculturales, la construcción ciudadana y la convivencia democrática en cualquier espacio, con la finalidad de propiciar el respeto por la Constitución y los derechos humanos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Demostración de habilidades y conocimientos sobre la comprensión de la Constitución y el valor de los derechos humanos en diversas situaciones.",
+                    "Elaboración de propuesta de investigación orientada hacia la identidad cultural e intercultural, la convivencia y los valores democráticos.",
+                    "Presentación de proyectos sustentados en argumentos y evidencias que garantizan el respeto por la Constitución y los derechos humanos.",
+                ],
             },
         },
         CienciaYTecnologia: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Utiliza sus habilidades al analizar planteamientos y teorías científicas en sus investigaciones, tanto en el ámbito de los fenómenos naturales como sociales, con la finalidad de proporcionar explicaciones fundamentadas y rigurosas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Formulación de teorías para dar explicaciones de los fenómenos naturales y sociales, respaldadas en evidencias.",
+                    "Realización de explicaciones basadas en teorías científicas de los fenómenos naturales y sociales.",
+                    "Aplicación del método científico en las explicaciones de las teorías y su validez.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza explicaciones científicas de fenómenos naturales y teorías de fenómenos sociales, mediante el uso de fuentes confiables en sus proyectos de investigación, con la finalidad de sustentar los hallazgos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Formulación de teorías para dar explicaciones de los fenómenos naturales y sociales, respaldadas en evidencias.",
+                    "Realización de explicaciones basadas en teorías científicas de los fenómenos naturales y sociales.",
+                    "Aplicación del método científico en las explicaciones de las teorías y su validez.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica el método científico al realizar explicaciones de fenómenos naturales y sociales en sus investigaciones y proyectos, con la finalidad de comprobar la validez de las teorías que las sustentan. ",
+                ],
+                criteriosDeEvaluacion: [
+                    "Formulación de teorías para dar explicaciones de los fenómenos naturales y sociales, respaldadas en evidencias.",
+                    "Realización de explicaciones basadas en teorías científicas de los fenómenos naturales y sociales.",
+                    "Aplicación del método científico en las explicaciones de las teorías y su validez.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Compara informaciones científicas sobre teorías relacionada con fenómenos naturales y sociales, a través del uso de la tecnología; con la finalidad de ofrecer explicaciones claras de los datos obtenidos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Consistencia en la interpretación de teorías científicas sobre fenómenos naturales y sociales. ",
+                    "Validez de las teorías en la explicación de fenómenos naturales y sociales ante el uso de la tecnología. ",
+                    "Coherencia teórica en las explicaciones propuestas relacionadas a fenómenos naturales y sociales. ",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Integra el análisis de información científica sobre teorías relacionadas a fenómenos naturales y sociales, utilizando la tecnología; con la finalidad de ofrecer explicaciones claras y concisas de las informaciones obtenidas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Consistencia en la interpretación de teorías científicas sobre fenómenos naturales y sociales. ",
+                    "Validez de las teorías en la explicación de fenómenos naturales y sociales ante el uso de la tecnología. ",
+                    "Coherencia teórica en las explicaciones propuestas relacionadas a fenómenos naturales y sociales. ",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Realiza estudio comparativo de diferentes teorías relacionadas a fenómenos naturales y sociales utilizando la tecnología; con la finalidad de presentar artículos científicos y publicaciones especializadas, así como también datos que apoyen sus conclusiones.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Consistencia en la interpretación de teorías científicas sobre fenómenos naturales y sociales. ",
+                    "Validez de las teorías en la explicación de fenómenos naturales y sociales ante el uso de la tecnología. ",
+                    "Coherencia teórica en las explicaciones propuestas relacionadas a fenómenos naturales y sociales. ",
+                ],
             },
         },
         AmbientalYDeLaSalud: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza críticamente las acciones humanas que pueden poner en riesgo los estilos de vida saludables y el equilibrio ambiental; con la finalidad de comprender sus efectos sobre la sociedad y la naturaleza.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de actuaciones positivas y negativas de los seres humanos sobre el medioambiente.",
+                    "Análisis del impacto negativo o positivo de las acciones humanas en el planeta Tierra.",
+                    "Proposición de soluciones a las situaciones de riesgo para la vida y el medioambiente.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Argumenta a través de investigaciones sobre las acciones humanas que pueden afectar los estilos de vida saludables y el equilibrio ambiental; con la finalidad de presentar su impacto en la sociedad y en la naturaleza.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de actuaciones positivas y negativas de los seres humanos sobre el medioambiente.",
+                    "Análisis del impacto negativo o positivo de las acciones humanas en el planeta Tierra.",
+                    "Proposición de soluciones a las situaciones de riesgo para la vida y el medioambiente.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Verifica en propuestas y proyectos de investigación el impacto de la acción humana sobre la salud y el medioambiente; con la finalidad de presentar posibles soluciones a estas problemáticas. ",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación de actuaciones positivas y negativas de los seres humanos sobre el medioambiente.",
+                    "Análisis del impacto negativo o positivo de las acciones humanas en el planeta Tierra.",
+                    "Proposición de soluciones a las situaciones de riesgo para la vida y el medioambiente.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Examina la importancia de un estilo de vida saludable y el cuidado de su entorno natural y social; con la finalidad de garantizar un ambiente saludable.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Análisis de las acciones humanas que generan un impacto ambiental.",
+                    "Caracterización de procedimientos en la identificación de situaciones que ponen en riesgo su salud y el entorno.",
+                    "Sistematización de argumentos que impactan en situaciones de riesgo para la vida y el medioambiente.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Explica situaciones que ponen en riesgo su salud y los recursos naturales; con la finalidad de promover el cuidado de su entorno y estilos de vida saludables.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Análisis de las acciones humanas que generan un impacto ambiental.",
+                    "Caracterización de procedimientos en la identificación de situaciones que ponen en riesgo su salud y el entorno.",
+                    "Sistematización de argumentos que impactan en situaciones de riesgo para la vida y el medioambiente.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Propone actividades que propician el cuidado de su entorno y estilos de vida saludable; con la finalidad de garantizar el cuidado de su salud y del medioambiente.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Análisis de las acciones humanas que generan un impacto ambiental.",
+                    "Caracterización de procedimientos en la identificación de situaciones que ponen en riesgo su salud y el entorno.",
+                    "Sistematización de argumentos que impactan en situaciones de riesgo para la vida y el medioambiente.",
+                ],
             },
         },
         DesarrolloPersonalYEspiritual: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Emplea relaciones armoniosas y equilibradas, con la finalidad de promover la construcción de la cultura de paz y el respeto hacia los demás.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Demostración de respeto a su persona y hacia los demás en cualquier espacio.",
+                    "Valoración de una ciudadanía responsable y de los principios democráticos.",
+                    "Promoción de una cultura cívica sobre los valores de la responsabilidad ciudadana y el respeto a los derechos humanos como pilares fundamentales de nuestra sociedad.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Demuestra su capacidad para valorar y fomentar relaciones equilibradas y armoniosas, con la finalidad de impulsar la formación de una ciudadanía responsable y la defensa de los principios democráticos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Demostración de respeto a su persona y hacia los demás en cualquier espacio.",
+                    "Valoración de una ciudadanía responsable y de los principios democráticos.",
+                    "Promoción de una cultura cívica sobre los valores de la responsabilidad ciudadana y el respeto a los derechos humanos como pilares fundamentales de nuestra sociedad.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Promueve la empatía y la comprensión a través de relaciones armoniosas y equilibradas, con la finalidad de contribuir en la formación de una ciudadanía responsable y el fomento de prácticas democráticas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Demostración de respeto a su persona y hacia los demás en cualquier espacio.",
+                    "Valoración de una ciudadanía responsable y de los principios democráticos.",
+                    "Promoción de una cultura cívica sobre los valores de la responsabilidad ciudadana y el respeto a los derechos humanos como pilares fundamentales de nuestra sociedad.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Valora la importancia de las relaciones basadas en el respeto entre las personas y la sociedad en general; con la finalidad de fomentar una convivencia armoniosa en cualquier espacio.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Actuación con respeto hacia uno mismo y hacia los demás.",
+                    "Implementación de una ciudadanía responsable.",
+                    "Promoción de una ciudadanía democrática y responsable.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica propuestas que promuevan el respeto hacia su persona y la sociedad, con el fin de fomentar una convivencia armoniosa implicando el valorar de la dignidad, los derechos y las necesidades de cada individuo sin discriminación o menosprecio hacia los demás.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Actuación con respeto hacia uno mismo y hacia los demás.",
+                    "Implementación de una ciudadanía responsable.",
+                    "Promoción de una ciudadanía democrática y responsable.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Ejemplifica relaciones de respeto hacia la persona y la sociedad, con la finalidad de construir una convivencia armoniosa al tratar a los demás con amabilidad y empatía, escuchar y considerar diferentes puntos de vista, resolver los conflictos de manera pacífica y constructiva, sin discriminación o menosprecio hacia los demás.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Actuación con respeto hacia uno mismo y hacia los demás.",
+                    "Implementación de una ciudadanía responsable.",
+                    "Promoción de una ciudadanía democrática y responsable.",
+                ],
             },
         },
     }

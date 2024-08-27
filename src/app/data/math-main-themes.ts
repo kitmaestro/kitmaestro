@@ -104,72 +104,102 @@ export const MATH_MAIN_THEMES = {
     Secundaria: {
         "Salud y Bienestar": {
             Primero: [
+                "Análisis estadísticos con datos no agrupados de situaciones relacionadas con enfermedades de la comunidad.",
             ],
             Segundo: [
+                "Análisis e interpretación del comportamiento de enfermedades y números de contagios, a partir del conocimiento de los números reales.",
             ],
             Tercero: [
+                "Modelos de expresiones y funciones algebraicas, para interpretar fenómenos y comportamientos en situaciones de salud.",
             ],
             Cuarto: [
+                "Análisis estadísticos de situaciones relacionadas con enfermedades y análisis de la forma geométrica de los virus.",
             ],
             Quinto: [
+                "Modelado del comportamiento ideal de las palpitaciones del corazón a partir del análisis de funciones trigonométricas.",
             ],
             Sexto: [
+                "Instrumentación en Medicina para análisis. Análisis de los puntos críticos y concavidad de una curva, a través del modelo de crecimiento en casos de propagación de virus y enfermedades.",
             ],
         },
         "Desarrollo Sostenible": {
             Primero: [
+                "Empleo de los números racionales en la interpretación del uso racional del agua, como recurso esencial para vivir.",
             ],
             Segundo: [
+                "Empleo de los conocimientos acerca de los números reales para lainterpretación de proyectos naturales, en favor del medioambiente y desarrollo sostenible.",
             ],
             Tercero: [
+                "Acción por el clima. Predicción a partir de modelos algebraicos en situaciones climatológicas.",
             ],
             Cuarto: [
+                "Agua Limpia y Saneamiento. Estudio de formas geométricas en envases y recipientes que permitan optimizar el consumo y la preservación del agua como recurso esencial para vivir.",
             ],
             Quinto: [
+                "Salud y Bienestar. Comportamiento gráfico de las palpitaciones del corazón a partir de funciones trigonométricas que permitan modelar su frecuencia cardíaca.",
             ],
             Sexto: [
+                "Acción por el clima. Predicción a partir de la programación y modelos probabilísticos el impacto de fenómenos naturales y su repercusión en las finanzas del país.",
             ],
         },
         "Desarrollo Personal y Profesional": {
             Primero: [
+                "Aporte histórico de los sistemas numéricos y los beneficios generados a la humanidad, a partir de sus descubrimientos.",
             ],
             Segundo: [
+                "Aporte histórico de matemáticos destacados en la aplicación de los números reales.",
             ],
             Tercero: [
+                "Desarrollo y aporte del álgebra para analizar situaciones de oferta y Demandas, en situaciones financieras de carácter social.",
             ],
             Cuarto: [
+                "Aporte histórico de hombres y mujeres a la geometría. Trabajos y hallazgos en el ámbito de la geometría.",
             ],
             Quinto: [
+                "Aporte histórico de hombres y mujeres a la trigonometría. Trabajos y hallazgos en el ámbito de la trigonometría.",
             ],
             Sexto: [
+                "Desarrollo y aporte de Matemáticos al cálculo diferencial e integral.",
             ],
         },
         "Alfabetización Imprescindible": {
             Primero: [
+                "Alfabetización en la interpretación de principios y leyes de los sistemas de numeración y su impacto en la humanidad.",
             ],
             Segundo: [
+                "Alfabetización en la programación, la inteligencia artificial y el sistema de los números reales.",
             ],
             Tercero: [
+                "Nociones sobre procesos de programación e inteligencia artificial, mediante ánalisis de funciones algebraicas.",
             ],
             Cuarto: [
+                "Alfabetización en educación económica y financiera para el análisis de situaciones de carácter social.",
             ],
             Quinto: [
+                "Nociones de programación, inteligencia artificial y otros medios y herramientas tecnológicas, para el modelado de situaciones trigonométricas y predicciones problemáticas sociales y del medioambiente.",
             ],
             Sexto: [
+                "Nociones en procesos de programación a partir del análisis numérico y el cálculo diferencial.",
             ],
         },
         "Ciudadanía y Convivencia": {
             Primero: [
+                "Interpretación y repercusión de desechos sólidos en la comunidad, a través del análisis estadístico.",
             ],
             Segundo: [
+                "Análisis de proyectos viales y carreteras, a partir del concepto de distancia y sus aplicaciones.",
             ],
             Tercero: [
+                "Análisis del crecimiento en el número de contagios de enfermedades infecciosas en la comunidad, por medio del modelo generado por funciones algebraicas.",
             ],
             Cuarto: [
+                "Restructuración de calles y avenidas para dar respuesta a problemas viales y de transporte, usando conceptos y formas geométricas.",
             ],
             Quinto: [
+                "Análisis de alturas y distancias en edificios y construcciones arquitectónicas a partir de modelos y funciones trigonométricas.",
             ],
             Sexto: [
+                "Análisis del crecimiento poblacional, a partir del modelo generado del cálculo diferencial e integral.",
             ],
         },
     },

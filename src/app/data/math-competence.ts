@@ -179,189 +179,435 @@ export const MATH_COMPETENCE = {
         Comunicativa: {
             Primero: {
                 competenciasEspecificas: [
-                    'Se comunica con claridad en diferentes contextos, siguiendo los procesos de compresión y producción oral y escrita, al emplear debidamente un tipo de texto (funcional o literario), las TIC, así como otros recursos y medios.',
+                    "Usa métodos orales, escritos, concretos, pictóricos, gráficos y el lenguaje matemático para describir situaciones del entorno.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Descripción de situaciones del entorno usando el lenguaje matemático de forma oral, escrita, concreta, pictórica y gráfica.",
+                    "Presentación y discusión de ideas matemáticas a través de conjeturas y argumentos convincentes.",
+                    "Interpretación de ideas matemáticas a través de la lectura, la escucha y visualización en situaciones diversas.",
+                ],
             },
             Segundo: {
                 competenciasEspecificas: [
-                    'Comunica sus ideas y experiencias de manera apropiada en diferentes situaciones, mediante un género textual (funcional o literario) abordado desde la comprensión y producción oral y escrita, mostrando creatividad y destrezas en el uso de herramientas tecnológicas y recursos diversos.',
+                    "Elabora conjeturas y argumentos convincentes para presentar y discutir las propias ideas matemáticas.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Descripción de situaciones del entorno usando el lenguaje matemático de forma oral, escrita, concreta, pictórica y gráfica.",
+                    "Presentación y discusión de ideas matemáticas a través de conjeturas y argumentos convincentes.",
+                    "Interpretación de ideas matemáticas a través de la lectura, la escucha y visualización en situaciones diversas.",
+                ],
             },
             Tercero: {
                 competenciasEspecificas: [
-                    'Demuestra dominio, desenvolvimiento y creatividad al comunicarse eficazmente de manera personal y colectiva en su entorno familiar, escolar y de la comunidad, utilizando un género textual (funcional o literario), a partir de la comprensión y producción oral y escrita, la utilización responsable de las TIC y demás medios.',
+                    "Evalúa ideas matemáticas, utilizando para su interpretación las destrezas de leer, escuchar y visualizar.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Descripción de situaciones del entorno usando el lenguaje matemático de forma oral, escrita, concreta, pictórica y gráfica.",
+                    "Presentación y discusión de ideas matemáticas a través de conjeturas y argumentos convincentes.",
+                    "Interpretación de ideas matemáticas a través de la lectura, la escucha y visualización en situaciones diversas.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Comprende la matemática leída en textos apropiados a su nivel de desarrollo, formulando preguntas de aclaración y ampliación, para clasificar conceptos y relaciones matemáticas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Clasificación de conceptos y relaciones matemáticas a partir de informaciones contenidas en textos apropiados al nivel de desarrollo del estudiante.",
+                    "Valoración del desarrollo de ideas matemáticas oral y escrita y haciendo uso de la notación matemática adecuada.",
+                    "Formulación de resultados y generalizaciones matemáticas durante el proceso de análisis y resolución de problemas.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Emplea ideas oralmente y por escrito, haciendo uso de la notación apropiada y valorando la potencia de esta en el desarrollo de las propias ideas matemáticas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Clasificación de conceptos y relaciones matemáticas a partir de informaciones contenidas en textos apropiados al nivel de desarrollo del estudiante.",
+                    "Valoración del desarrollo de ideas matemáticas oral y escrita y haciendo uso de la notación matemática adecuada.",
+                    "Formulación de resultados y generalizaciones matemáticas durante el proceso de análisis y resolución de problemas.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Formula definiciones y expresa generalizaciones de resultado de la indagación y la resolución de problemas matemáticos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Clasificación de conceptos y relaciones matemáticas a partir de informaciones contenidas en textos apropiados al nivel de desarrollo del estudiante.",
+                    "Valoración del desarrollo de ideas matemáticas oral y escrita y haciendo uso de la notación matemática adecuada.",
+                    "Formulación de resultados y generalizaciones matemáticas durante el proceso de análisis y resolución de problemas.",
+                ],
             },
         },
         PensamientoLogico: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Reconoce en el trabajo matemático, razonamientos deductivos e inductivos como soporte a planteamientos y resolución de problemas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Planteamiento de razonamientos matemáticos (inductivo y deductivo) empleados como soporte en la resolución de problemas. ",
+                    "Interpretación de situaciones del entorno a partir del razonamiento espacial, las proporciones y gráficas.",
+                    "Argumentación sobre la validez de conjeturas e ideas matemáticas y de otras disciplinas.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica procesos de razonamientos, con especial atención al razonamiento espacial y al razonamiento con proporciones y gráficas para la comprensión e interpretación del entorno.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Planteamiento de razonamientos matemáticos (inductivo y deductivo) empleados como soporte en la resolución de problemas. ",
+                    "Interpretación de situaciones del entorno a partir del razonamiento espacial, las proporciones y gráficas.",
+                    "Argumentación sobre la validez de conjeturas e ideas matemáticas y de otras disciplinas.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Evalúa conjeturas y argumentos matemáticos para dar validez a sus propias ideas sobre temas del área y de otras disciplinas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Planteamiento de razonamientos matemáticos (inductivo y deductivo) empleados como soporte en la resolución de problemas. ",
+                    "Interpretación de situaciones del entorno a partir del razonamiento espacial, las proporciones y gráficas.",
+                    "Argumentación sobre la validez de conjeturas e ideas matemáticas y de otras disciplinas.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Construye argumentos sencillos, haciendo uso de sus conocimientos y de reglas de razonamiento lógico para dar validez a las propias ideas matemáticas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Empleo de criterios para determinar la validez de argumentos matemáticos, a partir de razonamientos lógicos apropiados.",
+                    "Uso de reglas y principios de razonamientos lógicos adecuados en la argumentación de ideas matemáticas.",
+                    "Comprobación de teorías y proposiciones matemáticas, mediante de la construcción de demostraciones.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Juzga la validez de un argumento matemático, haciendo uso de los conocimientos y las reglas de razonamiento lógico.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Empleo de criterios para determinar la validez de argumentos matemáticos, a partir de razonamientos lógicos apropiados.",
+                    "Uso de reglas y principios de razonamientos lógicos adecuados en la argumentación de ideas matemáticas.",
+                    "Comprobación de teorías y proposiciones matemáticas, mediante de la construcción de demostraciones.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Construye demostraciones, incluyendo aquellas indirectas y usando el principio de inducción, para comprobar teorías y proposiciones matemáticas. ",
+                ],
+                criteriosDeEvaluacion: [
+                    "Empleo de criterios para determinar la validez de argumentos matemáticos, a partir de razonamientos lógicos apropiados.",
+                    "Uso de reglas y principios de razonamientos lógicos adecuados en la argumentación de ideas matemáticas.",
+                    "Comprobación de teorías y proposiciones matemáticas, mediante de la construcción de demostraciones.",
+                ],
             },
         },
         ResolucionDeProblemas: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Utiliza un enfoque de resolución de problemas para investigar y estudiar los conocimientos matemáticos a partir de situaciones dentro y fuera de la matemática.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Investigación y estudio de conocimientos matemáticos implicados en situaciones diversas dentro y fuera de la matemática.",
+                    "Resolución de problemas del contexto dentro y fuera de la matemática verificando e interpretando los resultados obtenidos respecto al problema o situación inicial.",
+                    "Creatividad en la presentación de soluciones y estrategias en situaciones problemáticas nuevas desde las diferentes áreas de la matemática y fuera de esta.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Desarrolla diversas estrategias para resolver problemas del contexto, dentro y fuera de la matemática, interpretando y verificando los resultados en relación con la situación del problema original.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Investigación y estudio de conocimientos matemáticos implicados en situaciones diversas dentro y fuera de la matemática.",
+                    "Resolución de problemas del contexto dentro y fuera de la matemática verificando e interpretando los resultados obtenidos respecto al problema o situación inicial.",
+                    "Creatividad en la presentación de soluciones y estrategias en situaciones problemáticas nuevas desde las diferentes áreas de la matemática y fuera de esta.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Genera soluciones y estrategias en situaciones de problemas nuevos, de pasos múltiples y no rutinarias en las diferentes áreas de la matemática y fuera de ésta.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Investigación y estudio de conocimientos matemáticos implicados en situaciones diversas dentro y fuera de la matemática.",
+                    "Resolución de problemas del contexto dentro y fuera de la matemática verificando e interpretando los resultados obtenidos respecto al problema o situación inicial.",
+                    "Creatividad en la presentación de soluciones y estrategias en situaciones problemáticas nuevas desde las diferentes áreas de la matemática y fuera de esta.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Aplica estrategias integradas de resolución de problemas para investigar y entender conceptos matemáticos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Investigación y comprensión de conceptos matemáticos a través de las diferentes estrategias de resolución de problemas. ",
+                    "Formulación de situaciones dentro y fuera de la matemática interpretando las diferentes vías de solución.",
+                    "Análisis de diferentes procesos matemáticos para la formulación de problemas del mundo real.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Formula problemas a partir de situaciones dentro y fuera del contexto matemático y busca sus soluciones.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Investigación y comprensión de conceptos matemáticos a través de las diferentes estrategias de resolución de problemas. ",
+                    "Formulación de situaciones dentro y fuera de la matemática interpretando las diferentes vías de solución.",
+                    "Análisis de diferentes procesos matemáticos para la formulación de problemas del mundo real.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza procesos de formulación de modelos matemáticos para resolver situaciones de problemas del mundo real.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Investigación y comprensión de conceptos matemáticos a través de las diferentes estrategias de resolución de problemas. ",
+                    "Formulación de situaciones dentro y fuera de la matemática interpretando las diferentes vías de solución.",
+                    "Análisis de diferentes procesos matemáticos para la formulación de problemas del mundo real.",
+                ],
             },
         },
         EticaYCiudadana: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Interpreta situaciones del contexto que impliquen la movilización de conocimientos e ideas matemáticas respetando diferentes puntos de vista y asumiendo actitud responsable.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Manifestación de actitud responsable frente a la interpretación de situaciones del contexto que impliquen la movilización de conocimientos e ideas matemáticas.",
+                    "Exhibición de tolerancia frente a los diferentes criterios y puntos de vistas diversos a los propios, en la búsqueda de soluciones a situaciones de problemas matemáticos.",
+                    "Búsqueda de soluciones creativas que impliquen conocimientos matemáticos, tomando en cuenta el trabajo colaborativo.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Muestra autonomía en la búsqueda de soluciones a situaciones relacionadas con los conocimientos matemáticos, respetando los diferentes criterios de solución de los demás.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Manifestación de actitud responsable frente a la interpretación de situaciones del contexto que impliquen la movilización de conocimientos e ideas matemáticas.",
+                    "Exhibición de tolerancia frente a los diferentes criterios y puntos de vistas diversos a los propios, en la búsqueda de soluciones a situaciones de problemas matemáticos.",
+                    "Búsqueda de soluciones creativas que impliquen conocimientos matemáticos, tomando en cuenta el trabajo colaborativo.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Genera ideas y opciones creativas en el trabajo colaborativo para la búsqueda de soluciones a situaciones que impliquen conocimientos matemáticos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Manifestación de actitud responsable frente a la interpretación de situaciones del contexto que impliquen la movilización de conocimientos e ideas matemáticas.",
+                    "Exhibición de tolerancia frente a los diferentes criterios y puntos de vistas diversos a los propios, en la búsqueda de soluciones a situaciones de problemas matemáticos.",
+                    "Búsqueda de soluciones creativas que impliquen conocimientos matemáticos, tomando en cuenta el trabajo colaborativo.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Transmite asertivamente los propios puntos de vista para generar opciones creativas frente a la interpretación de situaciones matemáticas, respetando las diferentes propuestas de los demás.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Creatividad al ofertar diferentes vías de interpretación de situaciones matemáticas, respetando diferentes propuestas surgidas por el colectivo.",
+                    "Justificación y análisis de soluciones frente a determinados problemas matemáticos, integrando el criterio de las demás personas. ",
+                    "Trabajo en equipo para la búsqueda de soluciones a problemas diversos desde la matemática, aceptando el criterio de los demás.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Justifica, respetando e integrando el criterio de las demás personas, soluciones a problemas a partir de sus conocimientos matemáticos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Creatividad al ofertar diferentes vías de interpretación de situaciones matemáticas, respetando diferentes propuestas surgidas por el colectivo.",
+                    "Justificación y análisis de soluciones frente a determinados problemas matemáticos, integrando el criterio de las demás personas. ",
+                    "Trabajo en equipo para la búsqueda de soluciones a problemas diversos desde la matemática, aceptando el criterio de los demás.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Trabaja en equipo, aceptando los argumentos ajenos, en la búsqueda de soluciones a problemas desde la matemática.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Creatividad al ofertar diferentes vías de interpretación de situaciones matemáticas, respetando diferentes propuestas surgidas por el colectivo.",
+                    "Justificación y análisis de soluciones frente a determinados problemas matemáticos, integrando el criterio de las demás personas. ",
+                    "Trabajo en equipo para la búsqueda de soluciones a problemas diversos desde la matemática, aceptando el criterio de los demás.",
+                ],
             },
         },
         CienciaYTecnologia: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Utiliza herramientas tecnológicas para la resolución de problemas diversos, integrando conocimientos matemáticos en situaciones del contexto.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Resolución de problemas diversos con apoyo tecnológico e integrando conocimientos matemáticos en situaciones del contexto.",
+                    "Interpretación de problemas del entorno con el uso de herramientas tecnológicas y los conocimientos matemáticos que posee.",
+                    "Resolución de situaciones problemáticas del entorno sobre la base de herramientas tecnológicas adecuadas para resolver la situación.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica herramientas tecnológicas para la resolución e interpretación de problemas del entorno y a partir de los conocimientos matemáticos que posee.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Resolución de problemas diversos con apoyo tecnológico e integrando conocimientos matemáticos en situaciones del contexto.",
+                    "Interpretación de problemas del entorno con el uso de herramientas tecnológicas y los conocimientos matemáticos que posee.",
+                    "Resolución de situaciones problemáticas del entorno sobre la base de herramientas tecnológicas adecuadas para resolver la situación.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza discriminando la pertinencia de diferentes tipos de herramientas tecnológicas, para la resolución de problemas matemáticos en situaciones del entorno.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Resolución de problemas diversos con apoyo tecnológico e integrando conocimientos matemáticos en situaciones del contexto.",
+                    "Interpretación de problemas del entorno con el uso de herramientas tecnológicas y los conocimientos matemáticos que posee.",
+                    "Resolución de situaciones problemáticas del entorno sobre la base de herramientas tecnológicas adecuadas para resolver la situación.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Utiliza herramientas tecnológicas para la resolución de problemas y situaciones matemáticas diversas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Resolución de problemas y situaciones matemáticas diversas, a través del uso de herramientas tecnológicas.",
+                    "Aplicación de herramientas tecnológicas frente a distintos problemas y situaciones para la toma de decisiones dentro y fuera de la matemática.",
+                    "Resolución de problemas y situaciones matemáticas del contexto, empleando criterios y conocimientos tecnológicos.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica herramientas tecnológicas para la toma de decisiones frente a determinados problemas dentro y fuera de la matemática.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Resolución de problemas y situaciones matemáticas diversas, a través del uso de herramientas tecnológicas.",
+                    "Aplicación de herramientas tecnológicas frente a distintos problemas y situaciones para la toma de decisiones dentro y fuera de la matemática.",
+                    "Resolución de problemas y situaciones matemáticas del contexto, empleando criterios y conocimientos tecnológicos.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Evalúa herramientas tecnológicas para la resolución de problemas diversos desde los conocimientos matemáticos, a fin de tomar decisiones en situaciones del contexto.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Resolución de problemas y situaciones matemáticas diversas, a través del uso de herramientas tecnológicas.",
+                    "Aplicación de herramientas tecnológicas frente a distintos problemas y situaciones para la toma de decisiones dentro y fuera de la matemática.",
+                    "Resolución de problemas y situaciones matemáticas del contexto, empleando criterios y conocimientos tecnológicos.",
+                ],
             },
         },
         AmbientalYDeLaSalud: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica modelos matemáticos para ayudar a comprender problemas relacionados con enfermedades que afectan la salud de las personas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Comprensión de problemas relacionados con enfermedades que afectan la salud de las personas con el apoyo de modelos matemáticos.",
+                    "Estudio de situaciones del medio ambiente implicados en la comunidad escolar a partir de modelos matemáticos.",
+                    "Análisis de modelos matemáticos empleados en situaciones relacionados con la salud y el medioambiente.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica modelos matemáticos para estudiar situaciones del medioambiente que afectan la vida de la comunidad escolar.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Comprensión de problemas relacionados con enfermedades que afectan la salud de las personas con el apoyo de modelos matemáticos.",
+                    "Estudio de situaciones del medio ambiente implicados en la comunidad escolar a partir de modelos matemáticos.",
+                    "Análisis de modelos matemáticos empleados en situaciones relacionados con la salud y el medioambiente.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza problemas relacionados con la salud y el medioambiente, para la comprensión de los modelos matemáticos empleados en su solución.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Comprensión de problemas relacionados con enfermedades que afectan la salud de las personas con el apoyo de modelos matemáticos.",
+                    "Estudio de situaciones del medio ambiente implicados en la comunidad escolar a partir de modelos matemáticos.",
+                    "Análisis de modelos matemáticos empleados en situaciones relacionados con la salud y el medioambiente.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Emplea sus conocimientos matemáticos, conectándolos con otras áreas y disciplinas para comprender los fenómenos naturales que afectan el medioambiente.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Interpretación de fenómenos naturales que afectan el medioambiente, utilizando los conocimientos matemáticos.",
+                    "Análisis de problemas relativos a cambio climático y preservación del medioambiente, integrando sus conocimientos matemáticos.",
+                    "Toma decisiones sobre situaciones que afecta la salud y el medioambiente, empleando la modelación matemática.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica la metodología de resolución de problemas para descomponer y estudiar los problemas relativos a cambio climático y preservación del medioambiente.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Interpretación de fenómenos naturales que afectan el medioambiente, utilizando los conocimientos matemáticos.",
+                    "Análisis de problemas relativos a cambio climático y preservación del medioambiente, integrando sus conocimientos matemáticos.",
+                    "Toma decisiones sobre situaciones que afecta la salud y el medioambiente, empleando la modelación matemática.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica la modelación matemática para la toma de decisiones sobre situaciones que afectan la salud y el medioambiente.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Interpretación de fenómenos naturales que afectan el medioambiente, utilizando los conocimientos matemáticos.",
+                    "Análisis de problemas relativos a cambio climático y preservación del medioambiente, integrando sus conocimientos matemáticos.",
+                    "Toma decisiones sobre situaciones que afecta la salud y el medioambiente, empleando la modelación matemática.",
+                ],
             },
         },
         DesarrolloPersonalYEspiritual: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Exhibe una actitud responsable en la interpretación de situaciones en el quehacer matemático, respetando los diferentes puntos de vista de los demás.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Exhibe respeto frente a diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático.",
+                    "Respeto frente a los diferentes criterios de abordaje de sus compañeros en la búsqueda de solución a problemas propios de la matemática.",
+                    "Actitud crítica y respeto de los puntos de vistas de sus compañeros frente a soluciones de situaciones en el campo de las matemáticas.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Muestra autonomía en la búsqueda de soluciones a situaciones de problemas matemáticos, respetando los diferentes criterios de abordaje de sus compañeros.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Exhibe respeto frente a diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático.",
+                    "Respeto frente a los diferentes criterios de abordaje de sus compañeros en la búsqueda de solución a problemas propios de la matemática.",
+                    "Actitud crítica y respeto de los puntos de vistas de sus compañeros frente a soluciones de situaciones en el campo de las matemáticas.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Muestra actitud crítica en la búsqueda de soluciones a situaciones relacionadas con el quehacer matemático, respetando los diferentes puntos de vistas de sus compañeros.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Exhibe respeto frente a diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático.",
+                    "Respeto frente a los diferentes criterios de abordaje de sus compañeros en la búsqueda de solución a problemas propios de la matemática.",
+                    "Actitud crítica y respeto de los puntos de vistas de sus compañeros frente a soluciones de situaciones en el campo de las matemáticas.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Muestra relaciones positivas en el trabajo matemático en equipo, aportando soluciones frente a situaciones problemáticas relativas a la comunidad.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Aportación en equipo de soluciones a problemas y situaciones matemáticas referidas a la comunidad. ",
+                    "Interpretación de situaciones diversas, empleando los conocimientos matemáticos y mostrando interés en las aportaciones de los demás.",
+                    "Autonomía en la búsqueda de soluciones a situaciones de la comunidad, empleando sus conocimientos matemáticos y respetando los diferentes puntos de vista.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica sus conocimientos matemáticos, mostrando interés en la discusión e interpretación de situaciones de su entorno.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Aportación en equipo de soluciones a problemas y situaciones matemáticas referidas a la comunidad. ",
+                    "Interpretación de situaciones diversas, empleando los conocimientos matemáticos y mostrando interés en las aportaciones de los demás.",
+                    "Autonomía en la búsqueda de soluciones a situaciones de la comunidad, empleando sus conocimientos matemáticos y respetando los diferentes puntos de vista.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Muestra autonomía mediante del empleo de estrategias diversas de cálculos matemáticos para dar solución a situaciones que se presentan en la comunidad, respetando el punto de vista de las demás personas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Aportación en equipo de soluciones a problemas y situaciones matemáticas referidas a la comunidad. ",
+                    "Interpretación de situaciones diversas, empleando los conocimientos matemáticos y mostrando interés en las aportaciones de los demás.",
+                    "Autonomía en la búsqueda de soluciones a situaciones de la comunidad, empleando sus conocimientos matemáticos y respetando los diferentes puntos de vista.",
+                ],
             },
         },
     }

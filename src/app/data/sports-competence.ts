@@ -178,184 +178,436 @@ export const SPORTS_COMPETENCE = {
     Secundaria: {
         Comunicativa: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Utiliza su cuerpo para expresar sentimientos, emociones y estados de ánimo en relación armónica con las demás personas y su entorno social y cultural.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización de su cuerpo para expresar sentimientos, emociones y estados de ánimo en relación con los demás.",
+                    "Relación armónica con las demás personas en la realización de actividades corporales motrices.",
+                    "Realización de actividades motrices en grupo, considerando y respetando su entorno social y cultural.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Se comunica en su entorno social y cultural, a partir de la realización de actividades motrices en grupo.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización de su cuerpo para expresar sentimientos, emociones y estados de ánimo en relación con los demás.",
+                    "Relación armónica con las demás personas en la realización de actividades corporales motrices.",
+                    "Realización de actividades motrices en grupo, considerando y respetando su entorno social y cultural.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Muestra dominio motriz en la utilización de su cuerpo para expresar sentimientos, emociones y estados de ánimo, en relación armónica con las demás personas y su entorno social y cultural.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización de su cuerpo para expresar sentimientos, emociones y estados de ánimo en relación con los demás.",
+                    "Relación armónica con las demás personas en la realización de actividades corporales motrices.",
+                    "Realización de actividades motrices en grupo, considerando y respetando su entorno social y cultural.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Comunica su estado de ánimo y emociones, a partir de la noción de su esquema corporal, a los fines de mostrar la conciencia de su propio cuerpo.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Comunicación de sus estados de ánimo y emociones, a través de la conciencia de su propio cuerpo.",
+                    "Uso de sus posibilidades de movimiento en la expresión de su estado de ánimo, emociones y sentimientos.",
+                    "Expresión de ideas y emociones en relaciones temporal-espaciales en diversos entornos.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Utiliza sus posibilidades de movimiento en su acción motriz, a fin de expresar su estado de ánimo, emociones y sentimientos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Comunicación de sus estados de ánimo y emociones, a través de la conciencia de su propio cuerpo.",
+                    "Uso de sus posibilidades de movimiento en la expresión de su estado de ánimo, emociones y sentimientos.",
+                    "Expresión de ideas y emociones en relaciones temporal-espaciales en diversos entornos.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Emplea su conocimiento amplio de su esquema corporal, para comunicar ideas y emociones en relaciones temporal-espacial en diversos entornos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Comunicación de sus estados de ánimo y emociones, a través de la conciencia de su propio cuerpo.",
+                    "Uso de sus posibilidades de movimiento en la expresión de su estado de ánimo, emociones y sentimientos.",
+                    "Expresión de ideas y emociones en relaciones temporal-espaciales en diversos entornos.",
+                ],
             },
         },
         PensamientoLogico: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Muestra nivel de dominio en su acción motriz, a partir de la noción de su esquema corporal, al percibir y apreciar patrones, tamaños, formas, direcciones y relaciones espaciales y temporales estáticas en entornos cercanos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Nivel de dominio de su esquema corporal en base a la relación tempo espacial.",
+                    "Dominio eficaz de patrones, tamaños, formas, direcciones y relaciones espaciales en la realización de actividades motrices.",
+                    "Interpretación y valoración de patrones y relaciones temporales, vinculadas con el movimiento corporal.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Domina su acción motriz, a partir de su nivel de percepción y apreciación de patrones, tamaños, formas, direcciones y relaciones espaciales y temporales, dinámicas en diversos entornos, con base en la noción de su esquema corporal.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Nivel de dominio de su esquema corporal en base a la relación tempo espacial.",
+                    "Dominio eficaz de patrones, tamaños, formas, direcciones y relaciones espaciales en la realización de actividades motrices.",
+                    "Interpretación y valoración de patrones y relaciones temporales, vinculadas con el movimiento corporal.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Muestra dominio eficaz de su acción motriz individual y grupal, como resultante de su percepción y apreciación de patrones, tamaños, formas, direcciones y relaciones espaciales y temporales en diversos entornos, a partir de la noción de su esquema corporal.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Nivel de dominio de su esquema corporal en base a la relación tempo espacial.",
+                    "Dominio eficaz de patrones, tamaños, formas, direcciones y relaciones espaciales en la realización de actividades motrices.",
+                    "Interpretación y valoración de patrones y relaciones temporales, vinculadas con el movimiento corporal.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Realiza cambios sencillos en su acción motriz, a partir de su percepción y apreciación de variación de patrones, tamaños, formas, direcciones y relaciones espaciales en diversos entornos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de cambios sencillos en su acción motriz, a partir de la variación de patrones.",
+                    "Creación de cambios en sus actividades motrices, a partir de la noción de su esquema corporal en base a una relación temporal-espacial creativa.",
+                    "Emprendimiento creativo de nuevas acciones motrices, a partir de la valoración de patrones y relaciones temporales vinculadas con el movimiento corporal en situaciones cambiantes.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Utiliza su percepción y apreciación de la variación de patrones y relaciones temporales en diversos entornos, con el fin de crear cambios en su acción motriz, a partir de la noción de su esquema corporal.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de cambios sencillos en su acción motriz, a partir de la variación de patrones.",
+                    "Creación de cambios en sus actividades motrices, a partir de la noción de su esquema corporal en base a una relación temporal-espacial creativa.",
+                    "Emprendimiento creativo de nuevas acciones motrices, a partir de la valoración de patrones y relaciones temporales vinculadas con el movimiento corporal en situaciones cambiantes.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Emprende la creación de acciones motrices innovadoras, a partir de la noción de su esquema corporal, como resultante de la variación de patrones, tamaños, formas, direcciones y relaciones temporal-espaciales en diversos entornos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de cambios sencillos en su acción motriz, a partir de la variación de patrones.",
+                    "Creación de cambios en sus actividades motrices, a partir de la noción de su esquema corporal en base a una relación temporal-espacial creativa.",
+                    "Emprendimiento creativo de nuevas acciones motrices, a partir de la valoración de patrones y relaciones temporales vinculadas con el movimiento corporal en situaciones cambiantes.",
+                ],
             },
         },
         ResolucionDeProblemas: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Muestra niveles básicos de desempeño motriz en situaciones de juego, a partir de sus condiciones físicas naturales.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Desarrollo de distintos niveles de desempeño motriz, a partir de sus condiciones físicas y naturales.",
+                    "Alcance de eficacia motora progresiva en situaciones variables.",
+                    "Muestra eficacia motora en la realización de juegos, deportes, relacionándolo con el trabajo y la vida cotidiana.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Utiliza el desarrollo de distintos niveles de desempeño motriz, mediante sus condiciones Físicas y naturales, a fin de alcanzar eficaciamotora progresiva en situaciones variables (juegos, deportes, trabajo).",
+                ],
+                criteriosDeEvaluacion: [
+                    "Desarrollo de distintos niveles de desempeño motriz, a partir de sus condiciones físicas y naturales.",
+                    "Alcance de eficacia motora progresiva en situaciones variables.",
+                    "Muestra eficacia motora en la realización de juegos, deportes, relacionándolo con el trabajo y la vida cotidiana.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica distintos niveles de su capacidad motora con base en sus condiciones físicas y naturales para lograr un desempeño motriz eficaz en diversas situaciones de juegos, deportes, trabajo y de la vida cotidiana.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Desarrollo de distintos niveles de desempeño motriz, a partir de sus condiciones físicas y naturales.",
+                    "Alcance de eficacia motora progresiva en situaciones variables.",
+                    "Muestra eficacia motora en la realización de juegos, deportes, relacionándolo con el trabajo y la vida cotidiana.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Relaciona las reglas y los elementos técnicos deportivos con situaciones de la vida cotidiana, a fin de alcanzar los niveles adecuados de eficacia motora progresiva.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Alcance de eficacia motora progresiva en situaciones de juego, relacionando sus aprendizajes con la vida cotidiana.",
+                    "Fortalecimiento del desarrollo de habilidades y destrezas técnicas que facilitan el buen desempeño de prácticas físicas variadas.",
+                    "Aplicación de las reglas y los elementos técnicos adquiridos en situaciones táctico-estratégicas durante la realización de juegos y deportes.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Implementa sus conocimientos técnicos adquiridos en situaciones táctico-estratégicas durante la realización de juegos y deportes, para facilitar el buen desempeño de prácticas físicas variadas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Alcance de eficacia motora progresiva en situaciones de juego, relacionando sus aprendizajes con la vida cotidiana.",
+                    "Fortalecimiento del desarrollo de habilidades y destrezas técnicas que facilitan el buen desempeño de prácticas físicas variadas.",
+                    "Aplicación de las reglas y los elementos técnicos adquiridos en situaciones táctico-estratégicas durante la realización de juegos y deportes.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica las reglas y los elementos técnicos de las diversas modalidades deportivas en situaciones táctico-estratégicas, a los fines de fortalecer el desarrollo de habilidades y destrezas técnicas, que facilitan el buen desempeño de la práctica deportiva en situaciones de la vida cotidiana.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Alcance de eficacia motora progresiva en situaciones de juego, relacionando sus aprendizajes con la vida cotidiana.",
+                    "Fortalecimiento del desarrollo de habilidades y destrezas técnicas que facilitan el buen desempeño de prácticas físicas variadas.",
+                    "Aplicación de las reglas y los elementos técnicos adquiridos en situaciones táctico-estratégicas durante la realización de juegos y deportes.",
+                ],
             },
         },
         EticaYCiudadana: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Realiza acciones motrices diversas en relación con los demás, mostrando respeto y responsabilidad.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de acciones motrices mostrando respeto en la relación con los demás.",
+                    "Ejecución de acciones motrices en las que reconoce sus diferencias y similitudes con los demás.",
+                    "Práctica de actividades motrices en grupo asumiendo su responsabilidad en el trabajo en equipo.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Muestra dominio en la realización de actividades motrices en grupo, asumiendo su responsabilidad en el trabajo en equipo.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de acciones motrices mostrando respeto en la relación con los demás.",
+                    "Ejecución de acciones motrices en las que reconoce sus diferencias y similitudes con los demás.",
+                    "Práctica de actividades motrices en grupo asumiendo su responsabilidad en el trabajo en equipo.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Se relaciona con los demás, con respeto y responsabilidad, en la realización de acciones motrices diversas, a fin de reconocer sus diferencias y similitudes y considerarse parte de un grupo.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de acciones motrices mostrando respeto en la relación con los demás.",
+                    "Ejecución de acciones motrices en las que reconoce sus diferencias y similitudes con los demás.",
+                    "Práctica de actividades motrices en grupo asumiendo su responsabilidad en el trabajo en equipo.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Realiza acciones motrices específicas colectivas, estableciendo relaciones de cooperación y/u oposición, a fin de favorecer el disfrute de las actividadesfísicas en el grupo, mediante el respeto a las diferencias individuales.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Interacción con sus compañeros y compañeras, estableciendo relaciones de cooperación y/u oposición teniendo en cuenta el respeto a las reglas del juego y las diferencias individuales.",
+                    "Disfrute y bienestar mediante el respeto a las reglas en la realización de actividades motrices y el trabajo en equipo.",
+                    "Reconstrucción y aplicación de reglas del juego en actividades motrices diversas, en relación con las diferencias individuales propias y de sus compañeros.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Realiza acciones motrices diversas con el grupo respetando las reglas del juego,con el objeto de establecer relaciones de cooperación y/u oposición, teniendo las diferencias individuales para el disfrute de las actividades físicas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Interacción con sus compañeros y compañeras, estableciendo relaciones de cooperación y/u oposición teniendo en cuenta el respeto a las reglas del juego y las diferencias individuales.",
+                    "Disfrute y bienestar mediante el respeto a las reglas en la realización de actividades motrices y el trabajo en equipo.",
+                    "Reconstrucción y aplicación de reglas del juego en actividades motrices diversas, en relación con las diferencias individuales propias y de sus compañeros.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Reconstruye reglas de juego en actividades motrices  diversas junto con sus compañeros de relaciones de cooperación y/u oposición e interactuando adecuadamente, con el fin de fortalecer el trabajo en equipo, valorando las diferencias individuales.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Interacción con sus compañeros y compañeras, estableciendo relaciones de cooperación y/u oposición teniendo en cuenta el respeto a las reglas del juego y las diferencias individuales.",
+                    "Disfrute y bienestar mediante el respeto a las reglas en la realización de actividades motrices y el trabajo en equipo.",
+                    "Reconstrucción y aplicación de reglas del juego en actividades motrices diversas, en relación con las diferencias individuales propias y de sus compañeros.",
+                ],
             },
         },
         CienciaYTecnologia: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Identifica las condiciones del perímetro de juegos y deportes, a fin de utilizarlas en relación con sus acciones motrices de la vida diaria.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Participación eficaz en actividades deportivas, a partir del conocimiento del perímetro del juego.",
+                    "Utilización efectiva del dominio de las características de los implementos deportivos que se usan en los juegos.",
+                    "Desempeño motriz eficaz, a partir del dominio de las condiciones del terreno y las características de los implementos que utiliza en las actividades propias del juego en el que participa.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Descubre mediante análisis, las características de implementos deportivos específicos, con la finalidad de utilizarlos en forma efectiva en situaciones de juegos y deportes.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Participación eficaz en actividades deportivas, a partir del conocimiento del perímetro del juego.",
+                    "Utilización efectiva del dominio de las características de los implementos deportivos que se usan en los juegos.",
+                    "Desempeño motriz eficaz, a partir del dominio de las condiciones del terreno y las características de los implementos que utiliza en las actividades propias del juego en el que participa.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Muestra dominio del perímetro de juego y de las características de sus distintos implementos, con el fin de lograr niveles adecuados de desempeño motriz en juegos y deportes, a partir de sus condiciones físicas naturales permitiéndole alcanzar eficacia motora progresiva.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Participación eficaz en actividades deportivas, a partir del conocimiento del perímetro del juego.",
+                    "Utilización efectiva del dominio de las características de los implementos deportivos que se usan en los juegos.",
+                    "Desempeño motriz eficaz, a partir del dominio de las condiciones del terreno y las características de los implementos que utiliza en las actividades propias del juego en el que participa.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Propone algunas variantes en la normativa y organización del juego, a partir del conocimiento básico de las técnicas, condiciones del terreno y los implementos a utilizar, con el uso de herramientas tecnológicas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de algunas variantes en la normativa y organización del juego, partiendo del conocimiento de sus características.",
+                    "Introducción de cambios necesarios en la aplicación de la normativa, técnicas e implementos que se utilizan en actividades de juego.",
+                    "Dominio corporal en la realización de actividades motrices, a partir del análisis de las características y condiciones del espacio que le rodea.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Ejecuta los cambios necesarios en la aplicación de la normativa, técnicas e implementos que utiliza en las actividades de juego, a partirdel reconocimiento de las características y condiciones del terreno donde se realiza y del uso de las herramientas adecuadas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de algunas variantes en la normativa y organización del juego, partiendo del conocimiento de sus características.",
+                    "Introducción de cambios necesarios en la aplicación de la normativa, técnicas e implementos que se utilizan en actividades de juego.",
+                    "Dominio corporal en la realización de actividades motrices, a partir del análisis de las características y condiciones del espacio que le rodea.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Domina su esquema corporal en la realización de diversas actividades motrices deportivas, como resultado del análisis de las normas técnicas, los implementos y condiciones del espacio donde se lleva a cabo, con el uso de los medios digitales y dispositivos tecnológicos idóneos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Presentación de algunas variantes en la normativa y organización del juego, partiendo del conocimiento de sus características.",
+                    "Introducción de cambios necesarios en la aplicación de la normativa, técnicas e implementos que se utilizan en actividades de juego.",
+                    "Dominio corporal en la realización de actividades motrices, a partir del análisis de las características y condiciones del espacio que le rodea.",
+                ],
             },
         },
         AmbientalYDeLaSalud: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Reconoce algunos cambios en su cuerpo y sus habilidades motoras, con el objeto de valorarlas, evitando situaciones de riesgo para su salud, la de los demás y de su entorno.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Conocimiento, valoración y cuidado de su cuerpo.",
+                    "Identificación de factores y situaciones de riesgo para su salud, de los demás y de su entorno y cuidado ante los mismos.",
+                    "Alcance de eficiencia motora en una relación armónica, saludable y creativa con el espacio que lo rodea y con los demás.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Identifica los factores y situaciones de riesgo para su salud, de los demás y de su entorno, para contribuir en el cuidado personal y del medioambiente durante las actividades físicas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Conocimiento, valoración y cuidado de su cuerpo.",
+                    "Identificación de factores y situaciones de riesgo para su salud, de los demás y de su entorno y cuidado ante los mismos.",
+                    "Alcance de eficiencia motora en una relación armónica, saludable y creativa con el espacio que lo rodea y con los demás.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Interpreta los cambios físicos que le permite el dominio corporal y la eficiencia motora, con el fin de establecer una relación armónica, saludable y creativa con el espacio que lo rodea y con las demás personas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Conocimiento, valoración y cuidado de su cuerpo.",
+                    "Identificación de factores y situaciones de riesgo para su salud, de los demás y de su entorno y cuidado ante los mismos.",
+                    "Alcance de eficiencia motora en una relación armónica, saludable y creativa con el espacio que lo rodea y con los demás.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Interpreta los cambios físicos que le permiten el reconocimiento corporal y su eficiencia motora con la introducción de secuencias de movimientos, en una relación armónica saludable con su cuerpo y el ambiente que le rodea.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Percepción, interpretación y valoración de sus cambios físicos, lo cual le permite el dominio corporal y de su entorno.",
+                    "Alcance de eficiencia motora en una relación armónica, saludable y creativa con el espacio que lo rodea y con los demás.",
+                    "Identificación de elementos esenciales que le permiten adoptar un estilo de vida activo para mantener y mejorar la salud.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Valora los cambios físicos de su cuerpo e introduce acciones complejas para elevar la calidad en su eficiencia motora, adoptando un estilo de vida saludable en consonancia con el cuidado del medioambiente.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Percepción, interpretación y valoración de sus cambios físicos, lo cual le permite el dominio corporal y de su entorno.",
+                    "Alcance de eficiencia motora en una relación armónica, saludable y creativa con el espacio que lo rodea y con los demás.",
+                    "Identificación de elementos esenciales que le permiten adoptar un estilo de vida activo para mantener y mejorar la salud.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Domina los cambios que percibe en su cuerpo que le permiten el incremento en su actividad motora y realiza acciones complejas, a fin de desarrollar una relación armónica, saludable y creativa con el espacio que le rodea y con las demás personas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Percepción, interpretación y valoración de sus cambios físicos, lo cual le permite el dominio corporal y de su entorno.",
+                    "Alcance de eficiencia motora en una relación armónica, saludable y creativa con el espacio que lo rodea y con los demás.",
+                    "Identificación de elementos esenciales que le permiten adoptar un estilo de vida activo para mantener y mejorar la salud.",
+                ],
             },
         },
         DesarrolloPersonalYEspiritual: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Identifica sus habilidades motrices y capacidades físicas en el desarrollo de actividades corporales diversas, para utilizarlas en el juego y disfrutar de este.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación y noción de sus habilidades motrices y capacidades físicas.",
+                    "Motivación y disponibilidad corporal en la ejecución de actividades motrices y juegos.",
+                    "Muestra de disfrute bienestar propio durante la actividad motriz y el juego.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Establece relación entre sus actividades corporales y el desarrollo de las habilidades motrices y las capacidades físicas, con el fin de mantener la motivación y disponibilidad corporal en el juego.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación y noción de sus habilidades motrices y capacidades físicas.",
+                    "Motivación y disponibilidad corporal en la ejecución de actividades motrices y juegos.",
+                    "Muestra de disfrute bienestar propio durante la actividad motriz y el juego.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Utiliza sus habilidades motrices y capacidades físicas en la realización de tareas acorde con su desarrollo corporal, a los fines de alcanzar las metas en el juego a la vez que disfruta de este.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación y noción de sus habilidades motrices y capacidades físicas.",
+                    "Motivación y disponibilidad corporal en la ejecución de actividades motrices y juegos.",
+                    "Muestra de disfrute bienestar propio durante la actividad motriz y el juego.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Reconoce sus limitaciones y potencialidades corporales y motrices en diversas situaciones físicas, mostrando motivación y disponibilidad para el disfrute de la actividad motriz y el juego, para alcanzar el bienestar propio y colectivo.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Reconocimiento de sus fortalezas y talentos propios y de los demás, en situaciones variables (juegos, deportes, trabajo, vida cotidiana).",
+                    "Motivación y disponibilidad corporal en la ejecución de actividades motrices y juegos, mostrando disfrute y bienestar.",
+                    "Desarrollo de sus fortalezas y potencialidades motrices de forma responsable, en un ambiente de respeto por sí mismo y por los demás.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Utiliza sus habilidades motrices y capacidades corporales en el logro de metas y en la realización de actividades complejas y secuenciadas, mostrando satisfacción y bienestar en actividades colaborativas de juego.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Reconocimiento de sus fortalezas y talentos propios y de los demás, en situaciones variables (juegos, deportes, trabajo, vida cotidiana).",
+                    "Motivación y disponibilidad corporal en la ejecución de actividades motrices y juegos, mostrando disfrute y bienestar.",
+                    "Desarrollo de sus fortalezas y potencialidades motrices de forma responsable, en un ambiente de respeto por sí mismo y por los demás.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica sus fortalezas, talentos, limitaciones y potencialidades corporales y motrices propias y las de los demás, en situaciones variables (juegos, deportes, trabajo, vida cotidiana), mostrando motivación y disponibilidad corporal para el disfrute de la actividad motriz y el juego para alcanzar el bienestar propio y colectivo.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Reconocimiento de sus fortalezas y talentos propios y de los demás, en situaciones variables (juegos, deportes, trabajo, vida cotidiana).",
+                    "Motivación y disponibilidad corporal en la ejecución de actividades motrices y juegos, mostrando disfrute y bienestar.",
+                    "Desarrollo de sus fortalezas y potencialidades motrices de forma responsable, en un ambiente de respeto por sí mismo y por los demás.",
+                ],
             },
         },
     }

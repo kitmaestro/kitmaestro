@@ -182,189 +182,447 @@ export const SCIENCE_COMPETENCE = {
         Comunicativa: {
             Primero: {
                 competenciasEspecificas: [
-                    'Se comunica con claridad en diferentes contextos, siguiendo los procesos de compresión y producción oral y escrita, al emplear debidamente un tipo de texto (funcional o literario), las TIC, así como otros recursos y medios.',
+                    "Se comunica utilizando el lenguaje científico y tecnológico de ciencias de la tierra y el universo, que implica sus ideas básicas a respuestas, a preguntas y situaciones de problemas simulados y reales.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Interpretación efectiva del lenguaje científico y tecnológico considerando las ideas, contenidos y verificación de hipótesis, asumiendo una posición crítica ante información o proceso pseudocientífico.",
+                    "Producción y comunicación apropiada de texto e información científica o tecnológica.",
+                    "Utilización de símbolos, términos, ecuaciones elementales de ciencia, modelos, gráficas y convenciones científicas y tecnológicas adecuadas.",
+                ],
             },
             Segundo: {
                 competenciasEspecificas: [
-                    'Comunica sus ideas y experiencias de manera apropiada en diferentes situaciones, mediante un género textual (funcional o literario) abordado desde la comprensión y producción oral y escrita, mostrando creatividad y destrezas en el uso de herramientas tecnológicas y recursos diversos.',
+                    "Se comunica utilizando el lenguaje científico y tecnológico de ciencias de la vida, que implica sus ideas básicas a respuestas, a preguntas y situaciones de problemas simulados y reales.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Interpretación efectiva del lenguaje científico y tecnológico considerando las ideas, contenidos y verificación de hipótesis, asumiendo una posición crítica ante información o proceso pseudocientífico.",
+                    "Producción y comunicación apropiada de texto e información científica o tecnológica.",
+                    "Utilización de símbolos, términos, ecuaciones elementales de ciencia, modelos, gráficas y convenciones científicas y tecnológicas adecuadas.",
+                ],
             },
             Tercero: {
                 competenciasEspecificas: [
-                    'Demuestra dominio, desenvolvimiento y creatividad al comunicarse eficazmente de manera personal y colectiva en su entorno familiar, escolar y de la comunidad, utilizando un género textual (funcional o literario), a partir de la comprensión y producción oral y escrita, la utilización responsable de las TIC y demás medios.',
+                    "Se comunica utilizando el lenguaje científico y tecnológico de ciencias físicas, que implica sus ideas básicas a respuestas, a preguntas y situaciones de problemas simulados y reales.",
                 ],
-                criteriosDeEvaluacion: [],
+                criteriosDeEvaluacion: [
+                    "Interpretación efectiva del lenguaje científico y tecnológico considerando las ideas, contenidos y verificación de hipótesis, asumiendo una posición crítica ante información o proceso pseudocientífico.",
+                    "Producción y comunicación apropiada de texto e información científica o tecnológica.",
+                    "Utilización de símbolos, términos, ecuaciones elementales de ciencia, modelos, gráficas y convenciones científicas y tecnológicas adecuadas.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Se comunica utilizando el lenguaje científico y tecnológico fundamental de la biología que implica ideas, leyes, modelos y procesos."
+                ],
+                criteriosDeEvaluacion: [
+                    "Interpretación y utilización precisa del lenguaje científico y tecnológico considerando las ideas y procesos científicos y los contextos y sualcance, asumiendo una posición crítica ante información o proceso pseudocientífico.",
+                    "Formulación, producción y comunicación efectiva de texto (informe de laboratorio, ensayo, proyectos, resolución de proyecto, presentaciónoral, carteles) e información científica o tecnológica.",
+                    "Utilización de símbolos, términos, modelos, gráficas, ecuaciones de ciencias, leyes y convenciones científicas y tecnológicas adecuadas.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Se comunica utilizando el lenguaje científico y tecnológico fundamental de la química que implica ideas, leyes, modelos y procesos."
+                ],
+                criteriosDeEvaluacion: [
+                    "Interpretación y utilización precisa del lenguaje científico y tecnológico considerando las ideas y procesos científicos y los contextos y sualcance, asumiendo una posición crítica ante información o proceso pseudocientífico.",
+                    "Formulación, producción y comunicación efectiva de texto (informe de laboratorio, ensayo, proyectos, resolución de proyecto, presentaciónoral, carteles) e información científica o tecnológica.",
+                    "Utilización de símbolos, términos, modelos, gráficas, ecuaciones de ciencias, leyes y convenciones científicas y tecnológicas adecuadas.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Se comunica utilizando el lenguaje científico y tecnológico fundamental de la física que implica ideas, leyes, modelos y procesos."
+                ],
+                criteriosDeEvaluacion: [
+                    "Interpretación y utilización precisa del lenguaje científico y tecnológico considerando las ideas y procesos científicos y los contextos y sualcance, asumiendo una posición crítica ante información o proceso pseudocientífico.",
+                    "Formulación, producción y comunicación efectiva de texto (informe de laboratorio, ensayo, proyectos, resolución de proyecto, presentaciónoral, carteles) e información científica o tecnológica.",
+                    "Utilización de símbolos, términos, modelos, gráficas, ecuaciones de ciencias, leyes y convenciones científicas y tecnológicas adecuadas.",
+                ],
             },
         },
         PensamientoLogico: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Ofrece explicaciones científicas y tecnológicas a problemas y fenómenos naturales relacionados a Ciencias de la Tierra y el Universo.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización de procesos básicos, sistemáticos y pertinentes en ciencia, en la búsqueda de evidencias para dar respuesta a problemas o situaciones.",
+                    "Aplicación adecuada de los conceptos, principios, ideas básicas y modelos presente en problemas y fenómenos.",
+                    "Formulación y criticidad de las evidencias, que dan respuestas a problemas y fenómenos naturales, comprendiendo el alcance de los modelos, principios e ideas centrales.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Ofrece explicaciones científicas y tecnológicas a problemas y fenómenos naturales relacionados a Ciencias de la Vida.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización de procesos básicos, sistemáticos y pertinentes en ciencia, en la búsqueda de evidencias para dar respuesta a problemas o situaciones.",
+                    "Aplicación adecuada de los conceptos, principios, ideas básicas y modelos presente en problemas y fenómenos.",
+                    "Formulación y criticidad de las evidencias, que dan respuestas a problemas y fenómenos naturales, comprendiendo el alcance de los modelos, principios e ideas centrales.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Ofrece explicaciones científicas y tecnológicas a problemas y fenómenos naturales relacionados a Ciencias Físicas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización de procesos básicos, sistemáticos y pertinentes en ciencia, en la búsqueda de evidencias para dar respuesta a problemas o situaciones.",
+                    "Aplicación adecuada de los conceptos, principios, ideas básicas y modelos presente en problemas y fenómenos.",
+                    "Formulación y criticidad de las evidencias, que dan respuestas a problemas y fenómenos naturales, comprendiendo el alcance de los modelos, principios e ideas centrales.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Ofrece explicaciones y estrategias científicas y tecnológicas a problemas y fenómenos naturales relacionados con ideas fundamentales de la Biología.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización de estrategias efectivas en la búsqueda de evidencias para dar respuesta a problemas o situaciones.",
+                    "Aplicación adecuada de los conceptos, principios, ideas, modelos y leyes presente en problemas y fenómenos, diseñando y aplicando estrategias en la búsqueda de soluciones a problemas y fenómenos tanto en términos cualitativos como cuantitativos.",
+                    "Criticidad en la evaluación de las evidencias que dan respuestas a problemas y fenómenos naturales, comprendiendo el alcance de los conceptos, modelos, principios, teoría y leyes.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Ofrece explicaciones y estrategias científicas y tecnológicas a problemas y fenómenos naturales relacionados con las ideas fundamentales de la Química.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización de estrategias efectivas en la búsqueda de evidencias para dar respuesta a problemas o situaciones.",
+                    "Aplicación adecuada de los conceptos, principios, ideas, modelos y leyes presente en problemas y fenómenos, diseñando y aplicando estrategias en la búsqueda de soluciones a problemas y fenómenos tanto en términos cualitativos como cuantitativos.",
+                    "Criticidad en la evaluación de las evidencias que dan respuestas a problemas y fenómenos naturales, comprendiendo el alcance de los conceptos, modelos, principios, teoría y leyes.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Ofrece explicaciones y estrategias científicas y tecnológicas a problemas y fenómenos naturales relacionados con los fundamentos de la Física.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización de estrategias efectivas en la búsqueda de evidencias para dar respuesta a problemas o situaciones.",
+                    "Aplicación adecuada de los conceptos, principios, ideas, modelos y leyes presente en problemas y fenómenos, diseñando y aplicando estrategias en la búsqueda de soluciones a problemas y fenómenos tanto en términos cualitativos como cuantitativos.",
+                    "Criticidad en la evaluación de las evidencias que dan respuestas a problemas y fenómenos naturales, comprendiendo el alcance de los conceptos, modelos, principios, teoría y leyes.",
+                ],
             },
         },
         ResolucionDeProblemas: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica procedimientos científicos y tecnológicos, básicos y organizados para solucionar problemas o dar respuestas a fenómenos naturales relacionados con Ciencias de la Tierra y el Universo.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización pertinente de básicas estrategias, procedimientos, técnicas y herramientas para solución de problemas o diseñar y ejecutar experimentos.",
+                    "Ejecución y prevención adecuada de experimentos, estructuras, herramientas, sistemas y mecanismo para dar respuesta al problema fenómeno natural.",
+                    "Construcción y aplicación apropiada de objetos, herramientas y estructuras proponiendo mecanismo y modelos que le permitan dar respuestas a situaciones y problemas.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica procedimientos científicos y tecnológicos, básicos y organizados para solucionar problemas o dar respuestas a fenómenos naturales relacionados con Ciencias de la Vida.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización pertinente de básicas estrategias, procedimientos, técnicas y herramientas para solución de problemas o diseñar y ejecutar experimentos.",
+                    "Ejecución y prevención adecuada de experimentos, estructuras, herramientas, sistemas y mecanismo para dar respuesta al problema fenómeno natural.",
+                    "Construcción y aplicación apropiada de objetos, herramientas y estructuras proponiendo mecanismo y modelos que le permitan dar respuestas a situaciones y problemas.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica procedimientos científicos y tecnológicos, básicos y organizados para solucionar problemas o dar respuestas a fenómenos naturales relacionados con Ciencias Físicas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización pertinente de básicas estrategias, procedimientos, técnicas y herramientas para solución de problemas o diseñar y ejecutar experimentos.",
+                    "Ejecución y prevención adecuada de experimentos, estructuras, herramientas, sistemas y mecanismo para dar respuesta al problema fenómeno natural.",
+                    "Construcción y aplicación apropiada de objetos, herramientas y estructuras proponiendo mecanismo y modelos que le permitan dar respuestas a situaciones y problemas.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Aplica diversos procedimientos científicos y tecnológicos para solucionar problemas o dar respuestas a fenómenos naturales relacionados con ideas fundamentales de la Biología.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización y evaluación efectiva de diversas estrategias, procedimientos, técnicas y herramientas para solución de problemas o diseñar y ejecutar experimentos.",
+                    "Formulación, ejecución y evaluación efectiva de experimentos, estructuras y herramientas, sistemas y mecanismo para dar respuesta al problema o fenómeno natural.",
+                    "Construcción, utilización y evaluación efectiva de objetos, herramientas y estructuras proponiendo mecanismo y modelos que le permitan para dar respuestas a situaciones y problemas.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica diversos procedimientos científicos y tecnológicos para solucionar problemas o dar respuestas a fenómenos naturales relacionados con los fundamentos de la Química.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización y evaluación efectiva de diversas estrategias, procedimientos, técnicas y herramientas para solución de problemas o diseñar y ejecutar experimentos.",
+                    "Formulación, ejecución y evaluación efectiva de experimentos, estructuras y herramientas, sistemas y mecanismo para dar respuesta al problema o fenómeno natural.",
+                    "Construcción, utilización y evaluación efectiva de objetos, herramientas y estructuras proponiendo mecanismo y modelos que le permitan para dar respuestas a situaciones y problemas.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Aplica diversos procedimientos científicos y tecnológicos para solucionar problemas o dar respuestas a fenómenos naturales relacionados con los fundamentos de la Física.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Utilización y evaluación efectiva de diversas estrategias, procedimientos, técnicas y herramientas para solución de problemas o diseñar y ejecutar experimentos.",
+                    "Formulación, ejecución y evaluación efectiva de experimentos, estructuras y herramientas, sistemas y mecanismo para dar respuesta al problema o fenómeno natural.",
+                    "Construcción, utilización y evaluación efectiva de objetos, herramientas y estructuras proponiendo mecanismo y modelos que le permitan para dar respuestas a situaciones y problemas.",
+                ],
             },
         },
         EticaYCiudadana: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza la naturaleza de las ciencias naturales y el alcance del desarrollo tecnológico en nuestra sociedad relacionados con Ciencias de la Tierra y el Universo, sus aportes y reflexiones éticos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Exposición apropiada de producción oral y escrita de análisis comparativo de época reciente en el desarrollo histórico y su contexto social de las ciencias naturales",
+                    "Adecuados argumentos al asumir postura sobre conflicto en decisiones ética de la ciencia.",
+                    "Apropiada representación y acciones de actitudes y valores científicos.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza la naturaleza de las ciencias naturales y el alcance del desarrollo tecnológico en nuestra sociedad relacionado con Ciencias de la Vida, sus aportes y reflexiones éticas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Exposición apropiada de producción oral y escrita de análisis comparativo de época reciente en el desarrollo histórico y su contexto social de las ciencias naturales",
+                    "Adecuados argumentos al asumir postura sobre conflicto en decisiones ética de la ciencia.",
+                    "Apropiada representación y acciones de actitudes y valores científicos.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza la naturaleza de las ciencias naturales y el alcance del desarrollo tecnológico en nuestra sociedad relacionado con Ciencias Físicas, sus aportes y reflexiones éticos.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Exposición apropiada de producción oral y escrita de análisis comparativo de época reciente en el desarrollo histórico y su contexto social de las ciencias naturales",
+                    "Adecuados argumentos al asumir postura sobre conflicto en decisiones ética de la ciencia.",
+                    "Apropiada representación y acciones de actitudes y valores científicos.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Analiza críticamente la naturaleza y filosofía de la biología y las tecnologías, sus aportes, alcance del desarrollo tecnológico en nuestra sociedad y la ética en la investigación.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Exposición efectiva de producción oral o escrita como ensayo basada en análisis crítico y comparativo de época en el desarrollo histórico y su contexto social del desarrollo de las ciencias naturales.",
+                    "Argumentación efectiva sustentada con evidencias científicas, al asumir su postura sobre conflicto en decisiones ética de la ciencia.",
+                    "Apropiada representación del desarrollo científico y tecnológico, y el impacto en nuestra sociedad.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza críticamente la naturaleza y filosofía de la química y las tecnologías, sus aportes, alcance del desarrollo tecnológico en nuestra sociedad y la ética en la investigación.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Exposición efectiva de producción oral o escrita como ensayo basada en análisis crítico y comparativo de época en el desarrollo histórico y su contexto social del desarrollo de las ciencias naturales.",
+                    "Argumentación efectiva sustentada con evidencias científicas, al asumir su postura sobre conflicto en decisiones ética de la ciencia.",
+                    "Apropiada representación del desarrollo científico y tecnológico, y el impacto en nuestra sociedad.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Analiza críticamente la naturaleza y filosofía de la física, ingenierías y las tecnologías, sus aportes, alcance del desarrollo tecnológico en nuestra sociedad y la ética en la investigación.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Exposición efectiva de producción oral o escrita como ensayo basada en análisis crítico y comparativo de época en el desarrollo histórico y su contexto social del desarrollo de las ciencias naturales.",
+                    "Argumentación efectiva sustentada con evidencias científicas, al asumir su postura sobre conflicto en decisiones ética de la ciencia.",
+                    "Apropiada representación del desarrollo científico y tecnológico, y el impacto en nuestra sociedad.",
+                ],
             },
         },
         CienciaYTecnologia: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Se cuestiona e identifica problemas y situaciones, y les da explicación utilizando ideas y procesos fundamentales de las Ciencias de la Tierra y el Universo.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de proyectos escolares o prácticas experimentales apropiadamente, observando la sistematización y los informes de las actividades de investigación.",
+                    "Aplicación apropiada de proyecto de investigación, observando procesos básicos imprescindibles para su realización.",
+                    "Formulación apropiada de sus argumentos basados en evidencias o información de investigaciones verificables.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Se cuestiona e identifica problemas y situaciones y les da explicación utilizando ideas y procesos fundamentales de las Ciencias de la Vida y las ingenierías.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de proyectos escolares o prácticas experimentales apropiadamente, observando la sistematización y los informes de las actividades de investigación.",
+                    "Aplicación apropiada de proyecto de investigación, observando procesos básicos imprescindibles para su realización.",
+                    "Formulación apropiada de sus argumentos basados en evidencias o información de investigaciones verificables.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Se cuestiona e identifica problemas y situaciones, y les da explicación utilizando ideas y procesos fundamentales de las Ciencias Físicas y las ingenierías.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Realización de proyectos escolares o prácticas experimentales apropiadamente, observando la sistematización y los informes de las actividades de investigación.",
+                    "Aplicación apropiada de proyecto de investigación, observando procesos básicos imprescindibles para su realización.",
+                    "Formulación apropiada de sus argumentos basados en evidencias o información de investigaciones verificables.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Se cuestiona e identifica problemas y situaciones, y construye una explicación utilizando conceptos, modelos, leyes, teorías y procesos fundamentales de la Biología y las ingenierías.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Planificación y realización efectiva de investigación escolar o prácticas experimentales.",
+                    "Aplicación apropiada en la investigación que lleva a cabo en: Materiales, medición, métodos, y modelos con su precisión y recolección de información.",
+                    "Utilización apropiada de los recursos tecnológicos, gráficas, tablas y organización de información.",
+                    "Resultados, discusión y análisis de datos e información en forma apropiada.",
+                    "Conclusión y explicación de los resultados.",
+                    "Uso apropiado de las fuentes bibliografías y los derechos de autores.",
+                    "Formulación efectiva y sistemática de sus argumentos basados en evidencias",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Se cuestiona e identifica problemas y situaciones, y construye una explicación utilizando conceptos,modelos, leyes, teorías y procesos fundamentales de la Química y las ingenierías",
+                ],
+                criteriosDeEvaluacion: [
+                    "Planificación y realización efectiva de investigación escolar o prácticas experimentales.",
+                    "Aplicación apropiada en la investigación que lleva a cabo en: Materiales, medición, métodos, y modelos con su precisión y recolección de información.",
+                    "Utilización apropiada de los recursos tecnológicos, gráficas, tablas y organización de información.",
+                    "Resultados, discusión y análisis de datos e información en forma apropiada.",
+                    "Conclusión y explicación de los resultados.",
+                    "Uso apropiado de las fuentes bibliografías y los derechos de autores.",
+                    "Formulación efectiva y sistemática de sus argumentos basados en evidencias",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Se cuestiona e identifica problemas y situaciones, y construye una explicación utilizando conceptos, modelos, leyes, teorías y procesos fundamentales de la Física y las ingenierías.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Planificación y realización efectiva de investigación escolar o prácticas experimentales.",
+                    "Aplicación apropiada en la investigación que lleva a cabo en: Materiales, medición, métodos, y modelos con su precisión y recolección de información.",
+                    "Utilización apropiada de los recursos tecnológicos, gráficas, tablas y organización de información.",
+                    "Resultados, discusión y análisis de datos e información en forma apropiada.",
+                    "Conclusión y explicación de los resultados.",
+                    "Uso apropiado de las fuentes bibliografías y los derechos de autores.",
+                    "Formulación efectiva y sistemática de sus argumentos basados en evidencias",
+                ],
             },
         },
         AmbientalYDeLaSalud: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Actúa con responsabilidad crítica y autónoma para el cuidado de su salud y ambiental, relacionadas con Ciencias de la tierra y el Universo.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación apropiada de situaciones o acciones de riesgo para su salud o el medioambiente.",
+                    "Aplicación de acciones apropiadas que promueva el cuidado de su salud, del medioambiente y a favor del desarrollo en su comunidad",
+                    "Identificación y acciones proactivas idóneas a estilo de vida saludable y sostenido con el medioambiente.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Actúa con responsabilidad crítica y autónoma para el cuidado de su salud y ambiental, relacionadas con Ciencias de la Vida.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación apropiada de situaciones o acciones de riesgo para su salud o el medioambiente.",
+                    "Aplicación de acciones apropiadas que promueva el cuidado de su salud, del medioambiente y a favor del desarrollo en su comunidad",
+                    "Identificación y acciones proactivas idóneas a estilo de vida saludable y sostenido con el medioambiente.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Actúa con responsabilidad crítica y autónoma para el cuidado de su salud y ambiental, relacionadas con Ciencias Física.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación apropiada de situaciones o acciones de riesgo para su salud o el medioambiente.",
+                    "Aplicación de acciones apropiadas que promueva el cuidado de su salud, del medioambiente y a favor del desarrollo en su comunidad",
+                    "Identificación y acciones proactivas idóneas a estilo de vida saludable y sostenido con el medioambiente.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Asume y actúa con responsabilidad crítica y autónoma para un desarrollo sostenible, cuidado ambiental y su salud basadas en los ideas y teorías de la Biología.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación efectiva de situaciones o acciones de riesgo para su salud o el medio ambiente y/o de desarrollo sostenible.",
+                    "Planificación y aplicación de acciones proactivas apropiadas que, promuevan cuidado de su salud del medioambiente y el desarrollo sostenible en su comunidad.",
+                    "Planificación de acciones proactivas al estilo de vida saludable y sostenido con el medioambiente.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Asume y actúa con responsabilidad crítica y autónoma para un desarrollo sostenible, cuidado ambiental y su salud basadas en las ideas y teorías de la Química.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación efectiva de situaciones o acciones de riesgo para su salud o el medio ambiente y/o de desarrollo sostenible.",
+                    "Planificación y aplicación de acciones proactivas apropiadas que, promuevan cuidado de su salud del medioambiente y el desarrollo sostenible en su comunidad.",
+                    "Planificación de acciones proactivas al estilo de vida saludable y sostenido con el medioambiente.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Asume y actúa con responsabilidad crítica y autónoma para un desarrollo sostenible,cuidado ambiental y su salud basadas en los ideas y teorías de la Física.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación efectiva de situaciones o acciones de riesgo para su salud o el medio ambiente y/o de desarrollo sostenible.",
+                    "Planificación y aplicación de acciones proactivas apropiadas que, promuevan cuidado de su salud del medioambiente y el desarrollo sostenible en su comunidad.",
+                    "Planificación de acciones proactivas al estilo de vida saludable y sostenido con el medioambiente.",
+                ],
             },
         },
         DesarrolloPersonalYEspiritual: {
             Primero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Gestiona actitudes intelectuales, emocionales y conductuales proactivas al desarrollo de su proyección personaldesde las Ciencias de la Tierra y el Universo.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación apropiada en proceso de su proyecto de desarrollo personal, con planes organizados a corto y largo plazo.",
+                    "Valoración de profesiones y oficios de las ciencias naturales e ingenierías.",
+                    "Apropiada manifestación de actitudes y valores que fortalece su desarrollo personal.",
+                ],
             },
             Segundo: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Gestiona actitudes intelectuales, emocionales y conductuales proactivas al desarrollo de suproyección personal desde las Ciencias de la Vida.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación apropiada en proceso de su proyecto de desarrollo personal, con planes organizados a corto y largo plazo.",
+                    "Valoración de profesiones y oficios de las ciencias naturales e ingenierías.",
+                    "Apropiada manifestación de actitudes y valores que fortalece su desarrollo personal.",
+                ],
             },
             Tercero: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Gestiona actitudes intelectuales, emocionales y conductuales proactivas al desarrollo de su proyección personal desde las Ciencias Físicas.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación apropiada en proceso de su proyecto de desarrollo personal, con planes organizados a corto y largo plazo.",
+                    "Valoración de profesiones y oficios de las ciencias naturales e ingenierías.",
+                    "Apropiada manifestación de actitudes y valores que fortalece su desarrollo personal.",
+                ],
             },
-            cuarto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+            Cuarto: {
+                competenciasEspecificas: [
+                    "Gestiona actitudes intelectuales, emocionales y conductuales proactivas al desarrollo de su proyección personal yprofesional desde la biología e ingenierías.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación y aplicación de acciones efectivas en su proyecto de desarrollo personal y profesional.",
+                    "Identificación y valoración de profesiones y oficios afines a su vocación.",
+                    "Demostración apropiada de actitudes y valores que fortalecen su desarrollo personal y profesional.",
+                ],
             },
             Quinto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Gestiona actitudes intelectuales, emocionales y conductuales proactivas al desarrollo de suproyección personal y profesional desde química e ingenierías.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación y aplicación de acciones efectivas en su proyecto de desarrollo personal y profesional.",
+                    "Identificación y valoración de profesiones y oficios afines a su vocación.",
+                    "Demostración apropiada de actitudes y valores que fortalecen su desarrollo personal y profesional.",
+                ],
             },
             Sexto: {
-                competenciasEspecificas: [],
-                criteriosDeEvaluacion: [],
+                competenciasEspecificas: [
+                    "Gestiona actitudes intelectuales, emocionales y conductuales proactivas al desarrollo de su proyección personal y profesional desde la física e ingenierías.",
+                ],
+                criteriosDeEvaluacion: [
+                    "Identificación y aplicación de acciones efectivas en su proyecto de desarrollo personal y profesional.",
+                    "Identificación y valoración de profesiones y oficios afines a su vocación.",
+                    "Demostración apropiada de actitudes y valores que fortalecen su desarrollo personal y profesional.",
+                ],
             },
         },
     }

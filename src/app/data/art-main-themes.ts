@@ -104,72 +104,102 @@ export const ART_MAIN_THEMES = {
     Secundaria: {
         "Salud y Bienestar": {
             Primero: [
+                "Identificación de actividades danzarias, teatrales y musicales que propicien la mejora de la salud física y mental integral, a través de movimientos corporales, de representaciones gestuales y la escucha reflexiva.",
             ],
             Segundo: [
+                "Análisis de las posibilidades de producción de objetos artesanales utilitarios, que dan la sensación de armonía y sosiego y que conviven con el entorno sin dañarlo.",
             ],
             Tercero: [
+                "Visitas a espacios artísticos y culturales, así como de exposición de arte público, que propician el sano esparcimiento y que favorezcan la salud espiritual.",
             ],
             Cuarto: [
+                "Creación de actividades danzarías y teatrales que mejoren la salud a través de las artes y la cultura.",
             ],
             Quinto: [
+                "Producción de objetos artesanales que enriquezcan el espacio urbano y el hábitat.",
             ],
             Sexto: [
+                "Crear proyectos que contemplen la promoción de la salud física y mental a través del arte y la cultura.",
             ],
         },
         "Desarrollo Sostenible": {
             Primero: [
+                "Análisis de problemáticas sociales que incidan en lo ecológico. Desde las artes, realizar propuestas creativas artísticas y culturales que propician la reflexión sobre el uso de materiales reciclables y que impacten positivamente el medioambiente.",
             ],
             Segundo: [
+                "Identificación de estrategias artísticas que protejan y cuiden el medioambiente, tales como el reúso y el reciclaje.",
             ],
             Tercero: [
+                "Selección de proyectos artísticos colectivos que impacten la educación medioambiental de la comunidad.",
             ],
             Cuarto: [
+                "Realización de propuestas creativas que propician la reflexión sobre el cambio climático y la ecología.",
             ],
             Quinto: [
+                "Uso racional de recursos naturales y propuestas artísticas innovadoras que protejan y cuiden el medioambiente.",
             ],
             Sexto: [
+                "Proyectos colectivos que impacten la educación medioambiental de la comunidad a través del arte y la cultura.",
             ],
         },
         "Desarrollo Personal y Profesional": {
             Primero: [
+                "Realización de proyectos desde el arte, que propicien la inserción ciudadana, a partir de la identificación de situaciones personales o comunitarias.",
             ],
             Segundo: [
+                "Utilización de las posibilidades que ofrecen los lenguajes artísticos para trabajar situaciones que propicien la inserción social y ciudadana.",
             ],
             Tercero: [
+                "Integración a espacios democráticos artísticos y culturales, que fomentan el desarrollo personal y profesional, desde una ciudadanía responsable.",
             ],
             Cuarto: [
+                "Análisis sociocultural a partir de la identificación de situaciones personales o comunitarias.",
             ],
             Quinto: [
+                "Propiciar la inserción social mediante actividades artísticas comunitarias.",
             ],
             Sexto: [
+                "Fomentar desde el arte la ciudadanía responsable, de modo que incida en el desarrollo personal y profesional.",
             ],
         },
         "Alfabetización Imprescindible": {
             Primero: [
+                "Priorización de expresiones y lenguajes artísticos, hacia la mejora del diálogo y la educación en valores ciudadanos.",
             ],
             Segundo: [
+                "Identificación de factores que favorezcan, a través de las artes, la empatía por otras tradiciones, culturas y costumbres diferentes a las particulares.",
             ],
             Tercero: [
+                "Desarrollo de la sensibilidad artística para valorar y reconocer las diferencias culturales y de las personas.",
             ],
             Cuarto: [
+                "Priorizar el diálogo y la educación en valores ciudadanos mediante prácticas artísticas.",
             ],
             Quinto: [
+                "Incentivar la valorización y respeto de tradiciones, culturas y costumbres diferentes a las particulares.",
             ],
             Sexto: [
+                "Valorar la diversidad de culturas, tradiciones y expresiones artísticas de los diferentes pueblos.",
             ],
         },
         "Ciudadanía y Convivencia": {
             Primero: [
+                "Uso de las expresiones artísticas como medio para resolver conflictos y fomentar el respeto a los derechos humanos.",
             ],
             Segundo: [
+                "Utilización de la creación y representación artística, para mediación y resolución de conflictos sociales del contexto.",
             ],
             Tercero: [
+                "Emprendimiento de proyectos artísticos de impacto social o cultural en favor de desarrollar la convivencia pacífica y el diálogo intercultural.",
             ],
             Cuarto: [
+                "Educar en el respeto a los derechos humanos y hacerlo tema prioritario de creaciones artísticas.",
             ],
             Quinto: [
+                "Resolución de conflictos sociales del contexto, utilizando la creación y representación artística.",
             ],
             Sexto: [
+                "Emprende proyectos artísticos de impacto social o cultural, enfavor de desarrollar la convivencia pacífica y el diálogo intercultural.",
             ],
         },
     },

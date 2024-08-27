@@ -63,7 +63,7 @@ export class BuySubscriptionComponent implements OnInit {
         this.halfYear = (res * 20).toFixed(2);
         this.fullPrice = (res * 49.99).toFixed(2);
         this.groupPrice = (res * 34.99).toFixed(2);
-        this.privateDeploy = (res * 1500).toFixed(2);
+        this.privateDeploy = (res * 2990).toFixed(2);
       }
     })
     this.userSettingsService.getSettings().subscribe(settings => this.settings = settings);
@@ -81,8 +81,11 @@ export class BuySubscriptionComponent implements OnInit {
               this.renderPurchaseButton();
             }
           }
+        } else {
+          this.renderPurchaseButton();
         }
       }, error: (err) => {
+        this.renderPurchaseButton();
         console.log(err.message)
       }
     })
