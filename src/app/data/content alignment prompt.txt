@@ -2,10 +2,15 @@ Necesito que me hagas un json con esta interfaz:
 Array<{
     concept: string;
     procedures: string[];
+    attitudes: string[];
 }>
 
-En el objeto, concept es uno de los contenidos conceptuales mencionados a continuacion, procedures son los contenidos procedimentales que se relacionan con ese concepto.
+En el objeto, concept es uno de los contenidos conceptuales mencionados a continuacion, procedures son los contenidos procedimentales que se relacionan con ese concepto y attitudes son los contenidos actitudinales que se relacionan con el concepto.
 
 Esta es la lista de contenidos conceptuales:
 
+
 Esta es la lista de contenidos procedimentales:
+
+
+Esta es la lista de contenidos actitudinales:

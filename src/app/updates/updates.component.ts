@@ -25,6 +25,23 @@ export class UpdatesComponent implements OnInit {
   public updates: Update[] = [
     {
       type: 'feature',
+      date: new Date(2024, 8, 1),
+      author: 'Otoniel Reyes Galay',
+      title: 'Comunidad de WhatsApp',
+      description: 'Nuestra comunidad de WhatsApp ya está disponible.',
+      actions: [
+      ],
+      links: [
+        {
+          label: 'Únete a la Comunidad',
+          link: "https://chat.whatsapp.com/GXyytzQCoXiFZNAg5r5Fzp",
+          external: true,
+        }
+      ],
+      content: `Ya que muchos lo habían pedido, he creado una comunidad de WhatsApp para los usuarios de KitMaestro, un lugar para compartir, preguntar, obtener ayuda y ayudar a los demás.`,
+    },
+    {
+      type: 'feature',
       date: new Date(2024, 7, 25),
       author: 'Otoniel Reyes Galay',
       title: 'Generador de Rúbricas',

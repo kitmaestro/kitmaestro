@@ -8359,9 +8359,938 @@
         ]
     },
     {
-        "title": "",
+        "title": "Números Enteros y sus operaciones, números Racionales y sus operaciones",
         "level": "SECUNDARIA",
         "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Números Enteros y sus operaciones, números Racionales y sus operaciones"
+        ],
+        "procedures": [
+            "Identificación, lectura y escritura de números enteros",
+            "Lectura, escritura y representación de números racionales",
+            "Determinación del valor absoluto de un número Racional",
+            "Resolución de problemas de la cotidianidad que implican el uso de números racionales"
+        ],
+        "attitudes": [
+        "Interés por comunicar ideas matemáticas de forma clara y coherente que involucren números enteros y racionales"
+      ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Finanzas asociadas al interés simple y compuesto",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Finanzas asociadas al interés simple y compuesto"
+        ],
+        "procedures": [
+            "Resolución de problemas que involucren por ciento, interés simple, capital y monto"
+        ],
+        "attitudes": [
+            "Disfrute en la resolución y análisis de acciones económicas y financieras"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Interés simple y compuesto, capital y monto, tasa mensual y anual",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Interés simple y compuesto, capital y monto, tasa mensual y anual"
+        ],
+        "procedures": [
+            "Resolución de problemas que involucren por ciento, interés simple, capital y monto"
+        ],
+        "attitudes": [
+            "Disfrute en la resolución y análisis de acciones económicas y financieras"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Impuestos. Origen y problemas asociados",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Impuestos. Origen y problemas asociados"
+        ],
+        "procedures": [
+            "Análisis de la etimología y definición del concepto de economía",
+            "Clasificación de las principales áreas de estudio de la economía",
+            "Clasificación y análisis de los recursos que intervienen como elementos en las acciones económicas"
+        ],
+        "attitudes": [
+            "Disfrute en la resolución y análisis de acciones económicas y financieras"
+      ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Economía y sus principales áreas de estudio",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Economía y sus principales áreas de estudio"
+        ],
+        "procedures": [
+            "Análisis de la etimología y definición del concepto de economía",
+            "Clasificación de las principales áreas de estudio de la economía",
+            "Clasificación y análisis de los recursos que intervienen como elementos en las acciones económicas",
+            "Elaboración de proyectos que impliquen el análisis de acciones económicas y de emprendimiento para un medio ambiente sostenible"
+        ],
+        "attitudes": [
+        "Disfrute en la resolución y análisis de acciones económicas y financieras"
+      ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Rectas y sus tipos, ángulos y sus tipos",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Rectas y sus tipos, ángulos y sus tipos"
+        ],
+        "procedures": [
+            "Construcción de rectas paralelas y perpendiculares, bisectriz de diferentes ángulos",
+            "Cálculo de complemento y suplemento de ángulos"
+        ],
+        "attitudes": [
+            "Interés por comunicar ideas matemáticas de forma clara y coherente que involucren números enteros y racionales",
+            "Interés por comunicar ideas matemáticas de forma clara y coherente que involucren números enteros y racionales"
+      ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Teorema de Pitágoras",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Teorema de Pitágoras"
+        ],
+        "procedures": [
+            "Resolución de problemas aplicando el teorema de Pitágoras"
+        ],
+        "attitudes": [
+            "Interés por crear y utilizar representaciones gráficas tanto del teorema de Pitágoras como de figuras en el eje cartesiano, usando algún software"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Prismas rectos y sus características",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Prismas rectos y sus características"
+        ],
+        "procedures": [
+            "Elaboración de proyectos que implique el cálculo de volumen como unidad de capacidad en la que se apliquen unidades cúbicas arbitrarias y del sistema métrico decimal: metro cúbico, decímetro cúbico, centímetro cúbico y milímetro cúbico",
+            "Cálculo de volumen de prismas rectos rectangulares y a partir de las operaciones con unidades cúbicas del sistema métrico decimal"
+        ],
+        "attitudes": [
+            "Rigor, flexibilidad y originalidad en la resolución de problemas de áreas y volúmenes"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Cubo, área lateral y total de prisma rectos regulares",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Cubo, área lateral y total de prisma rectos regulares"
+        ],
+        "procedures": [
+            "Elaboración de proyectos que implique el cálculo de volumen como unidad de capacidad en la que se apliquen unidades cúbicas arbitrarias y del sistema métrico decimal: metro cúbico, decímetro cúbico, centímetro cúbico y milímetro cúbico",
+            "Cálculo de volumen de prismas rectos rectangulares y a partir de las operaciones con unidades cúbicas del sistema métrico decimal"
+        ],
+        "attitudes": [
+            "Rigor, flexibilidad y originalidad en la resolución de problemas de áreas y volúmenes"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Volumen Arista, vértice",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Volumen Arista, vértice"
+        ],
+        "procedures": [
+            "Elaboración de proyectos que implique el cálculo de volumen como unidad de capacidad en la que se apliquen unidades cúbicas arbitrarias y del sistema métrico decimal: metro cúbico, decímetro cúbico, centímetro cúbico y milímetro cúbico",
+            "Cálculo de volumen de prismas rectos rectangulares y a partir de las operaciones con unidades cúbicas del sistema métrico decimal"
+        ],
+        "attitudes": [
+            "Rigor, flexibilidad y originalidad en la resolución de problemas de áreas y volúmenes"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Unidades de medidas, volumen de prismas y pirámides",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Unidades de medidas, volumen de prismas y pirámides"
+        ],
+        "procedures": [
+            "Cálculo de volumen de un prisma recto de base triangular y trapezoidal, y de una pirámide de base cuadrangular y triangular"
+        ],
+        "attitudes": [
+            "Apreciación de la importancia del manejo de las unidades de medida para resolver problemas de la cotidianidad"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Unidades cúbicas arbitrarias y del sistema métrico decimal: metro cúbico, decímetro cúbico, centímetro cúbico y milímetro cúbico",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Unidades cúbicas arbitrarias y del sistema métrico decimal: metro cúbico, decímetro cúbico, centímetro cúbico y milímetro cúbico"
+        ],
+        "procedures": [
+            "Cálculo de volumen de un prisma recto de base triangular y trapezoidal, y de una pirámide de base cuadrangular y triangular"
+        ],
+        "attitudes": [
+            "Apreciación de la importancia del manejo de las unidades de medida para resolver problemas de la cotidianidad"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Equivalencia de unidades cúbicas utilizando múltiplos y submúltiplos",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Equivalencia de unidades cúbicas utilizando múltiplos y submúltiplos"
+        ],
+        "procedures": [
+            "Cálculo de volumen de prismas rectos rectangulares y a partir de las operaciones con unidades cúbicas del sistema métrico decimal"
+        ],
+        "attitudes": [
+            "Apreciación de la importancia del manejo de las unidades de medida para resolver problemas de la cotidianidad"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Volumen de prismas rectos rectangulares",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Volumen de prismas rectos rectangulares"
+        ],
+        "procedures": [
+            "Cálculo de volumen de prismas rectos rectangulares y a partir de las operaciones con unidades cúbicas del sistema métrico decimal"
+        ],
+        "attitudes": [
+            "Rigor, flexibilidad y originalidad en la resolución de problemas de áreas y volúmenes"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Volumen de cuerpos formados por varios prismas rectos",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Volumen de cuerpos formados por varios prismas rectos"
+        ],
+        "procedures": [
+            "Cálculo de volumen de prismas rectos rectangulares y a partir de las operaciones con unidades cúbicas del sistema métrico decimal"
+        ],
+        "attitudes": [
+            "Rigor, flexibilidad y originalidad en la resolución de problemas de áreas y volúmenes"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Operaciones con unidades cúbicas del sistema métrico decimal",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Operaciones con unidades cúbicas del sistema métrico decimal"
+        ],
+        "procedures": [
+            "Cálculo de volumen de prismas rectos rectangulares y a partir de las operaciones con unidades cúbicas del sistema métrico decimal"
+        ],
+        "attitudes": [
+            "Rigor, flexibilidad y originalidad en la resolución de problemas de áreas y volúmenes"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Capacidad como volumen interno de recipientes",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Capacidad como volumen interno de recipientes"
+        ],
+        "procedures": [
+            "Estimación de capacidad en recipientes a partir de simulaciones y modelos con unidades del sistema métrico decimal"
+        ],
+        "attitudes": [
+            "Apreciación de la importancia del manejo de las unidades de medida para resolver problemas de la cotidianidad"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Unidades de capacidad en el sistema métrico decimal: el litro, el mililitro. Equivalencia entre el decímetro cúbico y el litro",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Unidades de capacidad en el sistema métrico decimal: el litro, el mililitro. Equivalencia entre el decímetro cúbico y el litro"
+        ],
+        "procedures": [
+            "Estimación de capacidad en recipientes a partir de simulaciones y modelos con unidades del sistema métrico decimal"
+        ],
+        "attitudes": [
+            "Apreciación de la importancia del manejo de las unidades de medida para resolver problemas de la cotidianidad"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Recolecta, organiza y agrupa datos agrupados",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Recolecta, organiza y agrupa datos agrupados"
+        ],
+        "procedures": [
+            "Construcción e interpretación de gráficos estadísticos (histograma y polígono de frecuencia) para datos agrupados"
+        ],
+        "attitudes": [
+            "Interés por crear y utilizar representaciones gráficas sobre datos estadísticos a través del uso de dispositivos electrónicos"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Gráficos estadísticos para datos agrupados (Histograma, polígono de frecuencia)",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Gráficos estadísticos para datos agrupados (Histograma, polígono de frecuencia)"
+        ],
+        "procedures": [
+            "Construcción e interpretación de gráficos estadísticos (histograma y polígono de frecuencia) para datos agrupados"
+        ],
+        "attitudes": [
+            "Interés por crear y utilizar representaciones gráficas sobre datos estadísticos a través del uso de dispositivos electrónicos"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Medidas de tendencia central",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Medidas de tendencia central"
+        ],
+        "procedures": [
+            "Determinación y aplicación de medidas de tendencia central"
+        ],
+        "attitudes": [
+            "Rigor, flexibilidad y originalidad en los procesos seguidos en el cálculo de medidas estadísticas de tendencia central"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Evento de un experimento aleatorio simple",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Evento de un experimento aleatorio simple"
+        ],
+        "procedures": [
+            "Construcción de espacios muestrales para eventos simples"
+        ],
+        "attitudes": [
+            "Interés por crear y utilizar representaciones gráficas sobre datos estadísticos a través del uso de dispositivos electrónicos",
+            "Rigor, flexibilidad y originalidad en los procesos seguidos en el cálculo de medidas estadísticas de tendencia central"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "Probabilidad de ocurrencia para eventos simples",
+        "level": "SECUNDARIA",
+        "year": "PRIMERO",
+        "subject": "MATEMATICA",
+        "concepts": [
+            "Probabilidad de ocurrencia para eventos simples"
+        ],
+        "procedures": [
+            "Cálculo de probabilidades para eventos simples"
+        ],
+        "attitudes": [
+            "Interés por crear y utilizar representaciones gráficas sobre datos estadísticos a través del uso de dispositivos electrónicos",
+            "Rigor, flexibilidad y originalidad en los procesos seguidos en el cálculo de medidas estadísticas de tendencia central"
+        ],
+        "achievement_indicators": [
+            "Utiliza el lenguaje matemático de forma oral, escrita y gráfica en la descripción de situaciones del entorno aplicando números enteros, racionales y sus operaciones",
+            "Formula y resuelve variedad de problemas con números enteros y con racionales, a partir de situaciones dentro y fuera de la matemática",
+            "Expresa con sus propias palabras, en forma oral y escrita, las ideas relativas a conceptos económicos y financieros, y áreas de aplicación",
+            "Reconoce y aplica razonamientos deductivos e inductivos en la resolución de situaciones de problemas asociados a la matemática y las finanzas (Interés simple y compuesto, capital y monto, tasa mensual y anual, impuestos)",
+            "Explica con argumentos convincentes y fundamentados en el análisis de las medidas de tendencia central, informaciones sobre temas de actualidad y de interés para la comunidad",
+            "Explica y construye gráficos estadísticos para datos agrupados (Histogramas, polígonos de frecuencia) en el análisis y la resolución de problemas reales",
+            "Expresa a través de algún tipo de razonamiento inductivo, resultados asociados al cálculo de probabilidades de ocurrencia de eventos, en un experimento aleatorio simple",
+            "Evalúa argumentos que estén basados en el análisis de datos y gráficos estadísticos",
+            "Realiza, lee e interpreta representaciones gráficas de puntos, rectas y figuras geométricas en el sistema de coordenadas cartesianas",
+            "Representa y resuelve problemas por medio de modelos geométricos, incluidas aplicaciones del Teorema de Pitágoras",
+            "Identifica, describe, compara y clasifica diferentes tipos de objetos geométricos en situaciones de problemas relacionados con rectas y ángulos",
+            "Se apoya en recursos de aprendizaje concretos y digitales para la construcción de conceptos, el desarrollo de fórmulas de áreas y volúmenes, la experimentación y la demostración de proposiciones geométricas",
+            "Visualiza, representa y clasifica cuerpos geométricos (prismas y pirámides)",
+            "Plantea y analiza conjeturas sobre figuras tridimensionales (prismas y pirámides), la relación entre sus volúmenes y entre las áreas de sus respectivas superficies",
+            "Resuelve problemas del contexto, dentro y fuera de la matemática, y utiliza correctamente la notación matemática para expresar las correspondientes unidades de longitud, volumen, peso y capacidad del sistema métrico decimal",
+            "Entiende y aplica equivalencias y relaciones entre medidas de longitud, de capacidad, de peso y masa en la resolución de problemas del contexto",
+            "Expone los razonamientos matemáticos empleados como soporte en la resolución de problemas relativos al tiempo y la temperatura",
+            "Visualiza y construye, con el instrumental apropiado y con aplicaciones matemáticas tecnológicas, rectas paralelas y perpendiculares, bisectriz de diferentes ángulos, figuras geométricas en general",
+            "Integra las tecnologías (aplicaciones matemáticas, simulaciones, Internet, calculadoras), como apoyo para la comprensión de las ideas matemáticas y en la resolución de problemas",
+            "Explica, auxiliándose de gráficos y modelos matemáticos los principales problemas relacionados con enfermedades que afectan la salud de las personas",
+            "Trabaja colaborativamente respetando los diferentes puntos de vista de los demás en la interpretación de situaciones del quehacer matemático"
+        ]
+    },
+    {
+        "title": "",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "MATEMATICA",
+        "concepts": [],
+        "procedures": [],
+        "attitudes": [],
+        "achievement_indicators": []
+    },
+    {
+        "title": "",
+        "level": "SECUNDARIA",
+        "year": "TERCERO",
+        "subject": "MATEMATICA",
+        "concepts": [],
+        "procedures": [],
+        "attitudes": [],
+        "achievement_indicators": []
+    },
+    {
+        "title": "",
+        "level": "SECUNDARIA",
+        "year": "CUARTO",
+        "subject": "MATEMATICA",
+        "concepts": [],
+        "procedures": [],
+        "attitudes": [],
+        "achievement_indicators": []
+    },
+    {
+        "title": "",
+        "level": "SECUNDARIA",
+        "year": "QUINTO",
+        "subject": "MATEMATICA",
+        "concepts": [],
+        "procedures": [],
+        "attitudes": [],
+        "achievement_indicators": []
+    },
+    {
+        "title": "",
+        "level": "SECUNDARIA",
+        "year": "SEXTO",
         "subject": "MATEMATICA",
         "concepts": [],
         "procedures": [],

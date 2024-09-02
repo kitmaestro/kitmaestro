@@ -36,6 +36,22 @@ export class HomeComponent {
 
   private apps: AppEntry[] = [
     {
+      name: 'Planes Diarios',
+      description: 'Planes de clase en menos de 1 minuto.',
+      link: ['/app','class-plans'],
+      icon: '/assets/undraw_real_time_sync_re_nky7.svg',
+      premium: true,
+      isWorking: true,
+    },
+    {
+      name: 'Unidades de Aprendizaje',
+      description: 'Diseña unidades de aprendizaje, para ya.',
+      link: ['/app', 'unit-plans'],
+      icon: '/assets/assistant.svg',
+      premium: true,
+      isWorking: true,
+    },
+    {
       name: 'Calculadora de Promedios',
       description: 'Calcula promedios en un santiamén.',
       link: ['/app/average-calculator'],
@@ -67,22 +83,6 @@ export class HomeComponent {
       icon: '/assets/grades.svg',
       premium: true,
       isWorking: false,
-    },
-    {
-      name: 'Planes Diarios',
-      description: 'Planes de clase en menos de 1 minuto.',
-      link: ['/app','class-plans'],
-      icon: '/assets/undraw_real_time_sync_re_nky7.svg',
-      premium: true,
-      isWorking: true,
-    },
-    {
-      name: 'Unidades de Aprendizaje',
-      description: 'Diseña unidades de aprendizaje, para ya.',
-      link: ['/app', 'unit-plans'],
-      icon: '/assets/assistant.svg',
-      premium: true,
-      isWorking: true,
     },
     {
       name: 'Hojas de Ejercicios',
