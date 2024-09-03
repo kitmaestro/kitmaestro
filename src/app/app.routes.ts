@@ -33,6 +33,7 @@ export const routes: Routes = [
             { path: 'average-calculator', loadComponent: () => import('./apps/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent) },
             { path: 'attendance-calculator', loadComponent: () => import('./apps/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent) },
             // Generators
+            { path: 'schedule-generator', loadComponent: () => import('./generators/schedule-generator/schedule-generator.component').then(mod => mod.ScheduleGeneratorComponent) },
             { path: 'grades-generator', loadComponent: () => import('./generators/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },
             { path: 'activity-generator', loadComponent: () => import('./generators/activity-generator/activity-generator.component').then(mod => mod.ActivityGeneratorComponent) },
             { path: 'aspects-generator', loadComponent: () => import('./generators/aspects-generator/aspects-generator.component').then(mod => mod.AspectsGeneratorComponent) },
