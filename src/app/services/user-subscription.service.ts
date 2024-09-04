@@ -38,11 +38,21 @@ export class UserSubscriptionService {
     );
   }
 
+  public byReferral(id: string) {
+    return collectionData(
+      query(
+        this.subscriptionColRef,
+        where('referral', '==', id)
+      ),
+      { idField: 'id' }
+    ) as Observable<UserSubscription[]>;
+  }
+
   public referries(): Observable<UserSubscription[]> {
     return this.subscription$.pipe(
       map(sub => {
         if (sub) {
-          return collectionData(query(this.subscriptionColRef, where('referrer', '==', sub.refCode)), { idField: 'id' }) as Observable<UserSubscription[]>
+          return collectionData(query(this.subscriptionColRef, where('referral', '==', sub.refCode)), { idField: 'id' }) as Observable<UserSubscription[]>
         }
         return of([]);
       }),

@@ -75,7 +75,7 @@ export class BuySubscriptionComponent implements OnInit {
           if (subscription.active) {
             this.alreadyPremium = true;
           } else {
-            if (subscription.referral) {
+            if (subscription.referral && subscription.referral !== 'kitmaestro') {
               this.renderDiscountPurchaseButton();
             } else {
               this.renderPurchaseButton();

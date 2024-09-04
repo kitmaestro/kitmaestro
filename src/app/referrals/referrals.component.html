@@ -70,6 +70,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Usuario</th>
                     <th>Ya compr&oacute; Premium?</th>
                     <th>Estado</th>
@@ -78,13 +79,14 @@
             <tbody>
                 @for(sub of referries; track $index) {
                     <tr>
-                        <td>{{sub.uid}}</td>
-                        <td>{{sub.active == true}}</td>
+                        <td>{{$index + 1}}</td>
+                        <td>{{users[sub.uid]}}</td>
+                        <td>{{sub.active ? 'Sí' : 'No'}}</td>
                         <td>{{sub.active && sub.trial ? 'Periodo de Prueba' : sub.active && sub.paidRef ? 'Pagado' : sub.active && !sub.paidRef ? 'Pendiente de pago' : 'No suscrito'}}</td>
                     </tr>
                 } @empty {
                   <tr>
-                    <td colspan="3" style="text-align: center;">
+                    <td colspan="4" style="text-align: center;">
                       <h3>No tienes referidos todav&iacute;a</h3>
                       <p>Aseg&uacute;rate de que tus referidos entren con tu link para que te sean asignados.</p>
                     </td>
@@ -93,4 +95,5 @@
             </tbody>
         </table>
     </div>
+    <div style="height: 32px;"></div>
 </app-is-premium>
