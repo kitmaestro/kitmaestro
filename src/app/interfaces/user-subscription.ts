@@ -9,4 +9,6 @@ export interface UserSubscription {
     refCode: string;
     referries: string;
     refsCount: number;
+    trial?: boolean;
+    paidRef?: boolean;
 }

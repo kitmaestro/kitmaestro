@@ -515,7 +515,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
       this.unitPlanService.addPlan(this.plan).then((saved) => {
         if (saved) {
           this.router.navigate(['/app', 'unit-plans', saved.id]).then(() => {
-            this.sb.open('Tu unidad de aprendizaje ha sido guardada!')
+            this.sb.open('Tu unidad de aprendizaje ha sido guardada!', 'Ok', { duration: 2500 })
           })
         }
       })

@@ -9,6 +9,7 @@ import { UserSettingsService } from '../services/user-settings.service';
 import { Observable, tap } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
 import { AsyncPipe, NgIf } from '@angular/common';
+import { UserSubscription } from '../interfaces/user-subscription';
 
 @Component({
   selector: 'app-referrals',
@@ -30,13 +31,8 @@ export class ReferralsComponent implements OnInit {
   private userSettingsService = inject(UserSettingsService);
 
   userSubscription$ = this.userSubscriptionService.subscription$;
-  referries$ = this.userSubscriptionService.referries().pipe(
-    tap(refs => {
-      const currentMonth = new Date().getMonth();
-      const currentYear = new Date().getFullYear();
-      this.refs.thisMonth = refs.filter(r => r.active && r.purchaseDate.getMonth() == currentMonth && r.purchaseDate.getFullYear() == currentYear).length
-    })
-  );
+  referries: UserSubscription[] = [];
+  referries$ = this.userSubscriptionService.referries();
 
   base = 'https://web.whatsapp.com/send?text=';
   tgBase = 'https://t.me/share/url?';
@@ -65,6 +61,14 @@ Regístrate en KitMaestro ahora. La app es gratis y, con mi enlace, obtienes un 
         this.refCode = sub.refCode;
       }
     });
+    this.referries$.subscribe((refs) => {
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+      this.refs.thisMonth = refs.filter(r => r.active && r.purchaseDate.getMonth() == currentMonth && r.purchaseDate.getFullYear() == currentYear).length;
+      this.refs.before = refs.length - this.refs.thisMonth;
+      this.refs.paid = refs.filter(r => r.active && !r.trial).length;
+      this.refs.pending = refs.filter(r => r.active && r.paidRef).length;
+    })
   }
 
   get waShareableLink() {

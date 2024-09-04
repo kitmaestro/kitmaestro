@@ -74,8 +74,9 @@ export class ScheduleGeneratorComponent implements OnInit {
       return arr;
     }).flat());
 
-    this.horario.push(pool.slice(0, 5));
-    this.horario.push(pool.slice(5, 10));
+    for (let i = 0; i < 8; i++) {
+      this.horario.push(pool.slice(i * 5, (i + 1) * 5));
+    }
   }
 
   shuffle(array: string[]) {
@@ -97,3 +98,7 @@ export class ScheduleGeneratorComponent implements OnInit {
     return array;
   }
 }
+
+
+// pseudo code for the schedule generator
+//

@@ -45,7 +45,7 @@
             </mat-card-content>
         </mat-card>
     </div>
-    <div style="margin-top: 24px;">
+    <div style="margin-top: 24px;" class="shadow">
         <table>
             <thead>
                 <tr>
@@ -55,12 +55,19 @@
                 </tr>
             </thead>
             <tbody>
-                @for(sub of (referries$ | async); track $index) {
+                @for(sub of referries; track $index) {
                     <tr>
                         <td>{{sub.uid}}</td>
                         <td>{{sub.active == true}}</td>
-                        <td>Pendiente</td>
+                        <td>{{sub.active && sub.trial ? 'Periodo de Prueba' : sub.active && sub.paidRef ? 'Pagado' : sub.active && !sub.paidRef ? 'Pendiente de pago' : 'No suscrito'}}</td>
                     </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="3" style="text-align: center;">
+                      <h3>No tienes referidos todav&iacute;a</h3>
+                      <p>Aseg&uacute;rate de que tus referidos entren con tu link para que te sean asignados.</p>
+                    </td>
+                  </tr>
                 }
             </tbody>
         </table>
