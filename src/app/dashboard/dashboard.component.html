@@ -40,6 +40,12 @@
                         <mat-icon>person_circle</mat-icon>
                         <span>Mi Perfil</span>
                     </button>
+                    <ng-container *ngIf="subscription$ | async">
+                        <button routerLink="/app/referrals" mat-menu-item>
+                            <mat-icon>people_circle</mat-icon>
+                            <span>Mis Referidos</span>
+                        </button>
+                    </ng-container>
                     <button routerLink="/app/settings" mat-menu-item>
                         <mat-icon>settings</mat-icon>
                         <span>Ajustes</span>

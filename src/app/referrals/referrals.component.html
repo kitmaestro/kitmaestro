@@ -1,0 +1,68 @@
+<app-is-premium>
+    <mat-card>
+        <mat-card-header>
+            <h2 mat-card-title style="margin-top: 8px;">Mis Referidos</h2>
+            <a target="_blank" [disabled]="!refCode" [href]="waShareableLink" mat-icon-button color="success" style="margin-left: auto;" title="Compartir mi Enlace">
+                <i class="bi bi-whatsapp"></i>
+            </a>
+            <a target="_blank" [disabled]="!refCode" [href]="tgShareableLink" mat-icon-button color="success" style="margin-left: 12px;" title="Compartir mi Enlace">
+                <i class="bi bi-telegram"></i>
+            </a>
+        </mat-card-header>
+    </mat-card>
+
+    <div class="card-grid">
+        <mat-card>
+            <mat-card-header>
+                <h2 style="margin-left: auto; margin-right: auto;">Referidos Este Mes</h2>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="giant">{{refs.thisMonth}}</div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-header>
+                <h2 style="margin-left: auto; margin-right: auto;">Anteriores</h2>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="giant">{{refs.before}}</div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-header>
+                <h2 style="margin-left: auto; margin-right: auto;">Pendientes</h2>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="giant">{{refs.pending}}</div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-header>
+                <h2 style="margin-left: auto; margin-right: auto;">Pagados</h2>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="giant">{{refs.paid}}</div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div style="margin-top: 24px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Ya compr&oacute; Premium?</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(sub of (referries$ | async); track $index) {
+                    <tr>
+                        <td>{{sub.uid}}</td>
+                        <td>{{sub.active == true}}</td>
+                        <td>Pendiente</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</app-is-premium>

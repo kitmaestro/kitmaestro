@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, authState } from '@angular/fire/auth';
+import { Auth, authState, User } from '@angular/fire/auth';
 import { Firestore, addDoc, collection, collectionData, doc, query, updateDoc, where } from '@angular/fire/firestore';
 import { Observable, concatAll, map, of } from 'rxjs';
 import { UserSubscription } from '../interfaces/user-subscription';
@@ -12,7 +12,7 @@ export class UserSubscriptionService {
   private auth = inject(Auth);
   private firestore = inject(Firestore);
   private subscriptionColRef = collection(this.firestore, 'user-subscriptions');
-  private user$ = authState(this.auth);
+  private user$ = authState(this.auth) as Observable<User | null>;
   
   public subscription$: Observable<UserSubscription | undefined> = this.user$.pipe(
     map(user => {
@@ -36,6 +36,18 @@ export class UserSubscriptionService {
         }
       })
     );
+  }
+
+  public referries(): Observable<UserSubscription[]> {
+    return this.subscription$.pipe(
+      map(sub => {
+        if (sub) {
+          return collectionData(query(this.subscriptionColRef, where('referrer', '==', sub.refCode)), { idField: 'id' }) as Observable<UserSubscription[]>
+        }
+        return of([]);
+      }),
+      concatAll(),
+    )
   }
 
   public updateSubscription(subscription: UserSubscription) {

@@ -18,6 +18,7 @@ export const routes: Routes = [
         component: DashboardComponent,
         children: [
             { path: '', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent) },
+            { path: 'referrals', loadComponent: () => import('./referrals/referrals.component').then(mod => mod.ReferralsComponent) },
             { path: 'tutorials', loadComponent: () => import('./tutorials/tutorials.component').then(mod => mod.TutorialsComponent) },
             { path: 'todos', loadComponent: () => import('./todo-lists/todo-lists.component').then(mod => mod.TodoListsComponent) },
             { path: 'todos/:id', loadComponent: () => import('./todos/todos.component').then(mod => mod.TodosComponent) },
