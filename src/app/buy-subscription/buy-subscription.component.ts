@@ -145,7 +145,7 @@ export class BuySubscriptionComponent implements OnInit {
           plan_id: 'P-6BD57811KP573641CM3FUYCA'
         });
       },
-      onApprove: (data: any, actions: any) => {
+      onApprove: () => {
         this.alertSuccess();
         this.updateSubscription();
       }
@@ -166,7 +166,7 @@ export class BuySubscriptionComponent implements OnInit {
           plan_id: 'P-34132758Y2605242XM3FVFMY'
         });
       },
-      onApprove: (data: any, actions: any) => {
+      onApprove: () => {
         this.alertSuccess();
         this.updateSubscription();
       }

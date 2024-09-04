@@ -7,22 +7,6 @@ interface Asignatura {
   sesionesPorBloque: number; // 1 o 2
 }
 
-interface Sesion {
-  inicio: string;
-  fin: string;
-  asignatura: string;
-}
-
-interface Bloque {
-  horaInicio: Date;
-  horaFin: Date;
-  asignaturas: Asignatura[];
-}
-
-interface Horario {
-  bloques: Bloque[];
-}
-
 @Component({
   selector: 'app-schedule-generator',
   standalone: true,
@@ -70,7 +54,7 @@ export class ScheduleGeneratorComponent implements OnInit {
     ];
 
     const pool = this.shuffle(asignaturas.map(a => {
-      const arr = Array.from({ length: a.horasSemanales }).map(i => a.nombre);
+      const arr = Array.from({ length: a.horasSemanales }).map(() => a.nombre);
       return arr;
     }).flat());
 

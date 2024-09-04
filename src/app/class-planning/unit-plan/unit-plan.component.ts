@@ -3,7 +3,7 @@ import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.compon
 import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';

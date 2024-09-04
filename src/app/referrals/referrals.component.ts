@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { UserSubscriptionService } from '../services/user-subscription.service';
 import { UserSettingsService } from '../services/user-settings.service';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
 import { AsyncPipe, CurrencyPipe, NgIf } from '@angular/common';
 import { UserSubscription } from '../interfaces/user-subscription';
