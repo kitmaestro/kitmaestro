@@ -108,6 +108,8 @@ export class BuySubscriptionComponent implements OnInit {
         sus.purchaseDate = new Date();
         sus.expiresAt = new Date(+(new Date()) + 365);
         sus.method = 'PayPal';
+        sus.trial = true;
+        sus.paidRef = false;
         sus.refCode = this.user?.email?.split('@')[0] || '';
         sus.refsCount = 0;
         this.userSubscriptionService.updateSubscription(sus)
@@ -117,6 +119,8 @@ export class BuySubscriptionComponent implements OnInit {
           purchaseDate : new Date(),
           expiresAt : new Date(+(new Date()) + 365),
           method : 'PayPal',
+          trial: true,
+          paidRef: false,
           refCode : this.user?.email?.split('@')[0] || '',
           refsCount : 0,
           uid: this.user?.uid || '',

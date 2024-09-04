@@ -8,7 +8,7 @@ import { UserSubscriptionService } from '../services/user-subscription.service';
 import { UserSettingsService } from '../services/user-settings.service';
 import { Observable, tap } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, NgIf } from '@angular/common';
 import { UserSubscription } from '../interfaces/user-subscription';
 
 @Component({
@@ -21,6 +21,7 @@ import { UserSubscription } from '../interfaces/user-subscription';
     MatTableModule,
     MatIconModule,
     AsyncPipe,
+    CurrencyPipe,
     NgIf
   ],
   templateUrl: './referrals.component.html',
@@ -35,6 +36,7 @@ export class ReferralsComponent implements OnInit {
   referries$ = this.userSubscriptionService.referries();
 
   base = 'https://web.whatsapp.com/send?text=';
+  mobileBase = 'https://api.whatsapp.com/send?text=';
   tgBase = 'https://t.me/share/url?';
   text = `¿Qué esperas para formar parte de la revolución educativa del siglo? 🌟
 
@@ -69,6 +71,10 @@ Regístrate en KitMaestro ahora. La app es gratis y, con mi enlace, obtienes un 
       this.refs.paid = refs.filter(r => r.active && !r.trial).length;
       this.refs.pending = refs.filter(r => r.active && r.paidRef).length;
     })
+  }
+
+  get waMobileShareableLink() {
+    return this.mobileBase + encodeURIComponent(this.text + this.refCode);
   }
 
   get waShareableLink() {

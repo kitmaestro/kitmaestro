@@ -14,6 +14,11 @@
 
 mat-form-field {
     width: 100%;
+    max-width: 100%;
+}
+
+select, input, textarea {
+  max-width: 100%;
 }
 
 table {

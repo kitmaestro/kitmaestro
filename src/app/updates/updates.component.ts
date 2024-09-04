@@ -25,6 +25,28 @@ export class UpdatesComponent implements OnInit {
   public updates: Update[] = [
     {
       type: 'feature',
+      date: new Date(2024, 8, 4),
+      author: 'Otoniel Reyes Galay',
+      title: 'Panel de Referidos',
+      description: 'Monitorea tus referidos y pagos de comisiones',
+      actions: [
+        {
+          label: 'Monitorea Tus Referidos',
+          link: [
+            '/app',
+            'referrals'
+          ],
+        }
+      ],
+      links: [
+      ],
+      content: `**Solo disponible para usuarios premium**
+Ya disponemos de un panel para que obtengas de manera eficiente tus referidos y comisiones pagadas y por pagar.
+Te hemos puesto tambien dos botones para compartir tu link en WhatsApp y Telegram facilmente.
+¡Seguimos creciendo!`,
+    },
+    {
+      type: 'feature',
       date: new Date(2024, 8, 1),
       author: 'Otoniel Reyes Galay',
       title: 'Comunidad de WhatsApp',
