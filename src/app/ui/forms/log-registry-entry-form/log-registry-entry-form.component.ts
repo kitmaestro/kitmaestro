@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Student } from '../../../interfaces/student';
 import { LogRegistryEntryService } from '../../../services/log-registry-entry.service';
+import { ClassSectionService } from '../../../services/class-section.service';
 
 @Component({
   selector: 'app-log-registry-entry-form',
@@ -42,9 +43,9 @@ export class LogRegistryEntryFormComponent implements OnInit {
   sb = inject(MatSnackBar);
   logRegistryEntryService = inject(LogRegistryEntryService);
   logRegistryEntriesCollectionRef = collection(this.firestore, 'log-registry-entries');
-  classSectionsCollectionRef = collection(this.firestore, 'class-sections');
+  classSectionService = inject(ClassSectionService);
+  classSections$ = this.classSectionService.classSections$;
   studentsCollectionRef = collection(this.firestore, 'students');
-  classSections$: Observable<ClassSection[]> = EMPTY;
   students$: Observable<Student[]> = EMPTY;
   sections: ClassSection[] = [];
   students: Student[] = [];
@@ -99,6 +100,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.classSectionService.classSections$.subscribe(col => this.sections = col);
     if (this.data) {
       const {
         id,
@@ -125,21 +127,13 @@ export class LogRegistryEntryFormComponent implements OnInit {
 
       this.uid = uid;
       this.id = id;
-      this.newEntry = false; 
-      this.classSections$ = collectionData(query(this.classSectionsCollectionRef, where('uid', '==', this.uid)), { idField: 'id' }) as Observable<ClassSection[]>;
-      this.classSections$.pipe(
-        tap(col => this.sections = col)
-      );
+      this.newEntry = false;
       this.students$ = collectionData(query(this.studentsCollectionRef, where('uid', '==', this.uid)), { idField: 'id' }) as Observable<Student[]>;
       this.loadStudents()
     } else {
       this.user$.subscribe(user => {
         if (user) {
           this.uid = user.uid;
-          this.classSections$ = collectionData(query(this.classSectionsCollectionRef, where('uid', '==', this.uid)), { idField: 'id' }) as Observable<ClassSection[]>;
-          this.classSections$.pipe(
-            tap(col => this.sections = col)
-          );
           this.students$ = collectionData(query(this.studentsCollectionRef, where('uid', '==', this.uid)), { idField: 'id' }) as Observable<Student[]>;
           this.loadStudents()
         }
@@ -160,6 +154,14 @@ export class LogRegistryEntryFormComponent implements OnInit {
       return `${student.firstname} ${student.lastname}`;
     }
     return '';
+  }
+
+  sectionGrade(id: string) {
+    const section = this.sections.find(section => section.id == id);
+    if (section) {
+      return section.grade.toLowerCase();
+    }
+    return id;
   }
 
   sectionName(id: string) {
@@ -219,7 +221,10 @@ export class LogRegistryEntryFormComponent implements OnInit {
     this.saving = true;
 
     const student: Student[] = this.students.filter(s => students.length == 1 && s.id == students[0] || students.includes(s.id));
-    this.selectedStudents = this.students.filter(s => students.includes(s.id));
+    this.selectedStudents = this.students.filter(s => students.includes(s.id)).map(s => {
+      s.section = this.sectionGrade(s.section);
+      return s;
+    });
 
     this.logRegistryEntryService.getLog(type, student).subscribe(result => {
       if (result) {
@@ -228,7 +233,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
           comments: result.comments,
           description: result.description,
           date: new Date(y,m,d,h,i),
-          grade,
+          grade: grade,
           place,
           type,
           uid: this.uid

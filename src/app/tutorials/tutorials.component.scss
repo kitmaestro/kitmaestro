@@ -1,0 +1,26 @@
+.tutorial-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+    margin-bottom: 24px;
+
+    @media screen and (min-width: 720px) {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media screen and (min-width: 960px) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @media screen and (min-width: 1200px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    iframe {
+        max-width: 100%;
+    }
+}
+
+h3 {
+    font-weight: bold;
+}

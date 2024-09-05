@@ -80,7 +80,7 @@
                 @for(sub of referries; track $index) {
                     <tr>
                         <td>{{$index + 1}}</td>
-                        <td>{{users[sub.uid]}}</td>
+                        <td>{{users[sub.uid].trim() || '-- Cuenta sin Configurar --'}}</td>
                         <td>{{sub.active ? 'Sí' : 'No'}}</td>
                         <td>{{sub.active && sub.trial ? 'Periodo de Prueba' : sub.active && sub.paidRef ? 'Pagado' : sub.active && !sub.paidRef ? 'Pendiente de pago' : 'No suscrito'}}</td>
                     </tr>
