@@ -12,7 +12,7 @@
             </div>
             <div class="grid-3-cols">
                 <div>
-                    <mat-form-field appearance="outline" *ngIf="(sections$ | async) as sections; else noSections">
+                    <mat-form-field style="max-width: 100%;" appearance="outline" *ngIf="(sections$ | async) as sections; else noSections">
                         <mat-label>Curso</mat-label>
                         <mat-select formControlName="section">
                             @for(section of sections; track section) {

@@ -198,7 +198,6 @@ Las competencias a desarrollorar debe ser una de estas:
     if (this.planForm.valid) {
       const {
         classSection,
-        date,
         subject,
         duration,
         bloomLevel,

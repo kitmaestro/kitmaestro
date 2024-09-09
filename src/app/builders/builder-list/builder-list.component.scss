@@ -1,11 +1,28 @@
 .grid-container {
-  display: block;
-  width: 100%;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+  width: 90vw;
+
+  @media screen and (min-width: 720px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media screen and (min-width: 960px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (min-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media screen and (min-width: 1400px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 
   .card-container {
-    padding: 8px;
-    width: 16.6666%;
-    max-width: 16.6666%;
+    width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
     display: inline-block;
   }

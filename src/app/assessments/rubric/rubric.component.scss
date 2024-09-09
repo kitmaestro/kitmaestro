@@ -10,6 +10,10 @@
     @media screen and (min-width: 1200px) {
         grid-template-columns: repeat(3, 1fr);
     }
+
+    & > div {
+      max-width: 100%;
+    }
 }
 
 mat-form-field {
@@ -17,7 +21,7 @@ mat-form-field {
     max-width: 100%;
 }
 
-select, input, textarea {
+mat-select, select, input, textarea {
   max-width: 100%;
 }
 
