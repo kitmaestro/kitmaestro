@@ -46,10 +46,9 @@ export class PassUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.mode !== 'resetPassword') {
-      this.router.navigate(['/']);
+      this.router.navigate(['/auth', 'login']);
       return;
     }
-    console.log("Mode: %s\nOOBCode: %s\nApiKey: %s", this.mode, this.oob, this.apiKey)
     if (!this.oob)
       return;
     

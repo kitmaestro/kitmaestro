@@ -1,0 +1,42 @@
+<div class="flex-wrapper">
+    <mat-card class="signup-card">
+        <mat-card-header>
+            <div style="display: flex; justify-content: center; width: 100%;">
+                <h2 mat-card-title>Reg&iacute;strate</h2>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <img src="/assets/base.png" style="display: block; margin: 0 auto 12px; width: 96px;">
+            <!-- <img src="/assets/teach.svg" class="teach-svg" alt=""> -->
+            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput formControlName="email">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Contrase&ntilde;a</mat-label>
+                    <input type="password" matInput formControlName="password">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Confirma tu Contrase&ntilde;a</mat-label>
+                    <input required type="password" matInput [formControl]="confirmation">
+                </mat-form-field>
+                <div style="margin: 12px 0; display: flex; flex-direction: column; gap: 12px;">
+                    <button [disabled]="loading || signupForm.invalid || !validConfirmation" mat-raised-button color="primary"
+                        type="submit">Registrar</button>
+                    <button mat-flat-button color="link" (click)="signupWithGoogle()" type="button"><bi-icon
+                            icon="google"></bi-icon> Continuar con Google</button>
+                    <button mat-flat-button color="link" (click)="signupWithFacebook()" type="button"><bi-icon
+                            icon="facebook"></bi-icon> Continuar con Facebook</button>
+                </div>
+            </form>
+        </mat-card-content>
+        <mat-card-actions>
+            <div style="width: 100%; padding: 0 6px;">
+                <button mat-flat-button style="display: block; width: 100%;" color="accent"
+                    [routerLink]="['/auth', 'login']">Iniciar Sesi&oacute;n</button>
+            </div>
+            <!-- <a mat-flat-button style="margin-right: auto;" color="accent" target="_blank" href="https://wa.me/+18094659650?text=Hola!+Quiero+solicitar+una+cuenta+de+KitMaestro.+Me+puedes+dar+más+información?">Solicitar Cuenta</a> -->
+        </mat-card-actions>
+    </mat-card>
+</div>

@@ -20,8 +20,9 @@
         </mat-chip-set>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button style="display: block; margin-left: auto;" [routerLink]="['/attendance', section.id]">Asistencia</button>
+        <button mat-raised-button style="display: block; margin-left: auto;" disabled [routerLink]="['/attendance', section.id]">Asistencia</button>
         <button mat-raised-button color="primary" style="display: block; margin-left: 20px;" (click)="updateSectionDetails()">Editar</button>
+        <button mat-raised-button color="warn" style="display: block; margin-left: 20px;" (click)="removeSection()">Eliminar</button>
     </mat-card-actions>
 </mat-card>
 

@@ -6,7 +6,8 @@
             </div>
         </mat-card-header>
         <mat-card-content>
-            <img src="/assets/teach.svg" class="teach-svg" alt="">
+            <img src="/assets/base.png" style="display: block; margin: 0 auto 12px; width: 96px;">
+            <!-- <img src="/assets/teach.svg" class="teach-svg" alt=""> -->
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
@@ -19,12 +20,14 @@
                 <div style="margin: 12px 0; display: flex; flex-direction: column; gap: 12px;">
                     <button [disabled]="loading || loginForm.invalid" mat-raised-button color="primary" type="submit">Entrar</button>
                     <button mat-flat-button color="link" (click)="loginWithGoogle()" type="button"><bi-icon icon="google"></bi-icon> Iniciar con Google</button>
+                    <button mat-flat-button color="link" (click)="loginWithFacebook()" type="button"><bi-icon icon="facebook"></bi-icon> Iniciar con Facebook</button>
                 </div>
             </form>
         </mat-card-content>
         <mat-card-actions>
             <button mat-flat-button style="margin-left: auto; margin-right: 12px;" color="link" (click)="recoverPassword()">Recuperar Contrase&ntilde;a</button>
-            <a mat-flat-button style="margin-right: auto;" color="accent" target="_blank" href="https://wa.me/+18094659650?text=Hola!+Quiero+solicitar+una+cuenta+de+KitMaestro.+Me+puedes+dar+más+información?">Solicitar Cuenta</a>
+            <button mat-flat-button style="margin-left: auto; margin-right: 12px;" color="accent" [routerLink]="['/auth', 'signup']">Registrarme</button>
+            <!-- <a mat-flat-button style="margin-right: auto;" color="accent" target="_blank" href="https://wa.me/+18094659650?text=Hola!+Quiero+solicitar+una+cuenta+de+KitMaestro.+Me+puedes+dar+más+información?">Solicitar Cuenta</a> -->
         </mat-card-actions>
     </mat-card>
 </div>

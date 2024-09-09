@@ -115,8 +115,8 @@ export class SectionDetailsComponent implements OnInit {
           await deleteDoc(doc(this.firestore, 'students/' + student.id))
         }
         deleteDoc(this.sectionRef).then(() => {
-          this.router.navigate(['/datacenter', 'sections']).then(() => {
-            this.sb.open('La Seccion ha sido eliminado', 'Ok', { duration: 2500 });
+          this.router.navigate(['/app', 'sections']).then(() => {
+            this.sb.open('La Seccion se ha eliminado', 'Ok', { duration: 2500 });
           });
         })
       }

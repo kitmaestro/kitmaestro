@@ -8,10 +8,13 @@ export const routes: Routes = [
             return import('./auth/auth-container/auth-container.component').then((mod) => mod.AuthContainerComponent);
         },
         children: [
-            { path: '', redirectTo: '/auth/reset', pathMatch: 'full' },
+            { path: 'signup', loadComponent: () => import('./auth/signup/signup.component').then(mod => mod.SignupComponent) },
+            { path: 'login', loadComponent: () => import('./auth/login/login.component').then(mod => mod.LoginComponent) },
             { path: 'reset', loadComponent: () => import('./auth/pass-update/pass-update.component').then(mod => mod.PassUpdateComponent) },
+            { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
         ]
     },
+    { path: 'pricing', loadComponent: () => import('./buy-subscription/buy-subscription.component').then(mod => mod.BuySubscriptionComponent) },
     { path: 'print-unit-plan/:id', loadComponent: () => import('./class-planning/unit-plan-detail/unit-plan-detail.component').then(mod => mod.UnitPlanDetailComponent) },
     {
         path: 'app',

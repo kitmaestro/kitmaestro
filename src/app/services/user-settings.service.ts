@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, User, authState } from '@angular/fire/auth';
-import { DocumentReference, Firestore, addDoc, collection, collectionData, doc, docData, query, updateDoc, where } from '@angular/fire/firestore';
+import { DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, query, updateDoc, where } from '@angular/fire/firestore';
 import { EMPTY, Observable, concatAll, from, map, of } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
 
@@ -80,6 +80,18 @@ export class UserSettingsService {
       }),
       concatAll(),
     )
+  }
+
+  deleteSettings(id: string) {
+    const userSettingsCollection = collectionData(query(this.settingsColRef, where('uid', '==', id)), { idField: 'id' }) as Observable<UserSettings[]>
+    const subscription = userSettingsCollection.subscribe(col => {
+      subscription.unsubscribe();
+      col.forEach(element => {
+        deleteDoc(doc(this.firestore, 'user-settings', element.id)).then(() => {
+          console.log('Deleted %s', element.id);
+        });
+      })
+    })
   }
 
   setPhotoUrl(photoURL: string): Observable<Promise<boolean>> {

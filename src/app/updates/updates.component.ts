@@ -25,6 +25,16 @@ export class UpdatesComponent implements OnInit {
   public updates: Update[] = [
     {
       type: 'feature',
+      date: new Date(2024, 8, 7),
+      author: 'Otoniel Reyes Galay',
+      title: 'Inicio de sesión con Facebook',
+      description: 'Ya puedes registrarte e iniciar sesión con Facebook',
+      actions: [],
+      content: `Ahora puedes vincular tu cuenta de KitMaestro con tu cuenta de Facebook. Esto supone un gran paso, puesto que en el futuro podremos tener una mayor interacción con dicha plataforma para apoyarte con tus comunidades de aprendizaje y la optimización de tus recursos y promociones dentro de KitMaestro.
+Algunas de las ventajas que representa para el futuro, es compartir tus logros, tus excursiones y actividades, reportes, recursos creados y compartir con otros docentes tus resultados, todo sin salir de KitMaestro y con la eficiencia que nos caracteriza.`
+    },
+    {
+      type: 'feature',
       date: new Date(2024, 8, 4),
       author: 'Otoniel Reyes Galay',
       title: 'Panel de Referidos',

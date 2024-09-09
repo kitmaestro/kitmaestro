@@ -69,7 +69,6 @@ export class DashboardComponent implements OnInit {
         if (referrer) {
           this.subscription$.subscribe({
             next: (subscription) => {
-              console.log(subscription)
               if (!subscription) {
                 const sub: UserSubscription = {
                   active: false,
@@ -96,46 +95,48 @@ export class DashboardComponent implements OnInit {
             }
           })
         }
-        this.route.queryParamMap.subscribe(params => {
-          const referral = params.get('ref');
-          if (referral) {
-            this.subscription$.subscribe({
-              next: (subscription) => {
-                console.log(subscription)
-                if (!subscription) {
-                  const sub: UserSubscription = {
-                    active: false,
-                    referral,
-                    referries: '',
-                    refsCount: 0,
-                    expiresAt: new Date(),
-                    method: 'none',
-                    purchaseDate: new Date(),
-                    refCode: '',
-                    uid: user.uid
-                  } as any as UserSubscription;
-                  this.userSubscriptionService.subscribe(sub);
-                }
-                if (subscription && !subscription.referral) {
-                  // assign a referral
-                  subscription.referral = referral;
-                  // update subscription
-                  this.userSubscriptionService.updateSubscription(subscription)
-                }
-              },
-              error: (error) => {
+        const referral = this.route.snapshot.queryParamMap.get('ref');
+        if (referral) {
+          this.subscription$.subscribe({
+            next: (subscription) => {
+              console.log(subscription)
+              if (!subscription) {
+                const sub: UserSubscription = {
+                  active: false,
+                  referral,
+                  referries: '',
+                  refsCount: 0,
+                  expiresAt: new Date(),
+                  method: 'none',
+                  purchaseDate: new Date(),
+                  refCode: '',
+                  uid: user.uid
+                } as any as UserSubscription;
+                this.userSubscriptionService.subscribe(sub);
               }
-            })
-          }
-        });
+              if (subscription && !subscription.referral) {
+                // assign a referral
+                subscription.referral = referral;
+                // update subscription
+                this.userSubscriptionService.updateSubscription(subscription)
+              }
+            },
+            error: (error) => {
+            }
+          })
+        }
       } else {
-        console.log('No user!!!')
+        this.router.navigate(['/auth', 'login'], { queryParamsHandling: 'merge', queryParams: { next: '/' + this.route.snapshot.pathFromRoot.map(p => p.routeConfig?.path).filter(p => !!p).join('/') } })
       }
     })
   }
 
   logout() {
-    signOut(this.auth).then(() => this.sb.open('Haz cerrado sesión. Hasta luego!', 'Ok', { duration: 4000 }));
+    signOut(this.auth).then(() => {
+      this.router.navigate(['/auth', 'login']).then(() => {
+        this.sb.open('Has cerrado sesión. Hasta luego!', 'Ok', { duration: 4000 });
+      });
+    });
   }
 
   openQuoteDialog() {

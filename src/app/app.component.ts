@@ -28,6 +28,10 @@ export class AppComponent implements OnInit {
   isAnAuthView = false;
 
   ngOnInit() {
-    this.router.events.subscribe((u: any) => this.isAnAuthView = u.url ? u.url.startsWith('/auth/reset') : false);
+    this.user$.subscribe(user => {
+      if (!user) {
+        // this.router.navigate(['/app', 'login']);
+      }
+    })
   }
 }
