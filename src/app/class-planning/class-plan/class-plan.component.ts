@@ -146,7 +146,7 @@ export class ClassPlanComponent implements OnInit {
     resources: [["Pizarra", "Libros de texto", "Cuadernos", "Lápices y bolígrafos", "Materiales de arte (papel, colores, pinceles)", "Cuadernos de ejercicios"]]
   });
 
-  planPrompt = `Escribe un plan de clases de class_subject de class_duration minutos para impartir class_topics en class_year grado de class_level. Esta es la interfaz de la planificacion:
+  planPrompt = `Escribe un plan de clases, enfocado en el desarrollo de competencias, de class_subject de class_duration minutos para impartir class_topics en class_year grado de class_level. Esta es la interfaz de la planificacion:
 
 interface Plan {
   intencion_pedagogica: string, // proposito
@@ -401,7 +401,7 @@ Las competencias a desarrollorar debe ser una de estas:
   }
 
   pretifyBloomLevel(level: string) {
-    if (level == 'knowledge') 
+    if (level == 'knowledge')
       return 'Recordar';
     if (level == 'undertanding')
         return 'Comprender';
@@ -411,7 +411,7 @@ Las competencias a desarrollorar debe ser una de estas:
       return 'Analizar';
     if (level == 'evaluation')
       return 'Evaluar';
-    
+
     return 'Crear';
   }
 

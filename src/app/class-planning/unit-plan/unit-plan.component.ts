@@ -373,7 +373,7 @@ Los recursos que tengo disponibles son estos:
 
 resource_list
 
-Elabora una lista de actividades a realizar, categorizadas como actividades de aprendizaje (como las actividades propias de los alumnos), actividades de enseñanza (aquellas propias del docente) y actividades de evaluacion.
+Elabora una lista de actividades a realizar, enfocadas en el desarrollo de competencias, categorizadas como actividades de aprendizaje (como las actividades propias de los alumnos), actividades de enseñanza (aquellas propias del docente) y actividades de evaluacion.
 Cada actividad de aprendizaje, debe ser una oracion completa que inicie con 'Los estudiantes', 'Los alumnos', 'El alumnado', o 'El estudiantado'.
 Cada actividad de enseñanza, debe ser una oracion completa que inicie con 'El docente', 'El maestro', o 'El profesor'.
 
@@ -406,7 +406,7 @@ Genera una situación de aprendizaje para el siguiente contexto:
 - Condición Inicial: condicion_inicial
 - Aprendizajes requeridos: contenido_especifico
 
-La situación de aprendizaje debe ser clara, relevante y adecuada para el nivel educativo especificado. La situacion de aprendizaje debe estar contenida en un solo parrafo, debe ser narrada, como en los ejemplos, en primera o tercera persona del plural.
+La situación de aprendizaje debe ser clara, relevante y adecuada para el nivel educativo especificado. La situacion de aprendizaje debe estar contenida en uno o dos parrafos, y de ser muy extensa no debe pasar nunca de 3, debe ser narrada, como en los ejemplos, en primera o tercera persona del plural.
 La respuesta debe ser json valido, coherente con esta interfaz:
 {
   title: string; // titulo de la situacion de aprendizaje
