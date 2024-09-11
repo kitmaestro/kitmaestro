@@ -25,38 +25,32 @@
                         <div>
                             <button mat-raised-button color="accent" type="button" [routerLink]="['/app', 'sections']">Crear Una Secci&oacute;n</button>
                         </div>
-                    </ng-template>
-                </div>
-                <div>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Asignatura</mat-label>
-                        <mat-select formControlName="subject">
-                            @for(subject of sectionSubjects; track subject) {
-                                <mat-option [value]="subject">{{pretify(subject)}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Contenido</mat-label>
-                        <mat-select formControlName="content">
-                            @for(content of subjectContents; track content) {
-                                <mat-option [value]="content">{{content}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Tipo de R&uacute;brica</mat-label>
-                        <mat-select formControlName="rubricType">
-                            @for(type of rubricTypes; track type) {
-                                <mat-option [value]="type.label">{{type.label}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                    </div>
+                </ng-template>
+                <mat-form-field appearance="outline">
+                    <mat-label>Asignatura</mat-label>
+                    <mat-select formControlName="subject">
+                        @for(subject of sectionSubjects; track subject) {
+                            <mat-option [value]="subject">{{pretify(subject)}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Contenido</mat-label>
+                    <mat-select formControlName="content">
+                        @for(content of subjectContents; track content) {
+                            <mat-option [value]="content">{{content}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Tipo de R&uacute;brica</mat-label>
+                    <mat-select formControlName="rubricType">
+                        @for(type of rubricTypes; track type) {
+                            <mat-option [value]="type.label">{{type.label}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
                 <div>
                     <mat-form-field appearance="outline">
                         <mat-label>Evidencia o Actividad</mat-label>
