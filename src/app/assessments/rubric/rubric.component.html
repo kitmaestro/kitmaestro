@@ -11,16 +11,16 @@
                 </mat-form-field>
             </div>
             <div class="grid-3-cols">
-                <div>
-                    <mat-form-field style="max-width: 100%;" appearance="outline" *ngIf="(sections$ | async) as sections; else noSections">
-                        <mat-label>Curso</mat-label>
-                        <mat-select formControlName="section">
-                            @for(section of sections; track section) {
-                                <mat-option [value]="section.id">{{section.name}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                    <ng-template #noSections>
+                <mat-form-field style="max-width: 100%;" appearance="outline" *ngIf="(sections$ | async) as sections; else noSections">
+                    <mat-label>Curso</mat-label>
+                    <mat-select formControlName="section">
+                        @for(section of sections; track section) {
+                            <mat-option [value]="section.id">{{section.name}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <ng-template #noSections>
+                    <div>
                         <div>Para usar esta herramienta, primero tienes que crear una secci&oacute;n.</div>
                         <div>
                             <button mat-raised-button color="accent" type="button" [routerLink]="['/app', 'sections']">Crear Una Secci&oacute;n</button>
