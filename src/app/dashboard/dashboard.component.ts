@@ -12,8 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
-import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
-import { EMPTY, Observable, map, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { UserSubscription } from '../interfaces/user-subscription';
 import { UserSettingsService } from '../services/user-settings.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -47,7 +46,6 @@ export class DashboardComponent implements OnInit {
   sb = inject(MatSnackBar);
   router = inject(Router);
   route = inject(ActivatedRoute);
-  private firestore = inject(Firestore);
   activatedRoute = '';
   userSettingsService = inject(UserSettingsService);
   userSubscriptionService = inject(UserSubscriptionService);
@@ -126,7 +124,7 @@ export class DashboardComponent implements OnInit {
           })
         }
       } else {
-        this.router.navigate(['/auth', 'login'], { queryParamsHandling: 'merge', queryParams: { next: '/' + this.route.snapshot.pathFromRoot.map(p => p.routeConfig?.path).filter(p => !!p).join('/') } })
+        this.router.navigate(['/auth', 'login'], { queryParamsHandling: 'merge', queryParams: { next: window.location.pathname } });
       }
     })
   }
