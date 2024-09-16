@@ -25,6 +25,16 @@ export class UpdatesComponent implements OnInit {
   public updates: Update[] = [
     {
       type: 'feature',
+      date: new Date(2024, 8, 16),
+      author: 'Otoniel Reyes Galay',
+      title: 'Contenidos de areas para secundaria',
+      description: 'Unidades de aprendizaje con areas especiales',
+      actions: [],
+      content: `Ya tenemos disponibles los contenidos de Lenguas Extranjeras, Educacion Fisica, Lengua Espanola y Formacion Integral Humana y Religiosa para la educacion secundaria completa, tanto primer como segundo ciclo.
+Ya casi tenemos el diseno curricular de secundaria completo, es un paso menos para la meta.`
+    },
+    {
+      type: 'feature',
       date: new Date(2024, 8, 7),
       author: 'Otoniel Reyes Galay',
       title: 'Inicio de sesión con Facebook',
