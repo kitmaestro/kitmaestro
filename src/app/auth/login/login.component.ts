@@ -57,7 +57,8 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithGoogle() {
-    signInWithPopup(this.auth, new GoogleAuthProvider()).then(() => {
+    signInWithPopup(this.auth, new GoogleAuthProvider()).then((user) => {
+      alert(user)
       const next = this.route.snapshot.queryParamMap.get('next')
       this.router.navigate([...next?.split('/') || '/app']).then(() => {
         this.sb.open('Bienvenid@ a KitMaestro', 'Ok', { duration: 2500 });

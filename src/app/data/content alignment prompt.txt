@@ -5,7 +5,7 @@ Array<{
     attitudes: string[];
 }>
 
-En el objeto, concept es uno de los contenidos conceptuales mencionados a continuacion, procedures son los contenidos procedimentales que se relacionan con ese concepto y attitudes son los contenidos actitudinales que se relacionan con el concepto.
+En el objeto, concept es uno de los contenidos conceptuales mencionados a continuacion, procedures son los contenidos procedimentales que se relacionan con ese concepto y attitudes son los contenidos actitudinales que se relacionan con el concepto. Debe haber al menos un contenidos procedimental en el array correspondiente y al menos un contenido actitudinal en el array correspondiente.
 
 Esta es la lista de contenidos conceptuales:
 

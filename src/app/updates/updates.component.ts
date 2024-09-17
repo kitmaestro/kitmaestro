@@ -24,7 +24,7 @@ import { RouterModule } from '@angular/router';
 export class UpdatesComponent implements OnInit {
   public updates: Update[] = [
     {
-      type: 'feature',
+      type: 'notice',
       date: new Date(2024, 8, 16),
       author: 'Otoniel Reyes Galay',
       title: 'Contenidos de areas para secundaria',

@@ -2,7 +2,7 @@
     <mat-sidenav class="sidenav no-print" mode="over" [opened]="false" #sidenav>
         <mat-toolbar><span>Menu</span></mat-toolbar>
         <mat-nav-list>
-            <a [activated]="activatedRoute == '/'" mat-list-item routerLink="/"><mat-icon matListItemIcon>dashboard</mat-icon>Inicio</a>
+            <a [activated]="activatedRoute == '/app'" mat-list-item routerLink="/"><mat-icon matListItemIcon>dashboard</mat-icon>Inicio</a>
             <a [activated]="activatedRoute.includes('/app/sections')" mat-list-item routerLink="/app/sections"><mat-icon matListItemIcon>class</mat-icon> Secciones</a>
             <a [activated]="activatedRoute == '/app/unit-plans/list'" mat-list-item routerLink="/app/unit-plans/list"><mat-icon matListItemIcon>menu_book</mat-icon> Unidades de Aprendizaje</a>
             <a [activated]="activatedRoute == '/app/class-plans/list'" mat-list-item routerLink="/app/class-plans/list"><mat-icon matListItemIcon>library_books</mat-icon> Planes Diarios</a>
@@ -19,7 +19,7 @@
         <div class="flex-wrapper">
             <mat-toolbar color="primary" style="position: sticky; top: 0; z-index: 2000;">
                 <button (click)="sidenav.toggle()" mat-icon-button><mat-icon>menu</mat-icon></button>
-                <span routerLink="/" style="cursor: pointer;">Kit Maestro</span>
+                <span routerLink="/app" style="cursor: pointer;">Kit Maestro</span>
                 <span class="spacer"></span>
                 <span class="md" title="¡Motívame!" style="font-weight: lighter; font-size: 12pt; margin-right: 16px; cursor: pointer;" (click)="openQuoteDialog()" *ngIf="(userSettings$ | async) as settings">Hola, {{ settings.firstname ? settings.firstname : 'Profe' }}</span>
                 <a mat-icon-button [routerLink]="['/app', 'tutorials']" style="margin-right: 6px;">
