@@ -19,6 +19,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatBadgeModule } from '@angular/material/badge';
 import { QuoteDialogComponent } from '../ui/quote-dialog/quote-dialog.component';
 import { UserSubscriptionService } from '../services/user-subscription.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,6 +38,7 @@ import { UserSubscriptionService } from '../services/user-subscription.service';
     MatListModule,
     MatDialogModule,
     CommonModule,
+    HttpClientModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'

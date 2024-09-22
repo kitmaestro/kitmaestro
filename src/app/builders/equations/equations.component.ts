@@ -11,7 +11,6 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { PdfService } from '../../services/pdf.service';
-import { MathjaxModule } from 'mathjax-angular';
 
 @Component({
   selector: 'app-equations',
@@ -27,7 +26,6 @@ import { MathjaxModule } from 'mathjax-angular';
     MatSnackBarModule,
     MatSliderModule,
     MatChipsModule,
-    MathjaxModule
   ],
   templateUrl: './equations.component.html',
   styleUrl: './equations.component.scss'

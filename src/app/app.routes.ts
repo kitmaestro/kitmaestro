@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
     { path:'', component: FrontPageComponent },
+    { path: 'updates', loadComponent: () => import('./updates/updates.component').then(mod => mod.UpdatesComponent) },
     {
         path: 'auth',
         loadComponent() {

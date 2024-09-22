@@ -12,7 +12,6 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideStore } from '@ngrx/store';
 import { provideServiceWorker } from '@angular/service-worker';
-import { MathjaxModule } from 'mathjax-angular';
 // import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
 // import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
 // import { USE_EMULATOR as USE_STORAGE_EMULATOR } from '@angular/fire/compat/storage';
@@ -45,6 +44,5 @@ export const appConfig: ApplicationConfig = {
     // { provide: USE_AUTH_EMULATOR, useValue: isDevMode() ? ['localhost', 9099] : undefined },
     // { provide: USE_FIRESTORE_EMULATOR, useValue: isDevMode() ? ['localhost', 8080] : undefined },
     // { provide: USE_STORAGE_EMULATOR, useValue: isDevMode() ? ['localhost', 9199] : undefined },
-    importProvidersFrom(MathjaxModule.forRoot()),
 ],
 };

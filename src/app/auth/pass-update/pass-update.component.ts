@@ -36,7 +36,7 @@ export class PassUpdateComponent implements OnInit {
 
   mode = this.route.snapshot.queryParamMap.get('mode');
   oob = this.route.snapshot.queryParamMap.get('oobCode');
-  apiKey = this.route.snapshot.queryParamMap.get('apiKey');
+  // apiKey = this.route.snapshot.queryParamMap.get('apiKey');
 
   email = this.fb.control({ value: '', disabled: true }, [Validators.email]);
   password = this.fb.control('', [Validators.minLength(6)]);

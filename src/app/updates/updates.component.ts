@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Update } from '../interfaces/update';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UpdateService } from '../services/update.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-updates',
@@ -16,12 +18,14 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatIconModule,
     RouterModule,
+    HttpClientModule,
     DatePipe,
   ],
   templateUrl: './updates.component.html',
   styleUrl: './updates.component.scss'
 })
 export class UpdatesComponent implements OnInit {
+  updateService = inject(UpdateService);
   public updates: Update[] = [
     {
       type: 'notice',
@@ -272,6 +276,8 @@ Los mas observadores notaran que ya no estan visibles las herramientas de genera
   ];
 
   ngOnInit() {
-    console.log(this.updates)
+    this.updates.forEach((update, i) => {
+      const sus = this.updateService.create(update).subscribe(() => {sus.unsubscribe(); console.log("Update number #%d created!", i + 1)});
+    });
   }
 }
