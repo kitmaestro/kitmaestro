@@ -5,20 +5,23 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-// import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-// import { getFunctions, provideFunctions } from '@angular/fire/functions';
-// import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideStore } from '@ngrx/store';
 import { provideServiceWorker } from '@angular/service-worker';
-// import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
-// import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
-// import { USE_EMULATOR as USE_STORAGE_EMULATOR } from '@angular/fire/compat/storage';
+import { provideEffects } from '@ngrx/effects';
+import { AuthEffects } from './state/effects/auth.effects';
+import { authReducer } from './state/reducers/auth.reducers';
+import { provideHttpClient } from '@angular/common/http';
+import { updatesReducer } from './state/reducers/updates.reducers';
+import { UpdatesEffects } from './state/effects/updates.effects';
+import { didacticResourcesReducer } from './state/reducers/didactic-resources.reducers';
+import { DidacticResourcesEffects } from './state/effects/didactic-resources.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
+    provideHttpClient(),
     provideAnimationsAsync(),
     importProvidersFrom(provideFirebaseApp(() => initializeApp({
         "projectId": "kit-maestro",
@@ -29,20 +32,21 @@ export const appConfig: ApplicationConfig = {
         "messagingSenderId": "604854508995"
     }))),
     importProvidersFrom(provideAuth(() => getAuth())),
-    // importProvidersFrom(provideAnalytics(() => getAnalytics())),
-    // ScreenTrackingService,
-    // UserTrackingService,
     importProvidersFrom(provideFirestore(() => getFirestore())),
-    // importProvidersFrom(provideFunctions(() => getFunctions())),
-    // importProvidersFrom(provideMessaging(() => getMessaging())),
     importProvidersFrom(provideStorage(() => getStorage())),
-    provideStore(),
     provideServiceWorker('ngsw-worker.js', {
         enabled: !isDevMode(),
         registrationStrategy: 'registerWhenStable:30000'
     }),
-    // { provide: USE_AUTH_EMULATOR, useValue: isDevMode() ? ['localhost', 9099] : undefined },
-    // { provide: USE_FIRESTORE_EMULATOR, useValue: isDevMode() ? ['localhost', 8080] : undefined },
-    // { provide: USE_STORAGE_EMULATOR, useValue: isDevMode() ? ['localhost', 9199] : undefined },
-],
+    provideStore({
+      auth: authReducer,
+      updates: updatesReducer,
+      didacticResources: didacticResourcesReducer,
+    }),
+    provideEffects([
+      AuthEffects,
+      UpdatesEffects,
+      DidacticResourcesEffects,
+    ])
+  ],
 };

@@ -55,7 +55,7 @@ export class ResourceGalleryComponent {
   authors: UserSettings[] = [];
   loading = true;
 
-  public readonly resources$ = this.resourcesService.didacticResources$;
+  public readonly resources$ = this.resourcesService.findMyResources();
 
   levels = LEVELS;
 

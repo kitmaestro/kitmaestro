@@ -53,6 +53,7 @@ export class ResourceFormComponent {
   private dialogRef = inject(DialogRef<ResourceFormComponent>);
   private didacticResourceService = inject(DidacticResourceService);
   private sb = inject(MatSnackBar);
+  private data: DidacticResource = inject(MAT_DIALOG_DATA);
 
   user$ = authState(this.auth);
   loading = false;
@@ -89,13 +90,11 @@ export class ResourceFormComponent {
   });
 
   constructor(
-    @Inject(MAT_DIALOG_DATA)
-    private data: DidacticResource,
   ) {
     this.topics = [...this.baseTopics];
 
     if (this.data) {
-      this.resource = data;
+      this.resource = this.data;
     }
 
     this.user$.subscribe(user => {
@@ -158,9 +157,17 @@ export class ResourceFormComponent {
     resource.preview = this.preview;
     resource.status = 'public';
 
-    this.didacticResourceService.addResource(resource).then(() => {
-      this.sb.open('Recurso guardado como borrador.', 'Ok', { duration: 2500 });
-      this.dialogRef.close();
+    this.didacticResourceService.create(resource).subscribe({
+      next: (res) => {
+        if (res && res.title) {
+          this.sb.open('El recurso ha sido publicado.', 'Ok', { duration: 2500 });
+          this.dialogRef.close();
+        }
+      },
+      error: (error) => {
+        this.sb.open('Ha ocurrido un error al guardar. Intentalo nuevamente, por favor.', 'Ok', { duration: 2500 });
+        console.log(error)
+      }
     });
   }
 
@@ -175,7 +182,7 @@ export class ResourceFormComponent {
     const preview = files.item(0);
     if (!preview)
       return;
-    
+
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -210,10 +217,16 @@ export class ResourceFormComponent {
     resource.categories = [resource.format, ...resource.grade, ...resource.subject, resource.level, resource.topic];
     resource.preview = this.preview;
     resource.status = 'preview';
-    
-    this.didacticResourceService.addResource(resource).then(() => {
-      this.sb.open('Recurso guardado como borrador.', 'Ok', { duration: 2500 });
-      this.dialogRef.close();
+
+    this.didacticResourceService.create(resource).subscribe({
+      next: () => {
+        this.sb.open('Recurso guardado como borrador.', 'Ok', { duration: 2500 });
+        this.dialogRef.close();
+      },
+      error: error => {
+        this.sb.open('Ha ocurrido un error al guardar. Intentalo nuevamente, por favor.', 'Ok', { duration: 2500 });
+        console.log(error);
+      }
     });
   }
 

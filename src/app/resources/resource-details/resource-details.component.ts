@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DidacticResource } from '../../interfaces/didactic-resource';
 import { CommonModule } from '@angular/common';
 import { EMPTY, Observable, map, tap } from 'rxjs';
-import { Firestore, doc, docData } from '@angular/fire/firestore';
 import { MatCardModule } from '@angular/material/card';
 import { UserSettings } from '../../interfaces/user-settings';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +28,6 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ResourceDetailsComponent {
   route = inject(ActivatedRoute);
-  firestore = inject(Firestore);
   sb = inject(MatSnackBar);
   didacticResourceService = inject(DidacticResourceService);
   settingsService =inject(UserSettingsService);
@@ -38,7 +36,7 @@ export class ResourceDetailsComponent {
   bookmarked$: Observable<boolean> = EMPTY;
   author$: Observable<UserSettings> = EMPTY;
   downloading = false;
-  resource$: Observable<DidacticResource> = (docData(doc(this.firestore, 'didactic-resources/' + this.id), { idField: 'id' }) as Observable<DidacticResource>).pipe(
+  resource$: Observable<DidacticResource> = this.didacticResourceService.findOne('' + this.id).pipe(
     tap(resource => this.author$ = this.settingsService.getSettings(resource.author)),
     tap(resource => this.bookmarked$ = this.settingsService.getSettings().pipe(map(settings => settings && settings.bookmarks.includes(resource.id) ? true : false)))
   );
@@ -75,7 +73,7 @@ export class ResourceDetailsComponent {
       a.target = '_blank';
       a.click();
       document.body.removeChild(a);
-      this.didacticResourceService.downloadResource(this.id);
+      this.didacticResourceService.download(this.id);
       this.downloading = false;
     } else {
       this.downloading = false;
@@ -86,7 +84,7 @@ export class ResourceDetailsComponent {
     if (!this.id)
       return;
 
-    this.didacticResourceService.bookmarkResource(this.id);
+    this.didacticResourceService.bookmark(this.id);
     this.sb.open('El recurso ha sido guardado en tu biblioteca!', 'Ok', { duration: 2500 });
   }
 }

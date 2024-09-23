@@ -1,4 +1,5 @@
 export interface Update {
+  _id?: string,
     title: string,
     date: Date,
     type: 'notice' | 'feature' | 'bug',

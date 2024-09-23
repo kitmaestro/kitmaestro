@@ -25,7 +25,7 @@ import { RecoverComponent } from '../recover/recover.component';
     MatSnackBarModule,
     BiIconComponent,
     RouterModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
@@ -46,6 +46,8 @@ export class SignupComponent {
     email: ['', Validators.required],
     password: ['', Validators.required],
   });
+
+  constructor() {}
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {

@@ -1,20 +1,33 @@
 <div class="apps-grid">
-    <div *ngFor="let row of layout">
-        <mat-card class="app-card" *ngFor="let app of row" [routerLink]="app.link">
-            <mat-card-content>
-                <img [src]="app.icon" class="app-icon" alt="">
-                <div style="display: flex; align-items: center;">
-                    <h2 mat-card-title>{{app.name}}</h2>
-                    @if (!app.isWorking) {
-                        <mat-icon color="warn" style="margin-left: 12px; margin-bottom: auto; margin-top: 4px;" matTooltip="Este módulo todavía no está totalmente listo y puede contener errores.">warning</mat-icon>
-                    }
-                </div>
-                <p>{{app.description}}</p>
-                <mat-icon color="accent" class="is-premium-icon" *ngIf="app.premium; else free">star</mat-icon>
-                <ng-template #free>
-                    <mat-icon color="primary" class="is-premium-icon">verified</mat-icon>
-                </ng-template>
-            </mat-card-content>
-        </mat-card>
-    </div>
+  @for (app of apps; track $index) {
+    @if (app.isWorking || (!app.isWorking && showAll)) {
+      <div [routerLink]="app.link" class="app-card">
+        <img
+          [class.pro]="app.premium"
+          [class.free]="!app.premium"
+          [class.incomplete]="!app.isWorking"
+          class="app-icon"
+          [src]="app.icon"
+          [alt]="app.name"
+          [matTooltip]="!app.isWorking ? 'Este módulo todavía no está totalmente listo y puede contener errores.' : ''">
+        <h3 style="text-align: center;">{{app.name}}</h3>
+      </div>
+      <!-- <mat-card class="app-card" [routerLink]="app.link">
+          <mat-card-content>
+              <img [src]="app.icon" class="app-icon" alt="">
+              <div style="display: flex; align-items: center;">
+                  <h2 mat-card-title>{{app.name}}</h2>
+                  @if (!app.isWorking) {
+                      <mat-icon color="warn" style="margin-left: 12px; margin-bottom: auto; margin-top: 4px;" matTooltip="Este módulo todavía no está totalmente listo y puede contener errores.">warning</mat-icon>
+                  }
+              </div>
+              <p>{{app.description}}</p>
+              <mat-icon color="accent" class="is-premium-icon" *ngIf="app.premium; else free">star</mat-icon>
+              <ng-template #free>
+                  <mat-icon color="primary" class="is-premium-icon">verified</mat-icon>
+              </ng-template>
+          </mat-card-content>
+      </mat-card> -->
+    }
+  }
 </div>

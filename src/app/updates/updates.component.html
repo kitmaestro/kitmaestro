@@ -4,7 +4,7 @@
     </mat-card-header>
 </mat-card>
 <mat-accordion>
-    @for (update of updates; track update; let i = $index) {
+    @for (update of (updates$ | async); track update; let i = $index) {
         <mat-expansion-panel [expanded]="i == 0">
             <mat-expansion-panel-header>
                 <mat-panel-title>{{ update.title }}</mat-panel-title>

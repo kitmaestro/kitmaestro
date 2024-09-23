@@ -1,9 +1,10 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
 import { Router, RouterModule } from '@angular/router';
+import { StoreRootModule } from '@ngrx/store';
 import { map } from 'rxjs';
-import { LoginComponent } from './auth/login/login.component';
+import { NavigationComponent } from './navigation/navigation.component';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,9 @@ import { LoginComponent } from './auth/login/login.component';
   imports: [
     RouterModule,
     CommonModule,
-    LoginComponent,
+    NavigationComponent,
+    AsyncPipe,
+    StoreRootModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -28,10 +31,5 @@ export class AppComponent implements OnInit {
   isAnAuthView = false;
 
   ngOnInit() {
-    this.user$.subscribe(user => {
-      if (!user) {
-        // this.router.navigate(['/app', 'login']);
-      }
-    })
   }
 }

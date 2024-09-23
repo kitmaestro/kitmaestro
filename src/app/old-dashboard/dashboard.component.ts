@@ -43,7 +43,7 @@ import { HttpClientModule } from '@angular/common/http';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit {
+export class OldDashboardComponent implements OnInit {
   auth = inject(Auth);
   sb = inject(MatSnackBar);
   router = inject(Router);

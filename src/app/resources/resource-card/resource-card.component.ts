@@ -43,7 +43,7 @@ export class ResourceCardComponent {
 
   bookmark() {
     if (this.resource) {
-      this.didacticResourceService.bookmarkResource(this.resource.id);
+      this.didacticResourceService.bookmark(this.resource.id);
       this.sb.open('El recurso ha sido guardado en tu biblioteca!', 'Ok', { duration: 2500 });
     }
   }

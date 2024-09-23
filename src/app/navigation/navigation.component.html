@@ -1,0 +1,74 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      @for (link of sidebarLinks; track $index) {
+        <a mat-list-item
+          [routerLink]="link.route"
+          [activated]="activatedRoute == link.route"
+          >
+          <mat-icon matListItemIcon>{{link.icon}}</mat-icon>
+          {{ link.label }}
+        </a>
+      }
+      @if (!(subscription$ | async)) {
+        <a [activated]="true" style="margin-top: 64px;" mat-list-item routerLink="/buy"><mat-icon matListItemIcon>rocket</mat-icon>Comprar Subscripci&oacute;n</a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      @if (isHandset$ | async) {
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+      }
+      <span routerLink="/" style="cursor: pointer;">KitMaestro</span>
+      <span class="spacer"></span>
+      <span class="md" title="¡Motívame!" style="font-weight: lighter; font-size: 12pt; margin-right: 16px; cursor: pointer;" (click)="openQuoteDialog()">Hola, {{ (userSettings$ | async)?.firstname ? (userSettings$ | async)?.firstname : 'Profe' }}</span>
+      <a mat-icon-button [routerLink]="['/tutorials']" style="margin-right: 6px;">
+          <mat-icon>video_library</mat-icon>
+      </a>
+      <a mat-icon-button [routerLink]="['/updates']" style="margin-right: 6px;">
+          <mat-icon matBadge="1" matBadgeOverlap="true" matBadgeColor="accent">notifications</mat-icon>
+      </a>
+      <button [matMenuTriggerFor]="menu" mat-icon-button>
+          <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu>
+          <button routerLink="/my-resources" mat-menu-item>
+              <mat-icon>analytics</mat-icon>
+              <span>Mis Recursos</span>
+          </button>
+          <button routerLink="/profile" mat-menu-item>
+              <mat-icon>person_circle</mat-icon>
+              <span>Mi Perfil</span>
+          </button>
+          @if (subscription$ | async) {
+            <button routerLink="/referrals" mat-menu-item>
+                <mat-icon>people_circle</mat-icon>
+                <span>Mis Referidos</span>
+            </button>
+          }
+          <button routerLink="/settings" mat-menu-item>
+              <mat-icon>settings</mat-icon>
+              <span>Ajustes</span>
+          </button>
+          <button (click)="logout()" mat-menu-item>
+              <mat-icon>logout</mat-icon>
+              <span>Salir</span>
+          </button>
+      </mat-menu>
+    </mat-toolbar>
+    <div class="print" style="height: 100vh; padding: 20px;">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
