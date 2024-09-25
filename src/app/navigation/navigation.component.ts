@@ -11,11 +11,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router, RouterModule } from '@angular/router';
-import { UserSubscriptionService } from '../services/user-subscription.service';
 import { QuoteDialogComponent } from '../ui/quote-dialog/quote-dialog.component';
 import { Auth, signOut } from '@angular/fire/auth';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { UserSettingsService } from '../services/user-settings.service';
+import { Store } from '@ngrx/store';
+import { logout } from '../state/actions/auth.actions';
 
 @Component({
   selector: 'app-navigation',
@@ -37,8 +37,7 @@ import { UserSettingsService } from '../services/user-settings.service';
 })
 export class NavigationComponent {
   private breakpointObserver = inject(BreakpointObserver);
-  private userSettingService = inject(UserSettingsService);
-  private subscriptionService = inject(UserSubscriptionService);
+  private store = inject(Store);
   private dialog = inject(MatDialog);
   private auth = inject(Auth);
   private sb = inject(MatSnackBar);
@@ -49,8 +48,10 @@ export class NavigationComponent {
       map(result => result.matches),
       shareReplay()
     );
-  userSettings$ = this.userSettingService.getSettings();
-  subscription$ = this.subscriptionService.subscription$;
+  userSettings$ = this.store.select(store => store.auth).pipe(map(auth => auth.user));
+  subscription$ = this.store.select(store => store.userSubscription).pipe(map(subscription => subscription.user_subscription));
+
+  showNames = true;
 
   sidebarLinks: { label: string, route: string, icon: string }[] = [
     { route: "/", icon: "dashboard", label: "Inicio", },
@@ -66,11 +67,16 @@ export class NavigationComponent {
     { route: "/my-resources", icon: "analytics", label: "Mis Recursos", },
   ]
 
+  toggleNames() {
+    this.showNames = !this.showNames;
+  }
+
   openQuoteDialog() {
     this.dialog.open(QuoteDialogComponent);
   }
 
   logout() {
+    this.store.dispatch(logout());
     signOut(this.auth).then(() => {
       this.router.navigate(['/auth', 'login']).then(() => {
         this.sb.open('Has cerrado sesión. Hasta luego!', 'Ok', { duration: 4000 });

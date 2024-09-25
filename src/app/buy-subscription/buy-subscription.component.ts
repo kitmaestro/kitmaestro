@@ -8,13 +8,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { Observable, map } from 'rxjs';
-import { UserSubscriptionService } from '../services/user-subscription.service';
-import { UserSettingsService } from '../services/user-settings.service';
 import { UserSettings } from '../interfaces/user-settings';
-import { Auth, authState, User } from '@angular/fire/auth';
 import { UserSubscription } from '../interfaces/user-subscription';
 import { MatIconModule } from '@angular/material/icon';
 import { CurrencyPipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { userSelector } from '../state/selectors/auth.selector';
+import { userSubscriptionSelector } from '../state/selectors/subscription.selectors';
+import { checkSubscription } from '../state/actions/subscriptions.actions';
 
 declare const paypal: any;
 
@@ -36,27 +37,25 @@ declare const paypal: any;
   styleUrl: './buy-subscription.component.scss',
 })
 export class BuySubscriptionComponent implements OnInit {
-  http = inject(HttpClient);
-  dialog = inject(MatDialog);
-  sb = inject(MatSnackBar);
-  userSettingsService = inject(UserSettingsService);
-  userSubscriptionService = inject(UserSubscriptionService);
+  private http = inject(HttpClient);
+  private dialog = inject(MatDialog);
+  private sb = inject(MatSnackBar);
+  private store = inject(Store);
   usdPrice: Observable<number> = this.http.get<{ date: string, usd: { dop: number } }>('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json').pipe(
     map(res => res.usd.dop)
   );
   price = '0.00';
   halfYear = '0.00';
   alreadyPremium: boolean = false;
-  settings: UserSettings | null = null;
-  auth = inject(Auth);
-  user$ = authState(this.auth);
-  user: User | null = null;
+  user$: Observable<UserSettings> = this.store.select(userSelector);
+  subscription$: Observable<UserSubscription> = this.store.select(userSubscriptionSelector);
   fullPrice = '';
   groupPrice = '';
   privateDeploy = '';
   loading = true;
 
   ngOnInit(): void {
+    this.store.dispatch(checkSubscription())
     this.usdPrice.subscribe({
       next: (res) => {
         this.price = (res * 35).toFixed(2);
@@ -66,27 +65,11 @@ export class BuySubscriptionComponent implements OnInit {
         this.privateDeploy = (res * 2990).toFixed(2);
       }
     })
-    this.userSettingsService.getSettings().subscribe(settings => this.settings = settings);
-    this.user$.subscribe(user => this.user = user);
-    this.userSubscriptionService.subscription$.subscribe({
+    this.subscription$.subscribe({
       next: (subscription) => {
         this.loading = false;
-        if (subscription) {
-          if (subscription.active) {
-            this.alreadyPremium = true;
-          } else {
-            if (subscription.referral && subscription.referral !== 'kitmaestro') {
-              this.renderDiscountPurchaseButton();
-            } else {
-              this.renderPurchaseButton();
-            }
-          }
-        } else {
-          this.renderPurchaseButton();
-        }
+        // check if already premium
       }, error: (err) => {
-        this.renderPurchaseButton();
-        console.log(err.message)
       }
     })
   }
@@ -101,35 +84,16 @@ export class BuySubscriptionComponent implements OnInit {
   }
 
   updateSubscription() {
-    this.userSubscriptionService.subscription$.subscribe(sus => {
-      if (sus) {
-        // update
-        sus.active = true;
-        sus.purchaseDate = new Date();
-        sus.expiresAt = new Date(+(new Date()) + 365);
-        sus.method = 'PayPal';
-        sus.trial = true;
-        sus.paidRef = false;
-        sus.refCode = this.user?.email?.split('@')[0] || '';
-        sus.refsCount = 0;
-        this.userSubscriptionService.updateSubscription(sus)
-      } else {
-        const subscription: UserSubscription = {
-          active : true,
-          purchaseDate : new Date(),
-          expiresAt : new Date(+(new Date()) + 365),
-          method : 'PayPal',
-          trial: true,
-          paidRef: false,
-          refCode : this.user?.email?.split('@')[0] || '',
-          refsCount : 0,
-          uid: this.user?.uid || '',
-          referral: '',
-          referries: '',
-        } as any as UserSubscription;
-        this.userSubscriptionService.subscribe(subscription)
-      }
-    })
+    // refCode : this.user?.email?.split('@')[0] || '',
+    const subscription: UserSubscription = {
+      status: 'active',
+      startDate: new Date(),
+      endDate: new Date(+(new Date()) + 365),
+      method: 'PayPal',
+      subscriptionType: 'premium trial',
+    } as any as UserSubscription;
+
+    // update the subscription here
   }
 
   renderPurchaseButton() {

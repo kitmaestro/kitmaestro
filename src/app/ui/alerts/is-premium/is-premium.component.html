@@ -4,7 +4,7 @@
     </ng-container>
 
     <ng-template #buySubscription>
-        <div *ngIf="!loading; else isLoading">
+        <div *ngIf="!(loading$ | async)">
             <mat-card>
                 <mat-card-header>
                     <h2>¡Bienvenido al Contenido Premium de KitMaestro!</h2>
@@ -35,10 +35,5 @@
                 </mat-card-content>
             </mat-card>
         </div>
-        <ng-template #isLoading>
-            <div style="display: flex; justify-content: center; align-items: center; width: 100%; position: absolute; top: 0; bottom: 0;">
-                <!-- <img src="assets/Reload-1s-200px.gif" style="width: 100px; height: 100px;" alt=""> -->
-            </div>
-        </ng-template>
     </ng-template>
 </div>

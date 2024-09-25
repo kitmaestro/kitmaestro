@@ -5,9 +5,9 @@ import { ApiUpdateResponse } from '../../interfaces/api-update-response';
 
 export const load = createAction('[Didactic Resources] load');
 
-export const loadMyResources = createAction('[Didactic Resources] load');
+export const loadMyResources = createAction('[Didactic Resources] load my resources');
 
-export const loadByUser = createAction('[Didactic Resources] load', props<{ id: string }>());
+export const loadByUser = createAction('[Didactic Resources] load by user', props<{ id: string }>());
 
 export const loadSuccess = createAction('[Didactic Resources] load success', props<{ didacticResources: DidacticResource[] }>());
 

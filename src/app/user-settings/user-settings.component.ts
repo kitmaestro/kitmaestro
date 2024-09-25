@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { Auth, authState } from '@angular/fire/auth';
-import { CollectionReference, DocumentReference, Firestore, addDoc, collection, collectionData, doc, query, updateDoc, where } from '@angular/fire/firestore';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -11,8 +9,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
+import { Store } from '@ngrx/store';
+import { update } from '../state/actions/auth.actions';
 
 @Component({
   selector: 'app-user-settings',
@@ -34,13 +34,8 @@ import { UserSettings } from '../interfaces/user-settings';
 })
 export class UserSettingsComponent implements OnInit {
   fb = inject(FormBuilder);
-  firestore = inject(Firestore);
-  auth = inject(Auth);
-  user$ = authState(this.auth);
-  newUser = true;
-  settingsId = '';
-  uid = '';
-  settingsRef: CollectionReference = collection(this.firestore, 'user-settings');
+  private store = inject(Store);
+  user$: Observable<UserSettings> = this.store.select(store => store.auth).pipe(map(auth => auth.user));
   sb = inject(MatSnackBar);
   saving = false;
 
@@ -91,61 +86,33 @@ export class UserSettingsComponent implements OnInit {
     phone: [''],
     schoolName: [''],
     district: [''],
-    regional: [''],
-    grades: [''],
-    subjects: [''],
+    regional: ['']
   });
 
   ngOnInit(): void {
-    this.user$.subscribe(user => {
-      if (user) {
-        const { uid } = user;
-        this.uid = uid;
-        const userSettings = collectionData(
-          query(this.settingsRef, where('uid', '==', uid)),
-          { idField: 'id' }
-        ).pipe(
-          map(collection => collection[0])
-        ) as Observable<UserSettings | undefined>;
+    this.user$.subscribe(settings => {
+      if (settings) {
+        const {
+          title,
+          firstname,
+          lastname,
+          gender,
+          phone,
+          schoolName,
+          district,
+          regional
+        } = settings;
 
-        userSettings.subscribe({
-          next: (settings) => {
-            if (settings) {
-              this.newUser = false;
-
-              const {
-                id,
-                title,
-                firstname,
-                lastname,
-                gender,
-                phone,
-                schoolName,
-                district,
-                regional,
-                grades,
-                subjects,
-              } = settings;
-
-              this.settingsId = id;
-
-              this.settingsForm.setValue({
-                title,
-                firstname,
-                lastname,
-                gender,
-                phone,
-                schoolName,
-                district,
-                regional,
-                grades,
-                subjects,
-              });
-            }
-          }, error: (err) => {
-            console.log(err)
-          }
-        })
+        this.settingsForm.setValue({
+          title: title ? title : 'Licdo',
+          firstname: firstname ? firstname : '',
+          lastname: lastname ? lastname : '',
+          gender: gender ? gender : 'Hombre',
+          phone: phone ? phone : '',
+          schoolName: schoolName ? schoolName : '',
+          district: district ? district : '',
+          regional: regional ? regional : ''
+        });
       }
     });
   }
@@ -159,15 +126,10 @@ export class UserSettingsComponent implements OnInit {
       phone,
       schoolName,
       district,
-      regional,
-      grades,
-      subjects,
+      regional
     } = this.settingsForm.value;
 
-    this.saving = true;
-
     const settings = {
-      uid: this.uid,
       title,
       firstname,
       lastname,
@@ -175,40 +137,10 @@ export class UserSettingsComponent implements OnInit {
       phone,
       schoolName,
       district,
-      regional,
-      grades,
-      subjects,
+      regional
     } as unknown as UserSettings;
 
-    if (this.newUser) {
-      addDoc(this.settingsRef, settings).then(ref => {
-        this.sb.open('Guardado!', 'Ok', { duration: 2500 })
-        this.saving = false;
-      }).then(ref => {
-        this.sb.open('Error al guardar.', 'Ok', { duration: 2500 })
-        this.saving = false;
-      });
-    } else {
-      const ref = doc(this.settingsRef, this.settingsId) as DocumentReference<UserSettings>;
-      updateDoc(ref, {
-          uid: this.uid,
-          title,
-          firstname,
-          lastname,
-          gender,
-          phone,
-          schoolName,
-          district,
-          regional,
-          grades,
-          subjects
-        }).then(ref => {
-          this.sb.open('Guardado!', 'Ok', { duration: 2500 })
-          this.saving = false;
-        }).catch(err => {
-          this.sb.open('Error al guardar.', 'Ok', { duration: 2500 })
-          this.saving = false;
-        })
-    }
+    this.store.dispatch(update({ user: settings }))
+    alert('')
   }
 }

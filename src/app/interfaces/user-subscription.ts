@@ -1,14 +1,10 @@
 export interface UserSubscription {
-    id: string;
-    uid: string;
-    active: boolean;
-    purchaseDate: Date;
-    expiresAt: Date;
-    method: string;
-    referral: string;
-    refCode: string;
-    referries: string;
-    refsCount: number;
-    trial?: boolean;
-    paidRef?: boolean;
+  _id: string;
+  user: string;
+  subscriptionType: string;
+  status: string;
+  startDate: Date;
+  endDate: Date;
+  method: string;
+  amount: number;
 }

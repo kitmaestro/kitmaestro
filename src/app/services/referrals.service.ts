@@ -1,45 +1,45 @@
-import { Injectable, inject } from '@angular/core';
-import { Auth, authState, User } from '@angular/fire/auth';
-import { addDoc, collection, collectionData, deleteDoc, doc, docData, DocumentReference, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
-import { concatAll, map, Observable, of } from 'rxjs';
-import { ClassPlan } from '../interfaces/class-plan';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Referral } from '../interfaces/referral';
+import { ApiUpdateResponse } from '../interfaces/api-update-response';
+import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReferralsService {
+  private http = inject(HttpClient);
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/referrals/' : 'http://45.79.180.237/referrals/';
 
-  private auth = inject(Auth);
-  private firestore = inject(Firestore);
+  private config = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+    })
+  };
 
-  private user$: Observable<User | null> = authState(this.auth);
-  private classPlansRef = collection(this.firestore, 'class-plans');
-
-  classPlans$: Observable<ClassPlan[]> = this.user$.pipe(
-    map(user => {
-      if (user) {
-        return collectionData(query(this.classPlansRef, where('uid', '==', user.uid)), { idField: 'id' }) as Observable<ClassPlan[]>
-      }
-      return of([]);
-    }),
-    concatAll()
-  )
-
-  constructor() { }
-
-  find(id: string): Observable<ClassPlan | undefined> {
-    return docData<ClassPlan>(doc(this.firestore, 'class-plans', id) as DocumentReference<ClassPlan>);
+  findAll(): Observable<Referral[]> {
+    return this.http.get<Referral[]>(this.apiBaseUrl, this.config);
   }
 
-  addPlan(plan: ClassPlan) {
-    return addDoc(this.classPlansRef, plan);
+  find(id: string): Observable<Referral> {
+    return this.http.get<Referral>(this.apiBaseUrl + id, this.config);
   }
 
-  updatePlan(id: string, plan: any) {
-    return updateDoc(doc(this.firestore, 'class-plans', id), plan);
+  findReferred(id: string): Observable<Referral> {
+    return this.http.get<Referral>(this.apiBaseUrl + 'referred/' + id, this.config);
   }
 
-  deletePlan(id: string) {
-    return deleteDoc(doc(this.firestore, 'class-plans', id));
+  addReferral(referral: Referral): Observable<Referral> {
+    return this.http.post<Referral>(this.apiBaseUrl, referral, this.config);
+  }
+
+  updateReferral(id: string, referral: any): Observable<ApiUpdateResponse> {
+    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, referral, this.config);
+  }
+
+  deleteReferral(id: string): Observable<ApiDeleteResponse> {
+    return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id, this.config);
   }
 }

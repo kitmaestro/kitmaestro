@@ -15,9 +15,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { GradeDataSet, GradesData } from '../../interfaces/grades-data';
 import { AiService } from '../../services/ai.service';
-import { EMPTY, Observable, map, tap } from 'rxjs';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
-import { UserSubscriptionService } from '../../services/user-subscription.service';
 
 @Component({
   selector: 'app-grades-generator',
@@ -46,13 +44,7 @@ import { UserSubscriptionService } from '../../services/user-subscription.servic
 export class GradesGeneratorComponent {
   fb = inject(FormBuilder);
   aiService = inject(AiService);
-  userSubscriptionService = inject(UserSubscriptionService);
-
-  userSubscription$: Observable<boolean> = this.userSubscriptionService.isPremium().pipe(
-    tap(_ => this.loading = false)
-  );
-
-  loading = true;
+  loading = false;
   generating = false;
   generated: GradesData | null = null;
   output: any = null;

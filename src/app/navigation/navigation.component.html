@@ -3,19 +3,22 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+    @if (showNames) {
+      <mat-toolbar>Menu</mat-toolbar>
+    }
     <mat-nav-list>
       @for (link of sidebarLinks; track $index) {
         <a mat-list-item
           [routerLink]="link.route"
           [activated]="activatedRoute == link.route"
+          style="padding: 0"
           >
           <mat-icon matListItemIcon>{{link.icon}}</mat-icon>
           {{ link.label }}
         </a>
       }
       @if (!(subscription$ | async)) {
-        <a [activated]="true" style="margin-top: 64px;" mat-list-item routerLink="/buy"><mat-icon matListItemIcon>rocket</mat-icon>Comprar Subscripci&oacute;n</a>
+        <a [activated]="true" style="margin-top: 64px;" mat-list-item routerLink="/buy"><mat-icon matListItemIcon>rocket</mat-icon>Comprar Suscripción</a>
       }
     </mat-nav-list>
   </mat-sidenav>

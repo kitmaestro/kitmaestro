@@ -1,109 +1,34 @@
-import { Injectable, inject } from '@angular/core';
-import { Auth, User, authState } from '@angular/fire/auth';
-import { DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, query, updateDoc, where } from '@angular/fire/firestore';
-import { EMPTY, Observable, concatAll, from, map, of } from 'rxjs';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { Observable } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
-
-const defaultUserSettings: UserSettings = {
-  uid: '',
-  id: '',
-  title: '',
-  firstname: '',
-  lastname: '',
-  gender: '',
-  phone: '',
-  schoolName: '',
-  district: '',
-  regional: '',
-  grades: '',
-  subjects: '',
-  photoURL: '',
-  likedResources: [],
-  dislikedResources: [],
-  bookmarks: [],
-};
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserSettingsService {
+  private http = inject(HttpClient);
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+  });
 
-  private auth = inject(Auth);
-  private firestore = inject(Firestore);
-  private settingsColRef = collection(this.firestore, 'user-settings');
-  private user$: Observable<User | null> = authState(this.auth);
+  private user$: Observable<UserSettings> = this.getSettings();
 
-  createSettings(data: UserSettings = defaultUserSettings): Observable<UserSettings> {
-    return this.user$.pipe(
-      map(user => {
-        if (user) {
-          data.uid = user.uid;
-          return from(addDoc(this.settingsColRef, data) as Promise<DocumentReference<UserSettings>>).pipe(
-            map(ref => docData(doc(this.firestore, 'user-settings/' + ref.id), { idField: 'id' }) as Observable<UserSettings>),
-            concatAll()
-          );
-        }
-        return EMPTY;
-      }),
-      concatAll()
-    )
-  }
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/' : 'http://45.79.180.237/';
 
   getSettings(userId?: string): Observable<UserSettings> {
     if (userId) {
-      return (collectionData(query(this.settingsColRef, where('uid', '==', userId)), { idField: 'id' }) as Observable<UserSettings[]>).pipe(
-        map(subs => {
-          const settings = subs[0];
-          if (settings) {
-            return of(settings);
-          }
-          return this.createSettings()
-        }),
-        concatAll()
-      )
+      return this.http.get<UserSettings>(this.apiBaseUrl + 'users/' + userId, { headers: this.headers });
     }
-    return this.user$.pipe(
-      map(user => {
-        if (user) {
-          return (collectionData(query(this.settingsColRef, where('uid', '==', user.uid)), { idField: 'id' }) as Observable<UserSettings[]>).pipe(
-            map(subs => {
-              const settings = subs[0];
-              if (settings) {
-                return of(settings);
-              }
-              return this.createSettings()
-            }),
-            concatAll()
-          )
-        }
-        return EMPTY;
-      }),
-      concatAll(),
-    )
+    return this.http.get<UserSettings>(this.apiBaseUrl + 'auth/profile', { headers: this.headers });
   }
 
-  deleteSettings(id: string) {
-    const userSettingsCollection = collectionData(query(this.settingsColRef, where('uid', '==', id)), { idField: 'id' }) as Observable<UserSettings[]>
-    const subscription = userSettingsCollection.subscribe(col => {
-      subscription.unsubscribe();
-      col.forEach(element => {
-        deleteDoc(doc(this.firestore, 'user-settings', element.id)).then(() => {
-          console.log('Deleted %s', element.id);
-        });
-      })
-    })
+  update(user: UserSettings) {
+    return this.http.patch(this.apiBaseUrl + 'auth/profile', user, { headers: this.headers });
   }
 
-  setPhotoUrl(photoURL: string): Observable<Promise<boolean>> {
-    return this.getSettings().pipe(
-      map(async settings => {
-        try {
-          await updateDoc(doc(this.firestore, 'user-settings/' + settings.id), { photoURL });
-          return true;
-        } catch (err) {
-          return false;
-        }
-      })
-    );
+  setPhotoUrl(photoURL: string): Observable<any> {
+    return this.http.patch<any>(this.apiBaseUrl + 'auth/profile', { photoURL }, { headers: this.headers });
   }
 }

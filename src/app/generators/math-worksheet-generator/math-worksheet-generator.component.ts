@@ -28,11 +28,7 @@ export class MathWorksheetGeneratorComponent {
   userSubscriptionService = inject(UserSubscriptionService);
   fb = inject(FormBuilder);
 
-  loading = true;
-
-  userSubscription$: Observable<boolean> = this.userSubscriptionService.isPremium().pipe(
-    tap(_ => this.loading = false)
-  );
+  loading = false;
 
   topics = [
     { id: 'addition', label: 'Suma' },

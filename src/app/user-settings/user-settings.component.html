@@ -50,19 +50,6 @@
                 <mat-label>Nombre</mat-label>
                 <input type="text" formControlName="schoolName" matInput>
             </mat-form-field>
-            <h3>Cursos/Secciones</h3>
-            <mat-form-field appearance="outline">
-                <mat-label>Curso(s)</mat-label>
-                <mat-select [multiple]="true" formControlName="grades">
-                    <mat-option *ngFor="let grade of gradeOptions" [value]="grade">{{grade}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>Asignatura(s)</mat-label>
-                <mat-select [multiple]="true" formControlName="subjects">
-                    <mat-option *ngFor="let subject of subjectOptions" [value]="subject">{{subject}}</mat-option>
-                </mat-select>
-            </mat-form-field>
             <div style="display: flex; justify-content: end;">
                 <button [disabled]="settingsForm.invalid || saving" mat-raised-button type="submit" color="primary">
                     <span *ngIf="!saving; else isSaving">Guardar</span>

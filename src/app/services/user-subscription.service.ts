@@ -1,70 +1,49 @@
-import { Injectable, inject } from '@angular/core';
-import { Auth, authState, User } from '@angular/fire/auth';
-import { Firestore, addDoc, collection, collectionData, doc, query, updateDoc, where } from '@angular/fire/firestore';
-import { Observable, concatAll, map, of } from 'rxjs';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { Observable } from 'rxjs';
 import { UserSubscription } from '../interfaces/user-subscription';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiUpdateResponse } from '../interfaces/api-update-response';
+import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserSubscriptionService {
+  private http = inject(HttpClient);
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/user-subscriptions/' : 'http://45.79.180.237/user-subscriptions/';
 
-  private auth = inject(Auth);
-  private firestore = inject(Firestore);
-  private subscriptionColRef = collection(this.firestore, 'user-subscriptions');
-  private user$ = authState(this.auth) as Observable<User | null>;
-  
-  public subscription$: Observable<UserSubscription | undefined> = this.user$.pipe(
-    map(user => {
-      if (user) {
-        return (collectionData(query(this.subscriptionColRef, where('uid', '==', user.uid)), { idField: 'id' }) as Observable<UserSubscription[]>).pipe(
-          map(subs => subs[0])
-        );
-      }
-      return of(undefined);
-    }),
-    concatAll()
-  );
+  private config = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+    })
+  };
 
-  public isPremium(): Observable<boolean> {
-    return this.subscription$.pipe(
-      map(subscription => {
-        if (subscription) {
-          return subscription.active;
-        } else {
-          return false;
-        }
-      })
-    );
+  findAll(): Observable<UserSubscription[]> {
+    return this.http.get<UserSubscription[]>(this.apiBaseUrl, this.config);
   }
 
-  public byReferral(id: string) {
-    return collectionData(
-      query(
-        this.subscriptionColRef,
-        where('referral', '==', id)
-      ),
-      { idField: 'id' }
-    ) as Observable<UserSubscription[]>;
+  find(id: string): Observable<UserSubscription> {
+    return this.http.get<UserSubscription>(this.apiBaseUrl + id, this.config);
   }
 
-  public referries(): Observable<UserSubscription[]> {
-    return this.subscription$.pipe(
-      map(sub => {
-        if (sub) {
-          return collectionData(query(this.subscriptionColRef, where('referral', '==', sub.refCode)), { idField: 'id' }) as Observable<UserSubscription[]>
-        }
-        return of([]);
-      }),
-      concatAll(),
-    )
+  findByUser(id: string): Observable<UserSubscription> {
+    return this.http.get<UserSubscription>(this.apiBaseUrl + 'by-user/' + id, this.config);
   }
 
-  public updateSubscription(subscription: UserSubscription) {
-    return updateDoc(doc(this.firestore, 'user-subscriptions', subscription.id), { ...subscription })
+  checkSubscription(): Observable<UserSubscription> {
+    return this.http.get<UserSubscription>(this.apiBaseUrl + 'me', this.config);
   }
 
-  public subscribe(subscription: UserSubscription) {
-    return addDoc(this.subscriptionColRef, subscription);
+  addReferral(referral: UserSubscription): Observable<UserSubscription> {
+    return this.http.post<UserSubscription>(this.apiBaseUrl, referral, this.config);
+  }
+
+  updateReferral(id: string, referral: any): Observable<ApiUpdateResponse> {
+    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, referral, this.config);
+  }
+
+  deleteReferral(id: string): Observable<ApiDeleteResponse> {
+    return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id, this.config);
   }
 }
