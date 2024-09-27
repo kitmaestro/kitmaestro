@@ -52,7 +52,7 @@
                                 <mat-label>Secci&oacute;n</mat-label>
                                 <mat-select [formControl]="section">
                                     <ng-container *ngIf="(sections$ | async) as sections">
-                                        <mat-option [value]="sec.id" *ngFor="let sec of sections">{{sec.name}}</mat-option>
+                                        <mat-option [value]="sec._id" *ngFor="let sec of sections">{{sec.name}}</mat-option>
                                     </ng-container>
                                 </mat-select>
                             </mat-form-field>

@@ -1,15 +1,14 @@
 import { Component, Inject, inject } from '@angular/core';
-import { Auth, authState } from '@angular/fire/auth';
-import { Firestore, addDoc, collection, doc, setDoc } from '@angular/fire/firestore';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ClassSection } from '../../../datacenter/datacenter.component';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ClassSectionService } from '../../../services/class-section.service';
+import { ClassSection } from '../../../interfaces/class-section';
 
 @Component({
   selector: 'app-class-section-form',
@@ -28,19 +27,17 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   styleUrl: './class-section-form.component.scss'
 })
 export class ClassSectionFormComponent {
-  fb = inject(FormBuilder);
-  dialogRef = inject(MatDialogRef<ClassSectionFormComponent>);
-  firestore = inject(Firestore);
-  auth = inject(Auth);
+  private fb = inject(FormBuilder);
+  private dialogRef = inject(MatDialogRef<ClassSectionFormComponent>);
+  private classSectionService = inject(ClassSectionService);
   sb = inject(MatSnackBar);
   saving = false;
-  sectionColRef = collection(this.firestore, 'class-sections');
   id: string = '';
 
   sectionForm = this.fb.group({
     name: ['', Validators.required],
     level: ['', Validators.required],
-    grade: ['', Validators.required],
+    year: ['', Validators.required],
     subjects: ['', Validators.required],
   });
 
@@ -62,38 +59,37 @@ export class ClassSectionFormComponent {
     public data: ClassSection,
   ) {
     if (data) {
-      const { name, level, grade, subjects, id } = data;
+      const { name, level, year, subjects, _id: id } = data;
 
       this.sectionForm.setValue({
-        name, level, grade, subjects
+        name: name ? name : '',
+        level: level ? level : '',
+        year: year ? year : '',
+        subjects: subjects ? subjects : ''
       });
 
-      this.id = id;
+      this.id = id || '';
     }
   }
 
   onSubmit() {
     if (this.sectionForm.valid) {
       this.saving = true;
-      const { name, level, grade, subjects } = this.sectionForm.value;
-
-      authState(this.auth).subscribe(user => {
-        if (user) {
-          if (this.data) {
-            const sectionRef = doc(this.firestore, 'class-sections/' + this.id);
-            const updated = { name, level, grade, subjects, id: this.id, uid: user.uid } as ClassSection;
-            setDoc(sectionRef, updated).then((docRef) => {
-              this.sb.open('Sección actualizada con éxito.', 'Ok', { duration: 2500 });
-              this.dialogRef.close(docRef);
-            });
-          } else {
-            addDoc(this.sectionColRef, <ClassSection> { name, level, grade, subjects, uid: user.uid }).then(docRef => {
-              this.sb.open('Sección creada con éxito.', 'Ok', { duration: 2500 });
-              this.dialogRef.close(docRef);
-            });
+      const { name, level, year, subjects } = this.sectionForm.value;
+      if (this.data) {
+        this.classSectionService.updateSection(this.id, { name, level, year, subjects  } as ClassSection).subscribe((res) => {
+          if (res.modifiedCount == 1) {
+            this.sb.open('Sección actualizada con éxito.', 'Ok', { duration: 2500 });
+            this.dialogRef.close(res);
           }
-        }
-      })
+        });
+      } else {
+        const section = { name, level, year, subjects } as ClassSection;
+        this.classSectionService.addSection(section).subscribe(result => {
+          this.sb.open('Sección creada con éxito.', 'Ok', { duration: 2500 });
+          this.dialogRef.close(result);
+        });
+      }
     }
   }
 }

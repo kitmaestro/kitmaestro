@@ -1,4 +1,3 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -7,7 +6,7 @@ import { BankAccountComponent } from '../bank-account/bank-account.component';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
 import { UserSubscription } from '../interfaces/user-subscription';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,6 +15,7 @@ import { Store } from '@ngrx/store';
 import { userSelector } from '../state/selectors/auth.selector';
 import { userSubscriptionSelector } from '../state/selectors/subscription.selectors';
 import { checkSubscription } from '../state/actions/subscriptions.actions';
+import { CurrencyService } from '../services/currency.service';
 
 declare const paypal: any;
 
@@ -25,7 +25,6 @@ declare const paypal: any;
   imports: [
     MatCardModule,
     MatButtonModule,
-    HttpClientModule,
     MatIconModule,
     MatDialogModule,
     MatListModule,
@@ -37,13 +36,11 @@ declare const paypal: any;
   styleUrl: './buy-subscription.component.scss',
 })
 export class BuySubscriptionComponent implements OnInit {
-  private http = inject(HttpClient);
+  private currencyService = inject(CurrencyService);
   private dialog = inject(MatDialog);
   private sb = inject(MatSnackBar);
   private store = inject(Store);
-  usdPrice: Observable<number> = this.http.get<{ date: string, usd: { dop: number } }>('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json').pipe(
-    map(res => res.usd.dop)
-  );
+  usdPrice: Observable<number> = this.currencyService.convert('usd', 'dop');
   price = '0.00';
   halfYear = '0.00';
   alreadyPremium: boolean = false;
@@ -69,6 +66,7 @@ export class BuySubscriptionComponent implements OnInit {
       next: (subscription) => {
         this.loading = false;
         // check if already premium
+        console.log(subscription)
       }, error: (err) => {
       }
     })

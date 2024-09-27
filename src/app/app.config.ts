@@ -26,12 +26,12 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimationsAsync(),
     importProvidersFrom(provideFirebaseApp(() => initializeApp({
-        "projectId": "kit-maestro",
-        "appId": "1:604854508995:web:589737edbf2038209c7176",
-        "storageBucket": "kit-maestro.appspot.com",
-        "apiKey": "AIzaSyAStMcbRBeZa5VEBbCRNQUPfd1zO1Y3Kws",
-        "authDomain": "kit-maestro.firebaseapp.com",
-        "messagingSenderId": "604854508995"
+      "projectId": "kit-maestro",
+      "appId": "1:604854508995:web:589737edbf2038209c7176",
+      "storageBucket": "kit-maestro.appspot.com",
+      "apiKey": "AIzaSyAStMcbRBeZa5VEBbCRNQUPfd1zO1Y3Kws",
+      "authDomain": "kit-maestro.firebaseapp.com",
+      "messagingSenderId": "604854508995"
     }))),
     importProvidersFrom(provideAuth(() => getAuth())),
     importProvidersFrom(provideFirestore(() => getFirestore())),

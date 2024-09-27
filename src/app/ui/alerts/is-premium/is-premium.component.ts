@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { checkSubscription } from '../../../state/actions/subscriptions.actions';
+import { userSubscriptionSelector } from '../../../state/selectors/subscription.selectors';
 
 @Component({
   selector: 'app-is-premium',
@@ -25,8 +26,8 @@ import { checkSubscription } from '../../../state/actions/subscriptions.actions'
 export class IsPremiumComponent {
   private store = inject(Store);
 
-  public isPremium$: Observable<boolean> = this.store.select(store => store.userSubscription).pipe(
-    map(sub => sub ? sub.user_subscription.subscriptionType.includes('premium') && sub.user_subscription.status == "active" : false),
+  public isPremium$: Observable<boolean> = this.store.select(userSubscriptionSelector).pipe(
+    map(sub => sub ? sub.subscriptionType.includes('premium') && sub.status == "active" && new Date() < new Date(sub.endDate) : false),
     tap(premium => {
       this.onLoaded.emit(premium)
     })

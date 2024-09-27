@@ -1,49 +1,44 @@
-import { Injectable, inject } from '@angular/core';
-import { Auth, User, authState } from '@angular/fire/auth';
-import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, query, updateDoc, where } from '@angular/fire/firestore';
-import { Observable, concatAll, map, of } from 'rxjs';
-import { ClassSection } from '../datacenter/datacenter.component';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiUpdateResponse } from '../interfaces/api-update-response';
+import { ApiDeleteResponse } from '../interfaces/api-delete-response';
+import { ClassSection } from '../interfaces/class-section';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClassSectionService {
-
-  private auth = inject(Auth);
-  private firestore = inject(Firestore);
-
-  private user$: Observable<User|null> = authState(this.auth);
-  private classSectionsRef = collection(this.firestore, 'class-sections');
-  
-  classSections$: Observable<ClassSection[]> = this.user$.pipe(
-    map(user => {
-      if (user) {
-        return collectionData(query(this.classSectionsRef, where('uid', '==', user.uid)), { idField: 'id' }) as Observable<ClassSection[]>
-      }
-      return of([]);
+  private http = inject(HttpClient);
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/class-sections/' : 'http://45.79.180.237/class-sections/';
+  private config = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     }),
-    concatAll()
-  )
-  
-  constructor() { }
+  };
 
-  getSection(id: string) {
-    return doc(this.firestore, 'class-sections', id);
+  findAll(): Observable<ClassSection[]> {
+    return this.http.get<ClassSection[]>(this.apiBaseUrl + 'all', this.config);
   }
 
-  findSection(id: string) {
-    return docData(this.getSection(id));
+  findSections(): Observable<ClassSection[]> {
+    return this.http.get<ClassSection[]>(this.apiBaseUrl, this.config);
   }
 
-  addSection(section: ClassSection) {
-    return addDoc(this.classSectionsRef, section);
+  findSection(id: string): Observable<ClassSection> {
+    return this.http.get<ClassSection>(this.apiBaseUrl + id, this.config);
   }
 
-  updateSection(id: string, section: any) {
-    return updateDoc(this.getSection(id), section);
+  addSection(section: ClassSection): Observable<ClassSection> {
+    return this.http.post<ClassSection>(this.apiBaseUrl, section, this.config);
   }
 
-  deleteSection(id: string) {
-    return deleteDoc(this.getSection(id));
+  updateSection(id: string, section: any): Observable<ApiUpdateResponse> {
+    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, section, this.config);
+  }
+
+  deleteSection(id: string): Observable<ApiDeleteResponse> {
+    return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id, this.config);
   }
 }

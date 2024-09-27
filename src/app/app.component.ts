@@ -2,10 +2,11 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Store, StoreRootModule } from '@ngrx/store';
-import { lastValueFrom, map } from 'rxjs';
+import { lastValueFrom, tap } from 'rxjs';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LoadingComponent } from './ui/loading/loading.component';
 import { load } from './state/actions/auth.actions';
+import { loadingUserSelector, userSelector } from './state/selectors/auth.selector';
 
 @Component({
   selector: 'app-root',
@@ -23,18 +24,26 @@ import { load } from './state/actions/auth.actions';
 })
 export class AppComponent {
   private store = inject(Store);
-  router = inject(Router);
+  private router = inject(Router);
 
-  user$ = this.store.select(store => store.auth).pipe(map(auth => {
+  user$ = this.store.select(userSelector).pipe(tap(() => {
     setTimeout(() => {
       this.redirectIfNotUser()
     }, 2000);
-    return auth.user;
   }));
-  loading$ = this.store.select(store => store.auth);
+  loading$ = this.store.select(loadingUserSelector);
 
   ngOnInit() {
     this.store.dispatch(load());
+    // this.compService.findAll().subscribe(competence => {
+      // const blob = new Blob([JSON.stringify(competence, null, 4)], { type: 'application/json' });
+      // const url = window.URL.createObjectURL(blob);
+      // const a = document.createElement('a');
+      // a.href = url;
+      // a.download = 'competence.json';
+      // a.click();
+      // window.URL.revokeObjectURL(url);
+    // })
   }
 
   async redirectIfNotUser() {

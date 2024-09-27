@@ -2,20 +2,20 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, Inject, OnInit, inject } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
 import { Firestore, addDoc, collection, collectionData, query, where } from '@angular/fire/firestore';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { LogRegistryEntry } from '../../../interfaces/log-registry-entry';
-import { EMPTY, Observable, tap } from 'rxjs';
-import { ClassSection } from '../../../datacenter/datacenter.component';
+import { EMPTY, Observable } from 'rxjs';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Student } from '../../../interfaces/student';
 import { LogRegistryEntryService } from '../../../services/log-registry-entry.service';
 import { ClassSectionService } from '../../../services/class-section.service';
+import { ClassSection } from '../../../interfaces/class-section';
 
 @Component({
   selector: 'app-log-registry-entry-form',
@@ -44,7 +44,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
   logRegistryEntryService = inject(LogRegistryEntryService);
   logRegistryEntriesCollectionRef = collection(this.firestore, 'log-registry-entries');
   classSectionService = inject(ClassSectionService);
-  classSections$ = this.classSectionService.classSections$;
+  classSections$ = this.classSectionService.findSections();
   studentsCollectionRef = collection(this.firestore, 'students');
   students$: Observable<Student[]> = EMPTY;
   sections: ClassSection[] = [];
@@ -100,7 +100,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.classSectionService.classSections$.subscribe(col => this.sections = col);
+    this.classSectionService.findSections().subscribe(col => this.sections = col);
     if (this.data) {
       const {
         id,
@@ -157,15 +157,15 @@ export class LogRegistryEntryFormComponent implements OnInit {
   }
 
   sectionGrade(id: string) {
-    const section = this.sections.find(section => section.id == id);
+    const section = this.sections.find(section => section._id == id);
     if (section) {
-      return section.grade.toLowerCase();
+      return section.year.toLowerCase();
     }
     return id;
   }
 
   sectionName(id: string) {
-    const section = this.sections.find(section => section.id == id);
+    const section = this.sections.find(section => section._id == id);
     if (section) {
       return section.name;
     }
@@ -212,7 +212,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
       time,
       place
     } = this.generatorForm.value;
-    
+
     if (!students || !type || !date || !time || !grade || !place) return;
 
     const [y,m,d] = date?.split('-').map(s => parseInt(s));

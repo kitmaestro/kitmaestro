@@ -14,8 +14,8 @@
                                 <mat-form-field appearance="outline">
                                     <mat-label>Grado</mat-label>
                                     <mat-select formControlName="classSection" required>
-                                        @for (section of classSections; track section) {
-                                            <mat-option [value]="section.id">{{section.name}}</mat-option>
+                                        @for (section of classSections; track section._id) {
+                                            <mat-option [value]="section._id">{{section.name}}</mat-option>
                                         }
                                     </mat-select>
                                 </mat-form-field>

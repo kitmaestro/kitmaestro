@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { from, map, Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { Rubric } from '../interfaces/rubric';
 import { AiService } from './ai.service';
 
@@ -7,10 +7,7 @@ import { AiService } from './ai.service';
   providedIn: 'root'
 })
 export class RubricService {
-
-  constructor(
-    private aiService: AiService,
-  ) { }
+  private aiService = inject(AiService);
 
   generateRubric(data: any): Observable<Rubric> {
     const { title,
@@ -44,9 +41,10 @@ Tu respuesta debe ser un json valido con esta interfaz:
     }[]
   }[];
 }`;
-    return this.aiService.askGemini(text, true).pipe(
+    return this.aiService.geminiAi(text).pipe(
       map(response => {
-        const obj = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n')) as { title?: string; criteria: { indicator: string, maxScore: number, criterion: { name: string, score: number, }[] }[] };
+        // const obj = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n')) as { title?: string; criteria: { indicator: string, maxScore: number, criterion: { name: string, score: number, }[] }[] };
+        const obj = JSON.parse(response.response) as { title?: string; criteria: { indicator: string, maxScore: number, criterion: { name: string, score: number, }[] }[] };
         const rubric: Rubric = {
           criteria: obj.criteria,
           title: obj.title ? obj.title : title,

@@ -1,18 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
-import { Firestore, collection, collectionData, doc, docData, orderBy, query, where } from '@angular/fire/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Observable, map, zip } from 'rxjs';
-import { ClassSection } from '../../datacenter/datacenter.component';
+import { Observable, of } from 'rxjs';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { Attendance } from '../../interfaces/attendance';
 import { Student } from '../../interfaces/student';
+import { ClassSection } from '../../interfaces/class-section';
+import { ClassSectionService } from '../../services/class-section.service';
 
 @Component({
   selector: 'app-section-attendance',
@@ -31,11 +30,10 @@ import { Student } from '../../interfaces/student';
   styleUrl: './section-attendance.component.scss'
 })
 export class SectionAttendanceComponent {
-  auth = inject(Auth);
-  firestore = inject(Firestore);
+  private classSectionService = inject(ClassSectionService);
   router = inject(Router);
   route = inject(ActivatedRoute);
-  
+
   id = this.route.snapshot.paramMap.get('id');
   today = new Date();
   currentYear = this.today.getFullYear();
@@ -44,29 +42,10 @@ export class SectionAttendanceComponent {
   displayedCols = ['Estudiante'];
 
   cols: string[] = [];
-  
-  section$ = docData(doc(this.firestore, 'class-sections/' + this.id), { idField: 'id' }) as Observable<ClassSection>;
-  students$ = collectionData(query(collection(this.firestore, 'students'), where('section', '==', this.id), orderBy('firstname', 'asc'))) as Observable<Student[]>;
-  attendance$ = zip(collectionData(
-    query(
-      collection(this.firestore, 'student-attendance'),
-      where('section', '==', this.id),
-      where('month', '==', this.currentMonth)
-    )
-  ) as unknown as Observable<Attendance[]>, this.students$).pipe(
-    map((zip) => {
-      const attendance = zip[0] as Attendance[];
-      const students = zip[1] as Student[];
 
-      return attendance.map(row => {
-        const student = students.find(s => s.id == row.student);
-        if (student) {
-          row.student = student.firstname + ' ' + student.lastname;
-        }
-        return row;
-      })
-    })
-  );
+  section$: Observable<ClassSection> = this.classSectionService.findSection(this.id || '');
+  students$ = of([]) as Observable<Student[]>;
+  attendance$ = of([]) as Observable<Attendance[]>;
 
   months = [
     'Enero',
@@ -113,7 +92,7 @@ export class SectionAttendanceComponent {
       return 30;
     }
   }
-  
+
   fillTable(year: number, month: number) {
     const days = this.daysInMonth(this.currentMonth, this.currentYear);
     const cols = ['Estudiante'];

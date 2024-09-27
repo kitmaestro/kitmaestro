@@ -218,14 +218,14 @@ export class PlannerGeneratorComponent implements OnInit {
     }
 
     this.templates = templates;
-    
-    this.aiService.generateImage(`a ${color} ${decoration}`).then((res) => {
+
+    this.aiService.generateImage(`a ${color} ${decoration}`).subscribe((res) => {
       this.sb.open('Generacion completa!', 'Ok', { duration: 2500 });
-      this.imgSrc = res;
+      this.imgSrc = res.result;
       this.generating = false;
-    }).catch(() => this.generating = false);
+    });
   }
-  
+
   printTemplates() {
     if (this.queue > 0) {
       this.sb.open('Las descargas ya estan en progreso, espera a que terminen.');

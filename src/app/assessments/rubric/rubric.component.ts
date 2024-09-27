@@ -14,7 +14,6 @@ import { Rubric } from '../../interfaces/rubric';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { tap } from 'rxjs';
-import { ClassSection } from '../../datacenter/datacenter.component';
 import { SPANISH_CONTENTS } from '../../data/spanish-contents';
 import { MATH_CONTENTS } from '../../data/math-contents';
 import { SOCIETY_CONTENTS } from '../../data/society-contents';
@@ -44,6 +43,7 @@ import artContentBlocks from '../../data/art-content-blocks.json';
 import { PdfService } from '../../services/pdf.service';
 import { Student } from '../../interfaces/student';
 import { StudentsService } from '../../services/students.service';
+import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
   selector: 'app-rubric',
@@ -76,7 +76,7 @@ export class RubricComponent {
   sections: ClassSection[] = [];
 
   userSettings$ = this.userSettingsService.getSettings();
-  sections$ = this.sectionsService.classSections$.pipe(tap(sections => this.sections = sections));
+  sections$ = this.sectionsService.findSections().pipe(tap(sections => this.sections = sections));
 
   rubricTypes = [
     { id: 'synthetic', label: 'Sintética (Holística)' },
@@ -207,19 +207,19 @@ export class RubricComponent {
       levels,
       achievementIndicators
     } = formValue;
-    const selectedSection = this.sections.find(s => s.id == this.rubricForm.get('section')?.value);
+    const selectedSection = this.sections.find(s => s._id == this.rubricForm.get('section')?.value);
     if (!selectedSection)
       return;
     const curriculumData: {
       achievementIndicators: string[],
       competence: string[],
-    } = this.findCurriculumData(selectedSection.level, selectedSection.grade, subject, content);
+    } = this.findCurriculumData(selectedSection.level, selectedSection.year, subject, content);
     const data = {
       title,
       minScore,
       maxScore,
       level: selectedSection.level,
-      grade: selectedSection.grade,
+      grade: selectedSection.year,
       section,
       subject: this.pretify(subject),
       content,
@@ -296,7 +296,7 @@ export class RubricComponent {
 
   randomCompetence(categorized: any): string {
     let random = 0;
-    switch (this.yearIndex(this.sections.find(s => s.id == this.rubricForm.get('section')?.value)?.grade || '')) {
+    switch (this.yearIndex(this.sections.find(s => s._id == this.rubricForm.get('section')?.value)?.year || '')) {
       case 0:
         random = Math.round(Math.random() * (categorized.Primero.competenciasEspecificas.length - 1))
         return categorized.Primero.competenciasEspecificas[random];
@@ -328,19 +328,19 @@ export class RubricComponent {
   }
 
   get selectedSection() {
-    return this.sections.find(section => section.id == this.rubricForm.get('section')?.value);
+    return this.sections.find(section => section._id == this.rubricForm.get('section')?.value);
   }
 
   get classSectionLevel() {
-    return this.sections.find(s => s.id == this.rubricForm.get('section')?.value)?.level || '';
+    return this.sections.find(s => s._id == this.rubricForm.get('section')?.value)?.level || '';
   }
 
   get subjectContents(): string[] {
     const subject = this.rubricForm.get('subject')?.value;
-    const section = this.sections.find(s => s.id == this.rubricForm.get('section')?.value);
+    const section = this.sections.find(s => s._id == this.rubricForm.get('section')?.value);
     const contents: string[] = [];
     if (subject && section) {
-      const year = this.yearIndex(section.grade);
+      const year = this.yearIndex(section.year);
       const primary = section.level == 'PRIMARIA';
       switch (subject) {
         case 'LENGUA_ESPANOLA':
@@ -378,7 +378,7 @@ export class RubricComponent {
   }
 
   get sectionSubjects(): string[] {
-    const section = this.sections.find(s => s.id == this.rubricForm.get('section')?.value);
+    const section = this.sections.find(s => s._id == this.rubricForm.get('section')?.value);
     if (section) {
       return (typeof(section.subjects) == 'string' ? section.subjects.split(',').map(s => s.trim()) : section.subjects as any as string[]);
     }
@@ -465,14 +465,14 @@ export class RubricComponent {
       subject,
       content
     } = this.rubricForm.value;
-    const selectedSection = this.sections.find(s => s.id == this.rubricForm.get('section')?.value);
+    const selectedSection = this.sections.find(s => s._id == this.rubricForm.get('section')?.value);
     if (!selectedSection || !subject || !content)
       return indicators;
-    
+
     const curriculumData: {
       achievementIndicators: string[],
       competence: string[],
-    } = this.findCurriculumData(selectedSection.level, selectedSection.grade, subject, content);
+    } = this.findCurriculumData(selectedSection.level, selectedSection.year, subject, content);
     indicators.push(...curriculumData.achievementIndicators);
 
     return indicators;

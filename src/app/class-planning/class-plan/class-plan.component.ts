@@ -10,7 +10,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ClassSectionService } from '../../services/class-section.service';
-import { ClassSection } from '../../datacenter/datacenter.component';
 import { AiService } from '../../services/ai.service';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { UserSettings } from '../../interfaces/user-settings';
@@ -29,6 +28,7 @@ import { ClassPlan } from '../../interfaces/class-plan';
 import { ClassPlansService } from '../../services/class-plans.service';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
   selector: 'app-class-plan',
@@ -185,10 +185,10 @@ Las competencias a desarrollorar debe ser una de estas:
 `;
 
   ngOnInit(): void {
-    this.classSectionService.classSections$.subscribe(sections => {
+    this.classSectionService.findAll().subscribe(sections => {
       this.classSections = sections;
       if (sections.length) {
-        this.planForm.get('classSection')?.setValue(sections[0].id);
+        this.planForm.get('classSection')?.setValue(sections[0]._id || '');
       }
     });
     this.userSettingsService.getSettings().subscribe(settings => this.userSettings = settings);
@@ -205,8 +205,8 @@ Las competencias a desarrollorar debe ser una de estas:
         topics
       } = this.planForm.value;
 
-      const sectionLevel = this.classSections.find(cs => cs.id == classSection)?.level;
-      const sectionYear = this.classSections.find(cs => cs.id == classSection)?.grade;
+      const sectionLevel = this.classSections.find(cs => cs._id == classSection)?.level;
+      const sectionYear = this.classSections.find(cs => cs._id == classSection)?.year;
 
       if (sectionLevel && sectionYear && subject && duration && topics && resources) {
         this.generating = true;
@@ -255,7 +255,7 @@ Las competencias a desarrollorar debe ser una de estas:
       plan.level = this.classSectionLevel;
       plan.year = this.classSectionYear;
       plan.subject = this.planForm.value.subject || '';
-      this.classPlanService.addPlan(plan).then((saved) => {
+      this.classPlanService.addPlan(plan).subscribe((saved) => {
         this.router.navigate(['/app', 'class-plans', saved.id]).then(() => {
           this.sb.open('Tu plan ha sido guardado!', undefined, { duration: 2500 });
         });
@@ -415,7 +415,7 @@ Las competencias a desarrollorar debe ser una de estas:
   }
 
   get sectionSubjects() {
-    const subjects = this.classSections.find(s => s.id == this.planForm.get('classSection')?.value)?.subjects as any as string[];
+    const subjects = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.subjects as any as string[];
     if (subjects && subjects.length) {
       return subjects;
     }
@@ -423,7 +423,7 @@ Las competencias a desarrollorar debe ser una de estas:
   }
 
   get classSectionName() {
-    const name = this.classSections.find(s => s.id == this.planForm.get('classSection')?.value)?.name;
+    const name = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.name;
     if (name) {
       return name;
     }
@@ -431,7 +431,7 @@ Las competencias a desarrollorar debe ser una de estas:
   }
 
   get classSectionLevel() {
-    const level = this.classSections.find(s => s.id == this.planForm.get('classSection')?.value)?.level;
+    const level = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.level;
     if (level) {
       return level;
     }
@@ -439,7 +439,7 @@ Las competencias a desarrollorar debe ser una de estas:
   }
 
   get classSectionYear() {
-    const year = this.classSections.find(s => s.id == this.planForm.get('classSection')?.value)?.grade;
+    const year = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.year;
     if (year) {
       return year;
     }

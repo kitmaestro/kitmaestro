@@ -1,18 +1,23 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable, isDevMode } from '@angular/core';
 import { GradePeriod } from '../interfaces/grade-period';
 import { HfInference } from '@huggingface/inference';
-// import { ModelEntry, listModels } from '@huggingface/hub';
-import { Text2TextGenerationPipeline, pipeline } from '@xenova/transformers';
+import { pipeline } from '@xenova/transformers';
 import { Observable, from } from 'rxjs';
 import { GeminiResponse } from '../interfaces/gemini-response';
-import { Anthropic } from '@anthropic-ai/sdk';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AiService {
-  // http = inject(HttpClient);
+  private http = inject(HttpClient);
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/ai/' : 'http://45.79.180.237/ai/';
+  private config = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+    })
+  };
 
   private models = {
     textToImage: 'stabilityai/stable-diffusion-xl-base-1.0',
@@ -27,37 +32,25 @@ export class AiService {
     ],
   }
   private token = atob('aGZfZVZGUGl6aW5jb3VEbmZzRXFEQ05yaUVmZW9VZ2NITmNEdw==');
-  private anthropicApiKey = atob("c2stYW50LWFwaTAzLXdCZHVhalZUczh2UER5UTZHN3MzazYxVms0SXg3Wm1fTHZhbGEtODNtWHFXcU9TR3VOUmpHc3ROVnkyLWFTTTlYMWZRaGhaVkpxU21lbnBpSHUwcWZnLURiSm9qd0FB");
   private inference = new HfInference(this.token);
 
   constructor() {
   }
 
   askClaude(text: string, max_tokens: number = 1024) {
-    const anthropic = new Anthropic({
-      apiKey: this.anthropicApiKey,
-    });
-
-    return from(anthropic.messages.create({
-      model: "claude-3-5-sonnet-20240620",
-      max_tokens,
-      temperature: 0,
-      messages: [
-        {
-          "role": "user",
-          "content": [
-            {
-              "type": "text",
-              "text": text
-            }
-          ]
-        }
-      ]
-    }));
+    return this.http.post(this.apiBaseUrl + 'claude', { text, max_tokens }, this.config);
   }
 
   async readFetch(url: string, config: any): Promise<any> {
     return (await fetch(url, config)).json();
+  }
+
+  geminiAi(question: string) {
+    return this.http.post<{ response: string }>(this.apiBaseUrl + 'gemini', { prompt: question }, this.config);
+  }
+
+  askFlanT5(question: string) {
+    return this.http.post<{ response: string }>(this.apiBaseUrl + 'flanT5', { prompt: question }, this.config);
   }
 
   askGemini(text: string, jsonResponse: boolean = false): Observable<GeminiResponse> {
@@ -100,6 +93,19 @@ export class AiService {
     return response;
   }
 
+  async askPhi(input: string) {
+    const args = {
+      model: 'microsoft/phi-2',
+      inputs: input,
+      parameters: {
+        max_new_tokens: 350
+      }
+    };
+
+    const options = { use_cache: false };
+    return await this.inference.textGeneration(args, options)
+  }
+
   async completeText(inputs: string) {
     const args = {
       model: "google/gemma-7b",
@@ -113,77 +119,8 @@ export class AiService {
     return await this.inference.textGeneration(args, options)
   }
 
-  getTextGenerator(): Observable<Text2TextGenerationPipeline> {
-    return from(pipeline('text2text-generation', this.models.text2TextGeneration));
-  }
-
-  private getAgent() {
-    // const agent = new HfAgent(
-    //   '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',
-    //   LLMFromHub('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'),
-    //   [...defaultTools]
-    // );
-
-    // agent.generateCode("Write a javascript function to generate a random number between two given numbers").then(res => {
-    //   console.log(res)
-    // })
-  }
-
-  private async inferenceEnabled(modelName: string) {
-    const res = await fetch(`https://api-inference.huggingface.co/status/${modelName}`);
-    const data = await res.json();
-    return data.state == 'Loadable';
-  }
-
-  // async research(task = 'text-to-image', minLikes = 1000) {
-  //   const models: ModelEntry[] = [];
-
-  //   for await (const model of listModels({
-  //     credentials: {
-  //       accessToken: this.token
-  //     },
-  //     search: {
-  //       task: task as any,
-  //     }
-  //   })) {
-  //     if (model.likes < minLikes)
-  //       continue;
-
-  //     if (await this.inferenceEnabled(model.name))
-  //       models.push(model);
-  //   }
-  //   console.log(models)
-  // }
-
-  private blobToBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve, _) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result as string);
-      reader.readAsDataURL(blob);
-    });
-  }
-
-  async generateImage(inputs: string) {
-    const res = await this.inference.textToImage({
-      model: this.models.textToImage,
-      inputs
-    })
-
-    return await this.blobToBase64(res);
-  }
-
-  generateTextStream(inputs: string) {
-    const args = {
-      model: this.models.text2TextGeneration,
-      inputs,
-      parameters: {
-        max_new_tokens: 350
-      }
-    };
-
-    const options = { use_cache: false };
-
-    return from(this.inference.textGenerationStream(args, options))
+  generateImage(inputs: string): Observable<{ result: string }> {
+    return this.http.post<{ result: string }>(this.apiBaseUrl + 'image', { prompt: inputs }, this.config);
   }
 
   generatePeriod(config: { average?: number, min: number, max: number, elements: number, minGrade: number }): GradePeriod[] {

@@ -13,8 +13,8 @@ import { LogRegistryEntryFormComponent } from '../../ui/forms/log-registry-entry
 import { LogRegistryEntryDetailsComponent } from './log-registry-entry-details.component';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
-import { ClassSection } from '../../datacenter/datacenter.component';
 import { Student } from '../../interfaces/student';
+import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
   selector: 'app-log-registry-generator',
@@ -97,7 +97,7 @@ export class LogRegistryGeneratorComponent implements OnInit {
       width: '75%'
     });
   }
-  
+
   editLogRegistryEntry(entry: LogRegistryEntry) {
     this.dialog.open(LogRegistryEntryFormComponent, {
       data: entry,
@@ -108,7 +108,7 @@ export class LogRegistryGeneratorComponent implements OnInit {
     entry.students = this.studentsName(entry.students).split(', ');
     entry.grade = this.sectionGrade(entry.grade);
     const ref = this.dialog.open(LogRegistryEntryDetailsComponent, { data: entry });
-    
+
     ref.afterClosed().subscribe(result => {
       if (result) {
         this.editLogRegistryEntry(entry);
@@ -121,11 +121,11 @@ export class LogRegistryGeneratorComponent implements OnInit {
   }
 
   sectionGrade(section: string) {
-    return this.sections.find(s => s.id == section)?.grade || '';
+    return this.sections.find(s => s._id == section)?.year || '';
   }
 
   sectionName(section: string) {
-    return this.sections.find(s => s.id == section)?.name;
+    return this.sections.find(s => s._id == section)?.name;
   }
 
   studentsName(student: string[]) {

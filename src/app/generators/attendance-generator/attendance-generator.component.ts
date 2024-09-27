@@ -53,7 +53,7 @@ export class AttendanceGeneratorComponent {
   studentsService = inject(StudentsService);
   classSectionService = inject(ClassSectionService);
 
-  sections$ = this.classSectionService.classSections$.pipe(tap(s => this.section.setValue(s[0] ? s[0].id : '')));
+  sections$ = this.classSectionService.findSections().pipe(tap(s => this.section.setValue(s[0] ? s[0]._id || '' : '')));
 
   working = true;
   displayedColumns = ['id', 'name'];

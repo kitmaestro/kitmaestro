@@ -27,11 +27,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ClassPlanListComponent {
 
   classPlansService = inject(ClassPlansService);
-  classPlans$ = this.classPlansService.classPlans$;
+  classPlans$ = this.classPlansService.findAll();
   sb = inject(MatSnackBar);
 
   deletePlan(id: string) {
-    this.classPlansService.deletePlan(id).then(() => {
+    this.classPlansService.deletePlan(id).subscribe(() => {
       this.sb.open('El Plan fue eliminado!');
     });
   }

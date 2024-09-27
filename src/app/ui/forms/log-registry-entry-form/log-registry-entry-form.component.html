@@ -55,7 +55,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Grado</mat-label>
                         <mat-select formControlName="grade" required>
-                            <mat-option *ngFor="let section of (classSections$ | async)" [value]="section.id">{{section.name}}</mat-option>
+                            <mat-option *ngFor="let section of (classSections$ | async)" [value]="section._id">{{section.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>

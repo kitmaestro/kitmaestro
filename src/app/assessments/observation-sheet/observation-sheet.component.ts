@@ -9,7 +9,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { ClassSectionService } from '../../services/class-section.service';
-import { ClassSection } from '../../datacenter/datacenter.component';
 // import { COMPETENCE } from '../../lib/competence-filler';
 import { CompetenceService } from '../../services/competence.service';
 import { ObservationGuideComponent } from '../../ui/observation-guide/observation-guide.component';
@@ -19,6 +18,7 @@ import { Student } from '../../interfaces/student';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PdfService } from '../../services/pdf.service';
 import { CompetenceEntry } from '../../interfaces/competence-entry';
+import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
   selector: 'app-observation-sheet',
@@ -109,12 +109,12 @@ export class ObservationSheetComponent implements OnInit {
         this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
         this.schoolName = settings.schoolName;
       }
-      this.classSectionService.classSections$.subscribe(classes => {
+      this.classSectionService.findSections().subscribe(classes => {
         this.groups = classes;
         if (classes.length) {
-          this.sheetForm.get('group')?.setValue(classes[0].id);
+          this.sheetForm.get('group')?.setValue(classes[0]._id || '');
           this.onGradeSelect();
-          const subs = this.competenceService.findByGrade(classes[0].grade).subscribe(
+          const subs = this.competenceService.findByGrade(classes[0].year).subscribe(
             {
               next: (col) => {
                 this.competenceCol = col;
@@ -129,7 +129,7 @@ export class ObservationSheetComponent implements OnInit {
 
   onGradeSelect() {
     const groupId = this.sheetForm.get('group')?.value;
-    const grade = this.groups.find(g => g.id == groupId)?.grade;
+    const grade = this.groups.find(g => g._id == groupId)?.year;
     if (groupId) {
       if (grade) {
         const subs = this.competenceService.findByGrade(grade).subscribe(
@@ -155,9 +155,9 @@ export class ObservationSheetComponent implements OnInit {
     this.observationSheet = null;
     const guide: ObservationGuide = defaultObservationGuide;
     const { customAspects, blankDate, date, individual, group, aspects, subject, competence, duration, description } = this.sheetForm.value;
-    // const grade = this.groups.find(g => g.id == group)?.grade;
+    // const grade = this.groups.find(g => g.id == group)?.year;
     const comps = this.competenceCol.filter(c => c.subject == subject && competence?.includes(c.name));
-    
+
     guide.aspects = aspects as string[];
 
     if (customAspects) {
@@ -219,7 +219,7 @@ export class ObservationSheetComponent implements OnInit {
     ];
 
     const index = Math.round(Math.random() * (starting.length - 1));
-    const group = this.groups.find(g => g.id == groupId);
+    const group = this.groups.find(g => g._id == groupId);
     if (!group)
       return '';
 
@@ -242,7 +242,7 @@ export class ObservationSheetComponent implements OnInit {
   }
 
   get gradeSubjects(): string[] {
-    const grade = this.groups.find(g => g.id == this.sheetForm.get('group')?.value);
+    const grade = this.groups.find(g => g._id == this.sheetForm.get('group')?.value);
     if (!grade)
       return [];
 

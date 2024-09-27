@@ -22,7 +22,6 @@ import { RELIGION_CONTENTS } from '../../data/religion-contents';
 import { SPORTS_CONTENTS } from '../../data/sports-contents';
 import { ART_CONTENTS } from '../../data/art-contents';
 import { ClassSectionService } from '../../services/class-section.service';
-import { ClassSection } from '../../datacenter/datacenter.component';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { UserSettings } from '../../interfaces/user-settings';
 import { ART_COMPETENCE } from '../../data/art-competence';
@@ -55,6 +54,7 @@ import sportsContentBlocks from '../../data/sports-content-blocks.json';
 import religionContentBlocks from '../../data/religion-content-blocks.json';
 import artContentBlocks from '../../data/art-content-blocks.json';
 import { HttpClientModule } from '@angular/common/http';
+import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
   selector: 'app-unit-plan',
@@ -421,11 +421,11 @@ La respuesta debe ser json valido, coherente con esta interfaz:
         this.userSettings = settings;
       }
     });
-    this.classSectionService.classSections$.subscribe({
+    this.classSectionService.findSections().subscribe({
       next: (value) => {
         this.classSections = value;
         if (value.length) {
-          this.learningSituationForm.get('classSection')?.setValue(value[0].id);
+          this.learningSituationForm.get('classSection')?.setValue(value[0]._id || '');
         }
       }
     })
@@ -739,7 +739,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
   get classSectionName() {
     const { classSection } = this.learningSituationForm.value;
     if (classSection) {
-      const data = this.classSections.find(s => s.id == classSection)
+      const data = this.classSections.find(s => s._id == classSection)
       if (data) {
         return data.name;
       }
@@ -751,9 +751,9 @@ La respuesta debe ser json valido, coherente con esta interfaz:
   get classSectionYear() {
     const { classSection } = this.learningSituationForm.value;
     if (classSection) {
-      const data = this.classSections.find(s => s.id == classSection)
+      const data = this.classSections.find(s => s._id == classSection)
       if (data) {
-        return data.grade;
+        return data.year;
       }
       return '';
     }
@@ -763,7 +763,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
   get classSectionLevel() {
     const { classSection } = this.learningSituationForm.value;
     if (classSection) {
-      const data = this.classSections.find(s => s.id == classSection)
+      const data = this.classSections.find(s => s._id == classSection)
       if (data) {
         return data.level;
       }
@@ -1306,7 +1306,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
   }
 
   get subjects(): { id: string, label: string }[] {
-    const subjectsFromClassSection = this.classSections.find(cs => cs.id == this.learningSituationForm.value.classSection)?.subjects as any as string[];
+    const subjectsFromClassSection = this.classSections.find(cs => cs._id == this.learningSituationForm.value.classSection)?.subjects as any as string[];
     if (subjectsFromClassSection && subjectsFromClassSection.length) {
       return subjectsFromClassSection.map(sId => ({ id: sId, label: this.pretifySubject(sId) }));
     }

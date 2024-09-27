@@ -11,7 +11,7 @@
 						<mat-label>Curso</mat-label>
 						<mat-select formControlName="classSection">
 							@for (section of classSections; track section) {
-								<mat-option [value]="section.id">{{section.name}}</mat-option>
+								<mat-option [value]="section._id">{{section.name}}</mat-option>
 							}
 						</mat-select>
 					</mat-form-field>

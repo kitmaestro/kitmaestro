@@ -35,8 +35,8 @@
                                 formControlName="group"
                                 (change)="onGradeSelect()"
                                 >
-                                @for (group of groups; track group.id) {
-                                    <mat-option [value]="group.id">{{group.name}}</mat-option>
+                                @for (group of groups; track group._id) {
+                                    <mat-option [value]="group._id">{{group.name}}</mat-option>
                                 }
                             </mat-select>
                         </mat-form-field>

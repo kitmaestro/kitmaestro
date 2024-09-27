@@ -8,16 +8,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Auth, authState } from '@angular/fire/auth';
-import { Firestore, collectionData, deleteDoc, docData, orderBy } from '@angular/fire/firestore';
-import { collection, doc, query, where } from '@firebase/firestore';
-import { ClassSection } from '../../datacenter/datacenter.component';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
 import { StudentDetailComponent } from '../../student-detail/student-detail.component';
 import { ClassSectionFormComponent } from '../../ui/forms/class-section-form/class-section-form.component';
 import { StudentFormComponent } from '../../ui/forms/student-form/student-form.component';
+import { ClassSectionService } from '../../services/class-section.service';
 
 @Component({
   selector: 'app-section-details',
@@ -39,22 +36,17 @@ import { StudentFormComponent } from '../../ui/forms/student-form/student-form.c
 })
 export class SectionDetailsComponent implements OnInit {
 
-  route = inject(ActivatedRoute);
-  router = inject(Router);
-  sb = inject(MatSnackBar);
-  fb = inject(FormBuilder);
-  auth = inject(Auth);
-  firestore = inject(Firestore);
-  dialog = inject(MatDialog);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private sb = inject(MatSnackBar);
+  private fb = inject(FormBuilder);
+  private dialog = inject(MatDialog);
+  private classSectionService = inject(ClassSectionService);
 
   id = this.route.snapshot.paramMap.get('id');
   uid: string = '';
-  sectionColRef = collection(this.firestore, 'class-sections');
-  studentColRef = collection(this.firestore, 'students');
-  sectionRef = doc(this.firestore, 'class-sections/' + this.id);
-  section$ = docData(this.sectionRef, { idField: 'id' }) as Observable<ClassSection>;
-  studentQuery = query(this.studentColRef, where('section', '==', this.id), orderBy('firstname', 'asc'));
-  students$ = collectionData(this.studentQuery, { idField: 'id' }) as Observable<Student[]>;
+  section$ = this.classSectionService.findSection(this.id || '');
+  students$ = of([]) as Observable<Student[]>;
 
   displayedCols = ['firstname', 'lastname', 'actions'];
 
@@ -66,12 +58,6 @@ export class SectionDetailsComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    authState(this.auth).subscribe(user => {
-      if (user) {
-        this.uid = user.uid;
-        this.studentForm.get('uid')?.setValue(user.uid);
-      }
-    })
   }
 
   updateSectionDetails() {
@@ -80,6 +66,9 @@ export class SectionDetailsComponent implements OnInit {
         sus.unsubscribe();
         this.dialog.open(ClassSectionFormComponent, {
           data: section,
+        })
+        this.dialog.afterAllClosed.subscribe(() => {
+          this.section$ = this.classSectionService.findSection(this.id || '');
         })
       }
     })
@@ -101,26 +90,9 @@ export class SectionDetailsComponent implements OnInit {
   }
 
   removeStudent(id: string) {
-    const docRef = doc(this.firestore, 'students/' + id);
-    deleteDoc(docRef).then(() => {
-      this.sb.open('El estudiante ha sido eliminado.', 'Ok', { duration: 2500 });
-    });
   }
 
   removeSection() {
-    const sus = this.students$.subscribe({
-      next: async students => {
-        sus.unsubscribe();
-        for (let student of students) {
-          await deleteDoc(doc(this.firestore, 'students/' + student.id))
-        }
-        deleteDoc(this.sectionRef).then(() => {
-          this.router.navigate(['/app', 'sections']).then(() => {
-            this.sb.open('La Seccion se ha eliminado', 'Ok', { duration: 2500 });
-          });
-        })
-      }
-    })
   }
 
   showStudent(student: Student) {
@@ -130,6 +102,6 @@ export class SectionDetailsComponent implements OnInit {
   }
 
   formatValue(value: string) {
-    return value.split('_').map(s => s[0] + s.slice(1).toLowerCase().split('').join('')).join(' ');
+    return value ? value.split('_').map(s => s[0] + s.slice(1).toLowerCase().split('').join('')).join(' ') : '';
   }
 }

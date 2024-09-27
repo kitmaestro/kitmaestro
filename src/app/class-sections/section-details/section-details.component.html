@@ -8,7 +8,7 @@
                 <b>Nombre</b>: {{ section.name }}
             </p>
             <p>
-                <b>Grado</b>: {{ formatValue(section.grade) }}
+                <b>Grado</b>: {{ formatValue(section.year) }}
             </p>
             <p>
                 <b>Nivel</b>: {{ formatValue(section.level) }}
@@ -20,7 +20,7 @@
         </mat-chip-set>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button style="display: block; margin-left: auto;" disabled [routerLink]="['/attendance', section.id]">Asistencia</button>
+        <button mat-raised-button style="display: block; margin-left: auto;" disabled [routerLink]="['/attendance', section._id]">Asistencia</button>
         <button mat-raised-button color="primary" style="display: block; margin-left: 20px;" (click)="updateSectionDetails()">Editar</button>
         <button mat-raised-button color="warn" style="display: block; margin-left: 20px;" (click)="removeSection()">Eliminar</button>
     </mat-card-actions>

@@ -14,8 +14,8 @@
                 <mat-form-field style="max-width: 100%;" appearance="outline" *ngIf="(sections$ | async) as sections; else noSections">
                     <mat-label>Curso</mat-label>
                     <mat-select formControlName="section">
-                        @for(section of sections; track section) {
-                            <mat-option [value]="section.id">{{section.name}}</mat-option>
+                        @for(section of sections; track section._id) {
+                            <mat-option [value]="section._id">{{section.name}}</mat-option>
                         }
                     </mat-select>
                 </mat-form-field>
@@ -23,7 +23,7 @@
                     <div>
                         <div>Para usar esta herramienta, primero tienes que crear una secci&oacute;n.</div>
                         <div>
-                            <button mat-raised-button color="accent" type="button" [routerLink]="['/app', 'sections']">Crear Una Secci&oacute;n</button>
+                            <button mat-raised-button color="accent" type="button" [routerLink]="['/sections']">Crear Una Secci&oacute;n</button>
                         </div>
                     </div>
                 </ng-template>
@@ -102,7 +102,7 @@
                     Ya que no tienes alumnos registrados en esta secci&oacute;n, te hemos dejado espacios en blanco. Para mejores resultados, ve a la secci&oacute;n y registra tus estudiantes.
                     <br>
                     <br>
-                    <button [routerLink]="['/app', 'sections', rubric.section]" type="button" mat-raised-button color="link">Detalles de la Secci&oacute;n</button>
+                    <button [routerLink]="['/sections', rubric.section]" type="button" mat-raised-button color="link">Detalles de la Secci&oacute;n</button>
                 </div>
             }
             <div style="text-align: end;">
@@ -125,7 +125,7 @@
                     <h2 style="margin-bottom: 4px;">R&uacute;brica</h2>
                     <h3 style="margin-bottom: 4px;">{{rubric.title}}</h3>
                 </div>
-                <h3 style="text-align: end;" *ngIf="selectedSection">{{ selectedSection.grade[0] + selectedSection.grade.toLowerCase().slice(1) }} grado, seccion {{ selectedSection.name.trim().split('').reverse()[0].toUpperCase() }}</h3>
+                <h3 style="text-align: end;" *ngIf="selectedSection">{{ selectedSection.year[0] + selectedSection.year.toLowerCase().slice(1) }} grado, seccion {{ selectedSection.name.trim().split('').reverse()[0].toUpperCase() }}</h3>
                 <div style="display: flex; gap: 12px; margin-bottom: 12px;">
                     <div style="font-weight: bold;">Estudiante:</div>
                     <div style="border-bottom: 1px solid black; width: 100%; flex: 1 1 auto;"></div>

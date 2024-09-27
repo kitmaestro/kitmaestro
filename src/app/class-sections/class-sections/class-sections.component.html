@@ -13,11 +13,11 @@
 </mat-card>
 
 @if ((sections$ | async)?.length) {
-    <div style="display: grid; gap: 20px; grid-template-columns: repeat(4, 1fr);">
+    <div class="grid">
         <mat-card *ngFor="let section of sections$ | async" style="margin-top: 20px;">
             <mat-card-header>
                 <h2 mat-card-title>{{ section.name }}</h2>
-                <h3 mat-card-subtitle>{{ formatValue(section.grade) }} de {{ formatValue(section.level) }}</h3>
+                <h3 mat-card-subtitle>{{ formatValue(section.year) }} de {{ formatValue(section.level) }}</h3>
             </mat-card-header>
             <mat-card-content>
                 <mat-accordion>
@@ -37,9 +37,9 @@
                 </mat-accordion>
             </mat-card-content>
             <mat-card-actions style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-                <button [routerLink]="['/app', 'attendance', section.id]" mat-raised-button color="accent" style="width: 100%; display: block;">Asistencia</button>
-                <button [routerLink]="['/app', 'tracking', 'section', section.id]" mat-raised-button color="primary" style="width: 100%; display: block;">Notas</button>
-                <button [routerLink]="['/app', 'sections', section.id]" mat-raised-button style="width: 100%; display: block;">Detalles</button>
+                <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/attendance', section._id]" mat-raised-button color="accent" style="width: 100%; display: block;">Asistencia</button>
+                <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/tracking', 'section', section._id]" mat-raised-button color="primary" style="width: 100%; display: block;">Notas</button>
+                <button [routerLink]="['/sections', section._id]" mat-button color="primary" style="width: 100%; display: block;">Detalles</button>
             </mat-card-actions>
         </mat-card>
     </div>
