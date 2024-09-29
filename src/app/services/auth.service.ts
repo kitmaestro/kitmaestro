@@ -1,6 +1,6 @@
 import { inject, Injectable, isDevMode } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EMPTY, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 
@@ -10,7 +10,7 @@ import { ApiUpdateResponse } from '../interfaces/api-update-response';
 export class AuthService {
 
   http = inject(HttpClient)
-  apiUrl = isDevMode() ? 'http://localhost:3000/auth/' : 'http://45.79.180.237/auth/';
+  apiUrl = isDevMode() ? 'http://localhost:3000/auth/' : 'http://api.kitmaestro.com/auth/';
 
   login(email: string, password: string): Observable<{ user: UserSettings, access_token: string }> {
     return this.http.post<{ user: UserSettings, access_token: string }>(this.apiUrl + 'login', {

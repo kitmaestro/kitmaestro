@@ -1,14 +1,49 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
 import { Auth, authState, User } from '@angular/fire/auth';
 import { addDoc, collection, collectionData, deleteDoc, doc, docData, DocumentReference, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
 import { concatAll, map, Observable, of } from 'rxjs';
 import { Todo } from '../interfaces/todo';
 import { TodoList } from '../interfaces/todo-list';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiUpdateResponse } from '../interfaces/api-update-response';
+import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
+  private http = inject(HttpClient);
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/' : 'http://api.kitmaestro.com/';
+  private config = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+    }),
+  };
+
+  findAll(): Observable<Todo[]> {
+    return this.http.get<Todo[]>(this.apiBaseUrl, this.config);
+  }
+
+  findOne(id: string): Observable<Todo> {
+    return this.http.get<Todo>(this.apiBaseUrl + id, this.config);
+  }
+
+  create(plan: Todo): Observable<Todo> {
+    return this.http.post<Todo>(this.apiBaseUrl, plan, this.config);
+  }
+
+  update(id: string, plan: any): Observable<ApiUpdateResponse> {
+    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, plan, this.config);
+  }
+
+  delete(id: string): Observable<ApiDeleteResponse> {
+    return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id, this.config);
+  }
+
+  download(id: string, format: 'docx' | 'pdf' = 'pdf'): Observable<{ pdf: string}> {
+    return this.http.get<{ pdf: string }>(this.apiBaseUrl + id + '/' + format, this.config);
+  }
 
   private auth = inject(Auth);
   private firestore = inject(Firestore);

@@ -10,7 +10,7 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 })
 export class DidacticResourceService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/didactic-resources/' : 'http://45.79.180.237/didactic-resources/'
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/didactic-resources/' : 'http://api.kitmaestro.com/didactic-resources/'
   private config = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

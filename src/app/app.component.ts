@@ -2,11 +2,12 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Store, StoreRootModule } from '@ngrx/store';
-import { lastValueFrom, tap } from 'rxjs';
+import { lastValueFrom, Observable, tap } from 'rxjs';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LoadingComponent } from './ui/loading/loading.component';
 import { load } from './state/actions/auth.actions';
 import { loadingUserSelector, userSelector } from './state/selectors/auth.selector';
+import { collection, collectionData, deleteDoc, doc, Firestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-root',

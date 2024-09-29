@@ -256,7 +256,7 @@ Las competencias a desarrollorar debe ser una de estas:
       plan.year = this.classSectionYear;
       plan.subject = this.planForm.value.subject || '';
       this.classPlanService.addPlan(plan).subscribe((saved) => {
-        this.router.navigate(['/app', 'class-plans', saved.id]).then(() => {
+        this.router.navigate(['/class-plans', saved.id]).then(() => {
           this.sb.open('Tu plan ha sido guardado!', undefined, { duration: 2500 });
         });
       });

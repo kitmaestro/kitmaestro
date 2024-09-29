@@ -10,7 +10,7 @@ import { ClassSection } from '../interfaces/class-section';
 })
 export class ClassSectionService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/class-sections/' : 'http://45.79.180.237/class-sections/';
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/class-sections/' : 'http://api.kitmaestro.com/class-sections/';
   private config = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

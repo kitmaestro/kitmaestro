@@ -85,7 +85,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
 
   generatorForm = this.fb.group({
     type: ['behavior'],
-    grade: [''],
+    section: [''],
     date: [this.datePipe.transform(new Date(), 'YYYY-MM-dd')],
     time: [this.datePipe.transform(new Date(), 'HH:mm')],
     place: ['El salón de clases'],
@@ -104,13 +104,11 @@ export class LogRegistryEntryFormComponent implements OnInit {
     if (this.data) {
       const {
         id,
-        uid,
+        user,
         date,
-        grade,
+        section,
         place,
         students,
-        description,
-        comments,
         type
       } = this.data;
 
@@ -118,14 +116,14 @@ export class LogRegistryEntryFormComponent implements OnInit {
 
       this.generatorForm.setValue({
         type,
-        grade,
+        section,
         date: this.datePipe.transform(d, 'YYYY-MM-dd'),
         time: this.datePipe.transform(d, 'HH:mm'),
         place,
         students: students.toString(),
       })
 
-      this.uid = uid;
+      this.uid = user;
       this.id = id;
       this.newEntry = false;
       this.students$ = collectionData(query(this.studentsCollectionRef, where('uid', '==', this.uid)), { idField: 'id' }) as Observable<Student[]>;
@@ -184,7 +182,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
     if (this.logRegistryEntry) {
       this.saving = true;
       const entry = this.logRegistryEntry;
-      entry.grade = this.generatorForm.get('grade')?.value || entry.grade;
+      entry.section = this.generatorForm.get('section')?.value || entry.section;
       entry.students = this.selectedStudents.map(s => s.id);
 
       addDoc(this.logRegistryEntriesCollectionRef, entry).then(() => {
@@ -207,13 +205,13 @@ export class LogRegistryEntryFormComponent implements OnInit {
     const {
       type,
       students,
-      grade,
+      section,
       date,
       time,
       place
     } = this.generatorForm.value;
 
-    if (!students || !type || !date || !time || !grade || !place) return;
+    if (!students || !type || !date || !time || !section || !place) return;
 
     const [y,m,d] = date?.split('-').map(s => parseInt(s));
     const [h,i] = time?.split(':').map(s => parseInt(s));
@@ -226,22 +224,22 @@ export class LogRegistryEntryFormComponent implements OnInit {
       return s;
     });
 
-    this.logRegistryEntryService.getLog(type, student).subscribe(result => {
-      if (result) {
-        this.logRegistryEntry = {
-          students: student.map(s => `${s.firstname} ${s.lastname}`),
-          comments: result.comments,
-          description: result.description,
-          date: new Date(y,m,d,h,i),
-          grade: grade,
-          place,
-          type,
-          uid: this.uid
-        } as any;
-        this.generated = true;
-      }
-      this.saving = false;
-    });
+    // this.logRegistryEntryService.getLog(type, student).subscribe(result => {
+    //   if (result) {
+    //     this.logRegistryEntry = {
+    //       students: student.map(s => `${s.firstname} ${s.lastname}`),
+    //       comments: result.comments,
+    //       description: result.description,
+    //       date: new Date(y,m,d,h,i),
+    //       grade: grade,
+    //       place,
+    //       type,
+    //       uid: this.uid
+    //     } as any;
+    //     this.generated = true;
+    //   }
+    //   this.saving = false;
+    // });
 
   }
 }

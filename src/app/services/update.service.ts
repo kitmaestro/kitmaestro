@@ -10,7 +10,7 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
   providedIn: 'root'
 })
 export class UpdateService {
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/updates/' : 'http://45.79.180.237/updates/';
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/updates/' : 'http://api.kitmaestro.com/updates/';
 
   constructor(
     private http: HttpClient

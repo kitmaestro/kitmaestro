@@ -15,7 +15,7 @@ export class UserSettingsService {
 
   private user$: Observable<UserSettings> = this.getSettings();
 
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/' : 'http://45.79.180.237/';
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/' : 'http://api.kitmaestro.com/';
 
   getSettings(userId?: string): Observable<UserSettings> {
     if (userId) {

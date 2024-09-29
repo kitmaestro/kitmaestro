@@ -107,7 +107,7 @@ export class UnitPlanDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.unitPlansService.deletePlan(id).then(() => {
-        this.router.navigate(['/app', 'unit-plans']).then(() => {
+        this.router.navigate(['/unit-plans']).then(() => {
           this.sb.open('El plan ha sido eliminado.', undefined, { duration: 2500 });
         })
       });

@@ -11,7 +11,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AiService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/ai/' : 'http://45.79.180.237/ai/';
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/ai/' : 'http://api.kitmaestro.com/ai/';
   private config = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

@@ -4,7 +4,7 @@
             <h2 style="text-align: center;">Opciones</h2>
             <div style="display: flex; justify-content: space-around; gap: 12px;">
                 <button type="button" mat-raised-button color="link" (click)="goBack()">Volver</button>
-                <button type="button" mat-raised-button color="accent" [routerLink]="['/app', 'class-plans', planId, 'edit']">Editar</button>
+                <button type="button" mat-raised-button color="accent" [routerLink]="['/class-plans', planId, 'edit']">Editar</button>
                 <button type="button" mat-raised-button color="primary" (click)="printPlan()">Descargar PDF</button>
             </div>
         </mat-card-content>

@@ -8,7 +8,7 @@
         <div style="display: flex; gap: 12px; justify-content: center;">
           <button mat-raised-button color="link" (click)="goBack()">Volver</button>
           <button mat-raised-button color="warn" (click)="deletePlan()">Eliminar</button>
-          <button mat-raised-button color="accent" [routerLink]="['/app', 'unit-plans', planId, 'edit']">Editar</button>
+          <button mat-raised-button color="accent" [routerLink]="['/unit-plans', planId, 'edit']">Editar</button>
           <a mat-raised-button color="primary" href="/print-unit-plan/{{planId}}" target="_blank">Imprimir</a>
           <!-- <button mat-raised-button color="primary" (click)="printPlan()">Exportar PDF</button> -->
         </div>
@@ -66,21 +66,21 @@
         <tr>
           <td colspan="2">
             <ul style="margin: 0; padding: 0; list-style: none;">
-              @for (el of plan.specificCompetences.Comunicativa; track el) {
+              @for (el of plan.specificCompetences.comunicativa; track el) {
               <li>{{ el }}</li>
               }
             </ul>
           </td>
           <td colspan="2">
             <ul style="margin: 0; padding: 0; list-style: none;">
-              @for (el of plan.specificCompetences.PensamientoLogico; track el) {
+              @for (el of plan.specificCompetences.pensamientoLogicoCreativoYCritico; track el) {
               <li>{{ el }}</li>
               }
             </ul>
           </td>
           <td colspan="2">
             <ul style="margin: 0; padding: 0; list-style: none;">
-              @for (el of plan.specificCompetences.EticaYCiudadana; track el) {
+              @for (el of plan.specificCompetences.eticaYCiudadana; track el) {
               <li>{{ el }}</li>
               }
             </ul>
@@ -123,21 +123,21 @@
           <td colspan="5">
             @if (plan.level == 'PRIMARIA') {
             <ul style="margin: 0; padding: 0; list-style: none;">
-              @for (criteria of plan.evaluationCriteria.Comunicativa; track criteria) {
+              @for (criteria of plan.evaluationCriteria.comunicativa; track criteria) {
               @if (criteria) {
               <li>- {{criteria}}</li>
               }
               }
             </ul>
             <ul style="margin: 0; padding: 0; list-style: none;">
-              @for (criteria of plan.evaluationCriteria.PensamientoLogico; track criteria) {
+              @for (criteria of plan.evaluationCriteria.pensamientoLogicoCreativoYCritico; track criteria) {
               @if (criteria) {
               <li>- {{criteria}}</li>
               }
               }
             </ul>
             <ul style="margin: 0; padding: 0; list-style: none;">
-              @for (criteria of plan.evaluationCriteria.EticaYCiudadana; track criteria) {
+              @for (criteria of plan.evaluationCriteria.eticaYCiudadana; track criteria) {
               @if (criteria) {
               <li>- {{criteria}}</li>
               }

@@ -1,8 +1,7 @@
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DocumentReference, Firestore, addDoc, collection, collectionData, doc, docData, query, where } from '@angular/fire/firestore';
 import { CompetenceEntry } from '../interfaces/competence-entry';
-import { Observable, concatAll, from, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 
@@ -11,10 +10,8 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 })
 export class CompetenceService {
   private http = inject(HttpClient);
-  private firestore = inject(Firestore);
-  private competenceColRef = collection(this.firestore, 'competence');
 
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/competence/' : 'http://45.79.180.237/competence/';
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/competence/' : 'http://api.kitmaestro.com/competence/';
   private config = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

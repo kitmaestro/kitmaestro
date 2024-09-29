@@ -75,7 +75,7 @@ export class TodoListsComponent {
       const todoList: TodoList = this.todoListForm.value as any as TodoList;
       todoList.uid = this.userSettings.uid;
       this.todoService.addList(todoList).then((list) => {
-        this.router.navigate(['/app', 'todos', list.id]).then(() => {
+        this.router.navigate(['/todos', list.id]).then(() => {
           this.sb.open('Lista Creada!', undefined, { duration: 2500 });
         });
       });

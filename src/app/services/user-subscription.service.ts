@@ -10,7 +10,7 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 })
 export class UserSubscriptionService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/user-subscriptions/' : 'http://45.79.180.237/user-subscriptions/';
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/user-subscriptions/' : 'http://api.kitmaestro.com/user-subscriptions/';
 
   private config = {
     headers: new HttpHeaders({

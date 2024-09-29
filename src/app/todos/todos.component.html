@@ -2,7 +2,7 @@
     <mat-card style="margin-bottom: 24px;">
         <mat-card-header>
             <h2 mat-card-title>{{ (todoList$ | async)?.name }}</h2>
-            <button style="margin-left: auto;" mat-mini-fab color="" [routerLink]="['/app', 'todos']">
+            <button style="margin-left: auto;" mat-mini-fab color="" [routerLink]="['/todos']">
                 <mat-icon>arrow_back</mat-icon>
             </button>
             <button style="margin-left: 12px;" mat-mini-fab color="" (click)="toggleEditForm()">

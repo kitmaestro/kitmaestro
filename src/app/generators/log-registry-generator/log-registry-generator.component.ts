@@ -106,7 +106,7 @@ export class LogRegistryGeneratorComponent implements OnInit {
 
   showLogRegistryEntry(entry: LogRegistryEntry) {
     entry.students = this.studentsName(entry.students).split(', ');
-    entry.grade = this.sectionGrade(entry.grade);
+    entry.section = this.sectionGrade(entry.section);
     const ref = this.dialog.open(LogRegistryEntryDetailsComponent, { data: entry });
 
     ref.afterClosed().subscribe(result => {

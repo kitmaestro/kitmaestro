@@ -2,7 +2,7 @@
 	<mat-card>
 		<mat-card-header class="header">
 			<h2 class="title" mat-card-tittle>Generador de Plan de Clase (Plan Diario)</h2>
-      <button class="title-button" mat-flat-button [routerLink]="['/app', 'class-plans', 'list']" color="accent">Ver mis Planes</button>
+      <button class="title-button" mat-flat-button [routerLink]="['/class-plans', 'list']" color="accent">Ver mis Planes</button>
 		</mat-card-header>
 		<mat-card-content>
 			<form (ngSubmit)="onSubmit()" [formGroup]="planForm">

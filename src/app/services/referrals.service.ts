@@ -10,7 +10,7 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 })
 export class ReferralsService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/referrals/' : 'http://45.79.180.237/referrals/';
+  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/referrals/' : 'http://api.kitmaestro.com/referrals/';
 
   private config = {
     headers: new HttpHeaders({
