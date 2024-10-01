@@ -4,14 +4,16 @@ import { DidacticResource } from '../interfaces/didactic-resource';
 import { Observable } from 'rxjs';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DidacticResourceService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/didactic-resources/' : 'http://api.kitmaestro.com/didactic-resources/'
+  private apiBaseUrl = environment.apiUrl + 'didactic-resources/'
   private config = {
+    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),

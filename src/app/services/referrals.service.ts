@@ -4,15 +4,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Referral } from '../interfaces/referral';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReferralsService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/referrals/' : 'http://api.kitmaestro.com/referrals/';
+  private apiBaseUrl = environment.apiUrl + 'referrals/';
 
   private config = {
+    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('access_token')

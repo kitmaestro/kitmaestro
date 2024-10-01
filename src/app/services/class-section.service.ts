@@ -4,14 +4,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { ClassSection } from '../interfaces/class-section';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClassSectionService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/class-sections/' : 'http://api.kitmaestro.com/class-sections/';
+  private apiBaseUrl = environment.apiUrl + 'class-sections/';
   private config = {
+    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),

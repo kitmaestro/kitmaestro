@@ -7,9 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { loadUpdates } from '../state/actions/updates.actions';
+import { Observable } from 'rxjs';
+import { UpdateService } from '../services/update.service';
 
 @Component({
   selector: 'app-updates',
@@ -28,12 +27,9 @@ import { loadUpdates } from '../state/actions/updates.actions';
   styleUrl: './updates.component.scss'
 })
 export class UpdatesComponent implements OnInit {
-  private store = inject(Store);
-  public updates$: Observable<Update[]> = this.store.select(state => state.updates).pipe(
-    map(res => res.updates)
-  );
+  private updateService = inject(UpdateService);
+  public updates$: Observable<Update[]> = this.updateService.findAll();
 
   ngOnInit() {
-    this.store.dispatch(loadUpdates())
   }
 }

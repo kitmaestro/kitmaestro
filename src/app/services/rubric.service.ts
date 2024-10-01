@@ -5,6 +5,7 @@ import { AiService } from './ai.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,9 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 export class RubricService {
   private aiService = inject(AiService);
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/rubrics/' : 'http://api.kitmaestro.com/rubrics/';
+  private apiBaseUrl = environment.apiUrl + 'rubrics/';
   private config = {
+    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),

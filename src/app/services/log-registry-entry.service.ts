@@ -4,14 +4,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LogRegistryEntry } from '../interfaces/log-registry-entry';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogRegistryEntryService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/log-registry-entries/' : 'http://api.kitmaestro.com/log-registry-entries/';
+  private apiBaseUrl = environment.apiUrl + 'log-registry-entries/';
   private config = {
+    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),

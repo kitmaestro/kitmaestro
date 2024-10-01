@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,14 @@ import { ApiUpdateResponse } from '../interfaces/api-update-response';
 export class UserSettingsService {
   private http = inject(HttpClient);
   private config = {
+    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('access_token')}`
     })
   };
 
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/' : 'http://api.kitmaestro.com/';
+  private apiBaseUrl = environment.apiUrl;
 
   getSettings(userId?: string): Observable<UserSettings> {
     if (userId) {

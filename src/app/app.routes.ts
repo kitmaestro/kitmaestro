@@ -10,6 +10,8 @@ export const routes: Routes = [
         children: [
             { path: 'signup', loadComponent: () => import('./auth/signup/signup.component').then(mod => mod.SignupComponent) },
             { path: 'login', loadComponent: () => import('./auth/login/login.component').then(mod => mod.LoginComponent) },
+            { path: 'login/success/:jwt', loadComponent: () => import('./auth/login/login.component').then(mod => mod.LoginComponent) },
+            { path: 'login/failure', redirectTo: '/auth/login?error=Login Failure', pathMatch: 'full' },
             { path: 'reset', loadComponent: () => import('./auth/pass-update/pass-update.component').then(mod => mod.PassUpdateComponent) },
             { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
         ]
@@ -28,9 +30,9 @@ export const routes: Routes = [
     // Datacenter
     { path: 'sections', loadComponent: () => import('./class-sections/class-sections/class-sections.component').then(mod => mod.ClassSectionsComponent) },
     { path: 'sections/:id', loadComponent: () => import('./class-sections/section-details/section-details.component').then(mod => mod.SectionDetailsComponent) },
-    // Tools
-    { path: 'average-calculator', loadComponent: () => import('./apps/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent) },
-    { path: 'attendance-calculator', loadComponent: () => import('./apps/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent) },
+    // calculators
+    { path: 'average-calculator', loadComponent: () => import('./calculators/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent) },
+    { path: 'attendance-calculator', loadComponent: () => import('./calculators/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent) },
     // Generators
     { path: 'schedule-generator', loadComponent: () => import('./generators/schedule-generator/schedule-generator.component').then(mod => mod.ScheduleGeneratorComponent) },
     { path: 'grades-generator', loadComponent: () => import('./generators/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },
@@ -84,6 +86,7 @@ export const routes: Routes = [
             { path: 'observation-sheet', loadComponent: () => import('./assessments/observation-sheet/observation-sheet.component').then(mod => mod.ObservationSheetComponent), },
             { path: 'rubric', loadComponent: () => import('./assessments/rubric/rubric.component').then(mod => mod.RubricComponent), },
             { path: 'estimation-scale', loadComponent: () => import('./assessments/estimation-scale/estimation-scale.component').then(mod => mod.EstimationScaleComponent), },
+            { path: 'list', loadComponent: () => import('./assessments/list/list.component').then(mod => mod.ListComponent), },
         ]
     },
     // Assistants

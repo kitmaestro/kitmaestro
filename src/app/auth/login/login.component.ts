@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Auth, FacebookAuthProvider, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -13,7 +12,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RecoverComponent } from '../recover/recover.component';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
-import { login, loginWithGoogle } from '../../state/actions/auth.actions';
+import { login } from '../../state/actions/auth.actions';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +36,6 @@ import { login, loginWithGoogle } from '../../state/actions/auth.actions';
 export class LoginComponent implements OnInit {
   private store = inject(Store);
   user$ = this.store.select(store => store.auth).pipe(map(auth => auth.user));
-  auth = inject(Auth);
   sb = inject(MatSnackBar);
   fb = inject(FormBuilder);
   modal = inject(MatDialog);
@@ -51,6 +50,15 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit() {
+    const jwt = this.route.snapshot.paramMap.get('jwt');
+    console.log(jwt)
+    if (jwt) {
+      localStorage.setItem('access_token', jwt);
+      // const next = this.route.snapshot.queryParamMap.get('next');
+      // this.router.navigate([...next?.split('/') || '/'], { queryParamsHandling: 'preserve' }).then(() => {
+        // this.sb.open('Bienvenid@ a KitMaestro', 'Ok', { duration: 2500 });
+      // })
+    }
     const referrer = this.route.snapshot.queryParamMap.get('ref');
     if (referrer) {
       localStorage.setItem('referrer', referrer);
@@ -62,43 +70,10 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithGoogle() {
-    signInWithPopup(this.auth, new GoogleAuthProvider()).then((res) => {
-      this.store.dispatch(loginWithGoogle({ email: res.user.email || '', displayName: res.user.displayName || '', photoURL: res.user.photoURL || ''}))
-      this.user$.subscribe({
-        next: user => {
-          if (user) {
-            const next = this.route.snapshot.queryParamMap.get('next')
-            this.router.navigate([...next?.split('/') || '/app'], { queryParamsHandling: 'preserve' }).then(() => {
-              this.sb.open('Bienvenid@ a KitMaestro', 'Ok', { duration: 2500 });
-            })
-          }
-        },
-        error: err => {
-          console.log(err)
-          this.sb.open('Ha ocurrido un error al acceder con tu cuenta. Inténtalo nuevamente, por favor.', 'Ok', { duration: 2500 })
-        }
-      })
-    });
+    window.location.href = environment.apiUrl + 'auth/google';
   }
 
   loginWithFacebook() {
-    signInWithPopup(this.auth, new FacebookAuthProvider()).then((res) => {
-      this.store.dispatch(loginWithGoogle({ email: res.user.email || '', displayName: res.user.displayName || '', photoURL: res.user.photoURL || '' }))
-      this.user$.subscribe({
-        next: user => {
-          if (user) {
-            const next = this.route.snapshot.queryParamMap.get('next')
-            this.router.navigate([...next?.split('/') || '/app'], { queryParamsHandling: 'preserve' }).then(() => {
-              this.sb.open('Bienvenid@ a KitMaestro', 'Ok', { duration: 2500 });
-            })
-          }
-        },
-        error: err => {
-          console.log(err)
-          this.sb.open('Ha ocurrido un error al acceder con tu cuenta. Inténtalo nuevamente, por favor.', 'Ok', { duration: 2500 })
-        }
-      })
-    })
   }
 
   onSubmit() {
@@ -110,7 +85,7 @@ export class LoginComponent implements OnInit {
         this.user$.subscribe({
           next: user => {
             if (user) {
-              this.router.navigate(this.route.snapshot.queryParamMap.get('next')?.split('/') || ['/app'], { queryParamsHandling: 'preserve' }).then(() => {
+              this.router.navigate(this.route.snapshot.queryParamMap.get('next')?.split('/') || ['/'], { queryParamsHandling: 'preserve' }).then(() => {
                 this.sb.open(`Bienvenid@ a KitMaestro!`, undefined, { duration: 2500 });
                 this.loading = false;
               })

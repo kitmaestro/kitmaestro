@@ -4,14 +4,16 @@ import { UnitPlan } from '../interfaces/unit-plan';
 import { Observable } from 'rxjs';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UnitPlanService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/unit-plans/' : 'http://api.kitmaestro.com/unit-plans/';
+  private apiBaseUrl = environment.apiUrl + 'unit-plans/';
   private config = {
+    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),

@@ -4,24 +4,34 @@
     </mat-card-header>
     <mat-card-content>
         <div style="display: grid; gap: 12px; grid-template-columns: repeat(4, 1fr);">
-            @for (tutorial of tutorials; track tutorial) {
-                <div></div>
-            } @empty {
-                <div style="grid-column: 1/-1;">
-                    <div class="tutorial-grid">
-                        <div>
-                            <h3>Introducción a KitMaestro</h3>
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/P2X_44cp8cU?si=QIGi4wA2QNE0HeIs"
-                                title="YouTube video player" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
+            <div style="grid-column: 1/-1;">
+                <div class="tutorial-grid">
+                    <div>
+                        <h3>Introducción a KitMaestro</h3>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/P2X_44cp8cU?si=QIGi4wA2QNE0HeIs"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
-                    <p>
-                        Recuerda que elaboramos los tutoriales tomando como referencia sus pedidos. No te quedes sin <a mat-raised-button color="link" href="https://wa.me/+18094659650?text=Hola!+Quiero+solicitar+un+tutorial+de+KitMaestro." target="_blank">Solicitar tu tutorial</a> sobre el tema que m&aacute;s te interesa.
-                    </p>
+                    <div>
+                        <h3>Como crear un plan diario</h3>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/42Tlrh2WbcY?si=C4839ho_o4-FL26K"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div>
+                        <h3>Como crear una unidad de aprendizaje</h3>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/TPV8mJZEsO0?si=GUAV7UlgtObezKyZ"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
                 </div>
-            }
+                <p>
+                    Recuerda que elaboramos los tutoriales tomando como referencia sus pedidos. No te quedes sin <a mat-raised-button color="link" href="https://wa.me/+18094659650?text=Hola!+Quiero+solicitar+un+tutorial+de+KitMaestro." target="_blank">Solicitar tu tutorial</a> sobre el tema que m&aacute;s te interesa.
+                </p>
+            </div>
         </div>
     </mat-card-content>
 </mat-card>

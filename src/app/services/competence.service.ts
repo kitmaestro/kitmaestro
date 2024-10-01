@@ -4,6 +4,7 @@ import { CompetenceEntry } from '../interfaces/competence-entry';
 import { Observable } from 'rxjs';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,9 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 export class CompetenceService {
   private http = inject(HttpClient);
 
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/competence/' : 'http://api.kitmaestro.com/competence/';
+  private apiBaseUrl = environment.apiUrl + 'competence/';
   private config = {
+    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),

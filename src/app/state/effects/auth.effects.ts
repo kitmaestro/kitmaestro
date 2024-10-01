@@ -43,14 +43,6 @@ export class AuthEffects {
     ))
   ));
 
-  loginWithGoogle$ = createEffect(() => this.actions$.pipe(
-    ofType(AuthActions.loginWithGoogle),
-    mergeMap(action => this.authService.googleSignup(action).pipe(
-      map((response) => AuthActions.loginSuccess(response)),
-      catchError(error => of(AuthActions.loginFailure(error)))
-    ))
-  ));
-
   signup$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.signup),
     mergeMap(action => this.authService.signup(action.email, action.password).pipe(

@@ -4,15 +4,17 @@ import { UserSubscription } from '../interfaces/user-subscription';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserSubscriptionService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/user-subscriptions/' : 'http://api.kitmaestro.com/user-subscriptions/';
+  private apiBaseUrl = environment.apiUrl + 'user-subscriptions/';
 
   private config = {
+    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('access_token')

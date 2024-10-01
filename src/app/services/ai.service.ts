@@ -5,14 +5,16 @@ import { pipeline } from '@xenova/transformers';
 import { Observable, from } from 'rxjs';
 import { GeminiResponse } from '../interfaces/gemini-response';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AiService {
   private http = inject(HttpClient);
-  private apiBaseUrl = isDevMode() ? 'http://localhost:3000/ai/' : 'http://api.kitmaestro.com/ai/';
+  private apiBaseUrl = environment.apiUrl + 'ai/';
   private config = {
+    withCredentials: true,
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),

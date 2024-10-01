@@ -2,12 +2,11 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Store, StoreRootModule } from '@ngrx/store';
-import { lastValueFrom, Observable, tap } from 'rxjs';
+import { lastValueFrom, Observable, tap, timeout } from 'rxjs';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LoadingComponent } from './ui/loading/loading.component';
 import { load } from './state/actions/auth.actions';
-import { loadingUserSelector, userSelector } from './state/selectors/auth.selector';
-import { collection, collectionData, deleteDoc, doc, Firestore } from '@angular/fire/firestore';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -24,18 +23,13 @@ import { collection, collectionData, deleteDoc, doc, Firestore } from '@angular/
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  private store = inject(Store);
+  private authService = inject(AuthService);
   private router = inject(Router);
 
-  user$ = this.store.select(userSelector).pipe(tap(() => {
-    setTimeout(() => {
-      this.redirectIfNotUser()
-    }, 2000);
-  }));
-  loading$ = this.store.select(loadingUserSelector);
+  user$ = this.authService.profile();
+  loading = true;
 
   ngOnInit() {
-    this.store.dispatch(load());
     // this.compService.findAll().subscribe(competence => {
       // const blob = new Blob([JSON.stringify(competence, null, 4)], { type: 'application/json' });
       // const url = window.URL.createObjectURL(blob);
