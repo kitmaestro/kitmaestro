@@ -14,6 +14,7 @@ import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
 import { login } from '../../state/actions/auth.actions';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -34,8 +35,7 @@ import { environment } from '../../../environments/environment';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
-  private store = inject(Store);
-  user$ = this.store.select(store => store.auth).pipe(map(auth => auth.user));
+  private authService = inject(AuthService);
   sb = inject(MatSnackBar);
   fb = inject(FormBuilder);
   modal = inject(MatDialog);
@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     const jwt = this.route.snapshot.paramMap.get('jwt');
-    console.log(jwt)
     if (jwt) {
       localStorage.setItem('access_token', jwt);
       // const next = this.route.snapshot.queryParamMap.get('next');
@@ -81,10 +80,12 @@ export class LoginComponent implements OnInit {
       const { email, password } = this.loginForm.value;
       this.loading = true;
       if (email && password){
-        this.store.dispatch(login({ email, password }));
-        this.user$.subscribe({
-          next: user => {
-            if (user) {
+        this.authService.login(email, password).subscribe({
+          next: result => {
+            if (result.error) {
+              this.sb.open('Error al iniciar sesion: ' + result.error == "Cannot read properties of null (reading 'passwordHash')" ? 'El usuario no existe' : 'Error en el usuario o contraseña.', 'ok', { duration: 2500 });
+              this.loading = false;
+            } else {
               this.router.navigate(this.route.snapshot.queryParamMap.get('next')?.split('/') || ['/'], { queryParamsHandling: 'preserve' }).then(() => {
                 this.sb.open(`Bienvenid@ a KitMaestro!`, undefined, { duration: 2500 });
                 this.loading = false;
@@ -93,7 +94,7 @@ export class LoginComponent implements OnInit {
           },
           error: err => {
             console.log(err);
-            this.sb.open('Error al registrarte. Inténtalo de nuevo por favor.', 'Ok', { duration: 2500 });
+            this.sb.open('Error al iniciar sesion. Inténtalo de nuevo por favor.', 'Ok', { duration: 2500 });
             this.loading = false;
           }
         })

@@ -37,6 +37,34 @@ export class UserSubscriptionService {
     return this.http.get<UserSubscription>(this.apiBaseUrl + 'me', this.config);
   }
 
+  subscribe(subscriptionType: string, method: string, duration: number, amount: number, user?: string): Observable<UserSubscription> {
+    const subscription = {
+      user: user ? user : undefined,
+      subscriptionType,
+      status: 'active',
+      startDate: new Date(),
+      endDate: new Date(new Date().valueOf() + (duration * 24 * 60 * 60 * 1000)),
+      method,
+      amount
+    }
+
+    return this.http.post<UserSubscription>(this.apiBaseUrl, subscription, this.config);
+  }
+
+  getEvaluationSubscription(user?: string): Observable<UserSubscription> {
+    const subscription = {
+      user: user ? user : undefined,
+      subscriptionType: 'Premium Evaluation',
+      status: 'active',
+      startDate: new Date(),
+      endDate: new Date(new Date().valueOf() + (3 * 24 * 60 * 60 * 1000)),
+      method: 'none',
+      amount: 0
+    }
+
+    return this.http.post<UserSubscription>(this.apiBaseUrl, subscription, this.config);
+  }
+
   addReferral(referral: UserSubscription): Observable<UserSubscription> {
     return this.http.post<UserSubscription>(this.apiBaseUrl, referral, this.config);
   }

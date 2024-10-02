@@ -1,12 +1,13 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { Store, StoreRootModule } from '@ngrx/store';
-import { lastValueFrom, Observable, tap, timeout } from 'rxjs';
+import { filter, lastValueFrom, map, Observable, tap, timeout } from 'rxjs';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LoadingComponent } from './ui/loading/loading.component';
 import { load } from './state/actions/auth.actions';
 import { AuthService } from './services/auth.service';
+import { UserSettings } from './interfaces/user-settings';
 
 @Component({
   selector: 'app-root',
@@ -25,11 +26,49 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private user$ = this.authService.profile();
 
-  user$ = this.authService.profile();
+  user: UserSettings | null = null;
+
   loading = true;
 
+  redirectToLogin() {
+    const next = location.pathname;
+    this.loading = false;
+    if (!next.includes('auth')) {
+      this.router.navigate(['/auth', 'login'], { queryParams: { next } })
+    }
+  }
+
+  loadUser() {
+    this.user$.subscribe({
+      next: (user) => {
+        if (!user) {
+          return this.redirectToLogin();
+        }
+        this.user = user;
+        this.loading = false;
+      },
+      error: err => {
+        this.redirectToLogin();
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
+
+  reset() {
+    this.loading = true;
+    this.user = null;
+    setTimeout(() => {
+      this.loading = false;
+    }, 1300);
+  }
+
   ngOnInit() {
+    this.loadUser();
+    this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(() => this.loadUser());
     // this.compService.findAll().subscribe(competence => {
       // const blob = new Blob([JSON.stringify(competence, null, 4)], { type: 'application/json' });
       // const url = window.URL.createObjectURL(blob);
@@ -39,14 +78,5 @@ export class AppComponent {
       // a.click();
       // window.URL.revokeObjectURL(url);
     // })
-  }
-
-  async redirectIfNotUser() {
-    const user = await lastValueFrom(this.user$);
-    const next = location.pathname;
-    if (user)
-      return
-
-    this.router.navigate(['/auth', 'login'], { queryParamsHandling: 'preserve', queryParams: { next } })
   }
 }

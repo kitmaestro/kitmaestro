@@ -1,6 +1,6 @@
-<app-loading></app-loading>
-@if (user$ | async) {
-  <app-navigation></app-navigation>
+<app-loading [loading]="loading"></app-loading>
+@if (user) {
+  <app-navigation (signOut)="reset()"></app-navigation>
 } @else {
   <router-outlet></router-outlet>
 }

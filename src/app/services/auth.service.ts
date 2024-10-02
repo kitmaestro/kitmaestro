@@ -1,5 +1,5 @@
-import { inject, Injectable, isDevMode } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
@@ -10,21 +10,25 @@ import { environment } from '../../environments/environment';
 })
 export class AuthService {
 
-  http = inject(HttpClient)
-  apiUrl = environment.apiUrl + 'auth/';
+  private http = inject(HttpClient)
+  private apiUrl = environment.apiUrl + 'auth/';
 
-  login(email: string, password: string): Observable<{ user: UserSettings, access_token: string }> {
+  login(email: string, password: string): Observable<{ user: UserSettings, access_token: string, error?: string }> {
     return this.http.post<{ user: UserSettings, access_token: string }>(this.apiUrl + 'login', {
       email,
       password
-    })
+    }, { withCredentials: true })
   }
 
   signup(email: string, password: string): Observable<{ user: UserSettings, access_token: string }> {
     return this.http.post<{ user: UserSettings, access_token: string }>(this.apiUrl + 'signup', {
       email,
       password
-    })
+    }, { withCredentials: true })
+  }
+
+  logout(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(this.apiUrl + 'logout', {}, { withCredentials: true });
   }
 
   profile(): Observable<UserSettings> {

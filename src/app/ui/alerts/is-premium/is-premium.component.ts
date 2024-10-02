@@ -8,6 +8,7 @@ import { map, Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { checkSubscription } from '../../../state/actions/subscriptions.actions';
 import { userSubscriptionSelector } from '../../../state/selectors/subscription.selectors';
+import { UserSubscriptionService } from '../../../services/user-subscription.service';
 
 @Component({
   selector: 'app-is-premium',
@@ -24,19 +25,19 @@ import { userSubscriptionSelector } from '../../../state/selectors/subscription.
   styleUrl: './is-premium.component.scss'
 })
 export class IsPremiumComponent {
-  private store = inject(Store);
+  private userSubscriptionService = inject(UserSubscriptionService);
 
-  public isPremium$: Observable<boolean> = this.store.select(userSubscriptionSelector).pipe(
-    map(sub => sub ? sub.subscriptionType.includes('premium') && sub.status == "active" && new Date() < new Date(sub.endDate) : false),
+  public isPremium$: Observable<boolean> = this.userSubscriptionService.checkSubscription().pipe(
+    map(sub => sub.status == 'active' && sub.subscriptionType.toLowerCase().includes('premium') && +(new Date(sub.endDate)) > +(new Date())),
     tap(premium => {
+      this.loading = false;
       this.onLoaded.emit(premium)
     })
   );
-  public loading$ = this.store.select(store => store.userSubscription.loading);
+  public loading = true;
 
   @Output() onLoaded: EventEmitter<boolean> = new EventEmitter();
 
   ngOnInit() {
-    this.store.dispatch(checkSubscription());
   }
 }

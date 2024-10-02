@@ -7,15 +7,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UserSettings } from '../interfaces/user-settings';
 import { UserSubscription } from '../interfaces/user-subscription';
 import { MatIconModule } from '@angular/material/icon';
 import { CurrencyPipe } from '@angular/common';
-import { Store } from '@ngrx/store';
-import { userSelector } from '../state/selectors/auth.selector';
-import { userSubscriptionSelector } from '../state/selectors/subscription.selectors';
-import { checkSubscription } from '../state/actions/subscriptions.actions';
 import { CurrencyService } from '../services/currency.service';
+import { UserSubscriptionService } from '../services/user-subscription.service';
 
 declare const paypal: any;
 
@@ -39,20 +35,22 @@ export class BuySubscriptionComponent implements OnInit {
   private currencyService = inject(CurrencyService);
   private dialog = inject(MatDialog);
   private sb = inject(MatSnackBar);
-  private store = inject(Store);
+  private userSubscriptionService = inject(UserSubscriptionService);
   usdPrice: Observable<number> = this.currencyService.convert('usd', 'dop');
   price = '0.00';
   halfYear = '0.00';
   alreadyPremium: boolean = false;
-  user$: Observable<UserSettings> = this.store.select(userSelector);
-  subscription$: Observable<UserSubscription> = this.store.select(userSubscriptionSelector);
+  subscription$: Observable<UserSubscription> = this.userSubscriptionService.checkSubscription();
   fullPrice = '';
   groupPrice = '';
   privateDeploy = '';
   loading = true;
 
   ngOnInit(): void {
-    this.store.dispatch(checkSubscription())
+    // this.userSubscriptionService.subscribe('Premium Individual', 'PayPal', 365, 49.99).subscribe((result) => {
+    //   console.log(result)
+    //   this.alertSuccess()
+    // })
     this.usdPrice.subscribe({
       next: (res) => {
         this.price = (res * 35).toFixed(2);
