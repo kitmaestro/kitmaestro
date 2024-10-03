@@ -12,7 +12,7 @@ import { ClassSectionService } from '../../services/class-section.service';
 // import { COMPETENCE } from '../../lib/competence-filler';
 import { CompetenceService } from '../../services/competence.service';
 import { ObservationGuideComponent } from '../../ui/observation-guide/observation-guide.component';
-import { ObservationGuide, defaultObservationGuide } from '../../interfaces/observation-guide';
+import { ObservationGuide } from '../../interfaces/observation-guide';
 import { StudentsService } from '../../services/students.service';
 import { Student } from '../../interfaces/student';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -75,12 +75,6 @@ export class ObservationSheetComponent implements OnInit {
     '1 día',
     '1 semana',
     '1 mes',
-  ];
-
-  compentenceOptions: string[] = [
-    "Comunicativa",
-    "Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica",
-    "Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud",
   ];
 
   private now = new Date();
@@ -153,7 +147,7 @@ export class ObservationSheetComponent implements OnInit {
 
   onSubmit() {
     this.observationSheet = null;
-    const guide: ObservationGuide = defaultObservationGuide;
+    const guide: any = {};
     const { customAspects, blankDate, date, individual, group, aspects, subject, competence, duration, description } = this.sheetForm.value;
     // const grade = this.groups.find(g => g.id == group)?.year;
     const comps = this.competenceCol.filter(c => c.subject == subject && competence?.includes(c.name));
@@ -260,5 +254,13 @@ export class ObservationSheetComponent implements OnInit {
     } else {
       this.pdfService.createAndDownloadFromHTML("guide", `Guia de Observación`);
     }
+  }
+
+  get compentenceOptions(): string[] {
+    return [
+      "Comunicativa",
+      "Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica",
+      "Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud",
+    ];
   }
 }

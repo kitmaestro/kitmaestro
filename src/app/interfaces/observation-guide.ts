@@ -1,7 +1,10 @@
+import { ClassSection } from './class-section';
+
 export interface ObservationGuide {
+    _id: string;
+    user: string;
     date: string;
-    groupName: string;
-    groupId: string;
+    section: ClassSection;
     duration: string;
     description: string;
     competence: {
@@ -9,14 +12,4 @@ export interface ObservationGuide {
         items: string[];
     }[];
     aspects: string[];
-}
-
-export const defaultObservationGuide: ObservationGuide = {
-    date: '',
-    groupName: '',
-    groupId: '',
-    duration: '',
-    description: '',
-    competence: [],
-    aspects: [],
 }
