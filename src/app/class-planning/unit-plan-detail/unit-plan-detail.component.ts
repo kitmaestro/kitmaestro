@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { UnitPlansService } from '../../services/unit-plans.service';
-import { map, Observable } from 'rxjs';
+import { UnitPlanService } from '../../services/unit-plan.service';
+import { map, Observable, tap } from 'rxjs';
 import { UnitPlan } from '../../interfaces/unit-plan';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -29,15 +29,15 @@ import { PdfService } from '../../services/pdf.service';
   styleUrl: './unit-plan-detail.component.scss'
 })
 export class UnitPlanDetailComponent implements OnInit {
-  router = inject(Router);
-  route = inject(ActivatedRoute);
-  unitPlansService = inject(UnitPlansService);
-  userSettingsService = inject(UserSettingsService);
-  sb = inject(MatSnackBar);
-  pdfService = inject(PdfService);
-  planId = this.route.snapshot.paramMap.get('id');
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private unitPlanService = inject(UnitPlanService);
+  private userSettingsService = inject(UserSettingsService);
+  private sb = inject(MatSnackBar);
+  private pdfService = inject(PdfService);
+  planId = this.route.snapshot.paramMap.get('id') || '';
 
-  plan$: Observable<UnitPlan> = this.unitPlansService.find(this.planId || '');
+  plan$: Observable<UnitPlan> = this.unitPlanService.findOne(this.planId).pipe(tap(_ => console.log(_)));
   userSettings$ = this.userSettingsService.getSettings();
 
   isPrintView = window.location.href.includes('print');
@@ -46,7 +46,7 @@ export class UnitPlanDetailComponent implements OnInit {
     if (this.isPrintView) {
       setTimeout(() => {
         window.print()
-      }, 2500);
+      }, 2000);
     }
   }
 
@@ -106,10 +106,12 @@ export class UnitPlanDetailComponent implements OnInit {
   deletePlan() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.unitPlansService.deletePlan(id).then(() => {
-        this.router.navigate(['/unit-plans']).then(() => {
-          this.sb.open('El plan ha sido eliminado.', undefined, { duration: 2500 });
-        })
+      this.unitPlanService.delete(id).subscribe((result) => {
+        if (result.deletedCount == 1) {
+          this.router.navigate(['/unit-plans']).then(() => {
+            this.sb.open('El plan ha sido eliminado.', undefined, { duration: 2500 });
+          })
+        }
       });
     } else {
       this.sb.open('No se puede eliminar el plan. Se produjo un error.', undefined, { duration: 2500 });

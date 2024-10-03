@@ -1,9 +1,12 @@
+import { ClassSection } from "./class-section"
+
 export interface UnitPlan {
 	user: string,
-	id: string,
+	_id: string,
 	schoolName: string,
 	sectionName: string,
 	sectionId: string,
+  section: ClassSection,
 	level: string,
 	duration: number,
 	learningSituation: string,

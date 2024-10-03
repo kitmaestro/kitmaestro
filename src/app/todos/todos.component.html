@@ -1,7 +1,7 @@
-@if (todoList$ | async) {
+@if (todoList) {
     <mat-card style="margin-bottom: 24px;">
         <mat-card-header>
-            <h2 mat-card-title>{{ (todoList$ | async)?.name }}</h2>
+            <h2 mat-card-title>{{ todoList.name }}</h2>
             <button style="margin-left: auto;" mat-mini-fab color="" [routerLink]="['/todos']">
                 <mat-icon>arrow_back</mat-icon>
             </button>
@@ -72,7 +72,7 @@
     }
 
     <mat-accordion>
-        @for (todo of (todos$ | async); track todo) {
+        @for (todo of todos; track todo) {
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title> {{ todo.title }} </mat-panel-title>
@@ -82,8 +82,19 @@
                     {{ todo.description }}
                     <br>
                     <br>
-                    <button mat-raised-button (click)="markAsCompleted(todo)">Marcar como {{ todo.completed ? 'Pendiente' : 'Completado' }}</button>
-                    <button mat-raised-button color="warn" (click)="deleteTodo(todo.id)" style="margin-left: 12px;">Eliminar</button>
+                    <button mat-icon-button (click)="markAsCompleted(todo)" [title]="'Marcar como ' + (todo.completed ? 'pendiente' : 'completado')">
+                        @if (todo.completed) {
+                            <mat-icon>pending</mat-icon>
+                        } @else {
+                            <mat-icon>done_all</mat-icon>
+                        }
+                    </button>
+                    <button mat-icon-button color="link" title="Editar" (click)="editTodo(todo)" style="margin-left: 12px;">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" title="Eliminar" (click)="deleteTodo(todo._id)" style="margin-left: 12px;">
+                        <mat-icon>delete</mat-icon>
+                    </button>
                 </p>
             </mat-expansion-panel>
         } @empty {

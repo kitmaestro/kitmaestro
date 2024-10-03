@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { UnitPlansService } from '../../services/unit-plans.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
@@ -40,7 +39,7 @@ export class UnitPlanListComponent {
     this.unitPlansService.delete(id).subscribe((result) => {
       if (result.deletedCount == 1) {
         this.sb.open('El Plan fue eliminado!');
-        // this.loadPlans()
+        this.unitPlans$ = this.unitPlansService.findAll();
       }
     });
   }

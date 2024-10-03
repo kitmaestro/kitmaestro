@@ -1,6 +1,6 @@
 export interface TodoList {
-    uid: string;
-    id: string;
+    _id: string;
+    user: string;
     name: string;
     description: string;
     active: boolean;

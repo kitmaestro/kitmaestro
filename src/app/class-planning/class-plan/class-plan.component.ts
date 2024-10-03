@@ -245,7 +245,7 @@ Las competencias a desarrollorar debe ser una de estas:
   }
 
   savePlan() {
-    const uid = this.userSettings?.uid;
+    const uid = this.userSettings?._id;
     if (uid) {
       const plan = this.plan.value as ClassPlan;
       plan.uid = uid;

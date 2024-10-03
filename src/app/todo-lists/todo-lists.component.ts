@@ -1,10 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { TodoService } from '../services/todo.service';
+import { TodoListService } from '../services/todo-list.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,6 +14,7 @@ import { UserSettings } from '../interfaces/user-settings';
 import { TodoList } from '../interfaces/todo-list';
 import { AsyncPipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-todo-lists',
@@ -25,7 +25,6 @@ import { Router, RouterModule } from '@angular/router';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -38,15 +37,16 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class TodoListsComponent {
 
-  sb = inject(MatSnackBar);
-  todoService = inject(TodoService);
-  userSettingsService = inject(UserSettingsService);
-  userSettings: UserSettings | null = null;
-  fb = inject(FormBuilder);
-  dialog = inject(MatDialog);
-  router = inject(Router);
-  todoLists$ = this.todoService.todoLists$;
+  private sb = inject(MatSnackBar);
+  private todoListService = inject(TodoListService);
+  private userSettingsService = inject(UserSettingsService);
+  private userSettings: UserSettings | null = null;
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+
+  todoLists$ = this.todoListService.findAll().pipe(tap(() => this.loading = false));
   showForm = false;
+  loading = true;
 
   todoListForm = this.fb.group({
     name: [''],
@@ -65,19 +65,26 @@ export class TodoListsComponent {
   }
 
   deleteList(id: string) {
-    this.todoService.deleteList(id).then(() => {
-      this.sb.open('La Lista ha sido borrada')
+    this.todoListService.delete(id).subscribe({
+      next: (result) => {
+        if (result.deletedCount == 1) {
+          this.sb.open('La Lista ha sido borrada')
+          this.todoLists$ = this.todoListService.findAll();
+        }
+      }
     })
   }
 
   addList() {
     if (this.userSettings) {
-      const todoList: TodoList = this.todoListForm.value as any as TodoList;
-      todoList.uid = this.userSettings.uid;
-      this.todoService.addList(todoList).then((list) => {
-        this.router.navigate(['/todos', list.id]).then(() => {
-          this.sb.open('Lista Creada!', undefined, { duration: 2500 });
-        });
+      const todoList: any = this.todoListForm.value;
+      todoList.user = this.userSettings._id;
+      this.todoListService.create(todoList).subscribe({
+        next: (list) => {
+          this.router.navigate(['/todos', list._id]).then(() => {
+            this.sb.open('Lista Creada!', 'Ok', { duration: 2500 });
+          });
+        }
       });
     }
   }

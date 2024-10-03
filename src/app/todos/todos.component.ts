@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { TodoListService } from '../services/todo-list.service';
 import { TodoService } from '../services/todo.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -7,16 +8,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AsyncPipe } from '@angular/common';
 import { IsEmptyComponent } from '../ui/alerts/is-empty/is-empty.component';
 import { Todo } from '../interfaces/todo';
-import { tap } from 'rxjs';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TodoList } from '../interfaces/todo-list';
+import { TodoFormComponent } from '../todo-form/todo-form.component';
 
 @Component({
   selector: 'app-todos',
@@ -29,34 +30,38 @@ import { TodoList } from '../interfaces/todo-list';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatDialogModule,
     MatInputModule,
     MatSelectModule,
     MatExpansionModule,
     MatSlideToggleModule,
+    MatDialogModule,
     AsyncPipe,
     IsEmptyComponent,
   ],
   templateUrl: './todos.component.html',
   styleUrl: './todos.component.scss'
 })
-export class TodosComponent {
-  route = inject(ActivatedRoute);
-  router = inject(Router);
-  todoService = inject(TodoService);
-  sb = inject(MatSnackBar);
-  dialog = inject(MatDialog);
-  fb = inject(FormBuilder);
-  listId = this.route.snapshot.paramMap.get('id');
-  todoList$ = this.todoService.findList(this.listId || '').pipe(tap(list => { if (list) { list.id = this.listId as string; this.listForm.setValue(list); } }));
-  todos$ = this.todoService.findByList(this.listId || '');
+export class TodosComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
+  private todoListService = inject(TodoListService);
+  private todoService = inject(TodoService);
+  private sb = inject(MatSnackBar);
+  private fb = inject(FormBuilder);
+
+  listId = this.route.snapshot.paramMap.get('id') || '';
+  todoList: TodoList | null = null;
+  todos: Todo[] = [];
+  loading = true;
 
   showForm = false;
   showEditForm = false;
+  showTodoEditForm = false;
 
   listForm = this.fb.group({
-    id: [''],
-    uid: [''],
+    _id: [''],
+    user: [''],
     name: [''],
     description: [''],
     active: [true],
@@ -66,7 +71,7 @@ export class TodosComponent {
     title: [''],
     description: [''],
     completed: [false],
-    listId: [this.listId],
+    list: [this.listId],
   });
 
   toggleForm() {
@@ -77,38 +82,111 @@ export class TodosComponent {
     this.showEditForm = !this.showEditForm;
   }
 
-  onSubmit() {
-    this.todoList$.subscribe(list => {
-      if (list) {
-        const todo: Todo = this.todoForm.value as any as Todo;
-        todo.uid = list.uid;
-        this.todoService.addTodo(todo).then(() => {
-          this.toggleForm();
-        });
-      } else {
-        this.sb.open('Hubo un error al guardar.', undefined, { duration: 2500 })
+  loadList() {
+    this.loading = true;
+    this.todoListService.findOne(this.listId).subscribe({
+      next: (list) => {
+        if (list._id) {
+          this.todoList = list;
+          const {
+            _id, user, name, description, active
+          } = list;
+          this.listForm.setValue({ _id, user, name, description, active });
+          this.loading = false;
+        }
+      },
+      error: (err) => {
+        this.router.navigate(['/todos']).then(() => {
+          this.sb.open('No pudimos encontrar la lista solicitada')
+        })
+      },
+      complete: () => {
+        this.loading = false;
       }
     })
+  }
+
+  loadTodos() {
+    this.loading = true;
+    this.todoService.findByList(this.listId).subscribe({
+      next: (todos) => {
+        if (todos) {
+          this.todos = todos;
+        }
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    this.loadList()
+    this.loadTodos()
+  }
+
+  onSubmit() {
+    const todo: any = this.todoForm.value;
+    todo.user = this.listForm.get('user')?.value;
+    this.todoService.create(todo).subscribe({
+      next: (todo) => {
+        if (todo) {
+          this.sb.open('Nuevo pendiente guardardo', 'Ok', { duration: 2500 });
+          this.toggleForm();
+          this.loadTodos();
+          this.todoForm.setValue({
+            title: '',
+            description: '',
+            completed: false,
+            list: this.listId
+          });
+        }
+      }
+    });
   }
 
   markAsCompleted(todo: Todo) {
     const completed = todo;
     completed.completed = !completed.completed;
-    this.todoService.updateTodo(todo.id, completed).then(() => {
-      this.sb.open('Pendiente completado!', undefined, { duration: 2500 });
+    this.todoService.update(todo._id, completed).subscribe({
+      next: (result) => {
+        if (result.upsertedCount == 1) {
+          this.sb.open('Pendiente ' + completed.completed ? 'completado!' : 'pendiente', undefined, { duration: 2500 });
+          this.loadTodos();
+        }
+      }
     });
   }
 
   deleteTodo(id: string) {
-    this.todoService.deleteTodo(id).then(() => {
-      this.sb.open('La tarea ha sido eliminada', undefined, { duration: 2500 });
-    })
+    this.todoService.delete(id).subscribe({
+      next: (result) => {
+        if (result.deletedCount == 1) {
+          this.sb.open('La tarea ha sido eliminada', undefined, { duration: 2500 });
+          this.loadTodos();
+        }
+      }
+    });
+  }
+
+  editTodo(todo: Todo) {
+    const ref = this.dialog.open(TodoFormComponent, {
+      data: todo
+    });
+    ref.afterClosed().subscribe(() => {
+      this.loadTodos()
+    });
   }
 
   editList() {
-    const list: TodoList = this.listForm.value as TodoList;
-    this.todoService.updateList(list.id, list).then(() => {
-      this.sb.open('Los detalles de la lista han sido actualizados.', undefined, { duration: 2500 });
+    const list: any = this.listForm.value;
+    this.todoService.update(list._id, list).subscribe({
+      next: (result) => {
+        if (result.upsertedCount == 1) {
+          this.sb.open('Los detalles de la lista han sido actualizados.', undefined, { duration: 2500 });
+          this.loadList();
+        }
+      }
     });
   }
 }

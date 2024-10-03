@@ -43,7 +43,7 @@ import { FRENCH_MAIN_THEMES } from '../../data/french-main-themes';
 import { RELIGION_MAIN_THEMES } from '../../data/religion-main-themes';
 import { SPORTS_MAIN_THEMES } from '../../data/sports-main-themes';
 import { UnitPlan } from '../../interfaces/unit-plan';
-import { UnitPlansService } from '../../services/unit-plans.service';
+import { UnitPlanService } from '../../services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
 import spanishContentBlocks from '../../data/spanish-content-blocks.json';
 import mathContentBlocks from '../../data/math-content-blocks.json';
@@ -79,14 +79,14 @@ import { ClassSection } from '../../interfaces/class-section';
   styleUrl: './unit-plan.component.scss'
 })
 export class UnitPlanComponent implements OnInit {
+  private aiService = inject(AiService);
+  private fb = inject(FormBuilder);
+  private sb = inject(MatSnackBar);
+  private classSectionService = inject(ClassSectionService);
+  private userSettingsService = inject(UserSettingsService);
+  private unitPlanService = inject(UnitPlanService);
+  private router = inject(Router);
   working = true;
-  aiService = inject(AiService);
-  fb = inject(FormBuilder);
-  sb = inject(MatSnackBar);
-  classSectionService = inject(ClassSectionService);
-  userSettingsService = inject(UserSettingsService);
-  unitPlanService = inject(UnitPlansService);
-  router = inject(Router);
 
   userSettings: UserSettings | null = null;
 
@@ -102,6 +102,7 @@ export class UnitPlanComponent implements OnInit {
     'Ciudadanía y Convivencia',
   ];
 
+  // TODO: start using this
   strategyOptions = [];
 
   learningSituationTitle = this.fb.control('');
@@ -270,6 +271,7 @@ export class UnitPlanComponent implements OnInit {
     "Área de naturaleza"
   ];
 
+  // TODO: delete of make use of it
   bloomLevels = [
     { id: 'knowledge', label: 'Recordar' },
     { id: 'undertanding', label: 'Comprender' },
@@ -307,9 +309,6 @@ export class UnitPlanComponent implements OnInit {
     "Material de lectura"
   ];
 
-  // steps:
-  // 1 - choose level
-  // 2 - choose subjects
   learningSituationForm = this.fb.group<{
     level: string,
     year: string,
@@ -485,11 +484,9 @@ La respuesta debe ser json valido, coherente con esta interfaz:
   }
 
   fillFinalForm() {
-    const plan: UnitPlan = {
-      uid: this.userSettings?.uid || '',
-      schoolName: this.userSettings?.schoolName || '',
-      sectionName: this.classSectionName,
-      sectionId: this.learningSituationForm.value.classSection || '',
+    const plan: any = {
+      user: this.userSettings?._id,
+      section: this.learningSituationForm.value.classSection,
       level: this.classSectionLevel,
       duration: this.unitPlanForm.value.duration || 4,
       learningSituation: this.learningSituation.value,
@@ -506,17 +503,19 @@ La respuesta debe ser json valido, coherente con esta interfaz:
         teacher_activities: this.teacher_activities.value,
         student_activities: this.student_activities.value,
         evaluation_activities: this.evaluation_activities.value,
-    } as any as UnitPlan;
+    };
     this.plan = plan;
   }
 
   savePlan() {
     if (this.plan) {
-      this.unitPlanService.addPlan(this.plan).then((saved) => {
-        if (saved) {
-          this.router.navigate(['/unit-plans', saved.id]).then(() => {
-            this.sb.open('Tu unidad de aprendizaje ha sido guardada!', 'Ok', { duration: 2500 })
-          })
+      this.unitPlanService.create(this.plan).subscribe({
+        next: (plan) => {
+          if (plan) {
+            this.router.navigate(['/unit-plans', plan._id]).then(() => {
+              this.sb.open('Tu unidad de aprendizaje ha sido guardada!', 'Ok', { duration: 2500 })
+            })
+          }
         }
       })
     }

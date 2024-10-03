@@ -1,7 +1,7 @@
 export interface Todo {
-    uid: string;
-    id: string;
-    listId: string;
+    _id: string;
+    user: string;
+    list: string;
     title: string;
     description: string;
     completed: boolean;

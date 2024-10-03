@@ -48,8 +48,8 @@
                 </p>
             </mat-card-content>
             <mat-card-actions>
-                <button type="button" [routerLink]="['/todos', list.id]" mat-raised-button color="accent" style="margin-right: 12px; margin-left: auto;">Abrir</button>
-                <button type="button" (click)="deleteList(list.id)" mat-raised-button color="warn" style="margin-right: auto;">
+                <button type="button" [routerLink]="['/todos', list._id]" mat-raised-button color="accent" style="margin-right: 12px; margin-left: auto;">Abrir</button>
+                <button type="button" (click)="deleteList(list._id)" mat-raised-button color="warn" style="margin-right: auto;">
                     Eliminar
                 </button>
             </mat-card-actions>

@@ -99,6 +99,6 @@ export class ResourceGalleryComponent {
   }
 
   findAuthor(id: string) {
-    return this.authors.find(a => a.uid == id);
+    return this.authors.find(a => a._id == id);
   }
 }
