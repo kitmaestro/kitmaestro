@@ -1,5 +1,5 @@
 @if (guide) {
-    @if (guide.groupId) {
+    @if (guide.section._id) {
         @for (student of students; track $index) {
             <mat-card style="margin-bottom: 24px;">
                 <mat-card-content>
@@ -76,7 +76,7 @@
                         }
                     </div>
                     <div>
-                        <b>Grupo Observado</b>: {{ guide.groupName }}
+                        <b>Grupo Observado</b>: {{ guide.section.name }}
                     </div>
                     <div>
                         <b>Duraci&oacute;n</b>: {{ guide.duration }}
