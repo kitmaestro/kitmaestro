@@ -5,9 +5,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { checkSubscription } from '../../../state/actions/subscriptions.actions';
-import { userSubscriptionSelector } from '../../../state/selectors/subscription.selectors';
 import { UserSubscriptionService } from '../../../services/user-subscription.service';
 
 @Component({

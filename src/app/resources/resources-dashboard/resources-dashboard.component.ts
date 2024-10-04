@@ -1,17 +1,15 @@
-import { Component, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { Store } from '@ngrx/store';
 import { IsEmptyComponent } from '../../ui/alerts/is-empty/is-empty.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ResourceFormComponent } from '../../ui/forms/resource-form/resource-form.component';
-import { loadMyResources } from '../../state/actions/didactic-resources.actions';
-import { map, Observable } from 'rxjs';
 import { DidacticResource } from '../../interfaces/didactic-resource';
+import { DidacticResourceService } from '../../services/didactic-resource.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-resources-dashboard',
@@ -19,23 +17,32 @@ import { DidacticResource } from '../../interfaces/didactic-resource';
   styleUrl: './resources-dashboard.component.scss',
   standalone: true,
   imports: [
-    AsyncPipe,
     MatGridListModule,
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
+    MatSnackBarModule,
     IsEmptyComponent
   ]
 })
-export class ResourcesDashboardComponent {
-  private store = inject(Store);
+export class ResourcesDashboardComponent implements OnInit {
   private dialog = inject(MatDialog);
-  public resources$: Observable<DidacticResource[]> = this.store.select((store) => store.didacticResources).pipe(map(store => store.didacticResources));
+  private resourceService = inject(DidacticResourceService);
+  private sb = inject(MatSnackBar);
+  public resources: DidacticResource[] = [];
 
-  constructor() {
-    this.store.dispatch(loadMyResources())
+  ngOnInit() {
+    this.resourceService.findMyResources().subscribe({
+      next: (resources) => {
+        if (resources.length)
+          this.resources = resources;
+      },
+      error: (err) => {
+        this.sb.open('Error al cargar tus recursos', 'Ok', { duration: 2500 });
+      }
+    })
   }
 
   createResource() {

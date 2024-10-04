@@ -1,9 +1,12 @@
 .profile-card {
-    max-width: 640px;
     margin: 0 auto 24px;
 }
 
 .card-actions {
     display: grid;
     grid-template-columns: 1fr;
+}
+
+mat-form-field {
+    width: 100%;
 }

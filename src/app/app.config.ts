@@ -7,18 +7,8 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
-import { provideStore } from '@ngrx/store';
 import { provideServiceWorker } from '@angular/service-worker';
-import { provideEffects } from '@ngrx/effects';
-import { AuthEffects } from './state/effects/auth.effects';
-import { authReducer } from './state/reducers/auth.reducers';
 import { provideHttpClient } from '@angular/common/http';
-import { updatesReducer } from './state/reducers/updates.reducers';
-import { UpdatesEffects } from './state/effects/updates.effects';
-import { didacticResourcesReducer } from './state/reducers/didactic-resources.reducers';
-import { DidacticResourcesEffects } from './state/effects/didactic-resources.effects';
-import { subscriptionReducer } from './state/reducers/subscriptions.reducers';
-import { SubscriptionsEffects } from './state/effects/subscriptions.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,17 +30,5 @@ export const appConfig: ApplicationConfig = {
         enabled: !isDevMode(),
         registrationStrategy: 'registerWhenStable:30000'
     }),
-    provideStore({
-      auth: authReducer,
-      updates: updatesReducer,
-      didacticResources: didacticResourcesReducer,
-      userSubscription: subscriptionReducer,
-    }),
-    provideEffects([
-      AuthEffects,
-      UpdatesEffects,
-      DidacticResourcesEffects,
-      SubscriptionsEffects,
-    ])
   ],
 };

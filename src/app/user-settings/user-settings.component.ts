@@ -11,8 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { map, Observable } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
-import { Store } from '@ngrx/store';
-import { update } from '../state/actions/auth.actions';
+import { UserSettingsService } from '../services/user-settings.service';
 
 @Component({
   selector: 'app-user-settings',
@@ -34,8 +33,8 @@ import { update } from '../state/actions/auth.actions';
 })
 export class UserSettingsComponent implements OnInit {
   fb = inject(FormBuilder);
-  private store = inject(Store);
-  user$: Observable<UserSettings> = this.store.select(store => store.auth).pipe(map(auth => auth.user));
+  userSettingsService = inject(UserSettingsService);
+  user$: Observable<UserSettings> = this.userSettingsService.getSettings();
   sb = inject(MatSnackBar);
   saving = false;
 
@@ -139,8 +138,16 @@ export class UserSettingsComponent implements OnInit {
       district,
       regional
     } as unknown as UserSettings;
-
-    this.store.dispatch(update({ user: settings }))
-    alert('')
+    
+    this.userSettingsService.update(settings).subscribe({
+      next: (res) => {
+        if (res.modifiedCount == 1) {
+          this.sb.open('Perfil actualizado con exito', 'Ok', { duration: 2500 });
+        }
+      },
+      error: (err) => {
+        this.sb.open('Error al guardar su perfil', 'Ok', { duration: 2500 });
+      }
+    });
   }
 }

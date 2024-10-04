@@ -39,11 +39,11 @@ export class ResourceCardComponent {
   didacticResourceService = inject(DidacticResourceService);
   sb = inject(MatSnackBar);
 
-  bookmarked = this.settingsService.getSettings().pipe(map(settings => this.resource && settings && settings.bookmarks.includes(this.resource.id)))
+  bookmarked = this.settingsService.getSettings().pipe(map(settings => this.resource && settings && settings.bookmarks.includes(this.resource._id)))
 
   bookmark() {
     if (this.resource) {
-      this.didacticResourceService.bookmark(this.resource.id);
+      this.didacticResourceService.bookmark(this.resource._id);
       this.sb.open('El recurso ha sido guardado en tu biblioteca!', 'Ok', { duration: 2500 });
     }
   }

@@ -174,7 +174,7 @@ export class PlannerGeneratorComponent implements OnInit {
         this.fullname = fullname;
         this.plannerForm.get('fullName')?.setValue(fullname);
         this.plannerForm.get('fullName')?.disable();
-        this.subjects = user.subjects as any as string[];
+        this.subjects = [] as string[];
         this.school = user.schoolName;
       })
     }, 500);

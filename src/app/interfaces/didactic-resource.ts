@@ -4,7 +4,7 @@ export enum ResourceType {
 }
 
 export interface DidacticResource {
-    id: string;
+    _id: string;
     title: string;
     description: string;
     format: string;

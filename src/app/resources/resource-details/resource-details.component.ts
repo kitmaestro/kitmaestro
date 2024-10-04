@@ -38,7 +38,7 @@ export class ResourceDetailsComponent {
   downloading = false;
   resource$: Observable<DidacticResource> = this.didacticResourceService.findOne('' + this.id).pipe(
     tap(resource => this.author$ = this.settingsService.getSettings(resource.author)),
-    tap(resource => this.bookmarked$ = this.settingsService.getSettings().pipe(map(settings => settings && settings.bookmarks.includes(resource.id) ? true : false)))
+    tap(resource => this.bookmarked$ = this.settingsService.getSettings().pipe(map(settings => settings && settings.bookmarks.includes(resource._id) ? true : false)))
   );
 
   slides: string[] = [

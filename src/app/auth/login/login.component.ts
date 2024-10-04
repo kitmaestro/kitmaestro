@@ -10,9 +10,6 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BiIconComponent } from '../../ui/bi-icon/bi-icon.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RecoverComponent } from '../recover/recover.component';
-import { Store } from '@ngrx/store';
-import { map } from 'rxjs';
-import { login } from '../../state/actions/auth.actions';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 

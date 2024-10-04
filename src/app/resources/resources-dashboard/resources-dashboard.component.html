@@ -1,7 +1,7 @@
 <div class="grid-container">
   <h2>Mis Recursos</h2>
   <mat-grid-list cols="2" rowHeight="350px">
-    @for (resource of resources$ | async; track resource) {
+    @for (resource of resources; track resource) {
       <mat-grid-tile [colspan]="1" [rowspan]="1">
         <mat-card class="dashboard-card">
           <mat-card-header>

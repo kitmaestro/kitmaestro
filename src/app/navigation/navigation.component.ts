@@ -63,7 +63,7 @@ export class NavigationComponent {
     { route: "/sections", icon: "class", label: "Secciones", },
     { route: "/log-registry-generator", icon: "edit_note", label: "Registro Anecdótico", },
     { route: "/todos", icon: "list", label: "Pendientes", },
-    { route: "/settings", icon: "settings", label: "Ajustes", },
+    // { route: "/settings", icon: "settings", label: "Ajustes", },
     { route: "/profile", icon: "person_circle", label: "Perfil", },
     { route: "/my-resources", icon: "analytics", label: "Mis Recursos", },
   ]
