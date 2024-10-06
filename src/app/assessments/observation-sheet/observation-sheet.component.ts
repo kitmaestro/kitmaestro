@@ -19,6 +19,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PdfService } from '../../services/pdf.service';
 import { CompetenceEntry } from '../../interfaces/competence-entry';
 import { ClassSection } from '../../interfaces/class-section';
+import { ObservationGuideService } from '../../services/observation-guide.service';
 
 @Component({
   selector: 'app-observation-sheet',
@@ -40,17 +41,18 @@ import { ClassSection } from '../../interfaces/class-section';
 })
 export class ObservationSheetComponent implements OnInit {
 
-  fb = inject(FormBuilder);
-  userSettingsService = inject(UserSettingsService);
-  classSectionService = inject(ClassSectionService);
-  competenceService = inject(CompetenceService);
-  studentsService = inject(StudentsService);
-  pdfService = inject(PdfService);
-  sb = inject(MatSnackBar);
-
+  private fb = inject(FormBuilder);
+  private observationGuideService = inject(ObservationGuideService);
+  private userSettingsService = inject(UserSettingsService);
+  private classSectionService = inject(ClassSectionService);
+  private competenceService = inject(CompetenceService);
+  private studentsService = inject(StudentsService);
+  private pdfService = inject(PdfService);
+  private sb = inject(MatSnackBar);
+  
   teacherName: string = '';
   schoolName: string = '';
-
+  
   groups: ClassSection[] = [];
   competenceCol: CompetenceEntry[] = [];
   students: Student[] = [];
@@ -77,6 +79,38 @@ export class ObservationSheetComponent implements OnInit {
     '1 mes',
   ];
 
+  loadProfile() {
+    this.userSettingsService.getSettings().subscribe(settings => {
+      if (settings) {
+        this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
+        this.schoolName = settings.schoolName;
+      }
+    });
+  }
+
+  loadSections() {
+    this.classSectionService.findSections().subscribe(sections => {
+      this.groups = sections;
+    });
+  }
+
+  loadCompetences() {
+    const sectionId = this.sheetForm.get('grade')?.value || '';
+    const section = this.groups.find(g => g._id == sectionId);
+    if (section) {
+      this.competenceService.findByGrade(section.year).subscribe(competence => {
+        this.competenceCol = competence;
+      });
+    }
+  }
+
+  loadStudents() {
+    const section = this.sheetForm.get('grade')?.value || '';
+    this.studentsService.findBySection(section).subscribe(students => {
+      this.students = students;
+    });
+  }
+
   private now = new Date();
   private today = this.now.getFullYear() + '-' + (this.now.getMonth() + 1).toString().padStart(2, '0') + '-' + this.now.getDate().toString().padStart(2, '0');
 
@@ -98,51 +132,32 @@ export class ObservationSheetComponent implements OnInit {
   ngOnInit() {
     // COMPETENCE.forEach(comp => this.competenceService.createCompetence(comp as any).subscribe({ next: (e) => { console.log('Created!: ', e) }}));
 
-    this.userSettingsService.getSettings().subscribe(settings => {
-      if (settings) {
-        this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
-        this.schoolName = settings.schoolName;
-      }
-      this.classSectionService.findSections().subscribe(classes => {
-        this.groups = classes;
-        if (classes.length) {
-          this.sheetForm.get('group')?.setValue(classes[0]._id || '');
-          this.onGradeSelect();
-          const subs = this.competenceService.findByGrade(classes[0].year).subscribe(
-            {
-              next: (col) => {
-                this.competenceCol = col;
-                subs.unsubscribe();
-              }
-            }
-          );
-        }
-      });
-    });
+    this.loadProfile();
+    this.loadCompetences();
+    this.loadSections();
+    this.loadStudents();
   }
 
   onGradeSelect() {
-    const groupId = this.sheetForm.get('group')?.value;
+    const groupId = this.sheetForm.get('group')?.value || '';
     const grade = this.groups.find(g => g._id == groupId)?.year;
-    if (groupId) {
-      if (grade) {
-        const subs = this.competenceService.findByGrade(grade).subscribe(
-          {
-            next: (col) => {
-              this.competenceCol = col;
-              subs.unsubscribe();
-            }
-          }
-        );
-      }
-      this.studentsService.bySection(groupId).subscribe(
+    if (grade) {
+      const subs = this.competenceService.findByGrade(grade).subscribe(
         {
-          next: (students) => {
-            this.students = students;
+          next: (col) => {
+            this.competenceCol = col;
+            subs.unsubscribe();
           }
         }
       );
     }
+    this.studentsService.findBySection(groupId).subscribe(
+      {
+        next: (students) => {
+          this.students = students;
+        }
+      }
+    );
   }
 
   onSubmit() {
@@ -171,9 +186,8 @@ export class ObservationSheetComponent implements OnInit {
       }
     }
 
-    if (individual && group) {
-      guide.groupId = group;
-      guide.groupName = '';
+    if (individual) {
+      guide.section = group;
     } else {
       if (group) {
         guide.groupId = '';
@@ -201,6 +215,16 @@ export class ObservationSheetComponent implements OnInit {
     }
 
     this.observationSheet = guide;
+  }
+
+  onSave() {
+    const guide: any = this.observationSheet;
+    this.observationGuideService.create(guide).subscribe(result => {
+      console.log(result)
+      if (result._id) {
+        this.sb.open('Guia guardada con exito.', 'Ok', { duration:2500 });
+      }
+    })
   }
 
   getObservedGroupSentence(groupId: string) {
@@ -244,7 +268,7 @@ export class ObservationSheetComponent implements OnInit {
   }
 
   print() {
-    this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
+    this.sb.open('Guardando como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
     if (this.sheetForm.get('individual')?.value) {
       this.students.forEach((student, i) => {
         setTimeout(() => {

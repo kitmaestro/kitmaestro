@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { PdfService } from '../../services/pdf.service';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { AsyncPipe, NgIf } from '@angular/common';
+import { ReadingActivityService } from '../../services/reading-activity.service';
+import { UserSettings } from '../../interfaces/user-settings';
 
 @Component({
   selector: 'app-reading-activity-generator',
@@ -38,9 +40,14 @@ export class ReadingActivityGeneratorComponent {
   private aiService = inject(AiService);
   private pdfService = inject(PdfService);
   private userSettingsService = inject(UserSettingsService);
+  private acitivtyService = inject(ReadingActivityService);
+
   public userSettings$ = this.userSettingsService.getSettings();
+  public user: UserSettings | null = null;
 
   generating = false;
+
+  saved = false;
 
   text: {
     textTitle: string;
@@ -71,6 +78,10 @@ export class ReadingActivityGeneratorComponent {
     questions: [5, [Validators.min(1), Validators.max(15)]],
   });
 
+  ngOnInit() {
+    this.userSettingsService.getSettings().subscribe(user => this.user = user);
+  }
+
   onSubmit() {
     this.generateActivity(this.activityForm.value);
   }
@@ -87,10 +98,18 @@ export class ReadingActivityGeneratorComponent {
     this.aiService.askGemini(text, true)
       .subscribe({
         next: (response) => {
-          this.text = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
+          try {
+            const text = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
+            if (text) {
+              this.text = text;
+              this.saved = false;
+            }
+          } catch (error) {
+            this.sb.open('Ocurrió mientras se generaba la actividad. Inténtalo de nuevo.', 'Ok', { duration: 2500 });
+          }
           this.generating = false;
         }, error: (error) => {
-          this.sb.open('Ocurrió mientras se generaba la actividad. Inténtalo de nuevo.', undefined, { duration: 2500 })
+          this.sb.open('Ocurrió mientras se generaba la actividad. Inténtalo de nuevo.', 'Ok', { duration: 2500 });
           this.generating = false;
         }
       })
@@ -101,5 +120,34 @@ export class ReadingActivityGeneratorComponent {
       this.sb.open('Guardando tu actividad...', undefined, { duration: 2500 });
       this.pdfService.exportTableToPDF('reading-activity', this.text.textTitle)
     }
+  }
+
+  save() {
+    const { difficulty, level } = this.activityForm.value;
+    const activity: any = {
+      user: this.user?._id,
+      difficulty,
+      level,
+      title: this.text?.textTitle,
+      text: this.text?.textContent,
+      questions: this.text?.questions,
+      answers: this.text?.answers
+    };
+
+    this.acitivtyService.create(activity).subscribe(result => {
+      if (result._id) {
+        this.saved = true;
+        this.sb.open('La actividad ha sido guardada.', 'Ok', { duration: 2500 });
+      }
+    });
+  }
+
+  get schoolYear(): string {
+    const currentMonth = new Date().getMonth() + 1;
+    const currentYear = new Date().getFullYear();
+    if (currentMonth > 7) {
+      return `${currentYear} - ${currentYear + 1}`;
+    }
+    return `${currentYear - 1} - ${currentYear}`;
   }
 }

@@ -185,7 +185,7 @@
                                         <td>{{item.name}} ({{item.score}} puntos)</td>
                                     }
                                 </tr>
-                                @for (student of students; track student.id) {
+                                @for (student of students; track student._id) {
                                     <tr>
                                         <td style="min-width: fit-content;">{{student.firstname}} {{student.lastname}}</td>
                                         @for (item of row.criterion; track item) {

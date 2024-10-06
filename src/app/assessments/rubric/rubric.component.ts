@@ -116,7 +116,7 @@ export class RubricComponent {
   loadStudents() {
     const { section } = this.rubricForm.value;
     if (section) {
-      this.studentsService.bySection(section).subscribe(students => {
+      this.studentsService.findBySection(section).subscribe(students => {
         this.students = students
       })
     }

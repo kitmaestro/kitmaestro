@@ -1,0 +1,52 @@
+<app-is-premium>
+    @if (activity) {
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>{{activity.title}}</mat-card-title>
+                <span style="flex: 1 1 auto;"></span>
+                <a routerLink="/activities/reading" mat-icon-button color="link" style="margin-right: 8px;" title="Todas las actividades">
+                    <mat-icon>home</mat-icon>
+                </a>
+                <button mat-icon-button color="warn" (click)="deleteActivity()" style="margin-right: 8px;" title="Eliminar esta actividad">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <!-- <a target="_blank" routerLink="/print-activities/{{id}}" mat-icon-button color="link" style="margin-right: 8px;">
+                    <mat-icon>print</mat-icon>
+                </a> -->
+                <button (click)="download()" mat-icon-button color="accent" title="Descargar como PDF">
+                    <mat-icon>download</mat-icon>
+                </button>
+            </mat-card-header>
+            <mat-card-content></mat-card-content>
+        </mat-card>
+        <mat-card style="margin-top: 24px; min-width: 8.5in; max-width: 8.5in; margin-left: auto; margin-right: auto;">
+            <mat-card-content>
+                <div id="reading-activity" style="padding: 0.5in">
+                    @if(user) {
+                        <div style="text-align: center;">
+                            <h2 style="margin-bottom: 2px; line-height: 1;">Centro Educativo {{user.schoolName}}</h2>
+                            <h4 style="margin-bottom: 2px; line-height: 1;">A&ntilde;o Escolar {{schoolYear}}</h4>
+                            <h3 style="margin-bottom: 2px; line-height: 1;">{{user.title}}. {{user.firstname}} {{user.lastname}}</h3>
+                            <h3 style="font-weight: bold; line-height: 1; margin-bottom: 12px;">Actividad de Lectura Guiada</h3>
+                        </div>
+                    }
+                    <div style="margin-bottom: 24px; display: flex; font-size: 12pt;">
+                        <div><b>Nombre</b>:</div>
+                        <div class="blank"></div>
+                        <div style="margin-left: 12px;"><b>Grado</b>:</div>
+                        <div class="blank"></div>
+                        <div style="margin-left: 12px;"><b>Fecha</b>:</div>
+                        <div style="max-width: 25%;" class="blank"></div>
+                    </div>
+                    <p style="font-size: 14pt;">Lee detenidamente el siguiente texto y responde las preguntas.</p>
+                    <h3 style="font-size: 14pt; font-weight: bold;">{{activity.title}}</h3>
+                    <p style="font-size: 12pt; margin-top: 12px; margin-bottom: 12px;">{{activity.text}}</p>
+                    <h3 style="font-weight: bold;">Responde</h3>
+                    @for (question of activity.questions; track $index) {
+                        <p style="margin-bottom: 42px; font-size: 12pt; font-weight: bold;">{{$index + 1}}. {{question}}</p>
+                    }
+                </div>
+            </mat-card-content>
+        </mat-card>
+    }
+</app-is-premium>

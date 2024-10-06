@@ -33,6 +33,10 @@ export const routes: Routes = [
     // calculators
     { path: 'average-calculator', loadComponent: () => import('./calculators/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent) },
     { path: 'attendance-calculator', loadComponent: () => import('./calculators/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent) },
+    // Activities
+    { path: 'activities', loadComponent: () => import('./activities/activities/activities.component').then(mod => mod.ActivitiesComponent) },
+    { path: 'activities/reading', loadComponent: () => import('./activities/reading-activities/reading-activities.component').then(mod => mod.ReadingActivitiesComponent) },
+    { path: 'activities/reading/:id', loadComponent: () => import('./activities/reading-activity-detail/reading-activity-detail.component').then(mod => mod.ReadingActivityDetailComponent) },
     // Generators
     { path: 'schedule-generator', loadComponent: () => import('./generators/schedule-generator/schedule-generator.component').then(mod => mod.ScheduleGeneratorComponent) },
     { path: 'grades-generator', loadComponent: () => import('./generators/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },

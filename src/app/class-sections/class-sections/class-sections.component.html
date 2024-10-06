@@ -19,26 +19,9 @@
                 <h2 mat-card-title>{{ section.name }}</h2>
                 <h3 mat-card-subtitle>{{ formatValue(section.year) }} de {{ formatValue(section.level) }}</h3>
             </mat-card-header>
-            <mat-card-content>
-                <mat-accordion>
-                    <mat-expansion-panel hideToggle>
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                Asignaturas
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <mat-list>
-                            <ng-container *ngFor="let subject of section.subjects">
-                                <mat-list-item>{{ formatValue(subject) }}</mat-list-item>
-                                <mat-divider></mat-divider>
-                            </ng-container>
-                        </mat-list>
-                    </mat-expansion-panel>
-                </mat-accordion>
-            </mat-card-content>
             <mat-card-actions style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-                <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/attendance', section._id]" mat-raised-button color="accent" style="width: 100%; display: block;">Asistencia</button>
-                <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/tracking', 'section', section._id]" mat-raised-button color="primary" style="width: 100%; display: block;">Notas</button>
+                <!-- <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/attendance', section._id]" mat-raised-button color="accent" style="width: 100%; display: block;">Asistencia</button> -->
+                <!-- <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/tracking', 'section', section._id]" mat-raised-button color="primary" style="width: 100%; display: block;">Notas</button> -->
                 <button [routerLink]="['/sections', section._id]" mat-button color="primary" style="width: 100%; display: block;">Detalles</button>
             </mat-card-actions>
         </mat-card>

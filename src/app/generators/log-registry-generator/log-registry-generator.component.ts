@@ -129,7 +129,7 @@ export class LogRegistryGeneratorComponent implements OnInit {
   }
 
   studentsName(student: string[]) {
-    const str = student.map(s => this.students.find(stu => stu.id == s)?.firstname).join(', ')
+    const str = student.map(s => this.students.find(stu => stu._id == s)?.firstname).join(', ')
     return str;
   }
 

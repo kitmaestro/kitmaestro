@@ -1,17 +1,17 @@
-import { inject, Injectable, isDevMode } from '@angular/core';
-import { map, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { ReadingActivity } from '../interfaces/reading-activity';
+import { Observable } from 'rxjs';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { environment } from '../../environments/environment';
-import { ObservationGuide } from '../interfaces/observation-guide';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ObservationGuideService {
+export class ReadingActivityService {
   private http = inject(HttpClient);
-  private apiBaseUrl = environment.apiUrl + 'observation-guides/';
+  private apiBaseUrl = environment.apiUrl + 'reading-activities/';
   private config = {
     withCredentials: true,
     headers: new HttpHeaders({
@@ -20,16 +20,16 @@ export class ObservationGuideService {
     }),
   };
 
-  findAll(): Observable<ObservationGuide[]> {
-    return this.http.get<ObservationGuide[]>(this.apiBaseUrl, this.config);
+  findAll(): Observable<ReadingActivity[]> {
+    return this.http.get<ReadingActivity[]>(this.apiBaseUrl, this.config);
   }
 
-  find(id: string): Observable<ObservationGuide> {
-    return this.http.get<ObservationGuide>(this.apiBaseUrl + id, this.config);
+  find(id: string): Observable<ReadingActivity> {
+    return this.http.get<ReadingActivity>(this.apiBaseUrl + id, this.config);
   }
 
-  create(plan: ObservationGuide): Observable<ObservationGuide> {
-    return this.http.post<ObservationGuide>(this.apiBaseUrl, plan, this.config);
+  create(plan: ReadingActivity): Observable<ReadingActivity> {
+    return this.http.post<ReadingActivity>(this.apiBaseUrl, plan, this.config);
   }
 
   update(id: string, plan: any): Observable<ApiUpdateResponse> {
@@ -40,7 +40,7 @@ export class ObservationGuideService {
     return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id, this.config);
   }
 
-  download(id: string, format: 'docx' | 'pdf' = 'pdf'): Observable<{ pdf: string}> {
+  download(id: string, format: 'docx' | 'pdf' = 'pdf'): Observable<{ pdf: string }> {
     return this.http.get<{ pdf: string }>(this.apiBaseUrl + id + '/' + format, this.config);
   }
 }

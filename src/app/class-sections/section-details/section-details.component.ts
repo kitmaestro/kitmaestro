@@ -15,6 +15,9 @@ import { StudentDetailComponent } from '../../student-detail/student-detail.comp
 import { ClassSectionFormComponent } from '../../ui/forms/class-section-form/class-section-form.component';
 import { StudentFormComponent } from '../../ui/forms/student-form/student-form.component';
 import { ClassSectionService } from '../../services/class-section.service';
+import { StudentsService } from '../../services/students.service';
+import { AuthService } from '../../services/auth.service';
+import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
   selector: 'app-section-details',
@@ -42,57 +45,81 @@ export class SectionDetailsComponent implements OnInit {
   private fb = inject(FormBuilder);
   private dialog = inject(MatDialog);
   private classSectionService = inject(ClassSectionService);
+  private studentService = inject(StudentsService);
+  private authService = inject(AuthService);
 
-  id = this.route.snapshot.paramMap.get('id');
+  id = this.route.snapshot.paramMap.get('id') || '';
   uid: string = '';
-  section$ = this.classSectionService.findSection(this.id || '');
-  students$ = of([]) as Observable<Student[]>;
+  section: ClassSection | null = null;
+  students$: Observable<Student[]> = this.studentService.findBySection(this.id);
 
-  displayedCols = ['firstname', 'lastname', 'actions'];
+  displayedCols = ['firstname', 'lastname', 'gender', 'birth', 'actions'];
 
   studentForm = this.fb.group({
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
-    uid: ['', Validators.required],
+    gender: ['Masculino', Validators.required],
+    birth: [''],
+    user: ['', Validators.required],
     section: [this.id, Validators.required]
   });
 
+  loadStudents() {
+    this.students$ = this.studentService.findBySection(this.id);
+  }
+
+  loadSection() {
+    this.classSectionService.findSection(this.id).subscribe(section => this.section = section);4
+  }
+
   ngOnInit(): void {
+    this.authService.profile().subscribe(user => {
+      this.uid = user._id;
+    });
+    this.loadSection();
   }
 
   updateSectionDetails() {
-    const sus = this.section$.subscribe(section => {
-      if (section) {
-        sus.unsubscribe();
-        this.dialog.open(ClassSectionFormComponent, {
-          data: section,
-        })
-        this.dialog.afterAllClosed.subscribe(() => {
-          this.section$ = this.classSectionService.findSection(this.id || '');
-        })
-      }
+    const ref = this.dialog.open(ClassSectionFormComponent, {
+      data: this.section,
+    })
+    ref.afterClosed().subscribe(() => {
+      this.loadSection();
     })
   }
 
   addStudent() {
-    this.dialog.open(StudentFormComponent, {
+    const ref = this.dialog.open(StudentFormComponent, {
       data: {
-        uid: this.uid,
+        user: this.uid,
         section: this.id,
+      }
+    })
+    ref.afterClosed().subscribe(() => this.loadStudents());
+  }
+
+  updateStudent(student: Student) {
+    const ref = this.dialog.open(StudentFormComponent, {
+      data: student
+    })
+    ref.afterClosed().subscribe(() => this.loadStudents());
+  }
+
+  removeStudent(id: string) {
+    this.studentService.delete(id).subscribe(result => {
+      if (result.deletedCount == 1) {
+        this.sb.open('Estudiante eliminado')
+        this.loadStudents();
       }
     })
   }
 
-  updateStudent(student: Student) {
-    this.dialog.open(StudentFormComponent, {
-      data: student
-    })
-  }
-
-  removeStudent(id: string) {
-  }
-
   removeSection() {
+    this.classSectionService.deleteSection(this.id).subscribe(() => {
+      this.router.navigate(['/sections']).then(() => {
+        this.sb.open('Se elimino la seccion.', 'Ok', { duration: 2500 });
+      });
+    });
   }
 
   showStudent(student: Student) {

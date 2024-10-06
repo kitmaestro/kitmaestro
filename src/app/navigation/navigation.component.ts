@@ -59,7 +59,7 @@ export class NavigationComponent {
     { route: "/unit-plans/list", icon: "menu_book", label: "Unidades de Aprendizaje", },
     { route: "/class-plans/list", icon: "library_books", label: "Planes Diarios", },
     { route: "/assessments/list", icon: "history_edu", label: "Instrumentos", },
-    { route: "/activities/list", icon: "school", label: "Actividades", },
+    { route: "/activities", icon: "school", label: "Actividades", },
     { route: "/sections", icon: "class", label: "Secciones", },
     { route: "/log-registry-generator", icon: "edit_note", label: "Registro Anecdótico", },
     { route: "/todos", icon: "list", label: "Pendientes", },

@@ -33,10 +33,11 @@
                 </div>
             </div>
             <div class="text-end">
+                <button [disabled]="generating" type="submit" mat-flat-button [color]="text ? 'link' : 'primary'">{{ generating ? 'Generando...' : text ? 'Regenerar' : 'Generar'}}</button>
                 @if (text) {
-                    <button type="button" mat-raised-button color="accent" (click)="print()" style="margin-right: 12px;">Guardar Como PDF</button>
+                    <button type="button" mat-flat-button color="accent" (click)="print()" style="margin-left: 12px;">Descargar PDF</button>
+                    <button type="button" mat-flat-button color="primary" [disabled]="saved" (click)="save()" style="margin-left: 12px;">Guardar</button>
                 }
-                <button [disabled]="generating" type="submit" mat-raised-button color="primary">{{ generating ? 'Generando...' : text ? 'Regenerar' : 'Generar'}}</button>
             </div>
         </form>
     </mat-card-content>
@@ -46,9 +47,11 @@
     <mat-card style="margin-top: 24px; min-width: 8.5in; max-width: 8.5in; margin-left: auto; margin-right: auto;">
         <mat-card-content>
             <div id="reading-activity" style="padding: 0.5in">
-                <div *ngIf="(userSettings$ | async) as user" style="text-align: center;">
-                    <h2 style="margin-bottom: 4px;">{{user.schoolName}}</h2>
-                    <h3>{{user.firstname}} {{user.lastname}}</h3>
+                <div *ngIf="user" style="text-align: center;">
+                    <h2 style="margin-bottom: 2px; line-height: 1;">Centro Educativo {{user.schoolName}}</h2>
+                    <h4 style="margin-bottom: 2px; line-height: 1;">A&ntilde;o Escolar {{schoolYear}}</h4>
+                    <h3 style="margin-bottom: 2px; line-height: 1;">{{user.title}}. {{user.firstname}} {{user.lastname}}</h3>
+                    <h3 style="font-weight: bold; line-height: 1; margin-bottom: 12px;">Actividad de Lectura Guiada</h3>
                 </div>
                 <div style="margin-bottom: 24px; display: flex; font-size: 12pt;">
                     <div><b>Nombre</b>:</div>

@@ -147,7 +147,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
   }
 
   studentName(id: string) {
-    const student = this.students.find(student => student.id == id);
+    const student = this.students.find(student => student._id == id);
     if (student) {
       return `${student.firstname} ${student.lastname}`;
     }
@@ -183,7 +183,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
       this.saving = true;
       const entry = this.logRegistryEntry;
       entry.section = this.generatorForm.get('section')?.value || entry.section;
-      entry.students = this.selectedStudents.map(s => s.id);
+      entry.students = this.selectedStudents.map(s => s._id);
 
       addDoc(this.logRegistryEntriesCollectionRef, entry).then(() => {
         this.saving = false;
@@ -218,9 +218,8 @@ export class LogRegistryEntryFormComponent implements OnInit {
 
     this.saving = true;
 
-    const student: Student[] = this.students.filter(s => students.length == 1 && s.id == students[0] || students.includes(s.id));
-    this.selectedStudents = this.students.filter(s => students.includes(s.id)).map(s => {
-      s.section = this.sectionGrade(s.section);
+    const student: Student[] = this.students.filter(s => students.length == 1 && s._id == students[0] || students.includes(s._id));
+    this.selectedStudents = this.students.filter(s => students.includes(s._id)).map(s => {
       return s;
     });
 

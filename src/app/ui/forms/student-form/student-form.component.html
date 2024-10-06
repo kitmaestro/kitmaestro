@@ -9,6 +9,17 @@
             <mat-label>Apellido(s)</mat-label>
             <input type="text" formControlName="lastname" matInput>
         </mat-form-field>
+        <mat-form-field>
+            <mat-label>Sexo</mat-label>
+            <mat-select formControlName="gender">
+                <mat-option value="Masculino">Masculino</mat-option>
+                <mat-option value="Femenino">Femenino</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Fecha de Nacimiento</mat-label>
+            <input type="date" formControlName="birth" matInput>
+        </mat-form-field>
         <div style="margin-top: 20px;">
             <button type="submit" style="margin-left: auto; display: block;" mat-raised-button color="primary">Guardar</button>
         </div>

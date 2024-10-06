@@ -149,7 +149,7 @@ export class AttendanceGeneratorComponent {
 
     this.students.clear();
 
-    const sus = this.studentsService.bySection(section).subscribe({
+    const sus = this.studentsService.findBySection(section).subscribe({
       next: students => {
         students.forEach(student => {
           const control = this.fb.group({
