@@ -1,10 +1,13 @@
+import { ClassSection } from "./class-section";
+import { Student } from "./student";
+
 export interface LogRegistryEntry {
-  id: string;
+  _id: string;
   user: string;
   date: Date;
-  section: string;
+  section: ClassSection;
   place: string;
-  students: string[];
+  students: Student[];
   description: string;
   comments: string;
   type: string;

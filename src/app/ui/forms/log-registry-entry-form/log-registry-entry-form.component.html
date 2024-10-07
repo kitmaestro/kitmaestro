@@ -1,10 +1,9 @@
 <h2 mat-dialog-title>Generar Registro Anecd&oacute;tico</h2>
 
 <mat-dialog-content>
-
     @if (generated) {
         <div *ngIf="logRegistryEntry as entry">
-            <table>
+            <table style="width: 100%;">
                 <thead>
                     <tr>
                         <th scope="col" colspan="4">Registro Anecd&oacute;tico</th>
@@ -15,23 +14,31 @@
                         <th>Fecha:</th>
                         <td>{{ entry.date | date: 'dd/MM/YYYY' }}</td>
                         <th>Hora:</th>
-                        <td>{{ entry.date | date: 'HH:mm a' }}</td>
+                        <td>{{ entry.date | date: 'hh:mm a' }}</td>
                     </tr>
                     <tr>
                         <th colspan="2">Estudiante(s)</th>
-                        <td colspan="2">{{ entry.students.join(', ') }}</td>
+                        <td colspan="2">{{ studentNames(entry.students) }}</td>
                     </tr>
                     <tr>
                         <th colspan="4">Descripción del incidente, del hecho o situación:</th>
                     </tr>
                     <tr>
-                        <td colspan="4">{{ entry.description }}</td>
+                        <td colspan="4">
+                            <mat-form-field>
+                                <textarea [formControl]="description" matInput></textarea>
+                            </mat-form-field>
+                        </td>
                     </tr>
                     <tr>
                         <th colspan="4">Interpretación y comentarios</th>
                     </tr>
                     <tr>
-                        <td colspan="4">{{ entry.comments }}</td>
+                        <td colspan="4">
+                            <mat-form-field>
+                                <textarea [formControl]="comments" matInput></textarea>
+                            </mat-form-field>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -41,7 +48,7 @@
             <mat-form-field appearance="outline">
                 <mat-label>Evento</mat-label>
                 <mat-select formControlName="type" required>
-                    <mat-option *ngFor="let eventType of eventTypes" [value]="eventType.id">{{eventType.label}}</mat-option>
+                    <mat-option *ngFor="let eventType of eventTypes" [value]="eventType">{{eventType}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline">
@@ -54,8 +61,8 @@
                 <div style="width: 50%; padding-right: 8px;">
                     <mat-form-field appearance="outline">
                         <mat-label>Grado</mat-label>
-                        <mat-select formControlName="grade" required>
-                            <mat-option *ngFor="let section of (classSections$ | async)" [value]="section._id">{{section.name}}</mat-option>
+                        <mat-select (selectionChange)="loadStudents()" formControlName="section" required>
+                            <mat-option *ngFor="let section of sections" [value]="section._id">{{section.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -63,7 +70,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Estudiante(s)</mat-label>
                         <mat-select [multiple]="true" formControlName="students" required>
-                            <mat-option *ngFor="let student of studentOptions()" [value]="student._id">{{student.firstname + ' ' + student.lastname}}</mat-option>
+                            <mat-option *ngFor="let student of students" [value]="student._id">{{student.firstname + ' ' + student.lastname}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>

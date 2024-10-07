@@ -5,13 +5,13 @@
         <div style="text-align: center;">
             <h2>Registro Anecd&oacute;tico</h2>
             <p>
-                <b>Fecha</b>: {{ timestampToDate(entry.date) | date: 'dd/MM/YYYY' }}
+                <b>Fecha</b>: {{ entry.date | date: 'dd/MM/YYYY' }}
             </p>
             <p>
-                <b>Hora</b>: {{ timestampToDate(entry.date) | date: 'HH:mm a' }}
+                <b>Hora</b>: {{ entry.date | date: 'HH:mm a' }}
             </p>
             <p>
-                <b>Estudiante(s)</b>: {{ entry.students }}
+                <b>Estudiante(s)</b>: {{ studentNames(entry.students) }}
             </p>
             <p>
                 <b>Descripción del incidente, del hecho o situación</b>: <br>
@@ -28,6 +28,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button (click)="close()" mat-raised-button>Salir</button>
-    <button (click)="closeAndEdit()" mat-raised-button color="primary">Editar</button>
+    <button style="margin-left: auto;" (click)="close()" mat-flat-button>Salir</button>
+    <button style="margin-left: 12px;" (click)="closeAndEdit()" mat-flat-button color="accent">Editar</button>
 </mat-dialog-actions>

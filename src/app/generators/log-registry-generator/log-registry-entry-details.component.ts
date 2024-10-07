@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from "@angu
 import { MatIconModule } from "@angular/material/icon";
 import { LogRegistryEntry } from "../../interfaces/log-registry-entry";
 import { CommonModule } from "@angular/common";
+import { Student } from "../../interfaces/student";
 
 @Component({
     standalone: true,
@@ -41,7 +42,7 @@ export class LogRegistryEntryDetailsComponent implements OnInit {
         this.dialogRef.close(false);
     }
 
-    timestampToDate(t: any) {
-        return new Date(t.seconds * 1000);
+    studentNames(students: Student[]) {
+        return students.map(s => `${s.firstname} ${s.lastname}`).join(', ');
     }
 }

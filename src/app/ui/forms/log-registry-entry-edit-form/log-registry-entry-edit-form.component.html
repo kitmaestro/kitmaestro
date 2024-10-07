@@ -1,0 +1,79 @@
+<h2 mat-dialog-title>Editar Entrada de Registro Anecdótico</h2>
+<mat-dialog-content>
+    <form (ngSubmit)="update()" [formGroup]="entryForm">
+        <div style="display: grid; gap: 12px; margin-top: 12px; grid-template-columns: 1fr 1fr;">
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Fecha</mat-label>
+                    <input formControlName="date" type="date" matInput>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Hora</mat-label>
+                    <input formControlName="hour" type="time" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div style="display: grid; gap: 12px; margin-top: 12px; grid-template-columns: 1fr 1fr;">
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Lugar</mat-label>
+                    <mat-select formControlName="place" (onSelectionChange)="loadStudents()">
+                        @for(place of placeOptions; track $index) {
+                            <mat-option [value]="place">{{ place }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Evento o Situaci&oacute;n</mat-label>
+                    <mat-select formControlName="type" (onSelectionChange)="loadStudents()">
+                        @for(type of eventTypes; track $index) {
+                            <mat-option [value]="type">{{ type }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div style="display: grid; gap: 12px; margin-top: 12px; grid-template-columns: 1fr 1fr;">
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Curso</mat-label>
+                    <mat-select formControlName="section" (onSelectionChange)="loadStudents()">
+                        @for(section of sections; track section._id) {
+                            <mat-option [value]="section._id">{{ section.name}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Estudiante(s)</mat-label>
+                    <mat-select formControlName="students" multiple>
+                        @for(student of students; track student._id) {
+                            <mat-option [value]="student._id">{{ student.firstname }} {{student.lastname}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div>
+            <mat-form-field appearance="outline">
+                <mat-label>Descripción</mat-label>
+                <textarea rows="4" formControlName="description" matInput></textarea>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance="outline">
+                <mat-label>Interpretación y Comentarios</mat-label>
+                <textarea rows="4" formControlName="comments" matInput></textarea>
+            </mat-form-field>
+        </div>
+        <div style="display: flex;">
+            <button mat-flat-button style="margin-left: auto;" type="button" (click)="close()">Cancelar</button>
+            <button mat-flat-button style="margin-left: 6px;" type="submit" (click)="update()" color="primary">Guardar</button>
+        </div>
+    </form>
+</mat-dialog-content>

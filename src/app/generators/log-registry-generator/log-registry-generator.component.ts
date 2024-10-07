@@ -1,10 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
-import { ChartComponent } from '../../ui/chart/chart.component';
 import { LogRegistryEntry } from '../../interfaces/log-registry-entry';
-import { Auth, authState } from '@angular/fire/auth';
-import { Firestore, collection, collectionData, deleteDoc, doc, query, where } from '@angular/fire/firestore';
-import { EMPTY, Observable } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,19 +7,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { LogRegistryEntryFormComponent } from '../../ui/forms/log-registry-entry-form/log-registry-entry-form.component';
 import { LogRegistryEntryDetailsComponent } from './log-registry-entry-details.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { Student } from '../../interfaces/student';
-import { ClassSection } from '../../interfaces/class-section';
+import { LogRegistryEntryService } from '../../services/log-registry-entry.service';
+import { LogRegistryEntryEditFormComponent } from '../../ui/forms/log-registry-entry-edit-form/log-registry-entry-edit-form.component';
 
 @Component({
   selector: 'app-log-registry-generator',
   standalone: true,
   imports: [
-    InProgressComponent,
-    ChartComponent,
     MatDialogModule,
     MatSnackBarModule,
     MatButtonModule,
+    MatCardModule,
     MatIconModule,
     MatTableModule,
     CommonModule,
@@ -33,116 +29,79 @@ import { ClassSection } from '../../interfaces/class-section';
   styleUrl: './log-registry-generator.component.scss'
 })
 export class LogRegistryGeneratorComponent implements OnInit {
-  auth = inject(Auth);
-  firestore = inject(Firestore);
-  sb = inject(MatSnackBar);
-  dialog = inject(MatDialog);
-  user$ = authState(this.auth);
-  entriesColRef = collection(this.firestore, 'log-registry-entries');
-  entries$: Observable<LogRegistryEntry[]> = EMPTY;
-  sectionsRef = collection(this.firestore, 'class-sections');
-  studentsRef = collection(this.firestore, 'students');
-  sections$: Observable<ClassSection[]> = EMPTY;
-  students$: Observable<Student[]> = EMPTY;
-  sections: ClassSection[] = [];
-  students: Student[] = [];
-  loading = true;
+  private logService = inject(LogRegistryEntryService);
+  private sb = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
+  entries: LogRegistryEntry[] = [];
 
   labels = ['date', 'time', 'grade', 'students', 'event', 'actions'];
 
-  data = {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      borderWidth: 1
-    }]
-  };
-
   eventTypes = [
-    { id: 'behavior', label: 'Mejora de comportamiento' },
-    { id: 'writing', label: 'Mejora de escritura' },
-    { id: 'reading', label: 'Mejora de lectura' },
-    { id: 'comprehension', label: 'Mejora de comprensión' },
-    { id: 'math', label: 'Mejora en matemática' },
-    { id: 'irruption', label: 'Interrupción de la clase' },
-    { id: 'leave', label: 'Salida sin permiso' },
-    { id: 'misbehavior', label: 'Comportamiento inadecuado en clase' },
-    { id: 'fight', label: 'Pelea' },
-    { id: 'broken_agreement', label: 'Incumplimiento de acuerdo' },
-    { id: 'pending_homework', label: 'Asignación no entregada' },
-    { id: 'failed_assesment', label: 'Asignación no satisfactoria' },
+    'Mejora de comportamiento',
+    'Mejora de escritura',
+    'Mejora de lectura',
+    'Mejora de comprensión',
+    'Mejora en matemática',
+    'Interrupción de la clase',
+    'Salida sin permiso',
+    'Comportamiento inadecuado en clase',
+    'Pelea',
+    'Incumplimiento de acuerdo',
+    'Asignación no entregada',
+    'Asignación no satisfactoria',
   ];
 
-  ngOnInit(): void {
-    this.user$.subscribe(user => {
-      if (user) {
-        this.entries$ = collectionData(query(this.entriesColRef, where('uid', '==', user.uid)), { idField: 'id' }) as Observable<LogRegistryEntry[]>;
-        this.sections$ = collectionData(query(this.sectionsRef, where('uid', '==', user.uid)), { idField: 'id' }) as Observable<ClassSection[]>;
-        this.students$ = collectionData(query(this.studentsRef, where('uid', '==', user.uid)), { idField: 'id' }) as Observable<Student[]>;
-        this.sections$.subscribe(sections => {
-          this.sections = sections;
-        })
-        this.students$.subscribe(students => {
-          this.students = students;
-        })
-        this.loading = false;
+  loadEntries() {
+    this.logService.findAll().subscribe(entries => {
+      if (entries.length) {
+        this.entries = entries
       }
     })
   }
 
+  ngOnInit(): void {
+    this.loadEntries();
+  }
+
   createLogRegistryEntry() {
-    this.dialog.open(LogRegistryEntryFormComponent, {
+    const ref = this.dialog.open(LogRegistryEntryFormComponent, {
       minWidth: '400px',
       width: '75%'
     });
+    ref.afterClosed().subscribe(() => this.loadEntries());
   }
 
   editLogRegistryEntry(entry: LogRegistryEntry) {
-    this.dialog.open(LogRegistryEntryFormComponent, {
+    const ref = this.dialog.open(LogRegistryEntryEditFormComponent, {
       data: entry,
+      minWidth: '400px',
+      width: '75%',
     });
+    ref.afterClosed().subscribe(() => this.loadEntries());
   }
 
   showLogRegistryEntry(entry: LogRegistryEntry) {
-    entry.students = this.studentsName(entry.students).split(', ');
-    entry.section = this.sectionGrade(entry.section);
-    const ref = this.dialog.open(LogRegistryEntryDetailsComponent, { data: entry });
-
-    ref.afterClosed().subscribe(result => {
-      if (result) {
+    const ref = this.dialog.open(LogRegistryEntryDetailsComponent, {
+      data: entry,
+      minWidth: '400px',
+      width: '75%',
+    });
+    ref.afterClosed().subscribe(res => {
+      if (res) {
         this.editLogRegistryEntry(entry);
       }
     });
   }
 
-  entryDate(entry: any) {
-    return new Date(entry.date.seconds * 1000);
+  studentNames(students: Student[]) {
+    return students.map(s => s.firstname + ' ' + s.lastname).join(', ')
   }
 
-  sectionGrade(section: string) {
-    return this.sections.find(s => s._id == section)?.year || '';
-  }
-
-  sectionName(section: string) {
-    return this.sections.find(s => s._id == section)?.name;
-  }
-
-  studentsName(student: string[]) {
-    const str = student.map(s => this.students.find(stu => stu._id == s)?.firstname).join(', ')
-    return str;
-  }
-
-  eventTypeLabel(id: string) {
-    return this.eventTypes.find(e => e.id == id)?.label;
-  }
-
-  deleteLogRegistryEntry(entry: LogRegistryEntry) {
-    const docRef = doc(this.firestore, 'log-registry-entries/' + entry.id);
-    deleteDoc(docRef).then(() => {
-      this.sb.open('Entrada eliminada!', 'Ok', { duration: 2500 });
-    }).catch(() => {
-      this.sb.open('Error al eliminar.', 'Ok', { duration: 2500 });
+  deleteLogRegistryEntry(id: string) {
+    this.logService.delete(id).subscribe(res => {
+      if (res.deletedCount == 1) {
+        this.sb.open('Se ha eliminado el registro', 'Ok', { duration: 2500 });
+      }
     })
   }
 }
