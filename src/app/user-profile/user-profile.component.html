@@ -42,28 +42,79 @@
                     <input type="text" matInput formControlName="phone">
                 </mat-form-field>
             </div>
-            <h3>Datos de la Escuela</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                <div>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Regional</mat-label>
-                        <input type="text" formControlName="regional" matInput>
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Distrito</mat-label>
-                        <input type="text" formControlName="district" matInput>
-                    </mat-form-field>
-                </div>
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>C&oacute;digo de Referencia</mat-label>
+                    <input type="text" matInput formControlName="refCode">
+                </mat-form-field>
             </div>
-            <mat-form-field appearance="outline">
-                <mat-label>Nombre de la Escuela</mat-label>
-                <input type="text" formControlName="schoolName" matInput>
-            </mat-form-field>
             <div style="text-align: end;">
-                <button mat-raised-button type="submit" color="primary">Guardar</button>
+                <button mat-flat-button type="submit" color="primary">Guardar</button>
             </div>
         </form>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="profile-card">
+    <mat-card-header>
+        <mat-card-title>Escuelas</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div style="margin-top: 12px;">
+            @for(school of schoolsForm.controls; track $index) {
+                @if (schoolsForm.controls.length > 1) {
+                    <h3>Escuela #{{$index + 1}}</h3>
+                }
+                <form [formGroup]="school" (ngSubmit)="saveSchool($index)">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nombre de la Escuela</mat-label>
+                        <input type="text" formControlName="name" matInput>
+                    </mat-form-field>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nivel</mat-label>
+                            <mat-select formControlName="level">
+                                <mat-option value="Pre Primaria">Pre Primaria</mat-option>
+                                <mat-option value="Primaria">Primaria</mat-option>
+                                <mat-option value="Secundaria">Secundaria</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Modalidad</mat-label>
+                            <mat-select formControlName="journey">
+                                <mat-option value="Jornada Extendida">Jornada Extendida</mat-option>
+                                <mat-option value="Matutina">Matutina</mat-option>
+                                <mat-option value="Vespertina">Vespertina</mat-option>
+                                <mat-option value="Nocturna">Nocturna</mat-option>
+                                <mat-option value="Sabatina">Sabatina</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Regional</mat-label>
+                                <input type="text" formControlName="regional" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Distrito</mat-label>
+                                <input type="text" formControlName="district" matInput>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div style="text-align: end;">
+                        @if (schoolsForm.controls.length > 1) {
+                            <button type="button" color="warn" style="margin-right: 12px;" (click)="removeSchool($index)" mat-flat-button>Eliminar</button>
+                        }
+                        <button type="submit" color="primary" mat-flat-button>Guardar</button>
+                    </div>
+                </form>
+            }
+        </div>
+        <div style="margin-top: 12px;">
+            <button type="button" color="accent" (click)="addSchool()" mat-flat-button>Agregar Escuela</button>
+        </div>
     </mat-card-content>
 </mat-card>

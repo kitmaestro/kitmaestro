@@ -65,6 +65,17 @@ export class AppComponent {
 
   ngOnInit() {
     this.loadUser();
+    // this.aiService.generateImage('Can you design a binder separator background image in a letter size (8.5 by 11 inches) portrait position with a forest theme?').subscribe({
+    //   next: res => {
+    //     const img = document.createElement('img')
+    //     img.src = res.result;
+    //     document.body.appendChild(img)
+    //     console.log('done!')
+    //   },
+    //   error: err => {
+    //     console.log(err.message)
+    //   }
+    // });
     this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(() => this.loadUser());
     // const sus = (collectionData(collection(this.firestore, 'competence')) as Observable<CompetenceEntry[]>).subscribe(competence => {
     //   this.comp = competence;

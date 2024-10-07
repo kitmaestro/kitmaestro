@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../services/auth.service';
 import { UserSettings } from '../interfaces/user-settings';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { SchoolService } from '../services/school.service';
+import { School } from '../interfaces/school';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,6 +32,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 })
 export class UserProfileComponent {
   private authService = inject(AuthService);
+  private schoolService = inject(SchoolService);
   private fb = inject(FormBuilder);
   private sb = inject(MatSnackBar);
   public user: UserSettings | null = null;
@@ -42,11 +45,19 @@ export class UserProfileComponent {
     email: [''],
     gender: ['Hombre'],
     phone: [''],
-    schoolName: [''],
-    district: [''],
-    regional: [''],
     refCode: [''],
   });
+
+  schoolsForm = this.fb.array([
+    this.fb.group({
+      user: [''],
+      name: [''],
+      level: [''],
+      regional: [''],
+      district: [''],
+      journey: [''],
+    })
+  ]);
 
   titleOptions: { Hombre: { value: string, label: string }[], Mujer: { value: string, label: string }[] } = {
     Hombre: [
@@ -62,9 +73,18 @@ export class UserProfileComponent {
   }
   
   ngOnInit() {
+    this.schoolService.findAll().subscribe(schools => {
+      if (schools.length) {
+        this.removeSchool(0);
+        schools.forEach(school => {
+          this.addSchool(school);
+        });
+      }
+    });
     this.authService.profile().subscribe({
       next: user => {
         this.user = user;
+        this.schoolsForm.controls[0].get('user')?.setValue(user._id);
         const { title, firstname, lastname, username, email, gender, phone, schoolName, district, regional, photoURL, refCode } = user;
         this.userForm.get('gender')?.setValue(gender || 'Hombre');
         this.userForm.setValue({
@@ -75,9 +95,6 @@ export class UserProfileComponent {
           email: email || '',
           gender: gender || '',
           phone: phone || '',
-          schoolName: schoolName || '',
-          district: district || '',
-          regional: regional || '',
           refCode: refCode || ''
         });
       }
@@ -94,6 +111,38 @@ export class UserProfileComponent {
       },
       error: err => {
         this.sb.open('Hubo un error al guardar', 'Ok', { duration: 2500 });
+      }
+    })
+  }
+
+  addSchool(school?: School) {
+    const user = school?.user || this.user?._id || '';
+    const name = school?.name || '';
+    const level = school?.level || '';
+    const regional = school?.regional || '';
+    const district = school?.district || '';
+    const journey = school?.journey || '';
+    const schoolForm = this.fb.group({
+      user: [user],
+      name: [name],
+      level: [level],
+      regional: [regional],
+      district: [district],
+      journey: [journey],
+    })
+    this.schoolsForm.push(schoolForm);
+  }
+
+  removeSchool(index: number) {
+    this.schoolsForm.removeAt(index);
+  }
+
+  saveSchool(index: number) {
+    const school: any = this.schoolsForm.controls[index].value;
+    console.log(index, school)
+    this.schoolService.create(school).subscribe(res => {
+      if (res._id) {
+        this.sb.open('La escuela ha sido guardada', 'Ok', { duration: 2500 });
       }
     })
   }
