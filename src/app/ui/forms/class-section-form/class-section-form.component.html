@@ -2,6 +2,14 @@
 <mat-dialog-content>
     <form (ngSubmit)="onSubmit()" [formGroup]="sectionForm">
         <mat-form-field>
+            <mat-label>Escuela</mat-label>
+            <mat-select formControlName="school">
+                @for(school of schools; track school._id) {
+                    <mat-option [value]="school._id">{{school.name}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
             <mat-label>Nivel</mat-label>
             <mat-select formControlName="level">
                 <mat-option value="PRIMARIA">Primaria</mat-option>

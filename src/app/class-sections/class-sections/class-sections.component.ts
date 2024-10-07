@@ -35,7 +35,7 @@ import { ClassSection } from '../../interfaces/class-section';
 export class ClassSectionsComponent implements OnInit {
   private dialog = inject(MatDialog);
   private classSectionService = inject(ClassSectionService);
-  sections$: Observable<ClassSection[]> = this.classSectionService.findAll();
+  sections$: Observable<ClassSection[]> = this.classSectionService.findSections();
 
   ngOnInit() {
   }

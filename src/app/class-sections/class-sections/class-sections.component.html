@@ -17,6 +17,7 @@
         <mat-card *ngFor="let section of sections$ | async" style="margin-top: 20px;">
             <mat-card-header>
                 <h2 mat-card-title>{{ section.name }}</h2>
+                <h3 mat-card-subtitle>{{ section.school.name }}</h3>
                 <h3 mat-card-subtitle>{{ formatValue(section.year) }} de {{ formatValue(section.level) }}</h3>
             </mat-card-header>
             <mat-card-actions style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">

@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ClassSectionService } from '../../../services/class-section.service';
 import { ClassSection } from '../../../interfaces/class-section';
+import { SchoolService } from '../../../services/school.service';
+import { School } from '../../../interfaces/school';
 
 @Component({
   selector: 'app-class-section-form',
@@ -30,11 +32,15 @@ export class ClassSectionFormComponent {
   private fb = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<ClassSectionFormComponent>);
   private classSectionService = inject(ClassSectionService);
+  private schoolService = inject(SchoolService);
   sb = inject(MatSnackBar);
   saving = false;
   id: string = '';
 
+  schools: School[] = [];
+
   sectionForm = this.fb.group({
+    school: ['', Validators.required],
     name: ['', Validators.required],
     level: ['', Validators.required],
     year: ['', Validators.required],
@@ -59,9 +65,10 @@ export class ClassSectionFormComponent {
     public data: ClassSection,
   ) {
     if (data) {
-      const { name, level, year, subjects, _id: id } = data;
+      const { school, name, level, year, subjects, _id: id } = data;
 
       this.sectionForm.setValue({
+        school: school ? school._id : '',
         name: name ? name : '',
         level: level ? level : '',
         year: year ? year : '',
@@ -70,21 +77,22 @@ export class ClassSectionFormComponent {
 
       this.id = id || '';
     }
+    this.schoolService.findAll().subscribe(schools => this.schools = schools);
   }
 
   onSubmit() {
     if (this.sectionForm.valid) {
       this.saving = true;
-      const { name, level, year, subjects } = this.sectionForm.value;
+      const { school, name, level, year, subjects } = this.sectionForm.value;
       if (this.data) {
-        this.classSectionService.updateSection(this.id, { name, level, year, subjects  } as ClassSection).subscribe((res) => {
+        this.classSectionService.updateSection(this.id, { school, name, level, year, subjects  }).subscribe((res) => {
           if (res.modifiedCount == 1) {
             this.sb.open('Sección actualizada con éxito.', 'Ok', { duration: 2500 });
             this.dialogRef.close(res);
           }
         });
       } else {
-        const section = { name, level, year, subjects } as ClassSection;
+        const section: any = { school, name, level, year, subjects };
         this.classSectionService.addSection(section).subscribe(result => {
           this.sb.open('Sección creada con éxito.', 'Ok', { duration: 2500 });
           this.dialogRef.close(result);
