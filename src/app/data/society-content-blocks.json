@@ -1810,14 +1810,455 @@
         ]
     },
     {
-        "title": "",
-        "level": "SECUNDARIA",
-        "year": "PRIMERO",
-        "subject": "CIENCIAS_SOCIALES",
-        "concepts": [],
-        "procedures": [],
-        "attitudes": [],
-        "achievement_indicators": []
+      "title": "La Geografía y su estudio",
+      "level": "SECUNDARIA",
+      "year": "PRIMERO",
+      "subject": "CIENCIAS_SOCIALES",
+      "concepts": [
+          "La Geografía y su estudio"
+      ],
+      "procedures": [
+        "Identificación de fuentes confiables para el estudio geográfico.",
+        "Investigación en fuentes confiables sobre la importancia de la geografía y sus ciencias auxiliares.",
+        "Socialización de ideas y realización de organizadores gráficos sobre las ciencias auxiliares de la geografía."
+      ],
+      "attitudes": [
+        "Interés por el uso adecuado de las fuentes de información utilizadas, verificando su credibilidad y relevancia para el tema.",
+        "Valoración de la geografía como una ciencia útil para la vida cotidiana."
+      ],
+      "achievement_indicators": [
+          "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
+          "Ubica en mapas espacios cartográficos, puntos cardinales, meridiano de Greenwich y escala geográfica de acuerdo con la forma en la que se representa",
+          "Ubica en mapa los territorios conquistados, las rutas comerciales y las colonias establecidas por los países europeos durante su expansión, en los siglos estudiados. ",
+          "Utiliza fuentes confiables en el estudio de los periodos históricos correspondientes a los siglos abordados, asegurando la precisión y objetividad en su investigación",
+          "Sintetiza hechos históricos relevantes de la historia colonial en la isla de Santo Domingo durante los siglos XV al XVIII, a través de la elaboración de resúmenes e informes de lectura",
+          "Elabora gráficos y cuadros sinópticos sobre las condiciones políticas, sociales y económicas que existían en la isla de Santo Domingo durante los siglos estudiados",
+          "Elabora líneas de tiempo sobre acontecimientos históricos que dieron origen a la cultura de paz, así como de los personajes que han luchado por ella",
+          "Utiliza de forma crítica las fuentes de información sobre la representación de la tierra, diferencias entre mapas y plano, espacio geográfico y los componentes de representación de los mapas. ",
+          "Compara la incidencia del colonialismo, mercantilismo, monopolio, contrabando y capitalismo en la expansión colonial europea, a través de ensayos y monografías académicas publicadas en revistas especializadas y en libros de autores reconocidos",
+          "Realiza análisis de diversas fuentes históricas que abordan planteamientos y teorías acerca del origen del nacionalismo",
+          "Compara planteamientos de autores sobre derechos humanos y movimientos obreros organizados durante las revoluciones burguesas en los siglos estudiados",
+          "Analiza cómo las revoluciones burguesas, la Revolución Francesa y la independencia de las 13 colonias de Estados Unidos de América influyeron en los cambios políticos, económicos y sociales de los siglos estudiados",
+          "Identifica los factores que motivaron las contradicciones políticas, religiosas y económicas desarrolladas entre Alemania, Italia y el Imperio Austrohúngaro",
+          "Emplea el diálogo en la solución de situaciones conflictivas surgidas por incumplimiento al derecho ciudadano, desacuerdos culturales, de identidad cultural, aculturación, transculturación o interculturalidad",
+          "Valora la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+          "Analiza la importancia de la Constitución de República Dominicana en la garantía del Estado de derecho, el equilibrio de los poderes del Estado y la soberanía nacional",
+          "Plantea proyectos de educación vial y tributaria en el marco de una ciudadanía responsable",
+          "Explica las implicaciones de la teoría de la dependencia para comprender la realidad de América Latina. ",
+          "Elabora pinturas, collages y murales sobre el impacto del calentamiento global en el planeta Tierra",
+          "Presenta resúmenes, informes de lecturas y propuestas sobre la preservación de los recursos naturales en el mundo y en su país",
+          "Analiza fuentes de información confiable sobre cómo la contaminación ambiental repercute en la estabilidad social"
+      ]
+    },
+    {
+      "title": "La Tierra y su representación: La tierra en el sistema solar",
+      "level": "SECUNDARIA",
+      "year": "PRIMERO",
+      "subject": "CIENCIAS_SOCIALES",
+      "concepts": [
+          "La Tierra y su representación: La tierra en el sistema solar"
+      ],
+      "procedures": [
+        "Comparación de investigaciones sobre las teorías que componen el sistema solar y el origen del planeta Tierra.",
+        "Observación y comparación en una representación del Sistema Solar de los distintos astros y planetas.",
+        "Valoración del planeta Tierra dentro del Sistema Solar."
+      ],
+      "attitudes": [
+        "Valoración de la importancia del planeta Tierra dentro del Sistema Solar.",
+        "Interés por identificar los diferentes tipos de mapas y los elementos que los componen."
+      ],
+      "achievement_indicators": [
+          "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
+          "Ubica en mapas espacios cartográficos, puntos cardinales, meridiano de Greenwich y escala geográfica de acuerdo con la forma en la que se representa",
+          "Ubica en mapa los territorios conquistados, las rutas comerciales y las colonias establecidas por los países europeos durante su expansión, en los siglos estudiados. ",
+          "Utiliza fuentes confiables en el estudio de los periodos históricos correspondientes a los siglos abordados, asegurando la precisión y objetividad en su investigación",
+          "Sintetiza hechos históricos relevantes de la historia colonial en la isla de Santo Domingo durante los siglos XV al XVIII, a través de la elaboración de resúmenes e informes de lectura",
+          "Elabora gráficos y cuadros sinópticos sobre las condiciones políticas, sociales y económicas que existían en la isla de Santo Domingo durante los siglos estudiados",
+          "Elabora líneas de tiempo sobre acontecimientos históricos que dieron origen a la cultura de paz, así como de los personajes que han luchado por ella",
+          "Utiliza de forma crítica las fuentes de información sobre la representación de la tierra, diferencias entre mapas y plano, espacio geográfico y los componentes de representación de los mapas. ",
+          "Compara la incidencia del colonialismo, mercantilismo, monopolio, contrabando y capitalismo en la expansión colonial europea, a través de ensayos y monografías académicas publicadas en revistas especializadas y en libros de autores reconocidos",
+          "Realiza análisis de diversas fuentes históricas que abordan planteamientos y teorías acerca del origen del nacionalismo",
+          "Compara planteamientos de autores sobre derechos humanos y movimientos obreros organizados durante las revoluciones burguesas en los siglos estudiados",
+          "Analiza cómo las revoluciones burguesas, la Revolución Francesa y la independencia de las 13 colonias de Estados Unidos de América influyeron en los cambios políticos, económicos y sociales de los siglos estudiados",
+          "Identifica los factores que motivaron las contradicciones políticas, religiosas y económicas desarrolladas entre Alemania, Italia y el Imperio Austrohúngaro",
+          "Emplea el diálogo en la solución de situaciones conflictivas surgidas por incumplimiento al derecho ciudadano, desacuerdos culturales, de identidad cultural, aculturación, transculturación o interculturalidad",
+          "Valora la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+          "Analiza la importancia de la Constitución de República Dominicana en la garantía del Estado de derecho, el equilibrio de los poderes del Estado y la soberanía nacional",
+          "Plantea proyectos de educación vial y tributaria en el marco de una ciudadanía responsable",
+          "Explica las implicaciones de la teoría de la dependencia para comprender la realidad de América Latina. ",
+          "Elabora pinturas, collages y murales sobre el impacto del calentamiento global en el planeta Tierra",
+          "Presenta resúmenes, informes de lecturas y propuestas sobre la preservación de los recursos naturales en el mundo y en su país",
+          "Analiza fuentes de información confiable sobre cómo la contaminación ambiental repercute en la estabilidad social"
+      ]
+    },
+    {
+      "title": "La Cartografía",
+      "level": "SECUNDARIA",
+      "year": "PRIMERO",
+      "subject": "CIENCIAS_SOCIALES",
+      "concepts": [
+          "La Cartografía"
+      ],
+      "procedures": [
+        "Identificación de las escalas de representación de la tierra.",
+        "Empleo en mapa de los puntos cardinales, paralelos, meridianos y la rosa de los vientos para ubicar cualquier espacio.",
+        "Interpretación de los distintos tipos de mapas y sus elementos."
+      ],
+      "attitudes": [
+        "Respeto de las fuentes de informaciones institucionales, al realizar investigaciones sobre la historia de la cartografía.",
+        "Interés por identificar los diferentes tipos de mapas y los elementos que los componen."
+      ],
+      "achievement_indicators": [
+          "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
+          "Ubica en mapas espacios cartográficos, puntos cardinales, meridiano de Greenwich y escala geográfica de acuerdo con la forma en la que se representa",
+          "Ubica en mapa los territorios conquistados, las rutas comerciales y las colonias establecidas por los países europeos durante su expansión, en los siglos estudiados. ",
+          "Utiliza fuentes confiables en el estudio de los periodos históricos correspondientes a los siglos abordados, asegurando la precisión y objetividad en su investigación",
+          "Sintetiza hechos históricos relevantes de la historia colonial en la isla de Santo Domingo durante los siglos XV al XVIII, a través de la elaboración de resúmenes e informes de lectura",
+          "Elabora gráficos y cuadros sinópticos sobre las condiciones políticas, sociales y económicas que existían en la isla de Santo Domingo durante los siglos estudiados",
+          "Elabora líneas de tiempo sobre acontecimientos históricos que dieron origen a la cultura de paz, así como de los personajes que han luchado por ella",
+          "Utiliza de forma crítica las fuentes de información sobre la representación de la tierra, diferencias entre mapas y plano, espacio geográfico y los componentes de representación de los mapas. ",
+          "Compara la incidencia del colonialismo, mercantilismo, monopolio, contrabando y capitalismo en la expansión colonial europea, a través de ensayos y monografías académicas publicadas en revistas especializadas y en libros de autores reconocidos",
+          "Realiza análisis de diversas fuentes históricas que abordan planteamientos y teorías acerca del origen del nacionalismo",
+          "Compara planteamientos de autores sobre derechos humanos y movimientos obreros organizados durante las revoluciones burguesas en los siglos estudiados",
+          "Analiza cómo las revoluciones burguesas, la Revolución Francesa y la independencia de las 13 colonias de Estados Unidos de América influyeron en los cambios políticos, económicos y sociales de los siglos estudiados",
+          "Identifica los factores que motivaron las contradicciones políticas, religiosas y económicas desarrolladas entre Alemania, Italia y el Imperio Austrohúngaro",
+          "Emplea el diálogo en la solución de situaciones conflictivas surgidas por incumplimiento al derecho ciudadano, desacuerdos culturales, de identidad cultural, aculturación, transculturación o interculturalidad",
+          "Valora la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+          "Analiza la importancia de la Constitución de República Dominicana en la garantía del Estado de derecho, el equilibrio de los poderes del Estado y la soberanía nacional",
+          "Plantea proyectos de educación vial y tributaria en el marco de una ciudadanía responsable",
+          "Explica las implicaciones de la teoría de la dependencia para comprender la realidad de América Latina. ",
+          "Elabora pinturas, collages y murales sobre el impacto del calentamiento global en el planeta Tierra",
+          "Presenta resúmenes, informes de lecturas y propuestas sobre la preservación de los recursos naturales en el mundo y en su país",
+          "Analiza fuentes de información confiable sobre cómo la contaminación ambiental repercute en la estabilidad social"
+      ]
+    },
+    {
+      "title": "Mapas y planos. Sus componentes",
+      "level": "SECUNDARIA",
+      "year": "PRIMERO",
+      "subject": "CIENCIAS_SOCIALES",
+      "concepts": [
+          "Mapas y planos. Sus componentes"
+      ],
+      "procedures": [
+        "Diferenciación entre mapas y planos.",
+        "Interpretación de los distintos tipos de mapas y sus elementos.",
+        "Uso de las distintas representaciones de la Tierra."
+      ],
+      "attitudes": [
+        "Interés por los Sistemas de Posicionamiento Global (GPS).",
+        "Valoración de la geografía como una ciencia útil para la vida cotidiana."
+      ],
+      "achievement_indicators": [
+          "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
+          "Ubica en mapas espacios cartográficos, puntos cardinales, meridiano de Greenwich y escala geográfica de acuerdo con la forma en la que se representa",
+          "Ubica en mapa los territorios conquistados, las rutas comerciales y las colonias establecidas por los países europeos durante su expansión, en los siglos estudiados. ",
+          "Utiliza fuentes confiables en el estudio de los periodos históricos correspondientes a los siglos abordados, asegurando la precisión y objetividad en su investigación",
+          "Sintetiza hechos históricos relevantes de la historia colonial en la isla de Santo Domingo durante los siglos XV al XVIII, a través de la elaboración de resúmenes e informes de lectura",
+          "Elabora gráficos y cuadros sinópticos sobre las condiciones políticas, sociales y económicas que existían en la isla de Santo Domingo durante los siglos estudiados",
+          "Elabora líneas de tiempo sobre acontecimientos históricos que dieron origen a la cultura de paz, así como de los personajes que han luchado por ella",
+          "Utiliza de forma crítica las fuentes de información sobre la representación de la tierra, diferencias entre mapas y plano, espacio geográfico y los componentes de representación de los mapas. ",
+          "Compara la incidencia del colonialismo, mercantilismo, monopolio, contrabando y capitalismo en la expansión colonial europea, a través de ensayos y monografías académicas publicadas en revistas especializadas y en libros de autores reconocidos",
+          "Realiza análisis de diversas fuentes históricas que abordan planteamientos y teorías acerca del origen del nacionalismo",
+          "Compara planteamientos de autores sobre derechos humanos y movimientos obreros organizados durante las revoluciones burguesas en los siglos estudiados",
+          "Analiza cómo las revoluciones burguesas, la Revolución Francesa y la independencia de las 13 colonias de Estados Unidos de América influyeron en los cambios políticos, económicos y sociales de los siglos estudiados",
+          "Identifica los factores que motivaron las contradicciones políticas, religiosas y económicas desarrolladas entre Alemania, Italia y el Imperio Austrohúngaro",
+          "Emplea el diálogo en la solución de situaciones conflictivas surgidas por incumplimiento al derecho ciudadano, desacuerdos culturales, de identidad cultural, aculturación, transculturación o interculturalidad",
+          "Valora la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+          "Analiza la importancia de la Constitución de República Dominicana en la garantía del Estado de derecho, el equilibrio de los poderes del Estado y la soberanía nacional",
+          "Plantea proyectos de educación vial y tributaria en el marco de una ciudadanía responsable",
+          "Explica las implicaciones de la teoría de la dependencia para comprender la realidad de América Latina. ",
+          "Elabora pinturas, collages y murales sobre el impacto del calentamiento global en el planeta Tierra",
+          "Presenta resúmenes, informes de lecturas y propuestas sobre la preservación de los recursos naturales en el mundo y en su país",
+          "Analiza fuentes de información confiable sobre cómo la contaminación ambiental repercute en la estabilidad social"
+      ]
+    },
+    {
+      "title": "Historia Universal",
+      "level": "SECUNDARIA",
+      "year": "PRIMERO",
+      "subject": "CIENCIAS_SOCIALES",
+      "concepts": [
+          "Historia Universal"
+      ],
+      "procedures": [
+        "Investigación de los recursos naturales de los continentes colonizados entre los siglos XV y XVIII, mediante consulta en diversas fuentes bibliográficas, audiovisuales y páginas especializadas en internet.",
+        "Realización de simulaciones acerca del régimen de las encomiendas, las luchas de los aborígenes y los esclavos africanos en la isla durante el siglo XVI y XVII.",
+        "Análisis de fuentes históricas sobre las medidas tomadas en la despoblación de la banda norte, sus causas y consecuencias."
+      ],
+      "attitudes": [
+        "Respeto por la autoría de las informaciones localizadas sobre historia universal.",
+        "Valoración de fuentes de información para el estudio de períodos determinados."
+      ],
+      "achievement_indicators": [
+          "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
+          "Ubica en mapas espacios cartográficos, puntos cardinales, meridiano de Greenwich y escala geográfica de acuerdo con la forma en la que se representa",
+          "Ubica en mapa los territorios conquistados, las rutas comerciales y las colonias establecidas por los países europeos durante su expansión, en los siglos estudiados. ",
+          "Utiliza fuentes confiables en el estudio de los periodos históricos correspondientes a los siglos abordados, asegurando la precisión y objetividad en su investigación",
+          "Sintetiza hechos históricos relevantes de la historia colonial en la isla de Santo Domingo durante los siglos XV al XVIII, a través de la elaboración de resúmenes e informes de lectura",
+          "Elabora gráficos y cuadros sinópticos sobre las condiciones políticas, sociales y económicas que existían en la isla de Santo Domingo durante los siglos estudiados",
+          "Elabora líneas de tiempo sobre acontecimientos históricos que dieron origen a la cultura de paz, así como de los personajes que han luchado por ella",
+          "Utiliza de forma crítica las fuentes de información sobre la representación de la tierra, diferencias entre mapas y plano, espacio geográfico y los componentes de representación de los mapas. ",
+          "Compara la incidencia del colonialismo, mercantilismo, monopolio, contrabando y capitalismo en la expansión colonial europea, a través de ensayos y monografías académicas publicadas en revistas especializadas y en libros de autores reconocidos",
+          "Realiza análisis de diversas fuentes históricas que abordan planteamientos y teorías acerca del origen del nacionalismo",
+          "Compara planteamientos de autores sobre derechos humanos y movimientos obreros organizados durante las revoluciones burguesas en los siglos estudiados",
+          "Analiza cómo las revoluciones burguesas, la Revolución Francesa y la independencia de las 13 colonias de Estados Unidos de América influyeron en los cambios políticos, económicos y sociales de los siglos estudiados",
+          "Identifica los factores que motivaron las contradicciones políticas, religiosas y económicas desarrolladas entre Alemania, Italia y el Imperio Austrohúngaro",
+          "Emplea el diálogo en la solución de situaciones conflictivas surgidas por incumplimiento al derecho ciudadano, desacuerdos culturales, de identidad cultural, aculturación, transculturación o interculturalidad",
+          "Valora la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+          "Analiza la importancia de la Constitución de República Dominicana en la garantía del Estado de derecho, el equilibrio de los poderes del Estado y la soberanía nacional",
+          "Plantea proyectos de educación vial y tributaria en el marco de una ciudadanía responsable",
+          "Explica las implicaciones de la teoría de la dependencia para comprender la realidad de América Latina. ",
+          "Elabora pinturas, collages y murales sobre el impacto del calentamiento global en el planeta Tierra",
+          "Presenta resúmenes, informes de lecturas y propuestas sobre la preservación de los recursos naturales en el mundo y en su país",
+          "Analiza fuentes de información confiable sobre cómo la contaminación ambiental repercute en la estabilidad social"
+      ]
+    },
+    {
+      "title": "Revoluciones Burguesas durante el siglo XVIII y XIX",
+      "level": "SECUNDARIA",
+      "year": "PRIMERO",
+      "subject": "CIENCIAS_SOCIALES",
+      "concepts": [
+          "Revoluciones Burguesas durante el siglo XVIII y XIX"
+      ],
+      "procedures": [
+        "Producción de noticias sobre las Revoluciones burguesas, utilizando: titular, entrada o copete, cuerpo, foto y pie de foto.",
+        "Búsqueda de información para elaborar esquemas sobre el impacto de las Revoluciones burguesas en las colonias de Santo Domingo.",
+        "Elaboración de cuadros sinópticos sobre el liberalismo y el conservadurismo en Europa."
+      ],
+      "attitudes": [
+        "Valoración de las luchas de los pueblos por conquistar sus derechos políticos, sociales y económicos.",
+        "Valoración de los derechos fundamentales del ser humano y manifestación de una posición crítica frente a su violación."
+      ],
+      "achievement_indicators": [
+          "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
+          "Ubica en mapas espacios cartográficos, puntos cardinales, meridiano de Greenwich y escala geográfica de acuerdo con la forma en la que se representa",
+          "Ubica en mapa los territorios conquistados, las rutas comerciales y las colonias establecidas por los países europeos durante su expansión, en los siglos estudiados. ",
+          "Utiliza fuentes confiables en el estudio de los periodos históricos correspondientes a los siglos abordados, asegurando la precisión y objetividad en su investigación",
+          "Sintetiza hechos históricos relevantes de la historia colonial en la isla de Santo Domingo durante los siglos XV al XVIII, a través de la elaboración de resúmenes e informes de lectura",
+          "Elabora gráficos y cuadros sinópticos sobre las condiciones políticas, sociales y económicas que existían en la isla de Santo Domingo durante los siglos estudiados",
+          "Elabora líneas de tiempo sobre acontecimientos históricos que dieron origen a la cultura de paz, así como de los personajes que han luchado por ella",
+          "Utiliza de forma crítica las fuentes de información sobre la representación de la tierra, diferencias entre mapas y plano, espacio geográfico y los componentes de representación de los mapas. ",
+          "Compara la incidencia del colonialismo, mercantilismo, monopolio, contrabando y capitalismo en la expansión colonial europea, a través de ensayos y monografías académicas publicadas en revistas especializadas y en libros de autores reconocidos",
+          "Realiza análisis de diversas fuentes históricas que abordan planteamientos y teorías acerca del origen del nacionalismo",
+          "Compara planteamientos de autores sobre derechos humanos y movimientos obreros organizados durante las revoluciones burguesas en los siglos estudiados",
+          "Analiza cómo las revoluciones burguesas, la Revolución Francesa y la independencia de las 13 colonias de Estados Unidos de América influyeron en los cambios políticos, económicos y sociales de los siglos estudiados",
+          "Identifica los factores que motivaron las contradicciones políticas, religiosas y económicas desarrolladas entre Alemania, Italia y el Imperio Austrohúngaro",
+          "Emplea el diálogo en la solución de situaciones conflictivas surgidas por incumplimiento al derecho ciudadano, desacuerdos culturales, de identidad cultural, aculturación, transculturación o interculturalidad",
+          "Valora la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+          "Analiza la importancia de la Constitución de República Dominicana en la garantía del Estado de derecho, el equilibrio de los poderes del Estado y la soberanía nacional",
+          "Plantea proyectos de educación vial y tributaria en el marco de una ciudadanía responsable",
+          "Explica las implicaciones de la teoría de la dependencia para comprender la realidad de América Latina. ",
+          "Elabora pinturas, collages y murales sobre el impacto del calentamiento global en el planeta Tierra",
+          "Presenta resúmenes, informes de lecturas y propuestas sobre la preservación de los recursos naturales en el mundo y en su país",
+          "Analiza fuentes de información confiable sobre cómo la contaminación ambiental repercute en la estabilidad social"
+      ]
+    },
+    {
+      "title": "Nuevas ideas políticas",
+      "level": "SECUNDARIA",
+      "year": "PRIMERO",
+      "subject": "CIENCIAS_SOCIALES",
+      "concepts": [
+          "Nuevas ideas políticas"
+      ],
+      "procedures": [
+        "Identificación y representación de personajes de los movimientos obreros organizados en Europa y en América Latina.",
+        "Socialización mediante lluvia de ideas sobre los cambios económicos y sociales durante la Segunda Revolución industrial.",
+        "Recolección de las informaciones para la producción de noticias sobre acontecimientos históricos referidos al surgimiento del nacionalismo."
+      ],
+      "attitudes": [
+        "Se preocupa por el cumplimiento de los derechos humanos.",
+        "Demanda de sus derechos, y cumplimiento de sus deberes."
+      ],
+      "achievement_indicators": [
+          "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
+          "Ubica en mapas espacios cartográficos, puntos cardinales, meridiano de Greenwich y escala geográfica de acuerdo con la forma en la que se representa",
+          "Ubica en mapa los territorios conquistados, las rutas comerciales y las colonias establecidas por los países europeos durante su expansión, en los siglos estudiados. ",
+          "Utiliza fuentes confiables en el estudio de los periodos históricos correspondientes a los siglos abordados, asegurando la precisión y objetividad en su investigación",
+          "Sintetiza hechos históricos relevantes de la historia colonial en la isla de Santo Domingo durante los siglos XV al XVIII, a través de la elaboración de resúmenes e informes de lectura",
+          "Elabora gráficos y cuadros sinópticos sobre las condiciones políticas, sociales y económicas que existían en la isla de Santo Domingo durante los siglos estudiados",
+          "Elabora líneas de tiempo sobre acontecimientos históricos que dieron origen a la cultura de paz, así como de los personajes que han luchado por ella",
+          "Utiliza de forma crítica las fuentes de información sobre la representación de la tierra, diferencias entre mapas y plano, espacio geográfico y los componentes de representación de los mapas. ",
+          "Compara la incidencia del colonialismo, mercantilismo, monopolio, contrabando y capitalismo en la expansión colonial europea, a través de ensayos y monografías académicas publicadas en revistas especializadas y en libros de autores reconocidos",
+          "Realiza análisis de diversas fuentes históricas que abordan planteamientos y teorías acerca del origen del nacionalismo",
+          "Compara planteamientos de autores sobre derechos humanos y movimientos obreros organizados durante las revoluciones burguesas en los siglos estudiados",
+          "Analiza cómo las revoluciones burguesas, la Revolución Francesa y la independencia de las 13 colonias de Estados Unidos de América influyeron en los cambios políticos, económicos y sociales de los siglos estudiados",
+          "Identifica los factores que motivaron las contradicciones políticas, religiosas y económicas desarrolladas entre Alemania, Italia y el Imperio Austrohúngaro",
+          "Emplea el diálogo en la solución de situaciones conflictivas surgidas por incumplimiento al derecho ciudadano, desacuerdos culturales, de identidad cultural, aculturación, transculturación o interculturalidad",
+          "Valora la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+          "Analiza la importancia de la Constitución de República Dominicana en la garantía del Estado de derecho, el equilibrio de los poderes del Estado y la soberanía nacional",
+          "Plantea proyectos de educación vial y tributaria en el marco de una ciudadanía responsable",
+          "Explica las implicaciones de la teoría de la dependencia para comprender la realidad de América Latina. ",
+          "Elabora pinturas, collages y murales sobre el impacto del calentamiento global en el planeta Tierra",
+          "Presenta resúmenes, informes de lecturas y propuestas sobre la preservación de los recursos naturales en el mundo y en su país",
+          "Analiza fuentes de información confiable sobre cómo la contaminación ambiental repercute en la estabilidad social"
+      ]
+    },
+    {
+      "title": "Surgimiento del nacionalismo y su expansión a lo largo del siglo XVIII y XIX",
+      "level": "SECUNDARIA",
+      "year": "PRIMERO",
+      "subject": "CIENCIAS_SOCIALES",
+      "concepts": [
+          "Surgimiento del nacionalismo y su expansión a lo largo del siglo XVIII y XIX"
+      ],
+      "procedures": [
+        "Búsqueda de información para explicar cómo fue surgiendo el nacionalismo en países como: Alemania, Italia, Imperio Austro Húngaro, América Latina y el Caribe.",
+        "Lluvia de ideas sobre los cambios económicos, políticos y territoriales después de la industrialización.",
+        "Discusión de conceptos, tales como: nación, nacionalismo."
+      ],
+      "attitudes": [
+        "Interés por el significado de conceptos relacionados con el expansionismo.",
+        "Valoración de las luchas de los pueblos por conquistar sus derechos políticos, sociales y económicos."
+      ],
+      "achievement_indicators": [
+          "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
+          "Ubica en mapas espacios cartográficos, puntos cardinales, meridiano de Greenwich y escala geográfica de acuerdo con la forma en la que se representa",
+          "Ubica en mapa los territorios conquistados, las rutas comerciales y las colonias establecidas por los países europeos durante su expansión, en los siglos estudiados. ",
+          "Utiliza fuentes confiables en el estudio de los periodos históricos correspondientes a los siglos abordados, asegurando la precisión y objetividad en su investigación",
+          "Sintetiza hechos históricos relevantes de la historia colonial en la isla de Santo Domingo durante los siglos XV al XVIII, a través de la elaboración de resúmenes e informes de lectura",
+          "Elabora gráficos y cuadros sinópticos sobre las condiciones políticas, sociales y económicas que existían en la isla de Santo Domingo durante los siglos estudiados",
+          "Elabora líneas de tiempo sobre acontecimientos históricos que dieron origen a la cultura de paz, así como de los personajes que han luchado por ella",
+          "Utiliza de forma crítica las fuentes de información sobre la representación de la tierra, diferencias entre mapas y plano, espacio geográfico y los componentes de representación de los mapas. ",
+          "Compara la incidencia del colonialismo, mercantilismo, monopolio, contrabando y capitalismo en la expansión colonial europea, a través de ensayos y monografías académicas publicadas en revistas especializadas y en libros de autores reconocidos",
+          "Realiza análisis de diversas fuentes históricas que abordan planteamientos y teorías acerca del origen del nacionalismo",
+          "Compara planteamientos de autores sobre derechos humanos y movimientos obreros organizados durante las revoluciones burguesas en los siglos estudiados",
+          "Analiza cómo las revoluciones burguesas, la Revolución Francesa y la independencia de las 13 colonias de Estados Unidos de América influyeron en los cambios políticos, económicos y sociales de los siglos estudiados",
+          "Identifica los factores que motivaron las contradicciones políticas, religiosas y económicas desarrolladas entre Alemania, Italia y el Imperio Austrohúngaro",
+          "Emplea el diálogo en la solución de situaciones conflictivas surgidas por incumplimiento al derecho ciudadano, desacuerdos culturales, de identidad cultural, aculturación, transculturación o interculturalidad",
+          "Valora la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+          "Analiza la importancia de la Constitución de República Dominicana en la garantía del Estado de derecho, el equilibrio de los poderes del Estado y la soberanía nacional",
+          "Plantea proyectos de educación vial y tributaria en el marco de una ciudadanía responsable",
+          "Explica las implicaciones de la teoría de la dependencia para comprender la realidad de América Latina. ",
+          "Elabora pinturas, collages y murales sobre el impacto del calentamiento global en el planeta Tierra",
+          "Presenta resúmenes, informes de lecturas y propuestas sobre la preservación de los recursos naturales en el mundo y en su país",
+          "Analiza fuentes de información confiable sobre cómo la contaminación ambiental repercute en la estabilidad social"
+      ]
+    },
+    {
+      "title": "Educación ciudadana, identidad cultural e interculturalidad",
+      "level": "SECUNDARIA",
+      "year": "PRIMERO",
+      "subject": "CIENCIAS_SOCIALES",
+      "concepts": [
+          "Educación ciudadana, identidad cultural e interculturalidad"
+      ],
+      "procedures": [
+        "Utilización de diversas fuentes confiables sobre la definición conceptual de derecho ciudadano, cultural, identidad cultural, aculturación, transculturación e interculturalidad.",
+        "Realización de investigaciones exhaustivas sobre los símbolos patrios, profundizando en su significado y en la importancia que tienen para la nación.",
+        "Realización de simulaciones en el patio de la escuela utilizando conos y señales viales, enfocados en los roles de peatones, ciclistas y conductores que favorezcan aprender y aplicar las reglas de tránsito."
+      ],
+      "attitudes": [
+        "Respeta y valora el espacio social natural.",
+        "Valoración de la cultura de paz y de la formación de una ciudadanía responsable."
+      ],
+      "achievement_indicators": [
+          "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
+          "Ubica en mapas espacios cartográficos, puntos cardinales, meridiano de Greenwich y escala geográfica de acuerdo con la forma en la que se representa",
+          "Ubica en mapa los territorios conquistados, las rutas comerciales y las colonias establecidas por los países europeos durante su expansión, en los siglos estudiados. ",
+          "Utiliza fuentes confiables en el estudio de los periodos históricos correspondientes a los siglos abordados, asegurando la precisión y objetividad en su investigación",
+          "Sintetiza hechos históricos relevantes de la historia colonial en la isla de Santo Domingo durante los siglos XV al XVIII, a través de la elaboración de resúmenes e informes de lectura",
+          "Elabora gráficos y cuadros sinópticos sobre las condiciones políticas, sociales y económicas que existían en la isla de Santo Domingo durante los siglos estudiados",
+          "Elabora líneas de tiempo sobre acontecimientos históricos que dieron origen a la cultura de paz, así como de los personajes que han luchado por ella",
+          "Utiliza de forma crítica las fuentes de información sobre la representación de la tierra, diferencias entre mapas y plano, espacio geográfico y los componentes de representación de los mapas. ",
+          "Compara la incidencia del colonialismo, mercantilismo, monopolio, contrabando y capitalismo en la expansión colonial europea, a través de ensayos y monografías académicas publicadas en revistas especializadas y en libros de autores reconocidos",
+          "Realiza análisis de diversas fuentes históricas que abordan planteamientos y teorías acerca del origen del nacionalismo",
+          "Compara planteamientos de autores sobre derechos humanos y movimientos obreros organizados durante las revoluciones burguesas en los siglos estudiados",
+          "Analiza cómo las revoluciones burguesas, la Revolución Francesa y la independencia de las 13 colonias de Estados Unidos de América influyeron en los cambios políticos, económicos y sociales de los siglos estudiados",
+          "Identifica los factores que motivaron las contradicciones políticas, religiosas y económicas desarrolladas entre Alemania, Italia y el Imperio Austrohúngaro",
+          "Emplea el diálogo en la solución de situaciones conflictivas surgidas por incumplimiento al derecho ciudadano, desacuerdos culturales, de identidad cultural, aculturación, transculturación o interculturalidad",
+          "Valora la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+          "Analiza la importancia de la Constitución de República Dominicana en la garantía del Estado de derecho, el equilibrio de los poderes del Estado y la soberanía nacional",
+          "Plantea proyectos de educación vial y tributaria en el marco de una ciudadanía responsable",
+          "Explica las implicaciones de la teoría de la dependencia para comprender la realidad de América Latina. ",
+          "Elabora pinturas, collages y murales sobre el impacto del calentamiento global en el planeta Tierra",
+          "Presenta resúmenes, informes de lecturas y propuestas sobre la preservación de los recursos naturales en el mundo y en su país",
+          "Analiza fuentes de información confiable sobre cómo la contaminación ambiental repercute en la estabilidad social"
+      ]
+    },
+    {
+      "title": "Los Derechos Humanos y La Constitución dominicana",
+      "level": "SECUNDARIA",
+      "year": "PRIMERO",
+      "subject": "CIENCIAS_SOCIALES",
+      "concepts": [
+          "Los Derechos Humanos y La Constitución dominicana"
+      ],
+      "procedures": [
+        "Interpretación del recorrido histórico de la Constitución dominicana.",
+        "Análisis de los valores humanos y sociales que presenta la Constitución de la República Dominicana.",
+        "Realización de investigaciones sobre los derechos humanos y la historia de la Constitución."
+      ],
+      "attitudes": [
+        "Muestra respeto por el diálogo como forma de resolver conflictos.",
+        "Valoración de los derechos fundamentales del ser humano y manifestación de una posición crítica frente a su violación."
+      ],
+      "achievement_indicators": [
+          "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
+          "Ubica en mapas espacios cartográficos, puntos cardinales, meridiano de Greenwich y escala geográfica de acuerdo con la forma en la que se representa",
+          "Ubica en mapa los territorios conquistados, las rutas comerciales y las colonias establecidas por los países europeos durante su expansión, en los siglos estudiados. ",
+          "Utiliza fuentes confiables en el estudio de los periodos históricos correspondientes a los siglos abordados, asegurando la precisión y objetividad en su investigación",
+          "Sintetiza hechos históricos relevantes de la historia colonial en la isla de Santo Domingo durante los siglos XV al XVIII, a través de la elaboración de resúmenes e informes de lectura",
+          "Elabora gráficos y cuadros sinópticos sobre las condiciones políticas, sociales y económicas que existían en la isla de Santo Domingo durante los siglos estudiados",
+          "Elabora líneas de tiempo sobre acontecimientos históricos que dieron origen a la cultura de paz, así como de los personajes que han luchado por ella",
+          "Utiliza de forma crítica las fuentes de información sobre la representación de la tierra, diferencias entre mapas y plano, espacio geográfico y los componentes de representación de los mapas. ",
+          "Compara la incidencia del colonialismo, mercantilismo, monopolio, contrabando y capitalismo en la expansión colonial europea, a través de ensayos y monografías académicas publicadas en revistas especializadas y en libros de autores reconocidos",
+          "Realiza análisis de diversas fuentes históricas que abordan planteamientos y teorías acerca del origen del nacionalismo",
+          "Compara planteamientos de autores sobre derechos humanos y movimientos obreros organizados durante las revoluciones burguesas en los siglos estudiados",
+          "Analiza cómo las revoluciones burguesas, la Revolución Francesa y la independencia de las 13 colonias de Estados Unidos de América influyeron en los cambios políticos, económicos y sociales de los siglos estudiados",
+          "Identifica los factores que motivaron las contradicciones políticas, religiosas y económicas desarrolladas entre Alemania, Italia y el Imperio Austrohúngaro",
+          "Emplea el diálogo en la solución de situaciones conflictivas surgidas por incumplimiento al derecho ciudadano, desacuerdos culturales, de identidad cultural, aculturación, transculturación o interculturalidad",
+          "Valora la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+          "Analiza la importancia de la Constitución de República Dominicana en la garantía del Estado de derecho, el equilibrio de los poderes del Estado y la soberanía nacional",
+          "Plantea proyectos de educación vial y tributaria en el marco de una ciudadanía responsable",
+          "Explica las implicaciones de la teoría de la dependencia para comprender la realidad de América Latina. ",
+          "Elabora pinturas, collages y murales sobre el impacto del calentamiento global en el planeta Tierra",
+          "Presenta resúmenes, informes de lecturas y propuestas sobre la preservación de los recursos naturales en el mundo y en su país",
+          "Analiza fuentes de información confiable sobre cómo la contaminación ambiental repercute en la estabilidad social"
+      ]
+    },
+    {
+      "title": "Calentamiento global",
+      "level": "SECUNDARIA",
+      "year": "PRIMERO",
+      "subject": "CIENCIAS_SOCIALES",
+      "concepts": [
+          "Calentamiento global"
+      ],
+      "procedures": [
+        "Análisis de las implicaciones del calentamiento global para la humanidad.",
+        "Comprensión de los efectos de la contaminación en el planeta Tierra.",
+        "Dramatización de situaciones que reflejen las causas del calentamiento global."
+      ],
+      "attitudes": [
+        "Interés por el cuidado de los recursos naturales.",
+        "Actitud crítica ante la contaminación."
+      ],
+      "achievement_indicators": [
+          "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
+          "Ubica en mapas espacios cartográficos, puntos cardinales, meridiano de Greenwich y escala geográfica de acuerdo con la forma en la que se representa",
+          "Ubica en mapa los territorios conquistados, las rutas comerciales y las colonias establecidas por los países europeos durante su expansión, en los siglos estudiados. ",
+          "Utiliza fuentes confiables en el estudio de los periodos históricos correspondientes a los siglos abordados, asegurando la precisión y objetividad en su investigación",
+          "Sintetiza hechos históricos relevantes de la historia colonial en la isla de Santo Domingo durante los siglos XV al XVIII, a través de la elaboración de resúmenes e informes de lectura",
+          "Elabora gráficos y cuadros sinópticos sobre las condiciones políticas, sociales y económicas que existían en la isla de Santo Domingo durante los siglos estudiados",
+          "Elabora líneas de tiempo sobre acontecimientos históricos que dieron origen a la cultura de paz, así como de los personajes que han luchado por ella",
+          "Utiliza de forma crítica las fuentes de información sobre la representación de la tierra, diferencias entre mapas y plano, espacio geográfico y los componentes de representación de los mapas. ",
+          "Compara la incidencia del colonialismo, mercantilismo, monopolio, contrabando y capitalismo en la expansión colonial europea, a través de ensayos y monografías académicas publicadas en revistas especializadas y en libros de autores reconocidos",
+          "Realiza análisis de diversas fuentes históricas que abordan planteamientos y teorías acerca del origen del nacionalismo",
+          "Compara planteamientos de autores sobre derechos humanos y movimientos obreros organizados durante las revoluciones burguesas en los siglos estudiados",
+          "Analiza cómo las revoluciones burguesas, la Revolución Francesa y la independencia de las 13 colonias de Estados Unidos de América influyeron en los cambios políticos, económicos y sociales de los siglos estudiados",
+          "Identifica los factores que motivaron las contradicciones políticas, religiosas y económicas desarrolladas entre Alemania, Italia y el Imperio Austrohúngaro",
+          "Emplea el diálogo en la solución de situaciones conflictivas surgidas por incumplimiento al derecho ciudadano, desacuerdos culturales, de identidad cultural, aculturación, transculturación o interculturalidad",
+          "Valora la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+          "Analiza la importancia de la Constitución de República Dominicana en la garantía del Estado de derecho, el equilibrio de los poderes del Estado y la soberanía nacional",
+          "Plantea proyectos de educación vial y tributaria en el marco de una ciudadanía responsable",
+          "Explica las implicaciones de la teoría de la dependencia para comprender la realidad de América Latina. ",
+          "Elabora pinturas, collages y murales sobre el impacto del calentamiento global en el planeta Tierra",
+          "Presenta resúmenes, informes de lecturas y propuestas sobre la preservación de los recursos naturales en el mundo y en su país",
+          "Analiza fuentes de información confiable sobre cómo la contaminación ambiental repercute en la estabilidad social"
+      ]
     },
     {
         "title": "",
