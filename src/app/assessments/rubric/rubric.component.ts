@@ -12,7 +12,7 @@ import { ClassSectionService } from '../../services/class-section.service';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { Rubric } from '../../interfaces/rubric';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs';
 import { SPANISH_CONTENTS } from '../../data/spanish-contents';
 import { MATH_CONTENTS } from '../../data/math-contents';
@@ -43,6 +43,7 @@ import artContentBlocks from '../../data/art-content-blocks.json';
 import { PdfService } from '../../services/pdf.service';
 import { Student } from '../../interfaces/student';
 import { StudentsService } from '../../services/students.service';
+import { AiService } from '../../services/ai.service';
 import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
@@ -68,7 +69,9 @@ export class RubricComponent {
   sb = inject(MatSnackBar);
   fb = inject(FormBuilder);
   rubricService = inject(RubricService);
+  aiService = inject(AiService);
   sectionsService = inject(ClassSectionService);
+  router = inject(Router);
   userSettingsService = inject(UserSettingsService);
   studentsService = inject(StudentsService);
   pdfService = inject(PdfService);
@@ -79,8 +82,8 @@ export class RubricComponent {
   sections$ = this.sectionsService.findSections().pipe(tap(sections => this.sections = sections));
 
   rubricTypes = [
-    { id: 'synthetic', label: 'Sintética (Holística)' },
-    { id: 'analytical', label: 'Analítica (Global)' },
+    { id: 'SINTETICA', label: 'Sintética (Holística)' },
+    { id: 'ANALITICA', label: 'Analítica (Global)' },
   ]
 
   rubric: Rubric | null = null;
@@ -98,7 +101,7 @@ export class RubricComponent {
     content: ['', Validators.required],
     activity: ['', Validators.required],
     scored: [true],
-    rubricType: ['Sintética (Holística)', Validators.required],
+    rubricType: ['SINTETICA', Validators.required],
     achievementIndicators: [],
     levels: this.fb.array([
       this.fb.control('Deficiente'),
@@ -120,6 +123,17 @@ export class RubricComponent {
         this.students = students
       })
     }
+  }
+
+  save() {
+    const rubric: any = this.rubric;
+    this.rubricService.create(rubric).subscribe(res => {
+      if (res._id) {
+        this.router.navigate(['/assessments/rubrics/', res._id]).then(() => {
+          this.sb.open('El instrumento ha sido guardado.', 'Ok', { duration: 2500 });
+        });
+      }
+    });
   }
 
   findCurriculumData(level: string, grade: string, subject: string, content: string): { achievementIndicators: string[], competence: string[] } {
@@ -226,20 +240,51 @@ export class RubricComponent {
       activity,
       scored,
       rubricType,
-      achievementIndicators: achievementIndicators,
+      achievementIndicators,
       competence: curriculumData.competence,
       levels
     };
-    this.rubricService.generateRubric(data).subscribe({
-      next: (response) => {
-        this.rubric = response;
+    const text = `Necesito que me construyas en contenido de una rubrica ${rubricType == 'SINTETICA' ? 'Sintética (Holística)' : 'Analítica (Global)'} para evaluar el contenido de "${content}" de ${data.subject} de ${selectedSection.year} grado de educación ${selectedSection.level}.
+La rubrica sera aplicada tras esta actividad/evidencia: ${activity}.${scored ? ' La rubrica tendra un valor de ' + minScore + ' a ' + maxScore + ' puntos.' : ''}
+Los criterios a evaluar deben estar basados en estos indicadores de logro:
+- ${achievementIndicators.join('\n- ')}
+Cada criterio tendra ${levels.length} niveles de desempeño: ${levels.map((el: string, i: number) => i + ') ' + el).join(', ')}.
+Tu respuesta debe ser un json valido con esta interfaz:
+{${title ? '' : '\n\ttitle: string;'}
+  criteria: { // un objeto 'criteria' por cada indicador/criterio a evaluar
+    indicator: string, // indicador a evaluar
+    maxScore: number, // maxima calificacion para este indicador
+    criterion: { // array de niveles de desempeño del estudiante acorde a los niveles proporcionados
+      name: string, // criterio que debe cumplir (descripcion, osea que si el indicador es 'Lee y comprende el cuento', un criterio seria 'Lee el cuento deficientemente', otro seria 'Lee el cuento pero no comprende su contenido' y otro seria 'Lee el cuento de manera fluida e interpreta su contenido')
+      score: number, // calificacion a asignar
+    }[]
+  }[];
+}`;
+    this.aiService.geminiAi(text).subscribe({
+      next: result => {
+        const start = result.response.indexOf('{');
+        const limit = result.response.indexOf('}\n```\n') + 1;
+        const obj = JSON.parse(result.response.slice(start, limit)) as { title?: string; criteria: { indicator: string, maxScore: number, criterion: { name: string, score: number, }[] }[] };
+        const rubric: any = {
+          criteria: obj.criteria,
+          title: obj.title ? obj.title : title,
+          rubricType,
+          section,
+          competence: curriculumData.competence,
+          achievementIndicators,
+          activity,
+          progressLevels: levels,
+          user: selectedSection.user
+        }
+        this.rubric = rubric;
         this.generating = false;
       },
       error: (error) => {
-        this.sb.open('Error al generar la rubrica. Intentelo de nuevo.', undefined, { duration: 2500 })
+        this.sb.open('Error al generar la rubrica. Intentelo de nuevo.', 'Ok', { duration: 2500 })
+        console.log(error.message)
         this.generating = false;
       }
-    })
+    });
   }
 
   addRubricLevel() {

@@ -47,7 +47,7 @@
                     <mat-label>Tipo de R&uacute;brica</mat-label>
                     <mat-select formControlName="rubricType">
                         @for(type of rubricTypes; track type) {
-                            <mat-option [value]="type.label">{{type.label}}</mat-option>
+                            <mat-option [value]="type.id">{{type.label}}</mat-option>
                         }
                     </mat-select>
                 </mat-form-field>
@@ -106,12 +106,13 @@
                 </div>
             }
             <div style="text-align: end;">
-                @if (rubric) {
-                    <button type="button" mat-raised-button color="accent" style="margin-right: 12px;" (click)="print()">Guardar como PDF</button>
-                }
-                <button type="submit" [disabled]="rubricForm.invalid || generating" mat-raised-button color="primary">
+                <button type="submit" [disabled]="rubricForm.invalid || generating" mat-raised-button [color]="rubric ? 'link' : 'primary'">
                     {{ generating ? 'Generando...' : rubric ? 'Regenerar' : 'Generar' }}
                 </button>
+                @if (rubric) {
+                    <button type="button" mat-raised-button color="accent" style="margin-left: 12px;" (click)="print()">Descargar como PDF</button>
+                    <button type="button" mat-raised-button color="primary" style="margin-left: 12px;" (click)="save()">Guardar</button>
+                }
             </div>
         </form>
     </mat-card-content>
@@ -143,7 +144,7 @@
                     }
                 </ul>
                 <div style="margin-bottom: 12px; margin-top: 12px;"><b>Evidencia o Actividad</b>: {{rubric.activity}}</div>
-                @if (rubric.rubricType == 'Sintética (Holística)') {
+                @if (rubric.rubricType == 'SINTETICA') {
                     <table style="border-collapse: collapse;">
                         <thead>
                             <tr>

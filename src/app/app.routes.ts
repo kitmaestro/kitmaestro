@@ -87,10 +87,16 @@ export const routes: Routes = [
         loadComponent: () => import('./assessments/assessments/assessments.component').then(mod => mod.AssessmentsComponent),
         children: [
             { path: '', loadComponent: () => import('./assessments/assessment-dashboard/assessment-dashboard.component').then(mod => mod.AssessmentDashboardComponent), },
-            { path: 'observation-sheet', loadComponent: () => import('./assessments/observation-sheet/observation-sheet.component').then(mod => mod.ObservationSheetComponent), },
-            { path: 'rubric', loadComponent: () => import('./assessments/rubric/rubric.component').then(mod => mod.RubricComponent), },
-            { path: 'estimation-scale', loadComponent: () => import('./assessments/estimation-scale/estimation-scale.component').then(mod => mod.EstimationScaleComponent), },
             { path: 'list', loadComponent: () => import('./assessments/list/list.component').then(mod => mod.ListComponent), },
+            { path: 'observation-sheet', loadComponent: () => import('./assessments/observation-sheet/observation-sheet.component').then(mod => mod.ObservationSheetComponent), },
+            { path: 'observation-sheets', loadComponent: () => import('./assessments/observation-sheets/observation-sheets.component').then(mod => mod.ObservationSheetsComponent), },
+            { path: 'observation-sheets/:id', loadComponent: () => import('./assessments/observation-sheet-detail/observation-sheet-detail.component').then(mod => mod.ObservationSheetDetailComponent), },
+            { path: 'rubric', loadComponent: () => import('./assessments/rubric/rubric.component').then(mod => mod.RubricComponent), },
+            { path: 'rubrics', loadComponent: () => import('./assessments/rubrics/rubrics.component').then(mod => mod.RubricsComponent), },
+            { path: 'rubrics/:id', loadComponent: () => import('./assessments/rubric-detail/rubric-detail.component').then(mod => mod.RubricDetailComponent), },
+            { path: 'estimation-scale', loadComponent: () => import('./assessments/estimation-scale/estimation-scale.component').then(mod => mod.EstimationScaleComponent), },
+            { path: 'estimation-scales', loadComponent: () => import('./assessments/estimation-scales/estimation-scales.component').then(mod => mod.EstimationScalesComponent), },
+            { path: 'estimation-scales/:id', loadComponent: () => import('./assessments/estimation-scale-detail/estimation-scale-detail.component').then(mod => mod.EstimationScaleDetailComponent), },
         ]
     },
     // Assistants

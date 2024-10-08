@@ -2,6 +2,12 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title>Actividades Generadas</mat-card-title>
+            <button style="margin-left: auto;" mat-mini-fab color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a routerLink="/activity-generator" mat-menu-item>Lectura Guiada</a>
+            </mat-menu>
         </mat-card-header>
         <mat-card-content>
             <p>

@@ -1,7 +1,7 @@
 @if (guide) {
-    @if (guide.section._id) {
+    @if (guide.individual) {
         @for (student of students; track $index) {
-            <mat-card style="margin-bottom: 24px;">
+            <mat-card style="margin-bottom: 24px; margin-top: 24px;">
                 <mat-card-content>
                     <div class="page" id="guide-{{$index}}">
                         <h2 mat-card-title>Gu&iacute;a de Observaci&oacute;n</h2>
@@ -63,16 +63,17 @@
             </mat-card>
         }
     } @else {
-        <mat-card>
+        <mat-card style="margin-top: 24px;">
             <mat-card-content>
                 <div class="page" id="guide">
                     <h2 mat-card-title>Gu&iacute;a de Observaci&oacute;n</h2>
+                    <h3 mat-card-subtitle>{{guide.title}}</h3>
                     <div [style]="guide.date == '' ? 'display: flex; gap: 12px;' : 'display: block;'">
                         <span><b>Fecha</b>: </span>
                         @if (guide.date == '') {
                             <div style="border-bottom: 1px solid black; flex: 1 1 auto;">&nbsp;</div>
                         } @else {
-                            {{ guide.date }}
+                            {{ guide.date | date: 'dd/MM/YYYY' }}
                         }
                     </div>
                     <div>
@@ -108,7 +109,7 @@
                     </div>
                     <div>
                         <b>Aspectos a Observar</b>:
-                        <ul style="list-style: none; padding: 0; display: block;">
+                        <ul style="list-style: none; padding: 0; display: grid; gap: 4px 12px; grid-template-columns: 1fr 1fr;">
                             @for(item of guide.aspects; track $index) {
                                 <li>{{item}}</li>
                             }

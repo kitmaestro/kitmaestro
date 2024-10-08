@@ -1,1 +1,27 @@
-<p>list works!</p>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Istrumentos Generados</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>
+            Aqu&iacute; encontrar&aacute;s todos los instrumentos que vayas generando con los <a
+                routerLink="/assessments">generadores de instrumentos</a> que tenemos disponibles.
+        </p>
+        <p>
+            Conforme vayamos agregando generadores, esta lista tambi&eacute;n ir&aacute; creciendo.
+        </p>
+    </mat-card-content>
+</mat-card>
+
+<div class="grid">
+    @for (instrument of instruments; track $index) {
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{instrument.title}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+            <a style="width: 100%;" [routerLink]="instrument.route" mat-flat-button color="primary">Acceder</a>
+        </mat-card-actions>
+    </mat-card>
+    }
+</div>

@@ -5,6 +5,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-assessments',
@@ -17,6 +18,7 @@ import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.com
     MatCardModule,
     IsPremiumComponent,
     InProgressComponent,
+    MatMenuModule,
   ],
   templateUrl: './assessments.component.html',
   styleUrl: './assessments.component.scss'

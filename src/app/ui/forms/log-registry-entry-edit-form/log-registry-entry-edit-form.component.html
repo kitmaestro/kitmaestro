@@ -19,7 +19,7 @@
             <div>
                 <mat-form-field appearance="outline">
                     <mat-label>Lugar</mat-label>
-                    <mat-select formControlName="place" (onSelectionChange)="loadStudents()">
+                    <mat-select formControlName="place" (selectionChange)="loadStudents()">
                         @for(place of placeOptions; track $index) {
                             <mat-option [value]="place">{{ place }}</mat-option>
                         }
@@ -29,7 +29,7 @@
             <div>
                 <mat-form-field appearance="outline">
                     <mat-label>Evento o Situaci&oacute;n</mat-label>
-                    <mat-select formControlName="type" (onSelectionChange)="loadStudents()">
+                    <mat-select formControlName="type" (selectionChange)="loadStudents()">
                         @for(type of eventTypes; track $index) {
                             <mat-option [value]="type">{{ type }}</mat-option>
                         }
@@ -41,7 +41,7 @@
             <div>
                 <mat-form-field appearance="outline">
                     <mat-label>Curso</mat-label>
-                    <mat-select formControlName="section" (onSelectionChange)="loadStudents()">
+                    <mat-select formControlName="section" (selectionChange)="loadStudents()">
                         @for(section of sections; track section._id) {
                             <mat-option [value]="section._id">{{ section.name}}</mat-option>
                         }

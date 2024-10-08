@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Student } from '../../interfaces/student';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-observation-guide',
@@ -12,6 +13,7 @@ import { Student } from '../../interfaces/student';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
+    DatePipe,
   ],
   templateUrl: './observation-guide.component.html',
   styleUrl: './observation-guide.component.scss'
