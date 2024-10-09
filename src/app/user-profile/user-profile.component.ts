@@ -37,6 +37,8 @@ export class UserProfileComponent {
   private sb = inject(MatSnackBar);
   public user: UserSettings | null = null;
 
+  public alreadyCode = false;
+
   userForm = this.fb.group({
     title: [''],
     firstname: [''],
@@ -97,6 +99,9 @@ export class UserProfileComponent {
           phone: phone || '',
           refCode: refCode || ''
         });
+        if (user.refCode) {
+          this.userForm.get('refCode')?.disable();
+        }
       }
     })
   }

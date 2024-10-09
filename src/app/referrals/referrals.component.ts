@@ -4,11 +4,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { AuthService } from '../services/auth.service';
 import { UserSubscriptionService } from '../services/user-subscription.service';
-import { UserSettingsService } from '../services/user-settings.service';
-import { Observable } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
 import { AsyncPipe, CurrencyPipe, NgIf } from '@angular/common';
+import { ReferralsService } from '../services/referrals.service';
+import { Referral } from '../interfaces/referral';
+import { RouterLink } from '@angular/router';
+import { map, Observable } from 'rxjs';
 import { UserSubscription } from '../interfaces/user-subscription';
 
 @Component({
@@ -22,18 +25,28 @@ import { UserSubscription } from '../interfaces/user-subscription';
     MatIconModule,
     AsyncPipe,
     CurrencyPipe,
-    NgIf
+    RouterLink,
+    NgIf,
+    CurrencyPipe,
   ],
   templateUrl: './referrals.component.html',
   styleUrl: './referrals.component.scss'
 })
 export class ReferralsComponent implements OnInit {
   private userSubscriptionService = inject(UserSubscriptionService);
-  private userSettingsService = inject(UserSettingsService);
-
-  // userSubscription$ = this.userSubscriptionService.subscription$;
-  referries: UserSubscription[] = [];
-  // referries$ = this.userSubscriptionService.referries();
+  private referralService = inject(ReferralsService);
+  private authService = inject(AuthService);
+  
+  user: UserSettings | null = null;
+  referrals: Referral[] = [];
+  displayedColumns = [
+    'user',
+    'plan',
+    'status',
+    'comision',
+    'comision-status'
+    // 'actions',
+  ]
 
   base = 'https://web.whatsapp.com/send?text=';
   mobileBase = 'https://api.whatsapp.com/send?text=';
@@ -57,26 +70,32 @@ Regístrate en KitMaestro ahora. La app es gratis y, con mi enlace, obtienes un 
     pending: 0,
   }
 
-  users: any = {};
-
   ngOnInit() {
-    // this.userSubscription$.subscribe(sub => {
-      // if (sub) {
-        // this.refCode = sub.refCode;
-        // this.userSubscriptionService.byReferral(sub.refCode).subscribe(refs => {
-        //   const currentMonth = new Date().getMonth();
-        //   const currentYear = new Date().getFullYear();
-        //   this.referries = refs;
-        //   refs.forEach(ref => {
-        //     this.userSettingsService.getSettings(ref.uid).subscribe(user => this.users[ref.uid] = `${user.firstname} ${user.lastname}`);
-        //   })
-        //   this.refs.thisMonth = refs.filter(r => r.purchaseDate && (r.purchaseDate as any as Timestamp).toDate().getMonth() == currentMonth && (r.purchaseDate as any as Timestamp).toDate().getFullYear() == currentYear).length;
-        //   this.refs.before = refs.length - this.refs.thisMonth;
-        //   this.refs.paid = refs.filter(r => r.active && r.paidRef).length;
-        //   this.refs.pending = refs.filter(r => r.active && !r.trial && !r.paidRef).length;
-        // })
-      // }
-    // });
+    this.authService.profile().subscribe({
+      next: user => {
+        this.user = user;
+        this.refCode = user.refCode;
+      }
+    });
+    this.referralService.findAll().subscribe(refs => {
+      this.referrals = refs;
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+      this.refs.thisMonth = refs.filter(r => r.date && new Date(r.date).getMonth() == currentMonth && new Date(r.date).getFullYear() == currentYear).length;
+      this.refs.before = refs.length - this.refs.thisMonth;
+      this.refs.paid = refs.filter(r => r.status == 'paid').length;
+      this.refs.pending = refs.filter(r => r.status == 'pending').length;
+    })
+  }
+
+  userSubscription(id: string): Observable<UserSubscription> {
+    return this.userSubscriptionService.findByUser(id);
+  }
+
+  calcComision(id: string): Observable<number> {
+    return this.userSubscription(id).pipe(
+      map(sub => sub.amount == 0 ? 0 : sub.amount * 0.2)
+    );
   }
 
   get waMobileShareableLink() {
@@ -89,9 +108,5 @@ Regístrate en KitMaestro ahora. La app es gratis y, con mi enlace, obtienes un 
 
   get tgShareableLink() {
     return this.tgBase + 'text=' + encodeURIComponent(this.text + this.refCode) + '&url=' + encodeURIComponent('https://kit-maestro.web.app/app/?ref=' + this.refCode);
-  }
-
-  findUser(uid: string): Observable<UserSettings> {
-    return this.userSettingsService.getSettings(uid);
   }
 }
