@@ -1,0 +1,39 @@
+mat-form-field {
+    min-width: 100%;
+}
+
+.grid-2 {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr;
+
+    @media screen and (min-width: 960px) {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.grid-2-1 {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr;
+
+    @media screen and (min-width: 960px) {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+
+td,
+tr,
+th {
+    border: 1px solid #ccc;
+}
+
+td,
+th {
+    padding: 12px;
+}

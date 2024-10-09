@@ -11,7 +11,7 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 })
 export class EstimationScaleService {
   private http = inject(HttpClient);
-  private apiBaseUrl = environment.apiUrl + 'rubrics/';
+  private apiBaseUrl = environment.apiUrl + 'estimation-scales/';
   private config = {
     withCredentials: true,
     headers: new HttpHeaders({
