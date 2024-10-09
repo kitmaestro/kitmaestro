@@ -68,7 +68,7 @@ export class EstimationScaleComponent implements OnInit {
     achievementIndicators: [[] as string[], Validators.required],
     activity: ['', Validators.required],
     qty: [5, [Validators.required, Validators.min(3), Validators.max(15)]],
-    criteria: [''],
+    criteria: [[] as string[]],
     levels: this.fb.array([
       this.fb.control('Iniciado'),
       this.fb.control('En Proceso'),
@@ -140,6 +140,7 @@ Ya tengo los niveles de desempeno, asi que solo necesito los criterios. Los crit
           user: this.user?._id,
           criteria: obj.criteria
         };
+        this.scaleForm.get('criteria')?.setValue(obj.criteria);
         this.estimationScale = scale;
         this.generating = false;
       },
@@ -153,7 +154,7 @@ Ya tengo los niveles de desempeno, asi que solo necesito los criterios. Los crit
 
   save() {
     this.saving = true;
-    const scale: any = this.scaleForm.value;
+    const scale: any = this.estimationScale;
     scale.user = this.user?._id;
     this.estimationScaleService.create(scale).subscribe({
       next: res => {
