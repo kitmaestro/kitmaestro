@@ -6,6 +6,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { LoadingComponent } from './ui/loading/loading.component';
 import { AuthService } from './services/auth.service';
 import { UserSettings } from './interfaces/user-settings';
+// import { UserSubscriptionService } from './services/user-subscription.service';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ import { UserSettings } from './interfaces/user-settings';
 })
 export class AppComponent {
   private authService = inject(AuthService);
+  // private userSubscription = inject(UserSubscriptionService);
   private router = inject(Router);
   private user$ = this.authService.profile();
 
@@ -43,6 +45,7 @@ export class AppComponent {
         if (!user) {
           return this.redirectToLogin();
         }
+        // this.userSubscription.subscribe('Premium', 'membership', (1000 * 60 * 60 * 24 * 365), 0, user._id).subscribe(console.log)
         this.user = user;
         this.loading = false;
       },

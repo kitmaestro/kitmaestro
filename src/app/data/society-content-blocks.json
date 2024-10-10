@@ -2490,7 +2490,8 @@
             "Revolución rusa",
             "Planes y tratados",
             "Crisis del 1929",
-            "Fascismo y su derrota"
+            "Fascismo y su derrota",
+            "Impacto de la Primera Guerra Mundial en la República Dominicana"
         ],
         "procedures": [
             "Investigación, utilizando procedimientos básicos de las ciencias sociales, y formulación de hipótesis sobre las causas que dieron origen a la Primera Guerra Mundial y la Revolución Rusa",
@@ -2509,7 +2510,8 @@
             "Análisis de los movimientos fascistas en Europa",
             "Explicación de los factores que originaron el fascismo y su fin",
             "Redacción de un artículo expositivo sobre las implicaciones de la Primera Guerra Mundial y el afianzamiento económico de Estados Unidos",
-            "Identificación de temáticas para el artículo referente a: Explotación bananera en Centroamérica, Sudamérica y el Caribe; papel de Estados Unidos y Canadá en la Primera Guerra Mundial (1917 - 1918); auge de la explotación agrícola; Control de las explotaciones mineras"
+            "Identificación de temáticas para el artículo referente a: Explotación bananera en Centroamérica, Sudamérica y el Caribe; papel de Estados Unidos y Canadá en la Primera Guerra Mundial (1917 - 1918); auge de la explotación agrícola; Control de las explotaciones mineras",
+            "Investigación utilizando procedimientos básicos de las ciencias sociales, y formulación de hipótesis, acerca de la Primera Guerra Mundial y su impacto hacia el sistema económico de la República Dominicana"
         ],
         "attitudes": [
             "Valoración de las explicaciones de escuelas historiográficas",
@@ -2525,14 +2527,135 @@
         ]
     },
     {
-        "title": "",
+        "title": "Norte y Sur: El mundo y la humanidad divididos por el poder y la riqueza",
         "level": "SECUNDARIA",
         "year": "SEGUNDO",
         "subject": "CIENCIAS_SOCIALES",
-        "concepts": [],
-        "procedures": [],
-        "attitudes": [],
-        "achievement_indicators": []
+        "concepts": [
+          "División social, económica y política durante el siglo XX",
+          "Similitudes y diferencias demográficas",
+          "Antillanismo y antiimperialismo en el Caribe a finales del siglo XIX",
+          "Antecedentes históricos del Antillanismo y antiimperialismo",
+          "Influencia de las potencias coloniales y neocoloniales en la región",
+          "Lucha por la independencia y la soberanía de los países caribeños"
+        ],
+        "procedures": [
+          "Investigación en fuentes seguras y confiables sobre las diferencias económicas, sociales y políticas entre los países del Norte y el Sur",
+          "Comparación de investigaciones históricas sobre extracción de recursos mineros en los pueblos del Sur para los pueblos del Norte durante el siglo XX",
+          "Comparación de gráficos estadísticos sobre el crecimiento poblacional de los países del Norte y del Sur",
+          "Interpretación del Antillanismo y el antimperialismo como respuesta al expansionismo (José Martí, Eugenio María de Hostos, José Diego, Américo Lugo, Manuel González Prada y José Carlos Mariátegui"
+        ],
+        "attitudes": [
+          "Valoración de las explicaciones de escuelas historiográficas",
+          "Demostración de interés en adquirir conocimientos sobre temas de historia universal",
+          "Presentación de opiniones fundamentadas en argumentos de fuentes confiables acerca de los hechos históricos que han tenido impacto en las relaciones entre países del Norte y del Sur"
+        ],
+        "achievement_indicators": [
+          "Explica mediante el análisis de autores relevantes, los tratados internacionales antes y después de las guerras mundiales y su impacto en la división del mundo en conceptos (norte y sur), así como en la percepción de la humanidad sobre estos",
+          "Analiza rigurosamente el impacto social de la incidencia de la contaminación en la República Dominicana, explorando las causas y consecuencias en la salud, economía, calidad de vida y medioambiente de la población afectada a nivel local y nacional"
+        ]
+    },
+    {
+        "title": "Sociedad dominicana durante la segunda mitad del siglo XIX hasta principio del siglo XX, en los aspectos económicos, políticos y sociales",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+          "Sociedad dominicana durante la segunda mitad del siglo XIXhasta principio del siglo XX, en los aspectos económicos, políticos y sociales",
+          "Gobiernos y dictaduras",
+          "El capitalismo dependiente",
+          "Modernidad y urbanización",
+          "La República en los primeros años del siglo XX: 1900 - 1914",
+          "Educación ciudadana"
+        ],
+        "procedures": [
+          "Caracterización de la sociedad dominicana durante la segunda mitad del siglo XIX y principio del siglo XX, en los aspectos económicos, políticos y sociales",
+          "Gobiernos y dictaduras",
+          "El capitalismo dependiente, modernidad y urbanización",
+          "Análisis crítico del impacto de la expansión imperialista en la República Dominicana, 1886 - 1914",
+          "Elaboración de un afiche sobre las características de la economía dominicana a principios del siglo XX",
+          "Análisis de los cambios sociales culturales y políticos de la sociedad dominicana en la primera mitad del siglo XIX",
+          "Elaboración de organizadores gráficos y líneas de tiempo son los principales acontecimientos de la primera mitad del siglo XIX",
+          "Comprensión de los procesos históricos que dieron origen a la formación del Estado dominicano"
+        ],
+        "attitudes": [
+          "Valoración de las explicaciones de escuelas historiográficas",
+          "Demostración de interés en adquirir conocimientos sobre temas de historia universal"
+        ],
+        "achievement_indicators": [
+          "Realiza en brochure e infografías, explicaciones sencillas de los cambios históricos, espaciales, políticos, económicos y culturales durante los períodos históricos estudiados",
+          "Aplica metodologías participativas y democráticas para buscar soluciones a conflictos en distintos contextos sociales",
+          "Propone proyectos comunitarios que benefician a todos los ciudadanos, utilizando herramientas y estrategias que fomenten la participación activa y colaborativa de la comunidad en la identificación de necesidades y soluciones"
+        ]
+    },
+    {
+        "title": "Democracia y Estado de derecho",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+          "Democracia y Estado de derecho",
+          "Derechos Fundamentales en la República Dominicana",
+          "Educación vial",
+          "Educación tributaria",
+          "Símbolos patrios",
+          "Valores, solución de conflictos y cultura de paz",
+          "Soluciones participativas"
+        ],
+        "procedures": [
+          "Elaboración de propuestas sobre las implicaciones de un Estado de derecho en la solución de conflictos, la cultura de paz y la vida democrática",
+          "Reconocimiento de los aportes del modelo democrático al desarrollo de la sociedad",
+          "Identificación de las ventajas de los sistemas democráticos en contraposición a los autoritarios",
+          "Análisis de las características del Estado de derecho en la Constitución dominicana",
+          "Realización de investigación estadística sobre accidentes de tránsito en la localidad, provincia, país o región, analizando sus causas, consecuencias y presentando hallazgos para concienciar sobre la importancia de la seguridad vial",
+          "Realización de análisis crítico sobre información de educación tributaria",
+          "Creación de representaciones visuales impactantes, como maquetas, dibujos o pinturas, que capturen la esencia de los símbol os patrios y reflejen su significado",
+          "Participación activamente en ceremonias oficiales tanto en la comunidad como en la escuela, contribuyendo al homenaje y respeto hacia los símbolos patrios",
+          "Análisis críticos de situaciones que muestran irrespeto a los valores humanos",
+          "Identificación de procedimientos dialógicos para solucionar problemas",
+          "Formulación de hipótesis sencillas sobre un problema generado por conflictos sociales, económicos, políticos, culturales o espaciales que ponen en riesgo a su habitante",
+          "Presentación y discusión de sus hipótesis con sus compañeros sobre solución de conflicto y cultura de paz"
+        ],
+        "attitudes": [
+          "Valoración de la política mundial y organismos internacionales: la búsqueda de la paz",
+          "Respeto por los derechos de los demás, las diferencias de creencias, de origen y culturales. Protesta por cualquier discriminación que apele a estas diferencias",
+          "Valoración de los derechos culturales y los derechos ambientales incluidos en la Constitución de la República Dominicana",
+          "Visión de la pobreza, la desigualdad y la exclusión como amenazas a la paz"
+        ],
+        "achievement_indicators": [
+          "Elabora propuestas sobre prácticas democráticas, solución de conflictos y cultura de paz mediante la participación como medio de solución",
+          "Aplica metodologías participativas y democráticas para buscar soluciones a conflictos en distintos contextos sociales",
+          "Elabora proyectos sobre educación vial y tributaria que permiten concientizar a la comunidad sobre la importancia del cumplimiento de las normas"
+        ]
+    },
+    {
+        "title": "Propuestas globales de los organismos internacionales sobre derechos ambientales",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+          "Propuestas globales de los organismos internacionales sobre derechos ambientales",
+          "Acciones a favor de la protección al medioambiente y el cumplimento de los deberes ciudadanos",
+          "Impacto de la contaminación ambiental en la Republica Dominicana y otros países del mundo"
+        ],
+        "procedures": [
+          "Elaboración de proyectos de investigaciones personales y grupales sobre las medidas adoptadas por la Naciones Unidas para la protección al medioambiente",
+          "Elaboración de propuestas para la protección ambiental ante el cumplimento de nuestros deberes",
+          "Levantamiento de informaciones en fuentes confiables para presentar propuesta ecológica y educativa como medio de acción por el clima, sostenibilidad local y la preservación del planeta tierra"
+        ],
+        "attitudes": [
+          "Actitud de preocupación por el cambio climático",
+          "Actitud crítica ante posiciones de países desarrollados sobre el calentamiento global",
+          "Interés por realizar propuestas colectivas sobre la protección del medioambiente",
+          "Interés por el diálogo como forma de resolver conflictos",
+          "Valoración de los puntos de vista de otras personas",
+          "Respeto por buscar soluciones sociales colectivas"
+        ],
+        "achievement_indicators": [
+          "Elabora proyectos comunitarios enfocados hacia la protección del medioambiente, aplicando conocimientos sobre los problemas ambientales y herramientas para su abordaje",
+          "Analiza rigurosamente el impacto social de la incidencia de la contaminación en la República Dominicana, explorando las causas y consecuencias en la salud, economía, calidad de vida y medioambiente de la población afectada a nivel local y nacional",
+          "Desarrolla argumentos de manera funcional a través de textos que permitan comprender las propuestas presentadas por organismos internacionales en relación con la protección del medioambiente"
+        ]
     },
     {
         "title": "",
