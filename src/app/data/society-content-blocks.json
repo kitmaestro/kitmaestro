@@ -2261,6 +2261,270 @@
       ]
     },
     {
+        "title": "La Tierra, nuestra casa: el escenario de la humanidad",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Geomorfología como ciencia y su campo de estudio",
+            "Teorías sobre las placas tectónicas",
+            "Estructura geológica y relieve de los continentes",
+            "Principales formas o unidades del relieve en la ísla de Santo Domingo",
+            "Zonas de fallas geológicas de los continentes y de la isla de Santo Domingo"
+        ],
+        "procedures": [
+            "Identificación de fenómenos geomorfológicos en mapa físico mundial",
+            "Uso adecuado de las informaciones levantadas en fuentes diversas sobre las formas o unidades de relieve de los continentes y de la isla de Santo Domingo",
+            "Investigación utilizando fuentes diversas sobre la formación de la estructura geológica de los continentes y de la isla de Santo Domingo",
+            "Análisis de mapas de fallas geológicas de los continentes y de la isla de Santo Domingo"
+        ],
+        "attitudes": [
+            "Respeto de la autoría de las informaciones obtenidas sobre Geografía Física y Humana",
+            "Valoración de la geografía como ciencia aplicada a la vida cotidiana es fundamental",
+            "Reflexión sobre la importancia de los procedimientos de verificación de informaciones confiables en relación al estudio de la geomorfología",
+            "Demostración de interés en observar su espacio geográfico de forma crítica y científica",
+            "Interés en su espacio geográfico para defenderlo y/o protegerlo o transformarlo de cara al interés colectivo sin provocar daños a la ecología ni al medioambiente"
+        ],
+        "achievement_indicators": [
+            "Identifica con pertinencia los movimientos sísmicos y sus puntos geográficos en distinto mapa, a partir de consulta en fuentes confiables de información",
+            "Analiza las tasas demográficas de un país, su evolución a lo largo del tiempo y evalúa la influencia de diferentes factores económicos o culturales presentes en estos cambios"
+        ]
+    },
+    {
+        "title": "Movimientos sísmicos",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Movimientos sísmicos",
+            "Causas y consecuencias de los movimientos sísmicos",
+            "Terremoto",
+            "Maremoto",
+            "Zonas volcánicas"
+        ],
+        "procedures": [
+            "Análisis de fuentes seguras y confiables sobre explicaciones científicas acerca de los movimientos sísmicos",
+            "Analiza en fuentes de información y mapas de zonas volcánicas y de mayor movimiento sísmico en el mundo",
+            "Propuesta de acciones de prevención de daños personales en casos de movimientos sísmicos, investigando en el Instituto Sismológico de la UASD",
+            "Análisis e interpretación de leyendas en mapas de emergencia",
+            "Elaboración de planes preventivos de daños personales por fenómenos atmosféricos, a través de consultas en el Centro de Operaciones de Emergencia (COE): Defensa Civil, ONAMET, CAASD, Ministerio de Salud Pública, Cruz Roja Dominicana, Ministerios de Defensa, Policía Nacional, Corporación Dominicana de Empresas Eléctricas Estatales",
+            "Manejo e interpretación de distintos instrumentos meteorológicos: termómetro de máxima y mínima, pluviómetros, higrómetro, anemómetro y veleta, entre otros"
+        ],
+        "attitudes": [
+            "Respeto de la autoría de las informaciones obtenidas sobre Geografía Física y Humana",
+            "Valoración de la geografía como ciencia aplicada a la vida cotidiana es fundamental",
+            "Reflexión sobre la importancia de los procedimientos de verificación de informaciones confiables en relación al estudio de la geomorfología",
+            "Demostración de interés en observar su espacio geográfico de forma crítica y científica",
+            "Interés en su espacio geográfico para defenderlo y/o protegerlo o transformarlo de cara al interés colectivo sin provocar daños a la ecología ni al medioambiente"
+        ],
+        "achievement_indicators": [
+            "Analiza las tasas demográficas de un país, su evolución a lo largo del tiempo y evalúa la influencia de diferentes factores económicos o culturales presentes en estos cambios"
+        ]
+    },
+    {
+        "title": "Elementos del clima",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Elementos del clima",
+            "Tipos de clima",
+            "Factores geográficos del clima",
+            "El clima en la República Dominicana y de las Antillas",
+            "Población y clima",
+            "El agua: océanos, mares, lagunas, lagos y ríos"
+        ],
+        "procedures": [
+            "Investigación en fuentes seguras y confiables sobre los tipos de clima y sus distintos factores geográficos",
+            "Realización y comparación de climogramas de distintos países, provincias o ciudades",
+            "Comparación de mapa de climas y vegetación de la República Dominicana y de las Antillas",
+            "Investigación sobre el cambio climático en República Dominicana y en las Antillas",
+            "Realización de investigación sobre la variación climática y su incidencia en el crecimiento de la población humana"
+        ],
+        "attitudes": [
+            "Respeto de la autoría de las informaciones obtenidas sobre Geografía Física y Humana",
+            "Valoración de la geografía como ciencia aplicada a la vida cotidiana es fundamental",
+            "Reflexión sobre la importancia de los procedimientos de verificación de informaciones confiables en relación al estudio de la geomorfología",
+            "Demostración de interés en observar su espacio geográfico de forma crítica y científica",
+            "Interés en su espacio geográfico para defenderlo y/o protegerlo o transformarlo de cara al interés colectivo sin provocar daños a la ecología ni al medioambiente"
+        ],
+        "achievement_indicators": [
+            "Desarrolla argumentos de manera funcional a través de textos que permitan comprender las propuestas presentadas por organismos internacionales en relación con la protección del medioambiente"
+        ]
+    },
+    {
+        "title": "Fenómenos naturales",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Fenómenos naturales",
+            "Huracanes",
+            "Inundaciones",
+            "Erupciones volcánicas",
+            "Desastre Naturales"
+        ],
+        "procedures": [
+            "Investigación en fuente segura sobre fenómenos naturales y sus distintas clasificaciones",
+            "Reconocimiento de la importancia de las fuentes históricas en los fenómenos estudiados"
+        ],
+        "attitudes": [
+            "Demostración de interés en observar de manera crítica y científica el espacio geográfico y los cambios climáticos",
+            "Interés por la preservación del planeta Tierra",
+            "Respeto por la conservación de los recursos del planeta Tierra y de su país",
+            "Valoración de propuestas que preserven el planeta Tierra",
+            "Actitud crítica ante explicaciones de fenómenos naturales y sociales",
+            "Interés por explicaciones científicas desde las Ciencias Sociales"
+        ],
+        "achievement_indicators": [
+            "Aplica metodologías participativas y democráticas para buscar soluciones a conflictos en distintos contextos sociales",
+            "Analiza la influencia de los factores naturales y humanos en los elementos del clima, sus implicaciones del calentamiento en el planeta Tierra a nivel global, regional y local, identificando sus causas y consecuencias",
+            "Propone proyectos comunitarios que benefician a todos los ciudadanos, utilizando herramientas y estrategias que fomenten la participación activa y colaborativa de la comunidad en la identificación de necesidades y soluciones"
+        ]
+    },
+    {
+        "title": "Dinámicas de la población: Tasas demográficas",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Tasas demográficas",
+            "Fecundidad",
+            "Natalidad",
+            "Mortalidad",
+            "Mortalidad infantil",
+            "Esperanza de vida",
+            "Censos"
+        ],
+        "procedures": [
+            "Interpretación en mapamundi sobre la dinámica de la población",
+            "Comparación de similitudes y diferencias entre pirámides de edades",
+            "Realización gráfica sobre la fecundidad, natalidad, mortalidad y esperanza de vida en la República Dominicana",
+            "Interpretación de mapas y datos estadísticos de censos de la población en la República Dominicana",
+            "Comparación de los indicadores económicos del desarrollo con el índice de desarrollo humano (IDH)"
+        ],
+        "attitudes": [
+            "Interés por la preservación del planeta Tierra",
+            "Respeto por la conservación de los recursos del planeta Tierra y de su país",
+            "Valoración de propuestas que preserven el planeta Tierra",
+            "Actitud crítica ante explicaciones de fenómenos naturales y sociales",
+            "Interés por explicaciones científicas desde las Ciencias Sociales",
+            "Demostración de interés en analizar de forma crítica las dinámicas de la población",
+            "Interés por confrontar sus ideas con los demás sobre las migraciones humanas"
+        ],
+        "achievement_indicators": [
+            "Analiza las tasas demográficas de un país, su evolución a lo largo del tiempo y evalúa la influencia de diferentes factores económicos o culturales presentes en estos cambios",
+            "Elabora proyectos comunitarios enfocados hacia la protección del medioambiente, aplicando conocimientos sobre los problemas ambientales y herramientas para su abordaje",
+            "Propone proyectos comunitarios que benefician a todos los ciudadanos, utilizando herramientas y estrategias que fomenten la participación activa y colaborativa de la comunidad en la identificación de necesidades y soluciones"
+        ]
+    },
+    {
+        "title": "Las migraciones humanas",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Las migraciones humanas",
+            "Tipos de migraciones y sus características",
+            "Efecto de la acción humana en el planeta Tierra"
+        ],
+        "procedures": [
+            "Representación sobre un mapamundi, de las principales rutas de migración humana",
+            "Análisis de fuentes confiables sobre las distintas causas y razones que originan la migración humana",
+            "Realización de proyectos de investigación sobre el calentamiento global",
+            "Formulación de hipótesis sencillas sobre el impacto de la acción humana en el Planeta Tierra",
+            "Análisis de legislaciones y protocolos internacionales sobre la preservación del planeta Tierra",
+            "Análisis de los efectos del calentamiento global en el mundo"
+        ],
+        "attitudes": [
+            "Demostración de interés en observar de manera crítica y científica el espacio geográfico y los cambios climáticos",
+            "Interés por la preservación del planeta Tierra",
+            "Respeto por la conservación de los recursos del planeta Tierra y de su país",
+            "Valoración de propuestas que preserven el planeta Tierra",
+            "Actitud crítica ante explicaciones de fenómenos naturales y sociales",
+            "Interés por explicaciones científicas desde las Ciencias Sociales",
+            "Interés por confrontar sus ideas con los demás sobre las migraciones humanas"
+        ],
+        "achievement_indicators": [
+            "Elabora mapa de las migraciones humanas de una región o país, identificando los diferentes tipos de migraciones y las características de cada uno, utilizando informaciones confiables y rigurosas para garantizar la originalidad y autenticidad de la información recabada",
+            "Compara las similitudes y diferencias entre los cambios ocurridos en el mundo durante el neocolonialismo, la descolonización y las guerras mundiales, utilizando varios mapas de fuentes confiables"
+        ]
+    },
+    {
+        "title": "Imperialismo y revolución en el escenario mundial durante los siglos XIX y XX",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Imperialismo y revolución en el escenario mundial durante los siglos XIX y XX",
+            "Grandes potencias y espacio mundial",
+            "Poder financiero, político e ideológico en el siglo XX: Centro Periferia",
+            "Transporte y mercado: Canal de Suez y de Panamá"
+        ],
+        "procedures": [
+            "Explicación de los conceptos imperialismo y Revolución, planteando su punto de vista",
+            "Interpretación del espacio mundial como escenario de confrontación de las grandes potencias por el poder económico",
+            "Investigación utilizando fuentes diversas sobre el impacto del complejo financiero de las grandes potencias",
+            "Análisis de los enfrentamientos de las grandes potencias por el dominio político y económico en la primera mitad del siglo XX",
+            "Elaboración de esquemas donde se grafiquen las relaciones e intercambios entre países desarrollados y los países subdesarrollados",
+            "Utilización de mapamundi para ilustrar los cambios de rutas del transporte marítimo de tropas. Implicaciones comerciales de los canales de Suez (1897) y Panamá (1914)"
+        ],
+        "attitudes": [
+            "Valoración de las explicaciones de escuelas historiográficas",
+            "Demostración de interés en adquirir conocimientos sobre temas de historia universal",
+            "Actitud crítica de los argumentos presentados por diferentes autores en diferentes fuentes consultadas con relación a la Primera Guerra Mundial y la crisis de entreguerras",
+            "Respeto por las opiniones de los demás en el análisis y debate sobre el impacto de la Primera Guerra Mundial en la República Dominicana"
+        ],
+        "achievement_indicators": [
+            "Elabora una línea de tiempo que muestre los principales acontecimientos históricos del siglo estudiados",
+            "Realiza en brochure e infografías, explicaciones sencillas de los cambios históricos, espaciales, políticos, económicos y culturales durante los períodos históricos estudiados"
+        ]
+    },
+    {
+        "title": "La Primera Guerra Mundial, el afianzamiento económico de Estados Unidos, crisis de entreguerras",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "La Primera Guerra Mundial, el afianzamiento económico de Estados Unidos, crisis de entreguerras",
+            "Revolución rusa",
+            "Planes y tratados",
+            "Crisis del 1929",
+            "Fascismo y su derrota"
+        ],
+        "procedures": [
+            "Investigación, utilizando procedimientos básicos de las ciencias sociales, y formulación de hipótesis sobre las causas que dieron origen a la Primera Guerra Mundial y la Revolución Rusa",
+            "Demostración de interés en observar de manera crítica y científica el espacio geográfico y los cambios climáticos",
+            "Interés por la preservación del planeta Tierra",
+            "Respeto por la conservación de los recursos del planeta Tierra y de su país",
+            "Valoración de propuestas que preserven el planeta Tierra",
+            "Actitud crítica ante explicaciones de fenómenos naturales y sociales",
+            "Interés por explicaciones científicas desde las Ciencias Sociales",
+            "Manifestación de interés por la comprensión de los procesos que provocaron las guerras mundiales",
+            "Análisis crítico de los acontecimientos que provocaron el imperialismo y la expansión estadounidense",
+            "Interés por comprender la incidencia de las guerras mundiales y la fría en el orden mundial",
+            "Demostración de interés en analizar de forma crítica las dinámicas de la población",
+            "Interés por confrontar sus ideas con los demás sobre las migraciones humanas",
+            "Análisis de tratados firmados durante y después de la Primera Guerra Mundial",
+            "Análisis de los movimientos fascistas en Europa",
+            "Explicación de los factores que originaron el fascismo y su fin",
+            "Redacción de un artículo expositivo sobre las implicaciones de la Primera Guerra Mundial y el afianzamiento económico de Estados Unidos",
+            "Identificación de temáticas para el artículo referente a: Explotación bananera en Centroamérica, Sudamérica y el Caribe; papel de Estados Unidos y Canadá en la Primera Guerra Mundial (1917 - 1918); auge de la explotación agrícola; Control de las explotaciones mineras"
+        ],
+        "attitudes": [
+            "Valoración de las explicaciones de escuelas historiográficas",
+            "Demostración de interés en adquirir conocimientos sobre temas de historia universal",
+            "Actitud crítica de los argumentos presentados por diferentes autores en diferentes fuentes consultadas con relación a la Primera Guerra Mundial y la crisis de entreguerras",
+            "Respeto por las opiniones de los demás en el análisis y debate sobre el impacto de la Primera Guerra Mundial en la República Dominicana"
+        ],
+        "achievement_indicators": [
+            "Elabora una línea de tiempo que muestre los principales acontecimientos históricos del siglo estudiados",
+            "Analiza los cambios que se produjeron en el mundo tras la Primera Guerra Mundial",
+            "Elabora propuestas sobre prácticas democráticas, solución de conflictos y cultura de paz mediante la participación como medio de solución",
+            "Realiza propuestas que garanticen la cultura de paz en cualquier espacio y el respeto a los derechos humanos"
+        ]
+    },
+    {
         "title": "",
         "level": "SECUNDARIA",
         "year": "SEGUNDO",

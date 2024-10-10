@@ -5887,5 +5887,55 @@
         "procedures": [],
         "attitudes": [],
         "achievement_indicators": []
+    },
+    {
+        "title": "",
+        "level": "SECUNDARIA",
+        "year": "SEGUNDO",
+        "subject": "CIENCIAS_NATURALES",
+        "concepts": [],
+        "procedures": [],
+        "attitudes": [],
+        "achievement_indicators": []
+    },
+    {
+        "title": "",
+        "level": "SECUNDARIA",
+        "year": "TERCERO",
+        "subject": "CIENCIAS_NATURALES",
+        "concepts": [],
+        "procedures": [],
+        "attitudes": [],
+        "achievement_indicators": []
+    },
+    {
+        "title": "",
+        "level": "SECUNDARIA",
+        "year": "CUARTO",
+        "subject": "CIENCIAS_NATURALES",
+        "concepts": [],
+        "procedures": [],
+        "attitudes": [],
+        "achievement_indicators": []
+    },
+    {
+        "title": "",
+        "level": "SECUNDARIA",
+        "year": "QUINTO",
+        "subject": "CIENCIAS_NATURALES",
+        "concepts": [],
+        "procedures": [],
+        "attitudes": [],
+        "achievement_indicators": []
+    },
+    {
+        "title": "",
+        "level": "SECUNDARIA",
+        "year": "SEXTO",
+        "subject": "CIENCIAS_NATURALES",
+        "concepts": [],
+        "procedures": [],
+        "attitudes": [],
+        "achievement_indicators": []
     }
 ]
