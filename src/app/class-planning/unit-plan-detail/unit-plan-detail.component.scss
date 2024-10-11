@@ -49,3 +49,11 @@ th {
   -webkit-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
 }
+
+#print-view-sheet {
+  display: block;
+  padding: 0.35in;
+  width: 11in;
+  overflow-y: auto;
+  margin: 0 auto;
+}

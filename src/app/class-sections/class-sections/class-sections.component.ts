@@ -46,7 +46,7 @@ export class ClassSectionsComponent implements OnInit {
       maxWidth: '640px'
     });
     this.dialog.afterAllClosed.subscribe(() => {
-      this.sections$ = this.classSectionService.findAll();
+      this.sections$ = this.classSectionService.findSections();
     });
   }
 

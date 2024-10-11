@@ -55,6 +55,8 @@ import religionContentBlocks from '../../data/religion-content-blocks.json';
 import artContentBlocks from '../../data/art-content-blocks.json';
 import { HttpClientModule } from '@angular/common/http';
 import { ClassSection } from '../../interfaces/class-section';
+import { CompetenceService } from '../../services/competence.service';
+import { CompetenceEntry } from '../../interfaces/competence-entry';
 
 @Component({
   selector: 'app-unit-plan',
@@ -85,7 +87,9 @@ export class UnitPlanComponent implements OnInit {
   private classSectionService = inject(ClassSectionService);
   private userSettingsService = inject(UserSettingsService);
   private unitPlanService = inject(UnitPlanService);
+  private competenceService = inject(CompetenceService);
   private router = inject(Router);
+  private _evaluationCriteria: CompetenceEntry[] = [];
   working = true;
 
   userSettings: UserSettings | null = null;
@@ -309,40 +313,23 @@ export class UnitPlanComponent implements OnInit {
     "Material de lectura"
   ];
 
-  learningSituationForm = this.fb.group<{
-    level: string,
-    year: string,
-    classSection: string,
-    subjects: string[],
-    spanishContent: string,
-    mathContent: string[],
-    societyContent: string,
-    scienceContent: string[],
-    englishContent: string,
-    frenchContent: string,
-    religionContent: string[],
-    physicalEducationContent: string[],
-    artisticEducationContent: string[],
-    situationType: string,
-    reality: string,
-    environment: string,
-  }>({
-    level: 'Primaria',
-    year: 'Primero',
-    classSection: '',
-    subjects: [],
-    spanishContent: '',
-    mathContent: [],
-    societyContent: '',
-    scienceContent: [],
-    englishContent: '',
-    frenchContent: '',
-    religionContent: [],
-    physicalEducationContent: [],
-    artisticEducationContent: [],
-    situationType: 'realityProblem',
-    reality: 'Falta de disciplina',
-    environment: 'Salón de clases'
+  learningSituationForm = this.fb.group({
+    level: ['Primaria'],
+    year: ['Primero'],
+    classSection: [''],
+    subjects: [[] as string[]],
+    spanishContent: [''],
+    mathContent: [[] as string[]],
+    societyContent: [''],
+    scienceContent: [[] as string[]],
+    englishContent: [''],
+    frenchContent: [''],
+    religionContent: [[] as string[]],
+    physicalEducationContent: [[] as string[]],
+    artisticEducationContent: [[] as string[]],
+    situationType: ['realityProblem'],
+    reality: ['Falta de disciplina'],
+    environment: ['Salón de clases']
   });
 
   unitPlanForm = this.fb.group({
@@ -385,36 +372,34 @@ Tu respuesta debe ser json valido con esta interfaz:
   resources: string[], // los recursos que voy a necesitar para toda la unidad
 }`;
 
-  learningSituationPrompt = `Una situación de aprendizaje debe incluir los siguientes elementos clave:
-
-- Descripción del ambiente operativo: Donde se construirá y aplicará el aprendizaje.
-- Situación o problema: Que se debe resolver o producto a realizar.
-- Condición inicial de los estudiantes: Conocimientos previos que poseen sobre la situación planteada.
-- Aprendizajes requeridos: Para resolver la situación o problema.
-- Secuencia de operaciones: Actividades, procedimientos o prácticas necesarias para lograr el aprendizaje, incluyendo el escenario final o punto de llegada.
-
-Te comparto tres ejemplos de situaciones de aprendizaje:
-1. Los alumnos de 1er grado de secundaria del centro educativo Eugenio Miches Jimenez necesitan mejorar sus conocimientos de geometria, y en particular, sentar las bases, conocer y aprender a aplicar conceptos como el de recta, angulo, punto y vectores. Para esto, conjunto con el maestro, van a trabajar para dominar, tanto como sea posible estos, y otros conceptos importantes y cruciales en el area de la geometria. El maestro opta por utilizar la estrategia del ABP (aprendizaje basado en problemas) para enseñar a alumnos estos temas, en conjunto con tecnicas ludicas para hacer mas ameno el aprendizaje y mantener la motivacion de los alumnos. Al final de la aplicación de la presente unidad de aprendizaje, los alumnos presentaran una exposicion mostrando los aprendizajes que han adquirido, y sus portafolios con todos los trabajos realizados durante la unidad.
-2. En una emocionante semana de clase, los niños de quinto de primaria se embarcarán en un emocionante viaje a través del tiempo y el espacio. Comenzaremos nuestro viaje explorando mapas y misteriosas leyendas sobre la desaparición de la Atlántida como punto de partida para aprender sobre la localización del continente americano en Ciencias Sociales. A medida que los días avanzan, los estudiantes se convertirán en intrépidos paleontólogos y geólogos en una expedición ficticia en la que descubrirán fósiles y aprenderán sobre la historia de la Tierra en Ciencias de la Naturaleza. Utilizaremos juegos de geolocalización y un emocionante juego de búsqueda de fósiles para reforzar conceptos clave. Finalmente, los niños aplicarán sus conocimientos al crear su propio mapa detallado de un continente ficticio, incluyendo ubicaciones de fósiles, para demostrar su comprensión en una actividad final lúdica y creativa que fusionará Ciencias Sociales y Ciencias de la Naturaleza en un emocionante proyecto interdisciplinario. ¡Será una semana de aprendizaje emocionante y lleno de aventuras!
-3. Nuestra Escuela Salomé Ureña abre sus puertas en un nuevo local, ahora está más grande y bonita, pero también, más cerca de las avenidas principales de la comunidad. La dirección inició una campaña de señalización vial con la Junta de Vecinos. En 2do A ayudaremos la escuela y formaremos el grupo “los guardianes de la vía”, para ello, estudiaremos las señales de tránsito, representaremos en papel cuadriculado los desplazamientos desde la escuela hacia los diferentes sectores de la comunidad y aprenderemos los puntos cardinales. Realizaremos una gran campaña de educación vial en la que iremos por los cursos de 1ro y 2do con maquetas para mostrar los mejores desplazamientos y los cuidados que se necesitan; llevaremos letreros con las señales de tránsito y explicaremos su significado.
-
-Genera una situación de aprendizaje para el siguiente contexto:
-- Curso: nivel_y_grado (nombre_del_grado)
-- Ambiente Operativo: ambiente_operativo
-- Situación o Problema: situacion_o_problema
-- Condición Inicial: condicion_inicial
-- Aprendizajes requeridos: contenido_especifico
-
-La situación de aprendizaje debe ser clara, relevante y adecuada para el nivel educativo especificado. La situacion de aprendizaje debe estar contenida en uno o dos parrafos, y de ser muy extensa no debe pasar nunca de 3, debe ser narrada, como en los ejemplos, en primera o tercera persona del plural.
-La respuesta debe ser json valido, coherente con esta interfaz:
-{
-  title: string; // titulo de la situacion de aprendizaje
-  content: string; // la situacion de aprendizaje en si
-  strategies: string[]; //estrategias de aprendizaje y ensenanza recomendados para esta situacion de aprendizaje
-}
-`;
-
   ngOnInit(): void {
+    // const subjectsNames = [
+    //   'EDUCACION_ARTISTICA', 'INGLES', 'FRANCES', 'MATEMATICA', 'FORMACION_HUMANA', 'CIENCIAS_NATURALES', 'CIENCIAS_SOCIALES', 'LENGUA_ESPANOLA', 'EDUCACION_FISICA'
+    // ];
+    // [ART_COMPETENCE, ENGLISH_COMPETENCE, FRENCH_COMPETENCE, MATH_COMPETENCE, RELIGION_COMPETENCE, SCIENCE_COMPETENCE, SOCIETY_COMPETENCE, SPANISH_COMPETENCE, SPORTS_COMPETENCE].forEach((comp:any, sub: number) => {
+    //   Object.keys(comp.Secundaria).forEach(key => {
+    //     const name = key.split('').map((s, i) => s == s.toUpperCase() && i !== 0 ? " " + s : s).join('');
+    //     Object.keys(comp.Secundaria[key]).forEach(yearKey => {
+    //       const grade = yearKey.toUpperCase();
+    //       const subject = subjectsNames[sub];
+    //       const level = 'SECUNDARIA';
+    //       const entries = comp.Secundaria[key][yearKey].competenciasEspecificas;
+    //       const criteria = comp.Secundaria[key][yearKey].criteriosDeEvaluacion;
+    //       const data: any = {
+    //         name,
+    //         grade,
+    //         subject,
+    //         level,
+    //         entries,
+    //         criteria
+    //       }
+    //       const sus = this.competenceService.createCompetence(data).subscribe(res => {
+    //         sus.unsubscribe();
+    //         console.log('Created #', sub + 1)
+    //       })
+    //     })
+    //   })
+    // })
     this.userSettingsService.getSettings().subscribe({
       next: settings => {
         this.userSettings = settings;
@@ -522,6 +507,36 @@ La respuesta debe ser json valido, coherente con esta interfaz:
   }
 
   generateLearningSituation() {
+    const learningSituationPrompt = `Una situación de aprendizaje debe incluir los siguientes elementos clave:
+
+- Descripción del ambiente operativo: Donde se construirá y aplicará el aprendizaje.
+- Situación o problema: Que se debe resolver o producto a realizar.
+- Condición inicial de los estudiantes: Conocimientos previos que poseen sobre la situación planteada.
+- Aprendizajes requeridos: Para resolver la situación o problema.
+- Secuencia de operaciones: Actividades, procedimientos o prácticas necesarias para lograr el aprendizaje, incluyendo el escenario final o punto de llegada.
+
+Te comparto tres ejemplos de situaciones de aprendizaje:
+1. Los alumnos de 1er grado de secundaria del centro educativo Eugenio Miches Jimenez necesitan mejorar sus conocimientos de geometria, y en particular, sentar las bases, conocer y aprender a aplicar conceptos como el de recta, angulo, punto y vectores. Para esto, conjunto con el maestro, van a trabajar para dominar, tanto como sea posible estos, y otros conceptos importantes y cruciales en el area de la geometria. El maestro opta por utilizar la estrategia del ABP (aprendizaje basado en problemas) para enseñar a alumnos estos temas, en conjunto con tecnicas ludicas para hacer mas ameno el aprendizaje y mantener la motivacion de los alumnos. Al final de la aplicación de la presente unidad de aprendizaje, los alumnos presentaran una exposicion mostrando los aprendizajes que han adquirido, y sus portafolios con todos los trabajos realizados durante la unidad.
+2. En una emocionante semana de clase, los niños de quinto de primaria se embarcarán en un emocionante viaje a través del tiempo y el espacio. Comenzaremos nuestro viaje explorando mapas y misteriosas leyendas sobre la desaparición de la Atlántida como punto de partida para aprender sobre la localización del continente americano en Ciencias Sociales. A medida que los días avanzan, los estudiantes se convertirán en intrépidos paleontólogos y geólogos en una expedición ficticia en la que descubrirán fósiles y aprenderán sobre la historia de la Tierra en Ciencias de la Naturaleza. Utilizaremos juegos de geolocalización y un emocionante juego de búsqueda de fósiles para reforzar conceptos clave. Finalmente, los niños aplicarán sus conocimientos al crear su propio mapa detallado de un continente ficticio, incluyendo ubicaciones de fósiles, para demostrar su comprensión en una actividad final lúdica y creativa que fusionará Ciencias Sociales y Ciencias de la Naturaleza en un emocionante proyecto interdisciplinario. ¡Será una semana de aprendizaje emocionante y lleno de aventuras!
+3. Nuestra Escuela Salomé Ureña abre sus puertas en un nuevo local, ahora está más grande y bonita, pero también, más cerca de las avenidas principales de la comunidad. La dirección inició una campaña de señalización vial con la Junta de Vecinos. En 2do A ayudaremos la escuela y formaremos el grupo “los guardianes de la vía”, para ello, estudiaremos las señales de tránsito, representaremos en papel cuadriculado los desplazamientos desde la escuela hacia los diferentes sectores de la comunidad y aprenderemos los puntos cardinales. Realizaremos una gran campaña de educación vial en la que iremos por los cursos de 1ro y 2do con maquetas para mostrar los mejores desplazamientos y los cuidados que se necesitan; llevaremos letreros con las señales de tránsito y explicaremos su significado.
+
+Genera una situación de aprendizaje para el siguiente contexto:
+- Centro educativo: ${this.classSection?.school.name}
+- Curso: nivel_y_grado (nombre_del_grado)
+- Ambiente Operativo: ambiente_operativo
+- Situación o Problema: situacion_o_problema
+- Condición Inicial: condicion_inicial
+- Aprendizajes requeridos: contenido_especifico
+
+La situación de aprendizaje debe ser clara, relevante y adecuada para el nivel educativo especificado. La situacion de aprendizaje debe estar contenida en uno o dos parrafos, y de ser muy extensa no debe pasar nunca de 3, debe ser narrada, como en los ejemplos, en primera o tercera persona del plural.
+Aunque es opcional, es totalmente valido identificar el curso como 'los estudiantes de x grado de la escuela x' o 'los estudiantes de ${this.classSection?.name}'.
+La respuesta debe ser json valido, coherente con esta interfaz:
+{
+  title: string; // titulo de la situacion de aprendizaje
+  content: string; // la situacion de aprendizaje en si
+  strategies: string[]; //estrategias de aprendizaje y ensenanza recomendados para esta situacion de aprendizaje
+}
+`;
     const {
       environment,
       situationType,
@@ -532,8 +547,14 @@ La respuesta debe ser json valido, coherente con esta interfaz:
       return;
 
     const contents = this.collectContents();
+    this.competenceService.findAll().subscribe(competence => {
+      const subjects = (this.learningSituationForm.value.subjects as string[])
+      this._evaluationCriteria = competence.filter(c => {
+        return (c.grade == this.classSectionYear && c.level == this.classSectionLevel && subjects.includes(c.subject))
+      });
+    });
 
-    const text = this.learningSituationPrompt.replace('nivel_y_grado', `${this.classSectionYear} de ${this.classSectionLevel}`)
+    const text = learningSituationPrompt.replace('nivel_y_grado', `${this.classSectionYear} de ${this.classSectionLevel}`)
       .replace('nombre_del_grado', this.classSectionName)
       .replace('ambiente_operativo', environment)
       .replace('situacion_o_problema', situationType == 'fiction' ? 'situacion, problema o evento ficticio' : reality)
@@ -578,7 +599,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     }
 
     if (subjects?.includes('MATEMATICA')) {
-      contents.push(mathContent || '');
+      contents.push(...mathContent || '');
     }
 
     if (subjects?.includes('CIENCIAS_SOCIALES')) {
@@ -586,7 +607,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     }
 
     if (subjects?.includes('CIENCIAS_NATURALES')) {
-      contents.push(scienceContent || '');
+      contents.push(...scienceContent || '');
     }
 
     if (subjects?.includes('INGLES')) {
@@ -598,15 +619,15 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     }
 
     if (subjects?.includes('FORMACION_HUMANA')) {
-      contents.push(religionContent || '');
+      contents.push(...religionContent || '');
     }
 
     if (subjects?.includes('EDUCACION_FISICA')) {
-      contents.push(physicalEducationContent || '');
+      contents.push(...physicalEducationContent || '');
     }
 
     if (subjects?.includes('EDUCACION_ARTISTICA')) {
-      contents.push(artisticEducationContent || '');
+      contents.push(...artisticEducationContent || '');
     }
 
     return contents.join(divider);
@@ -735,6 +756,22 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     return [];
   }
 
+  get classSection() {
+    const { classSection } = this.learningSituationForm.value;
+    return this.classSections.find(s => s._id == classSection);
+  }
+
+  get classSectionSchoolName() {
+    const { classSection } = this.learningSituationForm.value;
+    if (classSection) {
+      const data = this.classSections.find(s => s._id == classSection)
+      if (data) {
+        return data.school.name;
+      }
+    }
+    return '';
+  }
+
   get classSectionName() {
     const { classSection } = this.learningSituationForm.value;
     if (classSection) {
@@ -742,7 +779,6 @@ La respuesta debe ser json valido, coherente con esta interfaz:
       if (data) {
         return data.name;
       }
-      return '';
     }
     return '';
   }
@@ -771,196 +807,27 @@ La respuesta debe ser json valido, coherente con esta interfaz:
     return '';
   }
 
-  get competence(): { Comunicativa: string[], PensamientoLogico: string[], EticaYCiudadana: string[] } {
-    const comps: {
-      Comunicativa: string[],
-      PensamientoLogico: string[],
-      EticaYCiudadana: string[],
-    } =  {
-      Comunicativa: [],
-      PensamientoLogico: [],
-      EticaYCiudadana: []
-    };
-
-    const { subjects } = this.learningSituationForm.value
-
-    if (subjects?.includes('LENGUA_ESPANOLA')) {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPANISH_COMPETENCE.Primaria.Comunicativa : SPANISH_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPANISH_COMPETENCE.Primaria.PensamientoLogico : SPANISH_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPANISH_COMPETENCE.Primaria.EticaYCiudadana : SPANISH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('MATEMATICA')) {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? MATH_COMPETENCE.Primaria.Comunicativa : MATH_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? MATH_COMPETENCE.Primaria.PensamientoLogico : MATH_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? MATH_COMPETENCE.Primaria.EticaYCiudadana : MATH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('CIENCIAS_SOCIALES')) {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SOCIETY_COMPETENCE.Primaria.Comunicativa : SOCIETY_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SOCIETY_COMPETENCE.Primaria.PensamientoLogico : SOCIETY_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SOCIETY_COMPETENCE.Primaria.EticaYCiudadana : SOCIETY_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('CIENCIAS_NATURALES')) {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SCIENCE_COMPETENCE.Primaria.Comunicativa : SCIENCE_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SCIENCE_COMPETENCE.Primaria.PensamientoLogico : SCIENCE_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SCIENCE_COMPETENCE.Primaria.EticaYCiudadana : SCIENCE_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('INGLES')) {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ENGLISH_COMPETENCE.Primaria.Comunicativa : ENGLISH_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ENGLISH_COMPETENCE.Primaria.PensamientoLogico : ENGLISH_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ENGLISH_COMPETENCE.Primaria.EticaYCiudadana : ENGLISH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('FRANCES')) {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? FRENCH_COMPETENCE.Primaria.Comunicativa : FRENCH_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? FRENCH_COMPETENCE.Primaria.PensamientoLogico : FRENCH_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? FRENCH_COMPETENCE.Primaria.EticaYCiudadana : FRENCH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('FORMACION_HUMANA')) {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? RELIGION_COMPETENCE.Primaria.Comunicativa : RELIGION_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? RELIGION_COMPETENCE.Primaria.PensamientoLogico : RELIGION_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? RELIGION_COMPETENCE.Primaria.EticaYCiudadana : RELIGION_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('EDUCACION_FISICA')) {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPORTS_COMPETENCE.Primaria.Comunicativa : SPORTS_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPORTS_COMPETENCE.Primaria.PensamientoLogico : SPORTS_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPORTS_COMPETENCE.Primaria.EticaYCiudadana : SPORTS_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('EDUCACION_ARTISTICA')) {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ART_COMPETENCE.Primaria.Comunicativa : ART_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ART_COMPETENCE.Primaria.PensamientoLogico : ART_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ART_COMPETENCE.Primaria.EticaYCiudadana : ART_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    return comps;
+  get competence(): CompetenceEntry[] {
+    return this._evaluationCriteria.filter(c => {
+      const { subjects } = this.learningSituationForm.value as any;
+      return c.grade == this.classSectionYear &&
+      c.level == this.classSectionLevel &&
+      subjects.includes(c.subject);
+    }).map(c => ({ ...c, entries: [this.randomCompetence(c.entries)]}));
   }
 
-  get evaluationCriteria(): { Comunicativa: string[], PensamientoLogico: string[], EticaYCiudadana: string[] } {
-    const criteria: {
-      Comunicativa: string[],
-      PensamientoLogico: string[],
-      EticaYCiudadana: string[],
-    } = {
-      Comunicativa: [],
-      PensamientoLogico: [],
-      EticaYCiudadana: []
-    };
-
-    const { subjects } = this.learningSituationForm.value
-
-    if (subjects?.includes('LENGUA_ESPANOLA')) {
-      criteria.Comunicativa.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SPANISH_COMPETENCE.Primaria.Comunicativa : SPANISH_COMPETENCE.Secundaria.Comunicativa));
-      criteria.PensamientoLogico.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SPANISH_COMPETENCE.Primaria.PensamientoLogico : SPANISH_COMPETENCE.Secundaria.PensamientoLogico));
-      criteria.EticaYCiudadana.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SPANISH_COMPETENCE.Primaria.EticaYCiudadana : SPANISH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('MATEMATICA')) {
-      criteria.Comunicativa.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? MATH_COMPETENCE.Primaria.Comunicativa : MATH_COMPETENCE.Secundaria.Comunicativa));
-      criteria.PensamientoLogico.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? MATH_COMPETENCE.Primaria.PensamientoLogico : MATH_COMPETENCE.Secundaria.PensamientoLogico));
-      criteria.EticaYCiudadana.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? MATH_COMPETENCE.Primaria.EticaYCiudadana : MATH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('CIENCIAS_SOCIALES')) {
-      criteria.Comunicativa.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SOCIETY_COMPETENCE.Primaria.Comunicativa : SOCIETY_COMPETENCE.Secundaria.Comunicativa));
-      criteria.PensamientoLogico.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SOCIETY_COMPETENCE.Primaria.PensamientoLogico : SOCIETY_COMPETENCE.Secundaria.PensamientoLogico));
-      criteria.EticaYCiudadana.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SOCIETY_COMPETENCE.Primaria.EticaYCiudadana : SOCIETY_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('CIENCIAS_NATURALES')) {
-      criteria.Comunicativa.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SCIENCE_COMPETENCE.Primaria.Comunicativa : SCIENCE_COMPETENCE.Secundaria.Comunicativa));
-      criteria.PensamientoLogico.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SCIENCE_COMPETENCE.Primaria.PensamientoLogico : SCIENCE_COMPETENCE.Secundaria.PensamientoLogico));
-      criteria.EticaYCiudadana.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SCIENCE_COMPETENCE.Primaria.EticaYCiudadana : SCIENCE_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('INGLES')) {
-      criteria.Comunicativa.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? ENGLISH_COMPETENCE.Primaria.Comunicativa : ENGLISH_COMPETENCE.Secundaria.Comunicativa));
-      criteria.PensamientoLogico.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? ENGLISH_COMPETENCE.Primaria.PensamientoLogico : ENGLISH_COMPETENCE.Secundaria.PensamientoLogico));
-      criteria.EticaYCiudadana.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? ENGLISH_COMPETENCE.Primaria.EticaYCiudadana : ENGLISH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('FRANCES')) {
-      criteria.Comunicativa.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? FRENCH_COMPETENCE.Primaria.Comunicativa : FRENCH_COMPETENCE.Secundaria.Comunicativa));
-      criteria.PensamientoLogico.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? FRENCH_COMPETENCE.Primaria.PensamientoLogico : FRENCH_COMPETENCE.Secundaria.PensamientoLogico));
-      criteria.EticaYCiudadana.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? FRENCH_COMPETENCE.Primaria.EticaYCiudadana : FRENCH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('FORMACION_HUMANA')) {
-      criteria.Comunicativa.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? RELIGION_COMPETENCE.Primaria.Comunicativa : RELIGION_COMPETENCE.Secundaria.Comunicativa));
-      criteria.PensamientoLogico.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? RELIGION_COMPETENCE.Primaria.PensamientoLogico : RELIGION_COMPETENCE.Secundaria.PensamientoLogico));
-      criteria.EticaYCiudadana.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? RELIGION_COMPETENCE.Primaria.EticaYCiudadana : RELIGION_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('EDUCACION_FISICA')) {
-      criteria.Comunicativa.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SPORTS_COMPETENCE.Primaria.Comunicativa : SPORTS_COMPETENCE.Secundaria.Comunicativa));
-      criteria.PensamientoLogico.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SPORTS_COMPETENCE.Primaria.PensamientoLogico : SPORTS_COMPETENCE.Secundaria.PensamientoLogico));
-      criteria.EticaYCiudadana.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? SPORTS_COMPETENCE.Primaria.EticaYCiudadana : SPORTS_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subjects?.includes('EDUCACION_ARTISTICA')) {
-      criteria.Comunicativa.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? ART_COMPETENCE.Primaria.Comunicativa : ART_COMPETENCE.Secundaria.Comunicativa));
-      criteria.PensamientoLogico.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? ART_COMPETENCE.Primaria.PensamientoLogico : ART_COMPETENCE.Secundaria.PensamientoLogico));
-      criteria.EticaYCiudadana.push(this.randomCriteria(this.classSectionLevel == 'PRIMARIA' ? ART_COMPETENCE.Primaria.EticaYCiudadana : ART_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    return criteria;
+  get evaluationCriteria(): { name: string, criteria: string[] }[] {
+    return this._evaluationCriteria.map(c => ({ name: c.name, criteria: [this.randomCriteria(c.criteria)] }))
   }
 
   randomCompetence(categorized: any): string {
-    let random = 0;
-    switch(this.yearIndex(this.classSectionYear)) {
-      case 0:
-        random = Math.round(Math.random() * (categorized.Primero.competenciasEspecificas.length - 1))
-        return categorized.Primero.competenciasEspecificas[random];
-      case 1:
-        random = Math.round(Math.random() * (categorized.Segundo.competenciasEspecificas.length - 1))
-        return categorized.Segundo.competenciasEspecificas[random];
-      case 2:
-        random = Math.round(Math.random() * (categorized.Tercero.competenciasEspecificas.length - 1))
-        return categorized.Tercero.competenciasEspecificas[random];
-      case 3:
-        random = Math.round(Math.random() * (categorized.Cuarto.competenciasEspecificas.length - 1))
-        return categorized.Cuarto.competenciasEspecificas[random];
-      case 4:
-        random = Math.round(Math.random() * (categorized.Quinto.competenciasEspecificas.length - 1))
-        return categorized.Quinto.competenciasEspecificas[random];
-      case 5:
-        random = Math.round(Math.random() * (categorized.Sexto.competenciasEspecificas.length - 1))
-        return categorized.Sexto.competenciasEspecificas[random];
-      default:
-        return '';
-    }
+    let random = Math.round(Math.random() * (categorized.length - 1))
+    return categorized[random];
   }
 
   randomCriteria(categorized: any): string {
-    let random = 0;
-    switch(this.yearIndex(this.classSectionYear)) {
-      case 0:
-        random = Math.round(Math.random() * (categorized.Primero.criteriosDeEvaluacion.length - 1))
-        return categorized.Primero.criteriosDeEvaluacion[random];
-      case 1:
-        random = Math.round(Math.random() * (categorized.Segundo.criteriosDeEvaluacion.length - 1))
-        return categorized.Segundo.criteriosDeEvaluacion[random];
-      case 2:
-        random = Math.round(Math.random() * (categorized.Tercero.criteriosDeEvaluacion.length - 1))
-        return categorized.Tercero.criteriosDeEvaluacion[random];
-      case 3:
-        random = Math.round(Math.random() * (categorized.Cuarto.criteriosDeEvaluacion.length - 1))
-        return categorized.Cuarto.criteriosDeEvaluacion[random];
-      case 4:
-        random = Math.round(Math.random() * (categorized.Quinto.criteriosDeEvaluacion.length - 1))
-        return categorized.Quinto.criteriosDeEvaluacion[random];
-      case 5:
-        random = Math.round(Math.random() * (categorized.Sexto.criteriosDeEvaluacion.length - 1))
-        return categorized.Sexto.criteriosDeEvaluacion[random];
-      default:
-        return '';
-    }
+    let random = Math.round(Math.random() * (categorized.length - 1))
+    return categorized[random];
   }
 
   mainThemeByGrade(themes: { Primero: string[], Segundo: string[], Tercero: string[], Cuarto: string[], Quinto: string[], Sexto: string[] }): string {
@@ -1122,7 +989,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
 
     if (subjects?.includes('MATEMATICA')) {
       const mathContents: { concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
-      (!mathContent ? [] : typeof(mathContent) == 'string' ? mathContent.split(',') : mathContent as any as string[]).forEach(content => {
+      (mathContent ? mathContent : []).forEach(content => {
         const math = mathContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == content);
         if (math) {
           mathContents.push({
@@ -1157,7 +1024,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
 
     if (subjects?.includes('CIENCIAS_NATURALES')) {
       const scienceContents: { concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
-      (!scienceContent ? [] : typeof (scienceContent) == 'string' ? scienceContent.split(',') : scienceContent as any as string[]).forEach(content => {
+      (!scienceContent ? [] : scienceContent).forEach(content => {
         const science = scienceContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == content);
         if (science) {
           scienceContents.push({
@@ -1192,7 +1059,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
 
     if (subjects?.includes('EDUCACION_FISICA')) {
       const sportsContents: { concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
-      (!physicalEducationContent ? [] : typeof (physicalEducationContent) == 'string' ? physicalEducationContent.split(',') : physicalEducationContent as any as string[]).forEach(content => {
+      (!physicalEducationContent ? [] : physicalEducationContent).forEach(content => {
         const sports = sportsContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == content);
         if (sports) {
           sportsContents.push({
@@ -1214,7 +1081,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
 
     if (subjects?.includes('FORMACION_HUMANA')) {
       const religionContents: { concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
-      (!religionContent ? [] : typeof (religionContent) == 'string' ? religionContent.split(',') : religionContent as any as string[]).forEach(content => {
+      (!religionContent ? [] : religionContent).forEach(content => {
         const religion = religionContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == content);
         if (religion) {
           religionContents.push({
@@ -1236,7 +1103,7 @@ La respuesta debe ser json valido, coherente con esta interfaz:
 
     if (subjects?.includes('EDUCACION_ARTISTICA')) {
       const artContents: { concepts: string[], procedures: string[], attitudes: string[], achievement_indicators: string[] }[] = [];
-      (!artisticEducationContent ? [] : typeof (artisticEducationContent) == 'string' ? artisticEducationContent.split(',') : artisticEducationContent as any as string[]).forEach(content => {
+      (!artisticEducationContent ? [] : artisticEducationContent).forEach(content => {
         const art = artContentBlocks.find(cb => cb.level == level && cb.year == year && cb.title == content);
         if (art) {
           artContents.push({

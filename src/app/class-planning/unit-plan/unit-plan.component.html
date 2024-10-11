@@ -286,7 +286,7 @@
                                 <tbody>
                                     <tr>
                                         <th>Centro Educativo</th>
-                                        <td colspan="5">{{userSettings?.schoolName}}</td>
+                                        <td colspan="5">{{classSection?.school?.name}}</td>
                                     </tr>
                                     <tr>
                                         <th>Docente</th>
@@ -305,36 +305,44 @@
                                             <th colspan="6">Competencias Fundamentales</th>
                                         </tr>
                                         <tr>
-                                            <th colspan="2">Comunicativa</th>
-                                            <th colspan="2">Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Ciencia y Tecnología</th>
-                                            <th colspan="2">Ética y Ciudadana; Personal y Espiritual; Ambiental y de Salud</th>
+                                          <td colspan="6">
+                                            @for (comp of competence; track comp.id) {
+                                              {{comp.name}} <br>
+                                            }
+                                          </td>
                                         </tr>
                                         <tr>
                                             <th colspan="6">Competencias Específicas del Grado</th>
                                         </tr>
+                                        @for (comp of competence; track comp.id) {
+                                          <tr>
+                                            <td colspan="2">{{comp.name}}</td>
+                                            <td colspan="4">
+                                                <ul style="margin: 0; padding: 0; list-style: none;">
+                                                    @for (el of comp.entries; track el) {
+                                                        <li>{{ el }}</li>
+                                                    }
+                                                </ul>
+                                            </td>
+                                          </tr>
+                                        }
+                                    } @else {
                                         <tr>
-                                            <td colspan="2">
-                                                <ul style="margin: 0; padding: 0; list-style: none;">
-                                                    @for (el of competence.Comunicativa; track el) {
-                                                        <li>{{ el }}</li>
-                                                    }
-                                                </ul>
-                                            </td>
-                                            <td colspan="2">
-                                                <ul style="margin: 0; padding: 0; list-style: none;">
-                                                    @for (el of competence.PensamientoLogico; track el) {
-                                                        <li>{{ el }}</li>
-                                                    }
-                                                </ul>
-                                            </td>
-                                            <td colspan="2">
-                                                <ul style="margin: 0; padding: 0; list-style: none;">
-                                                    @for (el of competence.EticaYCiudadana; track el) {
-                                                        <li>{{ el }}</li>
-                                                    }
-                                                </ul>
-                                            </td>
+                                          <th colspan="2">Competencias Fundamentales</th>
+                                          <th colspan="4">Competencias Específicas del Grado</th>
                                         </tr>
+                                        @for (comp of competence; track comp.id) {
+                                          <tr>
+                                              <th colspan="2">{{comp.name}}</th>
+                                              <td colspan="4">
+                                                <ul style="margin: 0; padding: 0; list-style: none;">
+                                                  @for (el of comp.entries; track el) {
+                                                  <li>{{ el }}</li>
+                                                  }
+                                                </ul>
+                                              </td>
+                                          </tr>
+                                        }
                                     }
                                     <tr>
                                         <th>Eje Transversal</th>
@@ -370,25 +378,12 @@
                                     <tr>
                                         <th>Criterios de Evaluaci&oacute;n</th>
                                         <td colspan="5">
-                                            @if (classSectionLevel == 'PRIMARIA') {
+                                            @for (row of evaluationCriteria; track $index) {
+                                              <!-- <h4>{{row.name}}</h4> -->
                                               <ul style="margin: 0; padding: 0; list-style: none;">
-                                                  @for (criteria of evaluationCriteria.Comunicativa; track criteria) {
-                                                      @if (criteria) {
-                                                          <li>- {{criteria}}</li>
-                                                      }
-                                                  }
-                                              </ul>
-                                              <ul style="margin: 0; padding: 0; list-style: none;">
-                                                  @for (criteria of evaluationCriteria.PensamientoLogico; track criteria) {
-                                                      @if (criteria) {
-                                                          <li>- {{criteria}}</li>
-                                                      }
-                                                  }
-                                              </ul>
-                                              <ul style="margin: 0; padding: 0; list-style: none;">
-                                                  @for (criteria of evaluationCriteria.EticaYCiudadana; track criteria) {
-                                                      @if (criteria) {
-                                                          <li>- {{criteria}}</li>
+                                                  @for (criterion of row.criteria; track criterion) {
+                                                      @if (criterion) {
+                                                          <li>- {{criterion}}</li>
                                                       }
                                                   }
                                               </ul>

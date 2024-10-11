@@ -46,11 +46,20 @@ export class BuySubscriptionComponent implements OnInit {
   privateDeploy = '';
   loading = true;
 
+  subscribe() {
+    const sub = this.userSubscriptionService.subscribe('Premium Individual', 'cash', 365, 24.99).subscribe(result => {
+      console.log(result);
+      this.alertSuccess();
+      sub.unsubscribe();
+    });
+  }
+
   ngOnInit(): void {
     // this.userSubscriptionService.subscribe('Premium Individual', 'PayPal', 365, 49.99).subscribe((result) => {
     //   console.log(result)
     //   this.alertSuccess()
     // })
+    // this.subscribe()
     this.usdPrice.subscribe({
       next: (res) => {
         this.price = (res * 35).toFixed(2);

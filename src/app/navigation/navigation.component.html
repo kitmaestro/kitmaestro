@@ -1,11 +1,10 @@
-<mat-sidenav-container class="sidenav-container">
+@if (!isPrintView) {
+  <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    @if (showNames) {
-      <mat-toolbar>Menu</mat-toolbar>
-    }
+    <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
       @for (link of sidebarLinks; track $index) {
         <a mat-list-item
@@ -75,3 +74,6 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+} @else {
+  <router-outlet></router-outlet>
+}

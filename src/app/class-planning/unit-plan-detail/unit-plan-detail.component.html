@@ -32,7 +32,7 @@
         <ng-container *ngIf="(userSettings$ | async) as user">
           <tr>
             <th>Centro Educativo</th>
-            <td colspan="5">{{user.schoolName}}</td>
+            <td colspan="5">{{plan.section.school.name}}</td>
           </tr>
           <tr>
             <th>Docente</th>

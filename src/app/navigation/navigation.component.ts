@@ -42,6 +42,8 @@ export class NavigationComponent {
   private sb = inject(MatSnackBar);
   private router = inject(Router);
 
+  public isPrintView = window.location.href.includes('print');
+
   @Output() signOut: EventEmitter<boolean> = new EventEmitter();
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
