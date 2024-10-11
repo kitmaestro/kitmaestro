@@ -4,6 +4,7 @@ export interface ContentBlock {
     level: string;
     year: string;
     subject: string;
+    order: number;
     concepts: string[];
     procedures: string[];
     attitudes: string[];

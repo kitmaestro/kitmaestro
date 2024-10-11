@@ -2658,14 +2658,279 @@
         ]
     },
     {
-        "title": "",
+        "title": "Teorías sobre el origen geológico del continente americano",
         "level": "SECUNDARIA",
         "year": "TERCERO",
         "subject": "CIENCIAS_SOCIALES",
-        "concepts": [],
-        "procedures": [],
-        "attitudes": [],
-        "achievement_indicators": []
+        "concepts": [
+            "Teorías sobre el origen geológico del continente americano",
+            "Grandes líneas de relieve del continente americano y las teorías tectónicas",
+            "Fallas geológicas y fosas tectónicas del continente americano"
+        ],
+        "procedures": [
+            "Explicación de teorías que abordan el origen geológico del continente americano",
+            "Discusión y análisis de teorías sobre el origen del continente americano"
+        ],
+        "attitudes": [
+            "Interés por el análisis crítico de las teorías que explican el origen del continente americano",
+            "Valoración de la importancia del continente americano en diferentes aspectos como la geografía, la historia y la cultura"
+        ],
+        "achievement_indicators": [
+            "Analiza por medio de un artículo de opinión las teorías que dieron origen al continente americano",
+            "Analiza información en fuentes confiables y mapas sobre las cuencas hidrográficas, clima y vegetación del continente americano, así como su expansión demográfica, económica y distintos modelos de producción",
+            "Identifica en mapas y otras fuentes de información, las grandes líneas de relieve, fallas geológicas y fosas tectónicas del continente americano"
+        ]
+    },
+    {
+        "title": "Geografía Física del continente americano",
+        "level": "SECUNDARIA",
+        "year": "TERCERO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Geografía Física del continente americano",
+            "Principales unidades de relieve del Continente americano",
+            "Principales cuencas hidrográficas",
+            "Ríos y lagos de América",
+            "Clima y vegetación de América"
+        ],
+        "procedures": [
+            "Elaboración de sus propias ideas conceptuales de geografía física, humana y económica del continente americano",
+            "Investigación de conceptos propios de la geografía física, humana y económica del continente americano"
+        ],
+        "attitudes": [
+            "Demostración de interés en utilizar fuentes de información confiables acerca de la geografía de América",
+            "Interés por el conocimiento de la Geografía Física y la humana"
+        ],
+        "achievement_indicators": [
+            "Analiza información en fuentes confiables y mapas sobre las cuencas hidrográficas, clima y vegetación del continente americano, así como su expansión demográfica, económica y distintos modelos de producción",
+            "Elabora infografías sobre la geografía física, humana y económica del continente americano",
+            "Elabora argumentos mediante textos funcionales sobre los impactos ambientales del avance industrial y la contaminación, identificando sus consecuencias en la naturaleza y proponiendo posibles soluciones para mitigarlos"
+        ]
+    },
+    {
+        "title": "Geografía Humana del continente americano",
+        "level": "SECUNDARIA",
+        "year": "TERCERO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Geografía Humana del continente americano",
+            "Antecedentes históricos del poblamiento de América y su evolución demográfica",
+            "Ordenamiento poblacional en zonas urbanas y rurales",
+            "Dinámica de la población americana con el resto del mundo"
+        ],
+        "procedures": [
+            "Elaboración de monografía sobre el crecimiento poblacional de América, así como de sus modelos productivos",
+            "Investigación sobre las principales ramas que componen la geografía física, humana y económica"
+        ],
+        "attitudes": [
+            "Demostración de respetar el uso adecuado de las informaciones utilizadas en relación a la geografía económica del continente americano",
+            "Respeto hacia la importante de hacer un uso adecuado de las citas y referencias bibliográficas en relación a la geografía de América"
+        ],
+        "achievement_indicators": [
+            "Analiza información en fuentes confiables y mapas sobre las cuencas hidrográficas, clima y vegetación del continente americano, así como su expansión demográfica, económica y distintos modelos de producción",
+            "Elabora infografías sobre la geografía física, humana y económica del continente americano",
+            "Selecciona páginas confiables en formato impreso y digital sobre la política de expansión y hegemonía estadounidense conocida como el Gran Garrote y la Guerra Hispano-Cubana-Americana"
+        ]
+    },
+    {
+        "title": "Geografía económica del Continente americano",
+        "level": "SECUNDARIA",
+        "year": "TERCERO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Geografía económica del Continente americano",
+            "Modelos productivos",
+            "Principales actividades económicas",
+            "Avance industrial y efecto en la naturaleza",
+            "Efectos de la contaminación en la naturaleza",
+            "Efectos de la explotación de los recursos naturales en República Dominicana y América Latina"
+        ],
+        "procedures": [
+            "Investigación en distintas fuentes sobre los modelos de producción del continente americano",
+            "Discusión y análisis del avance del crecimiento industrial en la naturaleza"
+        ],
+        "attitudes": [
+            "Interés por el análisis crítico de las informaciones",
+            "Valoración de estudios y propuestas que cuestionan los procesos de contaminación en el mundo"
+        ],
+        "achievement_indicators": [
+            "Elabora infografías sobre la geografía física, humana y económica del continente americano",
+            "Selecciona páginas confiables en formato impreso y digital sobre la política de expansión y hegemonía estadounidense conocida como el Gran Garrote y la Guerra Hispano-Cubana-Americana",
+            "Explica la incidencia de las dictaduras ocurridas en Iberoamérica y el Caribe, así como el impacto significativo de la Revolución cubana en la historia política, económica y social de la región",
+            "Analiza de manera crítica fuentes de información sobre las crisis económicas de la Gran Depresión de 1929 y su extensión a la década de 1930, evaluando su impacto a nivel nacional e internacional",
+            "Elabora argumentos mediante textos funcionales sobre los impactos ambientales del avance industrial y la contaminación, identificando sus consecuencias en la naturaleza y proponiendo posibles soluciones para mitigarlos",
+            "Evalúa detalladamente las consecuencias socioambientales y económicas de la explotación de los recursos naturales en República Dominicana y América Latina, identificando similitudes, diferencias y posibles soluciones para promover un uso sostenible de los mismos"
+        ]
+    },
+    {
+        "title": "Historia de América",
+        "level": "SECUNDARIA",
+        "year": "TERCERO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Historia de América",
+            "Sociedad prehispánica de América",
+            "Sociedades coloniales de América Hispanita",
+            "Formación y desarrollo de Brasil"
+        ],
+        "procedures": [
+            "Explicación de teorías sobre sociedad prehispánica de América",
+            "Discusión y análisis sobre las sociedades coloniales de América Hispanita"
+        ],
+        "attitudes": [
+            "Valoración de opiniones sobre sociedades prehispánica y el expansionismo",
+            "Respeto por la autoría de las informaciones utilizadas en el estudio de los procesos históricos"
+        ],
+        "achievement_indicators": [
+            "Elabora infografías sobre la geografía física, humana y económica del continente americano",
+            "Analiza mapas de procesos y hechos históricos relacionados con las sociedades prehispánicas, coloniales y el expansionismo estadounidense; así como tratados y división de territorios como consecuencia de las guerras mundiales",
+            "Explica la incidencia de las dictaduras ocurridas en Iberoamérica y el Caribe, así como el impacto significativo de la Revolución cubana en la historia política, económica y social de la región"
+        ]
+    },
+    {
+        "title": "Expansionismo y Hegemonía Estadounidense 1900-1930",
+        "level": "SECUNDARIA",
+        "year": "TERCERO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Expansionismo y Hegemonía Estadounidense 1900-1930",
+            "El Garrote como Política en Centroamérica",
+            "La Guerra Hispano-cubana-americana",
+            "La Doctrina Monroe y el destino manifiesto",
+            "La Gran Depresión de 1929 y su extensión a la década de 1930 en Estados Unidos y otros países de América",
+            "República Dominicana durante el proceso de Expansionismo y Hegemonía Estadounidense (1900-1930)"
+        ],
+        "procedures": [
+            "Investigación sobre el expansionismo estadounidense en América (1900 -1930)",
+            "Elaboración de resúmenes y ensayos de la hegemonía estadounidense en América y el Caribe durante el siglo XX"
+        ],
+        "attitudes": [
+            "Interés por el análisis crítico y analítico al examinar casos de políticas imperialistas de los Estados Unidos en países de América Latina y el Caribe",
+            "Actitud crítica frente a las dictaduras y políticas de dominio de Estados Unidos"
+        ],
+        "achievement_indicators": [
+            "Elabora infografías sobre la geografía física, humana y económica del continente americano",
+            "Selecciona páginas confiables en formato impreso y digital sobre la política de expansión y hegemonía estadounidense conocida como el Gran Garrote y la Guerra Hispano-Cubana-Americana",
+            "Analiza mapas de procesos y hechos históricos relacionados con las sociedades prehispánicas, coloniales y el expansionismo estadounidense; así como tratados y división de territorios como consecuencia de las guerras mundiales",
+            "Examina de forma crítica los conceptos de expansionismo, hegemonía y política del Gran Garrote, y su impacto en los países de América Latina"
+        ]
+    },
+    {
+        "title": "Frontera imperial",
+        "level": "SECUNDARIA",
+        "year": "TERCERO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Frontera imperial",
+            "Intervenciones de Estados Unidos en el Caribe",
+            "Resistencias a las intervenciones estadounidenses en América Latina",
+            "Guerra Civil Española y su impacto en América Latina (1936 y 1939)",
+            "Crisis económicas durante la Segunda Guerra Mundial (1939-1945)"
+        ],
+        "procedures": [
+            "Análisis sobre la política del Destino Manifiesto y la Doctrina Monroe en los gobiernos de Roosevelt y Wilson",
+            "Planteamiento de hipótesis transitorias sobre las implicaciones de la construcción del Canal de Panamá y la separación de esta nación de Colombia"
+        ],
+        "attitudes": [
+            "Interés por el análisis crítico de las informaciones",
+            "Valoración del análisis crítico sobre informaciones históricas de las dictaduras ocurridas en Iberoamérica"
+        ],
+        "achievement_indicators": [
+            "Elabora infografías sobre la geografía física, humana y económica del continente americano",
+            "Analiza mapas de procesos y hechos históricos relacionados con las sociedades prehispánicas, coloniales y el expansionismo estadounidense; así como tratados y división de territorios como consecuencia de las guerras mundiales",
+            "Explica la incidencia de las dictaduras ocurridas en Iberoamérica y el Caribe, así como el impacto significativo de la Revolución cubana en la historia política, económica y social de la región",
+            "Analiza de manera crítica fuentes de información sobre las crisis económicas de la Gran Depresión de 1929 y su extensión a la década de 1930, evaluando su impacto a nivel nacional e internacional",
+            "Redacta ensayos y resúmenes que expliquen las causas y consecuencias de la Revolución Mexicana, así como de las guerras mundiales, la guerra Civil Española, la Guerra Fría y su impacto en América Latina"
+        ]
+    },
+    {
+        "title": "Dictaduras ocurridas en Iberoamérica y el Caribe durante el siglo XX",
+        "level": "SECUNDARIA",
+        "year": "TERCERO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Dictaduras ocurridas en Iberoamérica y el Caribe durante el siglo XX",
+            "Similitudes y diferencias entre las dictaduras y el autoritarismo en América y la cuenca del Caribe (Cuba, Argentina, Paraguay, Guatemala, Brasil, Chile, Colombia, Venezuela, República Dominicana, Nicaragua, y Haití.)",
+            "Populismo de Getulio Vargas en Brasil y Juan Domingo Perón en Argentina"
+        ],
+        "procedures": [
+            "Comparación de las similitudes y diferencias existentes entre las dictaduras ocurridas en Iberoamérica y su vigencia en el siglo XX",
+            "Investigación en fuentes seguras sobre las dictaduras y caudillismos surgidos después de la Segunda Guerra Mundial"
+        ],
+        "attitudes": [
+            "Interés por los cambios en el mundo durante el siglo XX",
+            "Valoración de estudios y propuestas que cuestionan los procesos de contaminación en el mundo"
+        ],
+        "achievement_indicators": [
+            "Redacta ensayos y resúmenes que expliquen las causas y consecuencias de la Revolución Mexicana, así como de las guerras mundiales, la guerra Civil Española, la Guerra Fría y su impacto en América Latina",
+            "Reconoce las similitudes y diferencias entre las dictaduras ocurridas en Iberoamérica, sus sistemas de gobiernos y vulneraciones de los derechos humanos",
+            "Elabora propuestas que promueven la gobernanza, desarrollo económico y democracia como el Estado de derecho",
+            "Asume posturas críticas frente al incumplimiento de deberes y derechos en la sociedad"
+        ]
+    },
+    {
+        "title": "Fin de la Segunda Guerra Mundial, hegemonía de Estados Unidos de América",
+        "level": "SECUNDARIA",
+        "year": "TERCERO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Fin de la Segunda Guerra Mundial, hegemonía de Estados Unidos de América",
+            "1945-1960 cambios acelerados en la economía y la sociedad",
+            "La Revolución cubana y sus repercusiones",
+            "Impacto de la Segunda Guerra Mundial y la Guerra Fría en la República Dominicana",
+            "Final de la Guerra Fría y Caída del Socialismo"
+        ],
+        "procedures": [
+            "Investigación en fuentes seguras sobre el fin de la Segunda Guerra Mundial y la hegemonía de Estados Unidos de América",
+            "Elaboración de mapas conceptuales, u otros organizadores gráficos sobre cómo impactó en la República Dominicana la Segunda Guerra Mundial y la Guerra Fría"
+        ],
+        "attitudes": [
+            "Interés por los cambios en el mundo durante el siglo XX",
+            "Valoración de la importancia del continente americano en diferentes aspectos como la geografía, la historia y la cultura"
+        ],
+        "achievement_indicators": [
+            "Selecciona páginas confiables en formato impreso y digital sobre la política de expansión y hegemonía estadounidense conocida como el Gran Garrote y la Guerra Hispano-Cubana-Americana",
+            "Analiza mapas de procesos y hechos históricos relacionados con las sociedades prehispánicas, coloniales y el expansionismo estadounidense; así como tratados y división de territorios como consecuencia de las guerras mundiales",
+            "Examina de forma crítica los conceptos de expansionismo, hegemonía y política del Gran Garrote, y su impacto en los países de América Latina",
+            "Explica la incidencia de las dictaduras ocurridas en Iberoamérica y el Caribe, así como el impacto significativo de la Revolución cubana en la historia política, económica y social de la región",
+            "Utiliza programas de antiplagio en la verificación de la autenticidad de la información localizada acerca del impacto económico, político, social y cultural que tuvieron la Segunda Guerra Mundial, la Guerra Fría y la Caída del Socialismo en los siglos estudiados",
+            "Investiga en fuentes confiables. tanto impresa como digitales planteamientos históricos de diferentes autores sobre los cambios que ocurrieron en el mundo después de la Segunda Guerra Mundial, así como durante la Guerra Fría y la caída del socialismo",
+            "Analiza de manera crítica fuentes de información sobre las crisis económicas de la Gran Depresión de 1929 y su extensión a la década de 1930, evaluando su impacto a nivel nacional e internacional",
+            "Redacta ensayos y resúmenes que expliquen las causas y consecuencias de la Revolución Mexicana, así como de las guerras mundiales, la guerra Civil Española, la Guerra Fría y su impacto en América Latina"
+        ]
+    },
+    {
+        "title": "Educación Ciudadana",
+        "level": "SECUNDARIA",
+        "year": "TERCERO",
+        "subject": "CIENCIAS_SOCIALES",
+        "concepts": [
+            "Educación Ciudadana",
+            "Derechos humanos, gobernanza, desarrollo económico y democracia como Estado de derecho",
+            "Símbolos patrios",
+            "Uso de los recursos naturales en América y la República Dominicana",
+            "Valores humanos, solución de conflictos y cultura de paz",
+            "El problema de la violencia asociada al narcotráfico: Nuevo paradigma global para la lucha contra el narcotráfico y otros crímenes asociados",
+            "Educación vial",
+            "Educación tributaria"
+        ],
+        "procedures": [
+            "Elaboración de campañas de concienciación en grupos, utilizando carteles, folletos, vídeos o presentaciones, que permitan transmitir mensajes claros sobre la educación vial y la importancia de seguir las normas de tránsito",
+            "Investigación en fuentes seguras sobre las leyes que regulan los medios de tránsito en la República Dominicana"
+        ],
+        "attitudes": [
+            "Demostración de respetar el uso adecuado de las informaciones utilizadas en relación a la geografía económica del continente americano",
+            "Valoración de la importancia del continente americano en diferentes aspectos como la geografía, la historia y la cultura"
+        ],
+        "achievement_indicators": [
+            "Asume posturas críticas frente al incumplimiento de deberes y derechos en la sociedad",
+            "Elabora proyectos sobre los valores humanos, cultura de paz y la solución pacífica de los conflictos de manera pacífica",
+            "Analiza artículos de la Constitución de la República Dominicana que establecen las características de nuestro gobierno",
+            "Elabora argumentos mediante textos funcionales sobre los impactos ambientales del avance industrial y la contaminación, identificando sus consecuencias en la naturaleza y proponiendo posibles soluciones para mitigarlos",
+            "Evalúa detalladamente las consecuencias socioambientales y económicas de la explotación de los recursos naturales en República Dominicana y América Latina, identificando similitudes, diferencias y posibles soluciones para promover un uso sostenible de los mismos",
+            "Compara críticamente las consecuencias del crecimiento urbano en diferentes regiones, los factores que influyen en la transformación espacial y las estrategias innovadoras hacia la gestión sostenible de las ciudades",
+            "Emplea técnicas de análisis crítico durante el diálogo constructivo y la negociación colaborativa, haciendo uso de herramientas de comunicación efectiva y técnicas de resolución de conflictos que permitan alcanzar acuerdos mutuos"
+        ]
     },
     {
         "title": "",
