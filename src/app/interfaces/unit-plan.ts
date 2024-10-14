@@ -1,48 +1,34 @@
 import { ClassSection } from "./class-section"
+import { CompetenceEntry } from "./competence-entry"
+import { ContentBlock } from "./content-block"
+import { MainTheme } from "./main-theme"
+import { UserSettings } from "./user-settings"
 
 export interface UnitPlan {
-	user: string,
-	_id: string,
-	schoolName: string,
-	sectionName: string,
-	sectionId: string,
-  section: ClassSection,
-	level: string,
+  	_id: string,
+	user: UserSettings,
+  	section: ClassSection,
 	duration: number,
 	learningSituation: string,
 	title: string,
-	specificCompetences: {
-    comunicativa: string[],
-    pensamientoLogicoCreativoYCritico: string[],
-    resolucionDeProblemas: string[],
-    eticaYCiudadana: string[],
-    cientificaYTecnologica: string[],
-    ambientalYDeLaSalud: string[],
-    desarrolloPersonalYEspiritual: string[],
-  },
+	competence: CompetenceEntry[],
 	mainThemeCategory: string,
-	mainThemes: string[],
-	subjectNames: string[],
+	mainThemes: MainTheme[],
+	subjects: string[],
 	strategies: string[],
-	evaluationCriteria: {
-    comunicativa: string[],
-    pensamientoLogicoCreativoYCritico: string[],
-    resolucionDeProblemas: string[],
-    eticaYCiudadana: string[],
-    cientificaYTecnologica: string[],
-    ambientalYDeLaSalud: string[],
-    desarrolloPersonalYEspiritual: string[],
-  },
-	contents: {
-    subject: string,
-    concepts: string[],
-    procedures: string[],
-    attitudes: string[],
-    achievement_indicators: string[]
-  }[],
-  resources: string[],
-  instruments: string[],
-  teacher_activities: string[],
-  student_activities: string[],
-  evaluation_activities: string[],
+	contents: ContentBlock[],
+	resources: string[],
+	instruments: string[],
+	teacherActivities: {
+		subject: string,
+		activities: string[],
+	}[],
+	studentActivities: {
+		subject: string,
+		activities: string[],
+	}[],
+	evaluationActivities: {
+		subject: string,
+		activities: string[],
+	}[],
 }

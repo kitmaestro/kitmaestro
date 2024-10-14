@@ -44,7 +44,7 @@ export class ClassSectionFormComponent {
     name: ['', Validators.required],
     level: ['', Validators.required],
     year: ['', Validators.required],
-    subjects: ['', Validators.required],
+    subjects: [[] as string[], Validators.required],
   });
 
   subjectOptions: { label: string; value: string }[] = [
@@ -72,7 +72,7 @@ export class ClassSectionFormComponent {
         name: name ? name : '',
         level: level ? level : '',
         year: year ? year : '',
-        subjects: subjects ? subjects : ''
+        subjects: subjects ? subjects : []
       });
 
       this.id = id || '';

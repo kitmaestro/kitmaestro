@@ -112,7 +112,7 @@ export const routes: Routes = [
     { path: 'class-plans/list', loadComponent: () => import('./class-planning/class-plan-list/class-plan-list.component').then(mod => mod.ClassPlanListComponent) },
     { path: 'class-plans/:id', loadComponent: () => import('./class-planning/class-plan-detail/class-plan-detail.component').then(mod => mod.ClassPlanDetailComponent) },
     { path: 'class-plans/:id/edit', loadComponent: () => import('./class-planning/class-plan-edit/class-plan-edit.component').then(mod => mod.ClassPlanEditComponent) },
-    { path: 'unit-plans', loadComponent: () => import('./class-planning/unit-plan/unit-plan.component').then(mod => mod.UnitPlanComponent) },
+    { path: 'unit-plans', loadComponent: () => import('./class-planning/unit-plan-generator/unit-plan-generator.component').then(mod => mod.UnitPlanGeneratorComponent) },
     { path: 'unit-plans/list', loadComponent: () => import('./class-planning/unit-plan-list/unit-plan-list.component').then(mod => mod.UnitPlanListComponent) },
     { path: 'unit-plans/:id', loadComponent: () => import('./class-planning/unit-plan-detail/unit-plan-detail.component').then(mod => mod.UnitPlanDetailComponent) },
     { path: 'unit-plans/:id/edit', loadComponent: () => import('./class-planning/unit-plan-edit/unit-plan-edit.component').then(mod => mod.UnitPlanEditComponent) },

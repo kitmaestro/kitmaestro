@@ -425,7 +425,7 @@ Tu respuesta debe ser un json valido con esta interfaz:
   get sectionSubjects(): string[] {
     const section = this.sections.find(s => s._id == this.rubricForm.get('section')?.value);
     if (section) {
-      return (typeof(section.subjects) == 'string' ? section.subjects.split(',').map(s => s.trim()) : section.subjects as any as string[]);
+      return section.subjects.map(s => s.trim());
     }
     return [] as string[];
   }

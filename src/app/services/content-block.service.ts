@@ -32,12 +32,12 @@ export class ContentBlockService {
     return this.http.get<ContentBlock>(this.apiBaseUrl + id, this.config);
   }
 
-  create(list: ContentBlock): Observable<ContentBlock> {
-    return this.http.post<ContentBlock>(this.apiBaseUrl, list, this.config);
+  create(block: ContentBlock): Observable<ContentBlock> {
+    return this.http.post<ContentBlock>(this.apiBaseUrl, block, this.config);
   }
 
-  update(id: string, list: any): Observable<ApiUpdateResponse> {
-    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, list, this.config);
+  update(id: string, block: any): Observable<ApiUpdateResponse> {
+    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, block, this.config);
   }
 
   delete(id: string): Observable<ApiDeleteResponse> {

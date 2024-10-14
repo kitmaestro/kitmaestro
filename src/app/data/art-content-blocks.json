@@ -3425,25 +3425,5 @@
             "Participa en eventos artísticos, excursiones y visitas guiadas a lugares relacionados con las artes (visuales, aplicadas, escénicas y musicales) y la cultura a nivel local, regional y nacional",
             "Valora y defiende las instituciones, personas, lugares históricos, eventos y acontecimientos relacionados con las artes (visuales, aplicadas, escénicas y musicales) nivel local, regional y nacional"
         ]
-    },
-    {
-        "title": "",
-        "level": "SECUNDARIA",
-        "year": "PRIMERO",
-        "subject": "EDUCACION_ARTISTICA",
-        "concepts": [],
-        "attitudes": [],
-        "procedures": [],
-        "achievement_indicators": []
-    },
-    {
-        "title": "",
-        "level": "SECUNDARIA",
-        "year": "SEGUNDO",
-        "subject": "EDUCACION_ARTISTICA",
-        "concepts": [],
-        "attitudes": [],
-        "procedures": [],
-        "achievement_indicators": []
     }
 ]

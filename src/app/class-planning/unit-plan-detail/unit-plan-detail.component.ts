@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { UnitPlanService } from '../../services/unit-plan.service';
-import { map, Observable, tap } from 'rxjs';
+import { catchError, map, Observable, tap } from 'rxjs';
 import { UnitPlan } from '../../interfaces/unit-plan';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PdfService } from '../../services/pdf.service';
+import { UnitPlanComponent } from '../unit-plan/unit-plan.component';
 
 @Component({
   selector: 'app-unit-plan-detail',
@@ -24,6 +25,7 @@ import { PdfService } from '../../services/pdf.service';
     IsPremiumComponent,
     CommonModule,
     MatSnackBarModule,
+    UnitPlanComponent,
   ],
   templateUrl: './unit-plan-detail.component.html',
   styleUrl: './unit-plan-detail.component.scss'
@@ -37,7 +39,13 @@ export class UnitPlanDetailComponent implements OnInit {
   private pdfService = inject(PdfService);
   planId = this.route.snapshot.paramMap.get('id') || '';
 
-  plan$: Observable<UnitPlan> = this.unitPlanService.findOne(this.planId).pipe(tap(_ => console.log(_)));
+  plan$: Observable<UnitPlan> = this.unitPlanService.findOne(this.planId).pipe(tap(_ => {
+    if (!_) {
+      this.router.navigate(['/unit-plans/list']).then(() => {
+        this.sb.open('Este plan no ha sido encontrado', 'Ok', { duration: 2500 });
+      });
+    }
+  }));
   userSettings$ = this.userSettingsService.getSettings();
 
   isPrintView = window.location.href.includes('print');

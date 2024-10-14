@@ -7,5 +7,5 @@ export interface ClassSection {
   level: string;
   year: string;
   name: string;
-  subjects: string;
+  subjects: string[];
 }

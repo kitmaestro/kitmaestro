@@ -1,540 +1,339 @@
-<app-is-premium>
-    @if (working) {
-        <mat-card>
-            <mat-card-header class="header">
-                <h2 class="title" mat-card-ittle>Generador de Unidades de Aprendizaje</h2>
-                <button class="title-button" mat-flat-button [routerLink]="['/unit-plans', 'list']" color="accent">Ver mis Planes</button>
-            </mat-card-header>
-            <mat-card-content>
-                <mat-stepper linear #stepper>
-                    <mat-step [stepControl]="learningSituationForm">
-                        <form [formGroup]="learningSituationForm" style="padding-top: 16px;">
-                            <ng-template matStepLabel>Situaci&oacute;n de Aprendizaje</ng-template>
-                            <div class="cols-2">
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Grado</mat-label>
-                                    <mat-select formControlName="classSection" required>
-                                        @for (section of classSections; track section._id) {
-                                            <mat-option [value]="section._id">{{section.name}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Eje Transversal</mat-label>
-                                    <mat-select [formControl]="mainTheme" required>
-                                        @for (theme of mainThemeCategories; track theme) {
-                                            <mat-option [value]="theme">{{theme}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Asignatura(s)</mat-label>
-                                    <mat-select formControlName="subjects" required multiple>
-                                        @for (subject of subjects; track $index) {
-                                            <mat-option [value]="subject.id">{{subject.label}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Ambiente Operativo</mat-label>
-                                    <mat-select formControlName="environment" required>
-                                        @for (env of environments; track $index) {
-                                            <mat-option [value]="env">{{env}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            @if (learningSituationForm.value.subjects?.includes('LENGUA_ESPANOLA')) {
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Contenidos de Lengua Española</mat-label>
-                                    <mat-select formControlName="spanishContent" required>
-                                        @for (content of spanishContents; track $index) {
-                                            <mat-option [value]="content">{{content}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
+@if (unitPlan) {
+    <div style="padding-top: 16px;">
+        <table style="border-collapse: collapse; border: 1px solid #ccc; table-layout: fixed;">
+            @if (!isPrintView) {
+                <caption class="text-center bold">{{unitPlan.title}}</caption>
+            }
+            <tbody>
+                <tr>
+                    <td style="width: calc(100% / 6);"><b>Centro Educativo</b></td>
+                    <td colspan="5">{{unitPlan.section.school.name}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="width: 33.33%;"><b>Docente</b>: {{unitPlan.user.title}}. {{unitPlan.user.firstname}} {{unitPlan.user.lastname}}</td>
+                    <td colspan="2" style="width: 33.33%;"><b>Grado y Secci&oacute;n</b>: {{unitPlan.section.name}}</td>
+                    <td colspan="2" style="width: 33.33%;"><b>Tiempo Asignado</b>: {{unitPlan.duration}} Semana{{unitPlan.duration > 1 ? 's' : ''}}</td>
+                </tr>
+                <tr>
+                    <td><b>Situaci&oacute;n de Aprendizaje</b></td>
+                    <td colspan="5">{{unitPlan.learningSituation}}</td>
+                </tr>
+                @if (unitPlan.section.level == 'PRIMARIA') {
+                <tr>
+                    <td colspan="6" class="text-center"><b>Competencias Fundamentales</b></td>
+                </tr>
+                <tr>
+                    <td class="text-center" colspan="2">
+                        Comunicativa
+                    </td>
+                    <td class="text-center" colspan="2">
+                        Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica
+                    </td>
+                    <td class="text-center" colspan="2">
+                        Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="bold text-center">Competencias Específicas del Grado</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @for (comp of unitPlan.competence; track comp._id) {
+                            @if (comp.name == 'Comunicativa') {
+                                <p class="bold" [style]="$index == 0 ? '' : 'margin-top: 12px;'">{{pretifySubject(comp.subject)}}</p>
+                                <ul style="margin: 0; padding: 0; list-style: none;">
+                                    @for (el of comp.entries; track el) {
+                                        <li>- {{ el }}</li>
+                                    }
+                                </ul>
                             }
-                            @if (learningSituationForm.value.subjects?.includes('MATEMATICA')) {
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Contenidos de Matemática</mat-label>
-                                    <mat-select multiple formControlName="mathContent" required>
-                                        @for (content of mathContents; track $index) {
-                                            <mat-option [value]="content">{{content}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
+                        }
+                    </td>
+                    <td colspan="2">
+                        @for (comp of unitPlan.competence; track comp._id) {
+                            @if (comp.name == 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica') {
+                                <p class="bold" [style]="$index == 0 ? '' : 'margin-top: 12px;'">{{pretifySubject(comp.subject)}}</p>
+                                <ul style="margin: 0 0 24px; padding: 0; list-style: none;">
+                                    @for (el of comp.entries; track el) {
+                                        <li>- {{ el }}</li>
+                                    }
+                                </ul>
                             }
-                            @if (learningSituationForm.value.subjects?.includes('CIENCIAS_SOCIALES')) {
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Contenidos de Ciencias Sociales</mat-label>
-                                    <mat-select formControlName="societyContent" required>
-                                        @for (content of societyContents; track $index) {
-                                            <mat-option [value]="content">{{content}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
+                        }
+                    </td>
+                    <td colspan="2">
+                        @for (comp of unitPlan.competence; track comp._id) {
+                            @if (comp.name == 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud') {
+                                <p class="bold" [style]="$index == 0 ? '' : 'margin-top: 12px;'">{{pretifySubject(comp.subject)}}</p>
+                                <ul style="margin: 0 0 24px; padding: 0; list-style: none;">
+                                    @for (el of comp.entries; track el) {
+                                        <li>- {{ el }}</li>
+                                    }
+                                </ul>
                             }
-                            @if (learningSituationForm.value.subjects?.includes('CIENCIAS_NATURALES')) {
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Contenidos de Ciencias de la Naturaleza</mat-label>
-                                    <mat-select multiple formControlName="scienceContent" required>
-                                        @for (content of scienceContents; track $index) {
-                                            <mat-option [value]="content">{{content}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                            }
-                            @if (learningSituationForm.value.subjects?.includes('INGLES')) {
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Contenidos de Inglés</mat-label>
-                                    <mat-select formControlName="englishContent" required>
-                                        @for (content of englishContents; track $index) {
-                                            <mat-option [value]="content">{{content}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                            }
-                            @if (learningSituationForm.value.subjects?.includes('FRANCES')) {
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Contenidos de Francés</mat-label>
-                                    <mat-select formControlName="frenchContent" required>
-                                        @for (content of frenchContents; track $index) {
-                                            <mat-option [value]="content">{{content}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                            }
-                            @if (learningSituationForm.value.subjects?.includes('FORMACION_HUMANA')) {
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Contenidos de Formación Integral Humana y Religiosa</mat-label>
-                                    <mat-select multiple formControlName="religionContent" required>
-                                        @for (content of religionContents; track $index) {
-                                            <mat-option [value]="content">{{content}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                            }
-                            @if (learningSituationForm.value.subjects?.includes('EDUCACION_FISICA')) {
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Contenidos de Educación Física</mat-label>
-                                    <mat-select multiple formControlName="physicalEducationContent" required>
-                                        @for (content of physicalEducationContents; track $index) {
-                                            <mat-option [value]="content">{{content}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                            }
-                            @if (learningSituationForm.value.subjects?.includes('EDUCACION_ARTISTICA')) {
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Contenidos de Educación Artística</mat-label>
-                                    <mat-select multiple formControlName="artisticEducationContent" required>
-                                        @for (content of artisticEducationContents; track $index) {
-                                            <mat-option [value]="content">{{content}}</mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                            }
-                            <div class="flex-on-md">
-                                <div style="flex: 1 1 auto;">
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Tipo de Situaci&oacute;n</mat-label>
-                                        <mat-select formControlName="situationType" required>
-                                            @for (type of situationTypes; track $index) {
-                                                <mat-option [value]="type.id">{{type.label}}</mat-option>
-                                            }
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                @if (learningSituationForm.value.situationType == 'realityProblem') {
-                                    <div style="flex: 1 1 auto;">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Problema a Abordar</mat-label>
-                                            <mat-select formControlName="reality" required>
-                                                @for (problem of problems; track $index) {
-                                                    <mat-option [value]="problem">{{problem}}</mat-option>
-                                                }
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                }
-                                @if (learningSituationForm.value.situationType == 'reality') {
-                                    <div style="flex: 1 1 auto;">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Realidad del Curso</mat-label>
-                                            <input matInput type="text" formControlName="reality" required>
-                                        </mat-form-field>
-                                    </div>
-                                }
-                            </div>
-                            @if (learningSituation.value) {
-                                <div style="margin-top: 16px; margin-bottom: 16px;">
-                                    <h3 style="font-weight: bold;">Situaci&oacute;n de Aprendizaje: {{learningSituationTitle.value}}</h3>
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>T&iacute;tulo</mat-label>
-                                        <input type="text" matInput [formControl]="learningSituationTitle">
-                                    </mat-form-field>
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Situaci&oacute;n de Aprendizaje</mat-label>
-                                        <textarea rows="8" [formControl]="learningSituation" matInput></textarea>
-                                    </mat-form-field>
-                                </div>
-                            }
-                            <div style="text-align: end;">
-                                <button [disabled]="generating" mat-raised-button type="button" color="accent" (click)="generateLearningSituation()">
-                                    @if (generating) {
-                                        <span>Generando...</span>
-                                    } @else {
-                                        @if (learningSituation.value) {
-                                            <span>Regenerar</span>
-                                        } @else {
-                                            <span>Generar</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="bold text-center">Criterios de Evaluaci&oacute;n</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @for (row of unitPlan.competence; track $index) {
+                            @if (row.name == 'Comunicativa') {
+                                <h4 class="bold" [style]="$index == 0 ? '' : 'margin-top: 12px;'">{{pretifySubject(row.subject)}}</h4>
+                                <ul style="margin: 0; padding: 0; list-style: none;">
+                                    @for (criterion of row.criteria; track criterion) {
+                                        @if (criterion) {
+                                            <li>- {{criterion}}</li>
                                         }
                                     }
-                                </button>
-                                @if (learningSituation.value) {
-                                    <button style="margin-left: 8px;" mat-raised-button matStepperNext>Siguiente</button>
-                                }
-                            </div>
-                        </form>
-                    </mat-step>
-                    <mat-step [stepControl]="unitPlanForm">
-                        <form [formGroup]="unitPlanForm">
-                            <ng-template matStepLabel>Delimitaci&oacute;n</ng-template>
-                            <div style="padding-top: 16px;">
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Duraci&oacute;n</mat-label>
-                                    <mat-select formControlName="duration" required>
-                                      @for (n of [].constructor(6); track $index) {
-                                        <mat-option [value]="$index + 1">{{$index + 1}} Semana{{$index > 0 ? 's' : ''}}</mat-option>
-                                      }
-                                    </mat-select>
-                                </mat-form-field>
-                                <div style="margin-bottom: 16px;">
-                                    <mat-label>Recursos Disponibles</mat-label>
-                                    <mat-chip-listbox formControlName="resources" multiple>
-                                      @for (resource of resources; track resource) {
-                                        <mat-chip-option>{{resource}}</mat-chip-option>
-                                      }
-                                    </mat-chip-listbox>
-                                </div>
-                            </div>
-                            <div style="text-align: end;">
-                                <button mat-raised-button matStepperPrevious>Anterior</button>
-                                <button style="margin-left: 8px;" mat-raised-button (click)="generateActivities()" matStepperNext>Siguiente</button>
-                            </div>
-                        </form>
-                    </mat-step>
-                    <mat-step [stepControl]="activitiesForm">
-                        <ng-template matStepLabel>Secuencia Did&aacute;ctica</ng-template>
-                        <div style="padding-top: 16px;">
-                            @if (teacher_activities.value.length) {
-                                <div class="flex-on-md">
-                                    <div style="flex: 1 1 auto; width: 100%;">
-                                        <h3>Actividades de Ense&ntilde;anza</h3>
-                                        <ul>
-                                            @for (activity of teacher_activities.value; track $index) {
-                                                <li>{{activity}}</li>
-                                            }
-                                        </ul>
-                                    </div>
-                                    <div style="flex: 1 1 auto; width: 100%;">
-                                        <h3>Actividades de Aprendizaje</h3>
-                                        <ul>
-                                            @for (activity of student_activities.value; track activity) {
-                                                <li>{{activity}}</li>
-                                            }
-                                        </ul>
-                                    </div>
-                                    <div style="flex: 1 1 auto; width: 100%;">
-                                        <h3>Actividades de Evaluaci&oacute;n</h3>
-                                        <ul>
-                                            @for (activity of evaluation_activities.value; track activity) {
-                                                <li>{{activity}}</li>
-                                            }
-                                        </ul>
-                                    </div>
-                                </div>
+                                </ul>
                             }
-                        </div>
-                        <div style="text-align: end;">
-                            <button mat-raised-button matStepperPrevious>Anterior</button>
-                            <button [disabled]="generating" style="margin-left: 8px;" mat-raised-button type="button" color="accent" (click)="generateActivities()">
-                                @if (generating) {
-                                    <span>Generando...</span>
+                        }
+                    </td>
+                    <td colspan="2">
+                        @for (row of unitPlan.competence; track $index) {
+                            @if (row.name == 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica') {
+                                <h4 class="bold" [style]="$index == 0 ? '' : 'margin-top: 12px;'">{{pretifySubject(row.subject)}}</h4>
+                                <ul style="margin: 0; padding: 0; list-style: none;">
+                                    @for (criterion of row.criteria; track criterion) {
+                                        @if (criterion) {
+                                            <li>- {{criterion}}</li>
+                                        }
+                                    }
+                                </ul>
+                            }
+                        }
+                    </td>
+                    <td colspan="2">
+                        @for (row of unitPlan.competence; track $index) {
+                            @if (row.name == 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud') {
+                                <h4 class="bold" [style]="$index == 0 ? '' : 'margin-top: 12px;'">{{pretifySubject(row.subject)}}</h4>
+                                <ul style="margin: 0; padding: 0; list-style: none;">
+                                    @for (criterion of row.criteria; track criterion) {
+                                        @if (criterion) {
+                                            <li>- {{criterion}}</li>
+                                        }
+                                    }
+                                </ul>
+                            }
+                        }
+                    </td>
+                </tr>
+                } @else {
+                <tr>
+                    <td colspan="2">Competencias Fundamentales</td>
+                    <td colspan="4">Competencias Específicas del Grado</td>
+                </tr>
+                @for (comp of unitPlan.competence; track comp._id) {
+                <tr>
+                    <td colspan="2">{{comp.name}}</td>
+                    <td colspan="4">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @for (el of comp.entries; track el) {
+                            <li>{{ el }}</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+                }
+                }
+                <tr>
+                    <td class="bold">Eje{{unitPlan.subjects.length == 1 ? '' : 's'}} Transversal{{unitPlan.subjects.length == 1 ? '' : 'es'}}</td>
+                    <td colspan="5">
+                        @for (theme of unitPlan.mainThemes; track $index) {
+                            <h4 [style]="$index == 0 ? '' : 'margin-top: 12px;'" class="bold">{{pretifySubject(theme.subject)}}:</h4>
+                            <ul style="margin: 0; padding: 0; list-style: none;">
+                                @for (topic of theme.topics; track topic) {
+                                    <li>- {{topic}}</li>
+                                }
+                            </ul>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">&Aacute;rea{{unitPlan.subjects.length == 1 ? '' : 's'}} Curricular{{unitPlan.subjects.length == 1 ? '' : 'es'}}</td>
+                    <td colspan="5">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @for (subject of unitPlan.subjects; track subject) {
+                            <li>{{pretifySubject(subject)}}</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">Estrategias de Ense&ntilde;anza y Aprendizaje</td>
+                    <td colspan="5">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @for (strategy of removeDuplicates(unitPlan.strategies); track strategy) {
+                            <li>- {{strategy}}</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">Indicadores de Logro</td>
+                    <td colspan="5">
+                        @for (content of unitPlan.contents; track content._id) {
+                            <p><b>{{pretifySubject(content.subject)}}</b></p>
+                            <ul style="margin: 0; padding: 0; list-style: none;">
+                                @for (indicator of content.achievement_indicators; track $index) {
+                                    <li>- {{indicator}}</li>
+                                }
+                            </ul>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold text-center" colspan="6">Contenidos</td>
+                </tr>
+                <tr>
+                    <td class="bold text-center" colspan="2">Conceptuales</td>
+                    <td class="bold text-center" colspan="2">Procedimentales</td>
+                    <td class="bold text-center" colspan="2">Actitudinales</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @for (block of unitPlan.contents; track block) {
+                            @if (unitPlan.contents.length == 1) {
+                            @for (content of block.concepts; track content) {
+                            <li>- {{content}}</li>
+                            }
+                            } @else {
+                            <li><b>{{pretifySubject(block.subject)}}</b></li>
+                            <ul>
+                                @for (content of block.concepts; track content) {
+                                <li>{{content}}</li>
+                                }
+                            </ul>
+                            }
+                            }
+                        </ul>
+                    </td>
+                    <td colspan="2">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @for (block of unitPlan.contents; track block) {
+                            @if (unitPlan.contents.length == 1) {
+                            @for (content of block.procedures; track content) {
+                            <li>- {{content}}</li>
+                            }
+                            } @else {
+                            <li><b>{{pretifySubject(block.subject)}}</b></li>
+                            <ul>
+                                @for (content of block.procedures; track content) {
+                                <li>{{content}}</li>
+                                }
+                            </ul>
+                            }
+                            }
+                        </ul>
+                    </td>
+                    <td colspan="2">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @for (block of unitPlan.contents; track block) {
+                            @if (unitPlan.contents.length == 1) {
+                            @for (content of block.attitudes; track content) {
+                            <li>- {{content}}</li>
+                            }
+                            } @else {
+                            <li><b>{{pretifySubject(block.subject)}}</b></li>
+                            <ul>
+                                @for (content of block.attitudes; track content) {
+                                <li>{{content}}</li>
+                                }
+                            </ul>
+                            }
+                            }
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold text-center" colspan="6">Actividades</td>
+                </tr>
+                <tr>
+                    <td class="bold text-center" colspan="2">De Ense&ntilde;anza</td>
+                    <td class="bold text-center" colspan="2">De Aprendizaje</td>
+                    <td class="bold text-center" colspan="2">De Evaluaci&oacute;n</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @for (activityList of unitPlan.teacherActivities; track activityList) {
+                                @if (activityList.activities.length == 1) {
+                                        @for (activity of activityList.activities; track $index) {
+                                            <li>- {{activity}}</li>
+                                        }
                                 } @else {
-                                    @if (teacher_activities.value.length) {
-                                        <span>Regenerar</span>
-                                    } @else {
-                                        <span>Generar</span>
-                                    }
+                                    <li class="bold">{{pretifySubject(activityList.subject)}}</li>
+                                    <ul style="margin: 0; padding: 0; list-style: none;">
+                                        @for (activity of activityList.activities; track $index) {
+                                            <li>- {{ activity }}</li>
+                                        }
+                                    </ul>
                                 }
-                            </button>
-                            @if (teacher_activities.value.length) {
-                                <button style="margin-left: 8px;" mat-raised-button matStepperNext (click)="fillFinalForm()">Siguiente</button>
                             }
-                        </div>
-                    </mat-step>
-                    <mat-step>
-                        <ng-template matStepLabel>Finalizaci&oacute;n</ng-template>
-                        <div style="padding-top: 16px;">
-                            <table style="border-collapse: collapse; border: 1px solid #ccc;">
-                                <thead>
-                                    <tr>
-                                        <th colspan="6">{{learningSituationTitle.value}}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Centro Educativo</th>
-                                        <td colspan="5">{{classSection?.school?.name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Docente</th>
-                                        <td>{{userSettings?.title}} {{userSettings?.firstname}} {{userSettings?.lastname}}</td>
-                                        <th>Grado y Secci&oacute;n</th>
-                                        <td>{{classSectionName}}</td>
-                                        <th>Tiempo Asignado</th>
-                                        <td>{{unitPlanForm.value.duration}} Semana{{unitPlanForm.value.duration || 1 > 0 ? 's' : ''}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Situaci&oacute;n de Aprendizaje</th>
-                                        <td colspan="5">{{learningSituation.value}}</td>
-                                    </tr>
-                                    @if (classSectionLevel == 'PRIMARIA') {
-                                        <tr>
-                                            <th colspan="6">Competencias Fundamentales</th>
-                                        </tr>
-                                        <tr>
-                                          <td colspan="6">
-                                            @for (comp of competence; track comp.id) {
-                                              {{comp.name}} <br>
-                                            }
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="6">Competencias Específicas del Grado</th>
-                                        </tr>
-                                        @for (comp of competence; track comp.id) {
-                                          <tr>
-                                            <td colspan="2">{{comp.name}}</td>
-                                            <td colspan="4">
-                                                <ul style="margin: 0; padding: 0; list-style: none;">
-                                                    @for (el of comp.entries; track el) {
-                                                        <li>{{ el }}</li>
-                                                    }
-                                                </ul>
-                                            </td>
-                                          </tr>
+                        </ul>
+                    </td>
+                    <td colspan="2">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @for (activityList of unitPlan.studentActivities; track activityList) {
+                                @if (activityList.activities.length == 1) {
+                                        @for (activity of activityList.activities; track $index) {
+                                            <li>- {{activity}}</li>
                                         }
-                                    } @else {
-                                        <tr>
-                                          <th colspan="2">Competencias Fundamentales</th>
-                                          <th colspan="4">Competencias Específicas del Grado</th>
-                                        </tr>
-                                        @for (comp of competence; track comp.id) {
-                                          <tr>
-                                              <th colspan="2">{{comp.name}}</th>
-                                              <td colspan="4">
-                                                <ul style="margin: 0; padding: 0; list-style: none;">
-                                                  @for (el of comp.entries; track el) {
-                                                  <li>{{ el }}</li>
-                                                  }
-                                                </ul>
-                                              </td>
-                                          </tr>
+                                } @else {
+                                    <li class="bold">{{pretifySubject(activityList.subject)}}</li>
+                                    <ul style="margin: 0; padding: 0; list-style: none;">
+                                        @for (activity of activityList.activities; track $index) {
+                                            <li>- {{ activity }}</li>
                                         }
-                                    }
-                                    <tr>
-                                        <th>Eje Transversal</th>
-                                        <td colspan="5">
-                                            <!-- <h4>{{mainTheme.value}}:</h4> -->
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (theme of mainThemes; track theme) {
-                                                    <li>- {{theme}}</li>
-                                                }
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>&Aacute;rea(s) Curricular(es)</th>
-                                        <td colspan="5">
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (subject of subjectNames; track subject) {
-                                                    <li>{{subject}}</li>
-                                                }
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Estrategias de Ense&ntilde;anza y Aprendizaje</th>
-                                        <td colspan="5">
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (strategy of strategies.value; track strategy) {
-                                                    <li>- {{strategy}}</li>
-                                                }
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Criterios de Evaluaci&oacute;n</th>
-                                        <td colspan="5">
-                                            @for (row of evaluationCriteria; track $index) {
-                                              <!-- <h4>{{row.name}}</h4> -->
-                                              <ul style="margin: 0; padding: 0; list-style: none;">
-                                                  @for (criterion of row.criteria; track criterion) {
-                                                      @if (criterion) {
-                                                          <li>- {{criterion}}</li>
-                                                      }
-                                                  }
-                                              </ul>
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Indicadores de Logro</th>
-                                        <td colspan="5">
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (indicator of indicators; track indicator) {
-                                                    @if (indicators.length == 1) {
-                                                        @for (achievement of indicator.achievement_indicators; track $index) {
-                                                            <li>- {{achievement}}</li>
-                                                        }
-                                                    } @else {
-                                                        <li><b>{{pretifySubject(indicator.subject)}}</b></li>
-                                                        <ul>
-                                                            @for (achievement of indicator.achievement_indicators; track $index) {
-                                                                <li>{{achievement}}</li>
-                                                            }
-                                                        </ul>
-                                                    }
-                                                }
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="6">Contenidos</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2">Conceptuales</th>
-                                        <th colspan="2">Procedimentales</th>
-                                        <th colspan="2">Actitudinales</th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (block of contents; track block) {
-                                                    @if (contents.length == 1) {
-                                                        @for (content of block.concepts; track content) {
-                                                            <li>- {{content}}</li>
-                                                        }
-                                                    } @else {
-                                                        <li><b>{{pretifySubject(block.subject)}}</b></li>
-                                                        <ul>
-                                                            @for (content of block.concepts; track content) {
-                                                                <li>{{content}}</li>
-                                                            }
-                                                        </ul>
-                                                    }
-                                                }
-                                            </ul>
-                                        </td>
-                                        <td colspan="2">
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (block of contents; track block) {
-                                                    @if (contents.length == 1) {
-                                                        @for (content of block.procedures; track content) {
-                                                            <li>- {{content}}</li>
-                                                        }
-                                                    } @else {
-                                                        <li><b>{{pretifySubject(block.subject)}}</b></li>
-                                                        <ul>
-                                                            @for (content of block.procedures; track content) {
-                                                                <li>{{content}}</li>
-                                                            }
-                                                        </ul>
-                                                    }
-                                                }
-                                            </ul>
-                                        </td>
-                                        <td colspan="2">
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (block of contents; track block) {
-                                                    @if (contents.length == 1) {
-                                                        @for (content of block.attitudes; track content) {
-                                                            <li>- {{content}}</li>
-                                                        }
-                                                    } @else {
-                                                        <li><b>{{pretifySubject(block.subject)}}</b></li>
-                                                        <ul>
-                                                            @for (content of block.attitudes; track content) {
-                                                                <li>{{content}}</li>
-                                                            }
-                                                        </ul>
-                                                    }
-                                                }
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3">Actividades</th>
-                                        <th colspan="2">T&eacute;cnicas e Instrumentos de Evaluaci&oacute;n</th>
-                                        <th>Medios y Recursos</th>
-                                    </tr>
-                                    <tr>
-                                        <th>De Ense&ntilde;anza</th>
-                                        <th>De Aprendizaje</th>
-                                        <th>De Evaluaci&oacute;n</th>
-                                        <td rowspan="2" colspan="2">
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (instrument of instruments.value; track instrument) {
-                                                    <li>- {{instrument}}</li>
-                                                }
-                                            </ul>
-                                        </td>
-                                        <td rowspan="2">
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (resource of resourceList.value; track resource) {
-                                                    <li>- {{resource}}</li>
-                                                }
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (activity of teacher_activities.value; track activity) {
-                                                    <li>- {{activity}}</li>
-                                                }
-                                            </ul>
-                                        </td>
-                                        <td>
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (activity of student_activities.value; track activity) {
-                                                    <li>- {{activity}}</li>
-                                                }
-                                            </ul>
-                                        </td>
-                                        <td>
-                                            <ul style="margin: 0; padding: 0; list-style: none;">
-                                                @for (activity of evaluation_activities.value; track activity) {
-                                                    <li>- {{activity}}</li>
-                                                }
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div style="text-align: end; margin-top: 24px;">
-                            <button mat-raised-button matStepperPrevious>Anterior</button>
-                            <button style="margin-left: 8px;" mat-raised-button (click)="stepper.reset()">Reiniciar</button>
-                            <button style="margin-left: 8px;" color="primary" mat-raised-button (click)="savePlan()" [disabled]="!plan" type="button">Guardar</button>
-                        </div>
-                    </mat-step>
-                </mat-stepper>
-            </mat-card-content>
-        </mat-card>
-    } @else {
-        <app-in-progress></app-in-progress>
-    }
-</app-is-premium>
+                                    </ul>
+                                }
+                            }
+                        </ul>
+                    </td>
+                    <td colspan="2">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @for (activityList of unitPlan.evaluationActivities; track activityList) {
+                                @if (activityList.activities.length == 1) {
+                                        @for (activity of activityList.activities; track $index) {
+                                            <li>- {{activity}}</li>
+                                        }
+                                } @else {
+                                    <li class="bold">{{pretifySubject(activityList.subject)}}</li>
+                                    <ul style="margin: 0; padding: 0; list-style: none;">
+                                        @for (activity of activityList.activities; track $index) {
+                                            <li>- {{ activity }}</li>
+                                        }
+                                    </ul>
+                                }
+                            }
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="bold text-center">T&eacute;cnicas e Instrumentos de Evaluaci&oacute;n</td>
+                    <td colspan="3" class="bold text-center">Medios y Recursos</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @for (instrument of unitPlan.instruments; track instrument) {
+                            <li>- {{instrument}}</li>
+                            }
+                        </ul>
+                    </td>
+                    <td colspan="3">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @for (resource of unitPlan.resources; track resource) {
+                            <li>- {{resource}}</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}

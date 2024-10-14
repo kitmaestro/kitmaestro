@@ -1,61 +1,29 @@
-mat-form-field {
-    width: 100%;
-}
-
-td, th {
+td,
+th,
+caption {
     border: 1px solid #ccc;
-    padding: 8px;
+    padding: 10px;
+    line-height: 1.5;
+    font-size: 12pt;
 }
 
 td {
     vertical-align: top;
 }
 
-th {
+th, caption {
     font-weight: bold;
     text-align: center;
 }
 
-.cols-2 {
-  display: grid;
-  row-gap: 6px;
-  column-gap: 16px;
-  margin-bottom: 8px;
-  grid-template-columns: 1fr;
-
-  @media screen and (min-width: 960px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+caption {
+    border-bottom: none;
 }
 
-.flex-on-md {
-  display: block;
-
-  @media screen and (min-width: 960px) {
-    display: flex;
-    gap: 16px;
-    margin-top: 16px;
-  }
+.text-center {
+    text-align: center;
 }
 
-@media screen and (max-width: 959px) {
-  h2.title {
-    display: block;
-    width: 100%;
-    margin-bottom: 12px;
-  }
-
-  .title-button {
-    display: block;
-    width: 100%;
-    margin-bottom: 24px;
-  }
-
-  .header {
-    display: block;
-  }
-}
-
-.title-button {
-  margin-left: auto;
+.font-bold, .bold {
+    font-weight: bold;
 }

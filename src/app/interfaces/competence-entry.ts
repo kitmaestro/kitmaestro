@@ -3,7 +3,7 @@ import { LevelName } from "../types/level-name";
 import { SubjectName } from "../types/subject-name";
 
 export interface CompetenceEntry {
-    id: string,
+    _id: string,
     name: string,
     grade: GradeName,
     subject: SubjectName,
