@@ -106,6 +106,7 @@ export class UnitPlanComponent {
       this.unitPlan?.contents.sort((a, b) => (this.subjectValue(a.subject) - this.subjectValue(b.subject)));
       // join all contents and indicators of the same subject
       if (this.unitPlan) {
+        console.log(this.unitPlan)
         const found: string[] = []
         const reduceContents = (prev: ContentBlock[], curr: ContentBlock) => {
           if (found.includes(curr.subject)) {

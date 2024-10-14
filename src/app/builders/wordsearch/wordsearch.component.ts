@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { PdfService } from '../../services/pdf.service';
 import { shuffle } from 'lodash';
@@ -65,7 +65,7 @@ export class WordsearchComponent implements OnInit {
     words: [0],
     level: [1],
     topic: [1],
-    size: [10],
+    size: [10, [Validators.min(4), Validators.max(20)]],
     name: [false],
     grade: [false],
     date: [false],
@@ -79,11 +79,11 @@ export class WordsearchComponent implements OnInit {
   }
 
   generateWordSearch() {
-    const { words, level, topic, size } = this.wsForm.value;
-    
+    const { level, topic, size } = this.wsForm.value;
+
     if (!level || !topic || !size)
       return;
-    
+
     const list = this.wordLists.find(l => l.level_id == level && l.topic_id == topic);
 
     if (!list)

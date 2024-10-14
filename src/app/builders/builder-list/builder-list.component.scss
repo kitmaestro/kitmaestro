@@ -2,22 +2,18 @@
   display: grid;
   gap: 16px;
   grid-template-columns: 1fr;
-  width: 90vw;
+  width: 100%;
 
-  @media screen and (min-width: 720px) {
+  @media screen and (min-width: 960px) {
     grid-template-columns: 1fr 1fr;
   }
 
-  @media screen and (min-width: 960px) {
+  @media screen and (min-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  @media screen and (min-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
   @media screen and (min-width: 1400px) {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .card-container {

@@ -35,8 +35,7 @@ export class BuilderListComponent {
           name: 'Ordena las Palabras',
           description: 'Genera palabras desordenadas para ordenar.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'word-scramble'
           ],
           cover: '/assets/undraw_specs_re_546x.svg'
@@ -45,8 +44,7 @@ export class BuilderListComponent {
           name: 'Parea Sinónimos',
           description: 'Genera hojas de ejercicios para parear sinónimos.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'synonyms'
           ],
           cover: '/assets/undraw_file_searching_re_3evy.svg'
@@ -55,8 +53,7 @@ export class BuilderListComponent {
           name: 'Parea Antónimos',
           description: 'Genera hojas de ejercicios para parear antónimos.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'antonyms'
           ],
           cover: '/assets/undraw_file_searching_re_3evy.svg'
@@ -65,8 +62,7 @@ export class BuilderListComponent {
           name: 'Crucigramas',
           description: 'Genera crucigramas para tus alumnos.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'crosswords'
           ],
           cover: '/assets/undraw_file_searching_re_3evy.svg'
@@ -75,8 +71,7 @@ export class BuilderListComponent {
           name: 'Sopas de Letras',
           description: 'Genera sopas de letras por niveles y respuestas.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'wordsearch'
           ],
           cover: '/assets/undraw_file_searching_re_3evy.svg'
@@ -91,8 +86,7 @@ export class BuilderListComponent {
           name: 'Suma',
           description: 'Genera Hojas de suma con hoja de respuestas.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'addition'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
@@ -101,8 +95,7 @@ export class BuilderListComponent {
           name: 'Resta',
           description: 'Genera Hojas de resta con hoja de respuestas.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'subtraction'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
@@ -111,8 +104,7 @@ export class BuilderListComponent {
           name: 'Multiplicación',
           description: 'Genera Hojas de multiplicación con sus respuestas.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'multiplication'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
@@ -121,8 +113,7 @@ export class BuilderListComponent {
           name: 'División',
           description: 'Genera Hojas de división con hoja de respuestas.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'division'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
@@ -131,8 +122,7 @@ export class BuilderListComponent {
           name: 'Ejercicios Mixtos',
           description: 'Genera ejercicios mixtos de operaciones basicas.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'mixed-operations'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
@@ -141,8 +131,7 @@ export class BuilderListComponent {
           name: 'Ecuaciones',
           description: 'Ejercicios con ecuaciones',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'equations'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
@@ -151,8 +140,7 @@ export class BuilderListComponent {
           name: 'Papel Cuadriculado',
           description: 'Genera Hojas cuadriculadas para geometría.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'graph-paper'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
@@ -161,8 +149,7 @@ export class BuilderListComponent {
           name: 'Recta Numérica',
           description: 'Genera Hojas de ejercicios con la recta numérica.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'number-line'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
@@ -171,8 +158,7 @@ export class BuilderListComponent {
           name: 'Planos Cartesianos',
           description: 'Genera Hojas con plantillas de planos cartesianos.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'cartesian-coordinates'
           ],
           cover: '/assets/undraw_new_entries_re_cffr.svg'
@@ -187,8 +173,7 @@ export class BuilderListComponent {
           name: 'Sudoku',
           description: 'Genera Hojas de Sudoku de diferentes niveles de dificultad con sus respectivas respuestas.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'sudoku'
           ],
           cover: '/assets/undraw_game_day_ucx9.svg'
@@ -197,8 +182,7 @@ export class BuilderListComponent {
           name: 'Crucigramas',
           description: 'Genera crucigramas para tus alumnos.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'crosswords'
           ],
           cover: '/assets/undraw_file_searching_re_3evy.svg'
@@ -207,8 +191,7 @@ export class BuilderListComponent {
           name: 'Sopas de Letras',
           description: 'Genera sopas de letras con diferentes niveles de dificultad y sus respuestas.',
           link: [
-            '/app',
-            'worksheet-builders',
+            '/worksheet-builders',
             'wordsearch'
           ],
           cover: '/assets/undraw_file_searching_re_3evy.svg'

@@ -185,10 +185,13 @@ Las competencias a desarrollorar debe ser una de estas:
 `;
 
   ngOnInit(): void {
-    this.classSectionService.findAll().subscribe(sections => {
+    this.classSectionService.findSections().subscribe(sections => {
       this.classSections = sections;
       if (sections.length) {
         this.planForm.get('classSection')?.setValue(sections[0]._id || '');
+        if (sections[0].subjects.length == 1) {
+          this.planForm.get('subject')?.setValue(sections[0].subjects[0]);
+        }
       }
     });
     this.userSettingsService.getSettings().subscribe(settings => this.userSettings = settings);

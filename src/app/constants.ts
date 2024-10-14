@@ -192,9 +192,9 @@ Los recursos que tengo disponibles son estos:
 
 resource_list
 
-Elabora una lista de actividades a realizar, enfocadas en el desarrollo de competencias, categorizadas como actividades de aprendizaje (como las actividades propias de los alumnos), actividades de enseñanza (aquellas propias del docente) y actividades de evaluacion.
-Cada actividad de aprendizaje, debe ser una oracion completa que inicie con 'Los estudiantes', 'Los alumnos', 'El alumnado', o 'El estudiantado'.
-Cada actividad de enseñanza, debe ser una oracion completa que inicie con 'El docente', 'El maestro', o 'El profesor'.
+Elabora una lista de actividades a realizar, enfocadas en el desarrollo de competencias y a la vez cumpliendo con la linea de desarrollo de la situacion de aprendizaje, categorizadas como actividades de aprendizaje (como las actividades propias de los alumnos), actividades de enseñanza (aquellas propias del docente) y actividades de evaluacion.
+Cada actividad de enseñanza, debe ser una oracion completa puede iniciar con 'El docente', 'El maestro', o 'El profesor'. Esta representa una sesion de clases, de manera que, debe decir, de manera general, de que se tratara la clase o cual seria el objetivo de ese dia.
+Cada actividad de aprendizaje, debe ser una oracion completa que inicie con 'Los estudiantes', 'Los alumnos', 'El alumnado', o 'El estudiantado' equivalente a la respuesta o consecuencia de las acciones del docente.
 Asignaturas a impartir (necesito actividades de las categorias mencionadas para cada asignatura mencionada):
 - subject_list
 
@@ -236,7 +236,7 @@ Genera una situación de aprendizaje para el siguiente contexto:
 - Condición Inicial: condicion_inicial
 - Aprendizajes requeridos: contenido_especifico
 
-La situación de aprendizaje debe ser clara, relevante y adecuada para el nivel educativo especificado. La situacion de aprendizaje debe estar contenida en uno o dos parrafos, y de ser muy extensa no debe pasar nunca de 3, debe ser narrada, como en los ejemplos, en primera o tercera persona del plural.
+La situación de aprendizaje debe ser clara, relevante y adecuada para el nivel educativo especificado. Debe priorizar el desarrollo de los temas a abordar y en segundo lugar el problema o situacion a resolver; de ser posible, el problema deberia ser resueldo utilizando las competencias que se han de adquirir durante el desarrollo de la unidad. La situacion de aprendizaje debe estar contenida en 1 a 3, debe ser narrada, como en los ejemplos, en primera o tercera persona del plural como si estuviera a punto de pasar, como si esta pasando o si va a pasar en el futuro cercano.
 Aunque es opcional, es totalmente valido identificar el curso como 'los estudiantes de x grado de la escuela x' o 'los estudiantes de section_name'.
 La respuesta debe ser json valido, coherente con esta interfaz:
 {

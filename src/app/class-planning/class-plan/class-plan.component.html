@@ -28,10 +28,6 @@
 						<input type="date" formControlName="date" matInput>
 					</mat-form-field>
 					<mat-form-field appearance="outline">
-						<mat-label>Temas (separados por comas)</mat-label>
-						<input formControlName="topics" matInput>
-					</mat-form-field>
-					<mat-form-field appearance="outline">
 						<mat-label>Proceso Cognitivo</mat-label>
 						<mat-select formControlName="bloomLevel">
 							@for (level of bloomLevels; track level) {
@@ -48,6 +44,12 @@
 						</mat-select>
 					</mat-form-field>
 				</div>
+        <div>
+					<mat-form-field appearance="outline">
+						<mat-label>Temas (Un tema por l&iacute;nea)</mat-label>
+						<textarea formControlName="topics" matInput></textarea>
+					</mat-form-field>
+        </div>
 				<div style="margin-bottom: 16px;">
 					<mat-label>Recursos Disponibles</mat-label>
 					<mat-chip-listbox formControlName="resources" multiple>

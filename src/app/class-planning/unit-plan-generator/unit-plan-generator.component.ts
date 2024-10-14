@@ -111,7 +111,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
   working = true;
 
   userSettings: UserSettings | null = null;
-  
+
   public mainThemeCategories = mainThemeCategories;
   public environments = schoolEnvironments;
   public problems = classroomProblems;
@@ -179,10 +179,10 @@ export class UnitPlanGeneratorComponent implements OnInit {
   ]);
 
   ngOnInit(): void {
-    // const subjectsNames = [
-    //   'EDUCACION_ARTISTICA', 'INGLES', 'FRANCES', 'MATEMATICA', 'FORMACION_HUMANA', 'CIENCIAS_NATURALES', 'CIENCIAS_SOCIALES', 'LENGUA_ESPANOLA', 'EDUCACION_FISICA'
-    // ];
-    // let created = 0;
+    const subjectsNames = [
+      'EDUCACION_ARTISTICA', 'INGLES', 'FRANCES', 'MATEMATICA', 'FORMACION_HUMANA', 'CIENCIAS_NATURALES', 'CIENCIAS_SOCIALES', 'LENGUA_ESPANOLA', 'EDUCACION_FISICA'
+    ];
+    let created = 0;
     // [artContentBlocks, englishContentBlocks, frenchContentBlocks, mathContentBlocks, religionContentBlocks, scienceContentBlocks, societyContentBlocks, spanishContentBlocks, sportsContentBlocks].forEach(contents => {
     //   contents.forEach((content, i) => {
     //     const { year, level, concepts, attitudes, procedures, subject, title, achievement_indicators } = content;
@@ -205,6 +205,28 @@ export class UnitPlanGeneratorComponent implements OnInit {
     //   })
     // });
     // [ART_COMPETENCE, ENGLISH_COMPETENCE, FRENCH_COMPETENCE, MATH_COMPETENCE, RELIGION_COMPETENCE, SCIENCE_COMPETENCE, SOCIETY_COMPETENCE, SPANISH_COMPETENCE, SPORTS_COMPETENCE].forEach((comp:any, sub: number) => {
+    //   Object.keys(comp.Primaria).forEach(key => {
+    //     const name = key.split('').map((s, i) => s == s.toUpperCase() && i !== 0 ? " " + s : s).join('');
+    //     Object.keys(comp.Primaria[key]).forEach(yearKey => {
+    //       const grade = yearKey.toUpperCase();
+    //       const subject = subjectsNames[sub];
+    //       const level = 'PRIMARIA';
+    //       const entries = comp.Primaria[key][yearKey].competenciasEspecificas;
+    //       const criteria = comp.Primaria[key][yearKey].criteriosDeEvaluacion;
+    //       const data: any = {
+    //         name,
+    //         grade,
+    //         subject,
+    //         level,
+    //         entries,
+    //         criteria
+    //       }
+    //       const sus = this.competenceService.createCompetence(data).subscribe(res => {
+    //         sus.unsubscribe();
+    //         console.log('Created #', ++created);
+    //       });
+    //     });
+    //   });
     //   Object.keys(comp.Secundaria).forEach(key => {
     //     const name = key.split('').map((s, i) => s == s.toUpperCase() && i !== 0 ? " " + s : s).join('');
     //     Object.keys(comp.Secundaria[key]).forEach(yearKey => {
@@ -223,12 +245,11 @@ export class UnitPlanGeneratorComponent implements OnInit {
     //       }
     //       const sus = this.competenceService.createCompetence(data).subscribe(res => {
     //         sus.unsubscribe();
-    //         console.log('Created #', ++created)
-    //       })
-    //     })
-    //   })
+    //         console.log('Created #', ++created);
+    //       });
+    //     });
+    //   });
     // })
-    // let created = 0;
     // [ART_MAIN_THEMES, ENGLISH_MAIN_THEMES, FRENCH_MAIN_THEMES, MATH_MAIN_THEMES, RELIGION_MAIN_THEMES, SCIENCE_MAIN_THEMES, SOCIETY_MAIN_THEMES, SPANISH_MAIN_THEMES, SPORTS_MAIN_THEMES].forEach((comp:any, sub: number) => {
     //   Object.keys(comp).forEach(levelKey => {
     //     const level = levelKey.toUpperCase();
@@ -251,10 +272,9 @@ export class UnitPlanGeneratorComponent implements OnInit {
     //           level,
     //           topics
     //         }
-    //         created += 1;
     //         const sus = this.mainThemeService.create(data).subscribe(res => {
     //           sus.unsubscribe();
-    //           console.log('Created #', created)
+    //           console.log('Created #', ++created)
     //         });
     //       })
     //     })
@@ -270,9 +290,22 @@ export class UnitPlanGeneratorComponent implements OnInit {
         this.classSections = value;
         if (value.length) {
           this.learningSituationForm.get('classSection')?.setValue(value[0]._id || '');
+          if (value[0].subjects.length == 1) {
+            this.learningSituationForm.get('subjects')?.setValue([value[0].subjects[0]])
+            this.onSubjectSelect();
+          }
         }
       }
     })
+  }
+
+  onSectionSelect() {
+    setTimeout(() => {
+      const subjects = this.classSection?.subjects;
+      if (subjects && subjects.length == 1) {
+        this.learningSituationForm.get('subjects')?.setValue([subjects[0]])
+      }
+    });
   }
 
   onSubjectSelect() {

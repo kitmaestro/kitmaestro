@@ -29,7 +29,7 @@
                                 </mat-form-field>
                                 <mat-form-field appearance="outline">
                                     <mat-label>Grado</mat-label>
-                                    <mat-select formControlName="classSection" required>
+                                    <mat-select formControlName="classSection" required (selectionChange)="onSectionSelect()">
                                         @for (section of classSections; track section._id) {
                                             <mat-option [value]="section._id">{{section.name}}</mat-option>
                                         }
