@@ -181,20 +181,20 @@ export const classroomResources = [
     "Material de lectura"
 ];
 
-export const generateActivitySequencePrompt = `Quiero impartir estos contenidos en classroom_year de classroom_level en unit_duration semanas:
+export const generateActivitySequencePrompt = `Quiero impartir estos contenidos en classroom_year de classroom_level en unit_duration semanas (2 a 3 sesiones de 45 minutos por semana):
 content_list
-
-La situacion de aprendizaje que estare utilizando es esta:
-
-learning_situation
 
 Los recursos que tengo disponibles son estos:
 
 resource_list
 
+En mi estilo de ensenanza, por lo general aplico el teaching_style
+
 Elabora una lista de actividades a realizar, enfocadas en el desarrollo de competencias y a la vez cumpliendo con la linea de desarrollo de la situacion de aprendizaje, categorizadas como actividades de aprendizaje (como las actividades propias de los alumnos), actividades de enseñanza (aquellas propias del docente) y actividades de evaluacion.
-Cada actividad de enseñanza, debe ser una oracion completa puede iniciar con 'El docente', 'El maestro', o 'El profesor'. Esta representa una sesion de clases, de manera que, debe decir, de manera general, de que se tratara la clase o cual seria el objetivo de ese dia.
+Cada actividad de enseñanza, debe ser una oracion completa puede iniciar con 'El docente', 'El maestro', o 'El profesor'. Esta representa una sesion de clase, de manera que, debe decir, de manera general, cuales son las principales o mas grandes actividades que se haran en la clase.
 Cada actividad de aprendizaje, debe ser una oracion completa que inicie con 'Los estudiantes', 'Los alumnos', 'El alumnado', o 'El estudiantado' equivalente a la respuesta o consecuencia de las acciones del docente.
+Las actividades deben seguir el patron de los contenidos procedimentales y reflejar el desarrollo y adquisicion de las competencias y abordado de los contenidos, en general, primero se recuperan los conocimientos previos, luego se introduce el contenido nuevo, dividiendolo en porciones apropiadas para el nivel y grado de los estudiantes, luego se practican durante varias clases con diferentes estrategias para profundizar y afianzar, se evaluan los resultados, opcionalmente se agrega complejidad y se lleva a cabo una actividad de cierre que no tiene por que ser evaluativa.
+Las actividades de evaluacion deben incluir evaluacion formativa y sumativa. Se busca, ademas, que los estudiantes vayan pasando por las etapas cognitivas de la taxonomia de Bloom al pasar de las clases, de manera que primero hay que recordar y entender el concepto, luego aplicarlo y analizarlo y por ultimo evaluar y crear algo que, de preferencia, sea tangible.
 Asignaturas a impartir (necesito actividades de las categorias mencionadas para cada asignatura mencionada):
 - subject_list
 
@@ -212,8 +212,60 @@ Tu respuesta debe ser json valido con esta interfaz:
     subject: subject_type,
     activities: string[],
   }[],
-  instruments: string[] // nombre de las tecnicas e instrumentos de evaluacion a utilizar,
+  instruments: string[] // nombre de las tecnicas e instrumentos de evaluacion a utilizar, incluyendo, de ser posible, la metacognicion (que y como se aprendio lo que se aprendio y como se puede aplicar)
   resources: string[], // los recursos que voy a necesitar para toda la unidad
+}
+
+un ejemplo de la lista de actividades seria esta:
+{
+  teacher_activities: {
+    subject: 'LENGUA_ESPANOLA',
+    activities: [
+      'El docente recupera los conocimientos previos de los alumnos sobre la carta e introduce la funcion y estructura basica de la carta de disculpas', // nota como solo esta entrada es una sesion completa
+      'El maestro muestra algunas cartas y otros textos para que los alumnos identifiquen las cartas, explica en detalle la estructura de la carta y las formulas para cada parte',
+      'El maestro dirige a los alumnos al leer y analizar cartas y corrige los errores que contienen',
+      'El docente dirige una "redaccion" oral de cartas de disculpas',
+      'El docente organiza y dirige un dialogo socratico sobre la carta de disculpas y asigna un cuestionario',
+      'El profesor explica el procedimiento para redactar una carta, indica como hacer un borrador y asigna una exposicion',
+      'El profesor dirige un debate/socializacion sobre la carta 
+      ...
+    ],
+  }[],
+  student_activities: {
+    subject: 'LENGUA_ESPANOLA',
+    activities: [
+      'Los alumnos expresan sus conocimientos previos sobre la carta presentando ejemplos',
+      'Los alumnos diferencian cartas de otros textos',
+      'Los estudiantes leen, analizan y corrigen muestras de cartas',
+      'Los estudiantes se juntan en grupos y 'elaboran' cartas de manera oral tomando apuntes o creando un mapa mental',
+      'Los alumnos participan de un dialogo socratico en clase',
+      ...
+    ],
+  }[],
+  evaluation_activities: {
+    subject: 'LENGUA_ESPANOLA',
+    activities: [
+      'Recuperacion de saberes y esperiencias previas sobre las cartas',
+      'Lectura e interpretacion de cartas',
+      'Redaccion de borradores de cartas de permiso',
+      ...
+    ],
+  }[],
+  instruments: [
+    'Metacognicion: que se aprendio, como lo aprendio y como lo va a aplicar en el futuro',
+    'Diario reflexivo',
+    'Guia de observacion',
+    'Rubrica',
+    'Portafolios',
+    ...
+  ],
+  resources: [
+    'Pizarra',
+    'Marcadores/tiza y Borrador',
+    'Cuadernos',
+    'Muestras de Cartas',
+    ...
+  ]
 }`;
 
 export const generateLearningSituationPrompt = `Una situación de aprendizaje debe incluir los siguientes elementos clave:
@@ -237,7 +289,7 @@ Genera una situación de aprendizaje para el siguiente contexto:
 - Aprendizajes requeridos: contenido_especifico
 
 La situación de aprendizaje debe ser clara, relevante y adecuada para el nivel educativo especificado. Debe priorizar el desarrollo de los temas a abordar y en segundo lugar el problema o situacion a resolver; de ser posible, el problema deberia ser resueldo utilizando las competencias que se han de adquirir durante el desarrollo de la unidad. La situacion de aprendizaje debe estar contenida en 1 a 3, debe ser narrada, como en los ejemplos, en primera o tercera persona del plural como si estuviera a punto de pasar, como si esta pasando o si va a pasar en el futuro cercano.
-Aunque es opcional, es totalmente valido identificar el curso como 'los estudiantes de x grado de la escuela x' o 'los estudiantes de section_name'.
+Aunque es opcional, es totalmente valido identificar el curso como 'los estudiantes de x grado de la escuela x' o 'los estudiantes de section_name'. La situacion de aprendizaje DEBE priorizar el contenido sobre la situacion (muy importante), de manera que lo que debe quedar en segundo plano, es el problema que se esta abordando.
 La respuesta debe ser json valido, coherente con esta interfaz:
 {
   title: string; // titulo de la situacion de aprendizaje

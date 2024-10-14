@@ -72,6 +72,7 @@ import { UnitPlanComponent } from '../unit-plan/unit-plan.component';
 import { forkJoin } from 'rxjs';
 import { ContentBlockService } from '../../services/content-block.service';
 import { ContentBlock } from '../../interfaces/content-block';
+import { TEACHING_METHODS } from '../../data/teaching-methods';
 
 @Component({
   selector: 'app-unit-plan-generator',
@@ -137,6 +138,8 @@ export class UnitPlanGeneratorComponent implements OnInit {
   mainThemes: MainTheme[] = [];
   contentBlocks: ContentBlock[] = [];
 
+  public teachingMethods = TEACHING_METHODS;
+
   plan: UnitPlan | null = null;
 
   situationTypes = [
@@ -164,6 +167,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
   unitPlanForm = this.fb.group({
     duration: [4],
+    teaching_method: ['Aprendizaje Basado en Competencias'],
     fundamentalCompetence: [['Comunicativa', 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Ciencia y Tecnología', 'Ética y Ciudadana; Personal y Espiritual; Ambiental y de Salud']],
     specificCompetence: [[]],
     activities: this.fb.array([]),
@@ -372,6 +376,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
     const text = generateActivitySequencePrompt.replace('classroom_year', `${this.classSectionYear}`)
       .replace('classroom_level', `${this.classSectionLevel}`)
+      .replace('teaching_style', `${this.unitPlanForm.get('teaching_method')?.value}`)
       .replace('unit_duration', `${duration}`)
       .replace('content_list', contents)
       .replace('resource_list', (resources || []).join('\n- '))
