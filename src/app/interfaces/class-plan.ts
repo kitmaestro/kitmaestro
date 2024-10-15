@@ -1,38 +1,38 @@
+import { ClassSection } from "./class-section";
+import { UserSettings } from "./user-settings";
+
 export interface ClassPlan {
-    uid: string,
-    id: string,
-    date: string,
-    sectionName: string,
-    sectionId: string,
-    level: string,
-    year: string,
-    subject: string,
-    intencion_pedagogica: string,
-    estrategias: string[],
-    inicio: {
-        duracion: number,
-        actividades: string[],
-        recursos_necesarios: string[],
-        layout: string,
-    },
-    desarrollo: {
-        duracion: number,
-        actividades: string[],
-        recursos_necesarios: string[],
-        layout: string,
-    },
-    cierre: {
-        duracion: number,
-        actividades: string[],
-        recursos_necesarios: string[],
-        layout: string,
-    },
-    complementarias: {
-        actividades: string[],
-        recursos_necesarios: string[],
-        layout: string,
-    },
-    vocabulario: string[],
-    lectura_recomendada: string,
-    competencia: string,
+  _id: string,
+  user: UserSettings;
+  date: Date;
+  section: ClassSection;
+  subject: string;
+  objective: string;
+  strategies: string[];
+  introduction: {
+    duration: number,
+    activities: string,
+    resources: string,
+    layout: string
+  };
+  main: {
+    duration: number,
+    activities: string,
+    resources: string,
+    layout: string
+  };
+  closing: {
+    duration: number,
+    activities: string,
+    resources: string,
+    layout: string
+  };
+  supplementary: {
+    activities: string,
+    resources: string,
+    layout: string
+  };
+  vocabulary: string[];
+  readings: string;
+  competence: string;
 }

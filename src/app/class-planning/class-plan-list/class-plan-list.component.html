@@ -8,8 +8,8 @@
       <mat-nav-list>
         @for (plan of classPlans$ | async; track plan) {
           <mat-list-item>
-            <a mat-list-item [routerLink]="['/class-plans', plan.id]">{{ plan.sectionName }} - {{ pretify(plan.subject) }} - {{ plan.date ? plan.date.split('-').reverse().join('/') : '' }}</a>
-            <button mat-icon-button color="warn" (click)="deletePlan(plan.id)" matListItemMeta>
+            <a mat-list-item [routerLink]="['/class-plans', plan._id]">{{ plan.section.name }} - {{ pretify(plan.subject) }} - {{ plan.date | date : 'dd/MM/YYYY' }}</a>
+            <button mat-icon-button color="warn" (click)="deletePlan(plan._id)" matListItemMeta>
               <mat-icon>delete</mat-icon>
             </button>
           </mat-list-item>

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { UnitPlanService } from '../../services/unit-plan.service';
-import { catchError, map, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { UnitPlan } from '../../interfaces/unit-plan';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -70,44 +70,35 @@ export class UnitPlanDetailComponent implements OnInit {
     if (subject == 'LENGUA_ESPANOLA') {
       return 'Lengua Española';
     }
-
     if (subject == 'MATEMATICA') {
       return 'Matemática';
     }
-
     if (subject == 'CIENCIAS_SOCIALES') {
       return 'Ciencias Sociales';
     }
-
     if (subject == 'CIENCIAS_NATURALES') {
       return 'Ciencias de la Naturaleza';
     }
-
     if (subject == 'INGLES') {
       return 'Inglés';
     }
-
     if (subject == 'FRANCES') {
       return 'Francés';
     }
-
     if (subject == 'FORMACION_HUMANA') {
       return 'Formación Integral Humana y Religiosa';
     }
-
     if (subject == 'EDUCACION_FISICA') {
       return 'Educación Física';
     }
-
     if (subject == 'EDUCACION_ARTISTICA') {
       return 'Educación Artística';
     }
-
     return 'Talleres Optativos';
   }
 
   printPlan() {
-    this.sb.open('Estamos exportando tu plan. No te muevas!', undefined, { duration: 2500 })
+    this.sb.open('Estamos exportando tu plan. No te muevas!', 'Ok', { duration: 2500 })
     this.pdfService.exportToPdf('table', 'Unidad de Aprendizaje ' + this.route.snapshot.paramMap.get('id'), false);
   }
 
@@ -117,12 +108,12 @@ export class UnitPlanDetailComponent implements OnInit {
       this.unitPlanService.delete(id).subscribe((result) => {
         if (result.deletedCount == 1) {
           this.router.navigate(['/unit-plans']).then(() => {
-            this.sb.open('El plan ha sido eliminado.', undefined, { duration: 2500 });
+            this.sb.open('El plan ha sido eliminado.', 'Ok', { duration: 2500 });
           })
         }
       });
     } else {
-      this.sb.open('No se puede eliminar el plan. Se produjo un error.', undefined, { duration: 2500 });
+      this.sb.open('No se puede eliminar el plan. Se produjo un error.', 'Ok', { duration: 2500 });
     }
   }
 }

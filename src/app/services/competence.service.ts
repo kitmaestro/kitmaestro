@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { CompetenceEntry } from '../interfaces/competence-entry';
 import { Observable } from 'rxjs';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
@@ -25,8 +25,14 @@ export class CompetenceService {
     return this.http.post<CompetenceEntry>(this.apiBaseUrl, data, this.config);
   }
 
-  findAll(): Observable<CompetenceEntry[]> {
-    return this.http.get<CompetenceEntry[]>(this.apiBaseUrl, this.config);
+  findAll(filters?: any): Observable<CompetenceEntry[]> {
+    let params = new HttpParams();
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        params = params.set(key, filters[key]);
+      });
+    }
+    return this.http.get<CompetenceEntry[]>(this.apiBaseUrl, { params, ...this.config});
   }
 
   findByLevel(level: string): Observable<CompetenceEntry[]> {

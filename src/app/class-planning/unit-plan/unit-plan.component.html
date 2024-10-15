@@ -40,7 +40,7 @@
 						<td colspan="2">
 							@for (comp of unitPlan.competence; track comp._id) {
 								@if (comp.name == 'Comunicativa') {
-									@if (unitPlan.competence.length > 1) {
+									@if (unitPlan.subjects.length > 1) {
 										<p class="bold">{{pretifySubject(comp.subject)}}</p>
 									}
 									<ul style="margin: 0; padding: 0; list-style: none;">
@@ -53,8 +53,8 @@
 						</td>
 						<td colspan="2">
 							@for (comp of unitPlan.competence; track comp._id) {
-								@if (comp.name == 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica') {
-									@if (unitPlan.competence.length > 1) {
+								@if (comp.name.includes('Pensamiento')) {
+									@if (unitPlan.subjects.length > 1) {
 										<p class="bold">{{pretifySubject(comp.subject)}}</p>
 									}
 									<ul style="margin: 0 0 24px; padding: 0; list-style: none;">
@@ -67,8 +67,8 @@
 						</td>
 						<td colspan="2">
 							@for (comp of unitPlan.competence; track comp._id) {
-								@if (comp.name == 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud') {
-									@if (unitPlan.competence.length > 1) {
+								@if (comp.name.includes('Ciudadana')) {
+									@if (unitPlan.subjects.length > 1) {
 										<p class="bold">{{pretifySubject(comp.subject)}}</p>
 									}
 									<ul style="margin: 0 0 24px; padding: 0; list-style: none;">
@@ -87,7 +87,9 @@
 						<td colspan="2">
 							@for (row of unitPlan.competence; track $index) {
 								@if (row.name == 'Comunicativa') {
-									<h4 class="bold">{{pretifySubject(row.subject)}}</h4>
+                  @if (unitPlan.subjects.length > 1) {
+                    <h4 class="bold">{{pretifySubject(row.subject)}}</h4>
+                  }
 									<ul style="margin: 0; padding: 0; list-style: none;">
 										@for (criterion of row.criteria; track criterion) {
 											@if (criterion) {
@@ -100,8 +102,10 @@
 						</td>
 						<td colspan="2">
 							@for (row of unitPlan.competence; track $index) {
-								@if (row.name == 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica') {
-									<h4 class="bold">{{pretifySubject(row.subject)}}</h4>
+                @if (row.name.includes('Pensamiento')) {
+                  @if (unitPlan.subjects.length > 1) {
+                    <h4 class="bold">{{pretifySubject(row.subject)}}</h4>
+                  }
 									<ul style="margin: 0; padding: 0; list-style: none;">
 										@for (criterion of row.criteria; track criterion) {
 											@if (criterion) {
@@ -114,8 +118,10 @@
 						</td>
 						<td colspan="2">
 							@for (row of unitPlan.competence; track $index) {
-								@if (row.name == 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud') {
-									<h4 class="bold">{{pretifySubject(row.subject)}}</h4>
+                @if (row.name.includes('Ciudadana')) {
+                  @if (unitPlan.subjects.length > 1) {
+                    <h4 class="bold">{{pretifySubject(row.subject)}}</h4>
+                  }
 									<ul style="margin: 0; padding: 0; list-style: none;">
 										@for (criterion of row.criteria; track criterion) {
 											@if (criterion) {

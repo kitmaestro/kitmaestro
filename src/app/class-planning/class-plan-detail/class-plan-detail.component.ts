@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ClassPlansService } from '../../services/class-plans.service';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 import { UserSettingsService } from '../../services/user-settings.service';
@@ -8,6 +8,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PdfService } from '../../services/pdf.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-class-plan-detail',
@@ -25,9 +26,10 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class ClassPlanDetailComponent {
   route = inject(ActivatedRoute);
-  planId = this.route.snapshot.paramMap.get('id');
+  router = inject(Router);
+  planId = this.route.snapshot.paramMap.get('id') || '';
   classPlanService = inject(ClassPlansService);
-  plan$ = this.classPlanService.find(this.planId || '');
+  plan$ = this.classPlanService.find(this.planId).pipe(tap(_ => console.log(_)));
   userSettingsService = inject(UserSettingsService);
   settings$ = this.userSettingsService.getSettings();
   sb = inject(MatSnackBar);
@@ -59,10 +61,20 @@ export class ClassPlanDetailComponent {
   }
 
   printPlan() {
-    this.sb.open('La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.', undefined, { duration: 3000 });
+    this.sb.open('La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.', 'Ok', { duration: 3000 });
     this.plan$.subscribe(plan => {
       if (plan) {
-        this.pdfService.createAndDownloadFromHTML('class-plan', `Plan de Clases ${plan.sectionName} de ${plan.level} - ${this.pretify(plan.subject || '')}`, false);
+        this.pdfService.createAndDownloadFromHTML('class-plan', `Plan de Clases ${plan.section.name} de ${plan.section.level} - ${this.pretify(plan.subject || '')}`, false);
+      }
+    })
+  }
+
+  deletePlan() {
+    this.classPlanService.deletePlan(this.planId).subscribe(res => {
+      if (res.deletedCount == 1) {
+        this.router.navigate(['/class-plans']).then(() => {
+          this.sb.open('Se ha eliminado el plan', 'Ok', { duration: 2500 });
+        });
       }
     })
   }

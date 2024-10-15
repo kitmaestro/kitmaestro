@@ -388,12 +388,16 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
     this.generating = true;
 
-    this.aiService.geminiAi(text).subscribe({
+    this.aiService.askGemini(text).subscribe({
       next: (response) => {
         try {
-          const start = response.response.indexOf('{');
-          const activities: { teacher_activities: { subject: string, activities: string[]}[], student_activities: { subject: string, activities: string[]}[], evaluation_activities: { subject: string, activities: string[]}[], instruments: string[], resources: string[] } = JSON.parse(response.response.slice(start, -3));
-          // const activities: { teacher_activities: { subject: string, activities: string[]}[], student_activities: { subject: string, activities: string[]}[], evaluation_activities: { subject: string, activities: string[]}[], instruments: string[], resources: string[] } = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
+          const answer = response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n');
+          const start = answer.indexOf('{');
+          const end = answer.lastIndexOf('}') + 1;
+          const extract = answer.slice(start, end);
+          console.log(extract);
+          // const activities: { teacher_activities: { subject: string, activities: string[]}[], student_activities: { subject: string, activities: string[]}[], evaluation_activities: { subject: string, activities: string[]}[], instruments: string[], resources: string[] } = JSON.parse(response.response.slice(start, -3));
+          const activities: { teacher_activities: { subject: string, activities: string[]}[], student_activities: { subject: string, activities: string[]}[], evaluation_activities: { subject: string, activities: string[]}[], instruments: string[], resources: string[] } = JSON.parse(extract);
           this.generating = false;
           this.instruments.clear();
           this.resourceList.clear();

@@ -227,7 +227,7 @@ un ejemplo de la lista de actividades seria esta:
       'El docente dirige una "redaccion" oral de cartas de disculpas',
       'El docente organiza y dirige un dialogo socratico sobre la carta de disculpas y asigna un cuestionario',
       'El profesor explica el procedimiento para redactar una carta, indica como hacer un borrador y asigna una exposicion',
-      'El profesor dirige un debate/socializacion sobre la carta 
+      'El profesor dirige un debate/socializacion sobre la carta
       ...
     ],
   }[],
@@ -296,3 +296,41 @@ La respuesta debe ser json valido, coherente con esta interfaz:
   content: string; // la situacion de aprendizaje en si
   strategies: string[]; //estrategias de aprendizaje y ensenanza recomendados para esta situacion de aprendizaje
 }`;
+
+export const classPlanPrompt = `Escribe un plan de clases, enfocado en el desarrollo de competencias, de class_subject de class_duration minutos para impartir class_topics en class_year grado de class_level. Esta es la interfaz de la planificacion:
+
+interface Plan {
+  objective: string, // proposito
+  strategies: string[],
+  introduction: {
+    duration: number,
+    activities: string[],
+    resources: string[],
+    layout: string, // class layout
+  },
+  main: {
+    duration: number,
+    activities: string[],
+    resources: string[],
+    layout: string, // class layout
+  },
+  closing: {
+    duration: number,
+    activities: string[],
+    resources: string[],
+    layout: string, // class layout
+  },
+  supplementary: { // actividades extra/opcionales (son opciones para que el docente implemente en caso de que le sobre tiempo o para intercambiar con alguna otra del plan)
+    activities: string[],
+    resources: string[],
+    layout: string, // class layout
+  },
+  vocabulary: string[],
+  readings: string, // usualmente un material o libro relacionado con el tema
+  competence: string, // Competencia a trabajar (elige la mas apropiadas de las que menciono al final)
+}
+
+Los recursos disponibles son: plan_resources
+Las competencias a desarrollorar debe ser una de estas:
+- plan_compentece
+`;

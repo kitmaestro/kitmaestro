@@ -149,7 +149,17 @@ export class PlannerGeneratorComponent implements OnInit {
     { option: 'Fairytale and fantasy elements', spanish: 'Elementos de cuento de hadas y fantasía' }
   ];
 
-  subjects: string[] = [];
+  subjects: string[] = [
+    'Educación Física',
+    'Lengua Española',
+    'Matemática',
+    'Ciencias Sociales',
+    'Ciencias Naturales',
+    'Inglés',
+    'Francés',
+    'Educación Artística',
+    'Formación Integral Humana y Religiosa',
+  ];
   school: string = '';
   fullname: string = '';
   visible = false;
@@ -174,7 +184,6 @@ export class PlannerGeneratorComponent implements OnInit {
         this.fullname = fullname;
         this.plannerForm.get('fullName')?.setValue(fullname);
         this.plannerForm.get('fullName')?.disable();
-        this.subjects = [] as string[];
         this.school = user.schoolName;
       })
     }, 500);

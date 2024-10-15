@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -18,6 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     IsPremiumComponent,
     MatListModule,
     AsyncPipe,
+    DatePipe,
     RouterModule,
     MatIconModule,
   ],
@@ -31,8 +32,11 @@ export class ClassPlanListComponent {
   sb = inject(MatSnackBar);
 
   deletePlan(id: string) {
-    this.classPlansService.deletePlan(id).subscribe(() => {
-      this.sb.open('El Plan fue eliminado!');
+    this.classPlansService.deletePlan(id).subscribe((res) => {
+      if (res.deletedCount == 1) {
+        this.classPlans$ = this.classPlansService.findAll();
+        this.sb.open('El Plan fue eliminado!', 'Ok', { duration: 2500 });
+      }
     });
   }
 

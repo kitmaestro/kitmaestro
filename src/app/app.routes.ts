@@ -108,7 +108,7 @@ export const routes: Routes = [
             { path: 'attendance-calc', loadComponent: () => import('./assistants/attendance-calc-assistant/attendance-calc-assistant.component').then(mod => mod.AttendanceCalcAssistantComponent) },
         ]
     },
-    { path: 'class-plans', loadComponent: () => import('./class-planning/class-plan/class-plan.component').then(mod => mod.ClassPlanComponent) },
+    { path: 'class-plans', loadComponent: () => import('./class-planning/class-plan-generator/class-plan-generator.component').then(mod => mod.ClassPlanGeneratorComponent) },
     { path: 'class-plans/list', loadComponent: () => import('./class-planning/class-plan-list/class-plan-list.component').then(mod => mod.ClassPlanListComponent) },
     { path: 'class-plans/:id', loadComponent: () => import('./class-planning/class-plan-detail/class-plan-detail.component').then(mod => mod.ClassPlanDetailComponent) },
     { path: 'class-plans/:id/edit', loadComponent: () => import('./class-planning/class-plan-edit/class-plan-edit.component').then(mod => mod.ClassPlanEditComponent) },

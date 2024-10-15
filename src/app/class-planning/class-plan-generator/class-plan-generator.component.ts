@@ -1,0 +1,327 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
+import { AsyncPipe, DatePipe } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { ClassSectionService } from '../../services/class-section.service';
+import { AiService } from '../../services/ai.service';
+import { UserSettingsService } from '../../services/user-settings.service';
+import { UserSettings } from '../../interfaces/user-settings';
+import { PdfService } from '../../services/pdf.service';
+import { MatChipsModule } from '@angular/material/chips';
+import { ClassPlan } from '../../interfaces/class-plan';
+import { ClassPlansService } from '../../services/class-plans.service';
+import { Router, RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { CompetenceService } from '../../services/competence.service';
+import { ClassSection } from '../../interfaces/class-section';
+import { classPlanPrompt, classroomResources } from '../../constants';
+import { CompetenceEntry } from '../../interfaces/competence-entry';
+import { ClassPlanComponent } from '../class-plan/class-plan.component';
+
+@Component({
+  selector: 'app-class-plan-generator',
+  standalone: true,
+  imports: [
+    AsyncPipe,
+    IsPremiumComponent,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatCardModule,
+    MatChipsModule,
+    RouterModule,
+    DatePipe,
+    HttpClientModule,
+    ClassPlanComponent,
+  ],
+  templateUrl: './class-plan-generator.component.html',
+  styleUrl: './class-plan-generator.component.scss'
+})
+export class ClassPlanGeneratorComponent implements OnInit {
+  sb = inject(MatSnackBar);
+  fb = inject(FormBuilder);
+  classSectionService = inject(ClassSectionService);
+  compService = inject(CompetenceService);
+  aiService = inject(AiService);
+  userSettingsService = inject(UserSettingsService);
+  pdfService = inject(PdfService);
+  classPlanService = inject(ClassPlansService);
+  router = inject(Router);
+  datePipe = new DatePipe('en');
+
+  todayDate = new Date(Date.now() - (4 * 60 * 60 * 1000)).toISOString().split('T')[0];
+  classSections: ClassSection[] = [];
+  userSettings: UserSettings | null = null;
+  subjects: string[] = [];
+  generating = false;
+  plan: ClassPlan | null = null;
+  section: ClassSection | null = null;
+
+  competence: CompetenceEntry[] = [];
+  competenceString = '';
+
+  bloomLevels = [
+    { id: 'knowledge', label: 'Recordar' },
+    { id: 'undertanding', label: 'Comprender' },
+    { id: 'application', label: 'Aplicar' },
+    { id: 'analysis', label: 'Analizar' },
+    { id: 'evaluation', label: 'Evaluar' },
+    { id: 'creation', label: 'Crear' },
+  ]
+
+  resources = classroomResources;
+
+  planForm = this.fb.group({
+    classSection: ['', Validators.required],
+    date: [this.todayDate, Validators.required],
+    subject: ['', Validators.required],
+    duration: [90, Validators.required],
+    topics: ['', Validators.required],
+    bloomLevel: ['knowledge', Validators.required],
+    resources: [["Pizarra", "Libros de texto", "Cuadernos", "Lápices y bolígrafos", "Materiales de arte (papel, colores, pinceles)", "Cuadernos de ejercicios"]]
+  });
+
+  private planPrompt = classPlanPrompt;
+
+  ngOnInit(): void {
+    this.classSectionService.findSections().subscribe(sections => {
+      this.classSections = sections;
+      if (sections.length) {
+        this.planForm.get('classSection')?.setValue(sections[0]._id || '');
+        this.onSectionSelect();
+        if (sections[0].subjects.length == 1) {
+          this.planForm.get('subject')?.setValue(sections[0].subjects[0]);
+          this.onSubjectSelect();
+        }
+      }
+    });
+    this.userSettingsService.getSettings().subscribe(settings => this.userSettings = settings);
+  }
+
+  onSectionSelect() {
+    setTimeout(() => {
+      const sectionId = this.planForm.get('classSection')?.value;
+      const section = this.classSections.find(s => s._id == sectionId);
+      if (section) {
+        this.section = section;
+        this.subjects = section.subjects;
+      } else {
+        this.section = null;
+      }
+    }, 0)
+  }
+
+  onSubjectSelect() {
+    setTimeout(() => {
+      if (this.section) {
+        const {
+          level,
+          year
+        } = this.section;
+        const { subject } = this.planForm.value;
+        if (!level || !year || !subject)
+          return;
+        this.compService.findAll({ subject, level, grade: year }).subscribe({
+          next: (entries) => {
+            this.competence = entries;
+          }
+        });
+      }
+    }, 0);
+  }
+
+  onSubmit() {
+    if (this.planForm.valid) {
+      const {
+        classSection,
+        subject,
+        duration,
+        bloomLevel,
+        resources,
+        topics
+      } = this.planForm.value;
+
+      const sectionLevel = this.classSections.find(cs => cs._id == classSection)?.level;
+      const sectionYear = this.classSections.find(cs => cs._id == classSection)?.year;
+
+      if (sectionLevel && sectionYear && subject && duration && topics && resources && this.competence) {
+        this.generating = true;
+        const competence_string = this.competence.map(c => c.entries).flat().join('\n- ');
+        const text = this.planPrompt
+          .replace('class_subject', this.pretify(subject))
+          .replace('class_duration', duration.toString())
+          .replace('class_topics', `${topics} (proceso cognitivo de la taxonomia de bloom: ${this.pretifyBloomLevel(bloomLevel || '')})`)
+          .replace('class_year', sectionYear)
+          .replace('class_level', sectionLevel)
+          .replace('plan_resources', resources.join(', '))
+          .replace('plan_compentece', competence_string);
+
+        this.aiService.askGemini(text, true).subscribe({
+          next: (response) => {
+            this.generating = false;
+            const date = this.planForm.value.date;
+            // const extract = response.response.slice(response.response.indexOf('{'), response.response.lastIndexOf('}') + 1);
+            const answer = response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n');
+            const extract = answer.slice(answer.indexOf('{'), answer.lastIndexOf('}') + 1);
+            console.log(answer, extract)
+            const plan: any = JSON.parse(extract);
+            plan.user = this.userSettings?._id;
+            plan.section = this.section?._id;
+            plan.date = new Date(date ? date : this.todayDate);
+            plan.subject = this.planForm.value.subject;
+            this.plan = plan;
+            if (sectionLevel == 'PRIMARIA') {
+              if (sectionYear == 'PRIMERO') {
+              } else if (sectionYear == 'SEGUNDO') {
+              } else if (sectionYear == 'TERCERO') {
+              } else if (sectionYear == 'CUARTO') {
+              } else if (sectionYear == 'QUINTO') {
+              } else {
+              }
+            } else {}
+          }, error: (error) => {
+            this.sb.open('Ha ocurrido un error generando tu plan: ' + error.message, undefined, { duration: 5000 });
+          }
+        })
+      } else {
+        this.sb.open('Completa el formulario antes de proceder.', undefined, { duration: 3000 });
+      }
+    }
+  }
+
+  savePlan() {
+    if (this.plan) {
+      this.classPlanService.addPlan(this.plan).subscribe((saved) => {
+        if (saved._id) {
+          this.router.navigate(['/class-plans', saved._id]).then(() => {
+            this.sb.open('Tu plan ha sido guardado!', 'Ok', { duration: 2500 });
+          });
+        }
+      });
+    }
+  }
+
+  printPlan() {
+    const date = this.datePipe.transform(this.planForm.value.date, 'dd-MM-YYYY');
+    this.sb.open('La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.', undefined, { duration: 3000 });
+    this.pdfService.createAndDownloadFromHTML('class-plan', `Plan de Clases de ${this.pretify(this.planForm.value.subject || '')} para ${this.classSectionName} - ${date}`, false);
+  }
+
+  pretify(str: string) {
+    switch(str) {
+      case 'LENGUA_ESPANOLA':
+        return 'Lengua Española';
+      case 'MATEMATICA':
+        return 'Matemática';
+      case 'CIENCIAS_SOCIALES':
+        return 'Ciencias Sociales';
+      case 'CIENCIAS_NATURALES':
+        return 'Ciencias de la Naturaleza';
+      case 'INGLES':
+        return 'Inglés';
+      case 'FRANCES':
+        return 'Francés';
+      case 'FORMACION_HUMANA':
+        return 'Formación Integral Humana y Religiosa';
+      case 'EDUCACION_FISICA':
+        return 'Educación Física';
+      case 'EDUCACION_ARTISTICA':
+        return 'Educación Artística';
+      default:
+        return 'Talleres Optativos';
+    }
+  }
+
+  yearIndex(year: string): number {
+    return year == 'PRIMERO' ? 0 :
+      year == 'SEGUNDO' ? 1 :
+        year == 'TERCERO' ? 2 :
+          year == 'CUARTO' ? 3 :
+            year == 'QUINTO' ? 4 :
+              5;
+  }
+
+  randomCompetence(categorized: any): string {
+    let random = 0;
+    switch (this.yearIndex(this.classSectionYear)) {
+      case 0:
+        random = Math.round(Math.random() * (categorized.Primero.competenciasEspecificas.length - 1))
+        return categorized.Primero.competenciasEspecificas[random];
+      case 1:
+        random = Math.round(Math.random() * (categorized.Segundo.competenciasEspecificas.length - 1))
+        return categorized.Segundo.competenciasEspecificas[random];
+      case 2:
+        random = Math.round(Math.random() * (categorized.Tercero.competenciasEspecificas.length - 1))
+        return categorized.Tercero.competenciasEspecificas[random];
+      case 3:
+        random = Math.round(Math.random() * (categorized.Cuarto.competenciasEspecificas.length - 1))
+        return categorized.Cuarto.competenciasEspecificas[random];
+      case 4:
+        random = Math.round(Math.random() * (categorized.Quinto.competenciasEspecificas.length - 1))
+        return categorized.Quinto.competenciasEspecificas[random];
+      case 5:
+        random = Math.round(Math.random() * (categorized.Sexto.competenciasEspecificas.length - 1))
+        return categorized.Sexto.competenciasEspecificas[random];
+      default:
+        return '';
+    }
+  }
+
+  pretifyBloomLevel(level: string) {
+    if (level == 'knowledge')
+      return 'Recordar';
+    if (level == 'undertanding')
+        return 'Comprender';
+    if (level == 'application')
+      return 'Aplicar';
+    if (level == 'analysis')
+      return 'Analizar';
+    if (level == 'evaluation')
+      return 'Evaluar';
+
+    return 'Crear';
+  }
+
+  get sectionSubjects() {
+    const subjects = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.subjects as any as string[];
+    if (subjects && subjects.length) {
+      return subjects;
+    }
+    return [];
+  }
+
+  get classSectionName() {
+    const name = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.name;
+    if (name) {
+      return name;
+    }
+    return '';
+  }
+
+  get classSectionLevel() {
+    const level = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.level;
+    if (level) {
+      return level;
+    }
+    return '';
+  }
+
+  get classSectionYear() {
+    const year = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.year;
+    if (year) {
+      return year;
+    }
+    return '';
+  }
+}

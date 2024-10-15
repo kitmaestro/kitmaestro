@@ -4,6 +4,7 @@
             <h2 style="text-align: center;">Opciones</h2>
             <div style="display: flex; justify-content: space-around; gap: 12px;">
                 <button type="button" mat-raised-button color="link" (click)="goBack()">Volver</button>
+                <button type="button" mat-raised-button color="warn" (click)="deletePlan()">Eliminar</button>
                 <button type="button" mat-raised-button color="accent" [routerLink]="['/class-plans', planId, 'edit']">Editar</button>
                 <button type="button" mat-raised-button color="primary" (click)="printPlan()">Descargar PDF</button>
             </div>
@@ -14,18 +15,18 @@
             <table style="border-collapse: collapse; border: 1px solid gray; background-color: white; width: 100%;">
                 <thead>
                     <tr *ngIf="(settings$ | async) as user">
-                        <td style="width: 160px;"><b>Fecha</b>: {{plan.date}}</td>
-                        <td style="width: 280px;"><b>Grado y Sección</b>: {{plan.sectionName}}</td>
-                        <td><b>Docente</b>: {{user.title}}. {{user.firstname}}
-                            {{user.lastname}}</td>
+                        <td style="width: 160px;"><b>Fecha</b>: {{plan.date | date: 'dd/MM/YYYY'}}</td>
+                        <td style="width: 280px;"><b>Grado y Sección</b>: {{plan.section.name}}</td>
+                        <td><b>Docente</b>: {{plan.user.title}}. {{plan.user.firstname}}
+                            {{plan.user.lastname}}</td>
                         <td colspan="2"><b>Área Curricular</b>: {{pretify(plan.subject || '')}}</td>
                     </tr>
                     <tr>
                         <td colspan="5"><b>Estrategias y técnicas de enseñanza-aprendizaje</b>:
-                            {{plan.estrategias.join(', ')}}</td>
+                            {{plan.strategies.join(', ')}}</td>
                     </tr>
                     <tr>
-                        <td colspan="5"><b>Intencion Pedag&oacute;gica</b>: {{plan.intencion_pedagogica}}</td>
+                        <td colspan="5"><b>Intencion Pedag&oacute;gica</b>: {{plan.objective}}</td>
                     </tr>
                     <tr>
                         <th>Momento / Duración</th>
@@ -37,61 +38,61 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><b>Inicio</b> ({{plan.inicio.duracion}} Minutos)</td>
-                        <td rowspan="4">{{plan.competencia}}</td>
+                        <td><b>Inicio</b> ({{plan.introduction.duration}} Minutos)</td>
+                        <td rowspan="4">{{plan.competence}}</td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (actividad of plan.inicio.actividades; track actividad) {
+                                @for (actividad of plan.introduction.activities; track actividad) {
                                 <li>{{actividad}}</li>
                                 }
                             </ul>
                         </td>
                         <td>
-                            {{plan.inicio.layout}}
+                            {{plan.introduction.layout}}
                         </td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (recurso of plan.inicio.recursos_necesarios; track recurso) {
+                                @for (recurso of plan.introduction.resources; track recurso) {
                                 <li>- {{recurso}}</li>
                                 }
                             </ul>
                         </td>
                     </tr>
                     <tr>
-                        <td><b>Desarrollo</b> ({{plan.desarrollo.duracion}} Minutos)</td>
+                        <td><b>Desarrollo</b> ({{plan.main.duration}} Minutos)</td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (actividad of plan.desarrollo.actividades; track actividad) {
+                                @for (actividad of plan.main.activities; track actividad) {
                                 <li>{{actividad}}</li>
                                 }
                             </ul>
                         </td>
                         <td>
-                            {{plan.desarrollo.layout}}
+                            {{plan.main.layout}}
                         </td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (recurso of plan.desarrollo.recursos_necesarios; track recurso) {
+                                @for (recurso of plan.main.resources; track recurso) {
                                 <li>- {{recurso}}</li>
                                 }
                             </ul>
                         </td>
                     </tr>
                     <tr>
-                        <td><b>Cierre</b> ({{plan.cierre.duracion}} Minutos)</td>
+                        <td><b>Cierre</b> ({{plan.closing.duration}} Minutos)</td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (actividad of plan.cierre.actividades; track actividad) {
+                                @for (actividad of plan.closing.activities; track actividad) {
                                 <li>{{actividad}}</li>
                                 }
                             </ul>
                         </td>
                         <td>
-                            {{plan.cierre.layout}}
+                            {{plan.closing.layout}}
                         </td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (recurso of plan.cierre.recursos_necesarios; track recurso) {
+                                @for (recurso of plan.closing.resources; track recurso) {
                                 <li>- {{recurso}}</li>
                                 }
                             </ul>
@@ -101,29 +102,29 @@
                         <td><b>Actividades Complementarias</b></td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (actividad of plan.complementarias.actividades; track actividad) {
+                                @for (actividad of plan.supplementary.activities; track actividad) {
                                 <li>{{actividad}}</li>
                                 }
                             </ul>
                         </td>
                         <td>
-                            {{plan.complementarias.layout}}
+                            {{plan.supplementary.layout}}
                         </td>
                         <td>
                             <ul style="margin: 0; padding: 0; list-style: none;">
-                                @for (recurso of plan.complementarias.recursos_necesarios; track recurso) {
+                                @for (recurso of plan.supplementary.resources; track recurso) {
                                 <li>- {{recurso}}</li>
                                 }
                             </ul>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="5"><b>Vocabulario del día/de la semana</b>: {{plan.vocabulario.join(', ')}}
+                        <td colspan="5"><b>Vocabulario del día/de la semana</b>: {{plan.vocabulary.join(', ')}}
                         </td>
                     </tr>
                     <tr>
                         <td colspan="5"><b>Lecturas recomendadas/ o libro de la semana</b>:
-                            {{plan.lectura_recomendada}}</td>
+                            {{plan.readings}}</td>
                     </tr>
                     <tr>
                         <td colspan="5"><b>Observaciones</b>:</td>
