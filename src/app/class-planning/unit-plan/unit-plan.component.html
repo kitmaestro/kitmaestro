@@ -7,18 +7,18 @@
 			<tbody>
 				<tr>
 					<td style="width: calc(100% / 6);"><b>Centro Educativo</b></td>
-					<td colspan="5">{{unitPlan.section.school.name}}</td>
+					<td colspan="5">{{section ? section.school.name : unitPlan.section.school.name}}</td>
 				</tr>
 				<tr>
-					<td colspan="2" style="width: 33.33%;"><b>Docente</b>: {{unitPlan.user.title}}. {{unitPlan.user.firstname}} {{unitPlan.user.lastname}}</td>
-					<td colspan="2" style="width: 33.33%;"><b>Grado y Secci&oacute;n</b>: {{unitPlan.section.name}}</td>
+					<td colspan="2" style="width: 33.33%;"><b>Docente</b>: {{user ? user.title : unitPlan.user.title}}. {{user ? user.firstname : unitPlan.user.firstname}} {{user ? user.lastname : unitPlan.user.lastname}}</td>
+					<td colspan="2" style="width: 33.33%;"><b>Grado y Secci&oacute;n</b>: {{section ? section.name : unitPlan.section.name}}</td>
 					<td colspan="2" style="width: 33.33%;"><b>Tiempo Asignado</b>: {{unitPlan.duration}} Semana{{unitPlan.duration > 1 ? 's' : ''}}</td>
 				</tr>
 				<tr>
 					<td><b>Situaci&oacute;n de Aprendizaje</b></td>
 					<td colspan="5">{{unitPlan.learningSituation}}</td>
 				</tr>
-				@if (unitPlan.section.level == 'PRIMARIA') {
+				@if ((section && section.level == 'PRIMARIA') || unitPlan.section.level == 'PRIMARIA') {
 					<tr>
 						<td colspan="6" class="text-center"><b>Competencias Fundamentales</b></td>
 					</tr>
@@ -38,7 +38,7 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							@for (comp of unitPlan.competence; track comp._id) {
+							@for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
 								@if (comp.name == 'Comunicativa') {
 									@if (unitPlan.subjects.length > 1) {
 										<p class="bold">{{pretifySubject(comp.subject)}}</p>
@@ -52,7 +52,7 @@
 							}
 						</td>
 						<td colspan="2">
-							@for (comp of unitPlan.competence; track comp._id) {
+							@for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
 								@if (comp.name.includes('Pensamiento')) {
 									@if (unitPlan.subjects.length > 1) {
 										<p class="bold">{{pretifySubject(comp.subject)}}</p>
@@ -66,7 +66,7 @@
 							}
 						</td>
 						<td colspan="2">
-							@for (comp of unitPlan.competence; track comp._id) {
+							@for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
 								@if (comp.name.includes('Ciudadana')) {
 									@if (unitPlan.subjects.length > 1) {
 										<p class="bold">{{pretifySubject(comp.subject)}}</p>
@@ -85,7 +85,7 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							@for (row of unitPlan.competence; track $index) {
+							@for (row of (competence.length ? competence : unitPlan.competence); track $index) {
 								@if (row.name == 'Comunicativa') {
                   @if (unitPlan.subjects.length > 1) {
                     <h4 class="bold">{{pretifySubject(row.subject)}}</h4>
@@ -101,7 +101,7 @@
 							}
 						</td>
 						<td colspan="2">
-							@for (row of unitPlan.competence; track $index) {
+							@for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                 @if (row.name.includes('Pensamiento')) {
                   @if (unitPlan.subjects.length > 1) {
                     <h4 class="bold">{{pretifySubject(row.subject)}}</h4>
@@ -117,7 +117,7 @@
 							}
 						</td>
 						<td colspan="2">
-							@for (row of unitPlan.competence; track $index) {
+							@for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                 @if (row.name.includes('Ciudadana')) {
                   @if (unitPlan.subjects.length > 1) {
                     <h4 class="bold">{{pretifySubject(row.subject)}}</h4>
@@ -157,7 +157,7 @@
 						<td colspan="6" style="padding: 0;">
               <div style="display: flex;">
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (comp of unitPlan.competence; track comp._id) {
+                  @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Comunicativa') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(comp.subject)}}</p>
@@ -171,7 +171,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (comp of unitPlan.competence; track comp._id) {
+                  @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Pensamiento Logico') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(comp.subject)}}</p>
@@ -185,7 +185,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (comp of unitPlan.competence; track comp._id) {
+                  @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Resolucion De Problemas') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(comp.subject)}}</p>
@@ -199,7 +199,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (comp of unitPlan.competence; track comp._id) {
+                  @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Ciencia Y Tecnologia') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(comp.subject)}}</p>
@@ -213,7 +213,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (comp of unitPlan.competence; track comp._id) {
+                  @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Etica Y Ciudadana') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(comp.subject)}}</p>
@@ -227,7 +227,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (comp of unitPlan.competence; track comp._id) {
+                  @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Desarrollo Personal Y Espiritual') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(comp.subject)}}</p>
@@ -241,7 +241,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%;">
-                  @for (comp of unitPlan.competence; track comp._id) {
+                  @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Ambiental Y De La Salud') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(comp.subject)}}</p>
@@ -264,7 +264,7 @@
 						<td colspan="6" style="padding: 0;">
               <div style="display: flex;">
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (row of unitPlan.competence; track $index) {
+                  @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Comunicativa') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(row.subject)}}</p>
@@ -280,7 +280,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (row of unitPlan.competence; track $index) {
+                  @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Pensamiento Logico') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(row.subject)}}</p>
@@ -296,7 +296,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (row of unitPlan.competence; track $index) {
+                  @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Resolucion De Problemas') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(row.subject)}}</p>
@@ -312,7 +312,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (row of unitPlan.competence; track $index) {
+                  @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Ciencia Y Tecnologia') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(row.subject)}}</p>
@@ -328,7 +328,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (row of unitPlan.competence; track $index) {
+                  @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Etica Y Ciudadana') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(row.subject)}}</p>
@@ -344,7 +344,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%; border-right: 1px solid #ccc;">
-                  @for (row of unitPlan.competence; track $index) {
+                  @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Desarrollo Personal Y Espiritual') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(row.subject)}}</p>
@@ -360,7 +360,7 @@
                   }
                 </div>
                 <div style="flex: 1 1 auto; padding: 12px; width: 100%;">
-                  @for (row of unitPlan.competence; track $index) {
+                  @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Ambiental Y De La Salud') {
                       @if (unitPlan.subjects.length > 1) {
                         <p class="bold">{{pretifySubject(row.subject)}}</p>
@@ -382,7 +382,7 @@
 					<tr>
 						<td class="bold">Eje{{unitPlan.subjects.length == 1 ? '' : 's'}} Transversal{{unitPlan.subjects.length == 1 ? '' : 'es'}}</td>
 						<td colspan="5">
-							@for (theme of unitPlan.mainThemes; track $index) {
+							@for (theme of (mainThemes.length ? mainThemes : unitPlan.mainThemes); track $index) {
                 @if (unitPlan.subjects.length > 1) {
                   <h4 class="bold">{{pretifySubject(theme.subject)}}:</h4>
                 }
@@ -417,7 +417,7 @@
 					<tr>
 						<td class="bold">Indicadores de Logro</td>
 						<td colspan="5">
-							@for (content of unitPlan.contents; track content._id) {
+							@for (content of (contents.length ? contents : unitPlan.contents); track content._id) {
                 @if (unitPlan.subjects.length > 1) {
                   <p><b>{{pretifySubject(content.subject)}}</b></p>
                 }
@@ -440,7 +440,7 @@
 					<tr>
 						<td colspan="2">
 							<ul style="margin: 0; padding: 0; list-style: none;">
-								@for (block of unitPlan.contents; track block) {
+								@for (block of (contents.length ? contents : unitPlan.contents); track block) {
 									@if (unitPlan.subjects.length == 1) {
 										@for (content of block.concepts; track content) {
 											<li>- {{content}}</li>
@@ -458,7 +458,7 @@
 						</td>
 						<td colspan="2">
 							<ul style="margin: 0; padding: 0; list-style: none;">
-								@for (block of unitPlan.contents; track block) {
+								@for (block of (contents.length ? contents : unitPlan.contents); track block) {
 									@if (unitPlan.subjects.length == 1) {
 										@for (content of block.procedures; track content) {
 											<li>- {{content}}</li>
@@ -476,7 +476,7 @@
 						</td>
 						<td colspan="2">
 							<ul style="margin: 0; padding: 0; list-style: none;">
-								@for (block of unitPlan.contents; track block) {
+								@for (block of (contents.length ? contents : unitPlan.contents); track block) {
 									@if (unitPlan.subjects.length == 1) {
 										@for (content of block.attitudes; track content) {
 											<li>- {{content}}</li>

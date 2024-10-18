@@ -44,6 +44,10 @@ export class UnitPlanListComponent {
     });
   }
 
+  pretifySubjects(arr: string[]) {
+    return arr.map(s => this.pretify(s));
+  }
+
   pretify(str: string) {
     switch (str) {
       case 'LENGUA_ESPANOLA':

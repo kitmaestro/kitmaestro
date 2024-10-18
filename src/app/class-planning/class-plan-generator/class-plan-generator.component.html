@@ -2,7 +2,7 @@
 	<mat-card>
 		<mat-card-header class="header">
 			<h2 class="title" mat-card-tittle>Generador de Plan de Clase (Plan Diario)</h2>
-      <button class="title-button" mat-flat-button [routerLink]="['/class-plans', 'list']" color="accent">Ver mis Planes</button>
+	  <button class="title-button" mat-flat-button [routerLink]="['/class-plans', 'list']" color="accent">Ver mis Planes</button>
 		</mat-card-header>
 		<mat-card-content>
 			<form (ngSubmit)="onSubmit()" [formGroup]="planForm">
@@ -36,6 +36,14 @@
 						</mat-select>
 					</mat-form-field>
 					<mat-form-field appearance="outline">
+						<mat-label>Estilo de Enseñanza</mat-label>
+						<mat-select formControlName="teachingStyle">
+							@for (style of teachingStyles; track style) {
+								<mat-option [value]="style.id">{{style.label}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
 						<mat-label>Tiempo</mat-label>
 						<mat-select formControlName="duration">
 							@for (minutes of [45, 50, 90]; track minutes) {
@@ -44,15 +52,15 @@
 						</mat-select>
 					</mat-form-field>
 				</div>
-        <div>
+		<div>
 					<mat-form-field appearance="outline">
 						<mat-label>Temas (Un tema por l&iacute;nea)</mat-label>
 						<textarea formControlName="topics" matInput></textarea>
 					</mat-form-field>
-        </div>
+		</div>
 				<div style="margin-bottom: 16px;">
 					<mat-label>Recursos Disponibles</mat-label>
-					<mat-chip-listbox formControlName="resources" multiple>
+					<mat-chip-listbox formControlName="resources" multiple (change)="onResourceChange($event)">
 						@for (resource of resources; track resource) {
 							<mat-chip-option>{{resource}}</mat-chip-option>
 						}

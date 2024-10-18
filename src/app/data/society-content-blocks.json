@@ -1815,15 +1815,23 @@
       "year": "PRIMERO",
       "subject": "CIENCIAS_SOCIALES",
       "concepts": [
-          "La Geografía y su estudio"
+          "La Geografía y su estudio",
+          "Concepto de Geografía",
+          "Ramas de la Geografía",
+          "Importancia del estudio de la geografía para la vida"
       ],
       "procedures": [
-        "Identificación de fuentes confiables para el estudio geográfico.",
-        "Investigación en fuentes confiables sobre la importancia de la geografía y sus ciencias auxiliares.",
-        "Socialización de ideas y realización de organizadores gráficos sobre las ciencias auxiliares de la geografía."
+        "Identificación de fuentes confiables para el estudio geográfico",
+        "Investigación en fuentes confiables sobre la importancia de la geografía y sus ciencias auxiliares",
+        "Indagación en fuentes de información geográfica sobre los elementos que componen los distintos mapas",
+        "Comparación de investigaciones sobre las teorías que componen el sistema solar y el origen del planeta Tierra",
+        "Socialización de ideas y realización de organizadores gráficos sobre las ciencias auxiliares de la geografía",
+        "Búsquedas de páginas webs y otros medios para el estudio de la geografía como Seterra, Testeando, Juegos Geográficos, o Global Forest Watch",
+        "Socialización de ideas y realización de organizadores gráficos sobre las ciencias auxiliares de la geografía",
+        "Realización de indagaciones en páginas digitales para el estudio de la geografía en la República Dominicana, tanto gubernamentales como de instituciones de ecologistas. Discusión sobre el trabajo que realizan"
       ],
       "attitudes": [
-        "Interés por el uso adecuado de las fuentes de información utilizadas, verificando su credibilidad y relevancia para el tema.",
+        "Interés por el uso adecuado de las fuentes de información utilizadas, verificando su credibilidad y relevancia para el tema",
         "Valoración de la geografía como una ciencia útil para la vida cotidiana."
       ],
       "achievement_indicators": [
@@ -1856,12 +1864,22 @@
       "year": "PRIMERO",
       "subject": "CIENCIAS_SOCIALES",
       "concepts": [
-          "La Tierra y su representación: La tierra en el sistema solar"
+          "La Tierra y su representación: La tierra en el sistema solar",
+          "Movimientos de la Tierra"
       ],
       "procedures": [
-        "Comparación de investigaciones sobre las teorías que componen el sistema solar y el origen del planeta Tierra.",
-        "Observación y comparación en una representación del Sistema Solar de los distintos astros y planetas.",
-        "Valoración del planeta Tierra dentro del Sistema Solar."
+        "Comparación de investigaciones sobre las teorías que componen el sistema solar y el origen del planeta Tierra",
+        "Uso de las distintas representaciones de la Tierra",
+        "Identificación de las escalas de representación de la tierra",
+        "Empleo en mapa de los puntos cardinales, paralelos, meridianos y la rosa de los vientos para ubicar cualquier espacio",
+        "Diferenciación entre mapas y planos",
+        "Interpretación de los distintos tipos de mapas y sus elementos",
+        "Formulación y comprobación de hipótesis sobre el origen del planeta Tierra",
+        "Observación y comparación en una representación del Sistema Solar de los distintos astros y planetas",
+        "Introducción a los fundamentos y uso de los Sistemas de Posicionamiento Global (GPS)",
+        "Valoración del planeta Tierra dentro del Sistema Solar",
+        "Demostración de interés en observar su espacio geográfico de forma crítica y científica",
+        "Explicación de las implicaciones de descubrimientos de nuevos planetas"
       ],
       "attitudes": [
         "Valoración de la importancia del planeta Tierra dentro del Sistema Solar.",
@@ -1897,16 +1915,19 @@
       "year": "PRIMERO",
       "subject": "CIENCIAS_SOCIALES",
       "concepts": [
-          "La Cartografía"
+        "La cartografía y su importancia",
+        "Representaciones de la Tierra",
+        "Puntos Cardinales y rosa de los vientos",
+        "Meridiano de Greenwich, Escala Mercator y otras escalas"
       ],
       "procedures": [
-        "Identificación de las escalas de representación de la tierra.",
-        "Empleo en mapa de los puntos cardinales, paralelos, meridianos y la rosa de los vientos para ubicar cualquier espacio.",
-        "Interpretación de los distintos tipos de mapas y sus elementos."
+        "Identificación de las escalas de representación de la tierra",
+        "Empleo en mapa de los puntos cardinales, paralelos, meridianos y la rosa de los vientos para ubicar cualquier espacio",
+        "Interpretación de los distintos tipos de mapas y sus elementos"
       ],
       "attitudes": [
-        "Respeto de las fuentes de informaciones institucionales, al realizar investigaciones sobre la historia de la cartografía.",
-        "Interés por identificar los diferentes tipos de mapas y los elementos que los componen."
+        "Respeto de las fuentes de informaciones institucionales, al realizar investigaciones sobre la historia de la cartografía",
+        "Interés por identificar los diferentes tipos de mapas y los elementos que los componen"
       ],
       "achievement_indicators": [
           "Analiza diversos textos sobre la importancia de la geografía y sus ciencias auxiliares, distintas representaciones espaciales por medio de GPS (Sistema de Posicionamiento Global) y otras herramientas utilizadas en la geografía",
@@ -1938,7 +1959,10 @@
       "year": "PRIMERO",
       "subject": "CIENCIAS_SOCIALES",
       "concepts": [
-          "Mapas y planos. Sus componentes"
+          "Mapas y planos. Sus componentes",
+          "Puntos cardinales y la rosa de los vientos",
+          "Meridiano de Greenwich. La escala de Mercator y otras escalas",
+          "Meridianos y paralelos. Medidas de posición"
       ],
       "procedures": [
         "Diferenciación entre mapas y planos.",

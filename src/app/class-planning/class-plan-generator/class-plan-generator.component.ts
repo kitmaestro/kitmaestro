@@ -80,6 +80,14 @@ export class ClassPlanGeneratorComponent implements OnInit {
     { id: 'creation', label: 'Crear' },
   ]
 
+  teachingStyles: { id: string, label: string }[] = [
+    { id: 'tradicional', label: 'Docente Tradicional' },
+    { id: 'innovador (soy tradicional pero trato de innovar algunas pequeñas cosas como utilizar estrategias modernas)', label: 'Docente Innovador(a)' },
+    { id: 'dinámico', label: 'Docente Dinámico(a)' },
+    { id: 'adaptado a la educacion 3.0', label: 'Docente 3.0 (Facilitador/a de procesos)' },
+    { id: 'adaptado a la educacion 4.0', label: 'Docente 4.0 (Facilitador/a innovador)' },
+  ]
+
   resources = classroomResources;
 
   planForm = this.fb.group({
@@ -89,12 +97,18 @@ export class ClassPlanGeneratorComponent implements OnInit {
     duration: [90, Validators.required],
     topics: ['', Validators.required],
     bloomLevel: ['knowledge', Validators.required],
+    teachingStyle: ['tradicional'],
     resources: [["Pizarra", "Libros de texto", "Cuadernos", "Lápices y bolígrafos", "Materiales de arte (papel, colores, pinceles)", "Cuadernos de ejercicios"]]
   });
 
   private planPrompt = classPlanPrompt;
 
   ngOnInit(): void {
+    const availableResourcesStr = localStorage.getItem('available-resources');
+    if (availableResourcesStr) {
+      const resources = JSON.parse(availableResourcesStr) as string[];
+      this.planForm.get('resources')?.setValue(resources);
+    }
     this.classSectionService.findSections().subscribe(sections => {
       this.classSections = sections;
       if (sections.length) {
@@ -120,6 +134,13 @@ export class ClassPlanGeneratorComponent implements OnInit {
         this.section = null;
       }
     }, 0)
+  }
+
+  onResourceChange(event: any) {
+    setTimeout(() => {
+      const resources = JSON.stringify(event.value);
+      localStorage.setItem('available-resources', resources);
+    }, 0);
   }
 
   onSubjectSelect() {
@@ -149,6 +170,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
         duration,
         bloomLevel,
         resources,
+        teachingStyle,
         topics
       } = this.planForm.value;
 
@@ -164,6 +186,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
           .replace('class_topics', `${topics} (proceso cognitivo de la taxonomia de bloom: ${this.pretifyBloomLevel(bloomLevel || '')})`)
           .replace('class_year', sectionYear)
           .replace('class_level', sectionLevel)
+          .replace('teaching_style', teachingStyle || 'tradicional')
           .replace('plan_resources', resources.join(', '))
           .replace('plan_compentece', competence_string);
 
@@ -214,7 +237,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 
   printPlan() {
     const date = this.datePipe.transform(this.planForm.value.date, 'dd-MM-YYYY');
-    this.sb.open('La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.', undefined, { duration: 3000 });
+    this.sb.open('La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.', 'Ok', { duration: 3000 });
     this.pdfService.createAndDownloadFromHTML('class-plan', `Plan de Clases de ${this.pretify(this.planForm.value.subject || '')} para ${this.classSectionName} - ${date}`, false);
   }
 

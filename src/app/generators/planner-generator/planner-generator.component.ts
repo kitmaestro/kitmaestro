@@ -150,15 +150,15 @@ export class PlannerGeneratorComponent implements OnInit {
   ];
 
   subjects: string[] = [
-    'Educación Física',
     'Lengua Española',
+    'Inglés',
+    'Francés',
     'Matemática',
     'Ciencias Sociales',
     'Ciencias Naturales',
-    'Inglés',
-    'Francés',
-    'Educación Artística',
+    'Educación Física',
     'Formación Integral Humana y Religiosa',
+    'Educación Artística',
   ];
   school: string = '';
   fullname: string = '';

@@ -8,11 +8,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AiService } from '../../services/ai.service';
 import { MatButtonModule } from '@angular/material/button';
 import { kindergartenDialogs } from '../../data/kindergarten-conversations';
-import { ConversationLine, EnglishConversation } from '../../interfaces/english-conversation';
+import { EnglishConversation } from '../../interfaces/english-conversation';
 import { easySpeakConversations } from '../../data/easyspeak-conversations';
 import { easyDialogsConversations } from '../../data/easydialogs-conversations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { TextGenerationOutput } from '@huggingface/inference';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
@@ -97,36 +96,41 @@ export class EnglishDialogGeneratorComponent {
     return dialog;
   }
 
-  async generateConversationWithAI(topic: string, lines = 8) {
-    const starter = await this.aiService.generateText('Q: Write a simple conversation starter about ' + topic, true) as TextGenerationOutput;
-    let lastResponse = starter.generated_text;
-    const conversation: ConversationLine[] = []
-    conversation.push({
-      id: conversation.length + 1,
-      a: lastResponse
-    })
-    for (let i = 0; i < lines; i++) {
-      const res = (await this.aiService.generateText('Q: respond to ' + lastResponse, true)) as TextGenerationOutput;
-      lastResponse = res.generated_text;
-      conversation.push({
-        id: conversation.length + 1,
-        a: conversation.length % 2 == 0 ? lastResponse : undefined,
-        b: conversation.length % 2 == 0 ? undefined : lastResponse,
-      })
-    }
-    this.conversation = {
-      id: 0,
-      level: 1,
-      talk: conversation,
-      title: starter.generated_text,
-      topic,
-    }
+  generateConversationWithAI(topic: string, level: string, lines = 8) {
+    this.aiService.geminiAi(`Write a ${level.toLowerCase()} level conversation between A and B about ${topic || 'anything'} with ${lines / 2} for each one. Your response must be a valid JSON with this interface: { dialog: { order: number, a?: string, b?: string }[], title: string }`).subscribe({
+      next: result => {
+        try {
+          const { response } = result;
+          const extract = response.slice(response.indexOf('{'), response.lastIndexOf('}') + 1);
+          console.log(extract)
+          const conversation = JSON.parse(extract) as { dialog: { order: number, a?: string, b?: string }[], title: string };
+          console.log(conversation)
+          this.conversation = {
+            id: 0,
+            level: this.generatorForm.get('level')?.value || 1,
+            talk: conversation.dialog.map(d => ({ ...d, id: d.order })),
+            title: conversation.title,
+            topic,
+          };
+          this.generating = false;
+        } catch (error) {
+          this.sb.open('Hubo un error generando la conversación.', 'Ok', { duration: 3000 })
+          console.log(error)
+          this.generating = false;
+        }
+      },
+      error: err => {
+        this.sb.open('Hubo un error generando la conversación.', 'Ok', { duration: 3000 })
+        console.log(err.message)
+        this.generating = false;
+      }
+    });
   }
 
   onSubmit() {
     const { level, useAi, topic } = this.generatorForm.value;
     this.generating = true;
-    
+
     const topics = [
       "Jobs",
       "School",
@@ -165,12 +169,7 @@ export class EnglishDialogGeneratorComponent {
     const pickedTopic = topic ? topic : topics[Math.round(Math.random() * (topics.length - 1))];
 
     if (useAi) {
-      this.generateConversationWithAI(pickedTopic.toLowerCase(), level == 0 ? 8 : level == 1 ? 12 : 16).then(() => {
-          this.generating = false;
-      }).catch(err => {
-        this.sb.open('Hubo un error generando la conversación.', 'Ok', { duration: 3000 })
-        this.generating = false;
-      });
+      this.generateConversationWithAI(pickedTopic.toLowerCase(), this.dialogLevels[level || 0], level == 0 ? 8 : level == 1 ? 12 : 16);
     } else {
       if (level == 0) {
         this.conversation = this.randomKinderDialog();

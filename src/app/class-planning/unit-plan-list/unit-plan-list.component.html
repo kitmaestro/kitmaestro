@@ -14,7 +14,7 @@
         @for (plan of unitPlans$ | async; track $index) {
         <mat-list-item>
           <a mat-list-item [routerLink]="['/unit-plans', plan._id]">#{{ $index + 1 }} - {{ plan.title }} - {{ plan.section.name }} -
-            {{ plan.subjects.join(', ') }}</a>
+            {{ pretifySubjects(plan.subjects) }}</a>
           <button mat-icon-button color="warn" (click)="deletePlan(plan._id)" matListItemMeta>
             <mat-icon>delete</mat-icon>
           </button>

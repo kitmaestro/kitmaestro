@@ -85,7 +85,7 @@ export class AspectsGeneratorComponent implements OnInit {
     p3: [''],
     p4: [''],
   });
-  
+
   prompts: string[] = []
 
   ngOnInit() {
@@ -129,13 +129,13 @@ export class AspectsGeneratorComponent implements OnInit {
       p3: [],
       p4: [],
     };
-    const aspects: { p1: string[], p2: string[], p3: string[], p4: string[] } = {
-      p1: [],
-      p2: [],
-      p3: [],
-      p4: [],
-    };
-    
+    // const aspects: { p1: string[], p2: string[], p3: string[], p4: string[] } = {
+    //   p1: [],
+    //   p2: [],
+    //   p3: [],
+    //   p4: [],
+    // };
+
     if (!data.grade || !data.qty) {
       return;
     }
@@ -146,7 +146,7 @@ export class AspectsGeneratorComponent implements OnInit {
     const p2 = data.p2 as any as string[];
     const p3 = data.p3 as any as string[];
     const p4 = data.p4 as any as string[];
-    
+
     switch (data.subject) {
       case 'Lengua Española': {
         bank.p1 = (data.level == 'Primaria' ? SPANISH_ASPECTS.primary[data.grade] : SPANISH_ASPECTS.highSchool[data.grade]).filter(a => p1.includes(a.topic)).map(a => this.shuffleArray(a.aspects));
@@ -218,7 +218,7 @@ export class AspectsGeneratorComponent implements OnInit {
     const flatP2: string[] = [];
     const flatP3: string[] = [];
     const flatP4: string[] = [];
-    
+
     for (let i = 0; i < largerP1; i++) {
       for (let row of bank.p1) {
         if (row[i]) {
@@ -226,7 +226,7 @@ export class AspectsGeneratorComponent implements OnInit {
         }
       }
     }
-    
+
     for (let i = 0; i < largerP2; i++) {
       for (let row of bank.p2) {
         if (row[i]) {
@@ -234,7 +234,7 @@ export class AspectsGeneratorComponent implements OnInit {
         }
       }
     }
-    
+
     for (let i = 0; i < largerP3; i++) {
       for (let row of bank.p3) {
         if (row[i]) {
@@ -242,7 +242,7 @@ export class AspectsGeneratorComponent implements OnInit {
         }
       }
     }
-    
+
     for (let i = 0; i < largerP4; i++) {
       for (let row of bank.p4) {
         if (row[i]) {
@@ -252,7 +252,7 @@ export class AspectsGeneratorComponent implements OnInit {
     }
 
     this.dataSource = [];
-    
+
     for(let i = 0; i < data.qty; i++) {
       this.dataSource.push({
         p1: flatP1[i] ? flatP1[i] : '',

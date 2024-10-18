@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TodoListService } from '../services/todo-list.service';
 import { TodoService } from '../services/todo.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -68,8 +68,8 @@ export class TodosComponent implements OnInit {
   });
 
   todoForm = this.fb.group({
-    title: [''],
-    description: [''],
+    title: ['', Validators.required],
+    description: ['', Validators.required],
     completed: [false],
     list: [this.listId],
   });
@@ -95,7 +95,7 @@ export class TodosComponent implements OnInit {
           this.loading = false;
         }
       },
-      error: (err) => {
+      error: () => {
         this.router.navigate(['/todos']).then(() => {
           this.sb.open('No pudimos encontrar la lista solicitada')
         })

@@ -15,7 +15,7 @@
             <table style="border-collapse: collapse; border: 1px solid gray; background-color: white; width: 100%;">
                 <thead>
                     <tr *ngIf="(settings$ | async) as user">
-                        <td style="width: 160px;"><b>Fecha</b>: {{plan.date | date: 'dd/MM/YYYY'}}</td>
+                        <td style="width: 160px;"><b>Fecha</b>: {{plan.date | date : 'dd/MM/YYYY' : 'UTC+4'}}</td>
                         <td style="width: 280px;"><b>Grado y Sección</b>: {{plan.section.name}}</td>
                         <td><b>Docente</b>: {{plan.user.title}}. {{plan.user.firstname}}
                             {{plan.user.lastname}}</td>

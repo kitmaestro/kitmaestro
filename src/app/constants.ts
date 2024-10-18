@@ -154,39 +154,79 @@ export const schoolEnvironments = [
 ];
 
 export const classroomResources = [
-    "Pizarra",
-    "Proyector",
-    "Laptop / Computadora",
-    "Tablets",
-    "Libros de texto",
-    "Cuadernos",
-    "Lápices y bolígrafos",
-    "Internet",
-    "Presentaciones en PowerPoint",
-    "Juegos educativos",
-    "Materiales de arte (papel, colores, pinceles)",
-    "Laboratorios de ciencias",
-    "Mapas y globos terráqueos",
-    "Calculadoras",
-    "Software Educativo",
-    "Módulos de aprendizaje en línea",
-    "Videos educativos",
-    "Recursos digitales interactivos",
-    "Cuadernos de ejercicios",
-    "Fichas didácticas",
-    "Bocina",
-    "Instrumentos musicales",
-    "Modelos anatómicos",
-    "Maquetas",
-    "Material de lectura"
+  'Abaco',
+  'Atlas',
+  'Biblias',
+  'Diccionarios',
+  'Equipo deportivo',
+  'Figuras geometricas',
+  'Foami',
+  'Fraccionario',
+  'Lecciones en audio',
+  'Material concreto',
+  'Balanza',
+  'Bloques de dienes',
+  'Bocina',
+  'Cajas de carton',
+  'Calculadoras',
+  'Caligrafia',
+  'Carpetas/Portafolios',
+  'Cartulinas',
+  'Cinta metrica',
+  'Compas',
+  'Cronometro',
+  'Cuadernos de ejercicios',
+  'Cuadernos',
+  'Cuentos infantiles',
+  'Escala de estimacion',
+  'Fichas didácticas',
+  'Hojas blancas',
+  'Hojas de colores',
+  'Instrumentos musicales',
+  'Internet',
+  'Juegos educativos',
+  'Laboratorio de ciencias',
+  'Laminas',
+  'Lapices de colores',
+  'Lápices y bolígrafos',
+  'Laptop / Computadora',
+  'Libros de texto',
+  'Lista de cotejo',
+  'Lupa',
+  'Mapas y globos terráqueos',
+  'Material de lectura',
+  'Microscopio',
+  'Modelos anatómicos',
+  'Módulos en línea',
+  'Notas adhesivas',
+  'Papel cuadriculado',
+  'Papel en blanco',
+  'Pegamento',
+  'Pelotas',
+  'Pinceles',
+  'Pizarra',
+  'Plastilina o masilla',
+  'Presentaciones en PowerPoint',
+  'Proyector',
+  'Prueba escrita',
+  'Reglas',
+  'Recursos digitales',
+  'Rompecabezas',
+  'Rubrica',
+  'Software Educativo',
+  'Tablets',
+  'Tangram',
+  'Tijeras',
+  'Transportador',
+  'Videos',
 ];
 
-export const generateActivitySequencePrompt = `Quiero impartir estos contenidos en classroom_year de classroom_level en unit_duration semanas (2 a 3 sesiones de 45 minutos por semana):
+export const generateActivitySequencePrompt = `Quiero impartir estos contenidos en classroom_year de classroom_level en unit_duration semanas (3 sesiones de 45 minutos por semana):
 content_list
 
 Los recursos que tengo disponibles son estos:
 
-resource_list
+- resource_list
 
 En mi estilo de ensenanza, por lo general aplico el teaching_style
 
@@ -275,10 +315,9 @@ export const generateLearningSituationPrompt = `Una situación de aprendizaje de
 - Aprendizajes requeridos: Para resolver la situación o problema.
 - Secuencia de operaciones: Actividades, procedimientos o prácticas necesarias para lograr el aprendizaje, incluyendo el escenario final o punto de llegada.
 
-Te comparto tres ejemplos de situaciones de aprendizaje:
+Te comparto dos ejemplos de situaciones de aprendizaje:
 1. Los alumnos de 1er grado de secundaria del centro educativo Eugenio Miches Jimenez necesitan mejorar sus conocimientos de geometria, y en particular, sentar las bases, conocer y aprender a aplicar conceptos como el de recta, angulo, punto y vectores. Para esto, conjunto con el maestro, van a trabajar para dominar, tanto como sea posible estos, y otros conceptos importantes y cruciales en el area de la geometria. El maestro opta por utilizar la estrategia del ABP (aprendizaje basado en problemas) para enseñar a alumnos estos temas, en conjunto con tecnicas ludicas para hacer mas ameno el aprendizaje y mantener la motivacion de los alumnos. Al final de la aplicación de la presente unidad de aprendizaje, los alumnos presentaran una exposicion mostrando los aprendizajes que han adquirido, y sus portafolios con todos los trabajos realizados durante la unidad.
-2. En una emocionante semana de clase, los niños de quinto de primaria se embarcarán en un emocionante viaje a través del tiempo y el espacio. Comenzaremos nuestro viaje explorando mapas y misteriosas leyendas sobre la desaparición de la Atlántida como punto de partida para aprender sobre la localización del continente americano en Ciencias Sociales. A medida que los días avanzan, los estudiantes se convertirán en intrépidos paleontólogos y geólogos en una expedición ficticia en la que descubrirán fósiles y aprenderán sobre la historia de la Tierra en Ciencias de la Naturaleza. Utilizaremos juegos de geolocalización y un emocionante juego de búsqueda de fósiles para reforzar conceptos clave. Finalmente, los niños aplicarán sus conocimientos al crear su propio mapa detallado de un continente ficticio, incluyendo ubicaciones de fósiles, para demostrar su comprensión en una actividad final lúdica y creativa que fusionará Ciencias Sociales y Ciencias de la Naturaleza en un emocionante proyecto interdisciplinario. ¡Será una semana de aprendizaje emocionante y lleno de aventuras!
-3. Nuestra Escuela Salomé Ureña abre sus puertas en un nuevo local, ahora está más grande y bonita, pero también, más cerca de las avenidas principales de la comunidad. La dirección inició una campaña de señalización vial con la Junta de Vecinos. En 2do A ayudaremos la escuela y formaremos el grupo “los guardianes de la vía”, para ello, estudiaremos las señales de tránsito, representaremos en papel cuadriculado los desplazamientos desde la escuela hacia los diferentes sectores de la comunidad y aprenderemos los puntos cardinales. Realizaremos una gran campaña de educación vial en la que iremos por los cursos de 1ro y 2do con maquetas para mostrar los mejores desplazamientos y los cuidados que se necesitan; llevaremos letreros con las señales de tránsito y explicaremos su significado.
+2. Nuestra Escuela Salomé Ureña abre sus puertas en un nuevo local, ahora está más grande y bonita, pero también, más cerca de las avenidas principales de la comunidad. La dirección inició una campaña de señalización vial con la Junta de Vecinos. En 2do A ayudaremos la escuela y formaremos el grupo “los guardianes de la vía”, para ello, estudiaremos las señales de tránsito, representaremos en papel cuadriculado los desplazamientos desde la escuela hacia los diferentes sectores de la comunidad y aprenderemos los puntos cardinales. Realizaremos una gran campaña de educación vial en la que iremos por los cursos de 1ro y 2do con maquetas para mostrar los mejores desplazamientos y los cuidados que se necesitan; llevaremos letreros con las señales de tránsito y explicaremos su significado.
 
 Genera una situación de aprendizaje para el siguiente contexto:
 - Centro educativo: centro_educativo
@@ -330,7 +369,10 @@ interface Plan {
   competence: string, // Competencia a trabajar (elige la mas apropiadas de las que menciono al final)
 }
 
-Los recursos disponibles son: plan_resources
+Los recursos disponibles son:
+- plan_resources
+
 Las competencias a desarrollorar debe ser una de estas:
 - plan_compentece
-`;
+
+Importante: planea la clase para que se imparta con un estilo teaching_style`;

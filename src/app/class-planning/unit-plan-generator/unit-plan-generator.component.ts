@@ -183,10 +183,10 @@ export class UnitPlanGeneratorComponent implements OnInit {
   ]);
 
   ngOnInit(): void {
-    const subjectsNames = [
-      'EDUCACION_ARTISTICA', 'INGLES', 'FRANCES', 'MATEMATICA', 'FORMACION_HUMANA', 'CIENCIAS_NATURALES', 'CIENCIAS_SOCIALES', 'LENGUA_ESPANOLA', 'EDUCACION_FISICA'
-    ];
-    let created = 0;
+    // const subjectsNames = [
+    //   'EDUCACION_ARTISTICA', 'INGLES', 'FRANCES', 'MATEMATICA', 'FORMACION_HUMANA', 'CIENCIAS_NATURALES', 'CIENCIAS_SOCIALES', 'LENGUA_ESPANOLA', 'EDUCACION_FISICA'
+    // ];
+    // let created = 0;
     // [artContentBlocks, englishContentBlocks, frenchContentBlocks, mathContentBlocks, religionContentBlocks, scienceContentBlocks, societyContentBlocks, spanishContentBlocks, sportsContentBlocks].forEach(contents => {
     //   contents.forEach((content, i) => {
     //     const { year, level, concepts, attitudes, procedures, subject, title, achievement_indicators } = content;
@@ -308,6 +308,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
       const subjects = this.classSection?.subjects;
       if (subjects && subjects.length == 1) {
         this.learningSituationForm.get('subjects')?.setValue([subjects[0]])
+        this.onSubjectSelect();
       }
     });
   }
@@ -345,7 +346,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
       artisticEducationContent,
       physicalEducationContent
     } = this.learningSituationForm.value;
-    return [
+    const selected = [
       spanishContent,
       englishContent,
       frenchContent,
@@ -355,13 +356,14 @@ export class UnitPlanGeneratorComponent implements OnInit {
       religionContent,
       physicalEducationContent,
       artisticEducationContent
-    ].flat().filter(s => !!s);
+    ].flat().filter(s => s?.length !== 0);
+    return selected;
   }
 
   getSelectedContents() {
-    return this.contentBlocks.filter(b => {
-      this.getSelectedContentsId().includes(b._id)
-    });
+    const ids = this.getSelectedContentsId();
+    const selected = this.contentBlocks.filter(b => ids.includes(b._id));
+    return selected;
   }
 
   generateActivities() {
@@ -371,17 +373,17 @@ export class UnitPlanGeneratorComponent implements OnInit {
     } = this.unitPlanForm.value;
 
     const contents = this.getSelectedContents().map(c => {
-      return `${this.pretifySubject(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\nProcedimentales:\n- ${c.procedures.join('\n- ')}\nActitudinales:\n- ${c.attitudes.join('\n- ')}`;
+      return `${this.pretifySubject(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\n\nProcedimentales:\n- ${c.procedures.join('\n- ')}\n\nActitudinales:\n- ${c.attitudes.join('\n- ')}`;
     }).join('\n');
 
-    const text = generateActivitySequencePrompt.replace('classroom_year', `${this.classSectionYear}`)
-      .replace('classroom_level', `${this.classSectionLevel}`)
+    const text = generateActivitySequencePrompt.replace('classroom_year', `${this.classSectionYear.toLowerCase()}`)
+      .replace('classroom_level', `${this.classSectionLevel.toLowerCase()}`)
       .replace('teaching_style', `${this.unitPlanForm.get('teaching_method')?.value}`)
       .replace('unit_duration', `${duration}`)
       .replace('content_list', contents)
       .replace('resource_list', (resources || []).join('\n- '))
       .replace('learning_situation', this.learningSituation.value || '')
-      .replace('subject_list', `${this.learningSituationForm.value.subjects?.join(',\n- ')}`)
+      .replace('subject_list', `${this.learningSituationForm.value.subjects?.map(s => this.pretifySubject(s)).join(',\n- ')}`)
       .replace('subject_type', `${this.learningSituationForm.value.subjects?.map(s => `'${s}'`).join(' | ')}`)
       .replace('subject_type', `${this.learningSituationForm.value.subjects?.map(s => `'${s}'`).join(' | ')}`)
       .replace('subject_type', `${this.learningSituationForm.value.subjects?.map(s => `'${s}'`).join(' | ')}`);
@@ -395,7 +397,6 @@ export class UnitPlanGeneratorComponent implements OnInit {
           const start = answer.indexOf('{');
           const end = answer.lastIndexOf('}') + 1;
           const extract = answer.slice(start, end);
-          console.log(extract);
           // const activities: { teacher_activities: { subject: string, activities: string[]}[], student_activities: { subject: string, activities: string[]}[], evaluation_activities: { subject: string, activities: string[]}[], instruments: string[], resources: string[] } = JSON.parse(response.response.slice(start, -3));
           const activities: { teacher_activities: { subject: string, activities: string[]}[], student_activities: { subject: string, activities: string[]}[], evaluation_activities: { subject: string, activities: string[]}[], instruments: string[], resources: string[] } = JSON.parse(extract);
           this.generating = false;
@@ -444,7 +445,6 @@ export class UnitPlanGeneratorComponent implements OnInit {
       evaluationActivities: this.evaluation_activities,
     };
     this.plan = plan;
-    console.log(plan)
   }
 
   savePlan() {
@@ -471,7 +471,9 @@ export class UnitPlanGeneratorComponent implements OnInit {
     if (!environment || !reality || !situationType)
       return;
 
-    const contents = this.collectContents();
+    const contents = this.getSelectedContents().map(c => {
+      return `${this.pretifySubject(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\n\nProcedimentales:\n- ${c.procedures.join('\n- ')}\n\nActitudinales:\n- ${c.attitudes.join('\n- ')}`;
+    }).join('\n');
     this.competenceService.findAll().subscribe(competence => {
       const subjects = (this.learningSituationForm.value.subjects as string[])
       this._evaluationCriteria = competence.filter(c => {
@@ -479,7 +481,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
       });
     });
 
-    const text = generateLearningSituationPrompt.replace('nivel_y_grado', `${this.classSectionYear} de ${this.classSectionLevel}`)
+    const text = generateLearningSituationPrompt.replace('nivel_y_grado', `${this.classSectionYear.toLowerCase()} de ${this.classSectionLevel.toLowerCase()}`)
       .replace('centro_educativo', this.classSection?.school.name || '')
       .replace('nivel_y_grado', `${this.classSectionYear.toLowerCase()} de ${this.classSectionLevel.toLowerCase()}`)
       .replace('section_name', this.classSectionName)
@@ -504,62 +506,6 @@ export class UnitPlanGeneratorComponent implements OnInit {
     })
   }
 
-  collectContents(divider = ', ') {
-    const {
-      spanishContent,
-      mathContent,
-      societyContent,
-      scienceContent,
-      englishContent,
-      frenchContent,
-      religionContent,
-      physicalEducationContent,
-      artisticEducationContent
-    } = this.learningSituationForm.value;
-
-    const contents: string[] = [];
-
-    const { subjects } = this.learningSituationForm.value
-
-    if (subjects?.includes('LENGUA_ESPANOLA')) {
-      contents.push(spanishContent || '');
-    }
-
-    if (subjects?.includes('MATEMATICA')) {
-      contents.push(...mathContent || '');
-    }
-
-    if (subjects?.includes('CIENCIAS_SOCIALES')) {
-      contents.push(societyContent || '');
-    }
-
-    if (subjects?.includes('CIENCIAS_NATURALES')) {
-      contents.push(...scienceContent || '');
-    }
-
-    if (subjects?.includes('INGLES')) {
-      contents.push(englishContent || '');
-    }
-
-    if (subjects?.includes('FRANCES')) {
-      contents.push(frenchContent || '');
-    }
-
-    if (subjects?.includes('FORMACION_HUMANA')) {
-      contents.push(...religionContent || '');
-    }
-
-    if (subjects?.includes('EDUCACION_FISICA')) {
-      contents.push(...physicalEducationContent || '');
-    }
-
-    if (subjects?.includes('EDUCACION_ARTISTICA')) {
-      contents.push(...artisticEducationContent || '');
-    }
-
-    return contents.join(divider);
-  }
-
   formatedLevel(levelOrYear: string): string {
     return ((levelOrYear[0] || '').toUpperCase() + levelOrYear.toLowerCase().slice(1)).replace('_', ' ');
   }
@@ -582,7 +528,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
   get classSection() {
     const { classSection } = this.learningSituationForm.value;
-    return this.classSections.find(s => s._id == classSection);
+    return this.classSections.find(s => s._id == classSection) || null;
   }
 
   get classSectionSchoolName() {

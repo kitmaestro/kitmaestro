@@ -1,5 +1,4 @@
 <app-is-premium>
-    @if (working) {
         <mat-card>
             <mat-card-header class="header">
                 <h2 class="title" mat-card-ittle>Generador de Unidades de Aprendizaje</h2>
@@ -73,7 +72,7 @@
                             @if (learningSituationForm.value.subjects?.includes('CIENCIAS_SOCIALES')) {
                                 <mat-form-field appearance="outline">
                                     <mat-label>Contenidos de Ciencias Sociales</mat-label>
-                                    <mat-select formControlName="societyContent" required>
+                                    <mat-select formControlName="societyContent" multiple required>
                                         @for (content of contentBlocks; track content._id) {
                                             @if (content.subject == 'CIENCIAS_SOCIALES') {
                                                 <mat-option [value]="content._id">{{content.title}}</mat-option>
@@ -341,7 +340,7 @@
                     </mat-step>
                     <mat-step>
                         <ng-template matStepLabel>Finalizaci&oacute;n</ng-template>
-                        <app-unit-plan [unitPlan]="plan"></app-unit-plan>
+                        <app-unit-plan [mainThemes]="this.mainThemes" [contents]="getSelectedContents()" [competence]="competence" [user]="userSettings" [section]="classSection" [unitPlan]="plan"></app-unit-plan>
                         <div style="text-align: end; margin-top: 24px;">
                             <button mat-raised-button matStepperPrevious>Anterior</button>
                             <button style="margin-left: 8px;" mat-raised-button (click)="stepper.reset()">Reiniciar</button>
@@ -351,7 +350,4 @@
                 </mat-stepper>
             </mat-card-content>
         </mat-card>
-    } @else {
-        <app-in-progress></app-in-progress>
-    }
 </app-is-premium>

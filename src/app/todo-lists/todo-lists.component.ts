@@ -8,10 +8,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserSettingsService } from '../services/user-settings.service';
 import { UserSettings } from '../interfaces/user-settings';
-import { TodoList } from '../interfaces/todo-list';
 import { AsyncPipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { tap } from 'rxjs';
@@ -49,8 +48,8 @@ export class TodoListsComponent {
   loading = true;
 
   todoListForm = this.fb.group({
-    name: [''],
-    description: [''],
+    name: ['', Validators.required],
+    description: ['', Validators.required],
     active: [true],
   });
 

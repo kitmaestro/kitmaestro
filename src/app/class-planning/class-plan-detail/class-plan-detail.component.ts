@@ -64,9 +64,9 @@ export class ClassPlanDetailComponent {
     this.sb.open('La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.', 'Ok', { duration: 3000 });
     this.plan$.subscribe(plan => {
       if (plan) {
-        this.pdfService.createAndDownloadFromHTML('class-plan', `Plan de Clases ${plan.section.name} de ${plan.section.level} - ${this.pretify(plan.subject || '')}`, false);
+        this.pdfService.createAndDownloadFromHTML('class-plan', `Plan de Clases ${plan.section.name} de ${plan.section.level.toLowerCase()} - ${this.pretify(plan.subject || '')}`, false);
       }
-    })
+    });
   }
 
   deletePlan() {

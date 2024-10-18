@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
-import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -15,7 +15,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { GradeDataSet, GradesData } from '../../interfaces/grades-data';
 import { AiService } from '../../services/ai.service';
+import { ClassSectionService } from '../../services/class-section.service';
+import { StudentsService } from '../../services/students.service';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-grades-generator',
@@ -25,6 +28,7 @@ import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.compon
     RouterModule,
     MatChipsModule,
     FormsModule,
+    AsyncPipe,
     MatCardModule,
     ReactiveFormsModule,
     MatButtonModule,
@@ -41,19 +45,26 @@ import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.compon
   templateUrl: './grades-generator.component.html',
   styleUrl: './grades-generator.component.scss'
 })
-export class GradesGeneratorComponent {
+export class GradesGeneratorComponent implements OnInit {
   fb = inject(FormBuilder);
   aiService = inject(AiService);
   loading = false;
   generating = false;
   generated: GradesData | null = null;
+  private sectionService = inject(ClassSectionService);
+  private studentService = inject(StudentsService);
+  public sections = this.sectionService.findSections().pipe(tap(s => this.importFrom.setValue(s[0] ? s[0]._id || '' : '')));;
   output: any = null;
   qty = this.fb.control(1);
+
+  importFrom = this.fb.control('', Validators.required);
+  imported = false;
+  studentsNames: string[] = [];
 
   configForm = this.fb.group({
     level: ['primary'],
     indicators: [3],
-    grades: [['P1', 'P2']],
+    grades: [['P1']],
     randomLevel: [4],
     includeRecover: [true],
     precise: [false],
@@ -65,6 +76,9 @@ export class GradesGeneratorComponent {
       }),
     ]),
   });
+
+  ngOnInit() {
+  }
 
   onSubmit() {
     this.generating = true;
@@ -81,6 +95,24 @@ export class GradesGeneratorComponent {
       return dataset;
     })
     this.generating = false;
+  }
+
+  importStudents() {
+    const sectionId = this.importFrom.value;
+    if (sectionId) {
+      for (let i = this.students.controls.length - 1; i >= 0; i--) {
+        this.removeStudent(i);
+      }
+      this.studentService.findBySection(sectionId).subscribe(students => {
+        this.studentsNames = students.map(s => `${s.firstname} ${s.lastname}`).sort();
+        students.forEach(() => {
+          this.addStudent();
+        });
+        this.imported = true;
+      });
+    } else {
+      return;
+    }
   }
 
   onPreciseChange(event: any) {
