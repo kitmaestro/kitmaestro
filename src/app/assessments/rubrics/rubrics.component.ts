@@ -38,6 +38,7 @@ export class RubricsComponent implements OnInit {
       },
       error: err => {
         this.sb.open('Error al cargar', 'Ok', { duration: 2500 });
+        console.log(err.message)
       }
     });
   }

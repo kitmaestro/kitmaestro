@@ -1,4 +1,4 @@
-import { inject, Injectable, isDevMode } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { GradePeriod } from '../interfaces/grade-period';
 import { HfInference } from '@huggingface/inference';
 import { pipeline } from '@xenova/transformers';
