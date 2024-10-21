@@ -78,6 +78,8 @@ export const routes: Routes = [
             { path: 'cartesian-coordinates', loadComponent: () => import('./builders/cartesian-coordinates/cartesian-coordinates.component').then(m => m.CartesianCoordinatesComponent) },
         ]
   },
+  // grading
+  { path: 'grading-systems', loadComponent: () => import('./grading/grading-systems/grading-systems.component').then(mod => mod.GradingSystemsComponent) },
   // scheduling
     { path: 'schedules', loadComponent: () => import('./scheduling/schedule-list/schedule-list.component').then(mod => mod.ScheduleListComponent) },
     { path: 'schedules/create', loadComponent: () => import('./scheduling/schedule-builder/schedule-builder.component').then(mod => mod.ScheduleBuilderComponent) },

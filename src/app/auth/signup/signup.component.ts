@@ -49,14 +49,16 @@ export class SignupComponent {
     password: ['', Validators.required],
   });
 
-  constructor() {}
+  constructor() { }
+
+  referrer = '';
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
       const referrer = params.get('ref');
 
       if (referrer) {
-        localStorage.setItem('referrer', referrer);
+        this.referrer = referrer;
       }
     });
   }
@@ -98,14 +100,13 @@ export class SignupComponent {
       const { email, password } = this.signupForm.value;
       this.loading = true;
       if (email && password) {
-        this.authService.signup(email, password).subscribe({
+        this.authService.signup(email, password, this.referrer ? this.referrer : undefined).subscribe({
           next: result => {
-            if (result.access_token) {
-              this.router.navigate(this.route.snapshot.queryParamMap.get('next')?.split('/') || ['/app'], { queryParamsHandling: 'preserve' }).then(() => {
-                this.sb.open(`Bienvenid@ a KitMaestro!`, undefined, { duration: 2500 });
-                this.loading = false;
-              })
-            }
+            console.log(result);
+            this.router.navigate(this.route.snapshot.queryParamMap.get('next')?.split('/') || ['/app'], { queryParamsHandling: 'preserve' }).then(() => {
+              this.sb.open(`Bienvenid@ a KitMaestro!`, undefined, { duration: 2500 });
+              this.loading = false;
+            })
           },
           error: err => {
             console.log(err);
