@@ -55,6 +55,10 @@ export class AiService {
     return this.http.post<{ response: string }>(this.apiBaseUrl + 'flanT5', { prompt: question }, this.config);
   }
 
+  askChatbox(question: string) {
+    return this.http.post<{ response: string }>(this.apiBaseUrl + 'chatbox', { prompt: question }, this.config);
+  }
+
   askGemini(text: string, jsonResponse: boolean = false): Observable<GeminiResponse> {
     const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + atob("QUl6YVN5QkpQQnlReGFjUHlfUThsTzk2NENjVUVUUUVNdzJ1Mzhj");
     const body = {

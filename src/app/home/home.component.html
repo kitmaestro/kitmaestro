@@ -1,7 +1,7 @@
 <div class="apps-grid">
   @for (app of apps; track $index) {
     @if (app.isWorking || (!app.isWorking && showAll)) {
-      <div [routerLink]="app.link" class="app-card">
+      <a [routerLink]="app.link" class="app-card">
         <img
           [class.pro]="app.premium"
           [class.free]="!app.premium"
@@ -11,7 +11,7 @@
           [alt]="app.name"
           [matTooltip]="!app.isWorking ? 'Este módulo todavía no está totalmente listo y puede contener errores.' : ''">
         <h3 style="text-align: center;">{{app.name}}</h3>
-      </div>
+      </a>
       <!-- <mat-card class="app-card" [routerLink]="app.link">
           <mat-card-content>
               <img [src]="app.icon" class="app-icon" alt="">

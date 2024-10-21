@@ -78,7 +78,11 @@ export const routes: Routes = [
             { path: 'number-line', loadComponent: () => import('./builders/number-line/number-line.component').then(m => m.NumberLineComponent) },
             { path: 'cartesian-coordinates', loadComponent: () => import('./builders/cartesian-coordinates/cartesian-coordinates.component').then(m => m.CartesianCoordinatesComponent) },
         ]
-    },
+  },
+  // scheduling
+    { path: 'schedules', loadComponent: () => import('./scheduling/schedule-list/schedule-list.component').then(mod => mod.ScheduleListComponent) },
+    { path: 'schedules/create', loadComponent: () => import('./scheduling/schedule-builder/schedule-builder.component').then(mod => mod.ScheduleBuilderComponent) },
+    { path: 'schedules/:id', loadComponent: () => import('./scheduling/schedule-detail/schedule-detail.component').then(mod => mod.ScheduleDetailComponent) },
     // exam builders
     { path: 'math-test-generator', loadComponent: () => import('./generators/math-test-generator/math-test-generator.component').then(mod => mod.MathTestGeneratorComponent) },
     // assessments

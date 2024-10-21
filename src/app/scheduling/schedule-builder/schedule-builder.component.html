@@ -1,0 +1,82 @@
+<app-is-premium>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Manejo de Horario</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
+          <div style="margin-top: 12px;">
+            <div class="grid-2">
+              <div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Secci&oacute;n</mat-label>
+                  <mat-select formControlName="section">
+                    @for (section of sections; track section._id) {
+                      <mat-option [value]="section._id">{{section.name}}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Formato</mat-label>
+                  <mat-select formControlName="format">
+                    @for (format of formats; track format.id) {
+                      <mat-option [disabled]="format.id != 'JEE'" [value]="format.id">{{format.label}}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <small style="font-style: italic; font-size: 10pt; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">**<b>Nota</b>: Por ahora este asistente solo crea horarios por <b>curso</b> para Jornada Escolar Extendida**</small>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <table>
+              <thead>
+                <tr>
+                  <th style="max-width: fit-content;">Hora</th>
+                  <th>Lunes</th>
+                  <th>Martes</th>
+                  <th>Miercoles</th>
+                  <th>Jueves</th>
+                  <th>Viernes</th>
+                </tr>
+              </thead>
+              <tbody formArrayName="periods">
+                @for (period of classPeriods; track period; let hour = $index) {
+                  <tr>
+                    <td style="max-width: fit-content; font-weight: bold;">{{stringToDate(hours[hour].startTime) | date : 'hh:mm a'}} - {{stringToDate(hours[hour].endTime) | date : 'hh:mm a'}}</td>
+                    @if (hours[hour].classSession) {
+                      @for (day of daysOfWeek; track day) {
+                        <td [formGroupName]="(hour * 5) + (day - 1)">
+                          <input type="hidden" [value]="day" formControlName="dayOfWeek">
+                          <input type="hidden" [value]="hours[hour].startTime" formControlName="startTime">
+                          <input type="hidden" [value]="hours[hour].endTime" formControlName="endTime">
+                          <select formControlName="subject" style="border: none; background-color: transparent; width: 100%; text-align: center; padding: 8px;">
+                            <option value="Hora Libre">Hora Libre</option>
+                            @for (subject of subjects; track subject) {
+                              <option [value]="subject">{{pretify(subject)}}</option>
+                            }
+                            <option value="Planificación y Registro">Planificaci&oacute;n y Registro</option>
+                          </select>
+                        </td>
+                      }
+                    } @else {
+                      <td style="text-align: center; font-weight: bold;" colspan="5">{{hours[hour].label}}</td>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          <div style="text-align: end;">
+            <button mat-flat-button type="submit" color="primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</app-is-premium>

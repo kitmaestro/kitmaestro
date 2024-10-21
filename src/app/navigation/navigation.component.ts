@@ -63,6 +63,7 @@ export class NavigationComponent {
     { route: "/assessments/list", icon: "history_edu", label: "Instrumentos", },
     { route: "/activities", icon: "school", label: "Actividades", },
     { route: "/sections", icon: "class", label: "Secciones", },
+    { route: "/schedules", icon: "calendar_month", label: "Horario", },
     { route: "/log-registry-generator", icon: "edit_note", label: "Registro Anecdótico", },
     { route: "/todos", icon: "list", label: "Pendientes", },
     // { route: "/settings", icon: "settings", label: "Ajustes", },
