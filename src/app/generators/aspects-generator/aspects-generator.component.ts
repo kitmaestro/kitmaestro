@@ -132,7 +132,12 @@ Donde cada periodo es un array de no mas de aspect_qty strings, y cada string es
 
   onSubmit() {
     const data: any = this.generatorForm.value;
+    data.p1 = (data.p1 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).map(block => block.concepts.join('\n- '));
+    data.p2 = (data.p2 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).map(block => block.concepts.join('\n- '));
+    data.p3 = (data.p3 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).map(block => block.concepts.join('\n- '));
+    data.p4 = (data.p4 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).map(block => block.concepts.join('\n- '));
     const section = this.sections.find(s => s._id == data.section);
+    console.log(data.p1, data.p2, data.p3, data.p4)
     if (section) {
       this.generating = true;
       const query = this.prompt.replace('aspect_qty', data.qty)

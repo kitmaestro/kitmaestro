@@ -51,6 +51,7 @@ export class AppComponent {
       },
       error: err => {
         this.redirectToLogin();
+        console.log(err.message)
       },
       complete: () => {
         this.loading = false;

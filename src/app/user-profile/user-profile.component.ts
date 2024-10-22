@@ -73,7 +73,7 @@ export class UserProfileComponent {
       { value: 'Dra', label: 'Doctora' },
     ],
   }
-  
+
   ngOnInit() {
     this.schoolService.findAll().subscribe(schools => {
       if (schools.length) {
@@ -87,7 +87,7 @@ export class UserProfileComponent {
       next: user => {
         this.user = user;
         this.schoolsForm.controls[0].get('user')?.setValue(user._id);
-        const { title, firstname, lastname, username, email, gender, phone, schoolName, district, regional, photoURL, refCode } = user;
+        const { title, firstname, lastname, username, email, gender, phone, refCode } = user;
         this.userForm.get('gender')?.setValue(gender || 'Hombre');
         this.userForm.setValue({
           title: title || '',
@@ -144,7 +144,6 @@ export class UserProfileComponent {
 
   saveSchool(index: number) {
     const school: any = this.schoolsForm.controls[index].value;
-    console.log(index, school)
     this.schoolService.create(school).subscribe(res => {
       if (res._id) {
         this.sb.open('La escuela ha sido guardada', 'Ok', { duration: 2500 });
