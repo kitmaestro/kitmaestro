@@ -11,7 +11,7 @@ import { AsyncPipe, CurrencyPipe, NgIf } from '@angular/common';
 import { ReferralsService } from '../services/referrals.service';
 import { Referral } from '../interfaces/referral';
 import { RouterLink } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { concatMap, forkJoin, map, Observable } from 'rxjs';
 import { UserSubscription } from '../interfaces/user-subscription';
 
 @Component({
@@ -36,9 +36,13 @@ export class ReferralsComponent implements OnInit {
   private userSubscriptionService = inject(UserSubscriptionService);
   private referralService = inject(ReferralsService);
   private authService = inject(AuthService);
-  
+
   user: UserSettings | null = null;
-  referrals: Referral[] = [];
+  referrals: Observable<{ ref: Referral, subscription: UserSubscription }[]> = this.referralService.findAll().pipe(
+    concatMap(referrals => {
+      return forkJoin(referrals.map(ref => this.userSubscriptionService.findByUser(ref.referred._id).pipe(map(subscription => ({ ref, subscription })))))
+    })
+  );
   displayedColumns = [
     'user',
     'plan',
@@ -78,7 +82,7 @@ Regístrate en KitMaestro ahora. La app es gratis y, con mi enlace, obtienes un 
       }
     });
     this.referralService.findAll().subscribe(refs => {
-      this.referrals = refs;
+      // this.referrals = refs;
       const currentMonth = new Date().getMonth();
       const currentYear = new Date().getFullYear();
       this.refs.thisMonth = refs.filter(r => r.date && new Date(r.date).getMonth() == currentMonth && new Date(r.date).getFullYear() == currentYear).length;
@@ -86,16 +90,6 @@ Regístrate en KitMaestro ahora. La app es gratis y, con mi enlace, obtienes un 
       this.refs.paid = refs.filter(r => r.status == 'paid').length;
       this.refs.pending = refs.filter(r => r.status == 'pending').length;
     })
-  }
-
-  userSubscription(id: string): Observable<UserSubscription> {
-    return this.userSubscriptionService.findByUser(id);
-  }
-
-  calcComision(id: string): Observable<number> {
-    return this.userSubscription(id).pipe(
-      map(sub => sub.amount == 0 ? 0 : sub.amount * 0.2)
-    );
   }
 
   get waMobileShareableLink() {
