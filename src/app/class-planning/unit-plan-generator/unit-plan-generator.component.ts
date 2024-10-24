@@ -289,15 +289,22 @@ export class UnitPlanGeneratorComponent implements OnInit {
         this.userSettings = settings;
       }
     });
+    const availableResourcesStr = localStorage.getItem('available-resources');
+    if (availableResourcesStr) {
+      const resources = JSON.parse(availableResourcesStr) as string[];
+      this.unitPlanForm.get('resources')?.setValue(resources);
+    }
     this.classSectionService.findSections().subscribe({
       next: (value) => {
-        this.classSections = value;
         if (value.length) {
+          this.classSections = value;
           this.learningSituationForm.get('classSection')?.setValue(value[0]._id || '');
           if (value[0].subjects.length == 1) {
             this.learningSituationForm.get('subjects')?.setValue([value[0].subjects[0]])
             this.onSubjectSelect();
           }
+        } else {
+          this.sb.open('Para usar esta herramienta, necesitas crear al menos una seccion.', 'Ok');
         }
       }
     })
@@ -316,6 +323,13 @@ export class UnitPlanGeneratorComponent implements OnInit {
   onSubjectSelect() {
     setTimeout(() => {
       this.loadMainThemes();
+    }, 0);
+  }
+
+  onResourceChange(event: any) {
+    setTimeout(() => {
+      const resources = JSON.stringify(event.value);
+      localStorage.setItem('available-resources', resources);
     }, 0);
   }
 

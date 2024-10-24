@@ -73,7 +73,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 
   bloomLevels = [
     { id: 'knowledge', label: 'Recordar' },
-    { id: 'undertanding', label: 'Comprender' },
+    { id: 'undertanding', label: 'Aprender' },
     { id: 'application', label: 'Aplicar' },
     { id: 'analysis', label: 'Analizar' },
     { id: 'evaluation', label: 'Evaluar' },

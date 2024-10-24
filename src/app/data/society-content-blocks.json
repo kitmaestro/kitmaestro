@@ -3343,7 +3343,7 @@
 		"level": "SECUNDARIA",
 		"year": "CUARTO",
 		"subject": "CIENCIAS_SOCIALES",
-		  "concepts": [
+		"concepts": [
 		  "Educación ciudadana",
 		  "Constitución Dominicana:",
 		  "Soberanía nacional",
@@ -3427,14 +3427,528 @@
 		]
 	},
 	{
-		"title": "",
+		"title": "Geografía de la isla de Santo Domingo",
 		"level": "SECUNDARIA",
 		"year": "QUINTO",
 		"subject": "CIENCIAS_SOCIALES",
-		"concepts": [],
-		"procedures": [],
+		"concepts": [
+      "Geografía de la isla de Santo Domingo",
+      "Historia geomorfológica de la isla",
+      "Evolución y origen geológico de la isla de Santo Domingo",
+      "Convergencia de las líneas geográficas de reglamentos (sistema de coordenada, meridianos y paralelos)"
+    ],
+		"procedures": [
+      "Discusión sobre la posición geográfica, localización, área, límites y superficie de la isla de Santo Domingo, sus ventajas y desventajas",
+      "Identificación de las zonas de riesgo presentes en el entorno geográfico de la isla de Santo Domingo",
+      "Investigación en fuentes primarias y secundarias, seguras y confiables sobre la historia de la geomorfología de la isla de Santo Domingo",
+      "Identificación de los procesos geológicos que han dado lugar a la formación y evolución de la isla de Santo Domingo, así como las actividad sísmica y volcánica de la región y su impacto en la población y la infraestructura",
+      "Análisis de las características geomorfológicas de la isla y su influencia en el clima, la vegetación y la hidrografía",
+      "Elaboración de infografías sobre los períodos geológicos a que corresponden y destacar usando mapas, su relieve interno y costero",
+      "Investigación para analizar la situación de los sistemas montañosos dominicanos en términos de la explotación de sus recursos",
+      "Comprensión de los conceptos de sistema de coordenadas, meridianos y paralelos para ubicar y orientar la isla de Santo Domingo en el globo terrestre"
+    ],
+		"attitudes": [
+      "Interés por la historia geomorfológica de la isla",
+      "Identifica las eras en la que se formó la isla de Santo Domingo",
+      "Valoración de la importancia del conocimiento del origen geológico de la isla",
+      "Curiosidad e interés por los sistemas de coordenadas geográficas y convergencia de las líneas geográficas",
+      "Honestidad al presentar los resultados de estudios geográficos",
+      "Capacidad de análisis de informaciones confiables de las fronteras marítimas, costeras y territoriales",
+      "Interés por comprender la división política y administrativa de la isla de Santo Domingo",
+      "Valoración de los principales sistemas montañosos, la diversificación climática y de los suelos de la isla",
+      "Interés por investigación sobre los valles, llanuras y regiones especiales",
+      "Valoración de la importancia de los ecosistemas costeros y marinos, su riqueza biológica y la importancia de su conservación para la sostenibilidad de la vida"
+    ],
+		"achievement_indicators": [
+      "Analiza información de fuentes confiables digitales e impresas sobre la formación geológica de la isla de Santo Domingo y las épocas estudiadas",
+      "Interpreta información de diferentes autores y mapas referentes a la geografía física, política e hidrográfica de la isla",
+      "Realiza investigación sobre la geografía política, física y económica de la isla de Santo Domingo, así como de sus actividades agropecuarias, de explotación forestal y minera que ponen en riesgo la salud y el medio ambiente",
+      "Describe los periodos de la historia de Santo Domingo mediante cuadros sinópticos y organizadores gráficos"
+    ]
+	},
+	{
+		"title": "Geografía Política de la isla de Santo Domingo",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Geografía Política de la isla de Santo Domingo",
+      "Posición geográfica, límites, área y superficie de la isla de Santo Domingo: ventajas y desventajas",
+      "Fronteras marítimas, costeras y territoriales",
+      "División política y administrativa"
+    ],
+		"procedures": [
+      "Discusión sobre la posición geográfica, localización, área, límites y superficie de la isla de Santo Domingo, sus ventajas y desventajas",
+      "Identificación de las zonas de riesgo presentes en el entorno geográfico de la isla de Santo Domingo",
+      "Investigación en fuentes primarias y secundarias, seguras y confiables sobre la historia de la geomorfología de la isla de Santo Domingo",
+      "Identificación de los procesos geológicos que han dado lugar a la formación y evolución de la isla de Santo Domingo, así como las actividad sísmica y volcánica de la región y su impacto en la población y la infraestructura",
+      "Análisis de las características geomorfológicas de la isla y su influencia en el clima, la vegetación y la hidrografía",
+      "Elaboración de infografías sobre los períodos geológicos a que corresponden y destacar usando mapas, su relieve interno y costero",
+      "Investigación para analizar la situación de los sistemas montañosos dominicanos en términos de la explotación de sus recursos",
+      "Comprensión de los conceptos de sistema de coordenadas, meridianos y paralelos para ubicar y orientar la isla de Santo Domingo en el globo terrestre"
+    ],
+		"attitudes": [
+      "Interés por la historia geomorfológica de la isla",
+      "Identifica las eras en la que se formó la isla de Santo Domingo",
+      "Valoración de la importancia del conocimiento del origen geológico de la isla",
+      "Curiosidad e interés por los sistemas de coordenadas geográficas y convergencia de las líneas geográficas",
+      "Honestidad al presentar los resultados de estudios geográficos",
+      "Capacidad de análisis de informaciones confiables de las fronteras marítimas, costeras y territoriales",
+      "Interés por comprender la división política y administrativa de la isla de Santo Domingo",
+      "Valoración de los principales sistemas montañosos, la diversificación climática y de los suelos de la isla",
+      "Interés por investigación sobre los valles, llanuras y regiones especiales",
+      "Valoración de la importancia de los ecosistemas costeros y marinos, su riqueza biológica y la importancia de su conservación para la sostenibilidad de la vida"
+    ],
+		"achievement_indicators": [
+      "Analiza información de fuentes confiables digitales e impresas sobre la formación geológica de la isla de Santo Domingo y las épocas estudiadas",
+      "Interpreta información de diferentes autores y mapas referentes a la geografía física, política e hidrográfica de la isla",
+      "Realiza investigación sobre la geografía política, física y económica de la isla de Santo Domingo, así como de sus actividades agropecuarias, de explotación forestal y minera que ponen en riesgo la salud y el medio ambiente",
+      "Describe los periodos de la historia de Santo Domingo mediante cuadros sinópticos y organizadores gráficos"
+    ]
+	},
+	{
+		"title": "Geografía Física de la isla de Santo Domingo",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Geografía Física de la isla de Santo Domingo",
+      "Principales sistemas montañosos, diversificación climática y variación de los suelos",
+      "Valles, llanuras y regionales especiales de la isla de Santo Domingo",
+      "Ecosistemas costeros y marinos"
+    ],
+		"procedures": [
+      "Discusión sobre la posición geográfica, localización, área, límites y superficie de la isla de Santo Domingo, sus ventajas y desventajas",
+      "Identificación de las zonas de riesgo presentes en el entorno geográfico de la isla de Santo Domingo",
+      "Investigación en fuentes primarias y secundarias, seguras y confiables sobre la historia de la geomorfología de la isla de Santo Domingo",
+      "Identificación de los procesos geológicos que han dado lugar a la formación y evolución de la isla de Santo Domingo, así como las actividad sísmica y volcánica de la región y su impacto en la población y la infraestructura",
+      "Análisis de las características geomorfológicas de la isla y su influencia en el clima, la vegetación y la hidrografía",
+      "Elaboración de infografías sobre los períodos geológicos a que corresponden y destacar usando mapas, su relieve interno y costero",
+      "Investigación para analizar la situación de los sistemas montañosos dominicanos en términos de la explotación de sus recursos",
+      "Comprensión de los conceptos de sistema de coordenadas, meridianos y paralelos para ubicar y orientar la isla de Santo Domingo en el globo terrestre"
+    ],
+		"attitudes": [
+      "Interés por la historia geomorfológica de la isla",
+      "Identifica las eras en la que se formó la isla de Santo Domingo",
+      "Valoración de la importancia del conocimiento del origen geológico de la isla",
+      "Curiosidad e interés por los sistemas de coordenadas geográficas y convergencia de las líneas geográficas",
+      "Honestidad al presentar los resultados de estudios geográficos",
+      "Capacidad de análisis de informaciones confiables de las fronteras marítimas, costeras y territoriales",
+      "Interés por comprender la división política y administrativa de la isla de Santo Domingo",
+      "Valoración de los principales sistemas montañosos, la diversificación climática y de los suelos de la isla",
+      "Interés por investigación sobre los valles, llanuras y regiones especiales",
+      "Valoración de la importancia de los ecosistemas costeros y marinos, su riqueza biológica y la importancia de su conservación para la sostenibilidad de la vida"
+    ],
+		"achievement_indicators": [
+      "Analiza información de fuentes confiables digitales e impresas sobre la formación geológica de la isla de Santo Domingo y las épocas estudiadas",
+      "Interpreta información de diferentes autores y mapas referentes a la geografía física, política e hidrográfica de la isla",
+      "Realiza investigación sobre la geografía política, física y económica de la isla de Santo Domingo, así como de sus actividades agropecuarias, de explotación forestal y minera que ponen en riesgo la salud y el medio ambiente",
+      "Describe los periodos de la historia de Santo Domingo mediante cuadros sinópticos y organizadores gráficos"
+    ]
+	},
+	{
+		"title": "Geografía Hidrográfica de la isla de Santo Domingo",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Geografía Hidrográfica de la isla de Santo Domingo",
+      "Principales cuencas hidrográficas",
+      "Aguas marinas, formas fluviales y de escorrentía superficial",
+      "Evolución del sistema acuífero: aguas superficiales y subterráneas",
+      "Impacto de las sequías a los sistemas agrícolas"
+    ],
+		"procedures": [
+      "Localización y ubicación de los recursos hídricos de la isla de Santo Domingo y búsqueda de información de su situación actual y realización",
+      "Investigación en fuentes confiables y caracterización de las zonas climáticas, zonas ecológicas y los ecosistemas costeros y marinos de la isla y de la República Dominicana",
+      "Consulta informaciones meteorológicas, interpreta mapas de líneas de precipitación y compara el régimen de lluvias de su comunidad con el de otras zonas similares",
+      "Identificación de los principales sistemas montañosos, la diversificación climática y la variación de los suelos en la isla de Santo Domingo y su influencia en la biodiversidad y en las actividades humanas",
+      "Comparación de las características de los valles, llanuras y regiones especiales de la isla de Santo Domingo y su importancia en la agricultura, la ganadería y la industria",
+      "Descripción de los ecosistemas costeros y marinos de la isla de Santo Domingo y su relación con la pesca, el turismo y la conservación de la biodiversidad",
+      "Identificación de las principales cuencas hidrográficas de la isla de Santo Domingo y su importancia en la gestión del agua y en la producción agrícola",
+      "Análisis de las características de las aguas marinas, las formas fluviales y la escorrentía superficial en la isla de Santo Domingo y su impacto en el medio ambiente y en la infraestructura humana",
+      "Organización de exposiciones sobre la evolución del sistema acuífero en la isla de Santo Domingo, incluyendo las aguas superficiales y subterráneas, y su relación con el uso del agua para la agricultura, la industria y el consumo humano"
+    ],
+		"attitudes": [
+      "Valoración de la autoría de las informaciones consultadas",
+      "Respeto las fuentes de donde obtuvo informaciones",
+      "Interés por identificar la veracidad de la fuente de información",
+      "Actitud de respeto al medio ambiente",
+      "Interés por las zonas protegidas y los lugares de riesgos ante la ocurrencia de fenómenos naturales y catástrofes",
+      "Actitud crítica frente a las opiniones propias y la de los demás"
+    ],
+		"achievement_indicators": [
+      "Analiza información de fuentes confiables digitales e impresas sobre la formación geológica de la isla de Santo Domingo y las épocas estudiadas",
+      "Interpreta información de diferentes autores y mapas referentes a la geografía física, política e hidrográfica de la isla",
+      "Realiza investigación sobre la geografía política, física y económica de la isla de Santo Domingo, así como de sus actividades agropecuarias, de explotación forestal y minera que ponen en riesgo la salud y el medio ambiente"
+    ]
+	},
+	{
+		"title": "Geográfica económica de la Isla de Santo Domingo",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Geográfica económica de la Isla de Santo Domingo",
+      "Historial del sistema comercial fronterizo en la Isla de Santo Domingo",
+      "Actividades económicas: primarias, secundarias y terciarias",
+      "Intercambios comerciales y sistemas de producción"
+    ],
+		"procedures": [
+      "Organización de exposiciones sobre las actividades económicas primarias, secundarias y terciarias de la isla de Santo Domingo, así como los sistemas de producción y los intercambios comerciales",
+      "Investigación sobre la historia de las actividades económicas en la isla de Santo Domingo (diferentes sistemas comerciales que han existido en la isla a lo largo de la historia y su impacto en la economía de la región)"
+    ],
+		"attitudes": [
+      "Valoración de los aportes de las diferentes culturas que han interactuado en nuestra isla",
+      "Interés en conocer y comprender los procesos históricos de la sociedad dominicana",
+      "Valoración del papel trascendente de las distintas formas de resistencia a la explotación desarrollada por los pobladores de Santo Domingo",
+      "Muestra interés por conocer informaciones sobre los periodos de la historia",
+      "Curiosidad e interés por conocer la historia de su país"
+    ],
+		"achievement_indicators": [
+      "Analiza información de fuentes confiables digitales e impresas sobre la formación geológica de la isla de Santo Domingo y las épocas estudiadas",
+      "Realiza investigación sobre la geografía política, física y económica de la isla de Santo Domingo, así como de sus actividades agropecuarias, de explotación forestal y minera que ponen en riesgo la salud y el medio ambiente"
+    ]
+	},
+	{
+		"title": "Periodos de la historia dominicana",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Periodos de la historia dominicana",
+      "Conceptos básicos para la comprensión de los periodos históricos: colonialismo, encomienda, esclavitud, mestizaje, pueblo, criollo, identidad cultural, modelos de explotación, monarquía, clase social",
+      "monarquía, nación, imperialismo, república, liberales y conservadores",
+      "Periodización y fuentes para el estudio de la historia dominicana"
+    ],
+		"procedures": [
+      "Investigación sobre los conceptos básicos necesarios para la comprensión de los periodos históricos de la República Dominicana, como el colonialismo, la encomienda, la esclavitud, el mestizaje, el pueblo, el criollo, la identidad cultural, los modelos de explotación, la monarquía, la clase social, la nación, el imperialismo, la república, los liberales y los conservadores",
+      "Realización de investigación utilizando diversas fuentes y analizando mapas relacionados con las actividades económicas desarrolladas en la isla de Santo Domingo lo largo de diferentes periodos históricos, desde el siglo XV hasta el siglo XIX",
+      "Realización de proyectos de investigación sobre los diferentes periodos históricos de la República Dominicana y su relación con los conceptos básicos identificados",
+      "Comparación de los principales eventos y procesos históricos de cada periodo y su impacto en la sociedad y la cultura dominicana",
+      "Organización de exposiciones que muestren los elementos del patrimonio cultural tangible e intangible del legado aborigen, africano y español en la cultura dominicana"
+    ],
+		"attitudes": [
+      "Valoración de la autoría de las informaciones consultadas",
+      "Respeto las fuentes de donde obtuvo informaciones",
+      "Interés por identificar la veracidad de la fuente de información",
+      "Valoración de los aportes de las diferentes culturas que han interactuado en nuestra isla",
+      "Interés en conocer y comprender los procesos históricos de la sociedad dominicana",
+      "Valoración del papel trascendente de las distintas formas de resistencia a la explotación desarrollada por los pobladores de Santo Domingo",
+      "Muestra interés por conocer informaciones sobre los periodos de la historia",
+      "Curiosidad e interés por conocer la historia de su país",
+      "Respeto por las distintas culturas y grupos sociales que han habitado en la isla",
+      "Reflexión crítica sobre los modelos de explotación y las formas de poder que se han ejercido a lo largo del tiempo"
+    ],
+		"achievement_indicators": [
+      "Describe los periodos de la historia de Santo Domingo mediante cuadros sinópticos y organizadores gráficos",
+      "Expresa su punto de vista a partir de fuentes consultadas sobre los procesos históricos estudiados y realiza cuadros comparativos",
+      "Compara críticamente investigaciones científicas sobre el impacto político, económico y social de los eventos históricos más significativos que tuvieron lugar en la República Dominicana entre los años 1916-1865"
+    ]
+	},
+	{
+		"title": "Grupos aborígenes que poblaron la isla de Santo Domingo",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Grupos aborígenes que poblaron la isla de Santo Domingo",
+      "Pre-agrícolas y agrícolas",
+      "Cultura taina",
+      "Agricultura y formas de cultivo",
+      "Caza y recolección",
+      "Organización política"
+    ],
+		"procedures": [
+      "Representa mediante sociodramas las diversas formas de lucha de la población de la isla de Santo Domingo durante el período colonial",
+      "Elaboración de línea de tiempo destacando los momentos históricos más relevantes que permitieron la conformación de la identidad",
+      "Discusión sobre los aspectos caracterizadores de cada momento histórico que definieron nuestra identidad nacional",
+      "Identificación de obras y documentos en la página del Archivo General de la Nación, Revista Clío y Memoria de Quisqueya, Revista Ecos y otras fuentes en línea para el estudio de la historia dominicana",
+      "Elaboración del estado del arte (relación de documentos escritos) sobre los periodos que componen la historia dominicana",
+      "Establecimiento de los primeros grupos que habitaron la isla de Santo Domingo, destacando su procedencia, características y aportes a la sociedad del presente",
+      "Reconocimiento de los factores que posibilitaron la llegada de los conquistadores a la isla",
+      "Representa mediante sociodramas las diversas formas de lucha de la población de la isla de Santo Domingo durante el período colonial",
+      "Organización de exposiciones que muestren los elementos del patrimonio cultural tangible e intangible del legado aborigen, africano y español en la cultura dominicana"
+    ],
 		"attitudes": [],
 		"achievement_indicators": []
+	},
+	{
+		"title": "La isla de Santo Domingo desde finales del siglo XV y el XVI",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "La isla de Santo Domingo desde finales del siglo XV y el XVI",
+      "Conquista y colonización",
+      "Modelos económicos en el periodo colonial (oro, azúcar, hatos)",
+      "Resistencia de los pobladores Aborígenes y africanos a la explotación colonial",
+      "Factores que propiciaron la decadencia de la colonia en el siglo XVI",
+      "La isla de Santo Domingo desde finales del siglo XV y el XVI: Modelos económicos en el periodo colonial (oro, azúcar, estancias y hatos)",
+      "Características del modelo colonial español",
+      "Resistencia de los pobladores a la explotación colonial"
+    ],
+		"procedures": [
+      "Representa mediante sociodramas las diversas formas de lucha de la población de la isla de Santo Domingo durante el período colonial",
+      "Elaboración de línea de tiempo destacando los momentos históricos más relevantes que permitieron la conformación de la identidad",
+      "Discusión sobre los aspectos caracterizadores de cada momento histórico que definieron nuestra identidad nacional",
+      "Identificación de obras y documentos en la página del Archivo General de la Nación, Revista Clío y Memoria de Quisqueya, Revista Ecos y otras fuentes en línea para el estudio de la historia dominicana",
+      "Elaboración del estado del arte (relación de documentos escritos) sobre los periodos que componen la historia dominicana",
+      "Establecimiento de los primeros grupos que habitaron la isla de Santo Domingo, destacando su procedencia, características y aportes a la sociedad del presente",
+      "Reconocimiento de los factores que posibilitaron la llegada de los conquistadores a la isla",
+      "Representa mediante sociodramas las diversas formas de lucha de la población de la isla de Santo Domingo durante el período colonial",
+      "Organización de exposiciones que muestren los elementos del patrimonio cultural tangible e intangible del legado aborigen, africano y español en la cultura dominicana",
+      "Análisis de mapas sobre las Devastaciones de Osorio destacando las razones e implicaciones de ese hecho",
+      "Selección de fuentes seguras y confiables para explicar sobre la división fronteriza la isla de Santo Domingo de, las causas y los tratados firmados por las potencias europeas",
+      "Análisis de las causas y consecuencias de la división de la isla y los tratados firmados por las potencias europeas",
+      "Análisis de la influencia de las ideas ilustradas y burguesas en la isla de Santo Domingo"
+    ],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Siglo XVII: Crisis y sentimiento de Pertenencia",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Siglo XVII: Crisis y sentimiento de Pertenencia",
+      "Devastaciones",
+      "Siglo de la Miseria en la isla de Santo Domingo",
+      "División territorial",
+      "Sentimiento de pertenencia"
+    ],
+		"procedures": [
+      "Identificación de los factores que provocaron cambios políticos, económicos, sociales, culturales y espaciales en la isla en los siglos XVII y XVIII",
+      "Análisis de mapa sobre las Devastaciones de Osorio",
+      "Selección de fuentes sobre la división de la isla de Santo Domingo en colonias",
+      "Presentación del impacto de la Revolución francesa y la de Haití"
+    ],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Influencia de la ilustración y las Revoluciones burguesas en la isla de Santo Domingo durante el siglo XVIII",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Influencia de la ilustración y las Revoluciones burguesas en la isla de Santo Domingo durante el siglo XVIII",
+      "Factores de cambios en la colonia de Santo Domingo durante el siglo XVIII: Recuperación económica y crecimiento poblacional"
+    ],
+		"procedures": [
+      "Análisis de mapas sobre las Devastaciones de Osorio destacando las razones e implicaciones de ese hecho",
+      "Selección de fuentes seguras y confiables para explicar sobre la división fronteriza la isla de Santo Domingo de, las causas y los tratados firmados por las potencias europeas",
+      "Análisis de las causas y consecuencias de la división de la isla y los tratados firmados por las potencias europeas",
+      "Análisis de la influencia de las ideas ilustradas y burguesas en la isla de Santo Domingo",
+      "Identificación de los factores que provocaron cambios políticos, económicos, sociales, culturales y espaciales en la isla en los siglos XVII y XVIII",
+      "Análisis de mapa sobre las Devastaciones de Osorio",
+      "Selección de fuentes sobre la división de la isla de Santo Domingo en colonias",
+      "Presentación del impacto de la Revolución francesa y la de Haití"
+    ],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Parte Este de la Isla de Santo Domingo 1801-1822",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Parte Este de la Isla de Santo Domingo 1801-1822",
+      "Revolución e invasión napoleónica",
+      "Gobierno de Jean-Jacques Dessalines",
+      "Guerra de Reconquista",
+      "La época de España Boba",
+      "Constitución de Cádiz",
+      "Independencia Efímera de José Núñez de Cáceres",
+      "Ocupación haitiana de 1822 -1844",
+      "Origen de la ocupación haitiana",
+      "Gobierno Jean-Pierre Boyer",
+      "Oposición en la parte este de la isla"
+    ],
+		"procedures": [
+      "Elaboración de líneas de tiempo sobre las características de los gobiernos de la parte oriental de Santo Domingo en los años 1801-1809",
+      "Identificación del dominio haitiano y francés, así como de la reconquista para la elaboración de la línea de tiempo",
+      "Elaboración de un diario reflexivo sobre los acontecimientos históricos de 1809-1821",
+      "Producción de textos y cuadros comparativos sobre las características económicas y sociales del período de la dominación francesa o Era de Francia y el periodo de reincorporación al dominio español llamado de la España Boba; indica los sectores sociales que apoyaron estas dominaciones",
+      "Conceptualización del proceso de la independencia efímera",
+      "Sistematización del periodo de 1800-1821, mediante un periódico escolar",
+      "Elaboración de un informe de lectura sobre el proceso del dominio haitiano de 1822-1844",
+      "Selección de esquema para el informe de lectura",
+      "Uso de documentales y videos sobre el periodo estudiado",
+      "Síntesis extraída de libros y revistas sobre las medidas del gobierno de Boyer",
+      "Identificación de los sectores a favor y en contra de Boyer",
+      "Identificación de los factores que provocaron la crisis del Régimen",
+      "Redacción de por los menos dos borradores",
+      "Corrección antes de la entrega final"
+    ],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Independencia Nacional",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Independencia Nacional",
+      "Despertar independentistas",
+      "Héroes y heroínas de la independencia nacional",
+      "Proclamación de la independencia Nacional",
+      "Promulgación de la Primera Constitución Dominicana"
+    ],
+		"procedures": [
+      "Sistematización de los acontecimientos que propiciaron la independencia de la República Dominicana",
+      "Identificación de los antecedentes",
+      "Formación de la Trinitaria",
+      "Análisis de Duarte y el movimiento nacionalista, alianza y exclusión",
+      "Posición de los liberales y los conservadores",
+      "Análisis de los procesos históricos de la Segunda República",
+      "Análisis del papel de Duarte y el movimiento nacionalista",
+      "Análisis de la participación popular en el proceso de independencia",
+      "Simulación de roles sobre la participación de la mujer en la independencia",
+      "Análisis de los conflictos internos entre Pedro Santana y Buenaventura Báez",
+      "Elaboración de línea de tiempo sobre los principales acontecimientos históricos de 1844 – 1861",
+      "Debate sobre la Posición de los liberales y los conservadores"
+    ],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Primera República (1844 -1861)",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Primera República (1844 -1861)",
+      "Primeros gobiernos constitucionales",
+      "Invasiones haitianas",
+      "Conflictos políticos entre Pedro Santana y Buenaventura Báez",
+      "Déficit monetario",
+      "Revolución de 1857. Constitución de Moca"
+    ],
+		"procedures": [
+      "Esquematización de las características económicas, políticas y sociales de la Primera República",
+      "Análisis de los factores que provocaron la anexión de la República Dominicana a España",
+      "Interpretación de textos sobre la resistencia dominicana a la Anexión a España"
+    ],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Anexión de Santo Domingo a España",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Anexión de Santo Domingo a España",
+      "Protestas y rebeliones contra la anexión",
+      "Lucha restauradora",
+      "Fin del anexionismo",
+      "Gobierno restaurador"
+    ],
+		"procedures": [
+      "Elaboración de línea de tiempo sobre los acontecimientos históricos de 1861-1865",
+      "Realización de investigaciones sobre los distintos gobiernos surgidos durante la primera y segunda república"
+    ],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Segunda República (1865-1916)",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Segunda República (1865-1916)",
+      "Luchas políticas entre los pueblos de las regiones del Norte y el Sur del país",
+      "Gobiernos y partidos Rojos y Azules",
+      "Segundos proyectos de anexionismo",
+      "Fundación del Movimiento Unionista",
+      "Surgimiento de las anarquías políticas",
+      "Producción económica, desarrollo del capitalismo, la plantación azucarera, endeudamiento y dictaduras, inestabilidad política, convenciones y ocupación militar de 1916"
+    ],
+		"procedures": [
+      "Análisis y sistematización de los procesos históricos de la Segunda República",
+      "Identificación de los problemas que tuvieron los dominicanos durante el siglo XIX y principios del siglo XX que limitaron la creación de un estado democrático: internos y externos",
+      "Investigación sobre los elementos que caracterizaron la vida social, la modernidad, la urbanización durante el siglo XIX para la realización de una monografía",
+      "Elaboración de líneas de tiempo sobre las acciones policitas, sociales y económicas ocurridas durante los distintos gobiernos que tuvieron lugar en la segunda república",
+      "Análisis crítico sobre los gobiernos dominicanos del siglo XIX, así como de principio del XX y su impacto en el presente",
+      "Comparación de las similitudes y diferencias entre los caudillismos y dictaduras surgidas durante la segunda república",
+      "Elaboración de cómics, memes, collage, periódico mural, cortos, simulación de noticieros, reportajes sobre el impacto de la intervención norteamericana de 1916 en nuestro país",
+      "Elaboración de cómics, memes, collage, periódico mural, cortos, simulación de noticieros, reportajes sobre el impacto de la intervención norteamericana de 1916-1924 en nuestro país",
+      "Análisis de la estructura de la Constitución de la República Dominicana"
+    ],
+		"attitudes": [
+      "Muestra interés por conocer informaciones sobre los periodos de la historia",
+      "Curiosidad e interés por conocer la historia de su país"
+    ],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Educación ciudadana",
+		"level": "SECUNDARIA",
+		"year": "QUINTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Educación ciudadana",
+      "Surgimiento del Estado Dominicano",
+      "Las Constituciones dominicanas y la consagración y garantía de derechos fundamentales",
+      "Influencias de las constituciones estadounidense y francesa democrático- liberal en las Constituciones dominicanas",
+      "Símbolos patrios",
+      "Educación Vial",
+      "Propuestas de reformas, vulnerabilidad y riesgo",
+      "Valores y cultura de paz",
+      "Soluciones dialógicas",
+      "Valor de la vida de su persona y la de los demás",
+      "Situaciones de violencia y vulnerabilidad"
+    ],
+		"procedures": [
+      "Análisis de las implicaciones de un Estado de derecho",
+      "Comprensión de la influencia de otras constituciones en la República Dominicana",
+      "Organización de debates o mesas redondas sobre la importancia de la identidad nacional",
+      "Participación en actividades de voluntariado y creación de proyectos multimedia (videos, presentaciones, sitios web, etc) que destaquen los valores representados por los símbolos patrios",
+      "Análisis de casos de estudio reales relacionados con situaciones de tránsito y accidentes, identificando las causas principales y se propongan medidas preventivas para evitar su aumento en el futuro",
+      "Identificación de zonas de riesgos para la sociedad en caso de fenómeno natural",
+      "Presentación de propuestas de sostenibilidad ambiental",
+      "Análisis de leyes que protegen el medioambiente",
+      "Utilización del diálogo para resolver situaciones cotidianas",
+      "Realización de proyectos y propuestas que valoren la vida de las demás personas en las vías públicas y en cualquier espacio",
+      "Se integra a campaña de su comunidad sobre educación vial",
+      "Presenta campañas educativas sobre el respeto de los valores humanos y la cultura de paz",
+      "Preocupación por situaciones de violencia"
+    ],
+		"attitudes": [
+      "Respeto por las luchas del pueblo dominicano por preservar la ciudadanía",
+      "Valoración y promoción de las actitudes favorables a la participación y las prácticas democráticas en los diversos ámbitos en que se desenvuelve",
+      "Valoración de su vida y la de las demás personas",
+      "Valoración de la vida",
+      "Valoración de los hechos históricos y cultural de la independencia y la soberanía nacional",
+      "Actitud crítica ante situaciones en la familia y la sociedad que vulneran la convivencia",
+      "Sentido de pertenencia y compromiso con el desarrollo del país",
+      "Respeto por la diversidad cultural y étnica de la población dominicana",
+      "Respeto y defensa de los derechos humanos y las libertades fundamentales",
+      "Responsabilidad ciudadana y compromiso con el bienestar común",
+      "Compromiso con la transparencia y la rendición de cuentas en el ejercicio del poder público",
+      "Valoración del Estado de derecho y la justicia como pilares de la democracia",
+      "Valoración de la separación de poderes y la independencia de los órganos del Estado",
+      "Valoración de los principios de libertad, igualdad y fraternidad democrática",
+      "Compromiso con la defensa y promoción de los valores patrios",
+      "Compromiso con la protección y garantía de los derechos fundamentales",
+      "Conciencia sobre la importancia de la preservación del patrimonio cultural y natural del país",
+      "Respeto y cuidado de los símbolos patrios",
+      "Sensibilidad ante las situaciones de vulnerabilidad y riesgo social",
+      "Compromiso con la justicia social y la equidad",
+      "Conciencia sobre la importancia de la atención de las situaciones de riesgo y vulnerabilidad",
+      "Valoración de la participación ciudadana y el diálogo como herramientas para la transformación social"
+    ],
+		"achievement_indicators": [
+      "Muestra respeto por los valores humanos, la vida propia y demás personas en cualquier espacio",
+      "Reconoce la importancia de los derechos humanos en la solución de conflictos, la igualdad y la cultura de paz",
+      "Analiza el papel de la Constitución de la República Dominicana en la garantía del estado de derecho y la soberanía nacional",
+      "Propone proyectos de educación vial y tributaria en el marco de una ciudadanía responsable"
+    ]
 	},
 	{
 		"title": "",
