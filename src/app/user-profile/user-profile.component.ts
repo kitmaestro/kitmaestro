@@ -52,6 +52,7 @@ export class UserProfileComponent {
 
   schoolsForm = this.fb.array([
     this.fb.group({
+      _id: [''],
       user: [''],
       name: [''],
       level: [''],
@@ -115,12 +116,14 @@ export class UserProfileComponent {
         }
       },
       error: err => {
+        console.log(err)
         this.sb.open('Hubo un error al guardar', 'Ok', { duration: 2500 });
       }
     })
   }
 
   addSchool(school?: School) {
+    const _id = school?._id || '';
     const user = school?.user || this.user?._id || '';
     const name = school?.name || '';
     const level = school?.level || '';
@@ -128,6 +131,7 @@ export class UserProfileComponent {
     const district = school?.district || '';
     const journey = school?.journey || '';
     const schoolForm = this.fb.group({
+      _id: [_id],
       user: [user],
       name: [name],
       level: [level],
@@ -139,6 +143,10 @@ export class UserProfileComponent {
   }
 
   removeSchool(index: number) {
+    const id = this.schoolsForm.value[index]._id;
+    if (id) {
+      this.schoolService.delete(id).subscribe();
+    }
     this.schoolsForm.removeAt(index);
   }
 
@@ -146,6 +154,7 @@ export class UserProfileComponent {
     const school: any = this.schoolsForm.controls[index].value;
     this.schoolService.create(school).subscribe(res => {
       if (res._id) {
+        this.schoolsForm.controls[index].get('_id')?.setValue(res._id);
         this.sb.open('La escuela ha sido guardada', 'Ok', { duration: 2500 });
       }
     })

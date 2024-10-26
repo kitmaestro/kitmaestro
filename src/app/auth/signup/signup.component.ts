@@ -55,10 +55,11 @@ export class SignupComponent {
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
-      const referrer = params.get('ref');
+      const referrer = localStorage.getItem('ref') || params.get('ref');
 
       if (referrer) {
         this.referrer = referrer;
+        localStorage.setItem('ref', referrer);
       }
     });
   }
@@ -68,7 +69,7 @@ export class SignupComponent {
   }
 
   signupWithGoogle() {
-    window.location.href = environment.apiUrl + 'auth/google';
+    window.location.href = environment.apiUrl + 'auth/google' + this.referrer ? `?ref=${this.referrer}` : '';
   }
 
   signupWithFacebook() {

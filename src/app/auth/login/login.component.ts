@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
   route = inject(ActivatedRoute);
 
   loading = false;
+  referrer = '';
 
   loginForm = this.fb.group({
     email: ['', Validators.required],
@@ -55,9 +56,10 @@ export class LoginComponent implements OnInit {
         // this.sb.open('Bienvenid@ a KitMaestro', 'Ok', { duration: 2500 });
       // })
     }
-    const referrer = this.route.snapshot.queryParamMap.get('ref');
+    const referrer = localStorage.getItem('ref') || this.route.snapshot.queryParamMap.get('ref');
     if (referrer) {
-      localStorage.setItem('referrer', referrer);
+      this.referrer = referrer;
+      localStorage.setItem('ref', referrer);
     }
   }
 
@@ -66,7 +68,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithGoogle() {
-    window.location.href = environment.apiUrl + 'auth/google';
+    window.location.href = environment.apiUrl + 'auth/google' + this.referrer ? `?ref=${this.referrer}` : '';
   }
 
   loginWithFacebook() {

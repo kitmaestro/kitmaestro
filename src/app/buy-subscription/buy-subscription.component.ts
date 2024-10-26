@@ -1,16 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { BankAccountComponent } from '../bank-account/bank-account.component';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserSubscription } from '../interfaces/user-subscription';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CurrencyPipe } from '@angular/common';
-import { CurrencyService } from '../services/currency.service';
 import { UserSubscriptionService } from '../services/user-subscription.service';
 
 declare const paypal: any;
@@ -25,56 +25,184 @@ declare const paypal: any;
     MatDialogModule,
     MatListModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
     RouterModule,
     CurrencyPipe,
+    RouterModule,
   ],
   templateUrl: './buy-subscription.component.html',
   styleUrl: './buy-subscription.component.scss',
 })
-export class BuySubscriptionComponent implements OnInit {
-  private currencyService = inject(CurrencyService);
+export class BuySubscriptionComponent implements OnInit, AfterViewInit {
   private dialog = inject(MatDialog);
   private sb = inject(MatSnackBar);
+  private router = inject(Router);
   private userSubscriptionService = inject(UserSubscriptionService);
-  usdPrice: Observable<number> = this.currencyService.convert('usd', 'dop');
-  price = '0.00';
-  halfYear = '0.00';
   alreadyPremium: boolean = false;
   subscription$: Observable<UserSubscription> = this.userSubscriptionService.checkSubscription();
-  fullPrice = '';
-  groupPrice = '';
-  privateDeploy = '';
   loading = true;
+  monthlyPricing = false;
 
-  subscribe() {
-    const sub = this.userSubscriptionService.subscribe('Premium Individual', 'cash', 365, 24.99).subscribe(result => {
+  pricingPlans = [
+    {
+      name: 'Plan Básico',
+      price: {
+        month: {
+          original: 0,
+          now: 0,
+        },
+        year: {
+          original: 0,
+          now: 0,
+        },
+      },
+      features: [
+        'Calculadora de Promedios',
+        'Calculadora de Asistencia',
+        'Hojas de Ejercicios',
+        'Lista de Pendientes',
+        'Administra tus Cursos',
+        'Registro Anecdótico',
+        'Plantillas de Planificación',
+        'Galería de Recursos Educativos',
+      ],
+      buttonText: 'Empezar'
+    },
+    {
+      name: 'Plan Estándar',
+      price: {
+        month: {
+          original: 9.99,
+          now: 4.99,
+        },
+        year: {
+          original: 79.99,
+          now: 49.99,
+        },
+      },
+      features: [
+        'Todo del Plan Básico',
+        'Planes Diarios',
+        'Planes de Unidad',
+        'Generador de Calificaciones',
+        'Generador de Asistencia',
+        'Conversaciones en Inglés',
+        'Generador de Actividades',
+        'Generador de Aspectos Trabajados',
+        'Instrumentos de Evaluación',
+        'Sistemas de Calificación',
+        'Gestion de Horario',
+      ],
+      buttonText: 'Suscríbeme'
+    },
+    {
+      name: 'Plan Premium',
+      price: {
+        month: {
+          original: 39.99,
+          now: 14.99,
+        },
+        year: {
+          original: 349.99,
+          now: 149.99,
+        },
+      },
+      features: [
+        'Todo del Plan Estándar',
+        'Recursos Educativos Premium',
+        'Planes Automatizados',
+        'Planes de Efemerides',
+        'Hasta 5 profesores',
+        'Docente Adicional $2.99/mes',
+        'Soporte Prioritario',
+      ],
+      buttonText: 'Más Información'
+    }
+  ];
+
+  buyPlan(plan: any) {
+    if (plan.name == 'Plan Premium') {
+      const a = document.createElement('a');
+      const text = encodeURIComponent(`Hola!\nMe interesa un plan premium de KitMaestro. Me puedes informar al respecto?`)
+      a.href = `https://web.whatsapp.com/send?text=${text}`;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click()
+      document.body.removeChild(a);
+    } else if (plan.name == 'Plan Estándar') {
+      // process payment
+    } else {
+      this.router.navigate(['/']).then(() => {
+        if (this.alreadyPremium) {
+          this.sb.open('Tu cuenta volvera a ser gratuita una vez llegue tu dia de facturacion. Regresa pronto!', 'Ok', { duration: 2500 });
+        } else {
+          this.sb.open('Tu cuenta ya es gratuita. Te esperamos del lado premium!', 'Ok', { duration: 2500 });
+        }
+      });
+    }
+  }
+
+  subscribe(plan: string, method: string, days: number, amount: number) {
+    const sub = this.userSubscriptionService.subscribe(plan, method, days, amount).subscribe(result => {
+      sub.unsubscribe();
       console.log(result);
       this.alertSuccess();
-      sub.unsubscribe();
     });
   }
 
-  ngOnInit(): void {
-    // this.userSubscriptionService.subscribe('Premium Individual', 'PayPal', 365, 49.99).subscribe((result) => {
-    //   console.log(result)
-    //   this.alertSuccess()
-    // })
-    // this.subscribe()
-    this.usdPrice.subscribe({
-      next: (res) => {
-        this.price = (res * 35).toFixed(2);
-        this.halfYear = (res * 20).toFixed(2);
-        this.fullPrice = (res * 49.99).toFixed(2);
-        this.groupPrice = (res * 34.99).toFixed(2);
-        this.privateDeploy = (res * 2990).toFixed(2);
+  renderButtons() {
+    const style = {
+      shape: 'rect',
+      color: 'gold',
+      layout: 'vertical',
+      label: 'subscribe'
+    }
+    const plans = [
+      {
+        plan_id: 'P-18K0318878962562NM4OWONQ',
+        name: 'Premium Yearly',
+        days: 365,
+        price: 149.99
+      },
+      {
+        plan_id: 'P-52T24700U3639062UM4OD5MY',
+        name: 'Premium Yearly Standard',
+        days: 365,
+        price: 49.99
+      },
+      {
+        plan_id: 'P-65554646XG739770LM4OWNZI',
+        name: 'Premium Monthly',
+        days: 30,
+        price: 14.99
+      },
+      {
+        plan_id: 'P-2EE66704US3183602M4OD3PA',
+        name: 'Premium Monthly Standard',
+        days: 30,
+        price: 4.99
       }
-    })
+    ];
+    plans.forEach(plan => {
+      paypal.Buttons({
+        style,
+        createSubscription: (data: any, actions: any) => actions.subscription.create({ plan_id: plan.plan_id }),
+        onApprove: () => this.subscribe(plan.name, 'PayPal', plan.days, plan.price)
+      }).render(`#paypal-button-container-${plan.plan_id}`)
+    });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => this.renderButtons(), 0);
+  }
+
+  ngOnInit(): void {
     this.subscription$.subscribe({
       next: (subscription) => {
         this.loading = false;
-        // check if already premium
-        console.log(subscription)
+        this.alreadyPremium = subscription.status == 'active';
       }, error: (err) => {
+        console.log(err)
       }
     })
   }
@@ -86,59 +214,5 @@ export class BuySubscriptionComponent implements OnInit {
 
   alertSuccess() {
     this.sb.open('Su suscripción premium ha sido procesada. Su suscripción será activada en un plazo de 0 a 6 horas tras la confirmación.', undefined, { duration: 5000 });
-  }
-
-  updateSubscription() {
-    // refCode : this.user?.email?.split('@')[0] || '',
-    const subscription: UserSubscription = {
-      status: 'active',
-      startDate: new Date(),
-      endDate: new Date(+(new Date()) + 365),
-      method: 'PayPal',
-      subscriptionType: 'premium trial',
-    } as any as UserSubscription;
-
-    // update the subscription here
-  }
-
-  renderPurchaseButton() {
-    paypal.Buttons({
-      style: {
-        shape: 'pill',
-        color: 'gold',
-        layout: 'vertical',
-        label: 'subscribe'
-      },
-      createSubscription: (data: any, actions: any) => {
-        return actions.subscription.create({
-          plan_id: 'P-6BD57811KP573641CM3FUYCA'
-        });
-      },
-      onApprove: () => {
-        this.alertSuccess();
-        this.updateSubscription();
-      }
-    }).render('#paypal-button-container-P-6BD57811KP573641CM3FUYCA'); // Renders the PayPal button
-  }
-
-  renderDiscountPurchaseButton() {
-    paypal.Buttons({
-      style: {
-        shape: 'rect',
-        color: 'gold',
-        layout: 'vertical',
-        label: 'subscribe'
-      },
-      createSubscription: (data: any, actions: any) => {
-        return actions.subscription.create({
-          /* Creates the subscription */
-          plan_id: 'P-34132758Y2605242XM3FVFMY'
-        });
-      },
-      onApprove: () => {
-        this.alertSuccess();
-        this.updateSubscription();
-      }
-    }).render('#paypal-button-container-P-34132758Y2605242XM3FVFMY');
   }
 }
