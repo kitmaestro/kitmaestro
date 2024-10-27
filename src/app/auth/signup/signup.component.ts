@@ -102,10 +102,10 @@ export class SignupComponent {
       this.loading = true;
       if (email && password) {
         this.authService.signup(email, password, this.referrer ? this.referrer : undefined).subscribe({
-          next: result => {
-            console.log(result);
-            this.router.navigate(this.route.snapshot.queryParamMap.get('next')?.split('/') || ['/app'], { queryParamsHandling: 'preserve' }).then(() => {
-              this.sb.open(`Bienvenid@ a KitMaestro!`, undefined, { duration: 2500 });
+          next: () => {
+            const next = this.route.snapshot.queryParamMap.get('next')
+            this.router.navigate(next ? next.split('/') : ['/profile'], { queryParamsHandling: 'preserve' }).then(() => {
+              this.sb.open(`Bienvenid@ a KitMaestro! Empieza por completar tu perfil.`, undefined, { duration: 2500 });
               this.loading = false;
             })
           },

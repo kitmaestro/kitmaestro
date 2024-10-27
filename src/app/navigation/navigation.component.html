@@ -9,7 +9,7 @@
       @for (link of sidebarLinks; track $index) {
         <a mat-list-item
           [routerLink]="link.route"
-          [activated]="activatedRoute == link.route"
+          [activated]="activatedRoute == link.route || activatedRoute.includes(link.activeIf)"
           style="padding: 0"
           >
           <mat-icon matListItemIcon>{{link.icon}}</mat-icon>

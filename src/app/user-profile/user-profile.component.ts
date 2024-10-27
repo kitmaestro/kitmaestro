@@ -152,6 +152,7 @@ export class UserProfileComponent {
 
   saveSchool(index: number) {
     const school: any = this.schoolsForm.controls[index].value;
+    school._id = undefined;
     this.schoolService.create(school).subscribe(res => {
       if (res._id) {
         this.schoolsForm.controls[index].get('_id')?.setValue(res._id);

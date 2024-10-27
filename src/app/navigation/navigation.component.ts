@@ -56,19 +56,19 @@ export class NavigationComponent {
 
   showNames = true;
 
-  sidebarLinks: { label: string, route: string, icon: string }[] = [
-    { route: "/", icon: "dashboard", label: "Inicio", },
-    { route: "/unit-plans/list", icon: "menu_book", label: "Unidades de Aprendizaje", },
-    { route: "/class-plans/list", icon: "library_books", label: "Planes Diarios", },
-    { route: "/assessments/list", icon: "history_edu", label: "Instrumentos", },
-    { route: "/activities", icon: "school", label: "Actividades", },
-    { route: "/sections", icon: "class", label: "Secciones", },
-    { route: "/schedules", icon: "calendar_month", label: "Horario", },
-    { route: "/log-registry-generator", icon: "edit_note", label: "Registro Anecdótico", },
-    { route: "/todos", icon: "list", label: "Pendientes", },
+  sidebarLinks: { label: string, route: string, icon: string, activeIf: string }[] = [
+    { activeIf: 'none', route: "/", icon: "dashboard", label: "Inicio", },
+    { activeIf: 'unit-plans', route: "/unit-plans/list", icon: "menu_book", label: "Unidades de Aprendizaje", },
+    { activeIf: 'class-plans', route: "/class-plans/list", icon: "library_books", label: "Planes Diarios", },
+    { activeIf: 'assessments', route: "/assessments/list", icon: "history_edu", label: "Instrumentos", },
+    { activeIf: 'activities', route: "/activities", icon: "school", label: "Actividades", },
+    { activeIf: 'sections', route: "/sections", icon: "class", label: "Secciones", },
+    { activeIf: 'schedules', route: "/schedules", icon: "calendar_month", label: "Horario", },
+    { activeIf: 'log-registry', route: "/log-registry-generator", icon: "edit_note", label: "Registro Anecdótico", },
+    { activeIf: 'todos', route: "/todos", icon: "list", label: "Pendientes", },
     // { route: "/settings", icon: "settings", label: "Ajustes", },
-    { route: "/profile", icon: "person_circle", label: "Perfil", },
-    { route: "/my-resources", icon: "analytics", label: "Mis Recursos", },
+    { activeIf: 'profile', route: "/profile", icon: "person_circle", label: "Perfil", },
+    { activeIf: 'my-resources', route: "/my-resources", icon: "analytics", label: "Mis Recursos", },
   ]
 
   toggleNames() {
