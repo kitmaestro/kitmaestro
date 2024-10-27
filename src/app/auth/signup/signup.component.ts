@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, isDevMode } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -39,6 +39,7 @@ export class SignupComponent {
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   public user$ = this.authService.profile();
+  apiUrl = environment.apiUrl + 'auth/google';
 
   loading = false;
 
@@ -69,7 +70,7 @@ export class SignupComponent {
   }
 
   signupWithGoogle() {
-    window.location.href = environment.apiUrl + 'auth/google' + this.referrer ? `?ref=${this.referrer}` : '';
+    window.location.href = (isDevMode() ? 'http://localhost:3000/auth/google' : 'https://api.kitmaestro.com/auth/google') + this.referrer ? `?ref=${this.referrer}` : '';
   }
 
   signupWithFacebook() {
@@ -104,7 +105,7 @@ export class SignupComponent {
         this.authService.signup(email, password, this.referrer ? this.referrer : undefined).subscribe({
           next: () => {
             const next = this.route.snapshot.queryParamMap.get('next')
-            this.router.navigate(next ? next.split('/') : ['/profile'], { queryParamsHandling: 'preserve' }).then(() => {
+            this.router.navigate(next && next != '/' ? next.split('/') : ['/profile'], { queryParamsHandling: 'preserve' }).then(() => {
               this.sb.open(`Bienvenid@ a KitMaestro! Empieza por completar tu perfil.`, undefined, { duration: 2500 });
               this.loading = false;
             })

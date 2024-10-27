@@ -24,8 +24,7 @@
                 <div style="margin: 12px 0; display: flex; flex-direction: column; gap: 12px;">
                     <button [disabled]="loading || signupForm.invalid || !validConfirmation" mat-raised-button color="primary"
                         type="submit">Registrar</button>
-                    <button mat-flat-button color="link" (click)="signupWithGoogle()" type="button"><bi-icon
-                            icon="google"></bi-icon> Continuar con Google</button>
+                    <a mat-flat-button color="link" [href]="apiUrl + (referrer ? ('?ref=' + referrer) : '')"><bi-icon icon="google"></bi-icon> Continuar con Google</a>
                     <button style="display: none;" mat-flat-button color="link" (click)="signupWithFacebook()" type="button"><bi-icon
                             icon="facebook"></bi-icon> Continuar con Facebook</button>
                 </div>

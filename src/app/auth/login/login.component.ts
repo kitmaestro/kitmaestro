@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, isDevMode, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
   modal = inject(MatDialog);
   router = inject(Router);
   route = inject(ActivatedRoute);
+  apiUrl = environment.apiUrl + 'auth/google';
 
   loading = false;
   referrer = '';
@@ -68,7 +69,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithGoogle() {
-    window.location.href = environment.apiUrl + 'auth/google' + this.referrer ? `?ref=${this.referrer}` : '';
+    window.location.href = (isDevMode() ? 'http://localhost:3000/auth/google' : 'https://api.kitmaestro.com/auth/google') + this.referrer ? `?ref=${this.referrer}` : '';
   }
 
   loginWithFacebook() {

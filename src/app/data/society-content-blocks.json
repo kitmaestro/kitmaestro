@@ -3670,8 +3670,30 @@
       "Representa mediante sociodramas las diversas formas de lucha de la población de la isla de Santo Domingo durante el período colonial",
       "Organización de exposiciones que muestren los elementos del patrimonio cultural tangible e intangible del legado aborigen, africano y español en la cultura dominicana"
     ],
-		"attitudes": [],
-		"achievement_indicators": []
+		"attitudes": [
+      "Valoración de la autoría de las informaciones consultadas",
+      "Respeto las fuentes de donde obtuvo informaciones",
+      "Interés por identificar la veracidad de la fuente de información",
+      "Actitud crítica frente a las opiniones propias y la de los demás",
+      "Valoración de los aportes de las diferentes culturas que han interactuado en nuestra isla",
+      "Interés en conocer y comprender los procesos históricos de la sociedad dominicana",
+      "Valoración del papel trascendente de las distintas formas de resistencia a la explotación desarrollada por los pobladores de Santo Domingo",
+      "Muestra interés por conocer informaciones sobre los periodos de la historia",
+      "Curiosidad e interés por conocer la historia de su país",
+      "Respeto por las distintas culturas y grupos sociales que han habitado en la isla",
+      "Reflexión crítica sobre los modelos de explotación y las formas de poder que se han ejercido a lo largo del tiempo",
+      "Valoración del legado de los primeros pobladores",
+      "Respeto por el legado de los primeros pobladores de la Isla de Santo Domingo",
+      "Interés por conocer la historia y la cultura de los grupos aborígenes que habitaron la isla",
+      "Valoración de las teorías sobre el poblamiento de la isla de Santo Domingo",
+      "Respeto por su legado y su contribución a la identidad cultural de la República Dominicana"
+    ],
+		"achievement_indicators": [
+      "Describe los periodos de la historia de Santo Domingo mediante cuadros sinópticos y organizadores gráficos",
+      "Verifica que las fuentes utilizadas son de carácter científico en el abordaje de las zonas de riesgos y las áreas protegidas",
+      "Identifica los grupos aborígenes que habitaban la isla antes de la llegada de los españoles mediante cuadros sinópticos y organizadores gráficos",
+      "Expresa su punto de vista a partir de fuentes consultadas sobre los procesos históricos estudiados y realiza cuadros comparativos"
+    ]
 	},
 	{
 		"title": "La isla de Santo Domingo desde finales del siglo XV y el XVI",
@@ -3703,8 +3725,26 @@
       "Análisis de las causas y consecuencias de la división de la isla y los tratados firmados por las potencias europeas",
       "Análisis de la influencia de las ideas ilustradas y burguesas en la isla de Santo Domingo"
     ],
-		"attitudes": [],
-		"achievement_indicators": []
+		"attitudes": [
+      "Valoración de la autoría de las informaciones consultadas",
+      "Respeto las fuentes de donde obtuvo informaciones",
+      "Interés por identificar la veracidad de la fuente de información",
+      "Actitud crítica frente a las opiniones propias y la de los demás",
+      "Valoración de los aportes de las diferentes culturas que han interactuado en nuestra isla",
+      "Interés en conocer y comprender los procesos históricos de la sociedad dominicana",
+      "Valoración del papel trascendente de las distintas formas de resistencia a la explotación desarrollada por los pobladores de Santo Domingo",
+      "Muestra interés por conocer informaciones sobre los periodos de la historia",
+      "Curiosidad e interés por conocer la historia de su país",
+      "Respeto por las distintas culturas y grupos sociales que han habitado en la isla",
+      "Reflexión crítica sobre los modelos de explotación y las formas de poder que se han ejercido a lo largo del tiempo",
+      "Reflexión crítica sobre la forma en que estos grupos fueron tratados por los colonizadores y la sociedad dominicana posterior",
+      "Tolerancia y respeto por la diversidad cultural, responsabilidad social, compromiso con la preservación del patrimonio cultural y natural de la isla"
+    ],
+		"achievement_indicators": [
+      "Describe los periodos de la historia de Santo Domingo mediante cuadros sinópticos y organizadores gráficos",
+      "Reconoce las situaciones principales que provocaron el contrabando, la división de la isla en dos colonias y las incursiones de potencias extranjeras en la parte este de la isla",
+      "Expresa su punto de vista a partir de fuentes consultadas sobre los procesos históricos estudiados y realiza cuadros comparativos"
+    ]
 	},
 	{
 		"title": "Siglo XVII: Crisis y sentimiento de Pertenencia",
@@ -3724,8 +3764,23 @@
       "Selección de fuentes sobre la división de la isla de Santo Domingo en colonias",
       "Presentación del impacto de la Revolución francesa y la de Haití"
     ],
-		"attitudes": [],
-		"achievement_indicators": []
+		"attitudes": [
+      "Interés en conocer y comprender los procesos históricos de la sociedad dominicana",
+      "Valoración del papel trascendente de las distintas formas de resistencia a la explotación desarrollada por los pobladores de Santo Domingo",
+      "Muestra interés por conocer informaciones sobre los periodos de la historia",
+      "Curiosidad e interés por conocer la historia de su país",
+      "Reflexión crítica sobre los modelos de explotación y las formas de poder que se han ejercido a lo largo del tiempo",
+      "Evaluación crítica de los procesos históricos en los que se ha producido la conformación de la identidad nacional y cultural dominicana",
+      "Reflexión crítica sobre la forma en que estos grupos fueron tratados por los colonizadores y la sociedad dominicana posterior",
+      "Valoración de las teorías sobre el poblamiento de la isla de Santo Domingo",
+      "Interés por conocer las condiciones sociales y económicas que se vivieron en estos periodos"
+    ],
+		"achievement_indicators": [
+      "Describe los periodos de la historia de Santo Domingo mediante cuadros sinópticos y organizadores gráficos",
+      "Reconoce las situaciones principales que provocaron el contrabando, la división de la isla en dos colonias y las incursiones de potencias extranjeras en la parte este de la isla",
+      "Expresa su punto de vista a partir de fuentes consultadas sobre los procesos históricos estudiados y realiza cuadros comparativos",
+      "Analiza factores políticos, sociales, económicos, geográficos, y culturales que dieron lugar a la Independencia de la República Dominicana, la Anexión y la Restauración"
+    ]
 	},
 	{
 		"title": "Influencia de la ilustración y las Revoluciones burguesas en la isla de Santo Domingo durante el siglo XVIII",
@@ -3746,8 +3801,22 @@
       "Selección de fuentes sobre la división de la isla de Santo Domingo en colonias",
       "Presentación del impacto de la Revolución francesa y la de Haití"
     ],
-		"attitudes": [],
-		"achievement_indicators": []
+		"attitudes": [
+      "Respeto las fuentes de donde obtuvo informaciones",
+      "Interés por identificar la veracidad de la fuente de información",
+      "Actitud de respeto al medio ambiente",
+      "Interés por las zonas protegidas y los lugares de riesgos ante la ocurrencia de fenómenos naturales y catástrofes",
+      "Actitud crítica frente a las opiniones propias y la de los demás",
+      "Muestra interés por conocer informaciones sobre los periodos de la historia",
+      "Curiosidad e interés por conocer la historia de su país",
+      "Reflexión crítica sobre los modelos de explotación y las formas de poder que se han ejercido a lo largo del tiempo"
+    ],
+		"achievement_indicators": [
+      "Describe los periodos de la historia de Santo Domingo mediante cuadros sinópticos y organizadores gráficos",
+      "Analiza la influencia de la ilustración y las revoluciones burguesas en las colonias de Santo Domingo utilizando fuentes confiables",
+      "Reconoce las situaciones principales que provocaron el contrabando, la división de la isla en dos colonias y las incursiones de potencias extranjeras en la parte este de la isla",
+      "Expresa su punto de vista a partir de fuentes consultadas sobre los procesos históricos estudiados y realiza cuadros comparativos"
+    ]
 	},
 	{
 		"title": "Parte Este de la Isla de Santo Domingo 1801-1822",
@@ -3783,8 +3852,23 @@
       "Redacción de por los menos dos borradores",
       "Corrección antes de la entrega final"
     ],
-		"attitudes": [],
-		"achievement_indicators": []
+		"attitudes": [
+      "Valoración de la autoría de las informaciones consultadas",
+      "Respeto las fuentes de donde obtuvo informaciones",
+      "Interés por identificar la veracidad de la fuente de información",
+      "Actitud crítica frente a las opiniones propias y la de los demás",
+      "Interés en conocer y comprender los procesos históricos de la sociedad dominicana",
+      "Muestra interés por conocer informaciones sobre los periodos de la historia",
+      "Curiosidad e interés por conocer la historia de su país",
+      "Valoración crítica de las luchas independentistas dominicanas",
+      "Evaluación crítica de los procesos históricos en los que se ha producido la conformación de la identidad nacional y cultural dominicana"
+    ],
+		"achievement_indicators": [
+      "Describe los periodos de la historia de Santo Domingo mediante cuadros sinópticos y organizadores gráficos",
+      "Expresa su punto de vista a partir de fuentes consultadas sobre los procesos históricos estudiados y realiza cuadros comparativos",
+      "Analiza factores políticos, sociales, económicos, geográficos, y culturales que dieron lugar a la Independencia de la República Dominicana, la Anexión y la Restauración",
+      "Realiza una evaluación crítica de las fuentes históricas y las investigaciones científicas disponibles sobre las implicaciones de las dictaduras y el caudillismo en la sociedad dominicana durante la segunda mitad del siglo XIX"
+    ]
 	},
 	{
 		"title": "Independencia Nacional",
@@ -3812,8 +3896,24 @@
       "Elaboración de línea de tiempo sobre los principales acontecimientos históricos de 1844 – 1861",
       "Debate sobre la Posición de los liberales y los conservadores"
     ],
-		"attitudes": [],
-		"achievement_indicators": []
+		"attitudes": [
+      "Valoración de la autoría de las informaciones consultadas",
+      "Respeto las fuentes de donde obtuvo informaciones",
+      "Interés por identificar la veracidad de la fuente de información",
+      "Actitud crítica frente a las opiniones propias y la de los demás",
+      "Interés en conocer y comprender los procesos históricos de la sociedad dominicana",
+      "Muestra interés por conocer informaciones sobre los periodos de la historia",
+      "Curiosidad e interés por conocer la historia de su país",
+      "Valoración crítica de las luchas independentistas dominicanas",
+      "Evaluación crítica de los procesos históricos en los que se ha producido la conformación de la identidad nacional y cultural dominicana"
+    ],
+		"achievement_indicators": [
+      "Expresa su punto de vista a partir de fuentes consultadas sobre los procesos históricos estudiados y realiza cuadros comparativos",
+      "Analiza factores políticos, sociales, económicos, geográficos, y culturales que dieron lugar a la Independencia de la República Dominicana, la Anexión y la Restauración",
+      "Compara críticamente investigaciones científicas sobre el impacto político, económico y social de los eventos históricos más significativos que tuvieron lugar en la República Dominicana entre los años 1916-1865",
+      "Examina la importancia de la Constitución de la República Dominicana en la garantía de un Estado de Derecho",
+      "Compara las diferencias y similitudes de las constituciones liberales y conservadoras del siglo XIX y XX"
+    ]
 	},
 	{
 		"title": "Primera República (1844 -1861)",
@@ -3833,8 +3933,24 @@
       "Análisis de los factores que provocaron la anexión de la República Dominicana a España",
       "Interpretación de textos sobre la resistencia dominicana a la Anexión a España"
     ],
-		"attitudes": [],
-		"achievement_indicators": []
+		"attitudes": [
+      "Valoración de la autoría de las informaciones consultadas",
+      "Respeto las fuentes de donde obtuvo informaciones",
+      "Interés por identificar la veracidad de la fuente de información",
+      "Actitud crítica frente a las opiniones propias y la de los demás",
+      "Interés en conocer y comprender los procesos históricos de la sociedad dominicana",
+      "Curiosidad e interés por conocer la historia de su país",
+      "Valoración crítica de las luchas independentistas dominicanas",
+      "Evaluación crítica de los procesos históricos en los que se ha producido la conformación de la identidad nacional y cultural dominicana",
+      "Interés por conocer las condiciones sociales y económicas que se vivieron en estos periodos"
+    ],
+		"achievement_indicators": [
+      "Expresa su punto de vista a partir de fuentes consultadas sobre los procesos históricos estudiados y realiza cuadros comparativos",
+      "Analiza factores políticos, sociales, económicos, geográficos, y culturales que dieron lugar a la Independencia de la República Dominicana, la Anexión y la Restauración",
+      "Compara críticamente investigaciones científicas sobre el impacto político, económico y social de los eventos históricos más significativos que tuvieron lugar en la República Dominicana entre los años 1916-1865",
+      "Examina la importancia de la Constitución de la República Dominicana en la garantía de un Estado de Derecho",
+      "Compara las diferencias y similitudes de las constituciones liberales y conservadoras del siglo XIX y XX"
+    ]
 	},
 	{
 		"title": "Anexión de Santo Domingo a España",
@@ -3852,8 +3968,25 @@
       "Elaboración de línea de tiempo sobre los acontecimientos históricos de 1861-1865",
       "Realización de investigaciones sobre los distintos gobiernos surgidos durante la primera y segunda república"
     ],
-		"attitudes": [],
-		"achievement_indicators": []
+		"attitudes": [
+      "Valoración de la autoría de las informaciones consultadas",
+      "Respeto las fuentes de donde obtuvo informaciones",
+      "Interés por identificar la veracidad de la fuente de información",
+      "Actitud crítica frente a las opiniones propias y la de los demás",
+      "Muestra interés por conocer informaciones sobre los periodos de la historia",
+      "Curiosidad e interés por conocer la historia de su país",
+      "Valoración crítica de las luchas independentistas dominicanas",
+      "Evaluación crítica de los procesos históricos en los que se ha producido la conformación de la identidad nacional y cultural dominicana",
+      "Interés por conocer las condiciones sociales y económicas que se vivieron en estos periodos",
+      "Reflexión crítica sobre las causas de las crisis y la división territorial, comprensión del sentimiento de pertenencia y la identidad cultural que se gestó en este periodo"
+    ],
+		"achievement_indicators": [
+      "Describe los periodos de la historia de Santo Domingo mediante cuadros sinópticos y organizadores gráficos",
+      "Verifica que las fuentes utilizadas son de carácter científico en el abordaje de las zonas de riesgos y las áreas protegidas",
+      "Expresa su punto de vista a partir de fuentes consultadas sobre los procesos históricos estudiados y realiza cuadros comparativos",
+      "Analiza factores políticos, sociales, económicos, geográficos, y culturales que dieron lugar a la Independencia de la República Dominicana, la Anexión y la Restauración",
+      "Examina la importancia de la Constitución de la República Dominicana en la garantía de un Estado de Derecho"
+    ]
 	},
 	{
 		"title": "Segunda República (1865-1916)",
@@ -3881,10 +4014,26 @@
       "Análisis de la estructura de la Constitución de la República Dominicana"
     ],
 		"attitudes": [
+      "Valoración de la autoría de las informaciones consultadas",
+      "Respeto las fuentes de donde obtuvo informaciones",
+      "Interés por identificar la veracidad de la fuente de información",
+      "Actitud crítica frente a las opiniones propias y la de los demás",
+      "Interés en conocer y comprender los procesos históricos de la sociedad dominicana",
       "Muestra interés por conocer informaciones sobre los periodos de la historia",
-      "Curiosidad e interés por conocer la historia de su país"
+      "Curiosidad e interés por conocer la historia de su país",
+      "Valoración crítica de las luchas independentistas dominicanas",
+      "Evaluación crítica de los procesos históricos en los que se ha producido la conformación de la identidad nacional y cultural dominicana",
+      "Reflexión crítica sobre las causas de las crisis y la división territorial, comprensión del sentimiento de pertenencia y la identidad cultural que se gestó en este periodo"
     ],
-		"achievement_indicators": []
+		"achievement_indicators": [
+      "Describe los periodos de la historia de Santo Domingo mediante cuadros sinópticos y organizadores gráficos",
+      "Expresa su punto de vista a partir de fuentes consultadas sobre los procesos históricos estudiados y realiza cuadros comparativos",
+      "Analiza factores políticos, sociales, económicos, geográficos, y culturales que dieron lugar a la Independencia de la República Dominicana, la Anexión y la Restauración",
+      "Realiza una evaluación crítica de las fuentes históricas y las investigaciones científicas disponibles sobre las implicaciones de las dictaduras y el caudillismo en la sociedad dominicana durante la segunda mitad del siglo XIX",
+      "Compara críticamente investigaciones científicas sobre el impacto político, económico y social de los eventos históricos más significativos que tuvieron lugar en la República Dominicana entre los años 1865-1916",
+      "Examina la importancia de la Constitución de la República Dominicana en la garantía de un Estado de Derecho",
+      "Compara las diferencias y similitudes de las constituciones liberales y conservadoras del siglo XIX y XX"
+    ]
 	},
 	{
 		"title": "Educación ciudadana",
@@ -3951,11 +4100,204 @@
     ]
 	},
 	{
-		"title": "",
+		"title": "Geografía Política Dominicana",
 		"level": "SECUNDARIA",
 		"year": "SEXTO",
 		"subject": "CIENCIAS_SOCIALES",
-		"concepts": [],
+		"concepts": [
+      "Posición geográfica, ubicación, límites, área y superficie",
+      "Ventajas y desventajas",
+      "Fronteras marítimas, costeras y territoriales",
+      "División política y administrativa"
+    ],
+		"procedures": [],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Geografía Física Dominicana",
+		"level": "SECUNDARIA",
+		"year": "SEXTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Principales sistemas montañosos, diversificación climática y variación de los suelos",
+      "Valles, llanuras y regiones especiales del país",
+      "Relieve costero dominicano",
+      "Ecosistemas costeros y marinos dominicanos"
+    ],
+		"procedures": [],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Recursos agroforestales de la República Dominicana",
+		"level": "SECUNDARIA",
+		"year": "SEXTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Características y clasificación de los sistemas agroforestales dominicanos"
+    ],
+		"procedures": [],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Leyes de protección ambiental dominicana",
+		"level": "SECUNDARIA",
+		"year": "SEXTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Sistema Nacional de Áreas Protegidas (Ley 64-00)",
+      "Ley 202-04 sectorial de Áreas Protegidas",
+      "Ley 67-00 de Fomento a las Energías Renovables y Regulación de sus Beneficios"
+    ],
+		"procedures": [],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Geografía Hidrográfica Dominicana",
+		"level": "SECUNDARIA",
+		"year": "SEXTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Principales cuencas hidrográficas",
+      "Aguas marinas, formas fluviales y de escorrentía superficial dominicano",
+      "Selección de pasos para la elaboración del proyecto sobre protección ambiental han afectado la política y la economía de la República Dominicana, y cómo han contribuido a la protección del medio ambiente en el país",
+      "Discusión sobre el Sistema Nacional de Áreas Protegidas (Ley 64-00), los Alcances y limitaciones del sistema",
+      "Elaboración de actividades a favor del medio ambiente y la defensa de las áreas protegidas del país",
+      "Valoración de cómo las características geográficas pueden afectar la agricultura, la ganadería, la industria y el turismo en cada región",
+      "Preocupación por la mortalidad y natalidad de República Dominicana",
+      "Evolución del sistema acuífero: aguas superficiales y subterráneas dominicanas",
+      "Impacto de las sequías a los sistemas agrícolas dominicanos",
+      "Demografía:",
+      "Evolución demográfica (Natalidad, fecundidad y mortalidad)"
+    ],
+		"procedures": [],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Crecimiento poblacional: urbano y rural",
+		"level": "SECUNDARIA",
+		"year": "SEXTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Evolución demográfica de la población dominicano desde 1950 hasta el presente",
+      "Pirámide poblacional. La migración:",
+      "Emigración e Inmigración"
+    ],
+		"procedures": [],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Geografía Económica Dominicana",
+		"level": "SECUNDARIA",
+		"year": "SEXTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Actividades económicas: primarias, secundarias y terciarias",
+      "Medios de transporte nacional, intercambios comerciales y sistema producción local",
+      "Principales productos de exportación dominicano",
+      "Mercados fronterizos: ventajas y desventajas",
+      "Comercio de la República Dominicana a finales del siglo XX e inicio del siglo XXI",
+      "Política económica, desarrollo y soberanía nacional",
+      "Cooperativismo. Seguros y reaseguros. Sistema de pensiones. Normas y funcionamiento",
+      "Producto Nacional Bruto y Neto",
+      "Teoría sobre la oferta y la demanda",
+      "Sector público y sector externo",
+      "Deuda pública, deuda soberana, y deuda privada internacional",
+      "Características de las economías desarrolladas y de las economías subdesarrolladas"
+    ],
+		"procedures": [],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Historia Dominicana",
+		"level": "SECUNDARIA",
+		"year": "SEXTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Gobierno de la Ocupación Militar estadounidense (1916-1924)",
+      "Gobierno de Horacio Vásquez, tras el fin de la ocupación estadounidense (1924-1930)",
+      "Crisis política del Estado dominicano en 1928",
+      "Efecto en la República Dominicana de la crisis económica mundial de 1929"
+    ],
+		"procedures": [],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Dictadura de Rafael Leónidas Trujillo Molina (1930-1961) ",
+		"level": "SECUNDARIA",
+		"year": "SEXTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Economía, sociedad y política durante la dictadura (medidas de emergencia, exportación e importación, emigración e inmigración)",
+      "Monopolio trujillista y modernización, expansión agroindustrial",
+      "Propaganda política, desinformación y control de la opinión pública",
+      "Violencia militar y paramilitar; el genocidio de 1937",
+      "Cultura, Iglesia y religiosidad. La política cultural del régimen: hispanismo y catolicismo",
+      "Política internacional de Trujillo en el Caribe y Latinoamérica antes y durante la Guerra Fría: “anticomunista”",
+      "Gobiernos interinos en la época trujillista",
+      "Resistencia a la dictadura",
+      "Crisis del régimen y ajusticiamiento del tirano en 1961"
+    ],
+		"procedures": [],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Luchas democráticas 1961-1963 en el contexto del Caribe",
+		"level": "SECUNDARIA",
+		"year": "SEXTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Movimientos sociales antes y después de la dictadura (14 de junio y Manolo Tavares Justo)",
+      "Gobierno de Juan Emilio Bosch Gaviño y Constitución de 1963",
+      "Golpe de Estado",
+      "Gobierno del Triunvirato",
+      "La Revolución de Abril y la invasión militar de los Estados Unidos en 1965",
+      "Gobierno de Reconstrucción Nacional",
+      "Cambios políticos y económicos en la República Dominicana (1966-2004)",
+      "Gobierno de Héctor Rafael García Godo Cáceres",
+      "Gobiernos de los doce años de Joaquín Antonio Balaguer Ricardo (1966-1978)",
+      "Proceso político y alternabilidad desde 1978: Encuentros y desencuentros con la democracia.Gobierno de Silvestre Antonio Guzmán Fernández (1978 a 1982)",
+      "Gobierno de José Salvador Omar Jorge Blanco (1982-1986)",
+      "Gobierno de Jacobo Majluta Azar (1986)",
+      "Cambios políticos y económicos: nueva política estadounidense y del final del bloque soviético en 1989",
+      "Problemas globales y nacionales del deterioro ambiental",
+      "Gobiernos del PRD, PRSC y PLD (2000-2010)"
+    ],
+		"procedures": [],
+		"attitudes": [],
+		"achievement_indicators": []
+	},
+	{
+		"title": "Educación ciudadana",
+		"level": "SECUNDARIA",
+		"year": "SEXTO",
+		"subject": "CIENCIAS_SOCIALES",
+		"concepts": [
+      "Deforestación, sequías, contaminación, sobreexplotación, desperdicio",
+      "Propuesta de solución de conflictos",
+      "Identidad nacional y pensamiento dominicano",
+      "El contexto histórico de la identidad dominicana",
+      "La democracia en la República Dominicana",
+      "Proyecto constitucional de Duarte y su proyecto nacional: entre el liberalismo teórico y el conservadurismo práctico",
+      "Constitución dominicana",
+      "Símbolos patrios",
+      "Valores humanos y propuesta de solución de conflictos",
+      "Educación vial",
+      "Riesgos a nivel vial",
+      "Educación tributaria",
+      "Los agroquímicos y su impacto al medioambiente",
+      "Explotación forestal y minera: riesgos de salud y medioambientales",
+      "Propuestas de solución de conflictos",
+      "Violencia social e intrafamiliar"
+    ],
 		"procedures": [],
 		"attitudes": [],
 		"achievement_indicators": []
