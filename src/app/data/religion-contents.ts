@@ -2,22 +2,22 @@ import { SubjectContents } from "../interfaces/subject-contents";
 
 export const RELIGION_CONTENTS: SubjectContents = {
     primary: [
-        [
-            "Nacimiento de Jesús",
-            "Sentido religioso de la Navidad",
-            "Celebraciones en la Navidad",
-            "Costumbres en la época de navidad",
-            "Normas de convivencia",
-            "Convivencia escolar y familiar",
-            "Las normas en el juego",
-            "Normas en el uso de las tecnologías",
-            "Enseñanzas de Jesús de Nazaret sobre las normas de convivencia",
-            "Dios es creador, todo lo hizo bueno",
-            "La naturaleza es creación de Dios",
-            "Somos parte de la naturaleza",
-            "Utilidad de las partes del cuerpo y su cuidado",
-            "El cuerpo humano tesoro y regalo de Dios",
-            "Situaciones de riesgo en la niñez",
+    [
+          "Nacimiento de Jesús",
+          "Sentido religioso de la Navidad",
+          "Celebraciones en la Navidad",
+          "Costumbres en la época de navidad",
+          "Normas de convivencia",
+          "Convivencia escolar y familiar",
+          "Las normas en el juego",
+          "Normas en el uso de las tecnologías",
+          "Enseñanzas de Jesús de Nazaret sobre las normas de convivencia",
+          "Dios es creador, todo lo hizo bueno",
+          "La naturaleza es creación de Dios",
+          "Somos parte de la naturaleza",
+          "Utilidad de las partes del cuerpo y su cuidado",
+          "El cuerpo humano tesoro y regalo de Dios",
+          "Situaciones de riesgo en la niñez",
         ],
         [
             "La historia de Jesús de Nazaret",

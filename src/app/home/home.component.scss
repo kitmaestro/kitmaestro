@@ -27,10 +27,14 @@
   aspect-ratio: 1/1;
   border-radius: 50%;
   margin: 0 auto 12px;
-  max-width: 33.33%;
+  max-width: 80%;
   border-width: 5px;
   border-style: solid;
   border-radius: 50%;
+
+  @media screen and (min-width: 960px) {
+    max-width: 50%;
+  }
 }
 
 .app-card {
