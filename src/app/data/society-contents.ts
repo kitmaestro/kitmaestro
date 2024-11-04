@@ -137,7 +137,7 @@ export const SOCIETY_CONTENTS: SubjectContents = {
             "Crecimiento poblacional: urbano y rural",
             "Geografía Económica Dominicana",
             "Historia Dominicana",
-            "Dictadura de Rafael Leónidas Trujillo Molina (1930-1961) ",
+            "Dictadura de Rafael Leónidas Trujillo Molina (1930-1961)",
             "Luchas democráticas 1961-1963 en el contexto del Caribe",
             "Educación ciudadana",
         ],

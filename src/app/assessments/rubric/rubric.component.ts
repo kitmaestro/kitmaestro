@@ -263,8 +263,13 @@ Tu respuesta debe ser un json valido con esta interfaz:
     this.aiService.geminiAi(text).subscribe({
       next: result => {
         const start = result.response.indexOf('{');
-        const limit = result.response.indexOf('}\n```\n') + 1;
+        const limit = result.response.lastIndexOf('}') + 1;
         const obj = JSON.parse(result.response.slice(start, limit)) as { title?: string; criteria: { indicator: string, maxScore: number, criterion: { name: string, score: number, }[] }[] };
+        if (!obj) {
+          this.sb.open('Error al generar la rubrica. Intentalo de nuevo.', 'Ok', { duration: 2500 });
+          this.generating = false;
+          return;
+        }
         const rubric: any = {
           criteria: obj.criteria,
           title: obj.title ? obj.title : title,

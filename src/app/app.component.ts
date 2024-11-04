@@ -1,14 +1,13 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
-import { exhaustMap, filter, map, Observable, zip } from 'rxjs';
+import { filter, map, Observable, zip } from 'rxjs';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LoadingComponent } from './ui/loading/loading.component';
 import { AuthService } from './services/auth.service';
 import { UserSettings } from './interfaces/user-settings';
-import { collectionData, collection, Firestore, docData, doc } from '@angular/fire/firestore';
+import { collectionData, collection, Firestore } from '@angular/fire/firestore';
 import {  } from '@angular/fire/auth';
-import { UserSubscription } from './interfaces/user-subscription';
 // import { UserSubscriptionService } from './services/user-subscription.service';
 
 @Component({
@@ -85,18 +84,6 @@ export class AppComponent {
     //   }
     // });
     this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(() => this.loadUser());
-    // const sus = (collectionData(collection(this.firestore, 'competence')) as Observable<CompetenceEntry[]>).subscribe(competence => {
-    //   this.comp = competence;
-    //   sus.unsubscribe();
-    //   this.upload();
-    //   const blob = new Blob([JSON.stringify(competence, null, 4)], { type: 'application/json' });
-    //   const url = window.URL.createObjectURL(blob);
-    //   const a = document.createElement('a');
-    //   a.href = url;
-    //   a.download = 'competence.json';
-    //   a.click();
-    //   window.URL.revokeObjectURL(url);
-    // })
     const users = [
       {
         email: "asilverio26@hotmail.com",
@@ -772,7 +759,7 @@ export class AppComponent {
           const referrer = subscriptions.find(sub => sub.refCode == s.referral);
           const ref: any = users.find(u => u.uid == referrer?.uid);
           const user: any = users.find(u => u.uid == s.uid);
-          // user.profile = settings.find(u => u.uid == s.uid);
+          user.profile = settings.find(u => u.uid == s.uid);
           s.user = user;
           const referral = {
             referred: user.email,
