@@ -79,7 +79,9 @@ export const routes: Routes = [
         ]
   },
   // grading
-  { path: 'grading-systems', loadComponent: () => import('./grading/grading-systems/grading-systems.component').then(mod => mod.GradingSystemsComponent) },
+  { path: 'grading-systems', loadComponent: () => import('./class-planning/score-system-generator/score-system-generator.component').then(mod => mod.ScoreSystemGeneratorComponent) },
+  { path: 'grading-systems/list', loadComponent: () => import('./class-planning/score-systems/score-systems.component').then(mod => mod.ScoreSystemsComponent) },
+  { path: 'grading-systems/:id', loadComponent: () => import('./class-planning/score-system-detail/score-system-detail.component').then(mod => mod.ScoreSystemDetailComponent) },
   // scheduling
     { path: 'schedules', loadComponent: () => import('./scheduling/schedule-list/schedule-list.component').then(mod => mod.ScheduleListComponent) },
     { path: 'schedules/create', loadComponent: () => import('./scheduling/schedule-builder/schedule-builder.component').then(mod => mod.ScheduleBuilderComponent) },

@@ -1,0 +1,81 @@
+@if (scoreSystem) {
+	<mat-card style="margin-top: 24px;">
+		<mat-card-content>
+			<div class="page" id="score-system">
+				<div style="text-align: center;">
+					<h2 style="margin-bottom: 0;">{{ section?.school?.name || scoreSystem.section.school.name }}</h2>
+					<h2 style="margin-bottom: 0;">Sistema de Calificaci&oacute;n de {{(contentBlock?.subject || scoreSystem.content.subject) | pretify}}</h2>
+					<h3 style="margin-bottom: 0;">{{user?.title || scoreSystem.user.title}}. {{user?.firstname || scoreSystem.user.firstname}} {{user?.lastname || scoreSystem.user.lastname}}</h3>
+					<h3 style="margin-bottom: 0;">{{section?.name || scoreSystem.section.name}}</h3>
+					<h3>- {{contentBlock?.title || scoreSystem.content.title}} -</h3>
+				</div>
+				<h3 style="font-weight: bold;">1. Esquema de Puntuaci&oacute;n</h3>
+				<table style="table-layout: fixed; margin-bottom: 24px;">
+					<thead>
+						<tr>
+							<th>Competencia</th>
+							<th>Item o Actividad</th>
+							<th>Criterios de Evaluaci&oacute;n</th>
+							<th>Puntuaci&oacute;n</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (group of grouped; track group.competence) {
+							@for (row of group.grading; track $index) {
+								<tr>
+									@if ($index == 0) {
+										<td [attr.rowspan]="group.grading.length + 1">{{group.competence}}</td>
+									}
+									<td>{{row.activity}} ({{row.activityType}})</td>
+									<td>
+										<ul style="margin: 0; padding: 0; list-style: none;">
+											@for (criterion of row.criteria; track $index) {
+												<li>- {{criterion}}</li>
+											}
+										</ul>
+									</td>
+									<td>{{row.points}} Puntos</td>
+								</tr>
+							}
+							<tr>
+								<td colspan="2" style="font-weight: bold; text-align: end;">Total</td>
+								<td>{{group.total}} Puntos</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+				@for (group of grouped; track group.competence; let position = $index) {
+					<h3 style="font-weight: bold;">{{position + 2}}. Matr&iacute;z de Ponderaci&oacute;n {{position + 1}}: Competencia {{group.competence}}</h3>
+					<table style="table-layout: fixed; margin-bottom: 24px;">
+						<tbody>
+							<tr>
+								<td></td>
+								<td></td>
+								<td [attr.colspan]="group.grading.length" style="text-align: center; font-weight: bold;">Competencia {{group.competence}}</td>
+								<td style="font-weight: bold;">Total</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								@for (row of group.grading; track $index) {
+									<td style="line-height: 1.15; font-weight: normal;">{{row.activity}} ({{row.activityType}})<br/><b>{{row.points}} Puntos</b></td>
+								}
+								<td>{{group.total}}</td>
+							</tr>
+							@for(student of students; track $index) {
+								<tr>
+									<th>{{$index + 1}}</th>
+									<td>{{student.firstname}} {{student.lastname}}</td>
+									@for (row of group.grading; track $index) {
+										<td></td>
+									}
+									<td></td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				}
+			</div>
+		</mat-card-content>
+	</mat-card>
+}

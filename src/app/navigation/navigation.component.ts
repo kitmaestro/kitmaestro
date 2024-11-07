@@ -62,13 +62,14 @@ export class NavigationComponent {
     { activeIf: 'class-plans', route: "/class-plans/list", icon: "library_books", label: "Planes Diarios", },
     { activeIf: 'assessments', route: "/assessments/list", icon: "history_edu", label: "Instrumentos", },
     { activeIf: 'activities', route: "/activities", icon: "school", label: "Actividades", },
+    { activeIf: 'grading-systems', route: "/grading-systems/list", icon: "scoreboard", label: "Sistemas de Calificacion", },
     { activeIf: 'sections', route: "/sections", icon: "class", label: "Secciones", },
     { activeIf: 'schedules', route: "/schedules", icon: "calendar_month", label: "Horario", },
     { activeIf: 'log-registry', route: "/log-registry-generator", icon: "edit_note", label: "Registro Anecdótico", },
     { activeIf: 'todos', route: "/todos", icon: "list", label: "Pendientes", },
     // { route: "/settings", icon: "settings", label: "Ajustes", },
-    { activeIf: 'profile', route: "/profile", icon: "person_circle", label: "Perfil", },
     { activeIf: 'my-resources', route: "/my-resources", icon: "analytics", label: "Mis Recursos", },
+    { activeIf: 'profile', route: "/profile", icon: "person_circle", label: "Perfil", },
   ]
 
   toggleNames() {

@@ -73,6 +73,8 @@ import { forkJoin } from 'rxjs';
 import { ContentBlockService } from '../../services/content-block.service';
 import { ContentBlock } from '../../interfaces/content-block';
 import { TEACHING_METHODS } from '../../data/teaching-methods';
+// import { SubjectConceptList } from '../../interfaces/subject-concept-list';
+// import { SubjectConceptListService } from '../../services/subject-concept-list.service';
 
 @Component({
   selector: 'app-unit-plan-generator',
@@ -105,7 +107,8 @@ export class UnitPlanGeneratorComponent implements OnInit {
   private classSectionService = inject(ClassSectionService);
   private userSettingsService = inject(UserSettingsService);
   private contentBlockService = inject(ContentBlockService);
-  private unitPlanService = inject(UnitPlanService);
+	private unitPlanService = inject(UnitPlanService);
+	// private contentService = inject(SubjectConceptListService);
   private competenceService = inject(CompetenceService);
   private router = inject(Router);
   private _evaluationCriteria: CompetenceEntry[] = [];
@@ -187,6 +190,32 @@ export class UnitPlanGeneratorComponent implements OnInit {
     //   'EDUCACION_ARTISTICA', 'INGLES', 'FRANCES', 'MATEMATICA', 'FORMACION_HUMANA', 'CIENCIAS_NATURALES', 'CIENCIAS_SOCIALES', 'LENGUA_ESPANOLA', 'EDUCACION_FISICA'
     // ];
     // let created = 0;
+    // [ART_CONTENTS, ENGLISH_CONTENTS, FRENCH_CONTENTS, MATH_CONTENTS, RELIGION_CONTENTS, SCIENCE_CONTENTS, SOCIETY_CONTENTS, SPANISH_CONTENTS, SPORTS_CONTENTS].forEach((contents, index) => {
+	// 	contents.primary.forEach((content, i) => {
+	// 		const grade = ['PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'][i];
+	// 		const block: any = {
+	// 			concepts: content,
+	// 			grade,
+	// 			subject: subjectsNames[index],
+	// 			level: 'PRIMARIA'
+	// 		}
+	// 		this.contentService.create(block).subscribe(result => {
+	// 			console.log('Created #%d', ++created)
+	// 		})
+	// 	});
+	// 	contents.highSchool.forEach((content, i) => {
+	// 		const grade = ['PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'][i];
+	// 		const block: any = {
+	// 			concepts: content,
+	// 			grade,
+	// 			subject: subjectsNames[index],
+	// 			level: 'SECUNDARIA'
+	// 		}
+	// 		this.contentService.create(block).subscribe(result => {
+	// 			console.log('Created #%d', ++created)
+	// 		})
+	// 	});
+    // });
     // [artContentBlocks, englishContentBlocks, frenchContentBlocks, mathContentBlocks, religionContentBlocks, scienceContentBlocks, societyContentBlocks, spanishContentBlocks, sportsContentBlocks].forEach(contents => {
     //   contents.forEach((content, i) => {
     //     const { year, level, concepts, attitudes, procedures, subject, title, achievement_indicators } = content;

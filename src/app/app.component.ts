@@ -753,23 +753,23 @@ export class AppComponent {
     const subscriptions = collectionData(collection(this.firestore, 'user-subscriptions'), { idField: 'id' }) as Observable<any[]>;
     const settings = collectionData(collection(this.firestore, 'user-settings'), { idField: 'id' }) as Observable<any[]>;
 
-    zip(subscriptions, settings).pipe(
-      map(([subscriptions, settings]) => {
-        return subscriptions.map(s => {
-          const referrer = subscriptions.find(sub => sub.refCode == s.referral);
-          const ref: any = users.find(u => u.uid == referrer?.uid);
-          const user: any = users.find(u => u.uid == s.uid);
-          user.profile = settings.find(u => u.uid == s.uid);
-          s.user = user;
-          const referral = {
-            referred: user.email,
-            referrer: ref?.email,
-            date: new Date(),
-            status: s.active ? 'paid' : 'pending'
-          }
-          return referral;
-        })
-      })
-    ).subscribe(res => console.log(res))
+    // zip(subscriptions, settings).pipe(
+    //   map(([subscriptions, settings]) => {
+    //     return subscriptions.map(s => {
+    //       const referrer = subscriptions.find(sub => sub.refCode == s.referral);
+    //       const ref: any = users.find(u => u.uid == referrer?.uid);
+    //       const user: any = users.find(u => u.uid == s.uid);
+    //       user.profile = settings.find(u => u.uid == s.uid);
+    //       s.user = user;
+    //       const referral = {
+    //         referred: user.email,
+    //         referrer: ref?.email,
+    //         date: new Date(),
+    //         status: s.active ? 'paid' : 'pending'
+    //       }
+    //       return referral;
+    //     })
+    //   })
+    // ).subscribe(res => console.log(res))
   }
 }
