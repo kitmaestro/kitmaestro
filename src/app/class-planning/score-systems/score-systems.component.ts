@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ScoreSystemService } from '../../services/score-system.service';
-import { ScoreSystem } from '../../interfaces/score-system';
+import { GradingActivity, ScoreSystem } from '../../interfaces/score-system';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
   selector: 'app-score-systems',
@@ -18,6 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 		MatButtonModule,
 		MatTableModule,
 		MatCardModule,
+		PretifyPipe,
   ],
   templateUrl: './score-systems.component.html',
   styleUrl: './score-systems.component.scss'
@@ -26,7 +28,7 @@ export class ScoreSystemsComponent {
 	private scoreSystemService = inject(ScoreSystemService);
 	private sb = inject(MatSnackBar);
 	scoreSystems: ScoreSystem[] = [];
-	columns = ['section', 'content', 'activities', 'actions'];
+	columns = ['section', 'subject', 'content', 'competence', 'activities', 'actions'];
 
 	load() {
 		this.scoreSystemService.findAll().subscribe({
@@ -38,6 +40,15 @@ export class ScoreSystemsComponent {
 
 	ngOnInit() {
 		this.load();
+	}
+
+	countCompetence(activities: GradingActivity[]) {
+		return activities.reduce((prev: string[], curr: GradingActivity) => {
+			if (!prev.includes(curr.competence)) {
+				prev.push(curr.competence);
+			}
+			return prev;
+		}, [] as string[]).length;
 	}
 
 	delete(id: string) {
