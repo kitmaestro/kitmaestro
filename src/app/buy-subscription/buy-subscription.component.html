@@ -2,7 +2,9 @@
   <h1>Precios de Suscripción a KitMaestro</h1>
 </div>
 
-<div class="pricing-table-container">
+<div id="zf-widget-root-id"></div>
+
+<div class="pricing-table-container" style="display: none !important;">
     @for (plan of pricingPlans; track $index) {
         <mat-card class="pricing-card" [class.standard]="$index == 1">
             <mat-card-content>

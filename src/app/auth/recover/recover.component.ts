@@ -30,7 +30,7 @@ export class RecoverComponent {
   sb = inject(MatSnackBar);
   dialogRef = inject(DialogRef<RecoverComponent>);
 
-  email = this.fb.control('', [Validators.email]);
+  email = this.fb.control('', [Validators.email, Validators.required]);
 
   onSubmit() {
     const email = this.email.value;

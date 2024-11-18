@@ -42,6 +42,7 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
   subscription$: Observable<UserSubscription> = this.userSubscriptionService.checkSubscription();
   loading = true;
   monthlyPricing = false;
+  script: any = null;
 
   pricingPlans = [
     {
@@ -193,10 +194,38 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.renderButtons(), 0);
+    // setTimeout(() => this.renderButtons(), 0);
+  }
+
+  loadScript() {
+    return new Promise((resolve, reject) => {
+        //load script
+        this.script = document.createElement('script');
+        this.script.type = 'text/javascript';
+        this.script.src = "https://js.zohostatic.com/books/zfwidgets/assets/js/zf-widget.js";
+        this.script.id = "zf-pricing-table";
+        this.script.dataset.digest = "2-95ce2c643a93915e4414ee32022e96100489a80773ede99b72a9aeba00aafbd7922440bc604ebb1fb737c2b253195bdf7d83ce4d81667ad587551cfd218224f5";
+        this.script.dataset.product_url = "https://billing.zoho.com";
+        console.log(this.script)
+        if (this.script.readyState) {
+          this.script.onreadystatechange = () => {
+            if (this.script.readyState === "loaded" || this.script.readyState === "complete") {
+              this.script.onreadystatechange = null;
+              resolve({ loaded: true, status: 'Loaded' });
+            }
+          };
+        } else {
+          this.script.onload = () => {
+            resolve({ loaded: true, status: 'Loaded' });
+          };
+        }
+        this.script.onerror = (error: any) => resolve({ loaded: false, status: 'Loaded' });
+        document.getElementsByTagName('head')[0].appendChild(this.script);
+    });
   }
 
   ngOnInit(): void {
+    this.loadScript();
     this.subscription$.subscribe({
       next: (subscription) => {
         this.loading = false;

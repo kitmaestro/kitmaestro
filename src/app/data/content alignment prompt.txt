@@ -24,3 +24,109 @@ Esta es la lista de contenidos actitudinales:
         "procedures": [],
         "achievement_indicators": []
     },
+
+
+• P1. Observación, planteamiento de problema.
+• P2. Formulación de preguntas o hipótesis.
+• P3. Planificación y ejecución de experimentos, recolección y registro de evidencias.
+• P4. Diseño y construcción de modelos y simulaciones con la integración de las Tics y la ingeniería.
+• P5. Resolución de problema, Análisis, discusión, evaluación y comunicación de los resultados.
+• P6. Proceso Epistemológico de las Ciencias Naturales.
+Teoría atómica moderna
+• Construcción de modelos de átomos usando la teoría atómica moderna: Niveles de energía, orbitales, regla de Pauli, regla de Hund, configuración electrónica (P4 y P5).
+• Predicción del comportamiento químico de los elementos, a partir de su ubicación en la tabla periódica (P1 a P6).
+• Relaciona los experimentos concretos que permitieron descubrir las diferentes partículas subatómicas, dando cuenta de los avances de los modelos atómicos a lo largo de la historia y relacionando con el contexto de la época (P2 a P3).
+Tabla periódica y Propiedades de los elementos químicos
+• Conductividad eléctrica y conductividad térmica metales, no metales y semiconductores (P1, P2, P3 y P5).
+• Propiedades, obtención, reacciones, aplicaciones y efectos en seres humanos y medioambiente de: No metales (hidrógeno, oxígeno, nitrógeno, carbono, fósforo). Metales (plomo, mercurio, hierro, calcio, magnesio, zinc, cobre, galio); Metaloides (silicio, germanio, arsénico); gases nobles (helio, neón, argón) (P1 hasta P5).
+• Relación entre las propiedades periódicas del átomo en la tabla periódica: Radio atómico, electronegatividad, afinidad electrónica, energía de ionización (P1hasta P5).
+• Bloques s, p, d, f y sus aplicaciones (P1 hasta P5).
+Enlaces y estructuras químicas
+• Aplicación de la estructura de Lewis y regla del octeto a distintos compuestos químicos (P4 y P5).
+• Utilización de la información de la tabla periódica sobre el número atómico de los elementos, y las estructuras de Lewis para predecir el tipo y número de enlaces que se forman entre estos (P1 hasta P6)
+• Dibuja distintas estructuras resonantes de compuestos químicos (P5).
+• Modelación de las fuerzas intramoleculares: Enlaces iónico y covalente (P4 y P5).
+• Fuerzas intermoleculares: puente de hidrógeno, fuerzas de Van der
+Waals y los cambios físicos (P3 y P4),
+Termodinámica
+• Reacciones exotérmicas y endotérmicas (P3, P4 y P5).
+• Medición de la Entalpía de formación de un compuesto químico (P3
+hasta P5).
+• Medición de la Energía libre de Gibbs (P1 hasta P5).
+• Ecuación de estado de gases ideales y reales (P1 hasta P5).
+Reacciones Químicas
+• Clasifica las reacciones de análisis, síntesis, sustitución y doble
+sustitución (P3 hasta P5).
+• Estequiometría de la reacción: Balanceo de reacciones químicas.
+• Ley de conservación de la masa. Reactivo limitante (P3 hasta P5).
+• Principio Le Chatelier, factores que afectan el equilibrio Químico (P3 hasta P5).
+• Cinética. Factores que afectan la cinética de la reacción. (P3 hasta P5).
+• Energía de activación (P3 hasta P5).
+• Presencia de Catalizadores en una reacción (P3 y P4).
+• Química de los compuestos de carbono
+• Hibridación: sp1, sp2 y sp3 (P3 y P4). Orbitales moleculares (P4).
+• Enlace σ y π (P4).
+• Enlace simple, doble y triple (P3 y P4).
+• Indagación sobre diversidad y propiedades de los compuestos de carbono (P1 y P2).
+• Mecanismos de reacción en los grupos funcionales:
+• Sustitución nucleofílica (Sn1 y Sn2): Alcanos, Alcoholes, haluros de alquilo, Ácidos Carboxílicos y sus derivados (P3, P4 y P5).
+• Eliminación (E1 y E2): Alcoholes y derivados halogenados (P3, P4 y P5).
+• Adición Electrofílica (AE): Alquenos, Alquinos, Aldehídos y Cetonas (P3, P4 y P5). Sustitución Electrofílica Aromática (SEA): Derivados del benceno (P3, P4 y P5). Especies de resonancia (sistema aromático) (P3, P4 y P5).
+Biomoléculas y bioquímica
+• Identificación de Lípidos (P1, P3, P4 y P5). Caracterización de
+Carbohidratos (P1, P3, P4 y P5). Identificación de Proteínas (P1, P3, P4 y P5).
+• Modelización de ácidos nucleicos (ADN y ARN) (P3, P4 y P5). Aplicaciones biológicas de Enzimas (P3, P4 y P5).
+• Inhibidores enzimáticos (P1, P3, P4 y P5).
+• Rutas metabólicas (P3 y P4).
+Geoquímica y astroquímica
+• Composición de las capas de la tierra (P4 y P5). Minerales y rocas (P1, P4 y P5).
+• Datación de rocas y fósiles (P4 y P5).
+• Indagación sobre gases de efecto invernadero (GEI) (P1, P3 y P4).
+• Indagación sobre Contaminación (lixiviación aguas subterráneas) (P1 hasta P6).
+• Yacimientos de hidrocarburos (P4 y P5).
+• Origen de los elementos (P4 y P5).
+• Indagación sobre reacciones nucleares. Medicina nuclear. (P4 y P5).
+• Composición química de los planetas y otros cuerpos celestes (P4 y P5).
+
+• Interés y participación al comparar las diferentes ideas que tienen los grupos de trabajo.
+• Desarrollo de sus actividades científicas en forma organizada y metódica.
+• Manifestación de sentido de iniciativa al realizar actividades científicas.
+• Utilización de lenguaje o términos científicos apropiados al comunicarse tanto oral como a través de informes o reportes.
+• Entusiasmo al generar soluciones originales ante situaciones o problemas presentados.
+• Demostración de responsabilidad en el desarrollo de sus trabajos.
+• Manifestación de solidaridad y comprensión al realizar trabajos junto a sus compañeros.
+• Valoración de los aportes que la ciencia realiza en beneficio de la humanidad.
+• Valoración y acatamiento de las reglas de seguridad en el laboratorio.
+• Manifestación de curiosidad, creatividad al realizar sus experimentos científicos.
+• Demostración de respeto y protección por el medioambiente.
+• Disfrute de las actividades de la ciencia (ferias, clubes, congresos, olimpiadas científicas entre otras).
+• Interés por mostrar una actitud de cambio, siempre que la situación así lo requiera.
+• Vinculación con entusiasmo de herramientas tecnológicas a sus actividades científicas.
+
+• Interpreta de manera precisa el lenguaje científico y tecnológico considerando las ideas básicas y procesos científicos de la química, así como sus contextos y su alcance, asumiendo una posición crítica ante información o proceso pseudocientífico, partiendo de problemática de ejes temáticos transversales.
+• Produce y comunica efectivamente informes de laboratorio, ensayo, resúmenes, proyectos, resolución de problema, presentación oral, carteles e información científica relacionada con los fundamentos de la química.
+• Utiliza símbolos, términos, modelos, gráficas, ecuaciones y definiciones de la química, leyes y convenciones químicas y tecnológicas de forma adecuadas.
+• Utiliza estrategias efectivas en la búsqueda de evidencias para dar respuesta a problemas o situaciones relacionadas con la química.
+• Aplica de forma adecuada los conceptos, principios, ideas, modelos y leyes presentes en problemas y fenómenos químicos, diseñando y aplicando estrategias en la búsqueda de soluciones, tanto en términos cualitativos como cuantitativos.
+• Formula, analiza y evalúa pertinentemente las evidencias que dan respuestas a problemas y fenómenos asociados con explicación química, comprendiendo el alcance de los conceptos, modelos, principios, teoría y leyes.,
+• Utiliza y evalúa efectivamente diversas estrategias, procedimientos, herramientas técnicas, para solucionar, diseñar y ejecutar experimentos con base en la química.
+• Formula, ejecuta y evalúa efectivamente experimentos, estructuras, herramientas, sistemas y mecanismo para dar respuesta al problema o fenómeno natural asociada con la química.
+• Construye, utiliza y evalúa apropiadamente objetos, herramientas y estructuras proponiendo mecanismo y modelos que le permitan dar respuestas a situaciones y problemas vinculado a la química.
+• Expone efectivamente producción oral o escrita, basados en análisis crítico y comparativo de época abordando el desarrollo histórico y su contexto social del desarrollo de química.
+• Usa de manera efectiva argumentos sustentados con evidencias o posición filosófica, al asumir postura sobre conicto en decisiones éticas de la química y las ingenierías.
+• Analiza en forma apropiada y representa el desarrollo científico y tecnológico y el impacto de la química en nuestra sociedad.
+• Planifica y realiza de investigación escolar o prácticas experimentales y simulaciones efectivamente.
+• Lleva a cabo aplicación apropiada de investigación en química, identificando:
+- Planteamiento de problema.
+- Los materiales, métodos y los modelos con su precisión y recolección de información.
+- Utilización apropiada de los recursos tecnológicos y las gráficas, tablas y organización de información.
+- Resultados, discusión y análisis de datos e información de forma apropiada.
+- Conclusión y explicación de los resultados.
+- Uso apropiado de las fuentes bibliografías y los derechos de autores.
+• Presentación efectiva y sistemática de sus argumentos basados en evidencias.
+• Identifica de manera correcta situaciones o acciones de riesgo para su salud, el medioambiente o de desarrollo sostenible.
+• Planifica acciones efectivas que promueva cuidado de su salud, del medioambiente y, a favor del desarrollo sostenible en su comunidad.
+• Aplica acciones proactivas apropiadas a un estilo de vida saludable y sostenido con el medioambiente.
+• Identifica acciones efectivas en procura de seguimiento al proceso de su proyecto de desarrollo personal, académico.
+• Evalúa y valora pertinentemente profesiones y oficios afines a la química.
+• Muestra actitudes y valores apropiados que fortalezcan su desarrollo personal, académico y vocación profesional.

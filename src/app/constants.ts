@@ -200,7 +200,6 @@ export const classroomResources = [
   'Módulos en línea',
   'Notas adhesivas',
   'Papel cuadriculado',
-  'Papel en blanco',
   'Pegamento',
   'Pelotas',
   'Pinceles',
