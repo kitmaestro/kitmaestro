@@ -25,6 +25,7 @@ Esta es la lista de contenidos actitudinales:
         "achievement_indicators": []
     },
 
+5to
 
 • P1. Observación, planteamiento de problema.
 • P2. Formulación de preguntas o hipótesis.
@@ -130,3 +131,211 @@ Geoquímica y astroquímica
 • Identifica acciones efectivas en procura de seguimiento al proceso de su proyecto de desarrollo personal, académico.
 • Evalúa y valora pertinentemente profesiones y oficios afines a la química.
 • Muestra actitudes y valores apropiados que fortalezcan su desarrollo personal, académico y vocación profesional.
+
+3ro
+Naturaleza de la Ciencia
+• Modelos, principios, leyes y teorías científicas.
+• Mediciones, incertidumbre y estimación.
+• Unidades y estándares.
+• Marco de referencia
+Movimiento
+• Posición
+• Desplazamiento
+• Longitud de la trayectoria
+• Velocidad
+• Rapidez
+• Aceleración
+• Fuerza
+• Gravitación
+• Cantidad de movimiento y choques
+Propiedades de la materia
+• Materia: sustancias, mezclas, soluciones y coloides
+• Propiedades Físicas y químicas
+• Cambios físicos y químicos
+• Alimentos y fármacos
+Energía y conservación
+• Energía cinética y potencial.
+• Cambios de la energía y su conservación
+• Energía térmica
+• Energía y el cuerpo humano
+• Energía y radiación en el sistema solar
+• Estados de la materia
+• Presión, densidad, fuerza boyante (empuje)
+• Principios de Arquímedes y de Pascal
+• Propiedades de sólidos, líquidos y gases
+• Temperatura y calor
+• Gas ideal
+• Tensión superficial y capilaridad de los líquidos
+• Cambio de estado de la materia
+• Ósmosis
+• Metabolismo humano
+• Nociones de termodinámica en el ser humano
+• Estructura e interacciones en la materia
+• Elementos, modelos atómicos, partes del átomo
+• Masa atómica e isótopos
+• Tabla periódica: propiedades y su estructura
+• Enlaces
+• Reacciones químicas
+• Interacciones químicas en los seres vivos
+• Soluciones
+• Ácido, bases y sales
+• Movimiento ondulatorio
+• Longitud de onda, amplitud, frecuencia, período y velocidad
+• Reflexión, refracción y difracción e interferencia
+• Transporte y dirección de la oscilación
+• Frecuencia natural y resonancia
+• El sonido
+• Intensidad, tono, timbre y velocidad
+• La luz
+• Espectro electromagnético y velocidad de la luz
+• Colores: reflexión, refracción, dispersión y transmisión selectiva de colores
+• Excitación atómica. Emisión y absorción de luz
+• Interacción de la radiación con los seres vivos (en la salud)
+• El oído
+• El ojo
+• Aplicaciones médicas de la radiación
+
+Observación, formulación de preguntas, medición y experimentación, análisis, discusión y evaluación de la naturaleza de la ciencia:
+• Medición con diferentes patrones estándares y la consideración de las incertidumbres.
+• Estimación de situaciones y problemas cotidianos y comprobación de s u orden de magnitud.
+• Medición del tiempo, espacio y materia, utilizando diferentes instrumentos
+Observación, formulación de preguntas e hipótesis, planificación y ejecución de experimentos, registro de evidencias, diseño y construcción de modelos, simulación, discusión, evaluación; utilización de recursos (instrumentos, materiales, reactivos y dispositivos tecnológicos) para la medición, análisis y exposición de las propiedades de la materia:
+• Sistemas dispersos heterogéneos y soluciones.
+• Mezclas de líquidos miscibles y no miscibles.
+• Emulsiones y detergentes.
+• Separación de mezclas mediante destilación, floculación, filtración, decantación, evaporación y cromatografía.
+• Propiedades Físicas y químicas de la materia.
+• Evidencias de la ocurrencia de cambios físicos y químicos.
+• Cambios químicos asociados a la energía en fármacos y alimentos.
+Diseño y construcción de experimentos, simulación, medición y utilización instrumentos, registro de datos y evaluación de la información, análisis de gráficas, tablas, esquemas e interpretación del movimiento:
+• Posición, desplazamiento, distancia y longitud entre dos puntos.
+• Cambio de rapidez y dirección en el tiempo.
+• Movimientos según su velocidad. Gráficas de las variables cinemáticas.
+Observación, planteamiento del problema e hipótesis, planificación y ejecución de experimentos, medición y registro de datos, diseño y construcción de modelos, uso de instrumentos y recursos tecnológicos, simulaciones, análisis y utilización de distintas estrategias en la resolución de problemas de dinámica:
+• Diseño y construcción de estructuras, máquinas y poleas.
+• Causas que expliquen el movimiento de los planetas.
+• Diferentes tipos de fuerza: eléctrica, magnética, gravitacional y nuclear.
+• Fuerzas que influyen en la dinámica de la atmósfera y las placas tectónicas.
+• Acumulación de sangre en las extremidades inferiores y dificultad del corazón para bombear la sangre).
+• Gravedades (g) de fuerza y efectos sobre el cuerpo humano.
+• Movimientos en el sistema solar y galaxias.
+• Aplicaciones de la Física a los deportes.
+Planificación y ejecución de experimentos, diseño y construcción de modelos, utilización de instrumentos y herramientas, simulaciones utilizando recursos tecnológicos e ingeniería, registro y evaluación de datos e información, análisis y estrategias para la búsqueda de soluciones a problemas o fenómenos relacionados con energía y conservación:
+• Trabajo como cambio de energía. Energía asociada al movimiento y a la posición (energía cinética y potencial).
+Fuentes y transformación de la energía. Conservación de energía: diseño y construcción de dispositivos o máquinas.
+• Manifestaciones de la energía.
+• Adenosín trifosfato (ATP), molécula de almacenamiento energética.
+• Calorías y alimentos.
+Observación, planificación y ejecución de experimentos, registro y análisis (gráficas, datos e informaciones), utilización de recursos (instrumentos, dispositivos y reactivos), simulaciones utilizando recursos tecnológicos e ingeniería, resolución y evaluación (procesos, instrumentos y estrategias apropiadas) en relación a problemas que involucren los estados de la materia:
+• La densidad en los distintos estados de la materia.
+• Presión en los sólidos, líquidos y gases.
+• Propiedades de la materia (mecánicas, ópticas, térmicas, eléctricas, magnéticas…).
+• Desarrollo de una escala de dureza.
+• La fuerza sobre un objeto en un fluido.
+• Vasos comunicantes.
+• Sistema circulatorio (vasos sanguíneos y tejidos de conducción).
+• Presión sanguínea.
+• Riñón artificial o máquina de diálisis.
+• El cuerpo gasta energía cuando realiza trabajo mecánico.
+• Salud Física y eficiencia del cuerpo humano como máquina.
+Planteamiento del problema, formulación de preguntas e hipótesis, diseño y construcción de modelos, simulaciones utilizando recursos tecnológicos e ingeniería, resolución de problemas (análisis, discusión y evaluación) y exposición de resultados con modelos, esquemas, diagramas sobre la estructura e interacciones en la materia:
+• Representación de los distintos modelos atómicos.
+• Masa atómica e isótopos.
+• Elementos químicos primarios constituyentes de los seres vivos.
+• Propiedades periódicas de los elementos
+• Enlaces químicos.
+• Reacciones químicas. Estequiometria.
+• Enzimas y sus reacciones.
+• Interacciones químicas en los seres vivos.
+• Soluciones a diferentes concentraciones.
+• Solubilidad de soluciones.
+• Ácido, bases y sales.
+• pH y sustancias comunes.
+• El pH. Su influencia en los seres vivos.
+Observación, planteamiento del problema, formulación de preguntas, hipótesis, planificación y ejecución de experimentos, recolección y registro de evidencias, diseño y construcción de modelos, uso de instrumentos y herramientas, simulaciones utilizando recursos tecnológicos e ingeniería, resolución de problemas, reflexión, análisis, discusión, evaluación y exposición de resultados, sobre el movimiento ondulatorio:
+• Ondas longitudinales y transversales
+• Comprobación de reflexión, refracción, difracción e interferencia
+• Características de ondas viajeras y estacionarias
+• Onda en medio sólido y líquido (fenómenos: terremoto y tsunami)
+• Ecolocalización y geolocalización, ultrasonido, sonar, radar
+• El oído y las ondas sonoras
+• El sonido y los seres vivos
+• Instrumentos musicales
+• El ojo y la luz
+• Espejo, lentes y la luz
+• Aplicaciones médicas: microscopio, rayos X, rayos gamma, imagen por resonancia magnética, imagen por ultrasonido
+• Colores: mezcla de luces y pigmentos
+• Emisión y absorción de luz: incandescencia, fluorescencia, fosforescencia, láseres
+• Polarización de la luz
+• Instrumentos ópticos (cámara fotográfica, microscopio, telescopio, dispositivos electrónicos).
+• Explicación de los colores debido a la dispersión de la luz por partículas y absorción: arco iris, color de las nubes, color del cielo, agua verdosa, color de objetos.
+• Ondas: diseño y construcción de dispositivos ópticos y medición según aplique.
+Indagación en distintos medios sobre los diferentes aspectos relacionados con:
+• El mecanismo de la audición
+• El mecanismo de la visión
+• Radiación en la materia
+• Radiación ionizante y no ionizante
+• Trazadores
+• Radiaciones y tratamiento de cáncer
+• Sonografía y los principios físicos asociados
+• Tomografía, rayos X
+Observación, planteamiento del problema, formulación de preguntas, hipótesis, planificación y ejecución de experimentos, recolección y registro de evidencias, diseño y construcción de modelos, uso de instrumentos y herramientas, simulaciones utilizando recursos tecnológicos e ingeniería, resolución de problemas, reflexión, análisis, discusión, evaluación y exposición de resultados, sobre nociones de electricidad:
+• Efectos debidos a la existencia de las cargas.
+• Materiales conductores y no conductores.
+• Carga por inducción y frotamiento: como cargar cuerpos eléctricamente.
+• Corriente eléctrica.
+• Voltaje, pilas y baterías.
+• Circuitos en serie y en paralelo.
+• Conservación de carga o energía en los circuitos.
+• Electricidad: diseño y construcción de circuitos simples, sensores, máquinas, materiales y dispositivos eléctricos.
+• Actividad eléctrica en el corazón.
+• Seguridad y riesgos eléctricos.
+• Conducción de señales eléctricas por las neuronas.
+• Electrocardiógrafo y electrocardiograma.
+• Neuronas y potenciales de acción.
+• Fibrilación ventricular y el desfibrilador.
+Investigaciones (utilización: procesos científicos, instrumentos y estrategias) en las que se manifiesten las aplicaciones, lanaturaleza de la ciencia, la ingeniería, la tecnología, la matemática, y su relación con el desarrollo sostenible en temas de salud, medio ambiente, biotecnología, comunicación y energía:
+• Contaminación ambiental del aire, su relación con el suelo, el agua y su gestión.
+• Calentamiento Global y Cambio Climático.
+• Gestión de los recursos naturales.
+• Química: gases de invernadero, cambio climático, pesticidas, combustibles fósiles.
+• Física: partículas, radiación y acústica. Utilización en aplicaciones en la salud.
+• Dinámica del movimiento en los deportes.
+• Movimientos en los fenómenos naturales.
+• La energía y su utilización eficiente, racional y sostenible.
+• La física, la química y la ingeniería en la salud.
+• Manipulación y conservación de alimentos y medicamentos.
+• Movimiento y ondas: Tecnología de la comunicación.
+
+• Manifestación de curiosidad, creatividad e interés por investigar fenómenos y recursos de su entorno natural.
+• Constancia y empeño en actividades individuales y colaborativas, manteniendo objetividad, precisión, sistematicidad y orden.
+• Respeto a la diversidad y opiniones de las demás personas, y a las distintas fuentes de información, aunque asume con criticidad los argumentos respecto a problemas y situaciones científicas y tecnológicas.
+• Utilización responsable y efectiva de los dispositivos y recursos tecnológicos, con los que registra y analiza las evidencias para dar explicación a problemas y situaciones de su entorno.
+• Demostración de interés en el cuidado de su salud y la de los y las demás, así como en las medidas de seguridad en situaciones de riesgo.
+• Comprensión de la importancia del cuidado y uso sostenible de los recursos y de la eficiencia en la utilización de la energía.
+• Manifestación de una actitud ética en el uso de las ideas, dispositivos e informaciones científicas y tecnológicas.
+• Valoración e interés por las personas que lograron avances científicos y tecnológicos, contribuyendo así al desarrollo de la sociedad.
+• Respeto y cuidado de su salud y del medioambiente.
+• Demostración de honestidad y objetividad en la resolución de problemas, recolección de datos y validación de los mismos.
+
+• Interpreta efectivamente el lenguaje científico y tecnológico de las ciencias Físicas considerando las ideas, contenidos y verificación de hipótesis, sumiendo una posición crítica ante información o proceso pseudocientífico.
+• Produce apropiadamente texto e información científica en ciencias Físicas o tecnológicas.
+• Utiliza símbolos, términos, ecuaciones elementales de ciencias Físicas, modelos, gráficas y convenciones científicas y tecnológicas adecuadas.
+• Utiliza procesos básicos, sistemáticos y pertinentes en ciencias Físicas, en la búsqueda de evidencias, para dar respuesta a problemas o situaciones.
+• Aplica adecuadamente los conceptos, principios, ideas básicas y modelos propios de las ciencias Físicas y sus aplicaciones presentes en problemas y fenómenos.
+• Formula y cuestiona las evidencias que dan respuestas a problemas y fenómenos naturales, comprendiendo el alcance de los modelos, principios e ideas centrales de las ciencias Físicas.
+• Utiliza estrategias básicas, procedimientos pertinentes, técnicas y herramientas adecuadas para solución de problemas o diseñar y ejecutar experimentos.
+• Ejecuta adecuadamente experimentos, estructuras, herramientas, sistemas y mecanismo, para dar respuesta a problemas o fenómenos naturales vinculados a las ciencias Físicas.
+• Construye y aplica apropiadamente objetos, herramientas y estructuras proponiendo mecanismo y modelos que le permitan dar respuestas a situaciones y problemas vinculadas a las ciencias Físicas.
+• Expone apropiadamente su producción oral y escrita de análisis comparativo de época reciente, en el desarrollo histórico y su contexto social del desarrollo de ciencias Físicas.
+• Plantea argumentos adecuados al asumir postura sobre conflicto en decisiones ética, en ciencias físicas.
+• Apropiada representación y acciones de actitudes y valores científicos.
+• Realiza proyectos escolares o prácticas experimentales apropiadamente, observando la sistematización y los informes de las actividades de investigación.
+• Aplicación en forma apropiada de proyectos de investigación, observando procesos básicos imprescindibles para su realización.
+• Formula de manera apropiada sus argumentos, basados en evidencias e información de investigaciones verificables.
+• Identifica de manera apropiada situaciones o acciones de riesgo para su salud o el medio ambiente.
+• Aplica acciones apropiadas que promueva el cuidado de su salud, del medio ambiente y a favor del desarrollo en su comunidad.
+• Identifica y ejecuta acciones proactivas idóneas a estilo de vida saludable y sostenido con el medioambiente.
+• Identifica en forma apropiada su proyecto de desarrollo personal con planes organizados a corto y largo plazo.
+• Valora de manera positiva profesiones y oficios de las ciencias físicas e ingenierías.
+• Muestra apropiada manifestación de actitudes y valores que fortalecen su desarrollo personal.
