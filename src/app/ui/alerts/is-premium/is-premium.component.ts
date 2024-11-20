@@ -25,7 +25,7 @@ export class IsPremiumComponent {
   private userSubscriptionService = inject(UserSubscriptionService);
 
   public isPremium$: Observable<boolean> = this.userSubscriptionService.checkSubscription().pipe(
-    map(sub => sub.status == 'active' && sub.subscriptionType.toLowerCase().includes('premium') && +(new Date(sub.endDate)) > +(new Date())),
+    map(sub => sub.status == 'active' && !sub.subscriptionType.toLowerCase().includes('free') && +(new Date(sub.endDate)) > +(new Date())),
     tap(premium => {
       this.loading = false;
       this.onLoaded.emit(premium)

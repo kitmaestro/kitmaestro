@@ -21,19 +21,19 @@ export class UpdateService {
     return this.http.get<Update[]>(this.apiBaseUrl);
   }
 
-  find(id: string): Observable<Update | ApiErrorResponse> {
+  find(id: string): Observable<Update> {
     return this.http.get<Update>(this.apiBaseUrl + id);
   }
 
-  create(update: Update): Observable<Update | ApiErrorResponse> {
-    return this.http.post<Update | ApiErrorResponse>(this.apiBaseUrl, update);
+  create(update: Update): Observable<Update> {
+    return this.http.post<Update>(this.apiBaseUrl, update);
   }
 
-  update(id: string, update: Update): Observable<ApiUpdateResponse | ApiErrorResponse> {
-    return this.http.patch<ApiUpdateResponse | ApiErrorResponse>(this.apiBaseUrl + id, update);
+  update(id: string, update: Update): Observable<ApiUpdateResponse> {
+    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, update);
   }
 
-  delete(id: string): Observable<ApiDeleteResponse | ApiErrorResponse> {
-    return this.http.delete<ApiDeleteResponse | ApiErrorResponse>(this.apiBaseUrl + id);
+  delete(id: string): Observable<ApiDeleteResponse> {
+    return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id);
   }
 }

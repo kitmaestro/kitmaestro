@@ -1,6 +1,12 @@
 <mat-card style="margin-bottom: 42px;">
     <mat-card-header>
         <h2 mat-card-title>Notificaciones</h2>
+        @if (authorUser) {
+            <span style="flex: 1 1 auto;"></span>
+            <button mat-mini-fab type="button" routerLink="/updates/new" color="primary">
+                <mat-icon>add</mat-icon>
+            </button>
+        }
     </mat-card-header>
 </mat-card>
 <mat-accordion>

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Update } from '../interfaces/update';
+import { Update } from '../../interfaces/update';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +8,8 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UpdateService } from '../services/update.service';
+import { UpdateService } from '../../services/update.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-updates',
@@ -23,13 +24,21 @@ import { UpdateService } from '../services/update.service';
     DatePipe,
     AsyncPipe,
   ],
-  templateUrl: './updates.component.html',
-  styleUrl: './updates.component.scss'
+  templateUrl: './update-list.component.html'
 })
-export class UpdatesComponent implements OnInit {
+export class UpdateListComponent implements OnInit {
   private updateService = inject(UpdateService);
+  private authService = inject(AuthService);
   public updates$: Observable<Update[]> = this.updateService.findAll();
+  public authorUser = false;
+
+  authors: string[] = [
+    'orgalay.dev@gmail.com'
+  ];
 
   ngOnInit() {
+    this.authService.profile().subscribe(user => {
+      this.authorUser = this.authors.includes(user.email);
+    })
   }
 }

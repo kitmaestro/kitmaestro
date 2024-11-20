@@ -24,7 +24,8 @@ export const routes: Routes = [
     { path: 'todos/:id', loadComponent: () => import('./todos/todos.component').then(mod => mod.TodosComponent) },
     { path: 'settings', loadComponent: () => import('./user-settings/user-settings.component').then(mod => mod.UserSettingsComponent) },
     { path: 'profile', loadComponent: () => import('./user-profile/user-profile.component').then(mod => mod.UserProfileComponent) },
-    { path: 'updates', loadComponent: () => import('./updates/updates.component').then(mod => mod.UpdatesComponent) },
+    { path: 'updates', loadComponent: () => import('./updates/update-list/update-list.component').then(mod => mod.UpdateListComponent) },
+    { path: 'updates/new', loadComponent: () => import('./updates/new/new.component').then(mod => mod.NewComponent) },
     { path: 'buy', loadComponent: () => import('./buy-subscription/buy-subscription.component').then(mod => mod.BuySubscriptionComponent) },
     { path: 'roadmap', loadComponent: () => import('./roadmap/roadmap.component').then(mod => mod.RoadmapComponent) },
     // Datacenter
@@ -86,8 +87,6 @@ export const routes: Routes = [
     { path: 'schedules', loadComponent: () => import('./scheduling/schedule-list/schedule-list.component').then(mod => mod.ScheduleListComponent) },
     { path: 'schedules/create', loadComponent: () => import('./scheduling/schedule-builder/schedule-builder.component').then(mod => mod.ScheduleBuilderComponent) },
     { path: 'schedules/:id', loadComponent: () => import('./scheduling/schedule-detail/schedule-detail.component').then(mod => mod.ScheduleDetailComponent) },
-    // exam builders
-    { path: 'math-test-generator', loadComponent: () => import('./generators/math-test-generator/math-test-generator.component').then(mod => mod.MathTestGeneratorComponent) },
     // assessments
     {
         path: 'assessments',
