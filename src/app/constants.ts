@@ -227,7 +227,7 @@ Los recursos que tengo disponibles son estos:
 
 - resource_list
 
-En mi estilo de ensenanza, por lo general aplico el teaching_style
+En mi estilo de ensenanza, por lo general aplico el teaching_style con enfoque en theme_axis
 
 Elabora una lista de actividades a realizar, enfocadas en el desarrollo de competencias y a la vez cumpliendo con la linea de desarrollo de la situacion de aprendizaje, categorizadas como actividades de aprendizaje (como las actividades propias de los alumnos), actividades de enseñanza (aquellas propias del docente) y actividades de evaluacion.
 Cada actividad de enseñanza, debe ser una oracion completa puede iniciar con 'El docente', 'El maestro', o 'El profesor'. Esta representa una sesion de clase, de manera que, debe decir, de manera general, cuales son las principales o mas grandes actividades que se haran en la clase.
@@ -325,6 +325,7 @@ Genera una situación de aprendizaje para el siguiente contexto:
 - Situación o Problema: situacion_o_problema
 - Condición Inicial: condicion_inicial
 - Aprendizajes requeridos: contenido_especifico
+- Eje transversal: theme_axis
 
 La situación de aprendizaje debe ser clara, relevante y adecuada para el nivel educativo especificado. Debe priorizar el desarrollo de los temas a abordar y en segundo lugar el problema o situacion a resolver; de ser posible, el problema deberia ser resueldo utilizando las competencias que se han de adquirir durante el desarrollo de la unidad. La situacion de aprendizaje debe estar contenida en 1 a 3, debe ser narrada, como en los ejemplos, en primera o tercera persona del plural como si estuviera a punto de pasar, como si esta pasando o si va a pasar en el futuro cercano.
 Aunque es opcional, es totalmente valido identificar el curso como 'los estudiantes de x grado de la escuela x' o 'los estudiantes de section_name'. La situacion de aprendizaje DEBE priorizar el contenido sobre la situacion (muy importante), de manera que lo que debe quedar en segundo plano, es el problema que se esta abordando.
@@ -334,6 +335,22 @@ La respuesta debe ser json valido, coherente con esta interfaz:
   content: string; // la situacion de aprendizaje en si
   strategies: string[]; //estrategias de aprendizaje y ensenanza recomendados para esta situacion de aprendizaje
 }`;
+
+export const generateStrategiesPrompt = `A partir de los datos siguientes, que son la especificacion de mi contexto educativo, elabora una lista de estrategias didacticas para desarrollar los temas a tratar:
+- Curso: nivel_y_grado
+- Aprendizajes requeridos: contenido_especifico
+- Eje transversal: theme_axis
+- Situacion de aprendizaje: situacion_de_ap
+
+Solo necesito el nombre de la estrategia, por ejemplo:
+[
+  'Indagacion dialogica',
+  'Dialogo socratico',
+  'Exposicion oral de conocimientos',
+  ...
+]
+La lista no debe contener menos de 3 ni mas de 6 estrategias, lo ideal es 4-5, maximo 6
+La respuesta debe ser un array de cadenas en formato json valido`;
 
 export const classPlanPrompt = `Escribe un plan de clases, enfocado en el desarrollo de competencias, de class_subject de class_duration minutos para impartir class_topics en class_year grado de class_level. Esta es la interfaz de la planificacion:
 

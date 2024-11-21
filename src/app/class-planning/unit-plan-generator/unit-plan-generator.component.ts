@@ -65,6 +65,7 @@ import {
   classroomResources,
   generateActivitySequencePrompt,
   generateLearningSituationPrompt,
+  generateStrategiesPrompt,
   mainThemeCategories,
   schoolEnvironments
 } from '../../constants';
@@ -73,6 +74,7 @@ import { forkJoin } from 'rxjs';
 import { ContentBlockService } from '../../services/content-block.service';
 import { ContentBlock } from '../../interfaces/content-block';
 import { TEACHING_METHODS } from '../../data/teaching-methods';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
 // import { SubjectConceptList } from '../../interfaces/subject-concept-list';
 // import { SubjectConceptListService } from '../../services/subject-concept-list.service';
 
@@ -95,6 +97,7 @@ import { TEACHING_METHODS } from '../../data/teaching-methods';
     RouterModule,
     HttpClientModule,
     UnitPlanComponent,
+    PretifyPipe,
   ],
   templateUrl: './unit-plan-generator.component.html',
   styleUrl: './unit-plan-generator.component.scss'
@@ -186,6 +189,21 @@ export class UnitPlanGeneratorComponent implements OnInit {
   ]);
 
   ngOnInit(): void {
+    // determine day of the week and date of last monday (or today) count plans made this week, subjects they have and calculate just 1 plan by subject a week
+    const today = new Date();
+    const dayOfTheWeek = today.getDay();
+    const lastMonday = dayOfTheWeek == 1 ? today : new Date(today.setDate(today.getDate() - (7 - dayOfTheWeek)));
+    this.unitPlanService.findAll().subscribe(plans => {
+      const createdThisWeek = plans.filter((plan: any) => +(new Date(plan.createdAt)) > +lastMonday).length;
+      this.classSectionService.findSections().subscribe(sections => {
+        const subjects = sections.map(section => section.subjects.filter(s => s !== 'TALLERES_OPTATIVOS').length).reduce((l, c) => l + c, 0);
+        if (createdThisWeek == subjects) {
+          this.router.navigateByUrl('/').then(() => {
+            this.sb.open('Haz alcanzado el limite de planes de esta semana. Contrata el plan premium para eliminar las restricciones o vuelve la proxima semana.', 'Ok', { duration: 5000 });
+          });
+        }
+      })
+    })
     // const subjectsNames = [
     //   'EDUCACION_ARTISTICA', 'INGLES', 'FRANCES', 'MATEMATICA', 'FORMACION_HUMANA', 'CIENCIAS_NATURALES', 'CIENCIAS_SOCIALES', 'LENGUA_ESPANOLA', 'EDUCACION_FISICA'
     // ];
@@ -424,6 +442,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
       .replace('teaching_style', `${this.unitPlanForm.get('teaching_method')?.value}`)
       .replace('unit_duration', `${duration}`)
       .replace('content_list', contents)
+      .replace('theme_axis', (this.mainTheme.value || 'Salud y Bienestar').toLowerCase())
       .replace('resource_list', (resources || []).join('\n- '))
       .replace('learning_situation', this.learningSituation.value || '')
       .replace('subject_list', `${this.learningSituationForm.value.subjects?.map(s => this.pretifySubject(s)).join(',\n- ')}`)
@@ -433,18 +452,20 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
     this.generating = true;
 
-    this.aiService.askGemini(text).subscribe({
+    this.aiService.geminiAi(text).subscribe({
       next: (response) => {
         try {
-          const answer = response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n');
+          this.generating = false;
+          // const answer = response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n');
+          const answer = response.response;
           const start = answer.indexOf('{');
           const end = answer.lastIndexOf('}') + 1;
           const extract = answer.slice(start, end);
           // const activities: { teacher_activities: { subject: string, activities: string[]}[], student_activities: { subject: string, activities: string[]}[], evaluation_activities: { subject: string, activities: string[]}[], instruments: string[], resources: string[] } = JSON.parse(response.response.slice(start, -3));
           const activities: { teacher_activities: { subject: string, activities: string[]}[], student_activities: { subject: string, activities: string[]}[], evaluation_activities: { subject: string, activities: string[]}[], instruments: string[], resources: string[] } = JSON.parse(extract);
-          this.generating = false;
           this.instruments.clear();
           this.resourceList.clear();
+          console.log(activities)
           this.teacher_activities = activities.teacher_activities;
           this.student_activities = activities.student_activities;
           this.evaluation_activities = activities.evaluation_activities;
@@ -529,6 +550,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
       .replace('nivel_y_grado', `${this.classSectionYear.toLowerCase()} de ${this.classSectionLevel.toLowerCase()}`)
       .replace('section_name', this.classSectionName)
       .replace('ambiente_operativo', environment)
+      .replace('theme_axis', (this.mainTheme.value || 'Salud y Bienestar').toLowerCase())
       .replace('situacion_o_problema', situationType == 'fiction' ? 'situacion, problema o evento ficticio' : reality)
       .replace('condicion_inicial', 'Los alumnos aun no saben nada sobre el tema')
       .replace('contenido_especifico', contents);
@@ -537,14 +559,35 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
     this.aiService.askGemini(text, true).subscribe({
       next: (response) => {
-        const learningSituation: { title: string, content: string, learningCriteria: string[], strategies: string[] } = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
         this.generating = false;
+        const learningSituation: { title: string, content: string, learningCriteria: string[], strategies: string[] } = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
         this.learningSituationTitle.setValue(learningSituation.title);
         this.learningSituation.setValue(learningSituation.content);
         this.strategies.clear();
-        learningSituation.strategies.forEach(strategy => {
-          this.strategies.push(this.fb.control(strategy))
-        });
+        if (learningSituation.strategies && learningSituation.strategies.length) {
+          learningSituation.strategies.forEach(strategy => {
+            this.strategies.push(this.fb.control(strategy))
+          });
+        } else {
+          const query = generateStrategiesPrompt.replace('nivel_y_grado', `${this.classSectionYear.toLowerCase()} de educacion ${this.classSectionLevel.toLowerCase()}`)
+            .replace('situacion_de_ap', learningSituation.content)
+            .replace('theme_axis', (this.mainTheme.value || 'Salud y Bienestar').toLowerCase())
+            .replace('contenido_especifico', contents);
+          this.aiService.geminiAi(query).subscribe({
+            next: response => {
+              console.log(response.response)
+              const result: string[] = JSON.parse(response.response.slice(response.response.indexOf('['), response.response.lastIndexOf(']') + 1));
+              result.forEach(strategy => {
+                this.strategies.push(this.fb.control(strategy))
+              });
+            }
+          })
+        }
+      },
+      error: err => {
+        this.generating = false;
+        this.sb.open('Ha ocurrido un problema al generar la situacion. Intentalo de nuevo, por favor.', 'Ok', { duration: 2500 });
+        console.log(err.message)
       }
     })
   }
