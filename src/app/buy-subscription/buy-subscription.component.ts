@@ -44,6 +44,29 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
   monthlyPricing = false;
   script: any = null;
 
+  links = {
+    blackfriday: {
+      standard: {
+        yearly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-93026442NP193262GM5AFP7Q',
+        monthly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-5KR33576CF752782RM5AFRTI'
+      },
+      premium: {
+        yearly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-9UM88252AL146524LM5AF5YQ',
+        monthly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-31K00861C1627213SM5AF7TA'
+      }
+    },
+    regular: {
+      standard: {
+        yearly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-52T24700U3639062UM4OD5MY',
+        monthly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-2EE66704US3183602M4OD3PA'
+      },
+      premium: {
+        yearly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-18K0318878962562NM4OWONQ',
+        monthly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-65554646XG739770LM4OWNZI'
+      }
+    }
+  }
+
   pricingPlans = [
     {
       name: 'Plan Básico',
@@ -74,11 +97,13 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
       price: {
         month: {
           original: 9.99,
-          now: 4.99,
+          now: 3.75,
+          // now: 4.99,
         },
         year: {
           original: 79.99,
-          now: 49.99,
+          now: 24.99,
+          // now: 49.99,
         },
       },
       features: [
@@ -101,11 +126,13 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
       price: {
         month: {
           original: 39.99,
-          now: 14.99,
+          now: 11.25,
+          // now: 14.99,
         },
         year: {
           original: 349.99,
-          now: 149.99,
+          now: 112.49,
+          // now: 149.99,
         },
       },
       features: [
@@ -225,7 +252,7 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.loadScript();
+    // this.loadScript();
     this.subscription$.subscribe({
       next: (subscription) => {
         this.loading = false;

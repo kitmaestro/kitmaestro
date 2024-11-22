@@ -1,10 +1,11 @@
 <div class="text-center">
   <h1>Precios de Suscripción a KitMaestro</h1>
+  <h2>Aprovecha los precios de Black Friday</h2>
 </div>
 
-<div id="zf-widget-root-id"></div>
+<!-- <div id="zf-widget-root-id"></div> -->
 
-<div class="pricing-table-container" style="display: none !important;">
+<div class="pricing-table-container">
     @for (plan of pricingPlans; track $index) {
         <mat-card class="pricing-card" [class.standard]="$index == 1">
             <mat-card-content>
@@ -24,11 +25,21 @@
                     }
                 </ul>
                 @if ($index == 1) {
-                  <div [class.hidden]="monthlyPricing" id="paypal-button-container-P-52T24700U3639062UM4OD5MY"></div>
-                  <div [class.hidden]="!monthlyPricing" id="paypal-button-container-P-2EE66704US3183602M4OD3PA"></div>
+                    <div [class.hidden]="monthlyPricing" id="paypal-button-container-P-52T24700U3639062UM4OD5MY"></div>
+                    <div [class.hidden]="!monthlyPricing" id="paypal-button-container-P-2EE66704US3183602M4OD3PA"></div>
+                    @if (monthlyPricing) {
+                        <a style="width: 100%;" [href]="links.blackfriday.standard.monthly" target="_blank" rel="noopener noreferrer" mat-raised-button color="primary">Suscribeme</a>
+                    } @else {
+                        <a style="width: 100%;" [href]="links.blackfriday.standard.yearly" target="_blank" rel="noopener noreferrer" mat-raised-button color="primary">Suscribeme</a>
+                    }
                 } @else if ($index == 2) {
-                  <div [class.hidden]="monthlyPricing" id="paypal-button-container-P-18K0318878962562NM4OWONQ"></div>
-                  <div [class.hidden]="!monthlyPricing" id="paypal-button-container-P-65554646XG739770LM4OWNZI"></div>
+                    <div [class.hidden]="monthlyPricing" id="paypal-button-container-P-18K0318878962562NM4OWONQ"></div>
+                    <div [class.hidden]="!monthlyPricing" id="paypal-button-container-P-65554646XG739770LM4OWNZI"></div>
+                    @if (monthlyPricing) {
+                        <a style="width: 100%;" [href]="links.blackfriday.premium.monthly" target="_blank" rel="noopener noreferrer" mat-raised-button color="primary">Suscribeme</a>
+                    } @else {
+                        <a style="width: 100%;" [href]="links.blackfriday.premium.yearly" target="_blank" rel="noopener noreferrer" mat-raised-button color="primary">Suscribeme</a>
+                    }
                 } @else {
                   <button style="width: 100%; margin-top: auto;" mat-raised-button color="primary" (click)="buyPlan(plan)">{{ plan.buttonText }}</button>
                 }
