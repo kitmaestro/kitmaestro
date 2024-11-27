@@ -188,22 +188,31 @@ export class UnitPlanGeneratorComponent implements OnInit {
     })
   ]);
 
-  ngOnInit(): void {
-    // determine day of the week and date of last monday (or today) count plans made this week, subjects they have and calculate just 1 plan by subject a week
-    const today = new Date();
-    const dayOfTheWeek = today.getDay();
-    const lastMonday = dayOfTheWeek == 1 ? today : new Date(today.setDate(today.getDate() - (7 - dayOfTheWeek)));
-    this.unitPlanService.findAll().subscribe(plans => {
-      const createdThisWeek = plans.filter((plan: any) => +(new Date(plan.createdAt)) > +lastMonday).length;
-      this.classSectionService.findSections().subscribe(sections => {
-        const subjects = sections.map(section => section.subjects.filter(s => s !== 'TALLERES_OPTATIVOS').length).reduce((l, c) => l + c, 0);
-        if (createdThisWeek == subjects) {
-          this.router.navigateByUrl('/').then(() => {
-            this.sb.open('Haz alcanzado el limite de planes de esta semana. Contrata el plan premium para eliminar las restricciones o vuelve la proxima semana.', 'Ok', { duration: 5000 });
-          });
-        }
-      })
-    })
+	ngOnInit(): void {
+	  this.userSettingsService.getSettings().subscribe({
+		next: settings => {
+			  this.userSettings = settings;
+			  const exceptionList = ['orgalay.dev@gmail.com', 'pluisalberto50@gmail.com'];
+			  if (exceptionList.includes(settings.email))
+				  return;
+
+				// determine day of the week and date of last monday (or today) count plans made this week, subjects they have and calculate just 1 plan by subject a week
+				const today = new Date();
+				const dayOfTheWeek = today.getDay();
+				const lastMonday = dayOfTheWeek == 1 ? today : new Date(today.setDate(today.getDate() - (7 - dayOfTheWeek)));
+				this.unitPlanService.findAll().subscribe(plans => {
+				  const createdThisWeek = plans.filter((plan: any) => +(new Date(plan.createdAt)) > +lastMonday).length;
+				  this.classSectionService.findSections().subscribe(sections => {
+					const subjects = sections.map(section => section.subjects.filter(s => s !== 'TALLERES_OPTATIVOS').length).reduce((l, c) => l + c, 0);
+					if (createdThisWeek == subjects) {
+					  this.router.navigateByUrl('/').then(() => {
+						this.sb.open('Haz alcanzado el limite de planes de esta semana. Contrata el plan premium para eliminar las restricciones o vuelve la proxima semana.', 'Ok', { duration: 5000 });
+					  });
+					}
+				  })
+				})
+		}
+    });
     // const subjectsNames = [
     //   'EDUCACION_ARTISTICA', 'INGLES', 'FRANCES', 'MATEMATICA', 'FORMACION_HUMANA', 'CIENCIAS_NATURALES', 'CIENCIAS_SOCIALES', 'LENGUA_ESPANOLA', 'EDUCACION_FISICA'
     // ];

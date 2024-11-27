@@ -103,19 +103,25 @@ export class ClassPlanGeneratorComponent implements OnInit {
 
   private planPrompt = classPlanPrompt;
 
-  ngOnInit(): void {
-    // determine day of the week and date of last monday (or today) count plans made this week, subjects they have and calculate just 1 plan by subject a week
-    const today = new Date();
-    const dayOfTheWeek = today.getDay();
-    const lastMonday = dayOfTheWeek == 1 ? today : new Date(today.setDate(today.getDate() - (7 - dayOfTheWeek)));
-    this.classPlanService.findAll().subscribe(plans => {
-      const createdThisWeek = plans.filter((plan: any) => +(new Date(plan.createdAt)) > +lastMonday).length;
-      if (createdThisWeek == 32) {
-        this.router.navigateByUrl('/').then(() => {
-          this.sb.open('Haz alcanzado el limite de planes diarios de esta semana. Contrata el plan premium para eliminar las restricciones o vuelve la proxima semana.', 'Ok', { duration: 5000 });
-        });
-      }
-    })
+	ngOnInit(): void {
+		this.userSettingsService.getSettings().subscribe(settings => {
+			this.userSettings = settings;
+			const exceptionList = ['orgalay.dev@gmail.com', 'pluisalberto50@gmail.com'];
+			if (exceptionList.includes(settings.email))
+				return;
+			// determine day of the week and date of last monday (or today) count plans made this week, subjects they have and calculate just 1 plan by subject a week
+			const today = new Date();
+			const dayOfTheWeek = today.getDay();
+			const lastMonday = dayOfTheWeek == 1 ? today : new Date(today.setDate(today.getDate() - (7 - dayOfTheWeek)));
+			this.classPlanService.findAll().subscribe(plans => {
+			  const createdThisWeek = plans.filter((plan: any) => +(new Date(plan.createdAt)) > +lastMonday).length;
+			  if (createdThisWeek == 32) {
+				this.router.navigateByUrl('/').then(() => {
+				  this.sb.open('Haz alcanzado el limite de planes diarios de esta semana. Contrata el plan premium para eliminar las restricciones o vuelve la proxima semana.', 'Ok', { duration: 5000 });
+				});
+			  }
+			})
+		});
     const availableResourcesStr = localStorage.getItem('available-resources');
     if (availableResourcesStr) {
       const resources = JSON.parse(availableResourcesStr) as string[];
@@ -132,7 +138,6 @@ export class ClassPlanGeneratorComponent implements OnInit {
         }
       }
     });
-    this.userSettingsService.getSettings().subscribe(settings => this.userSettings = settings);
   }
 
   onSectionSelect() {
