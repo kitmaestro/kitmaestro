@@ -24,6 +24,7 @@ import { ClassSection } from '../../interfaces/class-section';
 import { classPlanPrompt, classroomResources } from '../../constants';
 import { CompetenceEntry } from '../../interfaces/competence-entry';
 import { ClassPlanComponent } from '../class-plan/class-plan.component';
+import { UserSubscriptionService } from '../../services/user-subscription.service';
 
 @Component({
   selector: 'app-class-plan-generator',
@@ -55,6 +56,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
   compService = inject(CompetenceService);
   aiService = inject(AiService);
   userSettingsService = inject(UserSettingsService);
+  private userSubscriptionService = inject(UserSubscriptionService);
   pdfService = inject(PdfService);
   classPlanService = inject(ClassPlansService);
   router = inject(Router);
@@ -104,11 +106,10 @@ export class ClassPlanGeneratorComponent implements OnInit {
   private planPrompt = classPlanPrompt;
 
 	ngOnInit(): void {
-		this.userSettingsService.getSettings().subscribe(settings => {
-			this.userSettings = settings;
-			const exceptionList = ['orgalay.dev@gmail.com', 'pluisalberto50@gmail.com'];
-			if (exceptionList.includes(settings.email))
-				return;
+		this.userSettingsService.getSettings().subscribe(settings => this.userSettings = settings );
+    this.userSubscriptionService.checkSubscription().subscribe(subscription => {
+      if (subscription.subscriptionType.toLowerCase().includes('premium'))
+        return;
 			// determine day of the week and date of last monday (or today) count plans made this week, subjects they have and calculate just 1 plan by subject a week
 			const today = new Date();
 			const dayOfTheWeek = today.getDay();
