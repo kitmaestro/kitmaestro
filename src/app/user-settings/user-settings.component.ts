@@ -9,9 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
-import { UserSettingsService } from '../services/user-settings.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-user-settings',
@@ -33,8 +33,8 @@ import { UserSettingsService } from '../services/user-settings.service';
 })
 export class UserSettingsComponent implements OnInit {
   fb = inject(FormBuilder);
-  userSettingsService = inject(UserSettingsService);
-  user$: Observable<UserSettings> = this.userSettingsService.getSettings();
+  userSettingsService = inject(AuthService);
+  user$: Observable<UserSettings> = this.userSettingsService.profile();
   sb = inject(MatSnackBar);
   saving = false;
 
