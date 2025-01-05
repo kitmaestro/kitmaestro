@@ -38,7 +38,7 @@ export class UnitPlanListComponent {
   deletePlan(id: string) {
     this.unitPlansService.delete(id).subscribe((result) => {
       if (result.deletedCount == 1) {
-        this.sb.open('El Plan fue eliminado!');
+        this.sb.open('El Plan fue eliminado!', 'Ok', { duration: 2500 });
         this.unitPlans$ = this.unitPlansService.findAll();
       }
     });

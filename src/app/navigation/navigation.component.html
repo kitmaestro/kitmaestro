@@ -1,6 +1,6 @@
 @if (!isPrintView) {
   <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
+  <!-- <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
@@ -20,18 +20,9 @@
         <a [activated]="true" style="margin-top: 64px;" mat-list-item routerLink="/buy"><mat-icon matListItemIcon>rocket</mat-icon>Comprar Suscripción</a>
       }
     </mat-nav-list>
-  </mat-sidenav>
+  </mat-sidenav> -->
   <mat-sidenav-content>
     <mat-toolbar color="primary" style="z-index: 5000;">
-      @if (isHandset$ | async) {
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-      }
       <span routerLink="/" style="cursor: pointer;">KitMaestro</span>
       <span class="spacer"></span>
       <span class="md" title="¡Motívame!" style="font-weight: lighter; font-size: 12pt; margin-right: 16px; cursor: pointer;" (click)="openQuoteDialog()">Hola, {{ (userSettings$ | async)?.firstname ? (userSettings$ | async)?.firstname : 'Profe' }}</span>
@@ -45,6 +36,10 @@
           <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu>
+          <button routerLink="/sections" mat-menu-item>
+              <mat-icon>class</mat-icon>
+              <span>Mis Secciones</span>
+          </button>
           <button routerLink="/my-resources" mat-menu-item>
               <mat-icon>analytics</mat-icon>
               <span>Mis Recursos</span>

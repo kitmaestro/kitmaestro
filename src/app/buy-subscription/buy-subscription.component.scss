@@ -69,3 +69,26 @@ mat-card-actions {
 .hidden {
   display: none;
 }
+
+td, th {
+  vertical-align: middle;
+  text-align: center;
+  padding: 6px;
+  border: 1px solid #ccc;
+}
+
+tr td:first-child, tr th:first-child {
+  text-align: start;
+}
+
+tr td:nth-child(4), tr th:nth-child(4) {
+  background-color: #673ab7;
+  border-color: white;
+  color: white;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}

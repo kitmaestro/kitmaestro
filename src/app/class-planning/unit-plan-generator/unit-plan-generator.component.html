@@ -334,17 +334,9 @@
                                 }
                             </button>
                             @if (teacher_activities.length) {
-                                <button style="margin-left: 8px;" mat-raised-button matStepperNext (click)="fillFinalForm()">Siguiente</button>
+                                <!-- <button style="margin-left: 8px;" mat-raised-button matStepperNext (click)="fillFinalForm()">Siguiente</button> -->
+                                <button style="margin-left: 8px;" color="primary" mat-raised-button (click)="fillFinalForm()" type="button">Guardar</button>
                             }
-                        </div>
-                    </mat-step>
-                    <mat-step>
-                        <ng-template matStepLabel>Finalizaci&oacute;n</ng-template>
-                        <app-unit-plan [mainThemes]="this.mainThemes" [contents]="getSelectedContents()" [competence]="competence" [user]="userSettings" [section]="classSection" [unitPlan]="plan"></app-unit-plan>
-                        <div style="text-align: end; margin-top: 24px;">
-                            <button mat-raised-button matStepperPrevious>Anterior</button>
-                            <button style="margin-left: 8px;" mat-raised-button (click)="stepper.reset()">Reiniciar</button>
-                            <button style="margin-left: 8px;" color="primary" mat-raised-button (click)="savePlan()" [disabled]="!plan" type="button">Guardar</button>
                         </div>
                     </mat-step>
                 </mat-stepper>

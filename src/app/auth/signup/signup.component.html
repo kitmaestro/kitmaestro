@@ -21,6 +21,10 @@
                     <mat-label>Confirma tu Contrase&ntilde;a</mat-label>
                     <input required type="password" matInput [formControl]="confirmation">
                 </mat-form-field>
+                <mat-form-field>
+                    <input required type="checkbox" formControlName="acceptConditions">
+                    <mat-label>He le&iacute;do y acepto los <a target="_blank" href="https://kitmaestro.com/conditions.html">t&eacute;rminos y condiciones</a> y la <a href="https://kitmaestro.com/privacy-policy.html" target="_blank">pol&iacute;tica de privacidad</a> de KitMaestro</mat-label>
+                </mat-form-field>
                 <div style="margin: 12px 0; display: flex; flex-direction: column; gap: 12px;">
                     <button [disabled]="loading || signupForm.invalid || !validConfirmation" mat-raised-button color="primary"
                         type="submit">Registrar</button>

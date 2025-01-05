@@ -18,6 +18,15 @@ export class PretifyPipe implements PipeTransform {
 			case 'EDUCACION_FISICA': return 'Educación Física';
 			case 'EDUCACION_ARTISTICA': return 'Educación Artística';
 			case 'TALLERES_OPTATIVOS': return 'Talleres Optativos';
+			case 'PRIMARIA': return 'Primaria';
+			case 'PRE_PRIMARIA': return 'Pre Primaria';
+			case 'SECUNDARIA': return 'Secundaria';
+			case 'PRIMERO': return 'Primero';
+			case 'SEGUNDO': return 'Segundo';
+			case 'TERCERO': return 'Tercero';
+			case 'CUARTO': return 'Cuarto';
+			case 'QUINTO': return 'Quinto';
+			case 'SEXTO': return 'Sexto';
 			default: return value;
 		}
   	}

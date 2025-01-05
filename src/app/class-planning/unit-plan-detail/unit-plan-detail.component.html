@@ -10,6 +10,7 @@
           <button mat-raised-button color="warn" (click)="deletePlan()">Eliminar</button>
           <button mat-raised-button color="accent" [routerLink]="['/unit-plans', planId, 'edit']">Editar</button>
           <a mat-raised-button color="primary" href="/print-unit-plan/{{planId}}" target="_blank">Imprimir</a>
+          <button mat-raised-button color="primary" [disabled]="printing" (click)="download()">Descargar</button>
           <!-- <button mat-raised-button color="primary" (click)="printPlan()">Exportar PDF</button> -->
         </div>
       </mat-card-actions>

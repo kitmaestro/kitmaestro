@@ -59,27 +59,6 @@ export class AiService {
     return this.http.post<{ response: string }>(this.apiBaseUrl + 'chatbox', { prompt: question }, this.config);
   }
 
-  askGemini(text: string, jsonResponse: boolean = false): Observable<GeminiResponse> {
-    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + atob("QUl6YVN5QkpQQnlReGFjUHlfUThsTzk2NENjVUVUUUVNdzJ1Mzhj");
-    const body = {
-      contents: [
-        {
-          parts: [ { text } ]
-        }
-      ],
-      generationConfig: jsonResponse ? {
-        response_mime_type: 'application/json',
-      } : undefined,
-    };
-
-    return from(
-      this.readFetch(url, {
-        method: "POST",
-        body: JSON.stringify(body)
-      })
-    ) as Observable<GeminiResponse>;
-  }
-
   async generateText(input: string, inference = false) {
     if (inference) {
       const args = {

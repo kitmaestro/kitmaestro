@@ -29,22 +29,18 @@ export class HomeComponent {
 
   apps: AppEntry[] = [
     {
-      name: 'Planes Diarios',
-      description: 'Planes de clase en menos de 1 minuto.',
-      link: ['/class-plans'],
-      // icon: '/assets/icons/education2/PNG/the-paper-svgrepo-com.png',
-      icon: '/assets/undraw_real_time_sync_re_nky7.svg',
-      premium: true,
-      isWorking: true,
-    },
-    {
       name: 'Unidades de Aprendizaje',
       description: 'Diseña unidades de aprendizaje, para ya.',
       link: ['/unit-plans'],
       icon: '/assets/assistant.svg',
       // icon: '/assets/icons/education2/PNG/book-svgrepo-com (2).png',
-      premium: true,
-      isWorking: true,
+    },
+    {
+      name: 'Planes Diarios',
+      description: 'Planes de clase en menos de 1 minuto.',
+      link: ['/class-plans'],
+      // icon: '/assets/icons/education2/PNG/the-paper-svgrepo-com.png',
+      icon: '/assets/undraw_real_time_sync_re_nky7.svg',
     },
     {
       name: 'Calculadora de Promedios',
@@ -52,8 +48,6 @@ export class HomeComponent {
       link: ['/average-calculator'],
       icon: '/assets/calculator.svg',
       // icon: '/assets/icons/education2/PNG/bank-banking-budget-svgrepo-com.png',
-      premium: false,
-      isWorking: true,
     },
     {
       name: 'Calculadora de Asistencias',
@@ -61,26 +55,13 @@ export class HomeComponent {
       link: ['/attendance-calculator'],
       icon: '/assets/attendance.svg',
       // icon: '/assets/icons/education2/PNG/math-svgrepo-com.png',
-      premium: false,
-      isWorking: true,
     },
     {
       link: ['/attendance'],
       name: 'Control de Asistencia',
       icon: '/assets/attend.svg',
       // icon: '/assets/icons/education/PNG/raise-your-hand-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
       description: 'Registra tablas de asistencia.'
-    },
-    {
-      name: 'Hojas de Ejercicios',
-      description: 'Los ejercicios que necesites para la clase.',
-      link: ['/worksheet-builders'],
-      icon: '/assets/undraw_online_test_re_kyfx.svg',
-      // icon: '/assets/icons/education2/PNG/pencil-ruler-svgrepo-com.png',
-      premium: false,
-      isWorking: true,
     },
     {
       name: 'Lista de Pendientes',
@@ -88,8 +69,6 @@ export class HomeComponent {
       link: ['/todos'],
       icon: '/assets/undraw_to_do_list_re_9nt7 (1).svg',
       // icon: '/assets/icons/education/PNG/time-svgrepo-com.png',
-      premium: false,
-      isWorking: true,
     },
     {
       name: 'Generador de Calificaciones',
@@ -97,8 +76,6 @@ export class HomeComponent {
       link: ['/grades-generator'],
       icon: '/assets/grades.svg',
       // icon: '/assets/icons/education/PNG/score-svgrepo-com.png',
-      premium: true,
-      isWorking: true,
     },
     {
       name: 'Generador de Asistencia',
@@ -107,17 +84,6 @@ export class HomeComponent {
       icon: '/assets/undraw_analysis_dq08.svg',
       // icon: '/assets/icons/education/PNG/vision-svgrepo-com.png',
       isNew: true,
-      premium: true,
-      isWorking: true,
-    },
-    {
-      name: 'Asistentes',
-      description: 'Colección de asistentes virtuales a tu medida.',
-      link: ['/assistants'],
-      icon: '/assets/assistant.svg',
-      // icon: '/assets/icons/education/PNG/space-svgrepo-com.png',
-      premium: true,
-      isWorking: false,
     },
     {
       name: 'Conversaciones en Inglés',
@@ -125,8 +91,6 @@ export class HomeComponent {
       link: ['/english-dialog-generator'],
       icon: '/assets/dialog.svg',
       // icon: '/assets/icons/education2/PNG/speech-bubble-svgrepo-com (2).png',
-      premium: true,
-      isWorking: true,
       isNew: true,
     },
     {
@@ -135,8 +99,6 @@ export class HomeComponent {
       link: ['/activity-generator'],
       icon: '/assets/activities.svg',
       // icon: '/assets/icons/education/PNG/creativity-svgrepo-com.png',
-      premium: true,
-      isWorking: true,
     },
     {
       name: 'Mis Secciones',
@@ -144,8 +106,6 @@ export class HomeComponent {
       link: ['/sections'],
       icon: '/assets/undraw_educator_re_ju47.svg',
       // icon: '/assets/icons/education2/PNG/quiz-svgrepo-com.png',
-      premium: false,
-      isWorking: true,
     },
     {
       name: 'Registro Anecdótico',
@@ -153,8 +113,6 @@ export class HomeComponent {
       link: ['/log-registry-generator'],
       icon: '/assets/undraw_upload_image_re_svxx.svg',
       // icon: '/assets/icons/education/PNG/writing-svgrepo-com.png',
-      premium: false,
-      isWorking: true,
     },
     {
       name: 'Plantillas de Planificación',
@@ -162,8 +120,6 @@ export class HomeComponent {
       link: ['/planner-generator'],
       icon: '/assets/undraw_responsive_re_e1nn.svg',
       // icon: '/assets/icons/education2/PNG/book-svgrepo-com.png',
-      premium: false,
-      isWorking: true,
     },
     {
       name: 'Recursos Educativos',
@@ -171,8 +127,6 @@ export class HomeComponent {
       link: ['/resources'],
       icon: '/assets/library_books.svg',
       // icon: '/assets/icons/education/PNG/astronomical-svgrepo-com.png',
-      premium: false,
-      isWorking: true,
     },
     {
       name: 'Generador de Aspectos Trabajados',
@@ -180,17 +134,27 @@ export class HomeComponent {
       link: ['/aspects-generator'],
       icon: '/assets/aspects.svg',
       // icon: '/assets/icons/education2/PNG/quiz-svgrepo-com.png',
-      premium: true,
-      isWorking: true,
     },
     {
-      name: 'Instrumentos de Evaluación',
-      description: 'Instrumentos de evaluación sin esfuerzo.',
-      link: ['/assessments'],
+      name: 'Generador de Guía de Observación',
+      description: 'Elabora una guía de observación para tus actividades.',
+      link: ["/assessments", "observation-sheet"],
       icon: '/assets/checklist.svg',
       // icon: '/assets/icons/education/PNG/math-svgrepo-com.png',
-      premium: true,
-      isWorking: true,
+    },
+    {
+      name: 'Generador de Rúbricas',
+      description: 'Genera rúbricas para cualquier tema y nivel.',
+      link: ["/assessments", "rubric"],
+      icon: '/assets/checklist.svg',
+      // icon: '/assets/icons/education/PNG/math-svgrepo-com.png',
+    },
+    {
+      name: 'Generador de Escala de Estimación',
+      description: 'Escalas de estimación para evaluar.',
+      link: ["/assessments", "estimation-scale"],
+      icon: '/assets/checklist.svg',
+      // icon: '/assets/icons/education/PNG/math-svgrepo-com.png',
     },
     {
       name: 'Sistemas de Calificación',
@@ -198,8 +162,6 @@ export class HomeComponent {
       link: ['/grading-systems'],
       icon: '/assets/undraw_portfolio_website_re_jsdd.svg',
       // icon: '/assets/icons/education2/PNG/fraction-svgrepo-com.png',
-      premium: true,
-      isWorking: true,
     },
     {
       name: 'Generador de Informes',
@@ -207,8 +169,6 @@ export class HomeComponent {
       link: ['/reports'],
       icon: '/assets/undraw_data_processing_yrrv.svg',
       // icon: '/assets/icons/education/PNG/statistics-svgrepo-com.png',
-      premium: true,
-      isWorking: false,
     },
     {
       name: 'Gestion de Horario',
@@ -216,16 +176,12 @@ export class HomeComponent {
       link: ['/schedules'],
       icon: '/assets/undraw_schedule_re_2vro(1).svg',
       // icon: '/assets/icons/education/PNG/writing-svgrepo-com.png',
-      premium: true,
-      isWorking: true,
     },
     {
       link: ['/formation'],
       name: 'Evaluación Formativa',
       icon: '/assets/learning.svg',
       // icon: '/assets/icons/education/PNG/mind-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
       description: 'Herramientas interactivas para evaluar en tiempo real.'
     },
     {
@@ -233,8 +189,6 @@ export class HomeComponent {
       name: 'Adaptación a la Diversidad',
       icon: '/assets/inclusion.svg',
       // icon: '/assets/icons/education/PNG/certificate-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
       description: 'Recursos para la enseñanza inclusiva.'
     },
     {
@@ -242,8 +196,6 @@ export class HomeComponent {
       name: 'Juegos Educativos',
       icon: '/assets/games.svg',
       // icon: '/assets/icons/education2/PNG/achivement-business-mission-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
       description: 'Juegos educativos para hacer el aprendizaje más interactivo y divertido.'
     },
     {
@@ -251,8 +203,6 @@ export class HomeComponent {
       name: 'Comunicación con Padres',
       icon: '/assets/forum.svg',
       // icon: '/assets/icons/education2/PNG/speech-bubble-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
       description: 'Mensajería e informes automáticos a padres.'
     },
     {
@@ -260,8 +210,6 @@ export class HomeComponent {
       name: 'Seguimiento del Estudiante',
       icon: '/assets/grade.svg',
       // icon: '/assets/icons/education/PNG/discover-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
       description: 'Graficos y estadísticas del rendimiento estudiantil. '
     },
     {
@@ -269,8 +217,6 @@ export class HomeComponent {
       name: 'Eventos Escolares',
       icon: '/assets/celebration.svg',
       // icon: '/assets/icons/education/PNG/calendar-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
       description: 'Planificación, promoción y seguimiento de eventos escolares.'
     },
     {
@@ -278,8 +224,6 @@ export class HomeComponent {
       name: 'Seguridad y Privacidad',
       icon: '/assets/security.svg',
       // icon: '/assets/icons/education/PNG/biology-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
       description: 'Herramientas para gestionar la seguridad de datos.'
     },
     {
@@ -287,8 +231,6 @@ export class HomeComponent {
       name: 'Centro de Datos',
       icon: '/assets/icons/education/PNG/school-svgrepo-com.png',
       // icon: '/assets/icons/education/PNG/school-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
       description: 'Todo lo que necesitas para sentirte en control de tu salón de clases.'
     },
     {
@@ -296,8 +238,6 @@ export class HomeComponent {
       name: 'Encuestas y Retroalimentación',
       icon: '/assets/review.svg',
       // icon: '/assets/icons/education/PNG/question-and-answer-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
       description: 'Recopilación de retroalimentación para mejorar la enseñanza.'
     },
     {
@@ -306,17 +246,133 @@ export class HomeComponent {
       link: ['/tasks'],
       icon: '/assets/checklist.svg',
       // icon: '/assets/icons/education/PNG/read-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
     },
     {
       link: ['/collab'],
       name: 'Colaboración entre Maestros',
       icon: '/assets/groups.svg',
       // icon: '/assets/icons/education/PNG/chemical-svgrepo-com.png',
-      premium: false,
-      isWorking: false,
       description: 'Espacio de colaboración para compartir ideas y estrategias de enseñanza.'
+    },
+    {
+      name: 'Ordena las Palabras',
+      description: 'Genera palabras desordenadas para ordenar.',
+      link: ['/worksheet-builders','word-scramble'],
+      icon: '/assets/undraw_specs_re_546x.svg'
+    },
+    {
+      name: 'Parea Sinónimos',
+      description: 'Genera hojas de ejercicios para parear sinónimos.',
+      link: ['/worksheet-builders','synonyms'],
+      icon: '/assets/undraw_file_searching_re_3evy.svg'
+    },
+    {
+      name: 'Parea Antónimos',
+      description: 'Genera hojas de ejercicios para parear antónimos.',
+      link: ['/worksheet-builders','antonyms'],
+      icon: '/assets/undraw_file_searching_re_3evy.svg'
+    },
+    {
+      name: 'Crucigramas',
+      description: 'Genera crucigramas para tus alumnos.',
+      link: ['/worksheet-builders','crosswords'],
+      icon: '/assets/undraw_file_searching_re_3evy.svg'
+    },
+    {
+      name: 'Sopas de Letras',
+      description: 'Genera sopas de letras por niveles y respuestas.',
+      link: ['/worksheet-builders','wordsearch'],
+      icon: '/assets/undraw_file_searching_re_3evy.svg'
+    },
+    {
+      name: 'Suma',
+      description: 'Genera Hojas de suma con hoja de respuestas.',
+      link: [
+        '/worksheet-builders',
+        'addition'
+      ],
+      icon: '/assets/undraw_new_entries_re_cffr.svg'
+    },
+    {
+      name: 'Resta',
+      description: 'Genera Hojas de resta con hoja de respuestas.',
+      link: [
+        '/worksheet-builders',
+        'subtraction'
+      ],
+      icon: '/assets/undraw_new_entries_re_cffr.svg'
+    },
+    {
+      name: 'Multiplicación',
+      description: 'Genera Hojas de multiplicación con sus respuestas.',
+      link: [
+        '/worksheet-builders',
+        'multiplication'
+      ],
+      icon: '/assets/undraw_new_entries_re_cffr.svg'
+    },
+    {
+      name: 'División',
+      description: 'Genera Hojas de división con hoja de respuestas.',
+      link: [
+        '/worksheet-builders',
+        'division'
+      ],
+      icon: '/assets/undraw_new_entries_re_cffr.svg'
+    },
+    {
+      name: 'Ejercicios Mixtos',
+      description: 'Genera ejercicios mixtos de operaciones basicas.',
+      link: [
+        '/worksheet-builders',
+        'mixed-operations'
+      ],
+      icon: '/assets/undraw_new_entries_re_cffr.svg'
+    },
+    {
+      name: 'Ecuaciones',
+      description: 'Ejercicios con ecuaciones',
+      link: [
+        '/worksheet-builders',
+        'equations'
+      ],
+      icon: '/assets/undraw_new_entries_re_cffr.svg'
+    },
+    {
+      name: 'Papel Cuadriculado',
+      description: 'Genera Hojas cuadriculadas para geometría.',
+      link: [
+        '/worksheet-builders',
+        'graph-paper'
+      ],
+      icon: '/assets/undraw_new_entries_re_cffr.svg'
+    },
+    {
+      name: 'Recta Numérica',
+      description: 'Genera Hojas de ejercicios con la recta numérica.',
+      link: [
+        '/worksheet-builders',
+        'number-line'
+      ],
+      icon: '/assets/undraw_new_entries_re_cffr.svg'
+    },
+    {
+      name: 'Planos Cartesianos',
+      description: 'Genera Hojas con plantillas de planos cartesianos.',
+      link: [
+        '/worksheet-builders',
+        'cartesian-coordinates'
+      ],
+      icon: '/assets/undraw_new_entries_re_cffr.svg'
+    },
+    {
+      name: 'Sudoku',
+      description: 'Genera Sudoku de diferentes niveles de dificultad y sus respuestas.',
+      link: [
+        '/worksheet-builders',
+        'sudoku'
+      ],
+      icon: '/assets/undraw_game_day_ucx9.svg'
     },
   ];
 

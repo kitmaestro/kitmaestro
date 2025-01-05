@@ -9,6 +9,7 @@ import { Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserSubscription } from '../interfaces/user-subscription';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CurrencyPipe } from '@angular/common';
 import { UserSubscriptionService } from '../services/user-subscription.service';
@@ -26,6 +27,7 @@ declare const paypal: any;
     MatListModule,
     MatSnackBarModule,
     MatSlideToggleModule,
+    MatBadgeModule,
     RouterModule,
     CurrencyPipe,
     RouterModule,
@@ -96,14 +98,14 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
       name: 'Plan Estándar',
       price: {
         month: {
-          original: 9.99,
-          now: 3.75,
-          // now: 4.99,
+          original: 600,
+          // now: 3.75,
+          now: 399,
         },
         year: {
-          original: 79.99,
-          now: 24.99,
-          // now: 49.99,
+          original: 4800,
+          // now: 24.99,
+          now: 2999,
         },
       },
       features: [
@@ -125,14 +127,14 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
       name: 'Plan Premium',
       price: {
         month: {
-          original: 39.99,
-          now: 11.25,
-          // now: 14.99,
+          original: 2400,
+          // now: 11.25,
+          now: 999,
         },
         year: {
-          original: 349.99,
-          now: 112.49,
-          // now: 149.99,
+          original: 14000,
+          // now: 112.49,
+          now: 8999,
         },
       },
       features: [

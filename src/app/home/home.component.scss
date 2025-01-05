@@ -81,3 +81,25 @@ p {
     font-family: Roboto, sans-serif;
     line-height: 1.5;
 }
+
+.inner-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+  height: 100%;
+  align-items: center;
+
+  img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 4/3;
+  }
+}
+
+.card:hover {
+  background-color: #673ab7;
+
+  & p {
+    color: white;
+  }
+}

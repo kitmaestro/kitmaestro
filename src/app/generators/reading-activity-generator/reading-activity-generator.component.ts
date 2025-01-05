@@ -95,11 +95,11 @@ export class ReadingActivityGeneratorComponent {
     answers: string[];
 }`;
     this.generating = true;
-    this.aiService.askGemini(text, true)
+    this.aiService.geminiAi(text)
       .subscribe({
         next: (response) => {
           try {
-            const text = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
+            const text = JSON.parse(response.response.slice(response.response.indexOf('{'), response.response.lastIndexOf('}') + 1));
             if (text) {
               this.text = text;
               this.saved = false;

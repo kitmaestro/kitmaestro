@@ -1,7 +1,7 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
-import { filter, map, Observable, zip } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LoadingComponent } from './ui/loading/loading.component';
 import { AuthService } from './services/auth.service';

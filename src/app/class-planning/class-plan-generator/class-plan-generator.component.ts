@@ -208,14 +208,14 @@ export class ClassPlanGeneratorComponent implements OnInit {
           .replace('plan_resources', resources.join(', '))
           .replace('plan_compentece', competence_string);
 
-        this.aiService.askGemini(text, true).subscribe({
+        this.aiService.geminiAi(text).subscribe({
           next: (response) => {
             this.generating = false;
             const date = this.planForm.value.date;
-            // const extract = response.response.slice(response.response.indexOf('{'), response.response.lastIndexOf('}') + 1);
-            const answer = response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n');
-            const extract = answer.slice(answer.indexOf('{'), answer.lastIndexOf('}') + 1);
-            console.log(answer, extract)
+            const extract = response.response.slice(response.response.indexOf('{'), response.response.lastIndexOf('}') + 1);
+            // const answer = response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n');
+            // const extract = answer.slice(answer.indexOf('{'), answer.lastIndexOf('}') + 1);
+            // console.log(answer, extract)
             const plan: any = JSON.parse(extract);
             plan.user = this.userSettings?._id;
             plan.section = this.section?._id;

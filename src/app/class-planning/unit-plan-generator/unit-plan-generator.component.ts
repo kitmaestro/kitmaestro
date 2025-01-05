@@ -473,7 +473,6 @@ export class UnitPlanGeneratorComponent implements OnInit {
           const activities: { teacher_activities: { subject: string, activities: string[]}[], student_activities: { subject: string, activities: string[]}[], evaluation_activities: { subject: string, activities: string[]}[], instruments: string[], resources: string[] } = JSON.parse(extract);
           this.instruments.clear();
           this.resourceList.clear();
-          console.log(activities)
           this.teacher_activities = activities.teacher_activities;
           this.student_activities = activities.student_activities;
           this.evaluation_activities = activities.evaluation_activities;
@@ -517,6 +516,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
       evaluationActivities: this.evaluation_activities,
     };
     this.plan = plan;
+    this.savePlan();
   }
 
   savePlan() {
@@ -565,10 +565,12 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
     this.generating = true;
 
-    this.aiService.askGemini(text, true).subscribe({
-      next: (response) => {
+    this.aiService.geminiAi(text).subscribe({
+      next: (res) => {
         this.generating = false;
-        const learningSituation: { title: string, content: string, learningCriteria: string[], strategies: string[] } = JSON.parse(response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n'));
+        const { response } = res;
+        const extract = response.slice(response.indexOf('{'), response.lastIndexOf('}') + 1);
+        const learningSituation: { title: string, content: string, learningCriteria: string[], strategies: string[] } = JSON.parse(extract);
         this.learningSituationTitle.setValue(learningSituation.title);
         this.learningSituation.setValue(learningSituation.content);
         this.strategies.clear();
