@@ -1,16 +1,19 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AppEntry } from '../interfaces/app-entry';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AppTileComponent } from '../app-tile/app-tile.component';
+import { FavoritesService } from '../services/favorites.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-home',
@@ -23,9 +26,11 @@ import { AppTileComponent } from '../app-tile/app-tile.component';
         MatSlideToggleModule,
         MatTooltipModule,
         MatFormFieldModule,
+        MatButtonModule,
         ReactiveFormsModule,
         MatInputModule,
         AppTileComponent,
+        AsyncPipe,
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
@@ -34,6 +39,8 @@ export class HomeComponent {
   showAll = false;
   devMode = false;
   search = new FormControl();
+  favoritesService = inject(FavoritesService);
+  favorites$: Observable<AppEntry[]> = this.favoritesService.findAll();
 
   emptyApp: AppEntry = {
     name: 'Favoritos',
@@ -41,8 +48,6 @@ export class HomeComponent {
     link: [],
     icon: '/assets/undraw_like-dislike_ggjr.svg'
   }
-
-  favorites: AppEntry[] = []
   
   apps: AppEntry[] = [
     {
@@ -404,5 +409,21 @@ export class HomeComponent {
 
   toggleView() {
     this.showAll = !this.showAll;
+  }
+  
+  markFavorite(event: any) {
+    this.favoritesService.create(event).subscribe({
+      next: res => {
+        console.log(res);
+      }
+    })
+  }
+  
+  unmarkFavorite(event: any) {
+    console.log(event)
+  }
+
+  get filteredApps() {
+    return this.apps.filter(app => app.description.toLowerCase().includes(this.search.value.toLowerCase()) || app.name.toLowerCase().includes(this.search.value.toLowerCase()));
   }
 }

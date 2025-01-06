@@ -13,7 +13,8 @@
   @if (!search.value) {
     <h3>Herramientas Favoritas</h3>
     <div class="apps-grid">
-      @for (app of favorites; track $index) {
+      @for (app of (favorites$ | async); track $index) {
+        <app-tile [isFav]="true" [app]="app" (markFavorite)="unmarkFavorite($event)" />
       } @empty {
         <app-tile [app]="emptyApp" />
       }
@@ -21,8 +22,16 @@
   }
   <h3>Todas las Herramientas</h3>
   <div class="apps-grid">
-    @for (app of apps; track $index) {
-      <app-tile [app]="app" />
+    @if (search.value) {
+      @for (app of filteredApps; track $index) {
+        <app-tile [app]="app" />
+      } @empty {
+          <p style="padding: 24px; text-align: center;">No tenemos esa herramienta.<br />Considera <a mat-button routerLink="/idea-board">Proponer la Idea</a> para que la integremos a la plataforma.</p>
+      }
+    } @else {
+      @for (app of apps; track $index) {
+        <app-tile [app]="app" (markFavorite)="markFavorite($event)" />
+      }
     }
   </div>
 </div>

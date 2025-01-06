@@ -1,8 +1,10 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 import { AppEntry } from '../interfaces/app-entry';
 import { NgIf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-tile',
@@ -10,29 +12,28 @@ import { NgIf } from '@angular/common';
     NgIf,
     RouterLink,
     MatCardModule,
+    MatIconModule,
+    MatButtonModule,
   ],
   template: `
-    <a *ngIf="app() as entry" [routerLink]="entry.link" class="app-card">
-        <mat-card class="card">
-          <mat-card-content>
-            <div class="inner-grid">
-              <img [src]="entry.icon" [alt]="entry.name">
-              <div style="text-align: center;">
-                <p style="font-weight: bold;">{{entry.name}}</p>
-                <p>{{entry.description}}</p>
-              </div>
+    <mat-card class="card" *ngIf="app() as entry">
+      @if (entry.link.length) {
+        <button mat-icon-button [class.active]="isFav()" (click)="mark()"><mat-icon>star</mat-icon></button>
+      }
+      <mat-card-content>
+        <a [routerLink]="entry.link" class="app-card">
+          <div class="inner-grid">
+            <img [src]="entry.icon" [alt]="entry.name">
+            <div style="text-align: center;">
+              <p style="font-weight: bold;">{{entry.name}}</p>
+              <p>{{entry.description}}</p>
             </div>
-          </mat-card-content>
-        </mat-card>
-    </a>
+          </div>
+        </a>
+      </mat-card-content>
+    </mat-card>
   `,
   styles: `
-    @media screen and (max-width: 720px) {
-        h2 {
-            font-size: 16px;
-        }
-    }
-
 .app-card {
   cursor: pointer;
   margin-bottom: 16px;
@@ -40,6 +41,10 @@ import { NgIf } from '@angular/common';
   color: #263238;
   height: 100%;
   text-decoration: none;
+}
+
+.active {
+  color: #005cbb;
 }
 
 p {
@@ -51,6 +56,7 @@ p {
 
 .inner-grid {
   display: grid;
+  margin-top: 12px;
   grid-template-rows: 1fr 1fr;
   gap: 12px;
   height: 100%;
@@ -66,6 +72,13 @@ p {
 
 .card {
   height: 100%;
+  position: relative;
+}
+
+button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
 }
 
 .card:hover {
@@ -78,4 +91,10 @@ p {
 })
 export class AppTileComponent {
   app = input.required<AppEntry>();
+  isFav = input<boolean>(false);
+  markFavorite = output<AppEntry>();
+
+  mark() {
+    this.markFavorite.emit(this.app());
+  }
 }
