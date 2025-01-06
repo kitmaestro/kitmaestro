@@ -20,15 +20,15 @@ export class FavoritesService {
     }),
   };
 
-  findAll(): Observable<AppEntry[]> {
-    return this.http.get<AppEntry[]>(this.apiBaseUrl, this.config);
+  findAll(): Observable<{ user: string, tools: AppEntry[]}> {
+    return this.http.get<{ user: string, tools: AppEntry[]}>(this.apiBaseUrl, this.config);
   }
 
-  create(plan: AppEntry): Observable<AppEntry> {
-    return this.http.post<AppEntry>(this.apiBaseUrl, plan, this.config);
+  create(data: AppEntry[]): Observable<{ user: string, tools: AppEntry[] }> {
+    return this.http.post<{ user: string, tools: AppEntry[] }>(this.apiBaseUrl, data, this.config);
   }
 
-  update(id: string, plan: any): Observable<ApiUpdateResponse> {
-    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, plan, this.config);
+  update(data: any): Observable<ApiUpdateResponse> {
+    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl, data, this.config);
   }
 }

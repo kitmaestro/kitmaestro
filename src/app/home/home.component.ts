@@ -13,7 +13,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AppTileComponent } from '../app-tile/app-tile.component';
 import { FavoritesService } from '../services/favorites.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Component({
     selector: 'app-home',
@@ -40,7 +40,16 @@ export class HomeComponent {
   devMode = false;
   search = new FormControl();
   favoritesService = inject(FavoritesService);
-  favorites$: Observable<AppEntry[]> = this.favoritesService.findAll();
+  favorites: AppEntry[] = [];
+
+  loadFavorites() {
+    this.favoritesService.findAll().subscribe({
+      next: favs => {
+        this.favorites = favs.tools;
+        console.log(favs)
+      }
+    });
+  }
 
   emptyApp: AppEntry = {
     name: 'Favoritos',
@@ -405,22 +414,36 @@ export class HomeComponent {
   ];
 
   ngOnInit() {
+    this.loadFavorites()
   }
 
   toggleView() {
     this.showAll = !this.showAll;
   }
+
+  isAFav(app: any) {
+    return this.favorites.some(f => f.name == app.name);
+  }
   
   markFavorite(event: any) {
-    this.favoritesService.create(event).subscribe({
-      next: res => {
-        console.log(res);
-      }
-    })
+    if (this.isAFav(event)) {
+      this.unmarkFavorite(event);
+    } else {
+      this.favoritesService.create(event).subscribe({
+        next: res => {
+          this.loadFavorites();
+        }
+      })
+    }
   }
   
   unmarkFavorite(event: any) {
-    console.log(event)
+    const favs = this.favorites.filter(f => f.name !== event.name);
+    this.favoritesService.update(favs).subscribe({
+      next: res => {
+        this.loadFavorites();
+      }
+    })
   }
 
   get filteredApps() {
