@@ -2,6 +2,8 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
 
     @media screen and (max-width: 720px) {
         h2 {
@@ -43,6 +45,7 @@
   margin-bottom: 16px;
   display: block;
   color: #263238;
+  height: 100%;
   text-decoration: none;
 }
 
@@ -84,16 +87,20 @@ p {
 
 .inner-grid {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr 1fr;
   gap: 12px;
   height: 100%;
   align-items: center;
 
   img {
-    width: 100%;
+    width: 50%;
     display: block;
     aspect-ratio: 4/3;
   }
+}
+
+.card {
+  height: 100%;
 }
 
 .card:hover {

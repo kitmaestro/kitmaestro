@@ -11,25 +11,25 @@ export interface ClassPlan {
   strategies: string[];
   introduction: {
     duration: number,
-    activities: string,
-    resources: string,
+    activities: string[],
+    resources: string[],
     layout: string
   };
   main: {
     duration: number,
-    activities: string,
-    resources: string,
+    activities: string[],
+    resources: string[],
     layout: string
   };
   closing: {
     duration: number,
-    activities: string,
-    resources: string,
+    activities: string[],
+    resources: string[],
     layout: string
   };
   supplementary: {
-    activities: string,
-    resources: string,
+    activities: string[],
+    resources: string[],
     layout: string
   };
   vocabulary: string[];

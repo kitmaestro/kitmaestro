@@ -2,11 +2,12 @@
     <mat-card>
         <mat-card-content>
             <h2 style="text-align: center;">Opciones</h2>
-            <div style="display: flex; justify-content: space-around; gap: 12px;">
+            <div style="display: flex; gap: 12px;">
                 <button type="button" mat-raised-button color="link" (click)="goBack()">Volver</button>
                 <button type="button" mat-raised-button color="warn" (click)="deletePlan()">Eliminar</button>
                 <button type="button" mat-raised-button color="accent" [routerLink]="['/class-plans', planId, 'edit']">Editar</button>
                 <button type="button" mat-raised-button color="primary" (click)="printPlan()">Descargar PDF</button>
+                <button type="button" mat-raised-button color="primary" (click)="downloadPlan()" [disabled]="printing">Descargar DOCX</button>
             </div>
         </mat-card-content>
     </mat-card>

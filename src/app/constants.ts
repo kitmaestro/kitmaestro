@@ -331,9 +331,9 @@ La situación de aprendizaje debe ser clara, relevante y adecuada para el nivel 
 Aunque es opcional, es totalmente valido identificar el curso como 'los estudiantes de x grado de la escuela x' o 'los estudiantes de section_name'. La situacion de aprendizaje DEBE priorizar el contenido sobre la situacion (muy importante), de manera que lo que debe quedar en segundo plano, es el problema que se esta abordando.
 La respuesta debe ser json valido, coherente con esta interfaz:
 {
-  title: string; // titulo de la situacion de aprendizaje
-  content: string; // la situacion de aprendizaje en si
-  strategies: string[]; //estrategias de aprendizaje y ensenanza recomendados para esta situacion de aprendizaje
+  "title": string; // titulo de la situacion de aprendizaje
+  "content": string; // la situacion de aprendizaje en si
+  "strategies": string[]; //estrategias de aprendizaje y ensenanza recomendados para esta situacion de aprendizaje
 }`;
 
 export const generateStrategiesPrompt = `A partir de los datos siguientes, que son la especificacion de mi contexto educativo, elabora una lista de estrategias didacticas para desarrollar los temas a tratar:
@@ -355,34 +355,34 @@ La respuesta debe ser un array de cadenas en formato json valido`;
 export const classPlanPrompt = `Escribe un plan de clases, enfocado en el desarrollo de competencias, de class_subject de class_duration minutos para impartir class_topics en class_year grado de class_level. Esta es la interfaz de la planificacion:
 
 interface Plan {
-  objective: string, // proposito
-  strategies: string[],
-  introduction: {
-    duration: number,
-    activities: string[],
-    resources: string[],
-    layout: string, // class layout
+  "objective": string, // proposito
+  "strategies": string[],
+  "introduction": {
+    "duration": number,
+    "activities": string[],
+    "resources": string[],
+    "layout": string, // class layout
   },
-  main: {
-    duration: number,
-    activities: string[],
-    resources: string[],
-    layout: string, // class layout
+  "main": {
+    "duration": number,
+    "activities": string[],
+    "resources": string[],
+    "layout": string, // class layout
   },
-  closing: {
-    duration: number,
-    activities: string[],
-    resources: string[],
-    layout: string, // class layout
+  "closing": {
+    "duration": number,
+    "activities": string[],
+    "resources": string[],
+    "layout": string, // class layout
   },
-  supplementary: { // actividades extra/opcionales (son opciones para que el docente implemente en caso de que le sobre tiempo o para intercambiar con alguna otra del plan)
-    activities: string[],
-    resources: string[],
-    layout: string, // class layout
+  "supplementary": { // actividades extra/opcionales (son opciones para que el docente implemente en caso de que le sobre tiempo o para intercambiar con alguna otra del plan)
+    "activities": string[],
+    "resources": string[],
+    "layout": string, // class layout
   },
-  vocabulary: string[],
-  readings: string, // usualmente un material o libro relacionado con el tema
-  competence: string, // Competencia a trabajar (elige la mas apropiadas de las que menciono al final)
+  "vocabulary": string[],
+  "readings": string, // usualmente un material o libro relacionado con el tema
+  "competence": string, // Competencia a trabajar (elige la mas apropiadas de las que menciono al final)
 }
 
 Los recursos disponibles son:
@@ -391,4 +391,4 @@ Los recursos disponibles son:
 Las competencias a desarrollorar debe ser una de estas:
 - plan_compentece
 
-Importante: planea la clase para que se imparta con un estilo teaching_style`;
+Importante: planea la clase para que se imparta con un estilo teaching_style, y tu respuesta debe ser un json totalmente valido.`;

@@ -12,48 +12,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { AiService } from '../../services/ai.service';
-// import { SPANISH_CONTENTS } from '../../data/spanish-contents';
-// import { MATH_CONTENTS } from '../../data/math-contents';
-// import { SOCIETY_CONTENTS } from '../../data/society-contents';
-// import { SCIENCE_CONTENTS } from '../../data/science-contents';
-// import { ENGLISH_CONTENTS } from '../../data/english-contents';
-// import { FRENCH_CONTENTS } from '../../data/french-contents';
-// import { RELIGION_CONTENTS } from '../../data/religion-contents';
-// import { SPORTS_CONTENTS } from '../../data/sports-contents';
-// import { ART_CONTENTS } from '../../data/art-contents';
 import { ClassSectionService } from '../../services/class-section.service';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { UserSettings } from '../../interfaces/user-settings';
-// import { ART_MAIN_THEMES } from '../../data/art-main-themes';
-// import { ENGLISH_MAIN_THEMES } from '../../data/english-main-themes';
-// import { SPANISH_MAIN_THEMES } from '../../data/spanish-main-themes';
-// import { MATH_MAIN_THEMES } from '../../data/math-main-themes';
-// import { SOCIETY_MAIN_THEMES } from '../../data/society-main-themes';
-// import { SCIENCE_MAIN_THEMES } from '../../data/science-main-themes';
-// import { FRENCH_MAIN_THEMES } from '../../data/french-main-themes';
-// import { RELIGION_MAIN_THEMES } from '../../data/religion-main-themes';
-// import { SPORTS_MAIN_THEMES } from '../../data/sports-main-themes';
-// import { ART_COMPETENCE } from '../../data/art-competence';
-// import { ENGLISH_COMPETENCE } from '../../data/english-competence';
-// import { SPANISH_COMPETENCE } from '../../data/spanish-competence';
-// import { MATH_COMPETENCE } from '../../data/math-competence';
-// import { SOCIETY_COMPETENCE } from '../../data/society-competence';
-// import { SCIENCE_COMPETENCE } from '../../data/science-competence';
-// import { FRENCH_COMPETENCE } from '../../data/french-competence';
-// import { RELIGION_COMPETENCE } from '../../data/religion-competence';
-// import { SPORTS_COMPETENCE } from '../../data/sports-competence';
 import { UnitPlan } from '../../interfaces/unit-plan';
 import { UnitPlanService } from '../../services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
-// import spanishContentBlocks from '../../data/spanish-content-blocks.json';
-// import mathContentBlocks from '../../data/math-content-blocks.json';
-// import societyContentBlocks from '../../data/society-content-blocks.json';
-// import scienceContentBlocks from '../../data/science-content-blocks.json';
-// import englishContentBlocks from '../../data/english-content-blocks.json';
-// import frenchContentBlocks from '../../data/french-content-blocks.json';
-// import sportsContentBlocks from '../../data/sports-content-blocks.json';
-// import religionContentBlocks from '../../data/religion-content-blocks.json';
-// import artContentBlocks from '../../data/art-content-blocks.json';
 import { HttpClientModule } from '@angular/common/http';
 import { ClassSection } from '../../interfaces/class-section';
 import { CompetenceService } from '../../services/competence.service';
@@ -76,8 +40,6 @@ import { ContentBlock } from '../../interfaces/content-block';
 import { TEACHING_METHODS } from '../../data/teaching-methods';
 import { PretifyPipe } from '../../pipes/pretify.pipe';
 import { UserSubscriptionService } from '../../services/user-subscription.service';
-// import { SubjectConceptList } from '../../interfaces/subject-concept-list';
-// import { SubjectConceptListService } from '../../services/subject-concept-list.service';
 
 @Component({
   selector: 'app-unit-plan-generator',
@@ -113,7 +75,6 @@ export class UnitPlanGeneratorComponent implements OnInit {
   userSubscriptionService = inject(UserSubscriptionService);
   private contentBlockService = inject(ContentBlockService);
 	private unitPlanService = inject(UnitPlanService);
-	// private contentService = inject(SubjectConceptListService);
   private competenceService = inject(CompetenceService);
   private router = inject(Router);
   private _evaluationCriteria: CompetenceEntry[] = [];
@@ -212,133 +173,6 @@ export class UnitPlanGeneratorComponent implements OnInit {
         })
       })
     });
-    // const subjectsNames = [
-    //   'EDUCACION_ARTISTICA', 'INGLES', 'FRANCES', 'MATEMATICA', 'FORMACION_HUMANA', 'CIENCIAS_NATURALES', 'CIENCIAS_SOCIALES', 'LENGUA_ESPANOLA', 'EDUCACION_FISICA'
-    // ];
-    // let created = 0;
-    // [ART_CONTENTS, ENGLISH_CONTENTS, FRENCH_CONTENTS, MATH_CONTENTS, RELIGION_CONTENTS, SCIENCE_CONTENTS, SOCIETY_CONTENTS, SPANISH_CONTENTS, SPORTS_CONTENTS].forEach((contents, index) => {
-	// 	contents.primary.forEach((content, i) => {
-	// 		const grade = ['PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'][i];
-	// 		const block: any = {
-	// 			concepts: content,
-	// 			grade,
-	// 			subject: subjectsNames[index],
-	// 			level: 'PRIMARIA'
-	// 		}
-	// 		this.contentService.create(block).subscribe(result => {
-	// 			console.log('Created #%d', ++created)
-	// 		})
-	// 	});
-	// 	contents.highSchool.forEach((content, i) => {
-	// 		const grade = ['PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'][i];
-	// 		const block: any = {
-	// 			concepts: content,
-	// 			grade,
-	// 			subject: subjectsNames[index],
-	// 			level: 'SECUNDARIA'
-	// 		}
-	// 		this.contentService.create(block).subscribe(result => {
-	// 			console.log('Created #%d', ++created)
-	// 		})
-	// 	});
-    // });
-    // [artContentBlocks, englishContentBlocks, frenchContentBlocks, mathContentBlocks, religionContentBlocks, scienceContentBlocks, societyContentBlocks, spanishContentBlocks, sportsContentBlocks].forEach(contents => {
-    //   contents.forEach((content, i) => {
-    //     const { year, level, concepts, attitudes, procedures, subject, title, achievement_indicators } = content;
-    //     const block: any = {
-    //       year,
-    //       level,
-    //       subject,
-    //       title,
-    //       order: i,
-    //       concepts,
-    //       attitudes,
-    //       procedures,
-    //       achievement_indicators: achievement_indicators,
-    //     }
-    //     if (title) {
-    //       this.contentBlockService.create(block).subscribe(result => {
-    //         console.log('Created #%d', ++created)
-    //       })
-    //     }
-    //   })
-    // });
-    // [ART_COMPETENCE, ENGLISH_COMPETENCE, FRENCH_COMPETENCE, MATH_COMPETENCE, RELIGION_COMPETENCE, SCIENCE_COMPETENCE, SOCIETY_COMPETENCE, SPANISH_COMPETENCE, SPORTS_COMPETENCE].forEach((comp:any, sub: number) => {
-    //   Object.keys(comp.Primaria).forEach(key => {
-    //     const name = key.split('').map((s, i) => s == s.toUpperCase() && i !== 0 ? " " + s : s).join('');
-    //     Object.keys(comp.Primaria[key]).forEach(yearKey => {
-    //       const grade = yearKey.toUpperCase();
-    //       const subject = subjectsNames[sub];
-    //       const level = 'PRIMARIA';
-    //       const entries = comp.Primaria[key][yearKey].competenciasEspecificas;
-    //       const criteria = comp.Primaria[key][yearKey].criteriosDeEvaluacion;
-    //       const data: any = {
-    //         name,
-    //         grade,
-    //         subject,
-    //         level,
-    //         entries,
-    //         criteria
-    //       }
-    //       const sus = this.competenceService.createCompetence(data).subscribe(res => {
-    //         sus.unsubscribe();
-    //         console.log('Created #', ++created);
-    //       });
-    //     });
-    //   });
-    //   Object.keys(comp.Secundaria).forEach(key => {
-    //     const name = key.split('').map((s, i) => s == s.toUpperCase() && i !== 0 ? " " + s : s).join('');
-    //     Object.keys(comp.Secundaria[key]).forEach(yearKey => {
-    //       const grade = yearKey.toUpperCase();
-    //       const subject = subjectsNames[sub];
-    //       const level = 'SECUNDARIA';
-    //       const entries = comp.Secundaria[key][yearKey].competenciasEspecificas;
-    //       const criteria = comp.Secundaria[key][yearKey].criteriosDeEvaluacion;
-    //       const data: any = {
-    //         name,
-    //         grade,
-    //         subject,
-    //         level,
-    //         entries,
-    //         criteria
-    //       }
-    //       const sus = this.competenceService.createCompetence(data).subscribe(res => {
-    //         sus.unsubscribe();
-    //         console.log('Created #', ++created);
-    //       });
-    //     });
-    //   });
-    // })
-    // [ART_MAIN_THEMES, ENGLISH_MAIN_THEMES, FRENCH_MAIN_THEMES, MATH_MAIN_THEMES, RELIGION_MAIN_THEMES, SCIENCE_MAIN_THEMES, SOCIETY_MAIN_THEMES, SPANISH_MAIN_THEMES, SPORTS_MAIN_THEMES].forEach((comp:any, sub: number) => {
-    //   Object.keys(comp).forEach(levelKey => {
-    //     const level = levelKey.toUpperCase();
-    //     Object.keys(comp[levelKey]).forEach(key => {
-    //       const category = key;
-    //       Object.keys(comp[levelKey][key]).forEach(yearKey => {
-    //         const year = yearKey.toUpperCase();
-    //         const subject = subjectsNames[sub];
-    //         const topics = comp[levelKey][key][yearKey].map((s: string) => {
-    //           let trimmed = s.trim();
-    //           if (trimmed[trimmed.length - 1] == '.') {
-    //             return trimmed.slice(0, -1);
-    //           }
-    //           return trimmed;
-    //         });
-    //         const data: any = {
-    //           category,
-    //           year,
-    //           subject,
-    //           level,
-    //           topics
-    //         }
-    //         const sus = this.mainThemeService.create(data).subscribe(res => {
-    //           sus.unsubscribe();
-    //           console.log('Created #', ++created)
-    //         });
-    //       })
-    //     })
-    //   })
-    // })
     this.userSettingsService.getSettings().subscribe({
       next: settings => {
         this.userSettings = settings;

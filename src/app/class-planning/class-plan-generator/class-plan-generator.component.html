@@ -67,21 +67,10 @@
 					</mat-chip-listbox>
 				</div>
 				<div style="margin-top: 12px; text-align: end;">
-					@if (plan) {
-						<button type="button" style="margin-right: 12px;" (click)="printPlan()" mat-raised-button color="accent">Descargar</button>
-						<button type="button" style="margin-right: 12px;" (click)="savePlan()" mat-raised-button color="primary">Guardar</button>
-					}
-					<button type="submit" [disabled]="generating || planForm.invalid" mat-raised-button>
-						@if (generating) {
-							Generando...
-						} @else {
-							@if (plan) {
-								Regenerar
-							} @else {
-								Generar
-							}
-						}
-					</button>
+					<!-- <button [disabled]="!plan" type="button" style="margin-right: 12px;" (click)="printPlan()" mat-fab extended color="accent">Descargar <mat-icon>picture_as_pdf</mat-icon></button> -->
+					<!-- <button [disabled]="!plan" type="button" style="margin-right: 12px;" (click)="downloadPlan()" mat-fab extended color="accent"><mat-icon>description</mat-icon>Descargar</button> -->
+					<button [disabled]="!plan" type="button" style="margin-right: 12px;" (click)="savePlan()" mat-fab extended color="primary"><mat-icon>save</mat-icon> Guardar</button>
+					<button type="submit" [disabled]="generating || planForm.invalid" mat-fab extended><mat-icon>bolt</mat-icon> {{ plan ? 'Regenerar' : 'Generar' }}</button>
 				</div>
 			</form>
 		</mat-card-content>

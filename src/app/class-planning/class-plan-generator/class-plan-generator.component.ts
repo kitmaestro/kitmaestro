@@ -25,6 +25,7 @@ import { classPlanPrompt, classroomResources } from '../../constants';
 import { CompetenceEntry } from '../../interfaces/competence-entry';
 import { ClassPlanComponent } from '../class-plan/class-plan.component';
 import { UserSubscriptionService } from '../../services/user-subscription.service';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
   selector: 'app-class-plan-generator',
@@ -213,9 +214,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
             this.generating = false;
             const date = this.planForm.value.date;
             const extract = response.response.slice(response.response.indexOf('{'), response.response.lastIndexOf('}') + 1);
-            // const answer = response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n');
-            // const extract = answer.slice(answer.indexOf('{'), answer.lastIndexOf('}') + 1);
-            // console.log(answer, extract)
+            console.log(extract)
             const plan: any = JSON.parse(extract);
             plan.user = this.userSettings?._id;
             plan.section = this.section?._id;
@@ -253,6 +252,8 @@ export class ClassPlanGeneratorComponent implements OnInit {
     }
   }
 
+  downloadPlan() {}
+
   printPlan() {
     const date = this.datePipe.transform(this.planForm.value.date, 'dd-MM-YYYY');
     this.sb.open('La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.', 'Ok', { duration: 3000 });
@@ -260,28 +261,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
   }
 
   pretify(str: string) {
-    switch(str) {
-      case 'LENGUA_ESPANOLA':
-        return 'Lengua Española';
-      case 'MATEMATICA':
-        return 'Matemática';
-      case 'CIENCIAS_SOCIALES':
-        return 'Ciencias Sociales';
-      case 'CIENCIAS_NATURALES':
-        return 'Ciencias de la Naturaleza';
-      case 'INGLES':
-        return 'Inglés';
-      case 'FRANCES':
-        return 'Francés';
-      case 'FORMACION_HUMANA':
-        return 'Formación Integral Humana y Religiosa';
-      case 'EDUCACION_FISICA':
-        return 'Educación Física';
-      case 'EDUCACION_ARTISTICA':
-        return 'Educación Artística';
-      default:
-        return 'Talleres Optativos';
-    }
+    return (new PretifyPipe()).transform(str);
   }
 
   yearIndex(year: string): number {
