@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { UpdateService } from '../../services/update.service';
 import { AuthService } from '../../services/auth.service';
@@ -20,7 +20,11 @@ import { AuthService } from '../../services/auth.service';
     MatButtonModule,
     MatIconModule,
     RouterModule,
-    HttpClientModule,
+    
+// TODO: `HttpClientModule` should not be imported into a component directly.
+// Please refactor the code to add `provideHttpClient()` call to the provider list in the
+// application bootstrap logic and remove the `HttpClientModule` import from this component.
+HttpClientModule,
     DatePipe,
     AsyncPipe,
   ],

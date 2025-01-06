@@ -18,7 +18,7 @@ import { UserSettings } from '../../interfaces/user-settings';
 import { UnitPlan } from '../../interfaces/unit-plan';
 import { UnitPlanService } from '../../services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 import { ClassSection } from '../../interfaces/class-section';
 import { CompetenceService } from '../../services/competence.service';
 import { CompetenceEntry } from '../../interfaces/competence-entry';
@@ -58,7 +58,11 @@ import { UserSubscriptionService } from '../../services/user-subscription.servic
     MatIconModule,
     MatChipsModule,
     RouterModule,
-    HttpClientModule,
+    
+// TODO: `HttpClientModule` should not be imported into a component directly.
+// Please refactor the code to add `provideHttpClient()` call to the provider list in the
+// application bootstrap logic and remove the `HttpClientModule` import from this component.
+HttpClientModule,
     UnitPlanComponent,
     PretifyPipe,
   ],

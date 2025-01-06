@@ -18,7 +18,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ClassPlan } from '../../interfaces/class-plan';
 import { ClassPlansService } from '../../services/class-plans.service';
 import { Router, RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 import { CompetenceService } from '../../services/competence.service';
 import { ClassSection } from '../../interfaces/class-section';
 import { classPlanPrompt, classroomResources } from '../../constants';
@@ -44,7 +44,11 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
     MatChipsModule,
     RouterModule,
     DatePipe,
-    HttpClientModule,
+    
+// TODO: `HttpClientModule` should not be imported into a component directly.
+// Please refactor the code to add `provideHttpClient()` call to the provider list in the
+// application bootstrap logic and remove the `HttpClientModule` import from this component.
+HttpClientModule,
     ClassPlanComponent,
   ],
   templateUrl: './class-plan-generator.component.html',

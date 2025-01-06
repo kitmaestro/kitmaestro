@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AiService } from '../../services/ai.service';
-import { HttpClientModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 import { PdfService } from '../../services/pdf.service';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -27,7 +27,11 @@ import { UserSettings } from '../../interfaces/user-settings';
     MatInputModule,
     MatFormFieldModule,
     MatSnackBarModule,
-    HttpClientModule,
+    
+// TODO: `HttpClientModule` should not be imported into a component directly.
+// Please refactor the code to add `provideHttpClient()` call to the provider list in the
+// application bootstrap logic and remove the `HttpClientModule` import from this component.
+HttpClientModule,
     NgIf,
     AsyncPipe,
   ],
