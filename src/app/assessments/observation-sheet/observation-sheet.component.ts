@@ -23,22 +23,21 @@ import { ObservationGuideService } from '../../services/observation-guide.servic
 import { UserSettings } from '../../interfaces/user-settings';
 
 @Component({
-  selector: 'app-observation-sheet',
-  standalone: true,
-  imports: [
-    MatIconModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MatCheckboxModule,
-    ObservationGuideComponent,
-    MatSnackBarModule,
-  ],
-  templateUrl: './observation-sheet.component.html',
-  styleUrl: './observation-sheet.component.scss'
+    selector: 'app-observation-sheet',
+    imports: [
+        MatIconModule,
+        MatCardModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatCheckboxModule,
+        ObservationGuideComponent,
+        MatSnackBarModule,
+    ],
+    templateUrl: './observation-sheet.component.html',
+    styleUrl: './observation-sheet.component.scss'
 })
 export class ObservationSheetComponent implements OnInit {
 

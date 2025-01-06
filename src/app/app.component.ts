@@ -11,17 +11,16 @@ import {  } from '@angular/fire/auth';
 // import { UserSubscriptionService } from './services/user-subscription.service';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterModule,
-    CommonModule,
-    NavigationComponent,
-    AsyncPipe,
-    LoadingComponent,
-  ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [
+        RouterModule,
+        CommonModule,
+        NavigationComponent,
+        AsyncPipe,
+        LoadingComponent,
+    ],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
   private authService = inject(AuthService);

@@ -17,23 +17,22 @@ import { Router, RouterModule } from '@angular/router';
 import { ClassPeriod } from '../../interfaces/class-schedule';
 
 @Component({
-  selector: 'app-schedule-builder',
-  standalone: true,
-  imports: [
-    IsPremiumComponent,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    RouterModule,
-    DatePipe,
-  ],
-  templateUrl: './schedule-builder.component.html',
-  styleUrl: './schedule-builder.component.scss'
+    selector: 'app-schedule-builder',
+    imports: [
+        IsPremiumComponent,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        RouterModule,
+        DatePipe,
+    ],
+    templateUrl: './schedule-builder.component.html',
+    styleUrl: './schedule-builder.component.scss'
 })
 export class ScheduleBuilderComponent {
   private fb = inject(FormBuilder);

@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { InProgressComponent } from '../ui/alerts/in-progress/in-progress.component';
 
 @Component({
-  selector: 'app-attendance-dashboard',
-  standalone: true,
-  imports: [
-    InProgressComponent,
-  ],
-  templateUrl: './attendance-dashboard.component.html',
-  styleUrl: './attendance-dashboard.component.scss'
+    selector: 'app-attendance-dashboard',
+    imports: [
+        InProgressComponent,
+    ],
+    templateUrl: './attendance-dashboard.component.html',
+    styleUrl: './attendance-dashboard.component.scss'
 })
 export class AttendanceDashboardComponent {
 

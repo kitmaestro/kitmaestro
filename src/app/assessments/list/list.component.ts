@@ -4,15 +4,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-list',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatCardModule,
-    RouterLink,
-  ],
-  templateUrl: './list.component.html',
-  styleUrl: './list.component.scss'
+    selector: 'app-list',
+    imports: [
+        MatButtonModule,
+        MatCardModule,
+        RouterLink,
+    ],
+    templateUrl: './list.component.html',
+    styleUrl: './list.component.scss'
 })
 export class ListComponent {
   instruments = [

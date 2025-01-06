@@ -14,22 +14,21 @@ import { JsonPipe } from '@angular/common';
 import { UpdateService } from '../../services/update.service';
 
 @Component({
-  selector: 'app-new',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatSnackBarModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    RouterModule,
-    JsonPipe,
-  ],
-  templateUrl: './new.component.html',
-  styleUrl: './new.component.scss'
+    selector: 'app-new',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatSnackBarModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        RouterModule,
+        JsonPipe,
+    ],
+    templateUrl: './new.component.html',
+    styleUrl: './new.component.scss'
 })
 export class NewComponent {
   private authService = inject(AuthService);

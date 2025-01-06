@@ -14,22 +14,21 @@ import { shuffle } from 'lodash';
 import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
 
 @Component({
-  selector: 'app-division',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatListModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    InProgressComponent,
-  ],
-  templateUrl: './division.component.html',
-  styleUrl: './division.component.scss'
+    selector: 'app-division',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatListModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        InProgressComponent,
+    ],
+    templateUrl: './division.component.html',
+    styleUrl: './division.component.scss'
 })
 export class DivisionComponent implements OnInit {
 

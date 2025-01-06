@@ -4,11 +4,10 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-auth-container',
-  standalone: true,
-  imports: [RouterModule, MatCardModule],
-  templateUrl: './auth-container.component.html',
-  styleUrl: './auth-container.component.scss'
+    selector: 'app-auth-container',
+    imports: [RouterModule, MatCardModule],
+    templateUrl: './auth-container.component.html',
+    styleUrl: './auth-container.component.scss'
 })
 export class AuthContainerComponent {
   private router = inject(Router);

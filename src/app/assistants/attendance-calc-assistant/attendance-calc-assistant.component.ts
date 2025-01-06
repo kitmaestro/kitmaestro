@@ -5,11 +5,10 @@ import { AttendanceRowTotals } from '../../interfaces/attendance-row-totals';
 import { AttendanceColumnTotals } from '../../interfaces/attendance-column-totals';
 
 @Component({
-  selector: 'app-attendance-calc-assistant',
-  standalone: true,
-  imports: [],
-  templateUrl: './attendance-calc-assistant.component.html',
-  styleUrl: './attendance-calc-assistant.component.scss'
+    selector: 'app-attendance-calc-assistant',
+    imports: [],
+    templateUrl: './attendance-calc-assistant.component.html',
+    styleUrl: './attendance-calc-assistant.component.scss'
 })
 export class AttendanceCalcAssistantComponent {
   parsedTableData: any = {};

@@ -7,7 +7,6 @@ import { CommonModule } from "@angular/common";
 import { Student } from "../../interfaces/student";
 
 @Component({
-    standalone: true,
     styles: '',
     templateUrl: './log-registry-entry-details.component.html',
     imports: [

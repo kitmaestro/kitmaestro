@@ -12,23 +12,21 @@ import { UpdateService } from '../../services/update.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-updates',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatExpansionModule,
-    MatButtonModule,
-    MatIconModule,
-    RouterModule,
-    
-// TODO: `HttpClientModule` should not be imported into a component directly.
-// Please refactor the code to add `provideHttpClient()` call to the provider list in the
-// application bootstrap logic and remove the `HttpClientModule` import from this component.
-HttpClientModule,
-    DatePipe,
-    AsyncPipe,
-  ],
-  templateUrl: './update-list.component.html'
+    selector: 'app-updates',
+    imports: [
+        MatCardModule,
+        MatExpansionModule,
+        MatButtonModule,
+        MatIconModule,
+        RouterModule,
+        // TODO: `HttpClientModule` should not be imported into a component directly.
+        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
+        // application bootstrap logic and remove the `HttpClientModule` import from this component.
+        HttpClientModule,
+        DatePipe,
+        AsyncPipe,
+    ],
+    templateUrl: './update-list.component.html'
 })
 export class UpdateListComponent implements OnInit {
   private updateService = inject(UpdateService);

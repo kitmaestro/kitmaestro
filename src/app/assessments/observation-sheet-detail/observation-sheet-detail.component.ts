@@ -12,18 +12,17 @@ import { ObservationGuideComponent } from '../../ui/observation-guide/observatio
 import { PdfService } from '../../services/pdf.service';
 
 @Component({
-  selector: 'app-observation-sheet-detail',
-  standalone: true,
-  imports: [
-    MatSnackBarModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    ObservationGuideComponent,
-    RouterLink,
-  ],
-  templateUrl: './observation-sheet-detail.component.html',
-  styleUrl: './observation-sheet-detail.component.scss'
+    selector: 'app-observation-sheet-detail',
+    imports: [
+        MatSnackBarModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        ObservationGuideComponent,
+        RouterLink,
+    ],
+    templateUrl: './observation-sheet-detail.component.html',
+    styleUrl: './observation-sheet-detail.component.scss'
 })
 export class ObservationSheetDetailComponent implements OnInit {
   private guideService = inject(ObservationGuideService);

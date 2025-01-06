@@ -4,15 +4,14 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-assistants-dashboard',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    RouterLink,
-  ],
-  templateUrl: './assistants-dashboard.component.html',
-  styleUrl: './assistants-dashboard.component.scss'
+    selector: 'app-assistants-dashboard',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        RouterLink,
+    ],
+    templateUrl: './assistants-dashboard.component.html',
+    styleUrl: './assistants-dashboard.component.scss'
 })
 export class AssistantsDashboardComponent {
   assistants: {

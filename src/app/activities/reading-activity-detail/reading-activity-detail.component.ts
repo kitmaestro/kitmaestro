@@ -12,18 +12,17 @@ import { UserSettingsService } from '../../services/user-settings.service';
 import { UserSettings } from '../../interfaces/user-settings';
 
 @Component({
-  selector: 'app-reading-activity-detail',
-  standalone: true,
-  imports: [
-    RouterModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSnackBarModule,
-    IsPremiumComponent,
-  ],
-  templateUrl: './reading-activity-detail.component.html',
-  styleUrl: './reading-activity-detail.component.scss'
+    selector: 'app-reading-activity-detail',
+    imports: [
+        RouterModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSnackBarModule,
+        IsPremiumComponent,
+    ],
+    templateUrl: './reading-activity-detail.component.html',
+    styleUrl: './reading-activity-detail.component.scss'
 })
 export class ReadingActivityDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);

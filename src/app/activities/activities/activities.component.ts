@@ -7,18 +7,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 
 @Component({
-  selector: 'app-activities',
-  standalone: true,
-  imports: [
-    RouterLink,
-    MatCardModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatIconModule,
-    IsPremiumComponent,
-  ],
-  templateUrl: './activities.component.html',
-  styleUrl: './activities.component.scss'
+    selector: 'app-activities',
+    imports: [
+        RouterLink,
+        MatCardModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatIconModule,
+        IsPremiumComponent,
+    ],
+    templateUrl: './activities.component.html',
+    styleUrl: './activities.component.scss'
 })
 export class ActivitiesComponent {
 

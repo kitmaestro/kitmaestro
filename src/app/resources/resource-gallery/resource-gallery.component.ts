@@ -25,24 +25,23 @@ import { UserSettings } from '../../interfaces/user-settings';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-resource-gallery',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    MatDialogModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    CommonModule,
-    IsEmptyComponent,
-    ResourceCardComponent,
-  ],
-  templateUrl: './resource-gallery.component.html',
-  styleUrl: './resource-gallery.component.scss'
+    selector: 'app-resource-gallery',
+    imports: [
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatSnackBarModule,
+        MatDialogModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        CommonModule,
+        IsEmptyComponent,
+        ResourceCardComponent,
+    ],
+    templateUrl: './resource-gallery.component.html',
+    styleUrl: './resource-gallery.component.scss'
 })
 export class ResourceGalleryComponent {
   private fb = inject(FormBuilder);

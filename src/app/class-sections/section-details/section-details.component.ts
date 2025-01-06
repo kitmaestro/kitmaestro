@@ -20,22 +20,21 @@ import { AuthService } from '../../services/auth.service';
 import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
-  selector: 'app-section-details',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTableModule,
-    MatSnackBarModule,
-    MatDialogModule,
-    MatChipsModule,
-  ],
-  templateUrl: './section-details.component.html',
-  styleUrl: './section-details.component.scss'
+    selector: 'app-section-details',
+    imports: [
+        CommonModule,
+        RouterModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTableModule,
+        MatSnackBarModule,
+        MatDialogModule,
+        MatChipsModule,
+    ],
+    templateUrl: './section-details.component.html',
+    styleUrl: './section-details.component.scss'
 })
 export class SectionDetailsComponent implements OnInit {
 

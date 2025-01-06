@@ -11,17 +11,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-estimation-scale-detail',
-  standalone: true,
-  imports: [
-    RouterLink,
-    MatCardModule,
-    MatSnackBarModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
-  templateUrl: './estimation-scale-detail.component.html',
-  styleUrl: './estimation-scale-detail.component.scss'
+    selector: 'app-estimation-scale-detail',
+    imports: [
+        RouterLink,
+        MatCardModule,
+        MatSnackBarModule,
+        MatIconModule,
+        MatButtonModule,
+    ],
+    templateUrl: './estimation-scale-detail.component.html',
+    styleUrl: './estimation-scale-detail.component.scss'
 })
 export class EstimationScaleDetailComponent {
   private estimationScaleService = inject(EstimationScaleService);

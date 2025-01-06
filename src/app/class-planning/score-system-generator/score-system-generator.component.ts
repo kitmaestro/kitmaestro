@@ -25,22 +25,21 @@ import { ScoreSystemComponent } from '../score-system/score-system.component';
 import { UserSettings } from '../../interfaces/user-settings';
 
 @Component({
-  selector: 'app-score-system-generator',
-  standalone: true,
-	imports: [
-		MatSnackBarModule,
-		MatButtonModule,
-		MatCardModule,
-		MatInputModule,
-		MatSelectModule,
-		MatFormFieldModule,
-		ReactiveFormsModule,
-		RouterLink,
-		PretifyPipe,
-		ScoreSystemComponent,
-  ],
-  templateUrl: './score-system-generator.component.html',
-  styleUrl: './score-system-generator.component.scss'
+    selector: 'app-score-system-generator',
+    imports: [
+        MatSnackBarModule,
+        MatButtonModule,
+        MatCardModule,
+        MatInputModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        RouterLink,
+        PretifyPipe,
+        ScoreSystemComponent,
+    ],
+    templateUrl: './score-system-generator.component.html',
+    styleUrl: './score-system-generator.component.scss'
 })
 export class ScoreSystemGeneratorComponent {
 	private sb = inject(MatSnackBar);

@@ -12,20 +12,19 @@ import { DidacticResourceService } from '../../services/didactic-resource.servic
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-resources-dashboard',
-  templateUrl: './resources-dashboard.component.html',
-  styleUrl: './resources-dashboard.component.scss',
-  standalone: true,
-  imports: [
-    MatGridListModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDialogModule,
-    MatSnackBarModule,
-    IsEmptyComponent
-  ]
+    selector: 'app-resources-dashboard',
+    templateUrl: './resources-dashboard.component.html',
+    styleUrl: './resources-dashboard.component.scss',
+    imports: [
+        MatGridListModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        MatCardModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        IsEmptyComponent
+    ]
 })
 export class ResourcesDashboardComponent implements OnInit {
   private dialog = inject(MatDialog);

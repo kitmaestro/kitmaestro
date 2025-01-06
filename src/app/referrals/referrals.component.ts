@@ -15,22 +15,21 @@ import { concatMap, forkJoin, map, Observable } from 'rxjs';
 import { UserSubscription } from '../interfaces/user-subscription';
 
 @Component({
-  selector: 'app-referrals',
-  standalone: true,
-  imports: [
-    IsPremiumComponent,
-    MatCardModule,
-    MatButtonModule,
-    MatTableModule,
-    MatIconModule,
-    AsyncPipe,
-    CurrencyPipe,
-    RouterLink,
-    NgIf,
-    CurrencyPipe,
-  ],
-  templateUrl: './referrals.component.html',
-  styleUrl: './referrals.component.scss'
+    selector: 'app-referrals',
+    imports: [
+        IsPremiumComponent,
+        MatCardModule,
+        MatButtonModule,
+        MatTableModule,
+        MatIconModule,
+        AsyncPipe,
+        CurrencyPipe,
+        RouterLink,
+        NgIf,
+        CurrencyPipe,
+    ],
+    templateUrl: './referrals.component.html',
+    styleUrl: './referrals.component.scss'
 })
 export class ReferralsComponent implements OnInit {
   private userSubscriptionService = inject(UserSubscriptionService);

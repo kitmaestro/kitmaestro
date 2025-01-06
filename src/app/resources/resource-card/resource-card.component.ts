@@ -14,21 +14,20 @@ import { map } from 'rxjs';
 import { UserSettingsService } from '../../services/user-settings.service';
 
 @Component({
-  selector: 'app-resource-card',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatSnackBarModule,
-    RouterLink,
-    CommonModule,
-    RouterLink,
-    ElipsisPipe,
-    MatIconModule,
-  ],
-  templateUrl: './resource-card.component.html',
-  styleUrl: './resource-card.component.scss'
+    selector: 'app-resource-card',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        RouterLink,
+        CommonModule,
+        RouterLink,
+        ElipsisPipe,
+        MatIconModule,
+    ],
+    templateUrl: './resource-card.component.html',
+    styleUrl: './resource-card.component.scss'
 })
 export class ResourceCardComponent {
   settingsService = inject(UserSettingsService);

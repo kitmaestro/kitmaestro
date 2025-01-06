@@ -21,21 +21,20 @@ import { TOPICS } from '../../data/topics';
 import { WORD_CLUES } from '../../data/word-clues';
 
 @Component({
-  selector: 'app-crosswords',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatListModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-  ],
-  templateUrl: './crosswords.component.html',
-  styleUrl: './crosswords.component.scss'
+    selector: 'app-crosswords',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatListModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+    ],
+    templateUrl: './crosswords.component.html',
+    styleUrl: './crosswords.component.scss'
 })
 export class CrosswordsComponent implements OnInit {
 

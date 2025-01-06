@@ -12,22 +12,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReadingActivityGeneratorComponent } from '../reading-activity-generator/reading-activity-generator.component';
 
 @Component({
-  selector: 'app-activity-generator',
-  standalone: true,
-  imports: [
-    IsPremiumComponent,
-    InProgressComponent,
-    MatCardModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSnackBarModule,
-    ReadingActivityGeneratorComponent,
-  ],
-  templateUrl: './activity-generator.component.html',
-  styleUrl: './activity-generator.component.scss'
+    selector: 'app-activity-generator',
+    imports: [
+        IsPremiumComponent,
+        InProgressComponent,
+        MatCardModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatSnackBarModule,
+        ReadingActivityGeneratorComponent,
+    ],
+    templateUrl: './activity-generator.component.html',
+    styleUrl: './activity-generator.component.scss'
 })
 export class ActivityGeneratorComponent implements OnInit {
   working = true;

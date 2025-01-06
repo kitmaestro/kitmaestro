@@ -6,17 +6,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
 @Component({
-  selector: 'app-average-calculator',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
-    MatChipsModule,
-  ],
-  templateUrl: './average-calculator.component.html',
-  styleUrl: './average-calculator.component.scss'
+    selector: 'app-average-calculator',
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        MatListModule,
+        MatChipsModule,
+    ],
+    templateUrl: './average-calculator.component.html',
+    styleUrl: './average-calculator.component.scss'
 })
 export class AverageCalculatorComponent {
   history: number[] = [];

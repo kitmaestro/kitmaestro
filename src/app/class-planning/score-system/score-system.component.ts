@@ -9,14 +9,13 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 import { StudentsService } from '../../services/students.service';
 
 @Component({
-  selector: 'app-score-system',
-  standalone: true,
-	imports: [
-		MatCardModule,
-		PretifyPipe,
-  ],
-  templateUrl: './score-system.component.html',
-  styleUrl: './score-system.component.scss'
+    selector: 'app-score-system',
+    imports: [
+        MatCardModule,
+        PretifyPipe,
+    ],
+    templateUrl: './score-system.component.html',
+    styleUrl: './score-system.component.scss'
 })
 export class ScoreSystemComponent {
 	@Input() scoreSystem: ScoreSystem | null = null;

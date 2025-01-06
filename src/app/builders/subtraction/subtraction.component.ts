@@ -15,22 +15,21 @@ import { shuffle } from 'lodash';
 import { formatNumber } from '@angular/common';
 
 @Component({
-  selector: 'app-subtraction',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatListModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    MatRadioModule,
-  ],
-  templateUrl: './subtraction.component.html',
-  styleUrl: './subtraction.component.scss'
+    selector: 'app-subtraction',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatListModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MatRadioModule,
+    ],
+    templateUrl: './subtraction.component.html',
+    styleUrl: './subtraction.component.scss'
 })
 export class SubtractionComponent implements OnInit {
 

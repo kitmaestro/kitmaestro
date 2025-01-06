@@ -14,21 +14,20 @@ import { PdfService } from '../../services/pdf.service';
 import { UserSettingsService } from '../../services/user-settings.service';
 
 @Component({
-  selector: 'app-sudoku',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatChipsModule,
-    MatSnackBarModule,
-  ],
-  templateUrl: './sudoku.component.html',
-  styleUrl: './sudoku.component.scss'
+    selector: 'app-sudoku',
+    imports: [
+        ReactiveFormsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        MatChipsModule,
+        MatSnackBarModule,
+    ],
+    templateUrl: './sudoku.component.html',
+    styleUrl: './sudoku.component.scss'
 })
 export class SudokuComponent implements OnInit {
 

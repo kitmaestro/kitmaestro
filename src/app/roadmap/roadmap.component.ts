@@ -20,19 +20,18 @@ interface Stage {
 }
 
 @Component({
-  selector: 'app-roadmap',
-  standalone: true,
-  imports: [
-    MatListModule,
-    MatButtonModule,
-    MatCardModule,
-    RouterModule,
-    CommonModule,
-    MatExpansionModule,
-    MatIconModule,
-  ],
-  templateUrl: './roadmap.component.html',
-  styleUrl: './roadmap.component.scss'
+    selector: 'app-roadmap',
+    imports: [
+        MatListModule,
+        MatButtonModule,
+        MatCardModule,
+        RouterModule,
+        CommonModule,
+        MatExpansionModule,
+        MatIconModule,
+    ],
+    templateUrl: './roadmap.component.html',
+    styleUrl: './roadmap.component.scss'
 })
 export class RoadmapComponent {
   stages: Stage[] = [

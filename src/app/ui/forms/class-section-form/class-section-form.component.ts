@@ -13,20 +13,19 @@ import { SchoolService } from '../../../services/school.service';
 import { School } from '../../../interfaces/school';
 
 @Component({
-  selector: 'app-class-section-form',
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    CommonModule,
-  ],
-  templateUrl: './class-section-form.component.html',
-  styleUrl: './class-section-form.component.scss'
+    selector: 'app-class-section-form',
+    imports: [
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatSnackBarModule,
+        CommonModule,
+    ],
+    templateUrl: './class-section-form.component.html',
+    styleUrl: './class-section-form.component.scss'
 })
 export class ClassSectionFormComponent {
   private fb = inject(FormBuilder);

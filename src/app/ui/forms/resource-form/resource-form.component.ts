@@ -30,21 +30,20 @@ const SOCIETY_TOPICS: any = [];
 const SPORTS_TOPICS: any = [];
 
 @Component({
-  selector: 'app-resource-form',
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSnackBarModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    CommonModule,
-  ],
-  templateUrl: './resource-form.component.html',
-  styleUrl: './resource-form.component.scss'
+    selector: 'app-resource-form',
+    imports: [
+        MatDialogModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSnackBarModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        CommonModule,
+    ],
+    templateUrl: './resource-form.component.html',
+    styleUrl: './resource-form.component.scss'
 })
 export class ResourceFormComponent {
   auth = inject(Auth);

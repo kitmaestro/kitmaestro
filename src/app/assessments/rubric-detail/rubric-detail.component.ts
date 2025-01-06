@@ -11,17 +11,16 @@ import { Student } from '../../interfaces/student';
 import { StudentsService } from '../../services/students.service';
 
 @Component({
-  selector: 'app-rubric-detail',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    RouterLink,
-    MatIconModule,
-  ],
-  templateUrl: './rubric-detail.component.html',
-  styleUrl: './rubric-detail.component.scss'
+    selector: 'app-rubric-detail',
+    imports: [
+        MatCardModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        RouterLink,
+        MatIconModule,
+    ],
+    templateUrl: './rubric-detail.component.html',
+    styleUrl: './rubric-detail.component.scss'
 })
 export class RubricDetailComponent implements OnInit {
   private rubricService = inject(RubricService);

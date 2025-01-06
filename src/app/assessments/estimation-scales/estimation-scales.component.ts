@@ -10,19 +10,18 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-estimation-scales',
-  standalone: true,
-  imports: [
-    MatTableModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    MatIconModule,
-    RouterLink,
-    DatePipe,
-    MatCardModule,
-  ],
-  templateUrl: './estimation-scales.component.html',
-  styleUrl: './estimation-scales.component.scss'
+    selector: 'app-estimation-scales',
+    imports: [
+        MatTableModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        MatIconModule,
+        RouterLink,
+        DatePipe,
+        MatCardModule,
+    ],
+    templateUrl: './estimation-scales.component.html',
+    styleUrl: './estimation-scales.component.scss'
 })
 export class EstimationScalesComponent implements OnInit {
   private scaleService = inject(EstimationScaleService);

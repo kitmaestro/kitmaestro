@@ -7,18 +7,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-assistants-holder',
-  standalone: true,
-  imports: [
-    RouterModule,
-    MatCardModule,
-    MatIconModule,
-    MatButtonModule,
-    IsPremiumComponent,
-    InProgressComponent,
-  ],
-  templateUrl: './assistants-holder.component.html',
-  styleUrl: './assistants-holder.component.scss'
+    selector: 'app-assistants-holder',
+    imports: [
+        RouterModule,
+        MatCardModule,
+        MatIconModule,
+        MatButtonModule,
+        IsPremiumComponent,
+        InProgressComponent,
+    ],
+    templateUrl: './assistants-holder.component.html',
+    styleUrl: './assistants-holder.component.scss'
 })
 export class AssistantsHolderComponent {
   working = true;

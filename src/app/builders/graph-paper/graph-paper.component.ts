@@ -11,21 +11,20 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PdfService } from '../../services/pdf.service';
 
 @Component({
-  selector: 'app-graph-paper',
-  standalone: true,
-  imports: [
-    InProgressComponent,
-    MatInputModule,
-    MatSelectModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    MatIconModule,
-  ],
-  templateUrl: './graph-paper.component.html',
-  styleUrl: './graph-paper.component.scss'
+    selector: 'app-graph-paper',
+    imports: [
+        InProgressComponent,
+        MatInputModule,
+        MatSelectModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MatIconModule,
+    ],
+    templateUrl: './graph-paper.component.html',
+    styleUrl: './graph-paper.component.scss'
 })
 export class GraphPaperComponent {
   private fb = inject(FormBuilder);

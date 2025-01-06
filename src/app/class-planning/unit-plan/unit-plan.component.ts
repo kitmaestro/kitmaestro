@@ -7,11 +7,10 @@ import { UserSettings } from '../../interfaces/user-settings';
 import { MainTheme } from '../../interfaces/main-theme';
 
 @Component({
-  selector: 'app-unit-plan',
-  standalone: true,
-  imports: [],
-  templateUrl: './unit-plan.component.html',
-  styleUrl: './unit-plan.component.scss'
+    selector: 'app-unit-plan',
+    imports: [],
+    templateUrl: './unit-plan.component.html',
+    styleUrl: './unit-plan.component.scss'
 })
 export class UnitPlanComponent {
   @Input() unitPlan: UnitPlan | null = null;

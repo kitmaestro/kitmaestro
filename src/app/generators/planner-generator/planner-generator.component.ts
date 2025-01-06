@@ -21,22 +21,21 @@ interface PlannerTemplate {
 }
 
 @Component({
-  selector: 'app-planner-generator',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatSnackBarModule,
-    MatIconModule,
-    CommonModule,
-  ],
-  templateUrl: './planner-generator.component.html',
-  styleUrl: './planner-generator.component.scss'
+    selector: 'app-planner-generator',
+    imports: [
+        ReactiveFormsModule,
+        MatCardModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatInputModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatSnackBarModule,
+        MatIconModule,
+        CommonModule,
+    ],
+    templateUrl: './planner-generator.component.html',
+    styleUrl: './planner-generator.component.scss'
 })
 export class PlannerGeneratorComponent implements OnInit {
   fb = inject(FormBuilder);

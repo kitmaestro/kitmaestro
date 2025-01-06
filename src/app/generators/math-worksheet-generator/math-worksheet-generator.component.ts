@@ -10,19 +10,18 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-math-worksheet-generator',
-  standalone: true,
-  imports: [
-    IsPremiumComponent,
-    CommonModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSnackBarModule,
-    ReactiveFormsModule,
-  ],
-  templateUrl: './math-worksheet-generator.component.html',
-  styleUrl: './math-worksheet-generator.component.scss'
+    selector: 'app-math-worksheet-generator',
+    imports: [
+        IsPremiumComponent,
+        CommonModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSnackBarModule,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './math-worksheet-generator.component.html',
+    styleUrl: './math-worksheet-generator.component.scss'
 })
 export class MathWorksheetGeneratorComponent {
   userSubscriptionService = inject(UserSubscriptionService);

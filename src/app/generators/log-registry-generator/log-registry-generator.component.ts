@@ -14,19 +14,18 @@ import { LogRegistryEntryService } from '../../services/log-registry-entry.servi
 import { LogRegistryEntryEditFormComponent } from '../../ui/forms/log-registry-entry-edit-form/log-registry-entry-edit-form.component';
 
 @Component({
-  selector: 'app-log-registry-generator',
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatTableModule,
-    CommonModule,
-  ],
-  templateUrl: './log-registry-generator.component.html',
-  styleUrl: './log-registry-generator.component.scss'
+    selector: 'app-log-registry-generator',
+    imports: [
+        MatDialogModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        MatCardModule,
+        MatIconModule,
+        MatTableModule,
+        CommonModule,
+    ],
+    templateUrl: './log-registry-generator.component.html',
+    styleUrl: './log-registry-generator.component.scss'
 })
 export class LogRegistryGeneratorComponent implements OnInit {
   private logService = inject(LogRegistryEntryService);

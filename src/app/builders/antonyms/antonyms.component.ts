@@ -17,21 +17,20 @@ import { WordEntry } from '../../interfaces/word-enty';
 import { WORD_ENTRIES } from '../../data/word-entries';
 
 @Component({
-  selector: 'app-antonyms',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatListModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-  ],
-  templateUrl: './antonyms.component.html',
-  styleUrl: './antonyms.component.scss'
+    selector: 'app-antonyms',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatListModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+    ],
+    templateUrl: './antonyms.component.html',
+    styleUrl: './antonyms.component.scss'
 })
 export class AntonymsComponent implements OnInit {
 

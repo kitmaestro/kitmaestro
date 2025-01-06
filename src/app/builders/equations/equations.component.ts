@@ -13,22 +13,21 @@ import { UserSettingsService } from '../../services/user-settings.service';
 import { PdfService } from '../../services/pdf.service';
 
 @Component({
-  selector: 'app-equations',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSnackBarModule,
-    MatSliderModule,
-    MatChipsModule,
-  ],
-  templateUrl: './equations.component.html',
-  styleUrl: './equations.component.scss'
+    selector: 'app-equations',
+    imports: [
+        ReactiveFormsModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSnackBarModule,
+        MatSliderModule,
+        MatChipsModule,
+    ],
+    templateUrl: './equations.component.html',
+    styleUrl: './equations.component.scss'
 })
 export class EquationsComponent implements OnInit {
   fb = inject(FormBuilder);

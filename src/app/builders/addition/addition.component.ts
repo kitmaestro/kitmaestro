@@ -14,21 +14,20 @@ import { PdfService } from '../../services/pdf.service';
 import { shuffle } from 'lodash';
 
 @Component({
-  selector: 'app-addition',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatListModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-  ],
-  templateUrl: './addition.component.html',
-  styleUrl: './addition.component.scss'
+    selector: 'app-addition',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatListModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+    ],
+    templateUrl: './addition.component.html',
+    styleUrl: './addition.component.scss'
 })
 export class AdditionComponent implements OnInit {
 

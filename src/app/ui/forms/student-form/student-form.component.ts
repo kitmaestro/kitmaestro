@@ -10,20 +10,19 @@ import { RouterModule } from '@angular/router';
 import { StudentsService } from '../../../services/students.service';
 
 @Component({
-  selector: 'app-student-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    RouterModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatSnackBarModule,
-  ],
-  templateUrl: './student-form.component.html',
-  styleUrl: './student-form.component.scss'
+    selector: 'app-student-form',
+    imports: [
+        ReactiveFormsModule,
+        RouterModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatSelectModule,
+        MatSnackBarModule,
+    ],
+    templateUrl: './student-form.component.html',
+    styleUrl: './student-form.component.scss'
 })
 export class StudentFormComponent {
   private fb = inject(FormBuilder);

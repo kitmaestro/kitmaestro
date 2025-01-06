@@ -10,16 +10,15 @@ import { AsyncPipe } from '@angular/common';
 import { map } from 'rxjs';
 
 @Component({
-  selector: 'app-admin-dashboard',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    AsyncPipe,
-  ],
-  templateUrl: './admin-dashboard.component.html',
-  styleUrl: './admin-dashboard.component.scss'
+    selector: 'app-admin-dashboard',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        AsyncPipe,
+    ],
+    templateUrl: './admin-dashboard.component.html',
+    styleUrl: './admin-dashboard.component.scss'
 })
 export class AdminDashboardComponent {
   private userService = inject(UserSettingsService);

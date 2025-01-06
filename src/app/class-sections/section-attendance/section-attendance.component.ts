@@ -14,20 +14,19 @@ import { ClassSection } from '../../interfaces/class-section';
 import { ClassSectionService } from '../../services/class-section.service';
 
 @Component({
-  selector: 'app-section-attendance',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatTableModule,
-    RouterModule,
-    ReactiveFormsModule,
-    CommonModule,
-    MatPaginatorModule,
-    MatIconModule,
-  ],
-  templateUrl: './section-attendance.component.html',
-  styleUrl: './section-attendance.component.scss'
+    selector: 'app-section-attendance',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatTableModule,
+        RouterModule,
+        ReactiveFormsModule,
+        CommonModule,
+        MatPaginatorModule,
+        MatIconModule,
+    ],
+    templateUrl: './section-attendance.component.html',
+    styleUrl: './section-attendance.component.scss'
 })
 export class SectionAttendanceComponent {
   private classSectionService = inject(ClassSectionService);

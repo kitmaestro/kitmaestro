@@ -18,21 +18,20 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-unit-plan-detail',
-  standalone: true,
-  imports: [
-    RouterModule,
-    AsyncPipe,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    IsPremiumComponent,
-    CommonModule,
-    MatSnackBarModule,
-    UnitPlanComponent,
-  ],
-  templateUrl: './unit-plan-detail.component.html',
-  styleUrl: './unit-plan-detail.component.scss'
+    selector: 'app-unit-plan-detail',
+    imports: [
+        RouterModule,
+        AsyncPipe,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        IsPremiumComponent,
+        CommonModule,
+        MatSnackBarModule,
+        UnitPlanComponent,
+    ],
+    templateUrl: './unit-plan-detail.component.html',
+    styleUrl: './unit-plan-detail.component.scss'
 })
 export class UnitPlanDetailComponent implements OnInit {
   private router = inject(Router);

@@ -8,14 +8,13 @@ interface Quote {
 }
 
 @Component({
-  selector: 'app-quote-dialog',
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatButtonModule,
-  ],
-  templateUrl: './quote-dialog.component.html',
-  styleUrl: './quote-dialog.component.scss'
+    selector: 'app-quote-dialog',
+    imports: [
+        MatDialogModule,
+        MatButtonModule,
+    ],
+    templateUrl: './quote-dialog.component.html',
+    styleUrl: './quote-dialog.component.scss'
 })
 export class QuoteDialogComponent {
   quotes: Quote[] = [

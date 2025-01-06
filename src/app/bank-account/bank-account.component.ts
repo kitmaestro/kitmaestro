@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-bank-account',
-  standalone: true,
-  imports: [
-    MatDialogModule,
-  ],
-  templateUrl: './bank-account.component.html',
-  styleUrl: './bank-account.component.scss'
+    selector: 'app-bank-account',
+    imports: [
+        MatDialogModule,
+    ],
+    templateUrl: './bank-account.component.html',
+    styleUrl: './bank-account.component.scss'
 })
 export class BankAccountComponent {
   account = {

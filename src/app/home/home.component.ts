@@ -9,19 +9,18 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatIconModule,
-    MatCardModule,
-    MatGridListModule,
-    MatSlideToggleModule,
-    MatTooltipModule,
-  ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+    selector: 'app-home',
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatIconModule,
+        MatCardModule,
+        MatGridListModule,
+        MatSlideToggleModule,
+        MatTooltipModule,
+    ],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   showAll = false;

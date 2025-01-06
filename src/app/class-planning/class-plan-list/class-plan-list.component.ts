@@ -10,20 +10,19 @@ import { RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-class-plan-list',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatCardModule,
-    IsPremiumComponent,
-    MatListModule,
-    AsyncPipe,
-    DatePipe,
-    RouterModule,
-    MatIconModule,
-  ],
-  templateUrl: './class-plan-list.component.html',
-  styleUrl: './class-plan-list.component.scss'
+    selector: 'app-class-plan-list',
+    imports: [
+        MatButtonModule,
+        MatCardModule,
+        IsPremiumComponent,
+        MatListModule,
+        AsyncPipe,
+        DatePipe,
+        RouterModule,
+        MatIconModule,
+    ],
+    templateUrl: './class-plan-list.component.html',
+    styleUrl: './class-plan-list.component.scss'
 })
 export class ClassPlanListComponent {
 

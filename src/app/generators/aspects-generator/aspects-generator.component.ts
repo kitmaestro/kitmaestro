@@ -17,23 +17,22 @@ import { ContentBlock } from '../../interfaces/content-block';
 import { ContentBlockService } from '../../services/content-block.service';
 
 @Component({
-  selector: 'app-aspects-generator',
-  standalone: true,
-  imports: [
-    IsPremiumComponent,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSnackBarModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatTableModule,
-    MatDividerModule,
-  ],
-  templateUrl: './aspects-generator.component.html',
-  styleUrl: './aspects-generator.component.scss'
+    selector: 'app-aspects-generator',
+    imports: [
+        IsPremiumComponent,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatTableModule,
+        MatDividerModule,
+    ],
+    templateUrl: './aspects-generator.component.html',
+    styleUrl: './aspects-generator.component.scss'
 })
 export class AspectsGeneratorComponent implements OnInit {
   private aiService = inject(AiService);

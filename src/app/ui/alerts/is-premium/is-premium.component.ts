@@ -8,18 +8,17 @@ import { map, Observable, tap } from 'rxjs';
 import { UserSubscriptionService } from '../../../services/user-subscription.service';
 
 @Component({
-  selector: 'app-is-premium',
-  standalone: true,
-  imports: [
-    RouterModule,
-    CommonModule,
-    MatCardModule,
-    MatListModule,
-    MatButtonModule,
-    AsyncPipe,
-  ],
-  templateUrl: './is-premium.component.html',
-  styleUrl: './is-premium.component.scss'
+    selector: 'app-is-premium',
+    imports: [
+        RouterModule,
+        CommonModule,
+        MatCardModule,
+        MatListModule,
+        MatButtonModule,
+        AsyncPipe,
+    ],
+    templateUrl: './is-premium.component.html',
+    styleUrl: './is-premium.component.scss'
 })
 export class IsPremiumComponent {
   private userSubscriptionService = inject(UserSubscriptionService);

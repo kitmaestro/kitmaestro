@@ -5,16 +5,15 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-builder-list',
-  standalone: true,
-  imports: [
-    RouterLink,
-    CommonModule,
-    MatCardModule,
-    MatButtonModule,
-  ],
-  templateUrl: './builder-list.component.html',
-  styleUrl: './builder-list.component.scss'
+    selector: 'app-builder-list',
+    imports: [
+        RouterLink,
+        CommonModule,
+        MatCardModule,
+        MatButtonModule,
+    ],
+    templateUrl: './builder-list.component.html',
+    styleUrl: './builder-list.component.scss'
 })
 export class BuilderListComponent {
   builders: Array<{

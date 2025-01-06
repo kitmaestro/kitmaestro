@@ -21,29 +21,28 @@ import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.compon
 import { tap } from 'rxjs';
 
 @Component({
-  selector: 'app-grades-generator',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatChipsModule,
-    FormsModule,
-    AsyncPipe,
-    MatCardModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatRadioModule,
-    MatSlideToggleModule,
-    MatSelectModule,
-    MatListModule,
-    MatDividerModule,
-    MatIconModule,
-    IsPremiumComponent,
-  ],
-  templateUrl: './grades-generator.component.html',
-  styleUrl: './grades-generator.component.scss'
+    selector: 'app-grades-generator',
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatChipsModule,
+        FormsModule,
+        AsyncPipe,
+        MatCardModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatRadioModule,
+        MatSlideToggleModule,
+        MatSelectModule,
+        MatListModule,
+        MatDividerModule,
+        MatIconModule,
+        IsPremiumComponent,
+    ],
+    templateUrl: './grades-generator.component.html',
+    styleUrl: './grades-generator.component.scss'
 })
 export class GradesGeneratorComponent implements OnInit {
   fb = inject(FormBuilder);

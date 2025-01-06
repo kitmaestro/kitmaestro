@@ -7,18 +7,17 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-attendance-calculator',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatTableModule,
-    MatCardModule,
-    ReactiveFormsModule,
-    CommonModule,
-  ],
-  templateUrl: './attendance-calculator.component.html',
-  styleUrl: './attendance-calculator.component.scss'
+    selector: 'app-attendance-calculator',
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+        MatCardModule,
+        ReactiveFormsModule,
+        CommonModule,
+    ],
+    templateUrl: './attendance-calculator.component.html',
+    styleUrl: './attendance-calculator.component.scss'
 })
 export class AttendanceCalculatorComponent implements OnInit {
   fb = inject(FormBuilder);

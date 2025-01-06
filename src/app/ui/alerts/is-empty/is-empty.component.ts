@@ -3,13 +3,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-is-empty',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatCardModule,
-  ],
-  template: `
+    selector: 'app-is-empty',
+    imports: [
+        MatButtonModule,
+        MatCardModule,
+    ],
+    template: `
     <mat-card>
       <mat-card-content>
         <div class="no-data-container">
@@ -20,7 +19,7 @@ import { MatCardModule } from '@angular/material/card';
       </mat-card-content>
     </mat-card>
   `,
-  styles: [`
+    styles: [`
     mat-card {
       margin-top: 16px;
     }

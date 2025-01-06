@@ -12,20 +12,19 @@ import { tap } from 'rxjs';
 import { UnitPlanService } from '../../services/unit-plan.service';
 
 @Component({
-  selector: 'app-unit-plan-list',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatCardModule,
-    IsPremiumComponent,
-    MatListModule,
-    AsyncPipe,
-    RouterModule,
-    MatIconModule,
-    LoadingIconComponent,
-  ],
-  templateUrl: './unit-plan-list.component.html',
-  styleUrl: './unit-plan-list.component.scss'
+    selector: 'app-unit-plan-list',
+    imports: [
+        MatButtonModule,
+        MatCardModule,
+        IsPremiumComponent,
+        MatListModule,
+        AsyncPipe,
+        RouterModule,
+        MatIconModule,
+        LoadingIconComponent,
+    ],
+    templateUrl: './unit-plan-list.component.html',
+    styleUrl: './unit-plan-list.component.scss'
 })
 export class UnitPlanListComponent {
 

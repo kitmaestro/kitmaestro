@@ -28,24 +28,23 @@ interface AttendanceRecord {
 }
 
 @Component({
-  selector: 'app-attendance-generator',
-  standalone: true,
-  imports: [
-    IsPremiumComponent,
-    InProgressComponent,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatTableModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatIconModule,
-    AsyncPipe,
-    CommonModule,
-  ],
-  templateUrl: './attendance-generator.component.html',
-  styleUrl: './attendance-generator.component.scss'
+    selector: 'app-attendance-generator',
+    imports: [
+        IsPremiumComponent,
+        InProgressComponent,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatButtonModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatIconModule,
+        AsyncPipe,
+        CommonModule,
+    ],
+    templateUrl: './attendance-generator.component.html',
+    styleUrl: './attendance-generator.component.scss'
 })
 export class AttendanceGeneratorComponent {
 

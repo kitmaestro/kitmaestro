@@ -15,18 +15,17 @@ import { saveAs } from 'file-saver';
 import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
-  selector: 'app-class-plan-detail',
-  standalone: true,
-  imports: [
-    RouterModule,
-    CommonModule,
-    IsPremiumComponent,
-    MatSnackBarModule,
-    MatCardModule,
-    MatButtonModule,
-  ],
-  templateUrl: './class-plan-detail.component.html',
-  styleUrl: './class-plan-detail.component.scss'
+    selector: 'app-class-plan-detail',
+    imports: [
+        RouterModule,
+        CommonModule,
+        IsPremiumComponent,
+        MatSnackBarModule,
+        MatCardModule,
+        MatButtonModule,
+    ],
+    templateUrl: './class-plan-detail.component.html',
+    styleUrl: './class-plan-detail.component.scss'
 })
 export class ClassPlanDetailComponent {
   route = inject(ActivatedRoute);

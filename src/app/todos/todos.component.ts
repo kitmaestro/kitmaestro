@@ -20,26 +20,25 @@ import { TodoList } from '../interfaces/todo-list';
 import { TodoFormComponent } from '../todo-form/todo-form.component';
 
 @Component({
-  selector: 'app-todos',
-  standalone: true,
-  imports: [
-    RouterModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatSelectModule,
-    MatExpansionModule,
-    MatSlideToggleModule,
-    MatDialogModule,
-    AsyncPipe,
-    IsEmptyComponent,
-  ],
-  templateUrl: './todos.component.html',
-  styleUrl: './todos.component.scss'
+    selector: 'app-todos',
+    imports: [
+        RouterModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatInputModule,
+        MatSelectModule,
+        MatExpansionModule,
+        MatSlideToggleModule,
+        MatDialogModule,
+        AsyncPipe,
+        IsEmptyComponent,
+    ],
+    templateUrl: './todos.component.html',
+    styleUrl: './todos.component.scss'
 })
 export class TodosComponent implements OnInit {
   private route = inject(ActivatedRoute);

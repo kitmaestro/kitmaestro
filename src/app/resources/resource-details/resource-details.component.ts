@@ -13,18 +13,17 @@ import { UserSettingsService } from '../../services/user-settings.service';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-resource-details',
-  standalone: true,
-  imports: [
-    SliderComponent,
-    CommonModule,
-    MatCardModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    MatIconModule,
-  ],
-  templateUrl: './resource-details.component.html',
-  styleUrl: './resource-details.component.scss'
+    selector: 'app-resource-details',
+    imports: [
+        SliderComponent,
+        CommonModule,
+        MatCardModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        MatIconModule,
+    ],
+    templateUrl: './resource-details.component.html',
+    styleUrl: './resource-details.component.scss'
 })
 export class ResourceDetailsComponent {
   route = inject(ActivatedRoute);

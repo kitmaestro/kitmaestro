@@ -10,19 +10,18 @@ import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-observation-sheets',
-  standalone: true,
-  imports: [
-    MatTableModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    MatIconModule,
-    RouterLink,
-    DatePipe,
-    MatCardModule,
-  ],
-  templateUrl: './observation-sheets.component.html',
-  styleUrl: './observation-sheets.component.scss'
+    selector: 'app-observation-sheets',
+    imports: [
+        MatTableModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        MatIconModule,
+        RouterLink,
+        DatePipe,
+        MatCardModule,
+    ],
+    templateUrl: './observation-sheets.component.html',
+    styleUrl: './observation-sheets.component.scss'
 })
 export class ObservationSheetsComponent implements OnInit {
   private guideService = inject(ObservationGuideService);

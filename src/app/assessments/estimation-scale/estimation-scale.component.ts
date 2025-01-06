@@ -21,20 +21,19 @@ import { EstimationScale } from '../../interfaces/estimation-scale';
 import { PdfService } from '../../services/pdf.service';
 
 @Component({
-  selector: 'app-estimation-scale',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
-  templateUrl: './estimation-scale.component.html',
-  styleUrl: './estimation-scale.component.scss'
+    selector: 'app-estimation-scale',
+    imports: [
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+    ],
+    templateUrl: './estimation-scale.component.html',
+    styleUrl: './estimation-scale.component.scss'
 })
 export class EstimationScaleComponent implements OnInit {
   private estimationScaleService = inject(EstimationScaleService);

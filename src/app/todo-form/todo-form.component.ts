@@ -10,19 +10,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'app-todo-form',
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatSnackBarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
-  templateUrl: './todo-form.component.html',
-  styleUrl: './todo-form.component.scss'
+    selector: 'app-todo-form',
+    imports: [
+        MatDialogModule,
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatButtonModule,
+    ],
+    templateUrl: './todo-form.component.html',
+    styleUrl: './todo-form.component.scss'
 })
 export class TodoFormComponent {
   private todoService = inject(TodoService);

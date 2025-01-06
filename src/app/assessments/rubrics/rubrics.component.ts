@@ -9,18 +9,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 
 @Component({
-  selector: 'app-rubrics',
-  standalone: true,
-  imports: [
-    RouterLink,
-    MatSnackBarModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTableModule,
-  ],
-  templateUrl: './rubrics.component.html',
-  styleUrl: './rubrics.component.scss'
+    selector: 'app-rubrics',
+    imports: [
+        RouterLink,
+        MatSnackBarModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+    ],
+    templateUrl: './rubrics.component.html',
+    styleUrl: './rubrics.component.scss'
 })
 export class RubricsComponent implements OnInit {
   private rubricService = inject(RubricService);

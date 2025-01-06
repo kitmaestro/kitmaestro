@@ -10,19 +10,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-recover',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSnackBarModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatInputModule,
-    MatIconModule,
-  ],
-  templateUrl: './recover.component.html',
-  styleUrl: './recover.component.scss'
+    selector: 'app-recover',
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSnackBarModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatInputModule,
+        MatIconModule,
+    ],
+    templateUrl: './recover.component.html',
+    styleUrl: './recover.component.scss'
 })
 export class RecoverComponent {
   auth = inject(Auth);

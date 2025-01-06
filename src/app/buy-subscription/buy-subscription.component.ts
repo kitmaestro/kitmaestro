@@ -17,23 +17,22 @@ import { UserSubscriptionService } from '../services/user-subscription.service';
 declare const paypal: any;
 
 @Component({
-  selector: 'app-buy-subscription',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDialogModule,
-    MatListModule,
-    MatSnackBarModule,
-    MatSlideToggleModule,
-    MatBadgeModule,
-    RouterModule,
-    CurrencyPipe,
-    RouterModule,
-  ],
-  templateUrl: './buy-subscription.component.html',
-  styleUrl: './buy-subscription.component.scss',
+    selector: 'app-buy-subscription',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatDialogModule,
+        MatListModule,
+        MatSnackBarModule,
+        MatSlideToggleModule,
+        MatBadgeModule,
+        RouterModule,
+        CurrencyPipe,
+        RouterModule,
+    ],
+    templateUrl: './buy-subscription.component.html',
+    styleUrl: './buy-subscription.component.scss'
 })
 export class BuySubscriptionComponent implements OnInit, AfterViewInit {
   private dialog = inject(MatDialog);

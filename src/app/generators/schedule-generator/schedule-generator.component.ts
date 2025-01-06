@@ -8,11 +8,10 @@ interface Asignatura {
 }
 
 @Component({
-  selector: 'app-schedule-generator',
-  standalone: true,
-  imports: [],
-  templateUrl: './schedule-generator.component.html',
-  styleUrl: './schedule-generator.component.scss'
+    selector: 'app-schedule-generator',
+    imports: [],
+    templateUrl: './schedule-generator.component.html',
+    styleUrl: './schedule-generator.component.scss'
 })
 export class ScheduleGeneratorComponent implements OnInit {
   horario: string[][] = [];

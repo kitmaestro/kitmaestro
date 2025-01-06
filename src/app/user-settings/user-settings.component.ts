@@ -14,22 +14,21 @@ import { UserSettings } from '../interfaces/user-settings';
 import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: 'app-user-settings',
-  standalone: true,
-  imports: [
-    MatInputModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    MatDialogModule,
-    CommonModule,
-    ReactiveFormsModule,
-    MatCardModule,
-  ],
-  templateUrl: './user-settings.component.html',
-  styleUrl: './user-settings.component.scss'
+    selector: 'app-user-settings',
+    imports: [
+        MatInputModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        MatDialogModule,
+        CommonModule,
+        ReactiveFormsModule,
+        MatCardModule,
+    ],
+    templateUrl: './user-settings.component.html',
+    styleUrl: './user-settings.component.scss'
 })
 export class UserSettingsComponent implements OnInit {
   fb = inject(FormBuilder);

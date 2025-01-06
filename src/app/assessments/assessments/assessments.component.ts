@@ -8,20 +8,19 @@ import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.com
 import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
-  selector: 'app-assessments',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    RouterLink,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    IsPremiumComponent,
-    InProgressComponent,
-    MatMenuModule,
-  ],
-  templateUrl: './assessments.component.html',
-  styleUrl: './assessments.component.scss'
+    selector: 'app-assessments',
+    imports: [
+        RouterOutlet,
+        RouterLink,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        IsPremiumComponent,
+        InProgressComponent,
+        MatMenuModule,
+    ],
+    templateUrl: './assessments.component.html',
+    styleUrl: './assessments.component.scss'
 })
 export class AssessmentsComponent {
   working = true;

@@ -28,31 +28,29 @@ import { UserSubscriptionService } from '../../services/user-subscription.servic
 import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
-  selector: 'app-class-plan-generator',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    IsPremiumComponent,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatCardModule,
-    MatChipsModule,
-    RouterModule,
-    DatePipe,
-    
-// TODO: `HttpClientModule` should not be imported into a component directly.
-// Please refactor the code to add `provideHttpClient()` call to the provider list in the
-// application bootstrap logic and remove the `HttpClientModule` import from this component.
-HttpClientModule,
-    ClassPlanComponent,
-  ],
-  templateUrl: './class-plan-generator.component.html',
-  styleUrl: './class-plan-generator.component.scss'
+    selector: 'app-class-plan-generator',
+    imports: [
+        AsyncPipe,
+        IsPremiumComponent,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatInputModule,
+        MatCardModule,
+        MatChipsModule,
+        RouterModule,
+        DatePipe,
+        // TODO: `HttpClientModule` should not be imported into a component directly.
+        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
+        // application bootstrap logic and remove the `HttpClientModule` import from this component.
+        HttpClientModule,
+        ClassPlanComponent,
+    ],
+    templateUrl: './class-plan-generator.component.html',
+    styleUrl: './class-plan-generator.component.scss'
 })
 export class ClassPlanGeneratorComponent implements OnInit {
   sb = inject(MatSnackBar);

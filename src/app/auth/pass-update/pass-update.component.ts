@@ -11,21 +11,20 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BiIconComponent } from '../../ui/bi-icon/bi-icon.component';
 
 @Component({
-  selector: 'app-pass-update',
-  standalone: true,
-  imports: [
-    RouterModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    BiIconComponent,
-  ],
-  templateUrl: './pass-update.component.html',
-  styleUrl: './pass-update.component.scss'
+    selector: 'app-pass-update',
+    imports: [
+        RouterModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatCardModule,
+        MatIconModule,
+        BiIconComponent,
+    ],
+    templateUrl: './pass-update.component.html',
+    styleUrl: './pass-update.component.scss'
 })
 export class PassUpdateComponent implements OnInit {
   route = inject(ActivatedRoute);

@@ -17,21 +17,20 @@ import { WordEntry } from '../../interfaces/word-enty';
 import { WORD_ENTRIES } from '../../data/word-entries';
 
 @Component({
-  selector: 'app-synonyms',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatListModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-  ],
-  templateUrl: './synonyms.component.html',
-  styleUrl: './synonyms.component.scss'
+    selector: 'app-synonyms',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatListModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+    ],
+    templateUrl: './synonyms.component.html',
+    styleUrl: './synonyms.component.scss'
 })
 export class SynonymsComponent implements OnInit {
 

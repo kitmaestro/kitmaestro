@@ -14,21 +14,20 @@ import { SchoolService } from '../services/school.service';
 import { School } from '../interfaces/school';
 
 @Component({
-  selector: 'app-user-profile',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatSnackBarModule,
-    CommonModule,
-    MatIconModule,
-    ReactiveFormsModule,
-  ],
-  templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.scss'
+    selector: 'app-user-profile',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatSnackBarModule,
+        CommonModule,
+        MatIconModule,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './user-profile.component.html',
+    styleUrl: './user-profile.component.scss'
 })
 export class UserProfileComponent {
   private authService = inject(AuthService);

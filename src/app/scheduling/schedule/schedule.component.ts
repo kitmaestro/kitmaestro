@@ -4,14 +4,13 @@ import { MatCardModule } from '@angular/material/card';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-schedule',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    DatePipe,
-  ],
-  templateUrl: './schedule.component.html',
-  styleUrl: './schedule.component.scss'
+    selector: 'app-schedule',
+    imports: [
+        MatCardModule,
+        DatePipe,
+    ],
+    templateUrl: './schedule.component.html',
+    styleUrl: './schedule.component.scss'
 })
 export class ScheduleComponent {
   @Input() schedule: ClassSchedule | null = null;

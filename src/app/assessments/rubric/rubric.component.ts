@@ -47,23 +47,22 @@ import { AiService } from '../../services/ai.service';
 import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
-  selector: 'app-rubric',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatCardModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    NgIf,
-    AsyncPipe,
-    RouterLink,
-  ],
-  templateUrl: './rubric.component.html',
-  styleUrl: './rubric.component.scss'
+    selector: 'app-rubric',
+    imports: [
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatCardModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        NgIf,
+        AsyncPipe,
+        RouterLink,
+    ],
+    templateUrl: './rubric.component.html',
+    styleUrl: './rubric.component.scss'
 })
 export class RubricComponent {
   sb = inject(MatSnackBar);

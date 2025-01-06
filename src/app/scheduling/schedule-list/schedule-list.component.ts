@@ -8,17 +8,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-schedule-list',
-  standalone: true,
-  imports: [
-    ScheduleComponent,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    RouterLink,
-  ],
-  templateUrl: './schedule-list.component.html',
-  styleUrl: './schedule-list.component.scss'
+    selector: 'app-schedule-list',
+    imports: [
+        ScheduleComponent,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        RouterLink,
+    ],
+    templateUrl: './schedule-list.component.html',
+    styleUrl: './schedule-list.component.scss'
 })
 export class ScheduleListComponent implements OnInit {
   private scheduleService = inject(ClassScheduleService);

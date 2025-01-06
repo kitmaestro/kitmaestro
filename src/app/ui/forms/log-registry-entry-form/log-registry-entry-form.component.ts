@@ -19,21 +19,20 @@ import { ClassSection } from '../../../interfaces/class-section';
 import { UserSettings } from '../../../interfaces/user-settings';
 
 @Component({
-  selector: 'app-log-registry-entry-form',
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    CommonModule,
-    MatSnackBarModule,
-  ],
-  templateUrl: './log-registry-entry-form.component.html',
-  styleUrl: './log-registry-entry-form.component.scss'
+    selector: 'app-log-registry-entry-form',
+    imports: [
+        MatDialogModule,
+        MatButtonModule,
+        MatIconModule,
+        MatInputModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        CommonModule,
+        MatSnackBarModule,
+    ],
+    templateUrl: './log-registry-entry-form.component.html',
+    styleUrl: './log-registry-entry-form.component.scss'
 })
 export class LogRegistryEntryFormComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<LogRegistryEntryFormComponent>);

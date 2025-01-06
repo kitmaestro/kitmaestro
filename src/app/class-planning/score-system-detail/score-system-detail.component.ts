@@ -27,18 +27,17 @@ import { Student } from '../../interfaces/student';
 import { StudentsService } from '../../services/students.service';
 
 @Component({
-	selector: 'app-score-system-detail',
-	standalone: true,
-	imports: [
-		RouterLink,
-		MatCardModule,
-		MatIconModule,
-		MatButtonModule,
-		MatSnackBarModule,
-		ScoreSystemComponent,
-	],
-	templateUrl: './score-system-detail.component.html',
-	styleUrl: './score-system-detail.component.scss'
+    selector: 'app-score-system-detail',
+    imports: [
+        RouterLink,
+        MatCardModule,
+        MatIconModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        ScoreSystemComponent,
+    ],
+    templateUrl: './score-system-detail.component.html',
+    styleUrl: './score-system-detail.component.scss'
 })
 export class ScoreSystemDetailComponent {
 	private route = inject(ActivatedRoute);

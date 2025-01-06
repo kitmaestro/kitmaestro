@@ -9,16 +9,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 
 @Component({
-  selector: 'app-users',
-  standalone: true,
-  imports: [
-	MatCardModule,
-	MatButtonModule,
-	MatIconModule,
-	MatTableModule,
-  ],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.scss'
+    selector: 'app-users',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+    ],
+    templateUrl: './users.component.html',
+    styleUrl: './users.component.scss'
 })
 export class UsersComponent {
 	private userService = inject(UserSettingsService);

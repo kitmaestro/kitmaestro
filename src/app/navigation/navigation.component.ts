@@ -17,22 +17,21 @@ import { AuthService } from '../services/auth.service';
 import { UserSubscriptionService } from '../services/user-subscription.service';
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrl: './navigation.component.scss',
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatSnackBarModule,
-    AsyncPipe,
-    RouterModule,
-  ]
+    selector: 'app-navigation',
+    templateUrl: './navigation.component.html',
+    styleUrl: './navigation.component.scss',
+    imports: [
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatListModule,
+        MatIconModule,
+        MatDialogModule,
+        MatMenuModule,
+        MatSnackBarModule,
+        AsyncPipe,
+        RouterModule,
+    ]
 })
 export class NavigationComponent {
   private authService = inject(AuthService);

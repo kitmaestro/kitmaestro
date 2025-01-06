@@ -16,23 +16,22 @@ import { Router, RouterModule } from '@angular/router';
 import { tap } from 'rxjs';
 
 @Component({
-  selector: 'app-todo-lists',
-  standalone: true,
-  imports: [
-    MatSnackBarModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    AsyncPipe,
-    RouterModule,
-  ],
-  templateUrl: './todo-lists.component.html',
-  styleUrl: './todo-lists.component.scss'
+    selector: 'app-todo-lists',
+    imports: [
+        MatSnackBarModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        AsyncPipe,
+        RouterModule,
+    ],
+    templateUrl: './todo-lists.component.html',
+    styleUrl: './todo-lists.component.scss'
 })
 export class TodoListsComponent {
 

@@ -10,19 +10,18 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 
 @Component({
-  selector: 'app-reading-activities',
-  standalone: true,
-  imports: [
-    RouterLink,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTableModule,
-    MatSnackBarModule,
-    IsPremiumComponent,
-  ],
-  templateUrl: './reading-activities.component.html',
-  styleUrl: './reading-activities.component.scss'
+    selector: 'app-reading-activities',
+    imports: [
+        RouterLink,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+        MatSnackBarModule,
+        IsPremiumComponent,
+    ],
+    templateUrl: './reading-activities.component.html',
+    styleUrl: './reading-activities.component.scss'
 })
 export class ReadingActivitiesComponent implements OnInit {
   private activityService = inject(ReadingActivityService);

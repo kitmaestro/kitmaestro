@@ -6,13 +6,12 @@ import { AuthService } from '../../services/auth.service';
 import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
-  selector: 'app-class-plan',
-  standalone: true,
-  imports: [
-    DatePipe,
-  ],
-  templateUrl: './class-plan.component.html',
-  styleUrl: './class-plan.component.scss'
+    selector: 'app-class-plan',
+    imports: [
+        DatePipe,
+    ],
+    templateUrl: './class-plan.component.html',
+    styleUrl: './class-plan.component.scss'
 })
 export class ClassPlanComponent {
   @Input() classPlan: ClassPlan | null = null;

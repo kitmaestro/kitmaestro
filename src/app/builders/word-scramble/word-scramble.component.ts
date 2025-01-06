@@ -18,21 +18,20 @@ import { WORD_LISTS } from '../../data/word-lists';
 import { TOPICS } from '../../data/topics';
 
 @Component({
-  selector: 'app-word-scramble',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatListModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-  ],
-  templateUrl: './word-scramble.component.html',
-  styleUrl: './word-scramble.component.scss'
+    selector: 'app-word-scramble',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatListModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+    ],
+    templateUrl: './word-scramble.component.html',
+    styleUrl: './word-scramble.component.scss'
 })
 export class WordScrambleComponent implements OnInit {
 

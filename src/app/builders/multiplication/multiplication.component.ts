@@ -14,21 +14,20 @@ import { shuffle } from 'lodash';
 import { formatNumber } from '@angular/common';
 
 @Component({
-  selector: 'app-multiplication',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatListModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-  ],
-  templateUrl: './multiplication.component.html',
-  styleUrl: './multiplication.component.scss'
+    selector: 'app-multiplication',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatListModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+    ],
+    templateUrl: './multiplication.component.html',
+    styleUrl: './multiplication.component.scss'
 })
 export class MultiplicationComponent implements OnInit {
 

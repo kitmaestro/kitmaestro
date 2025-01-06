@@ -12,14 +12,13 @@ interface TutorialVideo {
 }
 
 @Component({
-  selector: 'app-tutorials',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-  ],
-  templateUrl: './tutorials.component.html',
-  styleUrl: './tutorials.component.scss'
+    selector: 'app-tutorials',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+    ],
+    templateUrl: './tutorials.component.html',
+    styleUrl: './tutorials.component.scss'
 })
 export class TutorialsComponent {
   tutorials: TutorialVideo[] = [];

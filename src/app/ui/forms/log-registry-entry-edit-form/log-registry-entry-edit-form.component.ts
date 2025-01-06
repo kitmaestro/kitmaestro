@@ -15,20 +15,19 @@ import { ClassSectionService } from '../../../services/class-section.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-log-registry-entry-edit-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-  ],
-  templateUrl: './log-registry-entry-edit-form.component.html',
-  styleUrl: './log-registry-entry-edit-form.component.scss'
+    selector: 'app-log-registry-entry-edit-form',
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatInputModule,
+    ],
+    templateUrl: './log-registry-entry-edit-form.component.html',
+    styleUrl: './log-registry-entry-edit-form.component.scss'
 })
 export class LogRegistryEntryEditFormComponent implements OnInit {
   private logService = inject(LogRegistryEntryService);

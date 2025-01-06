@@ -10,19 +10,18 @@ import { MatCardModule } from '@angular/material/card';
 import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
-  selector: 'app-score-systems',
-  standalone: true,
-	imports: [
-		RouterLink,
-		MatSnackBarModule,
-		MatIconModule,
-		MatButtonModule,
-		MatTableModule,
-		MatCardModule,
-		PretifyPipe,
-  ],
-  templateUrl: './score-systems.component.html',
-  styleUrl: './score-systems.component.scss'
+    selector: 'app-score-systems',
+    imports: [
+        RouterLink,
+        MatSnackBarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTableModule,
+        MatCardModule,
+        PretifyPipe,
+    ],
+    templateUrl: './score-systems.component.html',
+    styleUrl: './score-systems.component.scss'
 })
 export class ScoreSystemsComponent {
 	private scoreSystemService = inject(ScoreSystemService);

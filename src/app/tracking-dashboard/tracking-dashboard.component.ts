@@ -4,15 +4,14 @@ import { IsPremiumComponent } from '../ui/alerts/is-premium/is-premium.component
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-tracking-dashboard',
-  standalone: true,
-  imports: [
-    InProgressComponent,
-    IsPremiumComponent,
-    MatCardModule,
-  ],
-  templateUrl: './tracking-dashboard.component.html',
-  styleUrl: './tracking-dashboard.component.scss'
+    selector: 'app-tracking-dashboard',
+    imports: [
+        InProgressComponent,
+        IsPremiumComponent,
+        MatCardModule,
+    ],
+    templateUrl: './tracking-dashboard.component.html',
+    styleUrl: './tracking-dashboard.component.scss'
 })
 export class TrackingDashboardComponent {
   working = false;

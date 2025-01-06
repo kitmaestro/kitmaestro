@@ -20,21 +20,20 @@ import { WORD_LISTS } from '../../data/word-lists';
 import { TOPICS } from '../../data/topics';
 
 @Component({
-  selector: 'app-wordsearch',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatListModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-  ],
-  templateUrl: './wordsearch.component.html',
-  styleUrl: './wordsearch.component.scss'
+    selector: 'app-wordsearch',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatListModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+    ],
+    templateUrl: './wordsearch.component.html',
+    styleUrl: './wordsearch.component.scss'
 })
 export class WordsearchComponent implements OnInit {
 

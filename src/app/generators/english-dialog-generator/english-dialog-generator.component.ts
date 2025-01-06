@@ -15,21 +15,20 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-english-dialog-generator',
-  standalone: true,
-  imports: [
-    IsPremiumComponent,
-    ReactiveFormsModule,
-    MatSlideToggleModule,
-    MatFormFieldModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatInputModule,
-    MatCardModule,
-  ],
-  templateUrl: './english-dialog-generator.component.html',
-  styleUrl: './english-dialog-generator.component.scss'
+    selector: 'app-english-dialog-generator',
+    imports: [
+        IsPremiumComponent,
+        ReactiveFormsModule,
+        MatSlideToggleModule,
+        MatFormFieldModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatInputModule,
+        MatCardModule,
+    ],
+    templateUrl: './english-dialog-generator.component.html',
+    styleUrl: './english-dialog-generator.component.scss'
 })
 export class EnglishDialogGeneratorComponent {
   fb = inject(FormBuilder);

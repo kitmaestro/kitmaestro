@@ -15,22 +15,21 @@ import { Observable } from 'rxjs';
 import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
-  selector: 'app-class-sections',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    MatIconModule,
-    CommonModule,
-    MatDialogModule,
-    MatTableModule,
-    MatListModule,
-    MatExpansionModule,
-    RouterModule,
-  ],
-  templateUrl: './class-sections.component.html',
-  styleUrl: './class-sections.component.scss'
+    selector: 'app-class-sections',
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        MatIconModule,
+        CommonModule,
+        MatDialogModule,
+        MatTableModule,
+        MatListModule,
+        MatExpansionModule,
+        RouterModule,
+    ],
+    templateUrl: './class-sections.component.html',
+    styleUrl: './class-sections.component.scss'
 })
 export class ClassSectionsComponent implements OnInit {
   private dialog = inject(MatDialog);
