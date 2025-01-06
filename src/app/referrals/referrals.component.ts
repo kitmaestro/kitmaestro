@@ -7,7 +7,7 @@ import { MatTableModule } from '@angular/material/table';
 import { AuthService } from '../services/auth.service';
 import { UserSubscriptionService } from '../services/user-subscription.service';
 import { UserSettings } from '../interfaces/user-settings';
-import { AsyncPipe, CurrencyPipe, NgIf } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { ReferralsService } from '../services/referrals.service';
 import { Referral } from '../interfaces/referral';
 import { RouterLink } from '@angular/router';
@@ -22,10 +22,8 @@ import { UserSubscription } from '../interfaces/user-subscription';
         MatButtonModule,
         MatTableModule,
         MatIconModule,
-        AsyncPipe,
         CurrencyPipe,
         RouterLink,
-        NgIf,
         CurrencyPipe,
     ],
     templateUrl: './referrals.component.html',

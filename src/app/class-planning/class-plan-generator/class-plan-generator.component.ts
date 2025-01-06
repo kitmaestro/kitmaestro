@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,7 +18,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ClassPlan } from '../../interfaces/class-plan';
 import { ClassPlansService } from '../../services/class-plans.service';
 import { Router, RouterModule } from '@angular/router';
-import {} from '@angular/common/http';
 import { CompetenceService } from '../../services/competence.service';
 import { ClassSection } from '../../interfaces/class-section';
 import { classPlanPrompt, classroomResources } from '../../constants';
@@ -30,7 +29,6 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 @Component({
     selector: 'app-class-plan-generator',
     imports: [
-        AsyncPipe,
         IsPremiumComponent,
         ReactiveFormsModule,
         MatFormFieldModule,
@@ -42,11 +40,6 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
         MatCardModule,
         MatChipsModule,
         RouterModule,
-        DatePipe,
-        // TODO: `HttpClientModule` should not be imported into a component directly.
-        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
-        // application bootstrap logic and remove the `HttpClientModule` import from this component.
-        HttpClientModule,
         ClassPlanComponent,
     ],
     templateUrl: './class-plan-generator.component.html',

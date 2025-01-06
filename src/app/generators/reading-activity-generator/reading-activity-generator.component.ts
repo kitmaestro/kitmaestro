@@ -11,7 +11,7 @@ import { AiService } from '../../services/ai.service';
 import {} from '@angular/common/http';
 import { PdfService } from '../../services/pdf.service';
 import { UserSettingsService } from '../../services/user-settings.service';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ReadingActivityService } from '../../services/reading-activity.service';
 import { UserSettings } from '../../interfaces/user-settings';
 
@@ -26,12 +26,7 @@ import { UserSettings } from '../../interfaces/user-settings';
         MatInputModule,
         MatFormFieldModule,
         MatSnackBarModule,
-        // TODO: `HttpClientModule` should not be imported into a component directly.
-        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
-        // application bootstrap logic and remove the `HttpClientModule` import from this component.
-        HttpClientModule,
         NgIf,
-        AsyncPipe,
     ],
     templateUrl: './reading-activity-generator.component.html',
     styleUrl: './reading-activity-generator.component.scss'

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { YouTubePlayer } from '@angular/youtube-player';
 
 interface TutorialVideo {
   title: string;
@@ -16,6 +17,7 @@ interface TutorialVideo {
     imports: [
         MatCardModule,
         MatButtonModule,
+        YouTubePlayer,
     ],
     templateUrl: './tutorials.component.html',
     styleUrl: './tutorials.component.scss'

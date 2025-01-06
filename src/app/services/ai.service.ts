@@ -1,9 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { GradePeriod } from '../interfaces/grade-period';
-import { HfInference } from '@huggingface/inference';
-import { pipeline } from '@xenova/transformers';
-import { Observable, from } from 'rxjs';
-import { GeminiResponse } from '../interfaces/gemini-response';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
@@ -20,24 +17,6 @@ export class AiService {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     })
   };
-
-  private models = {
-    textToImage: 'stabilityai/stable-diffusion-xl-base-1.0',
-    text2TextGeneration: 'google/flan-t5-xxl',
-    textGeneration: [
-      // "bigcode/starcoder",
-      // "meta-llama/Llama-2-7b-chat-hf",
-      // "mistralai/Mistral-7B-v0.1",
-      // "mistralai/Mixtral-8x7B-Instruct-v0.1",
-      // "microsoft/phi-2"
-      "gemma-7b"
-    ],
-  }
-  private token = atob('aGZfZVZGUGl6aW5jb3VEbmZzRXFEQ05yaUVmZW9VZ2NITmNEdw==');
-  private inference = new HfInference(this.token);
-
-  constructor() {
-  }
 
   askClaude(text: string, max_tokens: number = 1024) {
     return this.http.post(this.apiBaseUrl + 'claude', { text, max_tokens }, this.config);
@@ -59,49 +38,8 @@ export class AiService {
     return this.http.post<{ response: string }>(this.apiBaseUrl + 'chatbox', { prompt: question }, this.config);
   }
 
-  async generateText(input: string, inference = false) {
-    if (inference) {
-      const args = {
-        model: this.models.text2TextGeneration,
-        inputs: input,
-        parameters: {
-          max_new_tokens: 350
-        }
-      };
-
-      const options = { use_cache: false };
-      return await this.inference.textGeneration(args, options)
-    }
-    const randomPick = Math.round(Math.random() * (this.models.textGeneration.length - 1));
-    const pipe = await pipeline('text-generation', this.models.textGeneration[randomPick]);
-    const response = await pipe(input);
-    return response;
-  }
-
-  async askPhi(input: string) {
-    const args = {
-      model: 'microsoft/phi-2',
-      inputs: input,
-      parameters: {
-        max_new_tokens: 350
-      }
-    };
-
-    const options = { use_cache: false };
-    return await this.inference.textGeneration(args, options)
-  }
-
-  async completeText(inputs: string) {
-    const args = {
-      model: "google/gemma-7b",
-      inputs,
-      parameters: {
-        max_new_tokens: 350
-      }
-    };
-
-    const options = { use_cache: false };
-    return await this.inference.textGeneration(args, options)
+  askPhi(input: string) {
+    return this.http.post<{ response: string }>(this.apiBaseUrl + 'phi2', { prompt: input }, this.config);
   }
 
   generateImage(inputs: string): Observable<{ result: string }> {

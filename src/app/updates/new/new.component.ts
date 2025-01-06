@@ -10,7 +10,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserSettings } from '../../interfaces/user-settings';
-import { JsonPipe } from '@angular/common';
 import { UpdateService } from '../../services/update.service';
 
 @Component({
@@ -25,7 +24,6 @@ import { UpdateService } from '../../services/update.service';
         MatIconModule,
         ReactiveFormsModule,
         RouterModule,
-        JsonPipe,
     ],
     templateUrl: './new.component.html',
     styleUrl: './new.component.scss'

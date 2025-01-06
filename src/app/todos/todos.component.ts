@@ -11,7 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { AsyncPipe } from '@angular/common';
 import { IsEmptyComponent } from '../ui/alerts/is-empty/is-empty.component';
 import { Todo } from '../interfaces/todo';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -34,7 +33,6 @@ import { TodoFormComponent } from '../todo-form/todo-form.component';
         MatExpansionModule,
         MatSlideToggleModule,
         MatDialogModule,
-        AsyncPipe,
         IsEmptyComponent,
     ],
     templateUrl: './todos.component.html',

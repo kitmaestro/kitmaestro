@@ -11,7 +11,6 @@ import { UserSubscription } from '../interfaces/user-subscription';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { CurrencyPipe } from '@angular/common';
 import { UserSubscriptionService } from '../services/user-subscription.service';
 
 declare const paypal: any;
@@ -28,7 +27,6 @@ declare const paypal: any;
         MatSlideToggleModule,
         MatBadgeModule,
         RouterModule,
-        CurrencyPipe,
         RouterModule,
     ],
     templateUrl: './buy-subscription.component.html',

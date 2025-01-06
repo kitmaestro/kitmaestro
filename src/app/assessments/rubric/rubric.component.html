@@ -91,7 +91,7 @@
                             <mat-label>Nivel #{{$index + 1}}</mat-label>
                             <input [formControlName]="$index" matInput>
                         </mat-form-field>
-                        <button (click)="deleteLevel" type="button" mat-mini-fab color="warn" style="margin-top: 8px;">
+                        <button (click)="deleteLevel($index)" type="button" mat-mini-fab color="warn" style="margin-top: 8px;">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </div>

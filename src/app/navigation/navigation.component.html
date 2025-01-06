@@ -1,75 +1,43 @@
 @if (!isPrintView) {
-  <mat-sidenav-container class="sidenav-container">
-  <!-- <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-      @for (link of sidebarLinks; track $index) {
-        <a mat-list-item
-          [routerLink]="link.route"
-          [activated]="activatedRoute == link.route || activatedRoute.includes(link.activeIf)"
-          style="padding: 0"
-          >
-          <mat-icon matListItemIcon>{{link.icon}}</mat-icon>
-          {{ link.label }}
-        </a>
-      }
-      @if (!(subscription$ | async)) {
-        <a [activated]="true" style="margin-top: 64px;" mat-list-item routerLink="/buy"><mat-icon matListItemIcon>rocket</mat-icon>Comprar Suscripción</a>
-      }
-    </mat-nav-list>
-  </mat-sidenav> -->
-  <mat-sidenav-content>
-    <mat-toolbar color="primary" style="z-index: 5000;">
-      <span routerLink="/" style="cursor: pointer;">KitMaestro</span>
-      <span class="spacer"></span>
-      <span class="md" title="¡Motívame!" style="font-weight: lighter; font-size: 12pt; margin-right: 16px; cursor: pointer;" (click)="openQuoteDialog()">Hola, {{ (userSettings$ | async)?.firstname ? (userSettings$ | async)?.firstname : 'Profe' }}</span>
-      <a mat-icon-button [routerLink]="['/tutorials']" style="margin-right: 6px;">
-          <mat-icon>video_library</mat-icon>
-      </a>
-      <a mat-icon-button [routerLink]="['/updates']" style="margin-right: 6px;">
-          <mat-icon matBadge="1" matBadgeOverlap="true" matBadgeColor="accent">notifications</mat-icon>
-      </a>
-      <button [matMenuTriggerFor]="menu" mat-icon-button>
-          <mat-icon>more_vert</mat-icon>
+  <mat-toolbar color="accent" style="z-index: 5000;">
+    <span routerLink="/" style="cursor: pointer;">KitMaestro</span>
+    <span class="spacer"></span>
+    <button mat-icon-button color="primary" [routerLink]="['/tutorials']" style="margin-right: 6px; color: #005cbb;">
+      <mat-icon>video_library</mat-icon>
+    </button>
+    <button mat-icon-button color="primary" [routerLink]="['/updates']" style="margin-right: 6px; color: #005cbb;">
+      <mat-icon matBadge="1" matBadgeOverlap="true" matBadgeColor="accent">notifications</mat-icon>
+    </button>
+    <button [matMenuTriggerFor]="menu" mat-icon-button color="primary" style="color: #005cbb;">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu>
+      <button mat-menu-item (click)="openQuoteDialog()">
+        <mat-icon>flash_on</mat-icon>
+        <span>Mot&iacute;vame</span>
       </button>
-      <mat-menu #menu>
-          <button routerLink="/sections" mat-menu-item>
-              <mat-icon>class</mat-icon>
-              <span>Mis Secciones</span>
-          </button>
-          <button routerLink="/my-resources" mat-menu-item>
-              <mat-icon>analytics</mat-icon>
-              <span>Mis Recursos</span>
-          </button>
-          @if (subscription$ | async) {
-            <button routerLink="/referrals" mat-menu-item>
-              <mat-icon>people_circle</mat-icon>
-              <span>Mis Referidos</span>
-            </button>
-          }
-          <button routerLink="/profile" mat-menu-item>
-              <mat-icon>person_circle</mat-icon>
-              <span>Mi Perfil</span>
-          </button>
-          <!-- <button routerLink="/settings" mat-menu-item>
-              <mat-icon>settings</mat-icon>
-              <span>Ajustes</span>
-          </button> -->
-          <button (click)="logout()" mat-menu-item>
-              <mat-icon>logout</mat-icon>
-              <span>Salir</span>
-          </button>
-      </mat-menu>
-    </mat-toolbar>
-    <div class="print" style="height: 100vh; padding: 20px;">
-      <router-outlet></router-outlet>
-      <div style="height: 42px;"></div>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
-} @else {
-  <router-outlet></router-outlet>
+      <button routerLink="/sections" mat-menu-item>
+        <mat-icon>class</mat-icon>
+        <span>Mis Secciones</span>
+      </button>
+      <button routerLink="/my-resources" mat-menu-item>
+        <mat-icon>analytics</mat-icon>
+        <span>Mis Recursos</span>
+      </button>
+      @if (subscription$ | async) {
+        <button routerLink="/referrals" mat-menu-item>
+          <mat-icon>people_circle</mat-icon>
+          <span>Mis Referidos</span>
+        </button>
+      }
+      <button routerLink="/profile" mat-menu-item>
+        <mat-icon>person_circle</mat-icon>
+        <span>Mi Perfil</span>
+      </button>
+      <button (click)="logout()" mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        <span>Salir</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
 }

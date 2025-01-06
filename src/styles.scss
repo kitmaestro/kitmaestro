@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 /* You can add global styles to this file, and also import other style files */
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
@@ -95,3 +96,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+    @include mat.toolbar-overrides((
+        container-background-color: #d7e3ff,
+        container-text-color: #005cbb,
+    ));
+}

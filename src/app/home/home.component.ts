@@ -5,8 +5,12 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { AppEntry } from '../interfaces/app-entry';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { AppTileComponent } from '../app-tile/app-tile.component';
 
 @Component({
     selector: 'app-home',
@@ -18,6 +22,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         MatGridListModule,
         MatSlideToggleModule,
         MatTooltipModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        AppTileComponent,
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
@@ -25,7 +33,17 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 export class HomeComponent {
   showAll = false;
   devMode = false;
+  search = new FormControl();
 
+  emptyApp: AppEntry = {
+    name: 'Favoritos',
+    description: 'Aqui estarán las herramientas que marques como favoritas.',
+    link: [],
+    icon: '/assets/undraw_like-dislike_ggjr.svg'
+  }
+
+  favorites: AppEntry[] = []
+  
   apps: AppEntry[] = [
     {
       name: 'Unidades de Aprendizaje',
@@ -372,6 +390,12 @@ export class HomeComponent {
         'sudoku'
       ],
       icon: '/assets/undraw_game_day_ucx9.svg'
+    },
+    {
+      name: 'Tablero de Ideas',
+      description: 'Tienes una idea para nuestra próxima herramienta? Publícala aquí.',
+      link: ['/ideas'],
+      icon: '/assets/undraw_ideas_41b9.svg'
     },
   ];
 

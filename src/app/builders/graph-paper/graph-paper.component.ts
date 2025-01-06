@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -13,7 +12,6 @@ import { PdfService } from '../../services/pdf.service';
 @Component({
     selector: 'app-graph-paper',
     imports: [
-        InProgressComponent,
         MatInputModule,
         MatSelectModule,
         MatCardModule,

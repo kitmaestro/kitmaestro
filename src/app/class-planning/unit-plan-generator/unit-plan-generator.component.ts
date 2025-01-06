@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
-import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -18,7 +17,6 @@ import { UserSettings } from '../../interfaces/user-settings';
 import { UnitPlan } from '../../interfaces/unit-plan';
 import { UnitPlanService } from '../../services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
-import {} from '@angular/common/http';
 import { ClassSection } from '../../interfaces/class-section';
 import { CompetenceService } from '../../services/competence.service';
 import { CompetenceEntry } from '../../interfaces/competence-entry';
@@ -33,7 +31,6 @@ import {
   mainThemeCategories,
   schoolEnvironments
 } from '../../constants';
-import { UnitPlanComponent } from '../unit-plan/unit-plan.component';
 import { forkJoin } from 'rxjs';
 import { ContentBlockService } from '../../services/content-block.service';
 import { ContentBlock } from '../../interfaces/content-block';
@@ -45,7 +42,6 @@ import { UserSubscriptionService } from '../../services/user-subscription.servic
     selector: 'app-unit-plan-generator',
     imports: [
         IsPremiumComponent,
-        InProgressComponent,
         ReactiveFormsModule,
         MatSnackBarModule,
         MatCardModule,
@@ -57,11 +53,6 @@ import { UserSubscriptionService } from '../../services/user-subscription.servic
         MatIconModule,
         MatChipsModule,
         RouterModule,
-        // TODO: `HttpClientModule` should not be imported into a component directly.
-        // Please refactor the code to add `provideHttpClient()` call to the provider list in the
-        // application bootstrap logic and remove the `HttpClientModule` import from this component.
-        HttpClientModule,
-        UnitPlanComponent,
         PretifyPipe,
     ],
     templateUrl: './unit-plan-generator.component.html',

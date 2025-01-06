@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EstimationScaleService } from '../../services/estimation-scale.service';
 import { EstimationScale } from '../../interfaces/estimation-scale';
-import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,7 +16,6 @@ import { RouterLink } from '@angular/router';
         MatButtonModule,
         MatIconModule,
         RouterLink,
-        DatePipe,
         MatCardModule,
     ],
     templateUrl: './estimation-scales.component.html',

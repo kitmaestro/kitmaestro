@@ -1,21 +1,28 @@
-<div class="apps-grid">
-  @for (app of apps; track $index) {
-    <a [routerLink]="app.link" class="app-card">
-      <mat-card class="card">
-        <mat-card-content>
-          <div class="inner-grid">
-            <img
-              [src]="app.icon"
-              [alt]="app.name"
-              [matTooltip]="!app.isWorking ? 'Este módulo todavía no está totalmente listo y puede contener errores.' : ''"
-            >
-            <div>
-              <p style="font-weight: bold;">{{app.name}}</p>
-              <p>{{app.description}}</p>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </a>
+<div class="container">
+  <div style="text-align: center; margin-top: 24px;">
+    <img src="/assets/logo KitMaestro.png" alt="Logo KitMaestro" style="margin: 0 auto; display: block; width: 128px;">
+    <h2 style="margin-bottom: 0; margin-top: 0;">KitMaestro</h2>
+    <p style="margin-top: 0; margin-bottom: 12px;">La caja de herramientas definitiva</p>
+    <div class="search-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Buscar</mat-label>
+        <input type="search" [formControl]="search" placeholder="Buscar Herramienta" matInput>
+      </mat-form-field>
+    </div>
+  </div>
+  @if (!search.value) {
+    <h3>Herramientas Favoritas</h3>
+    <div class="apps-grid">
+      @for (app of favorites; track $index) {
+      } @empty {
+        <app-tile [app]="emptyApp" />
+      }
+    </div>
   }
+  <h3>Todas las Herramientas</h3>
+  <div class="apps-grid">
+    @for (app of apps; track $index) {
+      <app-tile [app]="app" />
+    }
+  </div>
 </div>
