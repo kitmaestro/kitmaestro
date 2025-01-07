@@ -11,7 +11,7 @@ import { RubricService } from '../../services/rubric.service';
 import { ClassSectionService } from '../../services/class-section.service';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { Rubric } from '../../interfaces/rubric';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Student } from '../../interfaces/student';
 import { StudentsService } from '../../services/students.service';
@@ -36,7 +36,6 @@ import { CompetenceService } from '../../services/competence.service';
         MatFormFieldModule,
         MatInputModule,
         NgIf,
-        AsyncPipe,
         RouterLink,
         PretifyPipe,
     ],

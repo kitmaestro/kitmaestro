@@ -17,7 +17,6 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
     imports: [
         MatButtonModule,
         MatCardModule,
-        IsPremiumComponent,
         MatListModule,
         AsyncPipe,
         RouterModule,
