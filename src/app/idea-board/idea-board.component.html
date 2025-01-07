@@ -1,1 +1,45 @@
-<p>idea-board works!</p>
+<h2>Pizarron de Ideas</h2>
+<p>En este espacio, nuestros usuarios pueden presentar sus ideas y votar por las mejores. Cada semana se eligirá la idea mas votada para implementar en la plataforma.</p>
+
+<div>
+    <h3>Agregar Idea</h3>
+    <form [formGroup]="ideaForm" (ngSubmit)="addIdea()">
+        <div>
+            <mat-form-field appearance="outline">
+                <mat-label>Título</mat-label>
+                <input type="text" formControlName="title" matInput>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance="outline">
+                <mat-label>Descripción</mat-label>
+                <textarea formControlName="description" matInput></textarea>
+            </mat-form-field>
+        </div>
+        <div>
+            <button type="submit" mat-flat-button color="primary">Agregar</button>
+        </div>
+    </form>
+</div>
+
+<div class="grid">
+    @for(idea of ideas; track idea._id) {
+        <mat-card>
+            <mat-card-header>
+                <h3 mat-card-title>{{idea.title}}</h3>
+            </mat-card-header>
+            <mat-card-content>
+                <p>{{idea.description}}</p>
+                <p>Por {{idea.user.firstname}} {{idea.user.lastname}}</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-fab extended type="button" (click)="dislike(idea)" [style]="'margin-right: 12px;' + (iDislikedIt(idea) ? 'background-color: #005cbb;' : '')">
+                    <mat-icon>thumb_down</mat-icon> {{ dislikes(idea) }}
+                </button>
+                <button mat-fab extended type="button" (click)="like(idea)" [style]="(iLikedIt(idea) ? 'background-color: #005cbb;' : '')">
+                    <mat-icon>thumb_up</mat-icon> {{ likes(idea) }}
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    }
+</div>
