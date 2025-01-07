@@ -123,11 +123,16 @@ export class HomeComponent {
       isNew: true,
     },
     {
-      name: 'Generador de Actividades',
-      description: 'Actividades completas en segundos.',
-      link: ['/activity-generator'],
-      icon: '/assets/activities.svg',
-      // icon: '/assets/icons/education/PNG/creativity-svgrepo-com.png',
+      name: 'Generador de Lecturas Guiadas',
+      description: 'Genera actividades de lectura de cualquier nivel.',
+      link: ['/guided-reading-activities'],
+      icon: '/assets/icons/education/PNG/creativity-svgrepo-com.png',
+    },
+    {
+      name: 'Generador de Listas de Cotejo',
+      description: 'Genera listas de cotejo de forma rápida y fácil',
+      link: ['/checklist-generator'],
+      icon: '/assets/icons/education/PNG/creativity-svgrepo-com.png',
     },
     {
       name: 'Mis Secciones',
@@ -275,6 +280,12 @@ export class HomeComponent {
       link: ['/tasks'],
       icon: '/assets/checklist.svg',
       // icon: '/assets/icons/education/PNG/read-svgrepo-com.png',
+    },
+    {
+      name: 'Generador de Horarios',
+      description: 'Un simple generador de horarios de clase JEE',
+      link: ['/schedule-generator'],
+      icon: '/assets/icons/education/PNG/calendar-svgrepo-com.png'
     },
     {
       link: ['/collab'],

@@ -24,7 +24,7 @@ export class ActivitiesComponent {
   categories = [
     {
       title: 'Lecturas Guiadas',
-      route: '/activities/reading',
+      route: '/reading-activity',
     }
   ]
 

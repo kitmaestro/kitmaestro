@@ -30,19 +30,27 @@ export const routes: Routes = [
     { path: 'profile', loadComponent: () => import('./user-profile/user-profile.component').then(mod => mod.UserProfileComponent) },
     { path: 'referrals', loadComponent: () => import('./referrals/referrals.component').then(mod => mod.ReferralsComponent) },
 
+    // utility links
     { path: 'print-unit-plan/:id', loadComponent: () => import('./class-planning/unit-plan-detail/unit-plan-detail.component').then(mod => mod.UnitPlanDetailComponent) },
+    
+    // todo
     { path: 'todos', loadComponent: () => import('./todo-lists/todo-lists.component').then(mod => mod.TodoListsComponent) },
     { path: 'todos/:id', loadComponent: () => import('./todos/todos.component').then(mod => mod.TodosComponent) },
-    // Datacenter
+    
+    // sections
     { path: 'sections', loadComponent: () => import('./class-sections/class-sections/class-sections.component').then(mod => mod.ClassSectionsComponent) },
     { path: 'sections/:id', loadComponent: () => import('./class-sections/section-details/section-details.component').then(mod => mod.SectionDetailsComponent) },
+    
     // calculators
     { path: 'average-calculator', loadComponent: () => import('./calculators/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent) },
     { path: 'attendance-calculator', loadComponent: () => import('./calculators/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent) },
+    
     // Activities
+    { path: 'guided-reading-activities', loadComponent: () => import('./generators/reading-activity-generator/reading-activity-generator.component').then(mod => mod.ReadingActivityGeneratorComponent) },
     { path: 'activities', loadComponent: () => import('./activities/activities/activities.component').then(mod => mod.ActivitiesComponent) },
     { path: 'activities/reading', loadComponent: () => import('./activities/reading-activities/reading-activities.component').then(mod => mod.ReadingActivitiesComponent) },
     { path: 'activities/reading/:id', loadComponent: () => import('./activities/reading-activity-detail/reading-activity-detail.component').then(mod => mod.ReadingActivityDetailComponent) },
+    
     // Generators
     { path: 'schedule-generator', loadComponent: () => import('./generators/schedule-generator/schedule-generator.component').then(mod => mod.ScheduleGeneratorComponent) },
     { path: 'grades-generator', loadComponent: () => import('./generators/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },
@@ -57,6 +65,7 @@ export const routes: Routes = [
     { path: 'math-worksheet-generator', loadComponent: () => import('./generators/math-worksheet-generator/math-worksheet-generator.component').then(mod => mod.MathWorksheetGeneratorComponent) },
     { path: 'spanish-worksheet-generator', loadComponent: () => import('./generators/spanish-worksheet-generator/spanish-worksheet-generator.component').then(mod => mod.SpanishWorksheetGeneratorComponent) },
     { path: 'english-worksheet-generator', loadComponent: () => import('./generators/english-worksheet-generator/english-worksheet-generator.component').then(mod => mod.EnglishWorksheetGeneratorComponent) },
+    
     // worksheet builders
     { path: 'wordsearch', loadComponent: () => import('./builders/wordsearch/wordsearch.component').then(m => m.WordsearchComponent) },
     { path: 'word-scramble', loadComponent: () => import('./builders/word-scramble/word-scramble.component').then(m => m.WordScrambleComponent) },

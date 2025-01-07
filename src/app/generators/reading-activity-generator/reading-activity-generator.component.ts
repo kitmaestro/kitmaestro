@@ -14,6 +14,9 @@ import { UserSettingsService } from '../../services/user-settings.service';
 import { NgIf } from '@angular/common';
 import { ReadingActivityService } from '../../services/reading-activity.service';
 import { UserSettings } from '../../interfaces/user-settings';
+import { ClassSectionService } from '../../services/class-section.service';
+import { ClassSection } from '../../interfaces/class-section';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
     selector: 'app-reading-activity-generator',
@@ -38,9 +41,12 @@ export class ReadingActivityGeneratorComponent {
   private pdfService = inject(PdfService);
   private userSettingsService = inject(UserSettingsService);
   private acitivtyService = inject(ReadingActivityService);
+  private classSectionService = inject(ClassSectionService);
 
   public userSettings$ = this.userSettingsService.getSettings();
   public user: UserSettings | null = null;
+  public sections: ClassSection[] = [];
+  public section: ClassSection | null = null;
 
   generating = false;
 
@@ -53,43 +59,56 @@ export class ReadingActivityGeneratorComponent {
     answers: string[];
   } | null = null;
 
-  difficultyLevels = [
-    { id: 'easy', label: 'Facil (3ro primaria - 4to primaria)' },
-    { id: 'normal', label: 'Normal (5to primaria - 6to primaria)' },
-    { id: 'advanced', label: 'Avanzado (1ro secundaria - 3ro secundaria)' },
-    { id: 'hard', label: 'Dificil (4to secundaria - 6to secundaria)' },
-  ];
-
   bloomLevels = [
-    { id: 'knowledge', label: 'Recordar' },
-    { id: 'undertanding', label: 'Comprender' },
-    { id: 'application', label: 'Aplicar' },
-    { id: 'analysis', label: 'Analizar' },
-    { id: 'evaluation', label: 'Evaluar' },
-    { id: 'creation', label: 'Crear' },
+    'Recordar',
+    'Comprender',
+    'Aplicar',
+    'Analizar',
+    'Evaluar',
+    'Crear',
   ]
 
   activityForm = this.fb.group({
-    difficulty: ['easy'],
-    level: ['knowledge'],
+    section: ['', Validators.required],
+    level: ['Recordar'],
     questions: [5, [Validators.min(1), Validators.max(15)]],
   });
 
   ngOnInit() {
     this.userSettingsService.getSettings().subscribe(user => this.user = user);
+    this.classSectionService.findSections().subscribe({
+      next: sections => {
+        this.sections = sections;
+      }
+    });
+  }
+
+  onSectionSelect(event: any) {
+    const id: string = event.value;
+    const section = this.sections.find(s => s._id == id);
+    if (section) {
+      this.section = section;
+    }
   }
 
   onSubmit() {
     this.generateActivity(this.activityForm.value);
   }
 
+  pretify(str: string) {
+    return (new PretifyPipe()).transform(str);
+  }
+
   generateActivity(form: any) {
-    const text = `Escribe un texto de nivel ${this.difficultyLevels.find(dl => dl.id == form.difficulty)?.label.toLowerCase()} y ${form.questions} preguntas de comprensión lectora adecuadas para trabajar/evaluar el proceso cognitivo de ${this.bloomLevels.find(bl => bl.id == form.level)?.label.toLowerCase()}. Responde con formato JSON valido con esta interfaz:
+    const section = this.sections.find(section => section._id == form.section);
+    if (!section)
+      return;
+    const text = `Escribe un texto de un nivel adecuado para alumnos de ${this.pretify(section.year)} grado de ${this.pretify(section.level)} y ${form.questions} preguntas de comprensión lectora adecuadas para trabajar/evaluar el proceso cognitivo de ${form.level.toLowerCase()}. Responde con formato JSON valido con esta interfaz:
 {
-    textTitle: string;
-    textContent: string;
-    questions: string[];
-    answers: string[];
+    "textTitle": string;
+    "textContent": string;
+    "questions": string[];
+    "answers": string[];
 }`;
     this.generating = true;
     this.aiService.geminiAi(text)
@@ -120,10 +139,10 @@ export class ReadingActivityGeneratorComponent {
   }
 
   save() {
-    const { difficulty, level } = this.activityForm.value;
+    const { section, level } = this.activityForm.value;
     const activity: any = {
       user: this.user?._id,
-      difficulty,
+      section,
       level,
       title: this.text?.textTitle,
       text: this.text?.textContent,
