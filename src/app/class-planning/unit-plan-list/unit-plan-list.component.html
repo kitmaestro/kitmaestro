@@ -1,26 +1,27 @@
-<app-is-premium>
-  <mat-card>
-    <mat-card-header class="header">
-      <h2 mat-card-title class="title">Mis Unidades de Aprendizaje</h2>
-      <button mat-raised-button class="title-button" color="accent" [routerLink]="['/unit-plans']">Crear Nueva Unidad</button>
-    </mat-card-header>
-    <mat-card-content>
-      @if (loading) {
-        <div style="text-align: center;">
-          <app-loading-icon></app-loading-icon>
-        </div>
-      }
-      <mat-nav-list>
-        @for (plan of unitPlans$ | async; track $index) {
+<mat-card>
+  <mat-card-header class="header">
+    <h2 mat-card-title class="title">Mis Unidades de Aprendizaje</h2>
+    <button mat-raised-button class="title-button" color="accent" [routerLink]="['/unit-plans']">Crear Nueva Unidad</button>
+  </mat-card-header>
+  <mat-card-content>
+    @if (loading) {
+      <div style="text-align: center;">
+        <app-loading-icon></app-loading-icon>
+      </div>
+    }
+    <mat-nav-list>
+      @for (plan of unitPlans$ | async; track $index) {
         <mat-list-item>
           <a mat-list-item [routerLink]="['/unit-plans', plan._id]">#{{ $index + 1 }} - {{ plan.title }} - {{ plan.section.name }} -
-            {{ pretifySubjects(plan.subjects) }}</a>
+            @for (subject of plan.subjects; track $index) {
+              {{ subject | pretify }}{{ $index == (plan.subjects.length - 1) ? '' : ', '}}
+            }
+          </a>
           <button mat-icon-button color="warn" (click)="deletePlan(plan._id)" matListItemMeta>
             <mat-icon>delete</mat-icon>
           </button>
         </mat-list-item>
-        }
-      </mat-nav-list>
-    </mat-card-content>
-  </mat-card>
-</app-is-premium>
+      }
+    </mat-nav-list>
+  </mat-card-content>
+</mat-card>

@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -13,7 +13,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AppTileComponent } from '../app-tile/app-tile.component';
 import { FavoritesService } from '../services/favorites.service';
-import { map, Observable } from 'rxjs';
 
 @Component({
     selector: 'app-home',
@@ -30,7 +29,6 @@ import { map, Observable } from 'rxjs';
         ReactiveFormsModule,
         MatInputModule,
         AppTileComponent,
-        AsyncPipe,
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
@@ -169,21 +167,21 @@ export class HomeComponent {
     {
       name: 'Generador de Guía de Observación',
       description: 'Elabora una guía de observación para tus actividades.',
-      link: ["/assessments", "observation-sheet"],
+      link: ["/observation-sheet"],
       icon: '/assets/checklist.svg',
       // icon: '/assets/icons/education/PNG/math-svgrepo-com.png',
     },
     {
       name: 'Generador de Rúbricas',
       description: 'Genera rúbricas para cualquier tema y nivel.',
-      link: ["/assessments", "rubric"],
+      link: ["/rubric"],
       icon: '/assets/checklist.svg',
       // icon: '/assets/icons/education/PNG/math-svgrepo-com.png',
     },
     {
       name: 'Generador de Escala de Estimación',
       description: 'Escalas de estimación para evaluar.',
-      link: ["/assessments", "estimation-scale"],
+      link: ["/estimation-scale"],
       icon: '/assets/checklist.svg',
       // icon: '/assets/icons/education/PNG/math-svgrepo-com.png',
     },
@@ -288,121 +286,91 @@ export class HomeComponent {
     {
       name: 'Ordena las Palabras',
       description: 'Genera palabras desordenadas para ordenar.',
-      link: ['/worksheet-builders','word-scramble'],
+      link: ['/word-scramble'],
       icon: '/assets/undraw_specs_re_546x.svg'
     },
     {
       name: 'Parea Sinónimos',
       description: 'Genera hojas de ejercicios para parear sinónimos.',
-      link: ['/worksheet-builders','synonyms'],
+      link: ['/synonyms'],
       icon: '/assets/undraw_file_searching_re_3evy.svg'
     },
     {
       name: 'Parea Antónimos',
       description: 'Genera hojas de ejercicios para parear antónimos.',
-      link: ['/worksheet-builders','antonyms'],
+      link: ['/antonyms'],
       icon: '/assets/undraw_file_searching_re_3evy.svg'
     },
     {
       name: 'Crucigramas',
       description: 'Genera crucigramas para tus alumnos.',
-      link: ['/worksheet-builders','crosswords'],
+      link: ['/crosswords'],
       icon: '/assets/undraw_file_searching_re_3evy.svg'
     },
     {
       name: 'Sopas de Letras',
       description: 'Genera sopas de letras por niveles y respuestas.',
-      link: ['/worksheet-builders','wordsearch'],
+      link: ['/wordsearch'],
       icon: '/assets/undraw_file_searching_re_3evy.svg'
     },
     {
       name: 'Suma',
       description: 'Genera Hojas de suma con hoja de respuestas.',
-      link: [
-        '/worksheet-builders',
-        'addition'
-      ],
+      link: ['/addition'],
       icon: '/assets/undraw_new_entries_re_cffr.svg'
     },
     {
       name: 'Resta',
       description: 'Genera Hojas de resta con hoja de respuestas.',
-      link: [
-        '/worksheet-builders',
-        'subtraction'
-      ],
+      link: ['/subtraction'],
       icon: '/assets/undraw_new_entries_re_cffr.svg'
     },
     {
       name: 'Multiplicación',
       description: 'Genera Hojas de multiplicación con sus respuestas.',
-      link: [
-        '/worksheet-builders',
-        'multiplication'
-      ],
+      link: ['/multiplication'],
       icon: '/assets/undraw_new_entries_re_cffr.svg'
     },
     {
       name: 'División',
       description: 'Genera Hojas de división con hoja de respuestas.',
-      link: [
-        '/worksheet-builders',
-        'division'
-      ],
+      link: ['/division'],
       icon: '/assets/undraw_new_entries_re_cffr.svg'
     },
     {
       name: 'Ejercicios Mixtos',
       description: 'Genera ejercicios mixtos de operaciones basicas.',
-      link: [
-        '/worksheet-builders',
-        'mixed-operations'
-      ],
+      link: ['/mixed-operations'],
       icon: '/assets/undraw_new_entries_re_cffr.svg'
     },
     {
       name: 'Ecuaciones',
       description: 'Ejercicios con ecuaciones',
-      link: [
-        '/worksheet-builders',
-        'equations'
-      ],
+      link: ['/equations'],
       icon: '/assets/undraw_new_entries_re_cffr.svg'
     },
     {
       name: 'Papel Cuadriculado',
       description: 'Genera Hojas cuadriculadas para geometría.',
-      link: [
-        '/worksheet-builders',
-        'graph-paper'
-      ],
+      link: ['/graph-paper'],
       icon: '/assets/undraw_new_entries_re_cffr.svg'
     },
     {
       name: 'Recta Numérica',
       description: 'Genera Hojas de ejercicios con la recta numérica.',
-      link: [
-        '/worksheet-builders',
-        'number-line'
-      ],
+      link: ['/number-line'],
       icon: '/assets/undraw_new_entries_re_cffr.svg'
     },
     {
       name: 'Planos Cartesianos',
       description: 'Genera Hojas con plantillas de planos cartesianos.',
-      link: [
-        '/worksheet-builders',
-        'cartesian-coordinates'
-      ],
+      link: ['/cartesian-coordinates'],
       icon: '/assets/undraw_new_entries_re_cffr.svg'
     },
     {
       name: 'Sudoku',
       description: 'Genera Sudoku de diferentes niveles de dificultad y sus respuestas.',
-      link: [
-        '/worksheet-builders',
-        'sudoku'
-      ],
+      link: ['/sudoku'],
       icon: '/assets/undraw_game_day_ucx9.svg'
     },
     {

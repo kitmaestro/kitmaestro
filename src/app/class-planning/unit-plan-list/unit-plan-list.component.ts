@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingIconComponent } from '../../ui/loading-icon/loading-icon.component';
 import { tap } from 'rxjs';
 import { UnitPlanService } from '../../services/unit-plan.service';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
     selector: 'app-unit-plan-list',
@@ -22,6 +23,7 @@ import { UnitPlanService } from '../../services/unit-plan.service';
         RouterModule,
         MatIconModule,
         LoadingIconComponent,
+        PretifyPipe,
     ],
     templateUrl: './unit-plan-list.component.html',
     styleUrl: './unit-plan-list.component.scss'
@@ -42,34 +44,4 @@ export class UnitPlanListComponent {
       }
     });
   }
-
-  pretifySubjects(arr: string[]) {
-    return arr.map(s => this.pretify(s));
-  }
-
-  pretify(str: string) {
-    switch (str) {
-      case 'LENGUA_ESPANOLA':
-        return 'Lengua Española';
-      case 'MATEMATICA':
-        return 'Matemática';
-      case 'CIENCIAS_SOCIALES':
-        return 'Ciencias Sociales';
-      case 'CIENCIAS_NATURALES':
-        return 'Ciencias de la Naturaleza';
-      case 'INGLES':
-        return 'Inglés';
-      case 'FRANCES':
-        return 'Francés';
-      case 'FORMACION_HUMANA':
-        return 'Formación Integral Humana y Religiosa';
-      case 'EDUCACION_FISICA':
-        return 'Educación Física';
-      case 'EDUCACION_ARTISTICA':
-        return 'Educación Artística';
-      default:
-        return 'Talleres Optativos';
-    }
-  }
-
 }

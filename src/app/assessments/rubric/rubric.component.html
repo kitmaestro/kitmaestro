@@ -11,35 +11,40 @@
                 </mat-form-field>
             </div>
             <div class="grid-3-cols">
-                <mat-form-field style="max-width: 100%;" appearance="outline" *ngIf="(sections$ | async) as sections; else noSections">
-                    <mat-label>Curso</mat-label>
-                    <mat-select formControlName="section">
-                        @for(section of sections; track section._id) {
-                            <mat-option [value]="section._id">{{section.name}}</mat-option>
-                        }
-                    </mat-select>
-                </mat-form-field>
-                <ng-template #noSections>
-                    <div>
-                        <div>Para usar esta herramienta, primero tienes que crear una secci&oacute;n.</div>
+                @if (sections.length) {
+                    <mat-form-field style="max-width: 100%;" appearance="outline">
+                        <mat-label>Curso</mat-label>
+                        <mat-select formControlName="section" (selectionChange)="onSelectSection($event)">
+                            @for(section of sections; track section._id) {
+                                <mat-option [value]="section._id">{{section.name}}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                } @else {
+                    @if (!loading) {
                         <div>
-                            <button mat-raised-button color="accent" type="button" [routerLink]="['/sections']">Crear Una Secci&oacute;n</button>
+                            <div>Para usar esta herramienta, primero tienes que crear una secci&oacute;n.</div>
+                            <div>
+                                <button mat-raised-button color="accent" type="button" [routerLink]="['/sections']">Crear Una Secci&oacute;n</button>
+                            </div>
                         </div>
-                    </div>
-                </ng-template>
+                    }
+                }
                 <mat-form-field appearance="outline">
                     <mat-label>Asignatura</mat-label>
-                    <mat-select formControlName="subject">
-                        @for(subject of sectionSubjects; track subject) {
-                            <mat-option [value]="subject">{{pretify(subject)}}</mat-option>
+                    <mat-select formControlName="subject" (selectionChange)="onSubjectSelect($event)">
+                        @for(subject of subjects; track subject) {
+                            <mat-option [value]="subject">{{subject | pretify}}</mat-option>
                         }
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Contenido</mat-label>
-                    <mat-select formControlName="content">
-                        @for(content of subjectContents; track content) {
-                            <mat-option [value]="content">{{content}}</mat-option>
+                    <mat-select formControlName="content" (selectionChange)="onConceptSelect($event)">
+                        @for(list of subjectConceptLists; track list) {
+                            @for(concept of list.concepts; track concept) {
+                                <mat-option [value]="concept">{{concept}}</mat-option>
+                            }
                         }
                     </mat-select>
                 </mat-form-field>
@@ -72,7 +77,7 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Indicadores de Logro</mat-label>
                     <mat-select multiple formControlName="achievementIndicators">
-                        @for (indicator of contentAchievementIndicators; track $index) {
+                        @for (indicator of achievementIndicators; track indicator) {
                             <mat-option [value]="indicator">{{indicator}}</mat-option>
                         }
                     </mat-select>
@@ -106,13 +111,10 @@
                 </div>
             }
             <div style="text-align: end;">
+                <button type="button" [disabled]="!rubric" mat-raised-button color="accent" style="margin-right: 12px;" (click)="save()">Guardar</button>
                 <button type="submit" [disabled]="rubricForm.invalid || generating" mat-raised-button [color]="rubric ? 'link' : 'primary'">
                     {{ generating ? 'Generando...' : rubric ? 'Regenerar' : 'Generar' }}
                 </button>
-                @if (rubric) {
-                    <button type="button" mat-raised-button color="accent" style="margin-left: 12px;" (click)="print()">Descargar como PDF</button>
-                    <button type="button" mat-raised-button color="primary" style="margin-left: 12px;" (click)="save()">Guardar</button>
-                }
             </div>
         </form>
     </mat-card-content>
@@ -126,7 +128,7 @@
                     <h2 style="margin-bottom: 4px;">R&uacute;brica</h2>
                     <h3 style="margin-bottom: 4px;">{{rubric.title}}</h3>
                 </div>
-                <h3 style="text-align: end;" *ngIf="selectedSection">{{ selectedSection.year[0] + selectedSection.year.toLowerCase().slice(1) }} grado, seccion {{ selectedSection.name.trim().split('').reverse()[0].toUpperCase() }}</h3>
+                <h3 style="text-align: end;" *ngIf="section">{{ section.year[0] + section.year.toLowerCase().slice(1) }} grado, seccion {{ section.name.trim().split('').reverse()[0].toUpperCase() }}</h3>
                 <div style="display: flex; gap: 12px; margin-bottom: 12px;">
                     <div style="font-weight: bold;">Estudiante:</div>
                     <div style="border-bottom: 1px solid black; width: 100%; flex: 1 1 auto;"></div>

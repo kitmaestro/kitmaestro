@@ -13,38 +13,16 @@ import { UserSettingsService } from '../../services/user-settings.service';
 import { Rubric } from '../../interfaces/rubric';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { tap } from 'rxjs';
-import { SPANISH_CONTENTS } from '../../data/spanish-contents';
-import { MATH_CONTENTS } from '../../data/math-contents';
-import { SOCIETY_CONTENTS } from '../../data/society-contents';
-import { SCIENCE_CONTENTS } from '../../data/science-contents';
-import { ENGLISH_CONTENTS } from '../../data/english-contents';
-import { FRENCH_CONTENTS } from '../../data/french-contents';
-import { SPORTS_CONTENTS } from '../../data/sports-contents';
-import { ART_CONTENTS } from '../../data/art-contents';
-import { RELIGION_CONTENTS } from '../../data/religion-contents';
-import { ART_COMPETENCE } from '../../data/art-competence';
-import { ENGLISH_COMPETENCE } from '../../data/english-competence';
-import { SPANISH_COMPETENCE } from '../../data/spanish-competence';
-import { MATH_COMPETENCE } from '../../data/math-competence';
-import { SOCIETY_COMPETENCE } from '../../data/society-competence';
-import { SCIENCE_COMPETENCE } from '../../data/science-competence';
-import { FRENCH_COMPETENCE } from '../../data/french-competence';
-import { RELIGION_COMPETENCE } from '../../data/religion-competence';
-import { SPORTS_COMPETENCE } from '../../data/sports-competence';
-import spanishContentBlocks from '../../data/spanish-content-blocks.json';
-import mathContentBlocks from '../../data/math-content-blocks.json';
-import societyContentBlocks from '../../data/society-content-blocks.json';
-import scienceContentBlocks from '../../data/science-content-blocks.json';
-import englishContentBlocks from '../../data/english-content-blocks.json';
-import sportsContentBlocks from '../../data/sports-content-blocks.json';
-import religionContentBlocks from '../../data/religion-content-blocks.json';
-import artContentBlocks from '../../data/art-content-blocks.json';
-import { PdfService } from '../../services/pdf.service';
 import { Student } from '../../interfaces/student';
 import { StudentsService } from '../../services/students.service';
 import { AiService } from '../../services/ai.service';
 import { ClassSection } from '../../interfaces/class-section';
+import { SubjectConceptListService } from '../../services/subject-concept-list.service';
+import { ContentBlockService } from '../../services/content-block.service';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
+import { ContentBlock } from '../../interfaces/content-block';
+import { SubjectConceptList } from '../../interfaces/subject-concept-list';
+import { CompetenceService } from '../../services/competence.service';
 
 @Component({
     selector: 'app-rubric',
@@ -60,25 +38,36 @@ import { ClassSection } from '../../interfaces/class-section';
         NgIf,
         AsyncPipe,
         RouterLink,
+        PretifyPipe,
     ],
     templateUrl: './rubric.component.html',
     styleUrl: './rubric.component.scss'
 })
 export class RubricComponent {
-  sb = inject(MatSnackBar);
-  fb = inject(FormBuilder);
-  rubricService = inject(RubricService);
-  aiService = inject(AiService);
-  sectionsService = inject(ClassSectionService);
-  router = inject(Router);
-  userSettingsService = inject(UserSettingsService);
-  studentsService = inject(StudentsService);
-  pdfService = inject(PdfService);
+  private sb = inject(MatSnackBar);
+  private fb = inject(FormBuilder);
+  private rubricService = inject(RubricService);
+  private aiService = inject(AiService);
+  private sectionsService = inject(ClassSectionService);
+  private router = inject(Router);
+  private userSettingsService = inject(UserSettingsService);
+  private studentsService = inject(StudentsService);
+  private competenceService = inject(CompetenceService);
+  private sclService = inject(SubjectConceptListService);
+  private contentBlockService = inject(ContentBlockService);
 
   sections: ClassSection[] = [];
+  subjects: string[] = [];
+  contentBlocks: ContentBlock[] = [];
+  subjectConceptLists: SubjectConceptList[] = [];
+  achievementIndicators: string[] = [];
+
+  // selected data
+  section: ClassSection | null = null;
+
+  competence: string[] = [];
 
   userSettings$ = this.userSettingsService.getSettings();
-  sections$ = this.sectionsService.findSections().pipe(tap(sections => this.sections = sections));
 
   rubricTypes = [
     { id: 'SINTETICA', label: 'Sintética (Holística)' },
@@ -88,6 +77,7 @@ export class RubricComponent {
   rubric: Rubric | null = null;
 
   generating = false;
+  loading = true;
 
   students: Student[] = [];
 
@@ -109,6 +99,76 @@ export class RubricComponent {
     ]),
   });
 
+  ngOnInit() {
+    this.loadSections();
+  }
+
+  loadSections() {
+    this.loading = true;
+    this.sectionsService.findSections().subscribe({
+      next: sections => {
+        this.sections = sections;
+      },
+      error: err => {
+        console.log(err)
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
+
+  loadContentBlocks() {
+    this.loading = true;
+  }
+
+  onSelectSection(event: any) {
+    const id = event.value;
+    const section = this.sections.find(s => s._id == id);
+    if (section) {
+      this.section = section;
+      this.subjects = section.subjects;
+    }
+  }
+
+  onSubjectSelect(event: any) {
+    const subject = event.value;
+    if (this.section) {
+      this.sclService.findAll({ subject, grade: this.section.year, level: this.section.level }).subscribe({
+        next: res => {
+          this.subjectConceptLists = res;
+        }
+      });
+    }
+  }
+
+  onConceptSelect(event: any) {
+    const concept = event.value;
+    const subject = this.rubricForm.get('subject')?.value || '';
+    if (this.section) {
+      this.competenceService.findAll({ subject, grade: this.section.year, level: this.section.level }).subscribe({
+        next: res => {
+          this.competence = res.flatMap(entry => entry.entries[Math.round(Math.random() * (entry.entries.length - 1))])
+        }
+      })
+      this.contentBlockService.findAll({ subject, year: this.section.year, level: this.section.level, title: concept }).subscribe({
+        next: res => {
+          this.contentBlocks = res;
+          res.forEach(block => {
+            const indicators: string[] = [];
+            block.achievement_indicators.forEach(indicator => {
+              if (!indicators.includes(indicator)) {
+                indicators.push(indicator);
+              }
+            })
+            this.achievementIndicators = indicators;
+          })
+        }
+      })
+    }
+  }
+
   onSubmit() {
     this.generating = true;
     this.loadStudents();
@@ -128,82 +188,11 @@ export class RubricComponent {
     const rubric: any = this.rubric;
     this.rubricService.create(rubric).subscribe(res => {
       if (res._id) {
-        this.router.navigate(['/assessments/rubrics/', res._id]).then(() => {
+        this.router.navigate(['/rubrics/', res._id]).then(() => {
           this.sb.open('El instrumento ha sido guardado.', 'Ok', { duration: 2500 });
         });
       }
     });
-  }
-
-  findCurriculumData(level: string, grade: string, subject: string, content: string): { achievementIndicators: string[], competence: string[] } {
-    let block: any = null;
-    const achievementIndicators: string[] = [];
-    const all = this.competence;
-    const competence: string[] = [...all.Comunicativa, ...all.PensamientoLogico, ...all.EticaYCiudadana];
-
-    if (level == 'PRIMARIA') {
-      switch (subject) {
-        case 'LENGUA_ESPANOLA':
-          block = spanishContentBlocks.find(cb => cb.year == grade && cb.title == content)
-          if (block) {
-            achievementIndicators.push(...block.achievement_indicators);
-          }
-          break;
-        case 'MATEMATICA':
-          block = mathContentBlocks.find(cb => cb.year == grade && cb.title == content)
-          if (block) {
-            achievementIndicators.push(...block.achievement_indicators);
-          }
-          break;
-        case 'CIENCIAS_SOCIALES':
-          block = societyContentBlocks.find(cb => cb.year == grade && cb.title == content)
-          if (block) {
-            achievementIndicators.push(...block.achievement_indicators);
-          }
-          break;
-        case 'CIENCIAS_NATURALES':
-          block = scienceContentBlocks.find(cb => cb.year == grade && cb.title == content)
-          if (block) {
-            achievementIndicators.push(...block.achievement_indicators);
-          }
-          break;
-        case 'INGLES':
-          block = englishContentBlocks.find(cb => cb.year == grade && cb.title == content)
-          if (block) {
-            achievementIndicators.push(...block.achievement_indicators);
-          }
-          break;
-        case 'FRANCES':
-          // block = ContentBlocks.find(cb => cb.year == grade && cb.title == content)
-          // if (block) {
-          //   achievementIndicators.push(...block.achievement_indicators);
-          // }
-          break;
-        case 'FORMACION_HUMANA':
-          block = religionContentBlocks.find(cb => cb.year == grade && cb.title == content)
-          if (block) {
-            achievementIndicators.push(...block.achievement_indicators);
-          }
-          break;
-        case 'EDUCACION_FISICA':
-          block = sportsContentBlocks.find(cb => cb.year == grade && cb.title == content)
-          if (block) {
-            achievementIndicators.push(...block.achievement_indicators);
-          }
-          break;
-        case 'EDUCACION_ARTISTICA':
-          block = artContentBlocks.find(cb => cb.year == grade && cb.title == content)
-          if (block) {
-            achievementIndicators.push(...block.achievement_indicators);
-          }
-          break;
-        default:
-          // block = ContentBlocks.find(cb => cb.year == grade && cb.title == content)
-          break;
-      }
-    }
-
-    return { achievementIndicators, competence }
   }
 
   createRubric(formValue: any) {
@@ -220,19 +209,14 @@ export class RubricComponent {
       levels,
       achievementIndicators
     } = formValue;
-    const selectedSection = this.sections.find(s => s._id == this.rubricForm.get('section')?.value);
-    if (!selectedSection)
+    if (!this.section)
       return;
-    const curriculumData: {
-      achievementIndicators: string[],
-      competence: string[],
-    } = this.findCurriculumData(selectedSection.level, selectedSection.year, subject, content);
     const data = {
       title,
       minScore,
       maxScore,
-      level: selectedSection.level,
-      grade: selectedSection.year,
+      level: this.section.level,
+      grade: this.section.year,
       section,
       subject: this.pretify(subject),
       content,
@@ -240,10 +224,10 @@ export class RubricComponent {
       scored,
       rubricType,
       achievementIndicators,
-      competence: curriculumData.competence,
+      competence: this.competence,
       levels
     };
-    const text = `Necesito que me construyas en contenido de una rubrica ${rubricType == 'SINTETICA' ? 'Sintética (Holística)' : 'Analítica (Global)'} para evaluar el contenido de "${content}" de ${data.subject} de ${selectedSection.year} grado de educación ${selectedSection.level}.
+    const text = `Necesito que me construyas en contenido de una rubrica ${rubricType == 'SINTETICA' ? 'Sintética (Holística)' : 'Analítica (Global)'} para evaluar el contenido de "${content}" de ${data.subject} de ${this.section.year} grado de educación ${this.section.level}.
 La rubrica sera aplicada tras esta actividad/evidencia: ${activity}.${scored ? ' La rubrica tendra un valor de ' + minScore + ' a ' + maxScore + ' puntos.' : ''}
 Los criterios a evaluar deben estar basados en estos indicadores de logro:
 - ${achievementIndicators.join('\n- ')}
@@ -274,11 +258,11 @@ Tu respuesta debe ser un json valido con esta interfaz:
           title: obj.title ? obj.title : title,
           rubricType,
           section,
-          competence: curriculumData.competence,
+          competence: this.competence,
           achievementIndicators,
           activity,
           progressLevels: levels,
-          user: selectedSection.user
+          user: this.section?.user
         }
         this.rubric = rubric;
         this.generating = false;
@@ -300,230 +284,14 @@ Tu respuesta debe ser un json valido con esta interfaz:
   }
 
   pretify(str: string) {
-    switch (str) {
-      case 'LENGUA_ESPANOLA':
-        return 'Lengua Española';
-      case 'MATEMATICA':
-        return 'Matemática';
-      case 'CIENCIAS_SOCIALES':
-        return 'Ciencias Sociales';
-      case 'CIENCIAS_NATURALES':
-        return 'Ciencias de la Naturaleza';
-      case 'INGLES':
-        return 'Inglés';
-      case 'FRANCES':
-        return 'Francés';
-      case 'FORMACION_HUMANA':
-        return 'Formación Integral Humana y Religiosa';
-      case 'EDUCACION_FISICA':
-        return 'Educación Física';
-      case 'EDUCACION_ARTISTICA':
-        return 'Educación Artística';
-      default:
-        return 'Talleres Optativos';
-    }
+    return (new PretifyPipe()).transform(str);
   }
 
   yearIndex(grade: string): number {
-    if (grade == 'PRIMERO') {
-      return 0;
-    }
-    if (grade == 'SEGUNDO') {
-      return 1;
-    }
-    if (grade == 'TERCERO') {
-      return 2;
-    }
-    if (grade == 'CUARTO') {
-      return 3;
-    }
-    if (grade == 'QUINTO') {
-      return 4;
-    }
-    return 5;
-  }
-
-  randomCompetence(categorized: any): string {
-    let random = 0;
-    switch (this.yearIndex(this.sections.find(s => s._id == this.rubricForm.get('section')?.value)?.year || '')) {
-      case 0:
-        random = Math.round(Math.random() * (categorized.Primero.competenciasEspecificas.length - 1))
-        return categorized.Primero.competenciasEspecificas[random];
-      case 1:
-        random = Math.round(Math.random() * (categorized.Segundo.competenciasEspecificas.length - 1))
-        return categorized.Segundo.competenciasEspecificas[random];
-      case 2:
-        random = Math.round(Math.random() * (categorized.Tercero.competenciasEspecificas.length - 1))
-        return categorized.Tercero.competenciasEspecificas[random];
-      case 3:
-        random = Math.round(Math.random() * (categorized.Cuarto.competenciasEspecificas.length - 1))
-        return categorized.Cuarto.competenciasEspecificas[random];
-      case 4:
-        random = Math.round(Math.random() * (categorized.Quinto.competenciasEspecificas.length - 1))
-        return categorized.Quinto.competenciasEspecificas[random];
-      case 5:
-        random = Math.round(Math.random() * (categorized.Sexto.competenciasEspecificas.length - 1))
-        return categorized.Sexto.competenciasEspecificas[random];
-      default:
-        return '';
-    }
-  }
-
-  print() {
-    if (!this.rubric)
-      return;
-    this.sb.open('Ya estamos exportando tu rubrica. Espera un momento.', undefined, { duration: 2500 });
-    this.pdfService.exportTableToPDF('rubric', this.rubric.title);
-  }
-
-  get selectedSection() {
-    return this.sections.find(section => section._id == this.rubricForm.get('section')?.value);
-  }
-
-  get classSectionLevel() {
-    return this.sections.find(s => s._id == this.rubricForm.get('section')?.value)?.level || '';
-  }
-
-  get subjectContents(): string[] {
-    const subject = this.rubricForm.get('subject')?.value;
-    const section = this.sections.find(s => s._id == this.rubricForm.get('section')?.value);
-    const contents: string[] = [];
-    if (subject && section) {
-      const year = this.yearIndex(section.year);
-      const primary = section.level == 'PRIMARIA';
-      switch (subject) {
-        case 'LENGUA_ESPANOLA':
-          contents.push(...(primary ? SPANISH_CONTENTS.primary : SPANISH_CONTENTS.highSchool)[year]);
-          break;
-        case 'MATEMATICA':
-          contents.push(...(primary ? MATH_CONTENTS.primary : MATH_CONTENTS.highSchool)[year]);
-          break;
-        case 'CIENCIAS_SOCIALES':
-          contents.push(...(primary ? SOCIETY_CONTENTS.primary : SOCIETY_CONTENTS.highSchool)[year]);
-          break;
-        case 'CIENCIAS_NATURALES':
-          contents.push(...(primary ? SCIENCE_CONTENTS.primary : SCIENCE_CONTENTS.highSchool)[year]);
-          break;
-        case 'INGLES':
-          contents.push(...(primary ? ENGLISH_CONTENTS.primary : ENGLISH_CONTENTS.highSchool)[year]);
-          break;
-        case 'FRANCES':
-          contents.push(...(primary ? FRENCH_CONTENTS.primary : FRENCH_CONTENTS.highSchool)[year]);
-          break;
-        case 'EDUCACION_FISICA':
-          contents.push(...(primary ? SPORTS_CONTENTS.primary : SPORTS_CONTENTS.highSchool)[year]);
-          break;
-        case 'FORMACION_HUMANA':
-          contents.push(...(primary ? ART_CONTENTS.primary : ART_CONTENTS.highSchool)[year]);
-          break;
-        case 'EDUCACION_ARTISTICA':
-          contents.push(...(primary ? RELIGION_CONTENTS.primary : RELIGION_CONTENTS.highSchool)[year]);
-          break;
-        default:
-          break;
-      }
-    }
-    return contents;
-  }
-
-  get sectionSubjects(): string[] {
-    const section = this.sections.find(s => s._id == this.rubricForm.get('section')?.value);
-    if (section) {
-      return section.subjects.map(s => s.trim());
-    }
-    return [] as string[];
+    return ['PRIMERO','SEGUNDO','TERCERO','CUARTO','QUINTO','SEXTO'].indexOf(grade);
   }
 
   get rubricLevels() {
     return this.rubricForm.get('levels') as FormArray;
-  }
-
-  get competence(): { Comunicativa: string[], PensamientoLogico: string[], EticaYCiudadana: string[],  } {
-    const comps: {
-      Comunicativa: string[],
-      PensamientoLogico: string[],
-      EticaYCiudadana: string[],
-    } = {
-      Comunicativa: [],
-      PensamientoLogico: [],
-      EticaYCiudadana: []
-    };
-
-    const { subject } = this.rubricForm.value;
-
-    if (subject == 'LENGUA_ESPANOLA') {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPANISH_COMPETENCE.Primaria.Comunicativa : SPANISH_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPANISH_COMPETENCE.Primaria.PensamientoLogico : SPANISH_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPANISH_COMPETENCE.Primaria.EticaYCiudadana : SPANISH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subject == 'MATEMATICA') {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? MATH_COMPETENCE.Primaria.Comunicativa : MATH_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? MATH_COMPETENCE.Primaria.PensamientoLogico : MATH_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? MATH_COMPETENCE.Primaria.EticaYCiudadana : MATH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subject == 'CIENCIAS_SOCIALES') {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SOCIETY_COMPETENCE.Primaria.Comunicativa : SOCIETY_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SOCIETY_COMPETENCE.Primaria.PensamientoLogico : SOCIETY_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SOCIETY_COMPETENCE.Primaria.EticaYCiudadana : SOCIETY_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subject == 'CIENCIAS_NATURALES') {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SCIENCE_COMPETENCE.Primaria.Comunicativa : SCIENCE_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SCIENCE_COMPETENCE.Primaria.PensamientoLogico : SCIENCE_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SCIENCE_COMPETENCE.Primaria.EticaYCiudadana : SCIENCE_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subject == 'INGLES') {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ENGLISH_COMPETENCE.Primaria.Comunicativa : ENGLISH_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ENGLISH_COMPETENCE.Primaria.PensamientoLogico : ENGLISH_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ENGLISH_COMPETENCE.Primaria.EticaYCiudadana : ENGLISH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subject == 'FRANCES') {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? FRENCH_COMPETENCE.Primaria.Comunicativa : FRENCH_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? FRENCH_COMPETENCE.Primaria.PensamientoLogico : FRENCH_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? FRENCH_COMPETENCE.Primaria.EticaYCiudadana : FRENCH_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subject == 'FORMACION_HUMANA') {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? RELIGION_COMPETENCE.Primaria.Comunicativa : RELIGION_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? RELIGION_COMPETENCE.Primaria.PensamientoLogico : RELIGION_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? RELIGION_COMPETENCE.Primaria.EticaYCiudadana : RELIGION_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subject == 'EDUCACION_FISICA') {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPORTS_COMPETENCE.Primaria.Comunicativa : SPORTS_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPORTS_COMPETENCE.Primaria.PensamientoLogico : SPORTS_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? SPORTS_COMPETENCE.Primaria.EticaYCiudadana : SPORTS_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    if (subject == 'EDUCACION_ARTISTICA') {
-      comps.Comunicativa.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ART_COMPETENCE.Primaria.Comunicativa : ART_COMPETENCE.Secundaria.Comunicativa));
-      comps.PensamientoLogico.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ART_COMPETENCE.Primaria.PensamientoLogico : ART_COMPETENCE.Secundaria.PensamientoLogico));
-      comps.EticaYCiudadana.push(this.randomCompetence(this.classSectionLevel == 'PRIMARIA' ? ART_COMPETENCE.Primaria.EticaYCiudadana : ART_COMPETENCE.Secundaria.EticaYCiudadana));
-    }
-
-    return comps;
-  }
-
-  get contentAchievementIndicators(): string[] {
-    const indicators: string[] = [];
-    const {
-      subject,
-      content
-    } = this.rubricForm.value;
-    const selectedSection = this.sections.find(s => s._id == this.rubricForm.get('section')?.value);
-    if (!selectedSection || !subject || !content)
-      return indicators;
-
-    const curriculumData: {
-      achievementIndicators: string[],
-      competence: string[],
-    } = this.findCurriculumData(selectedSection.level, selectedSection.year, subject, content);
-    indicators.push(...curriculumData.achievementIndicators);
-
-    return indicators;
   }
 }
