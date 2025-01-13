@@ -7,6 +7,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { RouterLink } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-users',
@@ -14,7 +16,9 @@ import { MatTableModule } from '@angular/material/table';
         MatCardModule,
         MatButtonModule,
         MatIconModule,
-        MatTableModule,
+		MatTableModule,
+		RouterLink,
+		DatePipe,
     ],
     templateUrl: './users.component.html',
     styleUrl: './users.component.scss'
@@ -25,7 +29,7 @@ export class UsersComponent {
 	private unitPlanService = inject(UnitPlanService);
 	private classPlanService = inject(ClassPlansService);
 
-	columns = ['name', 'actions']
+	columnsToDisplay = ['name', 'sex', 'email', 'phone', 'memberSince', 'actions']
 
 	users$ = this.userService.findAll();
 	subscriptions$ = this.subscriptionService.findAll();
