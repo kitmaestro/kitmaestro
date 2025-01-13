@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BiIconComponent } from '../../ui/bi-icon/bi-icon.component';
@@ -25,6 +26,7 @@ import { environment } from '../../../environments/environment';
         MatSnackBarModule,
         BiIconComponent,
         RouterModule,
+        MatCheckboxModule,
         MatDialogModule,
     ],
     templateUrl: './signup.component.html',
