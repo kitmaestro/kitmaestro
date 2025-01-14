@@ -17,6 +17,7 @@ import { UserSettings } from '../../interfaces/user-settings';
 import { ClassSectionService } from '../../services/class-section.service';
 import { ClassSection } from '../../interfaces/class-section';
 import { PretifyPipe } from '../../pipes/pretify.pipe';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-reading-activity-generator',
@@ -29,6 +30,7 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
         MatInputModule,
         MatFormFieldModule,
         MatSnackBarModule,
+        RouterModule,
         NgIf,
     ],
     templateUrl: './reading-activity-generator.component.html',
@@ -38,7 +40,7 @@ export class ReadingActivityGeneratorComponent {
   private fb = inject(FormBuilder);
   private sb = inject(MatSnackBar);
   private aiService = inject(AiService);
-  private pdfService = inject(PdfService);
+  private router = inject(Router);
   private userSettingsService = inject(UserSettingsService);
   private acitivtyService = inject(ReadingActivityService);
   private classSectionService = inject(ClassSectionService);
@@ -121,21 +123,14 @@ export class ReadingActivityGeneratorComponent {
               this.saved = false;
             }
           } catch (error) {
-            this.sb.open('Ocurrió mientras se generaba la actividad. Inténtalo de nuevo.', 'Ok', { duration: 2500 });
+            this.sb.open('Ocurrió un problema mientras se generaba la actividad. Inténtalo de nuevo.', 'Ok', { duration: 2500 });
           }
           this.generating = false;
         }, error: (error) => {
-          this.sb.open('Ocurrió mientras se generaba la actividad. Inténtalo de nuevo.', 'Ok', { duration: 2500 });
+          this.sb.open('Ocurrió un problema mientras se generaba la actividad. Inténtalo de nuevo.', 'Ok', { duration: 2500 });
           this.generating = false;
         }
       })
-  }
-
-  print() {
-    if (this.text) {
-      this.sb.open('Guardando tu actividad...', undefined, { duration: 2500 });
-      this.pdfService.exportTableToPDF('reading-activity', this.text.textTitle)
-    }
   }
 
   save() {
@@ -152,8 +147,9 @@ export class ReadingActivityGeneratorComponent {
 
     this.acitivtyService.create(activity).subscribe(result => {
       if (result._id) {
-        this.saved = true;
-        this.sb.open('La actividad ha sido guardada.', 'Ok', { duration: 2500 });
+        this.router.navigateByUrl('/guided-reading').then(() => {
+          this.sb.open('La actividad ha sido guardada.', 'Ok', { duration: 2500 });
+        });
       }
     });
   }

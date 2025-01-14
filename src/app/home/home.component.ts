@@ -125,7 +125,7 @@ export class HomeComponent {
     {
       name: 'Generador de Lecturas Guiadas',
       description: 'Genera actividades de lectura de cualquier nivel.',
-      link: ['/guided-reading-activities'],
+      link: ['/guided-reading-generator'],
       icon: '/assets/icons/education/PNG/creativity-svgrepo-com.png',
     },
     {

@@ -7,10 +7,10 @@
             <div style="display: flex; gap: 16px;">
                 <div style="min-width: 25%;">
                     <mat-form-field appearance="outline">
-                        <mat-label>Nivel</mat-label>
-                        <mat-select formControlName="level">
-                            @for(option of levels; track option.id) {
-                                <mat-option [value]="option.id">{{option.level}}</mat-option>
+                        <mat-label>Curso</mat-label>
+                        <mat-select formControlName="section" (selectionChange)="onSectionSelect($event)">
+                            @for(option of sections; track option._id) {
+                                <mat-option [value]="option._id">{{option.name}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>

@@ -27,6 +27,12 @@ export class PretifyPipe implements PipeTransform {
 			case 'CUARTO': return 'Cuarto';
 			case 'QUINTO': return 'Quinto';
 			case 'SEXTO': return 'Sexto';
+			case 'knowledge': return 'Recordar';
+			case 'undertanding': return 'Comprender';
+			case 'application': return 'Aplicar';
+			case 'analysis': return 'Analizar';
+			case 'evaluation': return 'Evaluar';
+			case 'creation': return 'Crear';
 			default: return value;
 		}
   	}

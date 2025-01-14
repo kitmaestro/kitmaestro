@@ -183,7 +183,8 @@ export class PlannerGeneratorComponent implements OnInit {
         this.fullname = fullname;
         this.plannerForm.get('fullName')?.setValue(fullname);
         this.plannerForm.get('fullName')?.disable();
-        this.school = user.schoolName;
+        // TODO: fix school name
+        // this.school = user.schoolName;
       })
     }, 500);
   }

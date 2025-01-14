@@ -1,6 +1,8 @@
 <mat-card>
-    <mat-card-header>
-        <h2 mat-card-title>Actividad de Lectura Guiada</h2>
+    <mat-card-header style="align-items: center;">
+        <mat-card-title>Actividad de Lectura Guiada</mat-card-title>
+        <span style="flex: 1 1 auto;"></span>
+        <button mat-flat-button routerLink="/guided-reading" color="primary">Mis Actividades</button>
     </mat-card-header>
     <mat-card-content>
         <form (ngSubmit)="onSubmit()" [formGroup]="activityForm" style="margin-top: 24px;">
@@ -33,9 +35,8 @@
                 </div>
             </div>
             <div class="text-end">
-                <button [disabled]="generating" type="submit" mat-flat-button [color]="text ? 'link' : 'primary'">{{ generating ? 'Generando...' : text ? 'Regenerar' : 'Generar'}}</button>
+                <button [disabled]="generating" type="submit" mat-button [color]="text ? 'link' : 'primary'">{{ generating ? 'Generando...' : text ? 'Regenerar' : 'Generar'}}</button>
                 @if (text) {
-                    <button type="button" mat-flat-button color="accent" (click)="print()" style="margin-left: 12px;">Descargar PDF</button>
                     <button type="button" mat-flat-button color="primary" [disabled]="saved" (click)="save()" style="margin-left: 12px;">Guardar</button>
                 }
             </div>

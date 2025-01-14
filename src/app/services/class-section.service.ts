@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { ClassSection } from '../interfaces/class-section';
@@ -20,8 +20,12 @@ export class ClassSectionService {
     }),
   };
 
-  findAll(): Observable<ClassSection[]> {
-    return this.http.get<ClassSection[]>(this.apiBaseUrl + 'all', this.config);
+  findAll(filters?: any): Observable<ClassSection[]> {
+    let params = new HttpParams();
+    Object.keys(filters).forEach(key => {
+      params = params.set(key, filters[key]);
+    });
+    return this.http.get<ClassSection[]>(this.apiBaseUrl + 'all', { params, ...this.config });
   }
 
   findSections(): Observable<ClassSection[]> {

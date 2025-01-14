@@ -37,6 +37,10 @@ export class UserSubscriptionService {
     return this.http.get<UserSubscription>(this.apiBaseUrl + 'me', this.config);
   }
 
+  create(data: any) {
+    return this.http.post<UserSubscription>(this.apiBaseUrl, data, this.config);
+  }
+
   subscribe(subscriptionType: string, method: string, duration: number, amount: number, user?: string): Observable<UserSubscription> {
     const subscription = {
       user: user ? user : undefined,

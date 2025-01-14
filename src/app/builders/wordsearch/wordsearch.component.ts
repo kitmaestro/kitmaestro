@@ -12,12 +12,14 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { PdfService } from '../../services/pdf.service';
+import { ClassSectionService } from '../../services/class-section.service';
 import { shuffle } from 'lodash';
 import { LevelEntry } from '../../interfaces/level-entry';
 import { TopicEntry } from '../../interfaces/topic-entry';
 import { VocabularyEntry } from '../../interfaces/vocabulary-entry';
 import { WORD_LISTS } from '../../data/word-lists';
 import { TOPICS } from '../../data/topics';
+import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
     selector: 'app-wordsearch',
@@ -37,11 +39,12 @@ import { TOPICS } from '../../data/topics';
 })
 export class WordsearchComponent implements OnInit {
 
-  gamesService = inject(GamesService);
-  fb = inject(FormBuilder);
-  userSettingsService = inject(UserSettingsService);
-  pdfService = inject(PdfService);
-  sb = inject(MatSnackBar);
+  private gamesService = inject(GamesService);
+  private fb = inject(FormBuilder);
+  private userSettingsService = inject(UserSettingsService);
+  private pdfService = inject(PdfService);
+  private sb = inject(MatSnackBar);
+  private sectionService = inject(ClassSectionService);
 
   teacherName: string = '';
   schoolName: string = '';
@@ -49,20 +52,12 @@ export class WordsearchComponent implements OnInit {
   includedWords: string[] = [];
   wordLists: VocabularyEntry[] = WORD_LISTS;
   topics: TopicEntry[] = TOPICS;
-  levels: LevelEntry[] = [
-    {
-      id: 1,
-      level: 'Primaria'
-    },
-    {
-      id: 2,
-      level: 'Secundaria'
-    },
-  ];
+  sections: ClassSection[] = [];
 
   wsForm = this.fb.group({
     words: [0],
     level: [1],
+    section: [''],
     topic: [1],
     size: [10, [Validators.min(4), Validators.max(20)]],
     name: [false],
@@ -70,11 +65,26 @@ export class WordsearchComponent implements OnInit {
     date: [false],
   });
 
+  loadSections() {
+    this.sectionService.findSections().subscribe({
+      next: sections => {
+        this.sections = sections;
+        if (sections.length) {
+          this.onSectionSelect({ value: sections[0]?._id });
+        }
+      }
+    });
+  }
+
   ngOnInit() {
     this.userSettingsService.getSettings().subscribe(settings => {
       this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
-      this.schoolName = settings.schoolName;
+      this.loadSections();
     });
+  }
+
+  onSectionSelect(event: any) {
+    this.schoolName = this.sections.find(s => s._id == event.value)?.school.name || '';
   }
 
   generateWordSearch() {

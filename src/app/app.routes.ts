@@ -13,6 +13,7 @@ export const routes: Routes = [
     // Admin area
     { path: 'admin', loadComponent: () => import('./admin/admin-dashboard/admin-dashboard.component').then(mod => mod.AdminDashboardComponent) },
     { path: 'admin/users', loadComponent: () => import('./admin/users/users.component').then(mod => mod.UsersComponent) },
+    { path: 'users/:id', loadComponent: () => import('./admin/user-details/user-details.component').then(mod => mod.UserDetailsComponent) },
 
     // inspiration
     { path: 'ideas', loadComponent: () => import('./idea-board/idea-board.component').then(mod => mod.IdeaBoardComponent) },
@@ -46,15 +47,12 @@ export const routes: Routes = [
     { path: 'attendance-calculator', loadComponent: () => import('./calculators/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent) },
     
     // Activities
-    { path: 'guided-reading-activities', loadComponent: () => import('./generators/reading-activity-generator/reading-activity-generator.component').then(mod => mod.ReadingActivityGeneratorComponent) },
-    { path: 'activities', loadComponent: () => import('./activities/activities/activities.component').then(mod => mod.ActivitiesComponent) },
-    { path: 'activities/reading', loadComponent: () => import('./activities/reading-activities/reading-activities.component').then(mod => mod.ReadingActivitiesComponent) },
-    { path: 'activities/reading/:id', loadComponent: () => import('./activities/reading-activity-detail/reading-activity-detail.component').then(mod => mod.ReadingActivityDetailComponent) },
+    { path: 'guided-reading-generator', loadComponent: () => import('./generators/reading-activity-generator/reading-activity-generator.component').then(mod => mod.ReadingActivityGeneratorComponent) },
+    { path: 'guided-reading', loadComponent: () => import('./reading-activities/reading-activities.component').then(mod => mod.ReadingActivitiesComponent) },
     
     // Generators
     { path: 'schedule-generator', loadComponent: () => import('./generators/schedule-generator/schedule-generator.component').then(mod => mod.ScheduleGeneratorComponent) },
     { path: 'grades-generator', loadComponent: () => import('./generators/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },
-    { path: 'activity-generator', loadComponent: () => import('./generators/activity-generator/activity-generator.component').then(mod => mod.ActivityGeneratorComponent) },
     { path: 'aspects-generator', loadComponent: () => import('./generators/aspects-generator/aspects-generator.component').then(mod => mod.AspectsGeneratorComponent) },
     { path: 'attendance-generator', loadComponent: () => import('./generators/attendance-generator/attendance-generator.component').then(mod => mod.AttendanceGeneratorComponent) },
     { path: 'checklist-generator', loadComponent: () => import('./generators/checklist-generator/checklist-generator.component').then(mod => mod.ChecklistGeneratorComponent) },

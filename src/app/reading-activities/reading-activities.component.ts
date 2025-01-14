@@ -1,13 +1,16 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ReadingActivityService } from '../../services/reading-activity.service';
-import { ReadingActivity } from '../../interfaces/reading-activity';
+import { ReadingActivityService } from '../services/reading-activity.service';
+import { ReadingActivity } from '../interfaces/reading-activity';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
+import { PretifyPipe } from '../pipes/pretify.pipe';
+import { ReadingActivityDetailComponent } from './reading-activity-detail.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-reading-activities',
@@ -18,33 +21,20 @@ import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.compon
         MatIconModule,
         MatTableModule,
         MatSnackBarModule,
-        IsPremiumComponent,
+        DatePipe,
+        PretifyPipe,
+        MatDialogModule,
     ],
-    templateUrl: './reading-activities.component.html',
-    styleUrl: './reading-activities.component.scss'
+    templateUrl: './reading-activities.component.html'
 })
 export class ReadingActivitiesComponent implements OnInit {
   private activityService = inject(ReadingActivityService);
   private sb = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
 
+  printing = false;
   public activities: ReadingActivity[] = [];
-  public displayedColumns = ['difficulty', 'level', 'title', 'questions', 'actions'];
-
-  difficultyLevels = [
-    { id: 'easy', label: 'Facil' },
-    { id: 'normal', label: 'Normal' },
-    { id: 'advanced', label: 'Avanzado' },
-    { id: 'hard', label: 'Dificil' },
-  ];
-
-  bloomLevels = [
-    { id: 'knowledge', label: 'Recordar' },
-    { id: 'undertanding', label: 'Comprender' },
-    { id: 'application', label: 'Aplicar' },
-    { id: 'analysis', label: 'Analizar' },
-    { id: 'evaluation', label: 'Evaluar' },
-    { id: 'creation', label: 'Crear' },
-  ]
+  public displayedColumns = ['section', 'creationDate', 'level', 'title', 'questions', 'actions'];
 
   ngOnInit() {
     this.loadActivities();
@@ -61,12 +51,16 @@ export class ReadingActivitiesComponent implements OnInit {
     })
   }
 
-  levelLabel(id: string) {
-    return this.bloomLevels.find(level => level.id == id)?.label || '';
+  openActivity(activity: ReadingActivity) {
+    this.dialog.open(ReadingActivityDetailComponent, {
+      data: activity,
+      width: '90%',
+      maxWidth: '1200px',
+    });
   }
 
-  difficultyLabel(id: string) {
-    return this.difficultyLevels.find(level => level.id == id)?.label || '';
+  pretify(str: string) {
+    return (new PretifyPipe()).transform(str);
   }
 
   deleteActivity(id: string) {
@@ -76,5 +70,11 @@ export class ReadingActivitiesComponent implements OnInit {
         this.loadActivities();
       }
     })
+  }
+
+  async downloadActivity(activity: ReadingActivity) {
+    this.printing = true;
+    await this.activityService.download(activity);
+    this.printing = false;
   }
 }

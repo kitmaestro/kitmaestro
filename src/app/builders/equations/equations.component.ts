@@ -56,7 +56,7 @@ export class EquationsComponent implements OnInit {
   ngOnInit(): void {
     this.userSettingsService.getSettings().subscribe(settings => {
       this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
-      this.schoolName = settings.schoolName;
+      // this.schoolName = settings.schoolName;
     });
   }
 

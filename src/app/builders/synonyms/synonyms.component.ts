@@ -81,7 +81,8 @@ export class SynonymsComponent implements OnInit {
   ngOnInit() {
     this.userSettingsService.getSettings().subscribe(settings => {
       this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
-      this.schoolName = settings.schoolName;
+      // TODO: Fix school name
+      // this.schoolName = settings.schoolName;
     });
   }
 

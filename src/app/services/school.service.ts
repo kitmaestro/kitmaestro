@@ -3,7 +3,7 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { School } from '../interfaces/school';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -20,8 +20,12 @@ export class SchoolService {
     }),
   };
 
-  findAll(): Observable<School[]> {
-    return this.http.get<School[]>(this.apiBaseUrl, this.config);
+  findAll(filters?: any): Observable<School[]> {
+    let params = new HttpParams();
+    Object.keys(filters).forEach(key => {
+      params = params.set(key, filters[key]);
+    });
+    return this.http.get<School[]>(this.apiBaseUrl, { params, ...this.config });
   }
 
   find(id: string): Observable<School> {

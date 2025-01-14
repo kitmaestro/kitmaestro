@@ -7,12 +7,10 @@ export interface UserSettings {
     email: string;
     gender: string;
     phone: string;
-    schoolName: string;
-    district: string;
-    regional: string;
     refCode: string;
     photoURL: string;
     likedResources: string[];
     dislikedResources: string[];
     bookmarks: string[];
+    createdAt?: Date;
 }

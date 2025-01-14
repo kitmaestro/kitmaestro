@@ -112,6 +112,10 @@ export class ObservationSheetComponent implements OnInit {
     this.loadCompetences(id);
     this.loadStudents(id);
     this.compentenceOptions = this.getCompentenceOptions(id);
+    const group = this.groups.find(g => g._id == id);
+    if (group) {
+      this.schoolName = group.school.name;
+    }
   }
 
   onSubmit() {
@@ -203,7 +207,7 @@ export class ObservationSheetComponent implements OnInit {
       if (settings) {
         this.user = settings;
         this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
-        this.schoolName = settings.schoolName;
+        // this.schoolName = settings.schoolName;
       }
     });
   }
