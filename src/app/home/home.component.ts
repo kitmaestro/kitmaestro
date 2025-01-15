@@ -13,6 +13,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AppTileComponent } from '../app-tile/app-tile.component';
 import { FavoritesService } from '../services/favorites.service';
+import { UserSettingsService } from '../services/user-settings.service';
+import { UserSettings } from '../interfaces/user-settings';
 
 @Component({
     selector: 'app-home',
@@ -34,11 +36,11 @@ import { FavoritesService } from '../services/favorites.service';
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  showAll = false;
-  devMode = false;
-  search = new FormControl();
-  favoritesService = inject(FavoritesService);
+  private favoritesService = inject(FavoritesService);
+  private userSettingsService = inject(UserSettingsService);
   favorites: AppEntry[] = [];
+  search = new FormControl();
+  user: UserSettings | null = null;
 
   loadFavorites() {
     this.favoritesService.findAll().subscribe({
@@ -394,10 +396,7 @@ export class HomeComponent {
 
   ngOnInit() {
     this.loadFavorites()
-  }
-
-  toggleView() {
-    this.showAll = !this.showAll;
+    this.userSettingsService.getSettings().subscribe(user => this.user = user);
   }
 
   isAFav(app: any) {

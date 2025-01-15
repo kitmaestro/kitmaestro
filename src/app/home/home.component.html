@@ -3,6 +3,11 @@
     <img src="/assets/logo KitMaestro.png" alt="Logo KitMaestro" style="margin: 0 auto; display: block; width: 128px;">
     <h2 style="margin-bottom: 0; margin-top: 0;">KitMaestro</h2>
     <p style="margin-top: 0; margin-bottom: 12px;">La caja de herramientas definitiva</p>
+    @if (user && user.firstname) {
+      <p>¡{{ user.gender == 'Mujer' ? 'Bienvenida' : 'Bienvenido' }}, {{user.firstname}}!</p>
+    } @else {
+      <p>Tu perfil esta incompleto, recuerda completar los datos de tu <a routerLink="/profile">perfil</a></p>
+    }
     <div class="search-container">
       <mat-form-field appearance="outline">
         <mat-label>Buscar</mat-label>

@@ -45,6 +45,7 @@
     "sudoku-gen": "^1.0.2",
     "tesseract.js": "^5.1.0",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
