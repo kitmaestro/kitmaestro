@@ -1,1 +1,71 @@
-<app-in-progress></app-in-progress>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Registro de Asistencia</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div style="margin-top: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Sección de Clase</mat-label>
+                    <mat-select [formControl]="section" (selectionChange)="onSectionSelect($event)">
+                        @for (section of sections; track section._id) {
+                            <mat-option [value]="section._id">{{section.name}} ({{section.year | pretify}} de {{section.level | pretify}})</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="outline" (selectionChange)="onMonthSelect($event)">
+                    <mat-label>Mes</mat-label>
+                    <input type="number" [formControl]="month" matInput>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="outline" (selectionChange)="onYearSelect($event)">
+                    <mat-label>Año</mat-label>
+                    <input type="number" [formControl]="year" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<div style="margin-top: 24px;">
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="3">Estudiante</th>
+                @for (week of calendar.weeks; track week.week) {
+                    <th [attr.colspan]="calendar.daysPerWeek">Semana {{ week.week }}</th>
+                }
+            </tr>
+            <tr>
+                @for (week of calendar.weeks; track week.week) {
+                    @for (day of week.days; track $index) {
+                        <th>{{day.dayOfTheWeek}}</th>
+                    }
+                }
+            </tr>
+            <tr>
+                @for (week of calendar.weeks; track week.week) {
+                    @for (day of week.days; track $index) {
+                        <th>{{day.date}}</th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for(student of students; track student._id) {
+                <tr>
+                    <td>{{student.firstname}} {{student.lastname}}</td>
+                </tr>
+            } @empty {
+                @if (sections.length && section.value) {
+                    <tr>
+                        <td [attr.colspan]="(calendar.weeks.length * calendar.daysPerWeek) + 1" style="padding: 24px; text-align: center;">No has registrado ningun estudiante en esta seccion todavia. Tienes que <a routerLink="/sections/{{section.value}}">registrar tus estudiantes</a> antes de usar esta herramienta.</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

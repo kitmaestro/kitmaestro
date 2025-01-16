@@ -22,9 +22,11 @@ export class ClassSectionService {
 
   findAll(filters?: any): Observable<ClassSection[]> {
     let params = new HttpParams();
-    Object.keys(filters).forEach(key => {
-      params = params.set(key, filters[key]);
-    });
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        params = params.set(key, filters[key]);
+      });
+    }
     return this.http.get<ClassSection[]>(this.apiBaseUrl + 'all', { params, ...this.config });
   }
 

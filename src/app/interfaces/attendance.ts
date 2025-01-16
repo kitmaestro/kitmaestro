@@ -9,3 +9,10 @@ export interface Attendance {
         attendance: 'PRESENTE' | 'TARDE' | 'AUSENTE' | 'EXCUSA' | 'FERIADO';
     }[];
 }
+
+// export interface Attendance {
+//     _id: string;
+//     student: Student;
+//     date: Date;
+//     status: 'A' | 'E' | 'T' | 'P'; // Attendance Status (Ausente, Excusa, Tarde, Presente)
+// }

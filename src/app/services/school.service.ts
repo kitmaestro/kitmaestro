@@ -22,9 +22,11 @@ export class SchoolService {
 
   findAll(filters?: any): Observable<School[]> {
     let params = new HttpParams();
-    Object.keys(filters).forEach(key => {
-      params = params.set(key, filters[key]);
-    });
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        params = params.set(key, filters[key]);
+      });
+    }
     return this.http.get<School[]>(this.apiBaseUrl, { params, ...this.config });
   }
 
