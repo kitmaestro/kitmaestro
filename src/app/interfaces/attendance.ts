@@ -1,7 +1,10 @@
+import { ClassSection } from "./class-section";
+import { Student } from "./student";
+
 export interface Attendance {
-    id: string;
-    section: string;
-    student: string;
+    _id: string;
+    section: ClassSection;
+    student: Student;
     month: number;
     year: number;
     data: {
@@ -10,9 +13,15 @@ export interface Attendance {
     }[];
 }
 
-// export interface Attendance {
-//     _id: string;
-//     student: Student;
-//     date: Date;
-//     status: 'A' | 'E' | 'T' | 'P'; // Attendance Status (Ausente, Excusa, Tarde, Presente)
-// }
+export interface AttendanceWeek {
+    week: number,
+    days: {
+        dayOfTheWeek: string, // lun,mar,mie,jue,vie,sab,dom
+        date: string,
+    }[]
+}
+
+export interface AttendanceCalendar {
+    daysPerWeek: number,
+    weeks: AttendanceWeek[]
+}

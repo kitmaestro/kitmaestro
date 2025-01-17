@@ -46,7 +46,6 @@ export class HomeComponent {
     this.favoritesService.findAll().subscribe({
       next: favs => {
         this.favorites = favs.tools;
-        console.log(favs)
       }
     });
   }

@@ -20,11 +20,13 @@ export class ContentBlockService {
     }),
   };
 
-  findAll(filters: any): Observable<ContentBlock[]> {
+  findAll(filters?: any): Observable<ContentBlock[]> {
     let params = new HttpParams();
-    Object.keys(filters).forEach(key => {
-      params = params.set(key, filters[key]);
-    });
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        params = params.set(key, filters[key]);
+      });
+    }
     return this.http.get<ContentBlock[]>(this.apiBaseUrl, { ...this.config, params });
   }
 

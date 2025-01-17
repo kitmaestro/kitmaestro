@@ -109,7 +109,7 @@ export class SectionDetailsComponent implements OnInit {
   removeStudent(id: string) {
     this.studentService.delete(id).subscribe(result => {
       if (result.deletedCount == 1) {
-        this.sb.open('Estudiante eliminado')
+        this.sb.open('Estudiante eliminado', 'Ok', {duration: 2500})
         this.loadStudents();
       }
     })
@@ -141,7 +141,6 @@ export class SectionDetailsComponent implements OnInit {
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      console.log(data);
       this.processData(data);
     };
     reader.readAsBinaryString(file);
@@ -150,14 +149,18 @@ export class SectionDetailsComponent implements OnInit {
   processData(data: any[]) {
     const cols: string[] = data[0];
     const firstnameIndex = cols.findIndex(c => ['name', 'nombre', 'nombres', 'names', 'firstname'].includes(c.trim().toLowerCase()));
+    if (firstnameIndex == -1) {
+      this.sb.open('No se encontro una columna de nombres.', 'Ok', {duration: 2500})
+      return;
+    }
     const lastnameIndex = cols.findIndex(c => ['lastname', 'apellido', '', 'apellidos', 'surname'].includes(c.trim().toLowerCase()));
     const genderIndex = cols.findIndex(c => ['genero', 'sexo', 'gender', 'sex'].includes(c.trim().toLowerCase()));
     const birthIndex = cols.findIndex(c => ['fecha de nacimiento', 'fecha'].includes(c.trim().toLowerCase()));
     this.students = data.slice(1).map((row) => {
-      const firstname: string = firstnameIndex && row[firstnameIndex] ? row[firstnameIndex] : '';
-      const lastname: string = lastnameIndex && row[lastnameIndex] ? row[lastnameIndex] : '';
-      const gender = genderIndex && row[genderIndex] ? row[genderIndex] : null;
-      const birth = birthIndex && row[birthIndex] ? new Date(row[birthIndex]) : null;
+      const firstname: string = firstnameIndex > -1 ? row[firstnameIndex] : '';
+      const lastname: string = lastnameIndex > -1 ? row[lastnameIndex] : '';
+      const gender = genderIndex > -1 ? row[genderIndex] : null;
+      const birth = birthIndex > -1 ? new Date(row[birthIndex]) : null;
       return {
         firstname,
         lastname,
@@ -167,21 +170,20 @@ export class SectionDetailsComponent implements OnInit {
         section: this.id,
       } as any;
     });
-    console.log(this.students)
 
-    // this.students.forEach(student => {
-    //   if (!student.firstname) return;
-    //   this.studentService.create(student).subscribe({
-    //     next: res => {
-    //       if (res._id) {
-    //         this.loadStudents()
-    //       }
-    //     },
-    //     error: err => {
-    //       this.sb.open('Error al importar un estudiante.', 'Ok', { duration: 2500 });
-    //       console.log(err.message)
-    //     }
-    //   })
-    // })
+    this.students.forEach(student => {
+      if (!student.firstname) return;
+      this.studentService.create(student).subscribe({
+        next: res => {
+          if (res._id) {
+            this.loadStudents()
+          }
+        },
+        error: err => {
+          this.sb.open('Error al importar un estudiante.', 'Ok', { duration: 2500 });
+          console.log(err.message)
+        }
+      })
+    })
   }
 }
