@@ -18,12 +18,8 @@
                 <input type="password" matInput [formControl]="confirmation">
             </mat-form-field>
             <div style="margin: 12px 0; display: flex; flex-direction: column; gap: 12px;">
-                <button (click)="onSubmit()" [disabled]="loading || (email.invalid && password.invalid) || password.value !== confirmation.value" mat-raised-button color="primary" type="submit">Guardar</button>
+                <button (click)="onSubmit()" [disabled]="loading || (email.invalid && password.invalid) || !password.value || password.value !== confirmation.value" mat-flat-button color="primary" type="submit">Guardar</button>
             </div>
-        </div>
-        <div style="display: flex; gap: 12px;">
-            <a mat-flat-button style="margin-right: auto;" color="accent" routerLink="/app">Entrar</a>
-            <button mat-flat-button color="link" (click)="loginWithGoogle()" type="button"><bi-icon icon="google"></bi-icon> Iniciar con Google</button>
         </div>
     </mat-card-content>
 </mat-card>

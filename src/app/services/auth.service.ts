@@ -33,10 +33,18 @@ export class AuthService {
   }
 
   profile(): Observable<UserSettings> {
-    return this.http.get<UserSettings>(this.apiUrl + 'profile', { withCredentials: true })
+    return this.http.get<UserSettings>(this.apiUrl + 'profile', { withCredentials: true });
   }
 
   update(data: UserSettings): Observable<ApiUpdateResponse> {
-    return this.http.patch<ApiUpdateResponse>(this.apiUrl + 'profile', data, { withCredentials: true })
+    return this.http.patch<ApiUpdateResponse>(this.apiUrl + 'profile', data, { withCredentials: true });
+  }
+
+  recover(email: string) {
+    return this.http.post(this.apiUrl + 'recover', { email }, { withCredentials: true });
+  }
+
+  resetPassword(email: string, token: string, password: string) {
+    return this.http.post(this.apiUrl + 'reset-password', { email, token, password }, { withCredentials: true });
   }
 }
