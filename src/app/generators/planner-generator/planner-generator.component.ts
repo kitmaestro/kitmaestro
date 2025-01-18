@@ -3,15 +3,20 @@ import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AiService } from '../../services/ai.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PdfService } from '../../services/pdf.service';
+import { ClassSectionService } from '../../services/class-section.service';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { MatIconModule } from '@angular/material/icon';
+import { ClassSection } from '../../interfaces/class-section';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
+import { uniq } from 'lodash';
+import { convertInchesToTwip, Document, Packer, PageOrientation, Paragraph, ShadingType, Table, TableCell, TableRow, TextRun, WidthType } from 'docx';
+import { saveAs } from 'file-saver';
 
 interface PlannerTemplate {
   date: string,
@@ -26,26 +31,25 @@ interface PlannerTemplate {
         ReactiveFormsModule,
         MatCardModule,
         MatButtonModule,
-        MatDialogModule,
         MatInputModule,
         MatSelectModule,
         MatFormFieldModule,
         MatSnackBarModule,
         MatIconModule,
         CommonModule,
+        PretifyPipe,
     ],
     templateUrl: './planner-generator.component.html',
     styleUrl: './planner-generator.component.scss'
 })
 export class PlannerGeneratorComponent implements OnInit {
-  fb = inject(FormBuilder);
-  sb = inject(MatSnackBar);
-  dialog = inject(MatDialog);
-  aiService = inject(AiService);
-  pdfService = inject(PdfService);
-  settingsService = inject(UserSettingsService);
+  private fb = inject(FormBuilder);
+  private sb = inject(MatSnackBar);
+  private aiService = inject(AiService);
+  private pdfService = inject(PdfService);
+  private settingsService = inject(UserSettingsService);
+  private sectionService = inject(ClassSectionService);
 
-  underDevelopment = false;
   generating: boolean = false;
   imgSrc = '';
   m = new Date().getMonth();
@@ -63,6 +67,9 @@ export class PlannerGeneratorComponent implements OnInit {
     { id: 5, name: 'Junio' },
     { id: 6, name: 'Julio' },
   ];
+
+  sections: ClassSection[] = [];
+  selectedSections: string[] = [];
 
   templateTypes = [
     'Plan Diario (Primaria)',
@@ -148,17 +155,7 @@ export class PlannerGeneratorComponent implements OnInit {
     { option: 'Fairytale and fantasy elements', spanish: 'Elementos de cuento de hadas y fantasía' }
   ];
 
-  subjects: string[] = [
-    'Lengua Española',
-    'Inglés',
-    'Francés',
-    'Matemática',
-    'Ciencias Sociales',
-    'Ciencias Naturales',
-    'Educación Física',
-    'Formación Integral Humana y Religiosa',
-    'Educación Artística',
-  ];
+  subjects: string[] = [];
   school: string = '';
   fullname: string = '';
   visible = false;
@@ -168,10 +165,10 @@ export class PlannerGeneratorComponent implements OnInit {
 
   plannerForm = this.fb.group({
     templateType: [0],
-    color: ['red'],
+    color: ['#F44336'],
     decoration: ['Floral patterns'],
     fullName: ['', Validators.required],
-    classroom: [''],
+    classroom: [[] as string[], Validators.required],
     subjects: ['', Validators.required],
     date: [this.m],
   });
@@ -186,13 +183,27 @@ export class PlannerGeneratorComponent implements OnInit {
         // TODO: fix school name
         // this.school = user.schoolName;
       })
-    }, 500);
+      this.sectionService.findSections().subscribe({
+        next: sections => {
+          if (sections.length) {
+            this.sections = sections;
+          }
+        }
+      })
+    }, 0);
+  }
+
+  onSectionSelect(event: any) {
+    this.selectedSections = event.value;
+    setTimeout(() => {
+      this.subjects = uniq(this.sections.filter(s => this.selectedSections.includes(s._id)).flatMap(s => s.subjects))
+    }, 0);
   }
 
   onSubmit() {
     this.generating = true;
     const { color, decoration, classroom, subjects, date } = this.plannerForm.value;
-    if (!subjects) {
+    if (!subjects || !classroom) {
       this.generating = false;
       return;
     }
@@ -200,26 +211,14 @@ export class PlannerGeneratorComponent implements OnInit {
     const templates: PlannerTemplate[] = [];
     const d = typeof(date) !== 'number' ? `${new Date().getMonth() + 1}/2025` : date < 6 ? `${date + 1}/2025` : `${date + 1}/2024`;
 
-    const classrooms = classroom ? classroom.split(',') : [];
+    const classrooms = this.sections.filter(s => classroom.includes(s._id)).map(s => s.name);
 
-    if (classrooms.length) {
-      for (let cr of classrooms) {
-        for (let subject of subjects as any as string[]) {
-          const template: PlannerTemplate = {
-            date: d,
-            subject,
-            classroom: cr,
-            fullname: this.fullname,
-          }
-          templates.push(template);
-        }
-      }
-    } else {
+    for (let cr of classrooms) {
       for (let subject of subjects as any as string[]) {
         const template: PlannerTemplate = {
           date: d,
           subject,
-          classroom: '',
+          classroom: cr,
           fullname: this.fullname,
         }
         templates.push(template);
@@ -228,11 +227,144 @@ export class PlannerGeneratorComponent implements OnInit {
 
     this.templates = templates;
 
-    this.aiService.generateImage(`a ${color} ${decoration}`).subscribe((res) => {
-      this.sb.open('Generacion completa!', 'Ok', { duration: 2500 });
-      this.imgSrc = res.result;
-      this.generating = false;
+    // this.aiService.generateImage(`a ${color} ${decoration}`).subscribe((res) => {
+    //   this.sb.open('Generacion completa!', 'Ok', { duration: 2500 });
+    //   this.imgSrc = res.result;
+    //   this.generating = false;
+    // });
+    this.generating = false;
+  }
+
+  pretify(str: string) {
+    return (new PretifyPipe()).transform(str);
+  }
+
+  async downloadTemplates() {
+    const fill = (this.plannerForm.get('color')?.value || '').slice(1);
+    const shading85 = { fill, color: 'ffffff', type: ShadingType.PERCENT_70 };
+    const shadingClear = { fill, color: 'auto', type: ShadingType.CLEAR };
+    const doc = new Document({
+      sections: this.templates.map(template => {
+        return {
+          properties: {
+            page: {
+              size: {
+                orientation: PageOrientation.LANDSCAPE,
+                height: '279mm',
+                width: '216mm',
+              }
+            }
+          },
+          children: [
+            new Table({
+              columnWidths: [convertInchesToTwip(2)],
+              width: { size: 100, type: WidthType.PERCENTAGE },
+              rows: [
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Fecha', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph('___/' + template.date)], shading: shading85 }),
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Grado y Sección', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph(template.classroom)], columnSpan: 2, shading: shading85 }),
+                  ],
+                  tableHeader: true,
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Docente', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph(template.fullname)], shading: shading85 }),
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Área Curricular', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph(this.pretify(template.subject))], columnSpan: 2, shading: shading85 }),
+                  ],
+                  tableHeader: true,
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Estrategias y técnicas de enseñanza-aprendizaje', bold: true })] })], columnSpan: 2, shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph('')], columnSpan: 3, shading: shading85 }),
+                  ],
+                  tableHeader: true,
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Intencion Pedagógica', bold: true })] })], columnSpan: 2, shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph('')], columnSpan: 3, shading: shading85 }),
+                  ],
+                  tableHeader: true,
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Momento', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Competencias Especificas', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Actividades / Duración', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Organización de los Estudiantes', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Recursos', bold: true })] })], shading: shadingClear }),
+                  ],
+                  tableHeader: true,
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Inicio', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                  ],
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Desarrollo', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                  ],
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Cierre', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                  ],
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Actividades Complementarias', bold: true })] })], shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                    new TableCell({ children: [new Paragraph('')] }),
+                  ],
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Vocabulario del día/de la semana:', bold: true })] })], columnSpan: 2, shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph('')], shading: shading85 }),
+                  ],
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Lecturas recomendadas/ o libro de la semana:', bold: true })] })], columnSpan: 2, shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph('')], shading: shading85 }),
+                  ],
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Observaciones:', bold: true })] })], columnSpan: 2, shading: shadingClear }),
+                    new TableCell({ children: [new Paragraph('')], shading: shading85 }),
+                  ],
+                }),
+              ]
+            }),
+            new Paragraph(''),
+          ],
+        }
+      })
     });
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, 'Plantillas de planificacion.docx');
   }
 
   printTemplates() {

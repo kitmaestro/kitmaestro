@@ -1,7 +1,7 @@
 <mat-card>
     <mat-card-header>
         <h2 mat-card-title>Generador De Plantillas de Planificaciones Personalizadas</h2>
-        <h3 mat-card-subtitle>Habr&aacute;n m&aacute;s tipos de plantillas diponibles muy pronto.</h3>
+        <h3 mat-card-subtitle style="margin: 4px 0 24px; font-weight: normal;">Habr&aacute;n m&aacute;s tipos de plantillas diponibles muy pronto.</h3>
     </mat-card-header>
     <mat-card-content>
         <form (ngSubmit)="onSubmit()" [formGroup]="plannerForm">
@@ -25,27 +25,31 @@
                     <input type="text" matInput formControlName="fullName">
                 </mat-form-field>
                 <mat-form-field appearance="outline">
-                    <mat-label>Grado(s) <small>*Separados por comas*</small></mat-label>
-                    <input type="text" placeholder="5to A, 5to B, 6to A" matInput formControlName="classroom">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Asignaturas</mat-label>
-                    <mat-select multiple formControlName="subjects">
-                        <mat-option [value]="subject" *ngFor="let subject of subjects">{{subject}}</mat-option>
+                    <mat-label>Grado(s)</mat-label>
+                    <mat-select type="text" formControlName="classroom" multiple required (selectionChange)="onSectionSelect($event)">
+                        @for (section of sections; track section._id) {
+                            <mat-option [value]="section._id">{{section.name}}</mat-option>
+                        }
                     </mat-select>
                 </mat-form-field>
             </div>
             <div style="display: flex; gap: 12px;">
                 <mat-form-field appearance="outline">
+                    <mat-label>Asignaturas</mat-label>
+                    <mat-select multiple formControlName="subjects">
+                        <mat-option [value]="subject" *ngFor="let subject of subjects">{{subject | pretify}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <!-- <mat-form-field appearance="outline">
                     <mat-label>Decoraci&oacute;n</mat-label>
                     <mat-select formControlName="decoration">
                         <mat-option [value]="decoration.option" *ngFor="let decoration of decorations">{{decoration.spanish}}</mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
                 <mat-form-field appearance="outline">
                     <mat-label>Color</mat-label>
                     <mat-select formControlName="color">
-                        <mat-option [value]="color.color" *ngFor="let color of colors">
+                        <mat-option [value]="color.hex" *ngFor="let color of colors">
                             <div style="display: flex; gap: 12px; align-items: center;">
                                 <span [style]="'display: inline-block; padding: 12px; background-color: ' + color.hex + ';'"></span>
                                 <span>{{color.spanish}}</span>
@@ -54,72 +58,94 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <button style="display: block; margin-left: auto;" [disabled]="generating || plannerForm.invalid" type="submit" color="primary" mat-raised-button>{{ generating ? 'Generando...' : 'Generar' }}</button>
+            <div style="display: flex; flex-direction: row-reverse; gap: 12px;">
+                <button [disabled]="generating || plannerForm.invalid" type="submit" color="primary" mat-fab extended><mat-icon>bolt</mat-icon>{{ generating ? 'Generando...' : 'Generar' }}</button>
+                @if (!generating && templates.length > 0) {
+                    <button mat-fab extended color="accent" (click)="printTemplates()"><mat-icon>download</mat-icon><span> Exportar PDF</span></button>
+                    <button mat-fab extended color="accent" (click)="downloadTemplates()"><mat-icon>download</mat-icon><span> Exportar Word</span></button>
+                }
+            </div>
         </form>
     </mat-card-content>
 </mat-card>
 
 @if (!generating && templates.length > 0) {
     <h2 style="font-size: 22pt; margin-top: 24px;">Vista Previa</h2>
-    <button mat-raised-button color="accent" (click)="printTemplates()" style="position: fixed; bottom: 64px; right: 42px; z-index: 500;"><mat-icon>download</mat-icon><span> Exportar Plantillas</span></button>
     @for (template of templates; track $index) {
         <div class="template-container" id="template-{{$index}}" style="background-color: #fff; padding: 12mm;">
             <table style="max-width: 100%; width: 100%;">
                 <thead>
                     <tr>
-                        <td style="width: 160px;"><b>Fecha</b>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/{{template.date}}</td>
-                        <td style="width: 280px;"><b>Grado y Sección</b>: {{template.classroom}}</td>
-                        <td><b>Docente</b>: {{template.fullname}}</td>
-                        <td colspan="2"><b>Área Curricular</b>: {{template.subject}}</td>
+                        <th [style]="'width: 160px; background-color: ' + plannerForm.get('color')?.value + 'a0;'">Fecha</th>
+                        <td [style]="'background-color: ' + plannerForm.get('color')?.value + '66;'">______/{{template.date}}</td>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'">Grado y Sección</th>
+                        <td colspan="2" [style]="'background-color: ' + plannerForm.get('color')?.value + '66;'">{{template.classroom}}</td>
                     </tr>
                     <tr>
-                        <th colspan="5"><b>Estrategias y técnicas de enseñanza-aprendizaje</b>:</th>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0'">Docente</th>
+                        <td [style]="'background-color: ' + plannerForm.get('color')?.value + '66'">{{template.fullname}}</td>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0'">Área Curricular</th>
+                        <td colspan="2" [style]="'background-color: ' + plannerForm.get('color')?.value + '66'">{{template.subject | pretify}}</td>
                     </tr>
                     <tr>
-                        <th colspan="5"><b>Intencion Pedag&oacute;gica</b>:</th>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'" colspan="2"><b>Estrategias y técnicas de enseñanza-aprendizaje</b>:</th>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + '66;'" colspan="3"></th>
                     </tr>
                     <tr>
-                        <th>Momento</th>
-                        <th>Competencias Especificas</th>
-                        <th>Actividades / Duración</th>
-                        <th style="width: 300px;">Organización de los Estudiantes</th>
-                        <th style="width: 180px;">Recursos</th>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'" colspan="2"><b>Intencion Pedag&oacute;gica</b>:</th>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + '66;'" colspan="3"></th>
+                    </tr>
+                    <tr>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'">Momento</th>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'">Competencias Especificas</th>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'">Actividades / Duración</th>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0; width: 300px;'">Organización de los Estudiantes</th>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0; width: 180px;'">Recursos</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>Inicio</th>
-                        <td><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'">Inicio</th>
+                        <td><br><br><br><br><br><br><br><br><br></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <th>Desarrollo</th>
-                        <td><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'">Desarrollo</th>
+                        <td><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <th>Cierre</th>
-                        <td><br><br><br><br><br><br><br><br><br><br><br><br><br></td>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'">Cierre</th>
+                        <td><br><br><br><br><br><br><br></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td colspan="5"><b>Vocabulario del día/de la semana</b>:</td>
+                        <th [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'">Actividades Complementarias</th>
+                        <td><br><br><br><br><br><br></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     <tr>
-                        <td colspan="5"><b>Lecturas recomendadas/ o libro de la semana</b>:</td>
+                        <td [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'" colspan="2"><b>Vocabulario del día/de la semana</b>:</td>
+                        <td [style]="'background-color: ' + plannerForm.get('color')?.value + '66;'" colspan="3"></td>
                     </tr>
                     <tr>
-                        <td colspan="5"><b>Observaciones</b>:</td>
+                        <td [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'" colspan="2"><b>Lecturas recomendadas/ o libro de la semana</b>:</td>
+                        <td [style]="'background-color: ' + plannerForm.get('color')?.value + '66;'" colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td [style]="'background-color: ' + plannerForm.get('color')?.value + 'a0;'" colspan="2"><b>Observaciones</b>:</td>
+                        <td [style]="'background-color: ' + plannerForm.get('color')?.value + '66;'" colspan="3"></td>
                     </tr>
                 </tbody>
             </table>
-            <img [src]="imgSrc" class="cover">
         </div>
     }
 }
