@@ -1,0 +1,77 @@
+<div>
+    <mat-card>
+        <mat-card-header>
+            <h2 mat-card-title>Generador de Listas de Cotejo</h2>
+        </mat-card-header>
+        <mat-card-content>
+            <div style="margin-top: 24px;">
+                <form [formGroup]="checklistForm" (ngSubmit)="onSubmit()">
+                    <div class="form-grid">
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Curso</mat-label>
+                                <mat-select appearance="outline" (selectionChange)="onSectionSelect($event)" formControlName="section" required>
+                                    @for(section of sections; track section._id) {
+                                        <mat-option [value]="section._id">{{section.name}}</mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Asignatura</mat-label>
+                                <mat-select appearance="outline" (selectionChange)="onSubjectSelect($event)" formControlName="subject" required>
+                                    @for(subject of subjects; track subject) {
+                                        <mat-option [value]="subject">{{subject | pretify}}</mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Unidad</mat-label>
+                                <mat-select appearance="outline" (selectionChange)="onConceptSelect($event)" formControlName="concept" required>
+                                    @for(list of subjectConceptLists; track $index) {
+                                        @for (concept of list.concepts; track concept) {
+                                            <mat-option [value]="concept">{{concept}}</mat-option>
+                                        }
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Título</mat-label>
+                                <input (change)="onTitleEdit($event)" placeholder="Carta a mi familia" matInput appearance="outline" formControlName="title" required>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Actividad o Evidencia</mat-label>
+                                <input (change)="onActivityEdit($event)" placeholder="Redacción de cartas de agradecimiento" matInput appearance="outline" formControlName="activity" required>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Tipo de Actividad</mat-label>
+                                <mat-select matInput appearance="outline" formControlName="activityType" required>
+                                    <mat-option value="Autoevaluación">Autoevaluación</mat-option>
+                                    <mat-option value="Coevaluación">Coevaluación</mat-option>
+                                    <mat-option value="Heteroevaluación">Heteroevaluación</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div style="text-align: end;">
+                        <button mat-flat-button style="margin-right: 12px;" color="primary" type="button" (click)="save()" [disabled]="!checklist">Guardar</button>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="checklistForm.invalid || generating">{{checklist ? 'Regenerar' : 'Generar'}}</button>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    @if (checklist) {
+        <app-checklist [checklist]="checklist"></app-checklist>
+    }
+</div>

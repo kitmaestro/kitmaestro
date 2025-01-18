@@ -8,9 +8,10 @@ export interface Checklist {
     user: UserSettings;
     title: string;
     section: ClassSection;
-    competence: CompetenceEntry;
+    competence: CompetenceEntry[];
     contentBlock: ContentBlock;
-    evidence: string;
+    activity: string;
+    activityType: string;
     criteria: string[];
     createdAt?: Date;
     updatedAt?: Date;

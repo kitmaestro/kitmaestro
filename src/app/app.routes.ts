@@ -60,7 +60,6 @@ export const routes: Routes = [
     { path: 'schedule-generator', loadComponent: () => import('./generators/schedule-generator/schedule-generator.component').then(mod => mod.ScheduleGeneratorComponent) },
     { path: 'aspects-generator', loadComponent: () => import('./generators/aspects-generator/aspects-generator.component').then(mod => mod.AspectsGeneratorComponent) },
     { path: 'attendance-generator', loadComponent: () => import('./generators/attendance-generator/attendance-generator.component').then(mod => mod.AttendanceGeneratorComponent) },
-    { path: 'checklist-generator', loadComponent: () => import('./generators/checklist-generator/checklist-generator.component').then(mod => mod.ChecklistGeneratorComponent) },
     { path: 'english-dialog-generator', loadComponent: () => import('./generators/english-dialog-generator/english-dialog-generator.component').then(mod => mod.EnglishDialogGeneratorComponent) },
     { path: 'estimation-scale-generator', loadComponent: () => import('./generators/estimation-scale-generator/estimation-scale-generator.component').then(mod => mod.EstimationScaleGeneratorComponent) },
     { path: 'log-registry-generator', loadComponent: () => import('./generators/log-registry-generator/log-registry-generator.component').then(mod => mod.LogRegistryGeneratorComponent) },
@@ -90,6 +89,9 @@ export const routes: Routes = [
     { path: 'schedules/create', loadComponent: () => import('./scheduling/schedule-builder/schedule-builder.component').then(mod => mod.ScheduleBuilderComponent) },
     { path: 'schedules/:id', loadComponent: () => import('./scheduling/schedule-detail/schedule-detail.component').then(mod => mod.ScheduleDetailComponent) },
     // assessments
+    { path: 'checklist-generator', loadComponent: () => import('./assessments/checklist-generator/checklist-generator.component').then(mod => mod.ChecklistGeneratorComponent) },
+    { path: 'checklists', loadComponent: () => import('./assessments/checklists/checklists.component').then(mod => mod.ChecklistsComponent) },
+    { path: 'checklists/:id', loadComponent: () => import('./assessments/checklist-detail/checklist-detail.component').then(mod => mod.ChecklistDetailComponent) },
     { path: 'observation-sheet', loadComponent: () => import('./assessments/observation-sheet/observation-sheet.component').then(mod => mod.ObservationSheetComponent), },
     { path: 'observation-sheets', loadComponent: () => import('./assessments/observation-sheets/observation-sheets.component').then(mod => mod.ObservationSheetsComponent), },
     { path: 'observation-sheets/:id', loadComponent: () => import('./assessments/observation-sheet-detail/observation-sheet-detail.component').then(mod => mod.ObservationSheetDetailComponent), },

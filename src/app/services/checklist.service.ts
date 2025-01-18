@@ -3,7 +3,7 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { Observable } from 'rxjs';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { Checklist } from '../interfaces/checklist';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -20,8 +20,14 @@ export class ChecklistService {
     }),
   };
 
-  findAll(): Observable<Checklist[]> {
-    return this.http.get<Checklist[]>(this.apiBaseUrl, this.config);
+  findAll(filters?: any): Observable<Checklist[]> {
+    let params = new HttpParams();
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        params = params.set(key, filters[key]);
+      });
+    }
+    return this.http.get<Checklist[]>(this.apiBaseUrl, { ...this.config, params });
   }
 
   find(id: string): Observable<Checklist> {
@@ -39,4 +45,6 @@ export class ChecklistService {
   delete(id: string): Observable<ApiDeleteResponse> {
     return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id, this.config);
   }
+
+  download(list: Checklist) {}
 }
