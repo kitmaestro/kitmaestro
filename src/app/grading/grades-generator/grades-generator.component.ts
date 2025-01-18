@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
@@ -18,7 +18,8 @@ import { AiService } from '../../services/ai.service';
 import { ClassSectionService } from '../../services/class-section.service';
 import { StudentsService } from '../../services/students.service';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
-import { tap } from 'rxjs';
+import * as XLSX from 'xlsx';
+import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
     selector: 'app-grades-generator',
@@ -27,7 +28,6 @@ import { tap } from 'rxjs';
         RouterModule,
         MatChipsModule,
         FormsModule,
-        AsyncPipe,
         MatCardModule,
         ReactiveFormsModule,
         MatButtonModule,
@@ -45,18 +45,19 @@ import { tap } from 'rxjs';
     styleUrl: './grades-generator.component.scss'
 })
 export class GradesGeneratorComponent implements OnInit {
-  fb = inject(FormBuilder);
-  aiService = inject(AiService);
+  private fb = inject(FormBuilder);
+  private aiService = inject(AiService);
+  private sectionService = inject(ClassSectionService);
+  private studentService = inject(StudentsService);
+  public sections: ClassSection[] = [];
   loading = false;
   generating = false;
   generated: GradesData | null = null;
-  private sectionService = inject(ClassSectionService);
-  private studentService = inject(StudentsService);
-  public sections = this.sectionService.findSections().pipe(tap(s => this.importFrom.setValue(s[0] ? s[0]._id || '' : '')));;
   output: any = null;
   qty = this.fb.control(1);
 
   importFrom = this.fb.control('', Validators.required);
+  section: ClassSection | null = null;
   imported = false;
   studentsNames: string[] = [];
 
@@ -77,6 +78,25 @@ export class GradesGeneratorComponent implements OnInit {
   });
 
   ngOnInit() {
+    this.sectionService.findSections().subscribe({
+      next: sections => {
+        if (sections.length) {
+          this.sections = sections;
+          this.importFrom.setValue(sections[0] ? sections[0]._id || '' : '');
+          this.section = sections[0];
+        }
+      },
+      error: err => {
+        console.log(err.message);
+      }
+    });
+  }
+
+  onSectionSelect(event: any) {
+    const section = this.sections.find(s => s._id == event.value);
+    if (section) {
+      this.section = section;
+    }
   }
 
   onSubmit() {
@@ -353,5 +373,15 @@ export class GradesGeneratorComponent implements OnInit {
 
   get students(): FormArray {
     return this.configForm.get('students') as FormArray;
+  }
+
+  export() {
+    const table_elt = document.getElementById("grades-table");
+    const workbook = XLSX.utils.table_to_book(table_elt);
+    if (this.imported && this.section) {
+      XLSX.writeFile(workbook, "Calificaciones de " + this.section.name + ".xlsb");
+    } else {
+      XLSX.writeFile(workbook, "Calificaciones.xlsb");
+    }
   }
 }

@@ -21,7 +21,7 @@ import { CompetenceService } from '../../services/competence.service';
 import { zip } from 'rxjs';
 import { CompetenceEntry } from '../../interfaces/competence-entry';
 import { GradingActivity, GroupedGradingActivity, ScoreSystem } from '../../interfaces/score-system';
-import { ScoreSystemComponent } from '../score-system/score-system.component';
+import { ScoreSystemComponent } from '../../grading/score-system/score-system.component';
 import { UserSettings } from '../../interfaces/user-settings';
 
 @Component({

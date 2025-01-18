@@ -1,5 +1,6 @@
 export interface UserSettings {
     _id: string;
+    role: string;
     title: string;
     firstname: string;
     lastname: string;

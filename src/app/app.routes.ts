@@ -49,10 +49,15 @@ export const routes: Routes = [
     // Activities
     { path: 'guided-reading-generator', loadComponent: () => import('./generators/reading-activity-generator/reading-activity-generator.component').then(mod => mod.ReadingActivityGeneratorComponent) },
     { path: 'guided-reading', loadComponent: () => import('./reading-activities/reading-activities.component').then(mod => mod.ReadingActivitiesComponent) },
+
+    // Grades/Grading
+    { path: 'grades-generator', loadComponent: () => import('./grading/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },
+    { path: 'grading-systems', loadComponent: () => import('./grading/score-system-generator/score-system-generator.component').then(mod => mod.ScoreSystemGeneratorComponent) },
+    { path: 'grading-systems/list', loadComponent: () => import('./grading/score-systems/score-systems.component').then(mod => mod.ScoreSystemsComponent) },
+    { path: 'grading-systems/:id', loadComponent: () => import('./grading/score-system-detail/score-system-detail.component').then(mod => mod.ScoreSystemDetailComponent) },
     
     // Generators
     { path: 'schedule-generator', loadComponent: () => import('./generators/schedule-generator/schedule-generator.component').then(mod => mod.ScheduleGeneratorComponent) },
-    { path: 'grades-generator', loadComponent: () => import('./generators/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },
     { path: 'aspects-generator', loadComponent: () => import('./generators/aspects-generator/aspects-generator.component').then(mod => mod.AspectsGeneratorComponent) },
     { path: 'attendance-generator', loadComponent: () => import('./generators/attendance-generator/attendance-generator.component').then(mod => mod.AttendanceGeneratorComponent) },
     { path: 'checklist-generator', loadComponent: () => import('./generators/checklist-generator/checklist-generator.component').then(mod => mod.ChecklistGeneratorComponent) },
@@ -80,10 +85,6 @@ export const routes: Routes = [
     { path: 'graph-paper', loadComponent: () => import('./builders/graph-paper/graph-paper.component').then(m => m.GraphPaperComponent) },
     { path: 'number-line', loadComponent: () => import('./builders/number-line/number-line.component').then(m => m.NumberLineComponent) },
     { path: 'cartesian-coordinates', loadComponent: () => import('./builders/cartesian-coordinates/cartesian-coordinates.component').then(m => m.CartesianCoordinatesComponent) },
-    // grading
-    { path: 'grading-systems', loadComponent: () => import('./class-planning/score-system-generator/score-system-generator.component').then(mod => mod.ScoreSystemGeneratorComponent) },
-    { path: 'grading-systems/list', loadComponent: () => import('./class-planning/score-systems/score-systems.component').then(mod => mod.ScoreSystemsComponent) },
-    { path: 'grading-systems/:id', loadComponent: () => import('./class-planning/score-system-detail/score-system-detail.component').then(mod => mod.ScoreSystemDetailComponent) },
     // scheduling
     { path: 'schedules', loadComponent: () => import('./scheduling/schedule-list/schedule-list.component').then(mod => mod.ScheduleListComponent) },
     { path: 'schedules/create', loadComponent: () => import('./scheduling/schedule-builder/schedule-builder.component').then(mod => mod.ScheduleBuilderComponent) },
@@ -115,8 +116,8 @@ export const routes: Routes = [
     { path: 'resources/:id', loadComponent: () => import('./resources/resource-details/resource-details.component').then(m => m.ResourceDetailsComponent) },
     { path: 'collab', loadComponent: () => import('./collab-dashboard/collab-dashboard.component').then(mod => mod.CollabDashboardComponent) },
     { path: 'tasks', loadComponent: () => import('./tasks-dashboard/tasks-dashboard.component').then(mod => mod.TasksDashboardComponent) },
+    
     // Premium tools
-    { path: 'class-planning', loadComponent: () => import('./class-planning/class-planning-dashboard/class-planning-dashboard.component').then(mod => mod.ClassPlanningDashboardComponent) },
     { path: 'communication', loadComponent: () => import('./communication-dashboard/communication-dashboard.component').then(mod => mod.CommunicationDashboardComponent), children: [] },
     { path: 'formation', loadComponent: () => import('./formation-dashboard/formation-dashboard.component').then(mod => mod.FormationDashboardComponent), children: [] },
     { path: 'tracking', loadComponent: () => import('./tracking-dashboard/tracking-dashboard.component').then(mod => mod.TrackingDashboardComponent), children: [] },

@@ -6,7 +6,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { GradingActivity, GroupedGradingActivity, ScoreSystem } from '../../interfaces/score-system';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { ScoreSystemComponent } from '../score-system/score-system.component';
+import { ScoreSystemComponent } from '../../grading/score-system/score-system.component';
 import { MatIconModule } from '@angular/material/icon';
 import {
 	AlignmentType,
