@@ -178,13 +178,11 @@ export class ChecklistGeneratorComponent {
 
     save() {
         if (this.checklist) {
-            const list: any = this.checklist;
-            list.section = this.checklist.section._id;
-            list.contentBlock = this.checklist.contentBlock._id;
-            list.competence = this.checklist.competence.map(c => c._id);
-            list.user = this.checklist.user._id;
-
-            console.log(list)
+            const section = this.checklist.section._id;
+            const contentBlock = this.checklist.contentBlock._id;
+            const competence = this.checklist.competence.map(c => c._id);
+            const user = this.checklist.user._id;
+            const list: any = { ...this.checklist, section, user, contentBlock, competence };
 
             this.checklistService.create(list).subscribe({
                 next: checklist => {

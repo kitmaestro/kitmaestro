@@ -84,10 +84,12 @@ export const routes: Routes = [
     { path: 'graph-paper', loadComponent: () => import('./builders/graph-paper/graph-paper.component').then(m => m.GraphPaperComponent) },
     { path: 'number-line', loadComponent: () => import('./builders/number-line/number-line.component').then(m => m.NumberLineComponent) },
     { path: 'cartesian-coordinates', loadComponent: () => import('./builders/cartesian-coordinates/cartesian-coordinates.component').then(m => m.CartesianCoordinatesComponent) },
+    
     // scheduling
     { path: 'schedules', loadComponent: () => import('./scheduling/schedule-list/schedule-list.component').then(mod => mod.ScheduleListComponent) },
     { path: 'schedules/create', loadComponent: () => import('./scheduling/schedule-builder/schedule-builder.component').then(mod => mod.ScheduleBuilderComponent) },
     { path: 'schedules/:id', loadComponent: () => import('./scheduling/schedule-detail/schedule-detail.component').then(mod => mod.ScheduleDetailComponent) },
+    
     // assessments
     { path: 'checklist-generator', loadComponent: () => import('./assessments/checklist-generator/checklist-generator.component').then(mod => mod.ChecklistGeneratorComponent) },
     { path: 'checklists', loadComponent: () => import('./assessments/checklists/checklists.component').then(mod => mod.ChecklistsComponent) },
@@ -111,6 +113,7 @@ export const routes: Routes = [
     { path: 'unit-plans/:id/edit', loadComponent: () => import('./class-planning/unit-plan-edit/unit-plan-edit.component').then(mod => mod.UnitPlanEditComponent) },
     { path: 'attendance', loadComponent: () => import('./attendance-dashboard/attendance-dashboard.component').then(mod => mod.AttendanceDashboardComponent) },
     { path: 'attendance/:id', loadComponent: () => import('./class-sections/section-attendance/section-attendance.component').then(mod => mod.SectionAttendanceComponent) },
+    
     // user's resources dashboard
     { path: 'my-resources', loadComponent: () => import('./resources/resources-dashboard/resources-dashboard.component').then(mod => mod.ResourcesDashboardComponent) },
     { path: 'resources', loadComponent: () => import('./resources/resource-gallery/resource-gallery.component').then(m => m.ResourceGalleryComponent) },
