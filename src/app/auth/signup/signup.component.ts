@@ -40,6 +40,7 @@ export class SignupComponent {
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   public user$ = this.authService.profile();
+  private plan = this.route.snapshot.queryParamMap.get('plan')
   apiUrl = environment.apiUrl + 'auth/google';
 
   loading = false;
@@ -57,14 +58,11 @@ export class SignupComponent {
   referrer = '';
 
   ngOnInit() {
-    this.route.queryParamMap.subscribe(params => {
-      const referrer = localStorage.getItem('ref') || params.get('ref');
-
-      if (referrer) {
-        this.referrer = referrer;
-        localStorage.setItem('ref', referrer);
-      }
-    });
+    const referrer = localStorage.getItem('ref') || this.route.snapshot.queryParamMap.get('ref');
+    if (referrer) {
+      this.referrer = referrer;
+      localStorage.setItem('ref', referrer);
+    }
   }
 
   recoverPassword() {
@@ -104,7 +102,7 @@ export class SignupComponent {
       const { email, password } = this.signupForm.value;
       this.loading = true;
       if (email && password) {
-        this.authService.signup(email, password, this.referrer ? this.referrer : undefined).subscribe({
+        this.authService.signup({ email, password, ref: this.referrer ? this.referrer : undefined, plan: this.plan ? this.plan : undefined }).subscribe({
           next: () => {
             const next = this.route.snapshot.queryParamMap.get('next')
             this.router.navigate(next && next != '/' ? next.split('/') : ['/profile'], { queryParamsHandling: 'preserve' }).then(() => {
@@ -117,7 +115,7 @@ export class SignupComponent {
             this.sb.open('Error al registrarte. Inténtalo de nuevo por favor.', 'Ok', { duration: 2500 });
             this.loading = false;
           }
-        })
+        });
       }
     }
   }

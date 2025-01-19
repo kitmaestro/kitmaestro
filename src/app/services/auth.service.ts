@@ -20,12 +20,8 @@ export class AuthService {
     }, { withCredentials: true })
   }
 
-  signup(email: string, password: string, ref?: string): Observable<{ user: UserSettings, access_token: string }> {
-    return this.http.post<{ user: UserSettings, access_token: string }>(this.apiUrl + 'signup', {
-      email,
-      password,
-      ref
-    }, { withCredentials: true })
+  signup(body: { email: string, password: string, plan?: string, ref?: string }): Observable<{ user: UserSettings, access_token: string }> {
+    return this.http.post<{ user: UserSettings, access_token: string }>(this.apiUrl + 'signup', body, { withCredentials: true })
   }
 
   logout(): Observable<{ message: string }> {
