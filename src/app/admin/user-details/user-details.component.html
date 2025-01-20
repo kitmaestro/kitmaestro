@@ -15,76 +15,81 @@
             <p><b>Nombre(s)</b>: {{user.firstname}}</p>
             <p><b>Apellido(s)</b>: {{user.lastname}}</p>
             <p><b>Título Alcanzado</b>: {{user.title}}</p>
-            <p><b>Email</b>: {{user.email}}</p>
-            <p><b>Teléfono</b>: {{user.phone}}</p>
+            <!-- TODO: Fix up this shit -->
+            @if (activeUser && activeUser.email == 'orgalay.dev@gmail.com') {
+                <p><b>Email</b>: {{user.email}}</p>
+                <p><b>Teléfono</b>: {{user.phone}}</p>
+            }
             <p><b>Codigo de Referencia</b>: {{user.refCode}}</p>
 
-            <h3>Escuelas</h3>
-            @for (school of schools; track $index) {
-                <p>{{$index + 1}}. {{school.name}} ({{school.level | pretify}}) Distrito {{school.regional}}-{{school.district}}</p>
-            }
-
-            <h3>Secciones</h3>
-            @for (section of classSections; track $index) {
-                <p>{{$index + 1}}. {{section.name}} ({{section.year | pretify}} de {{section.level | pretify}}) - {{section.school.name}}</p>
-            }
-
-            <h3>Suscripción</h3>
-            @if (subscription) {
-                @if (subscription.subscriptionType == 'FREE') {
-                    <p>Usuario Gratuito</p>
-                } @else {
-                    <p>{{subscription.subscriptionType}} hasta {{subscription.endDate | date : 'dd/MM/YYYY'}}</p>
+            @if (activeUser && activeUser.email == 'orgalay.dev@gmail.com') {
+                <h3>Escuelas</h3>
+                @for (school of schools; track $index) {
+                    <p>{{$index + 1}}. {{school.name}} ({{school.level | pretify}}) Distrito {{school.regional}}-{{school.district}}</p>
                 }
+    
+                <h3>Secciones</h3>
+                @for (section of classSections; track $index) {
+                    <p>{{$index + 1}}. {{section.name}} ({{section.year | pretify}} de {{section.level | pretify}}) - {{section.school.name}}</p>
+                }
+    
+                <h3>Suscripción</h3>
+                @if (subscription) {
+                    @if (subscription.subscriptionType == 'FREE') {
+                        <p>Usuario Gratuito</p>
+                    } @else {
+                        <p>{{subscription.subscriptionType}} hasta {{subscription.endDate | date : 'dd/MM/YYYY'}}</p>
+                    }
+                }
+                <form [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">
+                    <div style="display: grid; gap: 12px; grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Suscripción</mat-label>
+                                <mat-select formControlName="subscriptionType">
+                                    <mat-option value="Plan Básico">Plan Básico</mat-option>
+                                    <mat-option value="Plan Plus">Plan Plus</mat-option>
+                                    <mat-option value="Plan Premium">Plan Premium</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Estado</mat-label>
+                                <mat-select formControlName="status">
+                                    <mat-option value="active">Activa</mat-option>
+                                    <mat-option value="inactive">Inactiva</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fecha de Inicio</mat-label>
+                                <input type="date" matInput formControlName="startDate">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fecha de Finalización</mat-label>
+                                <input type="date" matInput formControlName="endDate">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Método de Pago</mat-label>
+                                <input type="text" matInput formControlName="method">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Monto Pagado</mat-label>
+                                <input type="number" matInput formControlName="amount">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <button mat-flat-button type="submit">Guardar</button>
+                </form>
             }
-            <form [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">
-                <div style="display: grid; gap: 12px; grid-template-columns: 1fr 1fr;">
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Suscripción</mat-label>
-                            <mat-select formControlName="subscriptionType">
-                                <mat-option value="Plan Básico">Plan Básico</mat-option>
-                                <mat-option value="Plan Plus">Plan Plus</mat-option>
-                                <mat-option value="Plan Premium">Plan Premium</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Estado</mat-label>
-                            <mat-select formControlName="status">
-                                <mat-option value="active">Activa</mat-option>
-                                <mat-option value="inactive">Inactiva</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Fecha de Inicio</mat-label>
-                            <input type="date" matInput formControlName="startDate">
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Fecha de Finalización</mat-label>
-                            <input type="date" matInput formControlName="endDate">
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Método de Pago</mat-label>
-                            <input type="text" matInput formControlName="method">
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Monto Pagado</mat-label>
-                            <input type="number" matInput formControlName="amount">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <button mat-flat-button type="submit">Guardar</button>
-            </form>
         </mat-card-content>
     </mat-card>
 } @else {

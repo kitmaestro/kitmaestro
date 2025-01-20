@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-details',
@@ -52,12 +53,14 @@ export class UserDetailsComponent {
   private subscriptionService = inject(UserSubscriptionService);
   private schoolService = inject(SchoolService);
   private sectionService = inject(ClassSectionService);
+  private authService = inject(AuthService);
 
   user: UserSettings | null = null;
   subscription: UserSubscription | null = null;
   schools: School[] = [];
   classSections: ClassSection[] = [];
   gravatarUrl = '';
+  activeUser: UserSettings | null = null;
 
   subscriptionForm = this.fb.group({
     user: [''],
@@ -114,6 +117,9 @@ export class UserDetailsComponent {
 
   ngOnInit() {
     this.loadUser();
+    this.authService.profile().subscribe(user => {
+      this.activeUser = user;
+    });
   }
 
   onSubmit() {
