@@ -10,7 +10,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Storage, getDownloadURL, ref, uploadBytesResumable } from '@angular/fire/storage';
 import { AuthService } from '../../../services/auth.service';
 import { PretifyPipe } from '../../../pipes/pretify.pipe';
@@ -30,7 +30,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
         MatSelectModule,
         CommonModule,
         PretifyPipe,
-        JsonPipe,
     ],
     templateUrl: './resource-form.component.html',
     styleUrl: './resource-form.component.scss'
