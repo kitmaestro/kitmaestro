@@ -13,16 +13,10 @@ import { IsEmptyComponent } from '../../ui/alerts/is-empty/is-empty.component';
 import { ResourceCardComponent } from '../resource-card/resource-card.component';
 import { ResourceFormComponent } from '../../ui/forms/resource-form/resource-form.component';
 import { MatIconModule } from '@angular/material/icon';
-import { SUBJECTS } from '../../data/subjects';
-import { GRADES } from '../../data/grades';
-import { LEVELS } from '../../data/levels';
-import { RESOURCE_TYPES } from '../../data/resource-types';
-import { FORMATS } from '../../data/formats';
-import { BASE_TOPICS } from '../../data/base-topics';
-import { Auth, authState } from '@angular/fire/auth';
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { UserSettings } from '../../interfaces/user-settings';
-import { Observable } from 'rxjs';
+import { DidacticResource } from '../../interfaces/didactic-resource';
+import { AuthService } from '../../services/auth.service';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
     selector: 'app-resource-gallery',
@@ -36,6 +30,7 @@ import { Observable } from 'rxjs';
         MatDialogModule,
         MatIconModule,
         ReactiveFormsModule,
+        PretifyPipe,
         CommonModule,
         IsEmptyComponent,
         ResourceCardComponent,
@@ -45,59 +40,95 @@ import { Observable } from 'rxjs';
 })
 export class ResourceGalleryComponent {
   private fb = inject(FormBuilder);
-  private auth = inject(Auth);
-  private firestore = inject(Firestore);
   private resourcesService = inject(DidacticResourceService);
   private dialog = inject(MatDialog);
-
-  uid = '';
-  authors: UserSettings[] = [];
+  private authService = inject(AuthService);
   loading = true;
-
-  public readonly resources$ = this.resourcesService.findMyResources();
-
-  levels = LEVELS;
-
-  grades = GRADES;
-
-  subjects = SUBJECTS;
-
-  resourceTypes = RESOURCE_TYPES;
-
-  formats = FORMATS;
-
-  baseTopics = BASE_TOPICS;
-
-  topics: string[] = [];
+  
+  resources: DidacticResource[] = [];
+  fullList: DidacticResource[] = [];
+  user: UserSettings | null = null;
 
   filterForm = this.fb.group({
-    format: [''],
-    topics: [''],
-    resourceType: [''],
-    subjects: [''],
-    level: [''],
-    grades: [''],
-    orderBy: [''],
+    subjects: [[] as string[]],
+    level: [[] as string[]],
+    grades: [[] as string[]],
+    orderBy: ['asc'],
   });
 
+  grades = [
+    'PRIMERO',
+    'SEGUNDO',
+    'TERCERO',
+    'CUARTO',
+    'QUINTO',
+    'SEXTO',
+  ];
+  levels = [
+    'PRE_PRIMARIA',
+    'PRIMARIA',
+    'SECUNDARIA'
+  ];
+  subjects = [
+    'LENGUA_ESPANOLA',
+    'MATEMATICA',
+    'CIENCIAS_SOCIALES',
+    'CIENCIAS_NATURALES',
+    'INGLES',
+    'FRANCES',
+    'FORMACION_HUMANA',
+    'EDUCACION_FISICA',
+    'EDUCACION_ARTISTICA',
+    'TALLERES_OPTATIVOS',
+    'MANUALES',
+    'FASCICULOS',
+  ];
+
   constructor() {
-    this.topics = this.baseTopics;
-    authState(this.auth).subscribe(user => {
-      if (user) {
-        this.uid = user.uid;
-        (collectionData(collection(this.firestore, 'user-settings'), { idField: 'id' }) as Observable<UserSettings[]>).subscribe(settings => {
-          this.authors = settings;
-          this.loading = false;
-        });
+    this.resourcesService.findAll({ status: 'public' }).subscribe({
+      next: res => {
+        this.fullList = res;
+        this.filter();
       }
+    });
+    this.authService.profile().subscribe(user => {
+      this.user = user;
     });
   }
 
   openCreateResourceDialog() {
     this.dialog.open(ResourceFormComponent, { width: '100%', maxWidth: '960px' });
   }
+  
+  filter() {
+    const { subjects, level, grades, orderBy } = this.filterForm.value as any;
+    this.resources = this.fullList.filter(resource => {
+      let matchesSubjects = true;
+      let matchesLevel = true;
+      let matchesGrades = true;
 
-  findAuthor(id: string) {
-    return this.authors.find(a => a._id == id);
+      // Filtrar por materias
+      if (subjects.length > 0) {
+        matchesSubjects = subjects.some((subject: string) => resource.subject.includes(subject));
+      }
+
+      // Filtrar por nivel
+      if (level.length > 0) {
+        matchesLevel = level.some((lvl: string) => resource.level.includes(lvl));
+      }
+
+      // Filtrar por grado
+      if (grades.length > 0) {
+        matchesGrades = grades.some((grade: string) => resource.grade.includes(grade));
+      }
+
+      return matchesSubjects && matchesLevel && matchesGrades;
+    }).sort((a, b) => {
+      if (orderBy === 'asc') {
+        return a.title.localeCompare(b.title);
+      } else {
+        return b.title.localeCompare(a.title);
+      }
+    });
   }
 }

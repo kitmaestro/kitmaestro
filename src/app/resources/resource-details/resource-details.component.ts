@@ -1,16 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { SliderComponent } from '../../ui/slider/slider.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DidacticResource } from '../../interfaces/didactic-resource';
 import { CommonModule } from '@angular/common';
 import { EMPTY, Observable, map, tap } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
-import { UserSettings } from '../../interfaces/user-settings';
 import { MatButtonModule } from '@angular/material/button';
 import { DidacticResourceService } from '../../services/didactic-resource.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { MatIconModule } from '@angular/material/icon';
+import { GravatarPipe } from '../../pipes/gravatar.pipe';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
+import { UserSettings } from '../../interfaces/user-settings';
 
 @Component({
     selector: 'app-resource-details',
@@ -20,34 +22,48 @@ import { MatIconModule } from '@angular/material/icon';
         MatCardModule,
         MatButtonModule,
         MatSnackBarModule,
+        GravatarPipe,
+        PretifyPipe,
         MatIconModule,
     ],
     templateUrl: './resource-details.component.html',
     styleUrl: './resource-details.component.scss'
 })
 export class ResourceDetailsComponent {
-  route = inject(ActivatedRoute);
-  sb = inject(MatSnackBar);
-  didacticResourceService = inject(DidacticResourceService);
-  settingsService =inject(UserSettingsService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private sb = inject(MatSnackBar);
+  private didacticResourceService = inject(DidacticResourceService);
+  private settingsService = inject(UserSettingsService);
 
-  id = this.route.snapshot.paramMap.get('id');
-  bookmarked$: Observable<boolean> = EMPTY;
-  author$: Observable<UserSettings> = EMPTY;
+  id = this.route.snapshot.paramMap.get('id') || '';
+  bookmarked: boolean = false;
   downloading = false;
-  resource$: Observable<DidacticResource> = this.didacticResourceService.findOne('' + this.id).pipe(
-    tap(resource => this.author$ = this.settingsService.getSettings(resource.author)),
-    tap(resource => this.bookmarked$ = this.settingsService.getSettings().pipe(map(settings => settings && settings.bookmarks.includes(resource._id) ? true : false)))
-  );
+  user: UserSettings | null = null;
+  resource: DidacticResource | null = null;
 
-  slides: string[] = [
-    '//picsum.photos/seed/ken/400',
-    '//picsum.photos/seed/kenl/400',
-    '//picsum.photos/seed/kenli/400',
-    '//picsum.photos/seed/kenlit/400',
-    '//picsum.photos/seed/kenlite/400',
-    '//picsum.photos/seed/kenliten/400',
-  ];
+  load() {
+    this.settingsService.getSettings().subscribe(user => {
+      this.user = user;
+      this.bookmarked = user.bookmarks.includes(this.id);
+    });
+    this.didacticResourceService.findOne(this.id).subscribe({
+      next: resource => {
+        if (resource)
+          this.resource = resource;
+      },
+      error: err => {
+        console.log(err)
+        this.router.navigateByUrl('/resources').then(() => {
+          this.sb.open('No se encontro el recurso');
+        });
+      }
+    });
+  }
+
+  ngOnInit() {
+    this.load();
+  }
 
   getInteger(n?: number) {
     return n ? `${n}`.split('.')[0] : '0';
@@ -72,7 +88,9 @@ export class ResourceDetailsComponent {
       a.target = '_blank';
       a.click();
       document.body.removeChild(a);
-      this.didacticResourceService.download(this.id);
+      this.didacticResourceService.download(this.id).subscribe(res => {
+        this.load();
+      });
       this.downloading = false;
     } else {
       this.downloading = false;
@@ -83,7 +101,10 @@ export class ResourceDetailsComponent {
     if (!this.id)
       return;
 
-    this.didacticResourceService.bookmark(this.id);
-    this.sb.open('El recurso ha sido guardado en tu biblioteca!', 'Ok', { duration: 2500 });
+    this.didacticResourceService.bookmark(this.id).subscribe((res) => {
+      this.load();
+      if (res.modifiedCount > 0)
+        this.sb.open('El recurso ha sido guardado en tu biblioteca!', 'Ok', { duration: 2500 });
+    });
   }
 }

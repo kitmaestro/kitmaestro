@@ -1,33 +1,20 @@
 import { DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject, inject } from '@angular/core';
-import { Auth, authState } from '@angular/fire/auth';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { DidacticResourceService } from '../../../services/didactic-resource.service';
-import { DidacticResource, ResourceType } from '../../../interfaces/didactic-resource';
+import { DidacticResource } from '../../../interfaces/didactic-resource';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { FORMATS } from '../../../data/formats';
-import { GRADES } from '../../../data/grades';
-import { LEVELS } from '../../../data/levels';
-import { SUBJECTS } from '../../../data/subjects';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { Storage, getDownloadURL, ref, uploadBytesResumable } from '@angular/fire/storage';
-import { BASE_TOPICS } from '../../../data/base-topics';
-const WORKSHOP_TOPICS: any = [];
-const SPANISH_TOPICS: any = [];
-const ART_TOPICS: any = [];
-const ENGLISH_TOPICS: any = [];
-const FRENCH_TOPICS: any = [];
-const MATH_TOPICS: any = [];
-const RELIGION_TOPICS: any = [];
-const SCIENCE_TOPICS: any = [];
-const SOCIETY_TOPICS: any = [];
-const SPORTS_TOPICS: any = [];
+import { AuthService } from '../../../services/auth.service';
+import { PretifyPipe } from '../../../pipes/pretify.pipe';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
     selector: 'app-resource-form',
@@ -39,122 +26,87 @@ const SPORTS_TOPICS: any = [];
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
+        MatCheckboxModule,
         MatSelectModule,
         CommonModule,
+        PretifyPipe,
+        JsonPipe,
     ],
     templateUrl: './resource-form.component.html',
     styleUrl: './resource-form.component.scss'
 })
-export class ResourceFormComponent {
-  auth = inject(Auth);
+export class ResourceFormComponent implements OnInit {
   fb = inject(FormBuilder);
-  storage = inject(Storage);
+  private readonly storage: Storage = inject(Storage);
   private dialogRef = inject(DialogRef<ResourceFormComponent>);
   private didacticResourceService = inject(DidacticResourceService);
   private sb = inject(MatSnackBar);
   private data: DidacticResource = inject(MAT_DIALOG_DATA);
+  private authService = inject(AuthService);
 
-  user$ = authState(this.auth);
-  loading = false;
+  loading = true;
+  uploading = false;
 
   resource: DidacticResource | null = null;
-  _preview = '';
-  formats = FORMATS;
-  grades = GRADES;
-  levels = LEVELS;
-  subjects = SUBJECTS;
-  baseTopics = BASE_TOPICS;
-  workshopTopics = WORKSHOP_TOPICS;
-  topics: string[] = [];
+  preview = '';
+  previewTemplate = '/assets/Plantilla Ejemplo KM.svg';
+  grades = [
+    'PRIMERO',
+    'SEGUNDO',
+    'TERCERO',
+    'CUARTO',
+    'QUINTO',
+    'SEXTO',
+  ];
+  levels = [
+    'PRE_PRIMARIA',
+    'PRIMARIA',
+    'SECUNDARIA'
+  ];
+  subjects = [
+    'LENGUA_ESPANOLA',
+    'MATEMATICA',
+    'CIENCIAS_SOCIALES',
+    'CIENCIAS_NATURALES',
+    'INGLES',
+    'FRANCES',
+    'FORMACION_HUMANA',
+    'EDUCACION_FISICA',
+    'EDUCACION_ARTISTICA',
+    'TALLERES_OPTATIVOS',
+    'MANUALES',
+    'FASCICULOS',
+  ];
 
   resourceForm = this.fb.group({
-    author: [''],
-    title: [''],
-    description: [''],
-    format: [''],
-    grade: [''],
-    level: [''],
-    subject: [''],
-    topic: [''],
+    author: ['', Validators.required],
+    title: ['', Validators.required],
+    description: ['', Validators.required],
+    grade: [[] as string[]],
+    level: [[] as string[]],
+    subject: [[] as string[]],
     downloadLink: ['', Validators.required],
     status: ['draft'],
-    preview: [''],
-    type: ['FREE'],
+    preview: ['', Validators.required],
     price: [0],
-    likes: [0],
-    dislikes: [0],
-    downloads: [0],
-    bookmarks: [0],
-    categories: [''],
   });
 
-  constructor(
-  ) {
-    this.topics = [...this.baseTopics];
-
+  concent = this.fb.control(false);
+  
+  ngOnInit(): void {
     if (this.data) {
       this.resource = this.data;
     }
-
-    this.user$.subscribe(user => {
-      if (user) {
-        this.resourceForm.get('author')?.setValue(user.uid)
-      }
-    })
-  }
-
-  setGrades(event: string) {
-    if (event == 'Pre Primaria') {
-      this.grades = ['Casita', 'Prescolar'];
-    } else {
-      this.grades = GRADES;
-    }
-  }
-
-  setTopics(event: string[]) {
-    const topics = BASE_TOPICS;
-
-    if (event.includes('Lengua Española')) {
-      topics.push(...this.spanishTopics);
-    }
-    if (event.includes('Matemática')) {
-      topics.push(...this.mathTopics);
-    }
-    if (event.includes("Ciencias Sociales")) {
-      topics.push(...this.societyTopics);
-    }
-    if (event.includes("Ciencias de la Naturaleza")) {
-      topics.push(...this.scienceTopics);
-    }
-    if (event.includes("Inglés")) {
-      topics.push(...this.englishTopics);
-    }
-    if (event.includes("Francés")) {
-      topics.push(...this.frenchTopics);
-    }
-    if (event.includes("Educación Artística")) {
-      topics.push(...this.artTopics);
-    }
-    if (event.includes("Educación Física")) {
-      topics.push(...this.sportsTopics);
-    }
-    if (event.includes("Formación Integral Humana y Religiosa")) {
-      topics.push(...this.religionTopics);
-    }
-    if (event.includes("Talleres Optativos")) {
-      topics.push(...this.workshopTopics);
-    }
-
-    this.topics = topics;
+    this.authService.profile().subscribe(user => {
+      this.resourceForm.get('author')?.setValue(user._id);
+      this.loading = false;
+    });
   }
 
   onSubmit() {
     const resource: DidacticResource = this.resourceForm.value as any;
 
-    resource.type = resource.price == 0 ? ResourceType.Free : ResourceType.Paid;
-    resource.categories = [resource.format, ...resource.grade, ...resource.subject, resource.level, resource.topic];
-    resource.preview = this.preview;
-    resource.status = 'public';
+    resource.keywords = [...resource.grade, ...resource.subject, ...resource.level];
 
     this.didacticResourceService.create(resource).subscribe({
       next: (res) => {
@@ -178,19 +130,28 @@ export class ResourceFormComponent {
     if (!files)
       return;
 
-    const preview = files.item(0);
-    if (!preview)
+    const file = files.item(0);
+    if (!file)
       return;
 
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      this._preview = reader.result as string;
-      this.resourceForm.get('preview')?.setValue(this._preview);
-      this.sb.open('Miniatura cargada!', 'Ok', { duration: 2500 });
-    }
-
-    reader.readAsDataURL(preview);
+    const docRef = ref(this.storage, Date.now().toString() + file.name);
+    this.uploading = true;
+    uploadBytesResumable(docRef, file).then(() => {
+      getDownloadURL(docRef).then(preview => {
+        this.preview = preview;
+        this.resourceForm.get('preview')?.setValue(preview);
+        this.sb.open('El archivo ha sido cargado de manera exitosa.', 'Ok', { duration: 2500 });
+        this.uploading = false;
+      }).catch((err) => {
+        this.uploading = false;
+        console.log(err)
+        this.sb.open('Ha ocurrido un error al cargar el archivo. Intentalo de nuevo, por favor.', 'Ok', { duration: 2500 });
+      });
+    }).catch((err) => {
+      this.uploading = false;
+      console.log(err)
+      this.sb.open('Ha ocurrido un error al cargar el archivo. Intentalo de nuevo, por favor.', 'Ok', { duration: 2500 });
+    });
   }
 
   processFile(files: FileList | null) {
@@ -201,107 +162,22 @@ export class ResourceFormComponent {
     if (!file)
       return;
 
-    const docRef = ref(this.storage, file.name);
+    const docRef = ref(this.storage, Date.now().toString() + file.name);
+    this.uploading = true;
     uploadBytesResumable(docRef, file).then(() => {
       getDownloadURL(docRef).then(downloadLink => {
         this.resourceForm.get('downloadLink')?.setValue(downloadLink);
-      }).catch(console.log);
-    }).catch(console.log);
-  }
-
-  saveDraft() {
-    const resource: DidacticResource = this.resourceForm.value as any;
-
-    resource.type = resource.price == 0 ? ResourceType.Free : ResourceType.Paid;
-    resource.categories = [resource.format, ...resource.grade, ...resource.subject, resource.level, resource.topic];
-    resource.preview = this.preview;
-    resource.status = 'preview';
-
-    this.didacticResourceService.create(resource).subscribe({
-      next: () => {
-        this.sb.open('Recurso guardado como borrador.', 'Ok', { duration: 2500 });
-        this.dialogRef.close();
-      },
-      error: error => {
-        this.sb.open('Ha ocurrido un error al guardar. Intentalo nuevamente, por favor.', 'Ok', { duration: 2500 });
-        console.log(error);
-      }
+        this.sb.open('El archivo ha sido cargado de manera exitosa.', 'Ok', { duration: 2500 });
+        this.uploading = false;
+      }).catch((err) => {
+        this.uploading = false;
+        console.log(err)
+        this.sb.open('Ha ocurrido un error al cargar el archivo. Intentalo de nuevo, por favor.', 'Ok', { duration: 2500 });
+      });
+    }).catch((err) => {
+      this.uploading = false;
+      console.log(err)
+      this.sb.open('Ha ocurrido un error al cargar el archivo. Intentalo de nuevo, por favor.', 'Ok', { duration: 2500 });
     });
-  }
-
-  get preview(): string {
-    return this._preview ? this._preview : '/assets/Plantilla Ejemplo KM.svg';
-  }
-
-  get spanishTopics(): string[] {
-    if (this.resourceForm.get('level')?.value == 'Primaria') {
-      return SPANISH_TOPICS.primary;
-    } else {
-      return SPANISH_TOPICS.highSchool;
-    }
-  }
-
-  get mathTopics(): string[] {
-    if (this.resourceForm.get('level')?.value == 'Primaria') {
-      return MATH_TOPICS.primary;
-    } else {
-      return MATH_TOPICS.highSchool;
-    }
-  }
-
-  get societyTopics(): string[] {
-    if (this.resourceForm.get('level')?.value == 'Primaria') {
-      return SOCIETY_TOPICS.primary;
-    } else {
-      return SOCIETY_TOPICS.highSchool;
-    }
-  }
-
-  get scienceTopics(): string[] {
-    if (this.resourceForm.get('level')?.value == 'Primaria') {
-      return SCIENCE_TOPICS.primary;
-    } else {
-      return SCIENCE_TOPICS.highSchool;
-    }
-  }
-
-  get englishTopics(): string[] {
-    if (this.resourceForm.get('level')?.value == 'Primaria') {
-      return ENGLISH_TOPICS.primary;
-    } else {
-      return ENGLISH_TOPICS.highSchool;
-    }
-  }
-
-  get frenchTopics(): string[] {
-    if (this.resourceForm.get('level')?.value == 'Primaria') {
-      return FRENCH_TOPICS.primary;
-    } else {
-      return FRENCH_TOPICS.highSchool;
-    }
-  }
-
-  get artTopics(): string[] {
-    if (this.resourceForm.get('level')?.value == 'Primaria') {
-      return ART_TOPICS.primary;
-    } else {
-      return ART_TOPICS.highSchool;
-    }
-  }
-
-  get sportsTopics(): string[] {
-    if (this.resourceForm.get('level')?.value == 'Primaria') {
-      return SPORTS_TOPICS.primary;
-    } else {
-      return SPORTS_TOPICS.highSchool;
-    }
-  }
-
-  get religionTopics(): string[] {
-    if (this.resourceForm.get('level')?.value == 'Primaria') {
-      return RELIGION_TOPICS.primary;
-    } else {
-      return RELIGION_TOPICS.highSchool;
-    }
   }
 }

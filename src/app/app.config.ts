@@ -5,6 +5,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideServiceWorker } from '@angular/service-worker';
 import { provideHttpClient } from '@angular/common/http';
+import { getStorage, provideStorage } from '@angular/fire/storage';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,6 +26,7 @@ export const appConfig: ApplicationConfig = {
       "authDomain":"kit-maestro.firebaseapp.com",
       "messagingSenderId":"604854508995"
     } as any)),
+    provideStorage(() => getStorage()),
     // importProvidersFrom(AdsenseModule.forRoot({ adClient: 'ca-pub-3940117372405832' })),
   ],
 };

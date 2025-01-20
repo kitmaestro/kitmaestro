@@ -1,27 +1,20 @@
-export enum ResourceType {
-    Free = "FREE",
-    Paid = "PAID"
-}
+import { UserSettings } from "./user-settings";
 
 export interface DidacticResource {
     _id: string;
     title: string;
     description: string;
-    format: string;
-    grade: string;
-    level: string;
-    subject: string;
-    topic: string;
+    grade: string[];
+    level: string[];
+    subject: string[];
     downloadLink: string;
     status: 'draft' | 'preview' | 'public';
     preview: string;
-    images: string[];
-    author: string;
-    type: ResourceType;
-    price?: number;
+    author: UserSettings;
+    price: number;
     likes: number;
+    keywords: string[];
     dislikes: number;
     downloads: number;
     bookmarks: number;
-    categories: string[]; // Categories like topics, subjects, grades, etc.
 }

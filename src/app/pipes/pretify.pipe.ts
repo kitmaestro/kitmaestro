@@ -18,6 +18,8 @@ export class PretifyPipe implements PipeTransform {
 			case 'EDUCACION_FISICA': return 'Educación Física';
 			case 'EDUCACION_ARTISTICA': return 'Educación Artística';
 			case 'TALLERES_OPTATIVOS': return 'Talleres Optativos';
+			case 'MANUALES': return 'Manuales e Instructivos';
+			case 'FASCICULOS': return 'Fascículos';
 			case 'PRIMARIA': return 'Primaria';
 			case 'PRE_PRIMARIA': return 'Pre Primaria';
 			case 'SECUNDARIA': return 'Secundaria';

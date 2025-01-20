@@ -5,13 +5,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ElipsisPipe } from '../../pipes/elipsis.pipe';
 import { MatIconModule } from '@angular/material/icon';
-import { UserSettings } from '../../interfaces/user-settings';
 import { DidacticResourceService } from '../../services/didactic-resource.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { map } from 'rxjs';
 import { UserSettingsService } from '../../services/user-settings.service';
+import { sha512_256 } from 'js-sha512';
+import { UserSettings } from '../../interfaces/user-settings';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
     selector: 'app-resource-card',
@@ -22,8 +22,7 @@ import { UserSettingsService } from '../../services/user-settings.service';
         MatSnackBarModule,
         RouterLink,
         CommonModule,
-        RouterLink,
-        ElipsisPipe,
+        PretifyPipe,
         MatIconModule,
     ],
     templateUrl: './resource-card.component.html',
@@ -33,17 +32,37 @@ export class ResourceCardComponent {
   settingsService = inject(UserSettingsService);
   @Input() resource: DidacticResource | null = null;
   @Input() owned: boolean = false;
-  @Input() author: UserSettings | undefined | null = null;
 
   didacticResourceService = inject(DidacticResourceService);
   sb = inject(MatSnackBar);
+  user: UserSettings | null = null;
 
-  bookmarked = this.settingsService.getSettings().pipe(map(settings => this.resource && settings && settings.bookmarks.includes(this.resource._id)))
+  bookmarked = false;
+
+  load() {
+    this.settingsService.getSettings().subscribe(user => {
+      this.user = user;
+      if (this.resource)
+        this.bookmarked = user.bookmarks.includes(this.resource?._id);
+    });
+  }
 
   bookmark() {
     if (this.resource) {
-      this.didacticResourceService.bookmark(this.resource._id);
-      this.sb.open('El recurso ha sido guardado en tu biblioteca!', 'Ok', { duration: 2500 });
+      if (this.user) {
+        if (this.user.bookmarks.includes(this.resource._id)) {
+          return;
+        }
+      }
+      const sus = this.didacticResourceService.bookmark(this.resource._id).subscribe({
+        next: res => {
+          sus.unsubscribe();
+          if (res.modifiedCount > 0) {
+            this.sb.open('El recurso ha sido guardado en tu biblioteca!', 'Ok', { duration: 2500 });
+          }
+          this.load();
+        }
+      });
     }
   }
 
@@ -53,5 +72,9 @@ export class ResourceCardComponent {
 
   getDecimals(n?: number) {
     return n ? `${n}`.split('.').reverse()[0].padStart(2, '0') : '00';
+  }
+
+  gravatar(email: string) {
+    return sha512_256(email.trim().toLowerCase());
   }
 }
