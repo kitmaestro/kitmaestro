@@ -33,19 +33,19 @@ export const routes: Routes = [
 
     // utility links
     { path: 'print-unit-plan/:id', loadComponent: () => import('./class-planning/unit-plan-detail/unit-plan-detail.component').then(mod => mod.UnitPlanDetailComponent) },
-    
+
     // todo
     { path: 'todos', loadComponent: () => import('./todo-lists/todo-lists.component').then(mod => mod.TodoListsComponent) },
     { path: 'todos/:id', loadComponent: () => import('./todos/todos.component').then(mod => mod.TodosComponent) },
-    
+
     // sections
     { path: 'sections', loadComponent: () => import('./class-sections/class-sections/class-sections.component').then(mod => mod.ClassSectionsComponent) },
     { path: 'sections/:id', loadComponent: () => import('./class-sections/section-details/section-details.component').then(mod => mod.SectionDetailsComponent) },
-    
+
     // calculators
     { path: 'average-calculator', loadComponent: () => import('./calculators/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent) },
     { path: 'attendance-calculator', loadComponent: () => import('./calculators/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent) },
-    
+
     // Activities
     { path: 'guided-reading-generator', loadComponent: () => import('./generators/reading-activity-generator/reading-activity-generator.component').then(mod => mod.ReadingActivityGeneratorComponent) },
     { path: 'guided-reading', loadComponent: () => import('./reading-activities/reading-activities.component').then(mod => mod.ReadingActivitiesComponent) },
@@ -55,7 +55,7 @@ export const routes: Routes = [
     { path: 'grading-systems', loadComponent: () => import('./grading/score-system-generator/score-system-generator.component').then(mod => mod.ScoreSystemGeneratorComponent) },
     { path: 'grading-systems/list', loadComponent: () => import('./grading/score-systems/score-systems.component').then(mod => mod.ScoreSystemsComponent) },
     { path: 'grading-systems/:id', loadComponent: () => import('./grading/score-system-detail/score-system-detail.component').then(mod => mod.ScoreSystemDetailComponent) },
-    
+
     // Generators
     { path: 'schedule-generator', loadComponent: () => import('./generators/schedule-generator/schedule-generator.component').then(mod => mod.ScheduleGeneratorComponent) },
     { path: 'aspects-generator', loadComponent: () => import('./generators/aspects-generator/aspects-generator.component').then(mod => mod.AspectsGeneratorComponent) },
@@ -67,7 +67,7 @@ export const routes: Routes = [
     { path: 'math-worksheet-generator', loadComponent: () => import('./generators/math-worksheet-generator/math-worksheet-generator.component').then(mod => mod.MathWorksheetGeneratorComponent) },
     { path: 'spanish-worksheet-generator', loadComponent: () => import('./generators/spanish-worksheet-generator/spanish-worksheet-generator.component').then(mod => mod.SpanishWorksheetGeneratorComponent) },
     { path: 'english-worksheet-generator', loadComponent: () => import('./generators/english-worksheet-generator/english-worksheet-generator.component').then(mod => mod.EnglishWorksheetGeneratorComponent) },
-    
+
     // worksheet builders
     { path: 'wordsearch', loadComponent: () => import('./builders/wordsearch/wordsearch.component').then(m => m.WordsearchComponent) },
     { path: 'word-scramble', loadComponent: () => import('./builders/word-scramble/word-scramble.component').then(m => m.WordScrambleComponent) },
@@ -84,16 +84,19 @@ export const routes: Routes = [
     { path: 'graph-paper', loadComponent: () => import('./builders/graph-paper/graph-paper.component').then(m => m.GraphPaperComponent) },
     { path: 'number-line', loadComponent: () => import('./builders/number-line/number-line.component').then(m => m.NumberLineComponent) },
     { path: 'cartesian-coordinates', loadComponent: () => import('./builders/cartesian-coordinates/cartesian-coordinates.component').then(m => m.CartesianCoordinatesComponent) },
-    
+
     // scheduling
     { path: 'schedules', loadComponent: () => import('./scheduling/schedule-list/schedule-list.component').then(mod => mod.ScheduleListComponent) },
     { path: 'schedules/create', loadComponent: () => import('./scheduling/schedule-builder/schedule-builder.component').then(mod => mod.ScheduleBuilderComponent) },
     { path: 'schedules/:id', loadComponent: () => import('./scheduling/schedule-detail/schedule-detail.component').then(mod => mod.ScheduleDetailComponent) },
-    
+
     // assessments
     { path: 'checklist-generator', loadComponent: () => import('./assessments/checklist-generator/checklist-generator.component').then(mod => mod.ChecklistGeneratorComponent) },
     { path: 'checklists', loadComponent: () => import('./assessments/checklists/checklists.component').then(mod => mod.ChecklistsComponent) },
     { path: 'checklists/:id', loadComponent: () => import('./assessments/checklist-detail/checklist-detail.component').then(mod => mod.ChecklistDetailComponent) },
+    { path: 'test-generator', loadComponent: () => import('./assessments/test-generator/test-generator.component').then(mod => mod.TestGeneratorComponent) },
+    { path: 'tests', loadComponent: () => import('./assessments/test-list/test-list.component').then(mod => mod.TestListComponent) },
+    { path: 'tests/:id', loadComponent: () => import('./assessments/test-detail/test-detail.component').then(mod => mod.TestDetailComponent) },
     { path: 'observation-sheet', loadComponent: () => import('./assessments/observation-sheet/observation-sheet.component').then(mod => mod.ObservationSheetComponent), },
     { path: 'observation-sheets', loadComponent: () => import('./assessments/observation-sheets/observation-sheets.component').then(mod => mod.ObservationSheetsComponent), },
     { path: 'observation-sheets/:id', loadComponent: () => import('./assessments/observation-sheet-detail/observation-sheet-detail.component').then(mod => mod.ObservationSheetDetailComponent), },
@@ -113,7 +116,7 @@ export const routes: Routes = [
     { path: 'unit-plans/:id/edit', loadComponent: () => import('./class-planning/unit-plan-edit/unit-plan-edit.component').then(mod => mod.UnitPlanEditComponent) },
     { path: 'attendance', loadComponent: () => import('./attendance-dashboard/attendance-dashboard.component').then(mod => mod.AttendanceDashboardComponent) },
     { path: 'attendance/:id', loadComponent: () => import('./class-sections/section-attendance/section-attendance.component').then(mod => mod.SectionAttendanceComponent) },
-    
+
     // user's resources dashboard
     { path: 'my-resources', loadComponent: () => import('./resources/resources-dashboard/resources-dashboard.component').then(mod => mod.ResourcesDashboardComponent) },
     { path: 'resources', loadComponent: () => import('./resources/resource-gallery/resource-gallery.component').then(m => m.ResourceGalleryComponent) },
@@ -121,7 +124,7 @@ export const routes: Routes = [
     { path: 'resources/:id', loadComponent: () => import('./resources/resource-details/resource-details.component').then(m => m.ResourceDetailsComponent) },
     { path: 'collab', loadComponent: () => import('./collab-dashboard/collab-dashboard.component').then(mod => mod.CollabDashboardComponent) },
     { path: 'tasks', loadComponent: () => import('./tasks-dashboard/tasks-dashboard.component').then(mod => mod.TasksDashboardComponent) },
-    
+
     // Premium tools
     { path: 'communication', loadComponent: () => import('./communication-dashboard/communication-dashboard.component').then(mod => mod.CommunicationDashboardComponent), children: [] },
     { path: 'formation', loadComponent: () => import('./formation-dashboard/formation-dashboard.component').then(mod => mod.FormationDashboardComponent), children: [] },

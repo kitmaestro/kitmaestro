@@ -56,7 +56,7 @@ export class HomeComponent {
     link: [],
     icon: '/assets/undraw_like-dislike_ggjr.svg'
   }
-  
+
   apps: AppEntry[] = [
     {
       name: 'Unidades de Aprendizaje',
@@ -71,6 +71,13 @@ export class HomeComponent {
       link: ['/class-plans'],
       // icon: '/assets/icons/education2/PNG/the-paper-svgrepo-com.png',
       icon: '/assets/undraw_real_time_sync_re_nky7.svg',
+    },
+    {
+      name: 'Generador de Exámenes',
+      description: 'Genera exámenes instantaneamente.',
+      link: ['/test-generator'],
+      icon: '/assets/undraw_exams_d2tf.svg',
+      // icon: '/assets/icons/education2/PNG/bank-banking-budget-svgrepo-com.png',
     },
     {
       name: 'Calculadora de Promedios',
@@ -401,7 +408,7 @@ export class HomeComponent {
   isAFav(app: any) {
     return this.favorites.some(f => f.name == app.name);
   }
-  
+
   markFavorite(event: any) {
     if (this.isAFav(event)) {
       this.unmarkFavorite(event);
@@ -413,7 +420,7 @@ export class HomeComponent {
       })
     }
   }
-  
+
   unmarkFavorite(event: any) {
     const favs = this.favorites.filter(f => f.name !== event.name);
     this.favoritesService.update(favs).subscribe({
