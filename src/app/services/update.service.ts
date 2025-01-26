@@ -1,8 +1,7 @@
-import { inject, Injectable, isDevMode } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Update } from '../interfaces/update';
-import { ApiErrorResponse } from '../interfaces/api-error-response';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { environment } from '../../environments/environment';

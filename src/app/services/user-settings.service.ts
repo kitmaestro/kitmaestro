@@ -1,4 +1,4 @@
-import { Injectable, inject, isDevMode } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserSettings } from '../interfaces/user-settings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

@@ -59,6 +59,13 @@ export class HomeComponent {
 
   apps: AppEntry[] = [
     {
+      name: 'Asistente de IA',
+      description: 'Obtén ayuda, ideas y sugerencias adaptadas a ti.',
+      link: ['/ai-assistant'],
+      icon: '/assets/undraw_questions_g2px.svg',
+      // icon: '/assets/icons/education2/PNG/book-svgrepo-com (2).png',
+    },
+    {
       name: 'Unidades de Aprendizaje',
       description: 'Diseña unidades de aprendizaje, para ya.',
       link: ['/unit-plans'],
@@ -413,21 +420,21 @@ export class HomeComponent {
     if (this.isAFav(event)) {
       this.unmarkFavorite(event);
     } else {
-      this.favoritesService.create(event).subscribe({
-        next: res => {
-          this.loadFavorites();
-        }
-      })
+		this.favoritesService.create(event).subscribe({
+			next: () => {
+				this.loadFavorites();
+			}
+		});
     }
   }
 
   unmarkFavorite(event: any) {
-    const favs = this.favorites.filter(f => f.name !== event.name);
-    this.favoritesService.update(favs).subscribe({
-      next: res => {
-        this.loadFavorites();
-      }
-    })
+      const favs = this.favorites.filter(f => f.name !== event.name);
+	  this.favoritesService.update(favs).subscribe({
+			next: () => {
+				this.loadFavorites();
+			}
+	  });
   }
 
   get filteredApps() {
