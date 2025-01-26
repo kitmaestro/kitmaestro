@@ -34,7 +34,7 @@ export class TestService {
 	return this.http.get<Test>(this.apiBaseUrl + id, this.config);
   }
 
-  create(plan: Test): Observable<Test> {
+  create(plan: any): Observable<Test> {
 	return this.http.post<Test>(this.apiBaseUrl, plan, this.config);
   }
 

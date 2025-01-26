@@ -58,8 +58,9 @@
 						<textarea matInput formControlName="topics"></textarea>
 					</mat-form-field>
 				</div>
-				<div style="text-align: end;">
-					<button mat-flat-button [disabled]="testForm.invalid || loading" type="submit">Generar</button>
+				<div style="display: flex; gap: 12px; flex-direction: row-reverse;">
+					<button mat-fab extended [disabled]="!test || loading" (click)="save()" type="button"> <mat-icon>save</mat-icon> Guardar</button>
+					<button mat-fab extended [disabled]="testForm.invalid || loading" type="submit"> <mat-icon>bolt</mat-icon> {{test ? 'Regenerar' : 'Generar'}}</button>
 				</div>
 			</form>
 		</div>
@@ -67,7 +68,7 @@
 </mat-card>
 @if (result) {
 	<div style="margin-top: 24px;">
-		<div style="max-width: 8.5in;">
+		<div style="max-width: 8.5in; margin: 0 auto;">
 			<mat-card>
 				<mat-card-content>
 					<markdown [data]="result"></markdown>
