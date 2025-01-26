@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MarkdownComponent } from 'ngx-markdown';
 import { Test } from '../../interfaces/test';
 import { TestService } from '../../services/test.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -12,7 +11,6 @@ import { TestComponent } from '../test/test.component';
 @Component({
   selector: 'app-test-detail',
 	imports: [
-		MarkdownComponent,
 		MatCardModule,
 		RouterModule,
 		MatIconModule,
@@ -55,10 +53,10 @@ export class TestDetailComponent {
 		});
 	}
 
-	download() {
+	async download() {
 		if (this.test) {
 			this.loading = true;
-			this.testService.download(this.test);
+			await this.testService.download(this.test);
 			this.loading = false;
 		}
 	}
