@@ -7,6 +7,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TestComponent } from '../test/test.component';
 
 @Component({
   selector: 'app-test-detail',
@@ -16,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 		RouterModule,
 		MatIconModule,
 		MatButtonModule,
+		TestComponent,
   ],
   templateUrl: './test-detail.component.html',
   styleUrl: './test-detail.component.scss'
@@ -28,6 +30,7 @@ export class TestDetailComponent {
 	private id = this.route.snapshot.paramMap.get('id') || '';
 
 	test: Test | null = null;
+	loading = false;
 
 	ngOnInit() {
 		if (!this.id) {
@@ -35,11 +38,13 @@ export class TestDetailComponent {
 			return;
 		}
 
+		this.loading = true;
+
 		const sus = this.testService.find(this.id).subscribe({
 			next: test => {
 				sus.unsubscribe();
 				this.test = test;
-				console.log(test)
+				this.loading = false;
 			},
 			error: err => {
 				console.log(err);
@@ -50,7 +55,13 @@ export class TestDetailComponent {
 		});
 	}
 
-	download() {}
+	download() {
+		if (this.test) {
+			this.loading = true;
+			this.testService.download(this.test);
+			this.loading = false;
+		}
+	}
 
 	remove() {
 		this.testService.delete(this.id).subscribe({

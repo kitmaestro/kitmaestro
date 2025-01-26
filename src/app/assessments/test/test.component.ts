@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { MarkdownComponent } from 'ngx-markdown';
+import { Test } from '../../interfaces/test';
 
 @Component({
   selector: 'app-test',
-  imports: [],
+  imports: [
+    MarkdownComponent,
+  ],
   templateUrl: './test.component.html',
   styleUrl: './test.component.scss'
 })
 export class TestComponent {
-
+  data = input<string>('');
 }

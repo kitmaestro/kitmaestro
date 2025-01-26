@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TestComponent } from '../test/test.component';
 import { RouterLink } from '@angular/router';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
   selector: 'app-test-list',
@@ -18,6 +19,7 @@ import { RouterLink } from '@angular/router';
 		MatTableModule,
 		MatIconModule,
 		RouterLink,
+		PretifyPipe,
   ],
   templateUrl: './test-list.component.html',
   styleUrl: './test-list.component.scss'
@@ -25,15 +27,18 @@ import { RouterLink } from '@angular/router';
 export class TestListComponent {
 	testService = inject(TestService);
 	dialog = inject(MatDialog);
+	loading = false;
 
 	tests: Test[] = [];
 
 	columns = ['grade', 'subject', 'actions'];
 
 	load() {
+		this.loading = true;
 		this.testService.findAll().subscribe({
 			next: tests => {
 				this.tests = tests;
+				this.loading = false;
 			}
 		});
 	}
@@ -53,5 +58,11 @@ export class TestListComponent {
 		this.dialog.open(TestComponent, {
 			data: test
 		});
+	}
+
+	async download(test: Test) {
+		this.loading = true;
+		await this.testService.download(test);
+		this.loading = false;
 	}
 }
