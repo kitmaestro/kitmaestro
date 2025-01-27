@@ -89,6 +89,7 @@ Aqui los datos que necesitas para llevar a cabo tu tarea:
 Mi nombre es ${user.firstname} ${user.lastname}, soy un${user.gender == 'Hombre' ? '' : 'a'} docente de Republica Dominicana, trabajo en el centro educativo "${section.school.name}" y tengo a mi cargo la seccion ${section.name} que es un ${this.pretify(section.year)} de ${this.pretify(section.level)} en el que imparto estas asignaturas:
 - ${section.subjects.map(s => this.pretify(s)).join('\n- ')}
 La efemeride que vamos a celebrar es ${data.holiday} y la vamos a celebrar ${data.place}.
+El publico objetivo de la actividad es ${data.place.includes('salon') ? 'mi curso' : 'toda la escuela'}.
 Te menciono algunas ideas recurrentes (que todos los profesores dominicanos hacemos con mucha frecuencia en el centro): Exposiciones, dramatizaciones, poesias, canciones, acrosticos y pancartas/murales. Son ideas que te pueden ayudar a sugerir algo mas original pero con la misma escencia de nuestas actividades. ${data.question ? '\nNota: ' + data.question : ''}`;
     this.loading = true;
     this.aiService.geminiAi(query).subscribe({

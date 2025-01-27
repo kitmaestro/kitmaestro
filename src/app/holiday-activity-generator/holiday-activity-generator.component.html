@@ -20,7 +20,7 @@
                         <mat-label>Lugar de la celebraci&oacute;n</mat-label>
                         <mat-select formControlName="place">
                             <mat-option value="en el patio">El patio</mat-option>
-                            <mat-option value="en el acto de subir la bandera, en la mañana">El acto cívico</mat-option>
+                            <mat-option value="en el acto de subir la bandera, en la mañana (10 minutos maximo)">El acto cívico</mat-option>
                             <mat-option value="en el salon de clases">El salón de clases</mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -39,7 +39,7 @@
                     </mat-form-field>
                 </div>
                 <div>
-                    <button mat-fab extended type="submit"><mat-icon>bolt</mat-icon> {{response ? 'Regenerar' : 'Generar'}}</button>
+                    <button [disabled]="holidayForm.invalid || loading" mat-fab extended type="submit"><mat-icon>bolt</mat-icon> {{response ? 'Regenerar' : 'Generar'}}</button>
                 </div>
             </form>
         </div>
