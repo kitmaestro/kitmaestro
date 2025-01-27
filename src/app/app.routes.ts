@@ -50,6 +50,7 @@ export const routes: Routes = [
     // Activities
     { path: 'guided-reading-generator', loadComponent: () => import('./generators/reading-activity-generator/reading-activity-generator.component').then(mod => mod.ReadingActivityGeneratorComponent) },
     { path: 'guided-reading', loadComponent: () => import('./reading-activities/reading-activities.component').then(mod => mod.ReadingActivitiesComponent) },
+    { path: 'holiday-activity-generator', loadComponent: () => import('./holiday-activity-generator/holiday-activity-generator.component').then(mod => mod.HolidayActivityGeneratorComponent) },
 
     // Grades/Grading
     { path: 'grades-generator', loadComponent: () => import('./grading/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },

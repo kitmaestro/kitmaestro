@@ -147,7 +147,7 @@ export class HomeComponent {
       name: 'Generador de Listas de Cotejo',
       description: 'Genera listas de cotejo de forma rápida y fácil',
       link: ['/checklist-generator'],
-      icon: '/assets/icons/education/PNG/creativity-svgrepo-com.png',
+      icon: '/assets/undraw_check-boxes_ewf2.svg',
     },
     {
       name: 'Mis Secciones',
@@ -213,12 +213,19 @@ export class HomeComponent {
       // icon: '/assets/icons/education2/PNG/fraction-svgrepo-com.png',
     },
     {
-      name: 'Generador de Informes',
-      description: 'Informes detallados para cada necesidad.',
-      link: ['/reports'],
-      icon: '/assets/undraw_data_processing_yrrv.svg',
+      name: 'Actividades para Efemérides',
+      description: 'Actividades únicas para cada commemoración',
+      link: ['/holiday-activity-generator'],
+      icon: '/assets/undraw_festivities_q090.svg',
       // icon: '/assets/icons/education/PNG/statistics-svgrepo-com.png',
     },
+    // {
+    //   name: 'Generador de Informes',
+    //   description: 'Informes detallados para cada necesidad.',
+    //   link: ['/reports'],
+    //   icon: '/assets/undraw_data_processing_yrrv.svg',
+    //   // icon: '/assets/icons/education/PNG/statistics-svgrepo-com.png',
+    // },
     {
       name: 'Gestion de Horario',
       description: 'Maneja tus horarios de clase',
