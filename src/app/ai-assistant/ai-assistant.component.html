@@ -1,0 +1,40 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Asistente Personalizado de IA</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div style="margin-top: 24px;">
+            <form [formGroup]="assistantForm" (ngSubmit)="onSubmit()">
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Curso de Referencia</mat-label>
+                        <mat-select formControlName="section">
+                            @for (section of sections; track section._id) {
+                                <mat-option [value]="section._id">{{section.name}}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Consulta o Pregunta</mat-label>
+                        <textarea matInput formControlName="question"></textarea>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <button type="submit" [disabled]="assistantForm.invalid || loading" mat-flat-button>Consultar</button>
+                </div>
+            </form>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+@if (response) {
+    <div style="margin-top: 24px;">
+        <mat-card>
+            <mat-card-content>
+                <markdown [data]="response"></markdown>
+            </mat-card-content>
+        </mat-card>
+    </div>
+}

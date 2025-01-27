@@ -62,7 +62,7 @@ export class HomeComponent {
       name: 'Asistente de IA',
       description: 'Obtén ayuda, ideas y sugerencias adaptadas a ti.',
       link: ['/ai-assistant'],
-      icon: '/assets/undraw_questions_g2px.svg',
+      icon: '/assets/machine.svg',
       // icon: '/assets/icons/education2/PNG/book-svgrepo-com (2).png',
     },
     {

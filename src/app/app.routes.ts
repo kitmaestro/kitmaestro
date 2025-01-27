@@ -17,6 +17,7 @@ export const routes: Routes = [
 
     // inspiration
     { path: 'ideas', loadComponent: () => import('./idea-board/idea-board.component').then(mod => mod.IdeaBoardComponent) },
+    { path: 'ai-assistant', loadComponent: () => import('./ai-assistant/ai-assistant.component').then(mod => mod.AiAssistantComponent) },
 
     // informational
     { path: '', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent) },
