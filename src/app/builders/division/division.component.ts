@@ -7,11 +7,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { PdfService } from '../../services/pdf.service';
-import { shuffle } from 'lodash';
-import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.component';
+
+interface Division {
+  dividend: number;
+  divisor: number;
+  quotient: number;
+}
 
 @Component({
     selector: 'app-division',
@@ -25,7 +29,6 @@ import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.com
         MatChipsModule,
         ReactiveFormsModule,
         MatSnackBarModule,
-        InProgressComponent,
     ],
     templateUrl: './division.component.html',
     styleUrl: './division.component.scss'
@@ -39,14 +42,14 @@ export class DivisionComponent implements OnInit {
 
   teacherName: string = '';
   schoolName: string = '';
-  additions: Array<number[]> = [];
+  divisions: Division[] = [];
 
   ready = false;
 
-  additionsForm = this.fb.group({
-    addends: [2, Validators.min(2)],
-    minDigits: [2],
-    maxDigits: [2],
+  divisionsForm = this.fb.group({
+    resultType: ['exact'],
+    dividendDigits: [2],
+    divisorDigits: [1],
     size: [10],
     name: [false],
     grade: [false],
@@ -60,87 +63,94 @@ export class DivisionComponent implements OnInit {
     });
   }
 
-  generateAddend(min: number, max: number): number {
-    const digits = min == max ? min : Math.round(Math.random() * (max - min)) + min;
-    let str = "";
+  generateDivision(maxDividendDigits: number, maxDivisorDigits: number, exact: boolean = false): Division {
+    let dividend, divisor, quotient;
 
-    for (let i = 0; i < digits; i++) {
-      if (i == 0) {
-        str += shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9])[0];
-      } else {
-        str += shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 0])[0];
+    if (exact) {
+      // Generate a random divisor within the specified range
+      divisor = Math.floor(Math.pow(10, maxDivisorDigits - 1) + Math.random() * (Math.pow(10, maxDivisorDigits) - Math.pow(10, maxDivisorDigits - 1)));
+
+      // Ensure the divisor is not zero
+      while (divisor === 0) {
+        divisor = Math.floor(Math.pow(10, maxDivisorDigits - 1) + Math.random() * (Math.pow(10, maxDivisorDigits) - Math.pow(10, maxDivisorDigits - 1)));
       }
+
+      // Generate a random dividend that is divisible by the divisor
+      dividend = divisor * Math.floor(Math.pow(10, maxDividendDigits - maxDivisorDigits - 1) + Math.random() * (Math.pow(10, maxDividendDigits - maxDivisorDigits) - Math.pow(10, maxDividendDigits - maxDivisorDigits - 1)));
+      quotient = dividend / divisor;
+    } else {
+      // Generate a random dividend within the specified range
+      dividend = Math.floor(Math.pow(10, maxDividendDigits - 1) + Math.random() * (Math.pow(10, maxDividendDigits) - Math.pow(10, maxDividendDigits - 1)));
+
+      // Generate a random divisor within the specified range
+      divisor = Math.floor(Math.pow(10, maxDivisorDigits - 1) + Math.random() * (Math.pow(10, maxDivisorDigits) - Math.pow(10, maxDivisorDigits - 1)));
+
+      // Ensure the divisor is not zero
+      while (divisor === 0) {
+        divisor = Math.floor(Math.pow(10, maxDivisorDigits - 1) + Math.random() * (Math.pow(10, maxDivisorDigits) - Math.pow(10, maxDivisorDigits - 1)));
+      }
+
+      quotient = dividend / divisor;
     }
 
-    return parseInt(str);
+    return { dividend, divisor, quotient };
   }
 
-  generateAdditions() {
-    const { addends, minDigits, maxDigits, size } = this.additionsForm.value;
+  generateDivisions() {
+    const { dividendDigits, divisorDigits, resultType, size } = this.divisionsForm.value;
 
-    if (!addends || !minDigits || !maxDigits || !size)
+    if (!dividendDigits || !divisorDigits || !resultType || !size)
       return;
 
-    this.additions = [];
+    this.divisions = [];
 
     for (let i = 0; i < size; i++) {
-      const addition: number[] = [];
-      const addendQty = Math.round(Math.random() * addends) + 2;
-      for (let j = 0; j < addends; j++) {
-        addition.push(this.generateAddend(minDigits, maxDigits));
-      }
-      this.additions.push(addition);
+      const exercise: Division = this.generateDivision(dividendDigits, divisorDigits, resultType == 'exact');
+      this.divisions.push(exercise);
     }
   }
 
   toggleName() {
-    const val = this.additionsForm.get('name')?.value;
+    const val = this.divisionsForm.get('name')?.value;
     if (!val) {
-      this.additionsForm.get('name')?.setValue(true);
+      this.divisionsForm.get('name')?.setValue(true);
     } else {
-      this.additionsForm.get('name')?.setValue(false);
+      this.divisionsForm.get('name')?.setValue(false);
     }
   }
 
   toggleGrade() {
-    const val = this.additionsForm.get('grade')?.value;
+    const val = this.divisionsForm.get('grade')?.value;
     if (!val) {
-      this.additionsForm.get('grade')?.setValue(true);
+      this.divisionsForm.get('grade')?.setValue(true);
     } else {
-      this.additionsForm.get('grade')?.setValue(false);
+      this.divisionsForm.get('grade')?.setValue(false);
     }
   }
 
   toggleDate() {
-    const val = this.additionsForm.get('date')?.value;
+    const val = this.divisionsForm.get('date')?.value;
     if (!val) {
-      this.additionsForm.get('date')?.setValue(true);
+      this.divisionsForm.get('date')?.setValue(true);
     } else {
-      this.additionsForm.get('date')?.setValue(false);
+      this.divisionsForm.get('date')?.setValue(false);
     }
   }
 
   changeAddend(index: number) {
-    const { addends, minDigits, maxDigits, size } = this.additionsForm.value;
+    const { dividendDigits, divisorDigits, resultType, size } = this.divisionsForm.value;
 
-    if (!addends || !minDigits || !maxDigits || !size)
+    if (!dividendDigits || !divisorDigits || !resultType || !size)
       return;
 
-    const addition: number[] = [];
-    for (let j = 0; j < addends; j++) {
-      addition.push(this.generateAddend(minDigits, maxDigits));
-    }
+    const exercise: Division = this.generateDivision(dividendDigits, divisorDigits, resultType == 'exact');
 
-    this.additions[index] = addition;
-  }
-
-  calculate(arr: number[]) {
-    return arr.reduce((p, c) => c + p, 0);
+    this.divisions[index] = exercise;
   }
 
   print() {
     this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
-    this.pdfService.createAndDownloadFromHTML("additions", `Suma`);
-    this.pdfService.createAndDownloadFromHTML("additions-solution", `Suma - Solucion`);
+    this.pdfService.createAndDownloadFromHTML("divisions", `Division`);
+    this.pdfService.createAndDownloadFromHTML("divisions-solution", `Division - Solucion`);
   }
 }
