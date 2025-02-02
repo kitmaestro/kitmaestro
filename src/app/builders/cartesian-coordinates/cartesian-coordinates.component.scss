@@ -1,0 +1,13 @@
+mat-form-field {
+    width: 100%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+
+    @media screen and (min-width: 960px) {
+        grid-template-columns: 1fr 1fr;
+    }
+}
