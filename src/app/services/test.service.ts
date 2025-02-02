@@ -78,7 +78,7 @@ export class TestService {
 					if (text.startsWith('#### '))
 						return this.heading(text.slice(5), HeadingLevel.HEADING_4);
 
-					if (text.startsWith('**'))
+					if (text.includes('**'))
 						return this.p(text.slice(2), true);
 
 					if (text.startsWith('|-'))
