@@ -165,9 +165,7 @@ export class ScoreSystemGeneratorComponent {
 		const section = this.getSection(this.form.get('section')?.value || '');
 		if (!section)
 			return;
-		const query = `Necesito que me ayudes a crear un sistema de calificaciones para evaluar el desarrollo de estas competencias de ${section.year.toLowerCase()} grado de ${section.level.toLowerCase()} en el area de ${this.pretify(this.form.get('subject')?.value || '')}, en base a 100 puntos cada una:
-- Competencia ${this.competence.map(c => c.name + '\n\t- ' + c.entries.join('\n\t- ')).join('\n- Competencia ')}
-
+		const query = `Necesito que me ayudes a crear un sistema de calificaciones para evaluar el desarrollo de las competencias necesarias para los contenidos que estoy trabajando en ${section.year.toLowerCase()} grado de ${section.level.toLowerCase()} en el area de ${this.pretify(this.form.get('subject')?.value || '')}, en base a 100 puntos:
 Los contenidos que estoy trabajando son estos:
 - ${this.contentBlocks.flatMap(block => block.concepts).join('\n- ')}
 
@@ -175,7 +173,6 @@ Mi metodo de enseñanza, va mayormente enfocado hacia el ${this.form.get('style'
 
 El sistema de calificaciones tiene que ser un array JSON con esta interfaz:
 {
-	competence: ${this.competence.map(c => "'" + c.name + "'").join(' | ')};
 	activity: string; // actividad o trabajo a realizar
 	activityType: 'Grupal' | 'Individual' | 'Autoevaluacion' | 'Coevaluacion';
 	criteria: string[]; // criterios de evaluacion
@@ -184,13 +181,15 @@ El sistema de calificaciones tiene que ser un array JSON con esta interfaz:
 
 Aqui cada objeto es una entrada del sistema de calificaciones, donde se especifican: la competencia que se estara trabajando, la actividad que se realizara, el tipo de actividad, los criterios que se van a evaluar y los puntos asignados a dicha actividad.
 De esta manera las condiciones para la validez del sistema de calificaciones es que al sumar todos los puntos (todas las propiedades points) de la misma competencia deberia ser igual a 100.
-Algunos puntos 'fijos' son los cuadernos (5 a 15 puntos) y la participacion activa en clase (de 5 a 10 puntos), el resto lo dejo en tus manos. Response solo con el json, no hagas comentarios, por favor.`
+Las actividades que mas realizo con mis estudiantes son las investigaciones, las exposiciones y los informes de lectura/investigacion.
+Algunos puntos 'fijos' son los cuadernos (5 a 15 puntos) y la participacion activa en clase (de 5 a 10 puntos), autoevaluaciones/coevaluaciones (no mas de 5 puntos) el resto lo dejo en tus manos. Response solo con el json, no hagas comentarios, por favor.`
 		this.generating = true;
 		this.aiService.geminiAi(query).subscribe({
 			next: res => {
 				this.generating = false;
+				console.log(res.response)
 				const activities = JSON.parse(res.response.slice(res.response.indexOf('['), res.response.lastIndexOf(']') + 1)) as GradingActivity[];
-				const adjusted = this.adjustGradingActivities(activities.sort((a, b) => a.competence.charCodeAt(0) - b.competence.charCodeAt(0)));
+				const adjusted = this.adjustGradingActivities(activities.map(a => { a.competence = 'Comunicativa'; return a }).sort((a, b) => a.competence.charCodeAt(0) - b.competence.charCodeAt(0)));
 				this.scoreSystem = {
 					activities: adjusted,
 					content: this.contentBlock,
@@ -199,7 +198,7 @@ Algunos puntos 'fijos' son los cuadernos (5 a 15 puntos) y la participacion acti
 				} as any;
 				this.grouped = this.groupByCompetence(adjusted);
 			}
-		})
+		});
 	}
 
 	saveSystem() {
