@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -29,7 +28,6 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 @Component({
     selector: 'app-class-plan-generator',
     imports: [
-        IsPremiumComponent,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatSelectModule,
@@ -112,12 +110,13 @@ export class ClassPlanGeneratorComponent implements OnInit {
 			const lastMonday = dayOfTheWeek == 1 ? today : new Date(today.setDate(today.getDate() - (7 - dayOfTheWeek)));
 			this.classPlanService.findAll().subscribe(plans => {
 			  const createdThisWeek = plans.filter((plan: any) => +(new Date(plan.createdAt)) > +lastMonday).length;
-			  if (createdThisWeek == 32) {
+			  const createdThisMonth = plans.filter((plan: any) => +(new Date(plan.createdAt)).getMonth == (new Date().getMonth())).length;
+        if ((subscription.subscriptionType.toLowerCase().includes('standard') && createdThisWeek == 32) || (subscription.subscriptionType == 'FREE' && createdThisMonth == 5)) {
 				this.router.navigateByUrl('/').then(() => {
 				  this.sb.open('Haz alcanzado el limite de planes diarios de esta semana. Contrata el plan premium para eliminar las restricciones o vuelve la proxima semana.', 'Ok', { duration: 5000 });
 				});
 			  }
-			})
+			});
 		});
     const availableResourcesStr = localStorage.getItem('available-resources');
     if (availableResourcesStr) {

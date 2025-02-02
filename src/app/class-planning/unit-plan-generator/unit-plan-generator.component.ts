@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -41,7 +40,6 @@ import { UserSubscriptionService } from '../../services/user-subscription.servic
 @Component({
     selector: 'app-unit-plan-generator',
     imports: [
-        IsPremiumComponent,
         ReactiveFormsModule,
         MatSnackBarModule,
         MatCardModule,
@@ -158,7 +156,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
         const createdThisWeek = plans.filter((plan: any) => +(new Date(plan.createdAt)) > +lastMonday).length;
         this.classSectionService.findSections().subscribe(sections => {
         const subjects = sections.map(section => section.subjects.filter(s => s !== 'TALLERES_OPTATIVOS').length).reduce((l, c) => l + c, 0);
-        if (createdThisWeek == subjects) {
+          if (subscription.subscriptionType == 'FREE' || createdThisWeek == subjects) {
           this.router.navigateByUrl('/').then(() => {
           this.sb.open('Haz alcanzado el limite de planes de esta semana. Contrata el plan premium para eliminar las restricciones o vuelve la proxima semana.', 'Ok', { duration: 5000 });
           });
