@@ -15,7 +15,14 @@
       </mat-form-field>
     </div>
   </div>
-  @if (!search.value) {
+  <div>
+    <mat-chip-listbox [formControl]="catFilter" multiple (change)="onCategoriesChange($event)">
+      @for (category of categories; track category) {
+        <mat-chip-option>{{category}}</mat-chip-option>
+      }
+    </mat-chip-listbox>
+  </div>
+  @if (!search.value || catFilter.value?.length > 0) {
     <h3>Herramientas Favoritas</h3>
     <div class="apps-grid">
       @for (app of favorites; track $index) {
