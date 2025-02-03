@@ -187,7 +187,6 @@ Algunos puntos 'fijos' son los cuadernos (5 a 15 puntos) y la participacion acti
 		this.aiService.geminiAi(query).subscribe({
 			next: res => {
 				this.generating = false;
-				console.log(res.response)
 				const activities = JSON.parse(res.response.slice(res.response.indexOf('['), res.response.lastIndexOf(']') + 1)) as GradingActivity[];
 				const adjusted = this.adjustGradingActivities(activities.map(a => { a.competence = 'Comunicativa'; return a }).sort((a, b) => a.competence.charCodeAt(0) - b.competence.charCodeAt(0)));
 				this.scoreSystem = {

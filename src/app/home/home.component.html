@@ -34,7 +34,7 @@
   }
   <h3>Todas las Herramientas</h3>
   <div class="apps-grid">
-    @if (search.value) {
+    @if (search.value || catFilter.value) {
       @for (app of filteredApps; track $index) {
         <app-tile [app]="app" [isFav]="favorites.includes(app)" />
       } @empty {

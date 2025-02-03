@@ -473,8 +473,6 @@ export class HomeComponent {
     },
   ];
 
-  filteredApps: AppEntry[] = [];
-
   ngOnInit() {
     this.loadFavorites()
     this.userSettingsService.getSettings().subscribe(user => this.user = user);
@@ -487,11 +485,11 @@ export class HomeComponent {
   }
 
   onCategoriesChange(event: any) {
-    const catFilter: string[] = this.catFilter.value;
-    if (!catFilter)
-      return;
+    // const catFilter: string[] = this.catFilter.value;
+    // if (!catFilter)
+    //   return;
 
-    this.filteredApps = catFilter.length > 0 ? this.apps.filter(app => catFilter.some(f => app.categories.includes(f))) : this.apps;
+    // this.filteredApps = catFilter.length > 0 ? this.apps.filter(app => catFilter.some(f => app.categories.includes(f))) : this.apps;
   }
 
   isAFav(app: any) {
@@ -519,7 +517,8 @@ export class HomeComponent {
 	  });
   }
 
-  filterApps() {
-    this.filteredApps = this.apps.filter(app => app.description.toLowerCase().includes(this.search.value.toLowerCase()) || app.name.toLowerCase().includes(this.search.value.toLowerCase()));
-  }
+	get filteredApps() {
+		const search = this.search.value.toLowerCase();
+    	return this.apps.filter(app => app.description.toLowerCase().includes(search) || app.name.toLowerCase().includes(search)).filter(app => app.categories.some(c => this.categories.includes(c)));
+  	}
 }
