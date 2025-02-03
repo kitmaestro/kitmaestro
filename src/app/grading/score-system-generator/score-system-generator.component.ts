@@ -58,7 +58,7 @@ export class ScoreSystemGeneratorComponent {
 	subjects: string[] = [];
 	contents: string[] = [];
 	contentBlocks: ContentBlock[] = [];
-	contentBlock: ContentBlock | null = null;
+	contentBlock: ContentBlock[] = [];
 	competence: CompetenceEntry[] = [];
 	styles = TEACHING_METHODS;
 	generating = false;
@@ -136,6 +136,14 @@ export class ScoreSystemGeneratorComponent {
 
 		// Paso 2: Ajustar los grupos que tengan un total menor a 100
 		grouped.forEach(group => {
+			if (group.total > 100) {
+				group.grading.sort((a, b) => b.points - a.points);
+
+				while (group.grading.reduce((l, c) => l + c.points, 0) > 100) {
+					group.grading = group.grading.slice(0, -1);
+				}
+				group.total = 100;
+			}
 			if (group.total < 100) {
 				// Calculamos la diferencia que falta para llegar a 100
 				const difference = 100 - group.total;
@@ -181,7 +189,8 @@ El sistema de calificaciones tiene que ser un array JSON con esta interfaz:
 
 Aqui cada objeto es una entrada del sistema de calificaciones, donde se especifican: la competencia que se estara trabajando, la actividad que se realizara, el tipo de actividad, los criterios que se van a evaluar y los puntos asignados a dicha actividad.
 De esta manera las condiciones para la validez del sistema de calificaciones es que al sumar todos los puntos (todas las propiedades points) de la misma competencia deberia ser igual a 100.
-Las actividades que mas realizo con mis estudiantes son las investigaciones, las exposiciones y los informes de lectura/investigacion.
+Este sistema de calificacion sera utilizado durante 4 semanas, a lo largo de varias lecciones. Asi que el numero ideal de actividades se encuentra entre 1 a 2 actividades a la semana, osea de 4 a 8 actividades con no mas de 100 puntos asignados en total.
+Las actividades que mas realizo con mis estudiantes son las investigaciones, las exposiciones y los informes de lectura o de investigacion.
 Algunos puntos 'fijos' son los cuadernos (5 a 15 puntos) y la participacion activa en clase (de 5 a 10 puntos), autoevaluaciones/coevaluaciones (no mas de 5 puntos) el resto lo dejo en tus manos. Response solo con el json, no hagas comentarios, por favor.`
 		this.generating = true;
 		this.aiService.geminiAi(query).subscribe({
@@ -196,6 +205,10 @@ Algunos puntos 'fijos' son los cuadernos (5 a 15 puntos) y la participacion acti
 					user: section.user
 				} as any;
 				this.grouped = this.groupByCompetence(adjusted);
+			},
+			error: err => {
+				console.log(err.message);
+				this.generating = false;
 			}
 		});
 	}
@@ -257,12 +270,13 @@ Algunos puntos 'fijos' son los cuadernos (5 a 15 puntos) y la participacion acti
 			const title: string[] = event.value;
 			const section = this.getSection(this.form.get('section')?.value || '');
 			const subject = this.form.get('subject')?.value;
+			const content: string[] = this.form.get('content')?.value as any;
 			if (section) {
 				const { year, level } = section;
 				zip([this.contentBlockService.findAll({ year, level, subject }), this.competenceService.findAll({ grade: year, level, subject })]).subscribe({
 					next: ([contentBlocks, competence]) => {
 						this.contentBlocks = contentBlocks.filter(block => title.includes(block.title));
-						this.contentBlock = this.contentBlocks.find(block => block.title == (this.form.get('content')?.value || '')) || null;
+						this.contentBlock = this.contentBlocks.filter(block => content.includes(block.title)) || null;
 						this.competence = competence;
 					}
 				})

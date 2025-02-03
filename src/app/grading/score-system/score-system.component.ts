@@ -21,7 +21,7 @@ export class ScoreSystemComponent {
 	@Input() scoreSystem: ScoreSystem | null = null;
 	@Input() user: UserSettings | null = null;
 	@Input() section: ClassSection | null = null;
-	@Input() contentBlock: ContentBlock | null = null;
+	@Input() contentBlock: ContentBlock[] = [];
 	private studentsService = inject(StudentsService);
 	grouped: GroupedGradingActivity[] = [];
 	students: Student[] = [];

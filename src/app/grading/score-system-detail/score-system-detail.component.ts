@@ -252,7 +252,7 @@ export class ScoreSystemDetailComponent {
 							children: [
 								new TextRun({
 									color: '#000000',
-									text: "Sistema de Calificación de " + this.pretify(this.scoreSystem.content.subject),
+									text: "Sistema de Calificación de " + this.pretify(this.scoreSystem.content[0].subject),
 								})
 							],
 							heading: HeadingLevel.HEADING_2,
@@ -282,7 +282,7 @@ export class ScoreSystemDetailComponent {
 							children: [
 								new TextRun({
 									color: '#000000',
-									text: this.scoreSystem.content.title,
+									text: this.scoreSystem.content.flatMap(c => c.title).join(', '),
 								})
 							],
 							heading: HeadingLevel.HEADING_3,
@@ -339,7 +339,7 @@ export class ScoreSystemDetailComponent {
 			]
 		});
 		const blob = await Packer.toBlob(doc);
-		saveAs(blob, `${this.scoreSystem.content.title} - Sistema de Calificacion.docx`);
+		saveAs(blob, `${this.scoreSystem.content.flatMap(c => c.title)[0]} - Sistema de Calificacion.docx`);
 		this.printing = false;
 	}
 }

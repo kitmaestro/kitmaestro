@@ -20,6 +20,6 @@ export interface ScoreSystem {
 	_id: string;
 	section: ClassSection;
 	user: UserSettings;
-	content: ContentBlock;
+	content: ContentBlock[];
 	activities: GradingActivity[]
 }
