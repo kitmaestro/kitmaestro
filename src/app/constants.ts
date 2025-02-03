@@ -287,6 +287,7 @@ un ejemplo de la lista de actividades seria esta:
       'Recuperacion de saberes y esperiencias previas sobre las cartas',
       'Lectura e interpretacion de cartas',
       'Redaccion de borradores de cartas de permiso',
+      'Metacognición: ¿Qué aprendimos hoy? ¿Cómo lo aprendimos? ¿Cómo podemos mejorar?',
       ...
     ],
   }[],

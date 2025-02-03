@@ -75,6 +75,23 @@ Para hacer esto ultimo, necesito que me crees objecto JSON con esta interfaz:
   p3: string[],
   p4: string[]
 }
+
+Un ejemplo de como deberia verse el resultado es este:
+Tema: la carta de agradecimiento
+Limite de aspectos: 12
+Periodos trabajados: p1
+{
+  p1: [
+    'Escucha atenta de la lectura de cartas de agradecimiento',
+    'Identificación del tipo de texto que escucha',
+    'Producción de cartas de agradecimiento de manera oral',
+    'Lectura de cartas de agradecimiento en voz alta',
+    'Redacción de cartas de agradecimiento'
+  ],
+  p2: [],
+  p3: [],
+  p4: [],
+}
 Donde cada periodo es un array de no mas de aspect_qty strings, y cada string es un aspecto especifico (caracteristica, elemento, actividad, contenido) que se puede trabajar en section_year grado de section_level en el area de class_subject con los contenidos que he trabajado que son estos:\nclass_topics`;
 
   ngOnInit() {
