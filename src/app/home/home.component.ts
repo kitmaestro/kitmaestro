@@ -42,8 +42,9 @@ export class HomeComponent {
   private favoritesService = inject(FavoritesService);
   private userSettingsService = inject(UserSettingsService);
   favorites: AppEntry[] = [];
-  search = new FormControl();
-  catFilter = new FormControl();
+  filteredFavorites: AppEntry[] = [];
+  search = new FormControl('');
+  catFilter = new FormControl([]);
   user: UserSettings | null = null;
   categories: string[] = [];
 
@@ -51,6 +52,7 @@ export class HomeComponent {
     this.favoritesService.findAll().subscribe({
       next: favs => {
         this.favorites = favs.tools;
+        this.onSearch();
       }
     });
   }
@@ -473,6 +475,8 @@ export class HomeComponent {
     },
   ];
 
+  filteredApps: AppEntry[] = [];
+
   ngOnInit() {
     this.loadFavorites()
     this.userSettingsService.getSettings().subscribe(user => this.user = user);
@@ -481,15 +485,21 @@ export class HomeComponent {
         this.categories.push(cat);
       }
     });
-    this.onCategoriesChange({});
+    this.onCategoriesChange({ value: [] });
   }
 
   onCategoriesChange(event: any) {
-    // const catFilter: string[] = this.catFilter.value;
-    // if (!catFilter)
-    //   return;
-
-    // this.filteredApps = catFilter.length > 0 ? this.apps.filter(app => catFilter.some(f => app.categories.includes(f))) : this.apps;
+    setTimeout(() => {
+      this.filteredApps = this.filterApps();
+      this.filteredFavorites = this.filterApps().filter(app => this.isAFav(app));
+    }, 0);
+  }
+  
+  onSearch() {
+    setTimeout(() => {
+      this.filteredApps = this.filterApps();
+      this.filteredFavorites = this.filterApps().filter(app => this.isAFav(app));
+    }, 0);
   }
 
   isAFav(app: any) {
@@ -517,8 +527,16 @@ export class HomeComponent {
 	  });
   }
 
-	get filteredApps() {
-		const search = this.search.value.toLowerCase();
+	filterApps(): AppEntry[] {
+		const search = this.search.value?.toLowerCase();
+    const cat: string[] = this.catFilter.value as any;
+      if (!search) {
+        if (cat.length > 0)
+          return this.apps.filter(app => app.categories.some(c => cat.includes(c)));
+        else
+          return this.apps;
+      }
+
     	return this.apps.filter(app => app.description.toLowerCase().includes(search) || app.name.toLowerCase().includes(search)).filter(app => app.categories.some(c => this.categories.includes(c)));
   	}
 }

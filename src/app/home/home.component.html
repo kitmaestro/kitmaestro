@@ -22,10 +22,10 @@
       }
     </mat-chip-listbox>
   </div>
-  @if (!search.value || catFilter.value?.length > 0) {
+  @if (search.value == '' || (catFilter.value && catFilter.value.length > 0)) {
     <h3>Herramientas Favoritas</h3>
     <div class="apps-grid">
-      @for (app of favorites; track $index) {
+      @for (app of filteredFavorites; track $index) {
         <app-tile [isFav]="true" [app]="app" (markFavorite)="unmarkFavorite($event)" />
       } @empty {
         <app-tile [app]="emptyApp" />
