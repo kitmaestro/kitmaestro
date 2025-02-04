@@ -61,7 +61,7 @@ export class RubricDetailComponent implements OnInit {
     });
   }
 
-  download() {
+  async download() {
     if (!this.rubric)
       return;
     this.sb.open('Estamos preparando tu descarga. Espera un momento, por favor', 'Ok', { duration: 2500 });

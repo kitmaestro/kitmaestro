@@ -102,7 +102,7 @@ export const routes: Routes = [
     { path: 'observation-sheet', loadComponent: () => import('./assessments/observation-sheet/observation-sheet.component').then(mod => mod.ObservationSheetComponent), },
     { path: 'observation-sheets', loadComponent: () => import('./assessments/observation-sheets/observation-sheets.component').then(mod => mod.ObservationSheetsComponent), },
     { path: 'observation-sheets/:id', loadComponent: () => import('./assessments/observation-sheet-detail/observation-sheet-detail.component').then(mod => mod.ObservationSheetDetailComponent), },
-    { path: 'rubric', loadComponent: () => import('./assessments/rubric/rubric.component').then(mod => mod.RubricComponent), },
+    { path: 'rubric-generator', loadComponent: () => import('./assessments/rubric-generator/rubric-generator.component').then(mod => mod.RubricGeneratorComponent), },
     { path: 'rubrics', loadComponent: () => import('./assessments/rubrics/rubrics.component').then(mod => mod.RubricsComponent), },
     { path: 'rubrics/:id', loadComponent: () => import('./assessments/rubric-detail/rubric-detail.component').then(mod => mod.RubricDetailComponent), },
     { path: 'estimation-scale', loadComponent: () => import('./assessments/estimation-scale/estimation-scale.component').then(mod => mod.EstimationScaleComponent), },

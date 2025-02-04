@@ -40,7 +40,6 @@ export class RubricService {
     return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id, this.config);
   }
 
-  download(id: string, format: 'docx' | 'pdf' = 'pdf'): Observable<{ pdf: string}> {
-    return this.http.get<{ pdf: string }>(this.apiBaseUrl + id + '/' + format, this.config);
+  async download(rubric: Rubric) {
   }
 }

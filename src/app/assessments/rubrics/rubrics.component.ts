@@ -27,6 +27,7 @@ export class RubricsComponent implements OnInit {
 
   rubrics: Rubric[] = [];
   displayedColumns = ['title', 'section', 'activity', 'rubricType', 'actions'];
+  loading = true;
 
   loadRubrics() {
     this.rubricService.findAll().subscribe({
@@ -34,10 +35,12 @@ export class RubricsComponent implements OnInit {
         if (rubrics.length) {
           this.rubrics = rubrics;
         }
+        this.loading = false;
       },
       error: err => {
         this.sb.open('Error al cargar', 'Ok', { duration: 2500 });
         console.log(err.message)
+        this.loading = false;
       }
     });
   }
@@ -47,11 +50,26 @@ export class RubricsComponent implements OnInit {
   }
 
   deleteAssessment(id: string) {
-    this.rubricService.delete(id).subscribe(res => {
-      if (res.deletedCount == 1) {
-        this.sb.open('Se ha eliminado la rubrica', 'Ok', { duration: 2500 });
-        this.loadRubrics()
+    this.loading = true;
+    this.rubricService.delete(id).subscribe({
+      next: res => {
+        if (res.deletedCount == 1) {
+          this.sb.open('Se ha eliminado la rubrica', 'Ok', { duration: 2500 });
+          this.loadRubrics()
+        }
+        this.loading = false;
+      },
+      error: err => {
+        console.log(err.message)
+        this.loading = false;
+        this.sb.open('No se ha podido eliminar. Intentalo de nuevo', 'Ok', { duration: 2500 });
       }
     });
+  }
+
+  async download(rubric: any) {
+    this.loading = true;
+    await this.rubricService.download(rubric);
+    this.loading = false;
   }
 }
