@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { Test } from '../interfaces/test';
-import { Document, HeadingLevel, Packer, PageOrientation, Paragraph, Table, TableCell, TableRow, TextRun } from 'docx';
+import { Document, HeadingLevel, Packer, PageOrientation, Paragraph, Table, TableCell, TableRow, TextRun, WidthType } from 'docx';
 import { saveAs  } from 'file-saver';
 import { PretifyPipe } from '../pipes/pretify.pipe';
 
@@ -114,6 +114,10 @@ export class TestService {
 
   private table(text: string): Table {
 	return new Table({
+		width: {
+			size: 100,
+			type: WidthType.PERCENTAGE,
+		},
 		rows: text.split('|').map(s => {
 			return new TableRow({
 				children: [

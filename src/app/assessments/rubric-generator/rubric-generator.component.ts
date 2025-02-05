@@ -11,7 +11,6 @@ import { RubricService } from '../../services/rubric.service';
 import { ClassSectionService } from '../../services/class-section.service';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { Rubric } from '../../interfaces/rubric';
-import { NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Student } from '../../interfaces/student';
 import { StudentsService } from '../../services/students.service';
@@ -23,6 +22,7 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 import { ContentBlock } from '../../interfaces/content-block';
 import { SubjectConceptList } from '../../interfaces/subject-concept-list';
 import { CompetenceService } from '../../services/competence.service';
+import { RubricComponent } from '../rubric/rubric.component';
 
 @Component({
     selector: 'app-rubric-generator',
@@ -35,9 +35,9 @@ import { CompetenceService } from '../../services/competence.service';
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
-        NgIf,
         RouterLink,
         PretifyPipe,
+        RubricComponent,
     ],
     templateUrl: './rubric-generator.component.html',
     styleUrl: './rubric-generator.component.scss'

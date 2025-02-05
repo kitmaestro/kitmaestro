@@ -3,7 +3,7 @@
         <mat-card-header style="justify-content: space-between; align-items: center;">
             <mat-card-title>{{rubric.title}}</mat-card-title>
             <span style="flex: 1 1 auto;"></span>
-            <a routerLink="/assessments/rubrics" mat-icon-button color="link" style="margin-right: 8px;" title="Todas las rubricas">
+            <a routerLink="/rubrics" mat-icon-button color="link" style="margin-right: 8px;" title="Todas las rubricas">
                 <mat-icon>home</mat-icon>
             </a>
             <button mat-icon-button color="warn" (click)="deleteRubric()" style="margin-right: 8px;" title="Eliminar esta rubrica">
@@ -20,91 +20,7 @@
     </mat-card>
     <mat-card style="margin-top: 24px; width: fit-content; margin-left: auto; margin-right: auto;">
         <mat-card-content style="width: fit-content;">
-            <div style="width: 8.5in; padding: 0.35in;" id="rubric">
-                <div style="text-align: center;">
-                    <h2 style="margin-bottom: 4px;">R&uacute;brica</h2>
-                    <h3 style="margin-bottom: 4px;">{{rubric.title}}</h3>
-                </div>
-                <h3 style="text-align: end;">{{ rubric.section.name }}</h3>
-                <div style="display: flex; gap: 12px; margin-bottom: 12px;">
-                    <div style="font-weight: bold;">Estudiante:</div>
-                    <div style="border-bottom: 1px solid black; width: 100%; flex: 1 1 auto;"></div>
-                </div>
-                <h3 style="font-weight: bold; margin-bottom: 8px; margin-top: 8px;">Competencias Espec&iacute;ficas</h3>
-                <ul style="list-style: none; margin: 0; padding: 0;">
-                    @for(item of rubric.competence; track item) {
-                        <li>- {{item}}</li>
-                    }
-                </ul>
-                <h3 style="font-weight: bold; margin-bottom: 8px; margin-top: 8px;">Indicadores de Logro</h3>
-                <ul style="list-style: none; margin: 0; padding: 0;">
-                    @for(item of rubric.achievementIndicators; track item) {
-                        <li>- {{item}}</li>
-                    }
-                </ul>
-                <div style="margin-bottom: 12px; margin-top: 12px;"><b>Evidencia o Actividad</b>: {{rubric.activity}}</div>
-                @if (rubric.rubricType == 'SINTETICA') {
-                    <table style="border-collapse: collapse;">
-                        <thead>
-                            <tr>
-                                <th rowspan="2">Criterios/Indicadores</th>
-                                <th [attr.colspan]="rubric.progressLevels.length">Niveles de Desempe&ntilde;o</th>
-                            </tr>
-                            <tr>
-                                @for (level of rubric.progressLevels; track $index) {
-                                    <th>Nivel {{ $index + 1 }}<br>{{level}}</th>
-                                }
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (row of rubric.criteria; track $index) {
-                                <tr>
-                                    <td>{{row.indicator}} ({{row.maxScore}} puntos)</td>
-                                    @for (item of row.criterion; track item) {
-                                        <td>{{item.name}} ({{item.score}} puntos)</td>
-                                    }
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                } @else {
-                    <table>
-                        <tbody>
-                            @for (row of rubric.criteria; track $index) {
-                                <tr>
-                                    <td [attr.colspan]="rubric.progressLevels.length + 1"><b>Criterio o Indicador</b>: {{row.indicator}}</td>
-                                </tr>
-                                <tr>
-                                    <th rowspan="2">Estudiantes</th>
-                                    @for (level of rubric.progressLevels; track $index) {
-                                        <th>Nivel {{ $index + 1 }}<br>{{level}}</th>
-                                    }
-                                </tr>
-                                <tr>
-                                    @for (item of row.criterion; track item) {
-                                        <td>{{item.name}} ({{item.score}} puntos)</td>
-                                    }
-                                </tr>
-                                @for (student of students; track student._id) {
-                                    <tr>
-                                        <td style="min-width: fit-content;">{{student.firstname}} {{student.lastname}}</td>
-                                        @for (item of row.criterion; track item) {
-                                            <td></td>
-                                        }
-                                    </tr>
-                                } @empty {
-                                    @for (item of [].constructor(45); track item) {
-                                        <tr></tr>
-                                        @for (item of row.criterion; track item) {
-                                            <td></td>
-                                        }
-                                    }
-                                }
-                            }
-                        </tbody>
-                    </table>
-                }
-            </div>
+            <app-rubric [rubric]="rubric"></app-rubric>
         </mat-card-content>
     </mat-card>
 }

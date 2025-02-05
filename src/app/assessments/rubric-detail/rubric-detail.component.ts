@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { PdfService } from '../../services/pdf.service';
 import { Student } from '../../interfaces/student';
 import { StudentsService } from '../../services/students.service';
+import { RubricComponent } from '../rubric/rubric.component';
 
 @Component({
     selector: 'app-rubric-detail',
@@ -18,6 +19,7 @@ import { StudentsService } from '../../services/students.service';
         MatButtonModule,
         RouterLink,
         MatIconModule,
+        RubricComponent,
     ],
     templateUrl: './rubric-detail.component.html',
     styleUrl: './rubric-detail.component.scss'
@@ -65,6 +67,6 @@ export class RubricDetailComponent implements OnInit {
     if (!this.rubric)
       return;
     this.sb.open('Estamos preparando tu descarga. Espera un momento, por favor', 'Ok', { duration: 2500 });
-    this.pdfService.createAndDownloadFromHTML('rubric', 'Rubrica ' + this.rubric.title);
+    await this.rubricService.download(this.rubric);
   }
 }

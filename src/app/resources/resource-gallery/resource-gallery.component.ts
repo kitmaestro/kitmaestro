@@ -84,20 +84,29 @@ export class ResourceGalleryComponent {
     'FASCICULOS',
   ];
 
-  constructor() {
+  load() {
+    this.loading = true;
     this.resourcesService.findAll({ status: 'public' }).subscribe({
       next: res => {
         this.fullList = res;
+        this.loading = false;
         this.filter();
+      },
+      error: err => {
+        this.loading = false;
       }
     });
+  }
+
+  constructor() {
     this.authService.profile().subscribe(user => {
       this.user = user;
     });
   }
 
   openCreateResourceDialog() {
-    this.dialog.open(ResourceFormComponent, { width: '100%', maxWidth: '960px' });
+    const dialogRef = this.dialog.open(ResourceFormComponent, { width: '100%', maxWidth: '960px' });
+    dialogRef.afterClosed().subscribe(res => this.load());
   }
   
   filter() {
