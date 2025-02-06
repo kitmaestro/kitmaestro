@@ -202,7 +202,7 @@ Algunos puntos 'fijos' son los cuadernos (5 a 15 puntos) y la participacion acti
 					activities: adjusted,
 					content: this.contentBlock,
 					section: section._id,
-					user: section.user
+					user: this.user?._id,
 				} as any;
 				this.grouped = this.groupByCompetence(adjusted);
 			},
