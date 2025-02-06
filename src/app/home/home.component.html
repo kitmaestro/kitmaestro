@@ -16,7 +16,7 @@
     </div>
   </div>
   <div>
-    <mat-chip-listbox [formControl]="catFilter" multiple (change)="onCategoriesChange($event)">
+    <mat-chip-listbox [formControl]="catFilter" multiple (change)="onCategoriesChange();">
       @for (category of categories; track category) {
         <mat-chip-option>{{category}}</mat-chip-option>
       }

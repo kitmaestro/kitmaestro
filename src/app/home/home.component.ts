@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AppTileComponent } from '../app-tile/app-tile.component';
 import { FavoritesService } from '../services/favorites.service';
 import { UserSettingsService } from '../services/user-settings.service';
@@ -102,7 +102,7 @@ export class HomeComponent {
       name: 'Calculadora de Promedios',
       description: 'Calcula promedios en un santiamén.',
       link: ['/average-calculator'],
-      categories: ['Calculadora'],
+      categories: ['Calculadora', 'Registro'],
       icon: '/assets/calculator.svg',
       // icon: '/assets/icons/education2/PNG/bank-banking-budget-svgrepo-com.png',
     },
@@ -110,7 +110,7 @@ export class HomeComponent {
       name: 'Calculadora de Asistencias',
       description: 'La forma más fácil de calcular la asistencia.',
       link: ['/attendance-calculator'],
-      categories: ['Calculadora'],
+      categories: ['Calculadora', 'Registro'],
       icon: '/assets/attendance.svg',
       // icon: '/assets/icons/education2/PNG/math-svgrepo-com.png',
     },
@@ -134,7 +134,7 @@ export class HomeComponent {
       name: 'Generador de Calificaciones',
       description: 'Genera calificaciones para tus estudiantes.',
       link: ['/grades-generator'],
-      categories: ['Productividad'],
+      categories: ['Productividad', 'Registro'],
       icon: '/assets/grades.svg',
       // icon: '/assets/icons/education/PNG/score-svgrepo-com.png',
     },
@@ -142,7 +142,7 @@ export class HomeComponent {
       name: 'Generador de Asistencia',
       description: 'Genera asistencia calculada para tus estudiantes.',
       link: ['/attendance-generator'],
-      categories: ['Productividad'],
+      categories: ['Productividad', 'Registro'],
       icon: '/assets/undraw_analysis_dq08.svg',
       // icon: '/assets/icons/education/PNG/vision-svgrepo-com.png',
       isNew: true,
@@ -174,7 +174,7 @@ export class HomeComponent {
       name: 'Mis Secciones',
       description: 'Administra tus cursos y asignaturas',
       link: ['/sections'],
-      categories: [],
+      categories: ['Productividad'],
       icon: '/assets/undraw_educator_re_ju47.svg',
       // icon: '/assets/icons/education2/PNG/quiz-svgrepo-com.png',
     },
@@ -182,7 +182,7 @@ export class HomeComponent {
       name: 'Registro Anecdótico',
       description: 'El registro anecdótico hecho fácil.',
       link: ['/log-registry-generator'],
-      categories: ['Registro'],
+      categories: ['Registro', 'Productividad'],
       icon: '/assets/undraw_upload_image_re_svxx.svg',
       // icon: '/assets/icons/education/PNG/writing-svgrepo-com.png',
     },
@@ -190,7 +190,7 @@ export class HomeComponent {
       name: 'Plantillas de Planificación',
       description: 'Plantillas funcionales para los tradicionales.',
       link: ['/planner-generator'],
-      categories: ['Plantillas'],
+      categories: ['Plantillas', 'Planificación'],
       icon: '/assets/undraw_responsive_re_e1nn.svg',
       // icon: '/assets/icons/education2/PNG/book-svgrepo-com.png',
     },
@@ -238,7 +238,7 @@ export class HomeComponent {
       name: 'Sistemas de Calificación',
       description: 'Informes detallados para cada necesidad.',
       link: ['/grading-systems'],
-      categories: ['Planificación', 'Instrumentos de Evaluación', 'Calificación'],
+      categories: ['Planificación', 'Instrumentos de Evaluación', 'Calificación', 'Registro'],
       icon: '/assets/undraw_portfolio_website_re_jsdd.svg',
       // icon: '/assets/icons/education2/PNG/fraction-svgrepo-com.png',
     },
@@ -485,16 +485,16 @@ export class HomeComponent {
         this.categories.push(cat);
       }
     });
-    this.onCategoriesChange({ value: [] });
+    this.onCategoriesChange();
   }
 
-  onCategoriesChange(event: any) {
+  onCategoriesChange() {
     setTimeout(() => {
       this.filteredApps = this.filterApps();
       this.filteredFavorites = this.filterApps().filter(app => this.isAFav(app));
     }, 0);
   }
-  
+
   onSearch() {
     setTimeout(() => {
       this.filteredApps = this.filterApps();
