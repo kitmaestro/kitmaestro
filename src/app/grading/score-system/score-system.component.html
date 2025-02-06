@@ -4,10 +4,10 @@
 			<div class="page" id="score-system">
 				<div style="text-align: center;">
 					<h2 style="margin-bottom: 0;">{{ section?.school?.name || scoreSystem.section.school.name }}</h2>
-					<h2 style="margin-bottom: 0;">Sistema de Calificaci&oacute;n de {{(contentBlock[0].subject || scoreSystem.content[0].subject) | pretify}}</h2>
+					<h2 style="margin-bottom: 0;">Sistema de Calificaci&oacute;n de {{(contentBlock && contentBlock.length ? (contentBlock[0].subject) : scoreSystem.content[0].subject) | pretify}}</h2>
 					<h3 style="margin-bottom: 0;">{{user?.title || scoreSystem.user.title}}. {{user?.firstname || scoreSystem.user.firstname}} {{user?.lastname || scoreSystem.user.lastname}}</h3>
 					<h3 style="margin-bottom: 0;">{{section?.name || scoreSystem.section.name}}</h3>
-					@if (contentBlock) {
+					@if (contentBlock && contentBlock.length) {
 						<h3>| @for (c of contentBlock; track $index) { {{ c.title + ' | '}} }</h3>
 					} @else {
 						<h3>@for (c of scoreSystem.content; track $index) { {{ c.title}} }</h3>

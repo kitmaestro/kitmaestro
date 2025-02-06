@@ -28,7 +28,7 @@ export class ScoreSystemService {
     return this.http.get<ScoreSystem>(this.apiBaseUrl + id, this.config);
   }
 
-  create(plan: ScoreSystem): Observable<ScoreSystem> {
+  create(plan: any): Observable<ScoreSystem> {
     return this.http.post<ScoreSystem>(this.apiBaseUrl, plan, this.config);
   }
 

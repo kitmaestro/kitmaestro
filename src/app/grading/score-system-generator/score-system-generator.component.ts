@@ -216,7 +216,8 @@ Algunos puntos 'fijos' son los cuadernos (5 a 15 puntos) y la participacion acti
 	saveSystem() {
 		if (this.scoreSystem) {
 			this.saving = true;
-			this.scoreService.create(this.scoreSystem).subscribe({
+			const content = this.scoreSystem.content.map(c => c._id);
+			this.scoreService.create({ ...this.scoreSystem, content }).subscribe({
 				next: system => {
 					if (system._id) {
 						this.router.navigateByUrl("/grading-systems/" + system._id).then(() => {
