@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { PretifyPipe } from '../../pipes/pretify.pipe';
+import { lastValueFrom } from 'rxjs';
+import { StudentsService } from '../../services/students.service';
 
 @Component({
     selector: 'app-score-systems',
@@ -25,6 +27,7 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 })
 export class ScoreSystemsComponent {
 	private scoreSystemService = inject(ScoreSystemService);
+	private studentService = inject(StudentsService);
 	private sb = inject(MatSnackBar);
 	scoreSystems: ScoreSystem[] = [];
 	columns = ['section', 'subject', 'content', 'competence', 'activities', 'actions'];
@@ -63,5 +66,16 @@ export class ScoreSystemsComponent {
 				this.sb.open('Ha ocurrido un error al cargar tus sistemas de calificacion. Intentalo de nuevo, por favor.', 'Ok', { duration: 2500 });
 			}
 		});
+	}
+
+	async download(system: ScoreSystem) {
+		if (!system.section) {
+			this.sb.open('Este sistema de calificaciones contiene errores. No se puede descargar', 'Ok', { duration: 2500 })
+			return;
+		}
+		const students = await lastValueFrom(this.studentService.findBySection(system.section._id));
+		await this.scoreSystemService.download(system, students);
+		this.sb.open('Se ha descargado tu sistema de calificacion', 'Ok', { duration: 2500 });
+
 	}
 }

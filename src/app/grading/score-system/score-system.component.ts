@@ -105,4 +105,16 @@ export class ScoreSystemComponent {
 		// Paso 3: Retornar el array plano de GradingActivity con los puntos ajustados
 		return grouped.flatMap(group => group.grading);
 	}
+
+	get content(): ContentBlock[] {
+		if (this.scoreSystem) {
+			if (typeof this.scoreSystem.content.join == 'function') {
+				return this.scoreSystem.content;
+			} else {
+				return [this.scoreSystem.content] as any as ContentBlock[];
+			}
+		} else {
+			return [];
+		}
+	}
 }

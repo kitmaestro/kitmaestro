@@ -238,7 +238,7 @@ export class HomeComponent {
       name: 'Sistemas de Calificación',
       description: 'Informes detallados para cada necesidad.',
       link: ['/grading-systems'],
-      categories: ['Planificación', 'Instrumentos de Evaluación', 'Calificación', 'Registro'],
+      categories: ['Planificación', 'Instrumentos de Evaluación', 'Calificación', 'Evaluación'],
       icon: '/assets/undraw_portfolio_website_re_jsdd.svg',
       // icon: '/assets/icons/education2/PNG/fraction-svgrepo-com.png',
     },
