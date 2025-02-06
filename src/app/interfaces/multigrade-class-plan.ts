@@ -5,7 +5,7 @@ export interface ClassPlan {
   _id: string,
   user: UserSettings;
   date: Date;
-  section: ClassSection;
+  sections: ClassSection[];
   subject: string;
   objective: string;
   strategies: string[];
