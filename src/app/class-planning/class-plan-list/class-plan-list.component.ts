@@ -2,12 +2,14 @@ import { Component, inject } from '@angular/core';
 import { ClassPlansService } from '../../services/class-plans.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ClassPlan } from '../../interfaces/class-plan';
 
 @Component({
     selector: 'app-class-plan-list',
@@ -20,15 +22,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
         DatePipe,
         RouterModule,
         MatIconModule,
+        MatTableModule,
     ],
     templateUrl: './class-plan-list.component.html',
     styleUrl: './class-plan-list.component.scss'
 })
 export class ClassPlanListComponent {
-
   classPlansService = inject(ClassPlansService);
   classPlans$ = this.classPlansService.findAll();
   sb = inject(MatSnackBar);
+
+  displayedColumns = ['section', 'subject', 'date', 'actions'];
 
   deletePlan(id: string) {
     this.classPlansService.deletePlan(id).subscribe((res) => {
@@ -62,6 +66,11 @@ export class ClassPlanListComponent {
       default:
         return 'Talleres Optativos';
     }
+  }
+
+  async download(plan: ClassPlan) {
+    this.sb.open('Estamos descargando tu plan.', 'Ok', { duration: 2500 });
+    await this.classPlansService.download(plan);
   }
 
 }
