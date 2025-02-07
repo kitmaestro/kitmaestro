@@ -11,7 +11,7 @@
     <div class="search-container">
       <mat-form-field appearance="outline">
         <mat-label>Buscar</mat-label>
-        <input type="search" autofocus [formControl]="search" placeholder="Buscar Herramienta" matInput>
+        <input type="search" autofocus [formControl]="search" placeholder="Buscar Herramienta" matInput (keyup)="onSearch()">
       </mat-form-field>
     </div>
   </div>
@@ -34,16 +34,10 @@
   }
   <h3>Todas las Herramientas</h3>
   <div class="apps-grid">
-    @if (search.value || catFilter.value) {
-      @for (app of filteredApps; track $index) {
-        <app-tile [app]="app" [isFav]="favorites.includes(app)" />
-      } @empty {
-          <p style="padding: 24px; text-align: center;">No tenemos esa herramienta.<br />Considera <a mat-button routerLink="/ideas">Proponer la Idea</a> para que la integremos a la plataforma.</p>
-      }
-    } @else {
-      @for (app of apps; track $index) {
-        <app-tile [app]="app" [isFav]="isAFav(app)" (markFavorite)="markFavorite($event)" />
-      }
+    @for (app of filteredApps; track $index) {
+      <app-tile [app]="app" [isFav]="favorites.includes(app)" />
+    } @empty {
+        <p style="padding: 24px; text-align: center;">No tenemos esa herramienta.<br />Considera <a mat-button routerLink="/ideas">Proponer la Idea</a> para que la integremos a la plataforma.</p>
     }
   </div>
 </div>

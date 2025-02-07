@@ -528,7 +528,7 @@ export class HomeComponent {
   }
 
 	filterApps(): AppEntry[] {
-		const search = this.search.value?.toLowerCase();
+		const search = (this.search.value || '').toLowerCase();
     const cat: string[] = this.catFilter.value as any;
       if (!search) {
         if (cat.length > 0)
