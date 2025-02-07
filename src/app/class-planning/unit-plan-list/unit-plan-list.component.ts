@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { AsyncPipe } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { LoadingIconComponent } from '../../ui/loading-icon/loading-icon.component';
 import { tap } from 'rxjs';
 import { UnitPlanService } from '../../services/unit-plan.service';
 import { PretifyPipe } from '../../pipes/pretify.pipe';
+import { UnitPlan } from '../../interfaces/unit-plan';
 
 @Component({
     selector: 'app-unit-plan-list',
@@ -18,20 +18,21 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
         MatButtonModule,
         MatCardModule,
         MatListModule,
-        AsyncPipe,
+        MatTableModule,
+        DatePipe,
         RouterModule,
         MatIconModule,
-        LoadingIconComponent,
         PretifyPipe,
     ],
     templateUrl: './unit-plan-list.component.html',
     styleUrl: './unit-plan-list.component.scss'
 })
 export class UnitPlanListComponent {
-
   unitPlansService = inject(UnitPlanService);
   unitPlans$ = this.unitPlansService.findAll().pipe(tap(() => this.loading = false));
   sb = inject(MatSnackBar);
+
+  displayedColumns = ['title', 'section', 'subject', 'date', 'actions'];
 
   loading = true;
 
@@ -42,5 +43,10 @@ export class UnitPlanListComponent {
         this.unitPlans$ = this.unitPlansService.findAll();
       }
     });
+  }
+
+  async download(plan: UnitPlan) {
+    await this.unitPlansService.download(plan);
+    this.sb.open('Se ha descargado tu plan', 'Ok', { duration: 2500 });
   }
 }

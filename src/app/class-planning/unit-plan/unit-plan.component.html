@@ -41,7 +41,7 @@
 							@for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
 								@if (comp.name == 'Comunicativa') {
 									@if (unitPlan.subjects.length > 1) {
-										<p class="bold">{{pretifySubject(comp.subject)}}</p>
+										<p class="bold">{{comp.subject | pretify}}</p>
 									}
 									<ul style="margin: 0; padding: 0; list-style: none;">
 										@for (el of comp.entries; track el) {
@@ -55,7 +55,7 @@
 							@for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
 								@if (comp.name.includes('Pensamiento')) {
 									@if (unitPlan.subjects.length > 1) {
-										<p class="bold">{{pretifySubject(comp.subject)}}</p>
+										<p class="bold">{{comp.subject | pretify}}</p>
 									}
 									<ul style="margin: 0 0 24px; padding: 0; list-style: none;">
 										@for (el of comp.entries; track el) {
@@ -69,7 +69,7 @@
 							@for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
 								@if (comp.name.includes('Ciudadana')) {
 									@if (unitPlan.subjects.length > 1) {
-										<p class="bold">{{pretifySubject(comp.subject)}}</p>
+										<p class="bold">{{comp.subject | pretify}}</p>
 									}
 									<ul style="margin: 0 0 24px; padding: 0; list-style: none;">
 										@for (el of comp.entries; track el) {
@@ -88,7 +88,7 @@
 							@for (row of (competence.length ? competence : unitPlan.competence); track $index) {
 								@if (row.name == 'Comunicativa') {
                   @if (unitPlan.subjects.length > 1) {
-                    <h4 class="bold">{{pretifySubject(row.subject)}}</h4>
+                    <h4 class="bold">{{row.subject | pretify}}</h4>
                   }
 									<ul style="margin: 0; padding: 0; list-style: none;">
 										@for (criterion of row.criteria; track criterion) {
@@ -104,7 +104,7 @@
 							@for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                 @if (row.name.includes('Pensamiento')) {
                   @if (unitPlan.subjects.length > 1) {
-                    <h4 class="bold">{{pretifySubject(row.subject)}}</h4>
+                    <h4 class="bold">{{row.subject | pretify}}</h4>
                   }
 									<ul style="margin: 0; padding: 0; list-style: none;">
 										@for (criterion of row.criteria; track criterion) {
@@ -120,7 +120,7 @@
 							@for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                 @if (row.name.includes('Ciudadana')) {
                   @if (unitPlan.subjects.length > 1) {
-                    <h4 class="bold">{{pretifySubject(row.subject)}}</h4>
+                    <h4 class="bold">{{row.subject | pretify}}</h4>
                   }
 									<ul style="margin: 0; padding: 0; list-style: none;">
 										@for (criterion of row.criteria; track criterion) {
@@ -160,7 +160,7 @@
                   @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Comunicativa') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(comp.subject)}}</p>
+                        <p class="bold">{{comp.subject | pretify}}</p>
                       }
                       <ul style="margin: 0 0 24px; padding: 0; list-style: none;">
                         @for (el of comp.entries; track el) {
@@ -174,7 +174,7 @@
                   @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Pensamiento Logico') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(comp.subject)}}</p>
+                        <p class="bold">{{comp.subject | pretify}}</p>
                       }
                       <ul style="margin: 0 0 24px; padding: 0; list-style: none;">
                         @for (el of comp.entries; track el) {
@@ -188,7 +188,7 @@
                   @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Resolucion De Problemas') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(comp.subject)}}</p>
+                        <p class="bold">{{comp.subject | pretify}}</p>
                       }
                       <ul style="margin: 0 0 24px; padding: 0; list-style: none;">
                         @for (el of comp.entries; track el) {
@@ -202,7 +202,7 @@
                   @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Ciencia Y Tecnologia') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(comp.subject)}}</p>
+                        <p class="bold">{{comp.subject | pretify}}</p>
                       }
                       <ul style="margin: 0 0 24px; padding: 0; list-style: none;">
                         @for (el of comp.entries; track el) {
@@ -216,7 +216,7 @@
                   @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Etica Y Ciudadana') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(comp.subject)}}</p>
+                        <p class="bold">{{comp.subject | pretify}}</p>
                       }
                       <ul style="margin: 0 0 24px; padding: 0; list-style: none;">
                         @for (el of comp.entries; track el) {
@@ -230,7 +230,7 @@
                   @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Desarrollo Personal Y Espiritual') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(comp.subject)}}</p>
+                        <p class="bold">{{comp.subject | pretify}}</p>
                       }
                       <ul style="margin: 0 0 24px; padding: 0; list-style: none;">
                         @for (el of comp.entries; track el) {
@@ -244,7 +244,7 @@
                   @for (comp of (competence.length ? competence : unitPlan.competence); track comp._id) {
                     @if (comp.name == 'Ambiental Y De La Salud') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(comp.subject)}}</p>
+                        <p class="bold">{{comp.subject | pretify}}</p>
                       }
                       <ul style="margin: 0 0 24px; padding: 0; list-style: none;">
                         @for (el of comp.entries; track el) {
@@ -267,7 +267,7 @@
                   @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Comunicativa') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(row.subject)}}</p>
+                        <p class="bold">{{row.subject | pretify}}</p>
                       }
                       <ul style="margin: 0; padding: 0; list-style: none;">
                         @for (criterion of row.criteria; track criterion) {
@@ -283,7 +283,7 @@
                   @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Pensamiento Logico') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(row.subject)}}</p>
+                        <p class="bold">{{row.subject | pretify}}</p>
                       }
                       <ul style="margin: 0; padding: 0; list-style: none;">
                         @for (criterion of row.criteria; track criterion) {
@@ -299,7 +299,7 @@
                   @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Resolucion De Problemas') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(row.subject)}}</p>
+                        <p class="bold">{{row.subject | pretify}}</p>
                       }
                       <ul style="margin: 0; padding: 0; list-style: none;">
                         @for (criterion of row.criteria; track criterion) {
@@ -315,7 +315,7 @@
                   @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Ciencia Y Tecnologia') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(row.subject)}}</p>
+                        <p class="bold">{{row.subject | pretify}}</p>
                       }
                       <ul style="margin: 0; padding: 0; list-style: none;">
                         @for (criterion of row.criteria; track criterion) {
@@ -331,7 +331,7 @@
                   @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Etica Y Ciudadana') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(row.subject)}}</p>
+                        <p class="bold">{{row.subject | pretify}}</p>
                       }
                       <ul style="margin: 0; padding: 0; list-style: none;">
                         @for (criterion of row.criteria; track criterion) {
@@ -347,7 +347,7 @@
                   @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Desarrollo Personal Y Espiritual') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(row.subject)}}</p>
+                        <p class="bold">{{row.subject | pretify}}</p>
                       }
                       <ul style="margin: 0; padding: 0; list-style: none;">
                         @for (criterion of row.criteria; track criterion) {
@@ -363,7 +363,7 @@
                   @for (row of (competence.length ? competence : unitPlan.competence); track $index) {
                     @if (row.name == 'Ambiental Y De La Salud') {
                       @if (unitPlan.subjects.length > 1) {
-                        <p class="bold">{{pretifySubject(row.subject)}}</p>
+                        <p class="bold">{{row.subject | pretify}}</p>
                       }
                       <ul style="margin: 0; padding: 0; list-style: none;">
                         @for (criterion of row.criteria; track criterion) {
@@ -384,7 +384,7 @@
 						<td colspan="5">
 							@for (theme of (mainThemes.length ? mainThemes : unitPlan.mainThemes); track $index) {
                 @if (unitPlan.subjects.length > 1) {
-                  <h4 class="bold">{{pretifySubject(theme.subject)}}:</h4>
+                  <h4 class="bold">{{theme.subject | pretify}}:</h4>
                 }
 								<ul style="margin: 0; padding: 0; list-style: none;">
 									@for (topic of theme.topics; track topic) {
@@ -399,7 +399,7 @@
 						<td colspan="5">
 							<ul style="margin: 0; padding: 0; list-style: none;">
 								@for (subject of unitPlan.subjects; track subject) {
-									<li>{{pretifySubject(subject)}}</li>
+									<li>{{subject | pretify}}</li>
 								}
 							</ul>
 						</td>
@@ -419,7 +419,7 @@
 						<td colspan="5">
 							@for (content of (contents.length ? contents : unitPlan.contents); track content._id) {
                 @if (unitPlan.subjects.length > 1) {
-                  <p><b>{{pretifySubject(content.subject)}}</b></p>
+                  <p><b>{{content.subject | pretify}}</b></p>
                 }
 								<ul style="margin: 0; padding: 0; list-style: none;">
 									@for (indicator of content.achievement_indicators; track $index) {
@@ -446,7 +446,7 @@
 											<li>- {{content}}</li>
 										}
 									} @else {
-										<li><b>{{pretifySubject(block.subject)}}</b></li>
+										<li><b>{{block.subject | pretify}}</b></li>
 										<ul>
 											@for (content of block.concepts; track content) {
 												<li>{{content}}</li>
@@ -464,7 +464,7 @@
 											<li>- {{content}}</li>
 										}
 									} @else {
-										<li><b>{{pretifySubject(block.subject)}}</b></li>
+										<li><b>{{block.subject | pretify}}</b></li>
 										<ul>
 											@for (content of block.procedures; track content) {
 												<li>{{content}}</li>
@@ -482,7 +482,7 @@
 											<li>- {{content}}</li>
 										}
 									} @else {
-										<li><b>{{pretifySubject(block.subject)}}</b></li>
+										<li><b>{{block.subject | pretify}}</b></li>
 										<ul>
 											@for (content of block.attitudes; track content) {
 												<li>{{content}}</li>
@@ -510,7 +510,7 @@
 											<li>- {{activity}}</li>
 										}
 									} @else {
-										<li class="bold">{{pretifySubject(activityList.subject)}}</li>
+										<li class="bold">{{activityList.subject | pretify}}</li>
 										<ul style="margin: 0; padding: 0; list-style: none;">
 											@for (activity of activityList.activities; track $index) {
 												<li>- {{ activity }}</li>
@@ -528,7 +528,7 @@
 											<li>- {{activity}}</li>
 										}
 									} @else {
-										<li class="bold">{{pretifySubject(activityList.subject)}}</li>
+										<li class="bold">{{activityList.subject | pretify}}</li>
 										<ul style="margin: 0; padding: 0; list-style: none;">
 											@for (activity of activityList.activities; track $index) {
 												<li>- {{ activity }}</li>
@@ -546,7 +546,7 @@
 											<li>- {{activity}}</li>
 										}
 									} @else {
-										<li class="bold">{{pretifySubject(activityList.subject)}}</li>
+										<li class="bold">{{activityList.subject | pretify}}</li>
 										<ul style="margin: 0; padding: 0; list-style: none;">
 											@for (activity of activityList.activities; track $index) {
 												<li>- {{ activity }}</li>

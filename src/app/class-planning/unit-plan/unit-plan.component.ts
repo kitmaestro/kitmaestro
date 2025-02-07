@@ -5,10 +5,13 @@ import { ContentBlock } from '../../interfaces/content-block';
 import { ClassSection } from '../../interfaces/class-section';
 import { UserSettings } from '../../interfaces/user-settings';
 import { MainTheme } from '../../interfaces/main-theme';
+import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
     selector: 'app-unit-plan',
-    imports: [],
+    imports: [
+      PretifyPipe,
+    ],
     templateUrl: './unit-plan.component.html',
     styleUrl: './unit-plan.component.scss'
 })
@@ -74,37 +77,6 @@ export class UnitPlanComponent {
       return 9;
     }
     return 10;
-  }
-
-  pretifySubject(subject: string) {
-    if (subject == 'LENGUA_ESPANOLA') {
-      return 'Lengua Española';
-    }
-    if (subject == 'MATEMATICA') {
-      return 'Matemática';
-    }
-    if (subject == 'CIENCIAS_SOCIALES') {
-      return 'Ciencias Sociales';
-    }
-    if (subject == 'CIENCIAS_NATURALES') {
-      return 'Ciencias de la Naturaleza';
-    }
-    if (subject == 'INGLES') {
-      return 'Inglés';
-    }
-    if (subject == 'FRANCES') {
-      return 'Francés';
-    }
-    if (subject == 'FORMACION_HUMANA') {
-      return 'Formación Integral Humana y Religiosa';
-    }
-    if (subject == 'EDUCACION_FISICA') {
-      return 'Educación Física';
-    }
-    if (subject == 'EDUCACION_ARTISTICA') {
-      return 'Educación Artística';
-    }
-    return 'Talleres Optativos';
   }
 
   ngOnInit() {

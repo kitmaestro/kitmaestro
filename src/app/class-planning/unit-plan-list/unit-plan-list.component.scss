@@ -1,3 +1,9 @@
+.header {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+
 @media screen and (max-width: 959px) {
     h2.title {
         display: block;
