@@ -98,10 +98,11 @@ export class ResourceGalleryComponent {
     });
   }
 
-  constructor() {
+  ngOnInit() {
     this.authService.profile().subscribe(user => {
       this.user = user;
     });
+    this.load();
   }
 
   openCreateResourceDialog() {
