@@ -392,4 +392,4 @@ Los recursos disponibles son:
 Las competencias a desarrollorar debe ser una de estas:
 - plan_compentece
 
-Importante: se especifico (es decir, que necesito que siempre digas explicitamente el contenido o actividad que se va a trabajar para que no quede lugar a dudas), planea la clase para que se imparta con un estilo teaching_style, y tu respuesta debe ser un json totalmente valido.`;
+Importante: se especifico (es decir, que necesito que siempre digas explicitamente el contenido o actividad que se va a trabajar para que no quede lugar a dudas), planea la clase para que se imparta con un estilo teaching_style, de ser posible incluye algo de metacognicion (que aprendimos, como lo aprendimos, que ha resultado mas facil, mas dificil, mas novedoso, para que nos puede servir, como podemos mejorar, etc) en el cierre de la clase, y tu respuesta debe ser un json totalmente valido.`;
