@@ -4,17 +4,19 @@
             <h2 style="margin-bottom: 4px;">R&uacute;brica</h2>
             <h3 style="margin-bottom: 4px;">{{rub.title}}</h3>
         </div>
-        @if (rub.section) {
+        @if (section()) {
             <h3 style="text-align: end;">
-                {{ rub.section.name }}
+                {{ section()?.name }}
             </h3>
         }
-        <div style="display: flex; gap: 12px; margin-bottom: 12px;">
-            <div style="font-weight: bold;">Estudiante:</div>
-            <div style="border-bottom: 1px solid black; width: 100%; flex: 1 1 auto;"></div>
-            <div style="font-weight: bold;">Fecha:</div>
-            <div style="border-bottom: 1px solid black; width: 100%; flex: 1 1 auto;"></div>
-        </div>
+		@if (rub.rubricType == 'SINTETICA') {
+			<div style="display: flex; gap: 12px; margin-bottom: 12px;">
+				<div style="font-weight: bold;">Estudiante:</div>
+				<div style="border-bottom: 1px solid black; width: 100%; flex: 1 1 auto;"></div>
+				<div style="font-weight: bold;">Fecha:</div>
+				<div style="border-bottom: 1px solid black; width: 100%; flex: 1 1 auto;"></div>
+			</div>
+		}
         <h3 style="font-weight: bold; margin-bottom: 8px; margin-top: 8px;">Competencias Espec&iacute;ficas</h3>
         <ul style="list-style: none; margin: 0; padding: 0;">
             @for(item of rub.competence; track item) {
@@ -78,9 +80,9 @@
                             }
                         </tr>
                         } @empty {
-                        @for (item of [].constructor(45); track item) {
+                        @for (el of [].constructor(45); track $index) {
                             <tr></tr>
-                                @for (item of row.criterion; track item) {
+                                @for (item of row.criterion; track $index) {
                                     <td></td>
                                 }
                             }

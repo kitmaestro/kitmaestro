@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import { Document, HeadingLevel, ISectionOptions, Packer, PageOrientation, Paragraph, Table, TableCell, TableRow, TextRun, WidthType } from 'docx';
 import { StudentsService } from './students.service';
 import { saveAs } from 'file-saver';
+import { Student } from '../interfaces/student';
 
 @Injectable({
   providedIn: 'root'
@@ -90,7 +91,7 @@ export class RubricService {
                 ]
               }),
               new TableRow({ children: indicator.criterion.map((c, i) => new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: `${c.name} (${c.score})`, bold: true })] })] })) }),
-              ...(students.map((student, i) => new TableRow({ children: [new TableCell({ children: [new Paragraph(`${i + 1}. ${student.firstname} ${student.lastname}`)] })] }))),
+              ...((students.length > 0 ? students : Array.from({ length: 45}).map(() => ({ firstname: '', lastname: '' } as any as Student))).map((student, i) => new TableRow({ children: [new TableCell({ children: [new Paragraph(`${i + 1}. ${student.firstname} ${student.lastname}`)] }), ...Array.from({ length: rubric.progressLevels.length }).map(() => new TableCell({ children: [new Paragraph('')] }))] }))),
             ]
           })
         });

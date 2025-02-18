@@ -1,8 +1,10 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { Rubric } from '../../interfaces/rubric';
 import { Student } from '../../interfaces/student';
 import { StudentsService } from '../../services/students.service';
 import { NgIf } from '@angular/common';
+import { ClassSectionService } from '../../services/class-section.service';
+import { ClassSection } from '../../interfaces/class-section';
 
 @Component({
   selector: 'app-rubric',
@@ -13,14 +15,19 @@ import { NgIf } from '@angular/common';
   styleUrl: './rubric.component.scss'
 })
 export class RubricComponent {
-  private studentService = inject(StudentsService);
+	private studentService = inject(StudentsService);
+	private sectionService = inject(ClassSectionService);
 
   rubric = input<Rubric>();
-  students: Student[] = []
+	students: Student[] = []
+	section = signal<ClassSection | null>(null);
 
   ngOnInit() {
-    const section = this.rubric()?.section;
-    if (section)
-      this.studentService.findBySection(section._id).subscribe(students => this.students = students);
-  }
+	    const rubric = this.rubric();
+	    if (rubric && rubric.section) {
+		    const section: string = typeof rubric.section == 'string' ? rubric.section : rubric.section._id;
+			this.studentService.findBySection(section).subscribe(students => this.students = students);
+			this.sectionService.findSection(section).subscribe(s => this.section.set(s));
+	    }
+  	}
 }
