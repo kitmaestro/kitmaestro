@@ -15,6 +15,8 @@ import { ClassSectionService } from '../../services/class-section.service';
 import { ClassSection } from '../../interfaces/class-section';
 import { ContentBlock } from '../../interfaces/content-block';
 import { ContentBlockService } from '../../services/content-block.service';
+import { CompetenceService } from '../../services/competence.service';
+import { CompetenceEntry } from '../../interfaces/competence-entry';
 
 @Component({
     selector: 'app-aspects-generator',
@@ -37,11 +39,13 @@ import { ContentBlockService } from '../../services/content-block.service';
 export class AspectsGeneratorComponent implements OnInit {
   private aiService = inject(AiService);
   private sectionService = inject(ClassSectionService);
-  private contentService = inject(ContentBlockService);
+	private contentService = inject(ContentBlockService);
+	private competenceService = inject(CompetenceService);
   private sb = inject(MatSnackBar);
   private fb = inject(FormBuilder);
 
-  columns = ['p1', 'p2', 'p3', 'p4'];
+	columns = ['p1', 'p2', 'p3', 'p4'];
+	competence: CompetenceEntry[] = [];
   sections: ClassSection[] = [];
   generating = false;
   generated = false;
@@ -77,9 +81,11 @@ Para hacer esto ultimo, necesito que me crees objecto JSON con esta interfaz:
 }
 
 Un ejemplo de como deberia verse el resultado es este:
+-- Delimitacion --
 Tema: la carta de agradecimiento
 Limite de aspectos: 12
 Periodos trabajados: p1
+-- respuesta --
 {
   p1: [
     'Escucha atenta de la lectura de cartas de agradecimiento',
@@ -92,7 +98,13 @@ Periodos trabajados: p1
   p3: [],
   p4: [],
 }
-Donde cada periodo es un array de no mas de aspect_qty strings, y cada string es un aspecto especifico (caracteristica, elemento, actividad, contenido) que se puede trabajar en section_year grado de section_level en el area de class_subject con los contenidos que he trabajado que son estos:\nclass_topics`;
+Donde cada periodo es un array de no mas de aspect_qty strings, y cada string es un aspecto especifico (caracteristica, elemento, actividad, contenido) que se puede trabajar en section_year grado de section_level en el area de class_subject con los contenidos que he trabajado que son estos:\nclass_topics
+Y estos son los criterios de evaluacion y las competencias que he trabajado:
+Competencias:
+- competence_list
+
+Criterios de evaluacion:
+- evaluation_criteria`;
 
   ngOnInit() {
     this.sectionService.findSections().subscribe(sections => {
@@ -121,7 +133,8 @@ Donde cada periodo es un array de no mas de aspect_qty strings, y cada string es
 
         this.contentService.findAll({ year: section.year, level: section.level, subject: event.value }).subscribe({
           next: contents => {
-            this.contents = contents;
+				this.contents = contents;
+				this.onContentSelect();
           },
           error: err => {
             console.log(err);
@@ -131,6 +144,19 @@ Donde cada periodo es un array de no mas de aspect_qty strings, y cada string es
       }
     }, 0);
   }
+
+	onContentSelect() {
+		setTimeout(() => {
+			const subject = this.generatorForm.get('subject')?.value;
+			const section = this.sections.find(s => s._id == this.generatorForm.get('section')?.value);
+			if (subject && section) {
+				const { year, level } = section;
+				this.competenceService.findAll({ grade: year, level, subject }).subscribe(c => {
+					this.competence = c;
+				});
+			}
+		}, 0);
+	}
 
   reset() {
     this.generatorForm.setValue({
@@ -148,10 +174,10 @@ Donde cada periodo es un array de no mas de aspect_qty strings, y cada string es
 
   onSubmit() {
     const data: any = this.generatorForm.value;
-    data.p1 = (data.p1 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).map(block => block.concepts.join('\n- '));
-    data.p2 = (data.p2 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).map(block => block.concepts.join('\n- '));
-    data.p3 = (data.p3 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).map(block => block.concepts.join('\n- '));
-    data.p4 = (data.p4 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).map(block => block.concepts.join('\n- '));
+    data.p1 = (data.p1 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators]).join('\n- ');
+    data.p2 = (data.p2 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators]).join('\n- ');
+    data.p3 = (data.p3 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators]).join('\n- ');
+    data.p4 = (data.p4 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators]).join('\n- ');
     const section = this.sections.find(s => s._id == data.section);
     if (section) {
       this.generating = true;
@@ -159,6 +185,8 @@ Donde cada periodo es un array de no mas de aspect_qty strings, y cada string es
         .replace('section_year', section.year.toLowerCase())
         .replace('section_level', section.level.toLowerCase())
         .replace('class_subject', this.pretify(data.subject))
+        .replace('competence_list', this.competence.flatMap(c => c.entries).join('\n- '))
+        .replace('evaluation_criteria', this.competence.flatMap(c => c.criteria).join('\n- '))
         .replace('class_topics', [
           data.p1.length ? 'P1:\n- ' + data.p1.join('\n- ') : 'P1: \nNINGUNO (el p1 debe ser un array vacio { p1: [] })',
           data.p2.length ? 'P2:\n- ' + data.p2.join('\n- ') : 'P2: \nNINGUNO (el p2 debe ser un array vacio { p2: [] })',
