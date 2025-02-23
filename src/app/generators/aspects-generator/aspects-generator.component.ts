@@ -174,10 +174,10 @@ Criterios de evaluacion:
 
   onSubmit() {
     const data: any = this.generatorForm.value;
-    data.p1 = (data.p1 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators]).join('\n- ');
-    data.p2 = (data.p2 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators]).join('\n- ');
-    data.p3 = (data.p3 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators]).join('\n- ');
-    data.p4 = (data.p4 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators]).join('\n- ');
+    data.p1 = (data.p1 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
+    data.p2 = (data.p2 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
+    data.p3 = (data.p3 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
+    data.p4 = (data.p4 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
     const section = this.sections.find(s => s._id == data.section);
     if (section) {
       this.generating = true;
