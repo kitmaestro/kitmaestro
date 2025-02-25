@@ -258,7 +258,7 @@ Tu respuesta debe ser json valido con esta interfaz:
   instruments: string[] // nombre de las tecnicas e instrumentos de evaluacion a utilizar, incluyendo, de ser posible, la metacognicion (que y como se aprendio lo que se aprendio y como se puede aplicar)
   resources: string[], // los recursos que voy a necesitar para toda la unidad
 }
-
+Es MUY IMPORTANTE que las actividades de evaluación digan EXPLICITAMENTE los instrumentos y las tecnicas que se van a utilizar y estos deben estar presentes en el array de instrumentos. Es decir que los instrumentos y tecnicas listadas en el array de instrumentos deben estar presentes si o si en las actividades de enseñanza, aprendizaje y evaluacion que correspondan.
 un ejemplo de la lista de actividades seria esta:
 {
   teacher_activities: {
