@@ -1,4 +1,4 @@
-import { inject, Injectable, isDevMode } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ClassPlan } from '../interfaces/class-plan';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -139,7 +139,7 @@ export class ClassPlansService {
             new TableCell({
               columnSpan: 2,
               children: [
-                new Paragraph({ children: [new TextRun({ text: "Intencion Pedagógica:", bold: true })] })
+                new Paragraph({ children: [new TextRun({ text: "Intención Pedagógica:", bold: true })] })
               ]
             }),
             new TableCell({
@@ -151,7 +151,7 @@ export class ClassPlansService {
         new TableRow({
           children: [
             new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Momento / Duración', bold: true })] })] }),
-            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Competencias Especificas', bold: true })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Competencias Específicas', bold: true })] })] }),
             new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Actividades', bold: true })] })], columnSpan: 2 }),
             new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Organización de los Estudiantes', bold: true })] })] }),
             new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Recursos', bold: true })] })] }),
