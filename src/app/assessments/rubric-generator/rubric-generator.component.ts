@@ -92,9 +92,10 @@ export class RubricGeneratorComponent {
     rubricType: ['SINTETICA', Validators.required],
     achievementIndicators: [],
     levels: this.fb.array([
-      this.fb.control('Deficiente'),
-      this.fb.control('Bueno'),
-      this.fb.control('Excelente'),
+		this.fb.control('Receptivo'),
+		this.fb.control('Resolutivo'),
+		this.fb.control('Autónomo'),
+		this.fb.control('Estratégico'),
     ]),
   });
 
