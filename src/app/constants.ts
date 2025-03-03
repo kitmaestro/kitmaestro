@@ -397,3 +397,44 @@ Las competencias a desarrollorar debe ser una de estas:
 - plan_compentece
 
 Importante: se especifico (es decir, que necesito que siempre digas explicitamente el contenido o actividad que se va a trabajar para que no quede lugar a dudas), planea la clase para que se imparta con un estilo teaching_style, de ser posible incluye algo de metacognicion (que aprendimos, como lo aprendimos, que ha resultado mas facil, mas dificil, mas novedoso, para que nos puede servir, como podemos mejorar, etc) en el cierre de la clase, y tu respuesta debe ser un json totalmente valido.`;
+
+export const emiClassPlanPrompt = `Escribe un plan de clases en formato JSON, enfocado en el desarrollo de competencias, de class_subject de class_duration minutos para la clase que voy a impartir. Tengo un aula multigrado, es decir que tiene más de un grado al mismo tiempo. Los grados que tengo funcionando en mi aula son class_years de class_level. El dia de hoy la clase sera sobre class_topics. Esta es la interfaz de la planificacion:
+
+interface Plan {
+  "objective": string, // proposito
+  "strategies": string[],
+  "introduction": {
+    "duration": number,
+    "activities": string[],
+    "resources": string[],
+    "layout": string, // class layout
+  },
+  "main": {
+    "duration": number,
+    "activities": string[],
+    "resources": string[],
+    "layout": string, // class layout
+  },
+  "closing": {
+    "duration": number,
+    "activities": string[],
+    "resources": string[],
+    "layout": string, // class layout
+  },
+  "supplementary": { // actividades extra/opcionales (son opciones para que el docente implemente en caso de que le sobre tiempo o para intercambiar con alguna otra del plan)
+    "activities": string[],
+    "resources": string[],
+    "layout": string, // class layout
+  },
+  "vocabulary": string[],
+  "readings": string, // usualmente un material o libro relacionado con el tema
+  "competence": string, // Competencia a trabajar (elige la mas apropiadas de las que menciono al final)
+}
+
+Los recursos disponibles son:
+- plan_resources
+
+Las competencias a desarrollorar debe ser una de estas:
+- plan_compentece
+
+Importante: se especifico (es decir, que necesito que siempre digas explicitamente el contenido o actividad que se va a trabajar para que no quede lugar a dudas), planea la clase para que se imparta con un estilo teaching_style, de ser posible incluye algo de metacognicion (que aprendimos, como lo aprendimos, que ha resultado mas facil, mas dificil, mas novedoso, para que nos puede servir, como podemos mejorar, etc) en el cierre de la clase, y tu respuesta debe ser un json totalmente valido.`;

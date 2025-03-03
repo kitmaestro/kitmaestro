@@ -1,0 +1,57 @@
+mat-form-field {
+  width: 100%;
+}
+
+.page {
+  padding: 0.5in;
+  margin: 42px auto;
+  background-color: white;
+  min-width: 1400px;
+}
+
+.shadow {
+  box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+}
+
+td, th {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.controls-container-6 {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+
+  @media screen and (min-width: 960px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 959px) {
+  h2.title {
+    display: block;
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .title-button {
+    display: block;
+    width: 100%;
+    margin-bottom: 24px;
+  }
+
+  .header {
+    display: block;
+  }
+}
+
+.title-button {
+  margin-left: auto;
+}
