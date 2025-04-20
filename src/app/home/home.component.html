@@ -4,14 +4,14 @@
     <h2 style="margin-bottom: 0; margin-top: 0;">KitMaestro</h2>
     <p style="margin-top: 0; margin-bottom: 12px;">La caja de herramientas definitiva</p>
     @if (user && user.firstname) {
-      <p>¡{{ user.gender == 'Mujer' ? 'Bienvenida' : 'Bienvenido' }}, {{user.firstname}}!</p>
+      <p>¡{{ user.gender === 'Mujer' ? 'Bienvenida' : 'Bienvenido' }}, {{user.firstname}}!</p>
     } @else {
       <p>Tu perfil esta incompleto, recuerda completar los datos de tu <a routerLink="/profile">perfil</a></p>
     }
     <div class="search-container">
       <mat-form-field appearance="outline">
         <mat-label>Buscar</mat-label>
-        <input type="search" autofocus [formControl]="search" placeholder="Buscar Herramienta" matInput (keyup)="onSearch()">
+        <input type="search" [formControl]="search" placeholder="Buscar Herramienta" matInput (keyup)="onSearch()">
       </mat-form-field>
     </div>
   </div>
@@ -22,7 +22,7 @@
       }
     </mat-chip-listbox>
   </div>
-  @if (search.value == '' || (catFilter.value && catFilter.value.length > 0)) {
+  @if (search.value === '' || (catFilter.value && catFilter.value.length > 0)) {
     <h3>Herramientas Favoritas</h3>
     <div class="apps-grid">
       @for (app of filteredFavorites; track $index) {

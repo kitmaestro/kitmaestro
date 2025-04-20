@@ -11,6 +11,6 @@ export class CurrencyService {
   private apiUrl = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/';
 
   convert(origin: string, target: string): Observable<number> {
-    return this.http.get<{ [type: string]: Record<string, number> }>(this.apiUrl + origin + '.json').pipe(map(res => res[origin][target]));
+    return this.http.get<Record<string, Record<string, number>>>(this.apiUrl + origin + '.json').pipe(map(res => res[origin][target]));
   }
 }

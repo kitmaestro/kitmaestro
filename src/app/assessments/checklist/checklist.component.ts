@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import { Checklist } from '../../interfaces/checklist';
 import { PretifyPipe } from '../../pipes/pretify.pipe';
 import { NgIf } from '@angular/common';
@@ -11,7 +11,7 @@ import { NgIf } from '@angular/common';
   templateUrl: './checklist.component.html',
   styleUrl: './checklist.component.scss'
 })
-export class ChecklistComponent {
+export class ChecklistComponent implements OnInit {
   checklist = input<Checklist>();
   compNames = '';
 

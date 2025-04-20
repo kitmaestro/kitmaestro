@@ -53,7 +53,7 @@ export class RubricsComponent implements OnInit {
     this.loading = true;
     this.rubricService.delete(id).subscribe({
       next: res => {
-        if (res.deletedCount == 1) {
+        if (res.deletedCount === 1) {
           this.sb.open('Se ha eliminado la rubrica', 'Ok', { duration: 2500 });
           this.loadRubrics()
         }

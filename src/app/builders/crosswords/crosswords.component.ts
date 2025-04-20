@@ -44,8 +44,8 @@ export class CrosswordsComponent implements OnInit {
   pdfService = inject(PdfService);
   sb = inject(MatSnackBar);
 
-  teacherName: string = '';
-  schoolName: string = '';
+  teacherName = '';
+  schoolName = '';
   crossword: CrossWordLayout | null = null;
   wordLists: VocabularyEntry[] = WORD_LISTS;
   topics: TopicEntry[] = TOPICS;
@@ -82,13 +82,13 @@ export class CrosswordsComponent implements OnInit {
     if (!level || !topic || !size)
       return;
 
-    const list = this.wordLists.find(l => l.level_id == level && l.topic_id == topic);
+    const list = this.wordLists.find(l => l.level_id === level && l.topic_id === topic);
 
     if (!list)
       return;
 
     const selection: string[] = size >= list.vocabulary.length ? shuffle(list.vocabulary) : shuffle(list.vocabulary).slice(0, size);
-    this.crossword = this.gamesService.generateCrossWord(selection.map(s => ({ clue: WORD_CLUES.find(c => c.answer == s)?.clue || '', answer: s })));
+    this.crossword = this.gamesService.generateCrossWord(selection.map(s => ({ clue: WORD_CLUES.find(c => c.answer === s)?.clue || '', answer: s })));
     console.log(this.crossword)
   }
 
@@ -121,7 +121,7 @@ export class CrosswordsComponent implements OnInit {
 
   markIfAble(x: number, y: number): string {
     if (this.crossword) {
-      const answer = this.crossword.result.find(r => r.startx == (x + 1) && r.starty == (y + 1));
+      const answer = this.crossword.result.find(r => r.startx === (x + 1) && r.starty === (y + 1));
       if (answer) {
         return answer.position.toString();
       }
@@ -131,7 +131,7 @@ export class CrosswordsComponent implements OnInit {
   }
 
   topicName(): string {
-    const topic = this.topics.find(t => t.id == this.crossWordForm.get('topic')?.value);
+    const topic = this.topics.find(t => t.id === this.crossWordForm.get('topic')?.value);
     return topic ? topic.topic : '';
   }
 

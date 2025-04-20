@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -38,7 +38,7 @@ export interface MathExercise {
     templateUrl: './mixed-operations.component.html',
     styleUrl: './mixed-operations.component.scss'
 })
-export class MixedOperationsComponent {
+export class MixedOperationsComponent implements OnInit {
     private fb = inject(FormBuilder);
     private authService = inject(AuthService);
     private pdfService = inject(PdfService);
@@ -115,10 +115,10 @@ export class MixedOperationsComponent {
                         result = result - n;
                         break;
                     case 'multiplication':
-                        result = result == 0 ? n : result * n;
+                        result = result === 0 ? n : result * n;
                         break;
                     case 'division':
-                        result = result == 0 ? n : (n > 0 ? result / n : 0);
+                        result = result === 0 ? n : (n > 0 ? result / n : 0);
                         break;
                 }
             }

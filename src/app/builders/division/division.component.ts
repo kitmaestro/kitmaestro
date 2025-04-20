@@ -40,8 +40,8 @@ export class DivisionComponent implements OnInit {
   pdfService = inject(PdfService);
   sb = inject(MatSnackBar);
 
-  teacherName: string = '';
-  schoolName: string = '';
+  teacherName = '';
+  schoolName = '';
   divisions: Division[] = [];
 
   ready = false;
@@ -63,7 +63,7 @@ export class DivisionComponent implements OnInit {
     });
   }
 
-  generateDivision(maxDividendDigits: number, maxDivisorDigits: number, exact: boolean = false): Division {
+  generateDivision(maxDividendDigits: number, maxDivisorDigits: number, exact = false): Division {
     let dividend, divisor, quotient;
 
     if (exact) {
@@ -105,7 +105,7 @@ export class DivisionComponent implements OnInit {
     this.divisions = [];
 
     for (let i = 0; i < size; i++) {
-      const exercise: Division = this.generateDivision(dividendDigits, divisorDigits, resultType == 'exact');
+      const exercise: Division = this.generateDivision(dividendDigits, divisorDigits, resultType === 'exact');
       this.divisions.push(exercise);
     }
   }
@@ -143,7 +143,7 @@ export class DivisionComponent implements OnInit {
     if (!dividendDigits || !divisorDigits || !resultType || !size)
       return;
 
-    const exercise: Division = this.generateDivision(dividendDigits, divisorDigits, resultType == 'exact');
+    const exercise: Division = this.generateDivision(dividendDigits, divisorDigits, resultType === 'exact');
 
     this.divisions[index] = exercise;
   }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -42,7 +42,7 @@ import { RubricComponent } from '../rubric/rubric.component';
     templateUrl: './rubric-generator.component.html',
     styleUrl: './rubric-generator.component.scss'
 })
-export class RubricGeneratorComponent {
+export class RubricGeneratorComponent implements OnInit {
   private sb = inject(MatSnackBar);
   private fb = inject(FormBuilder);
   private rubricService = inject(RubricService);
@@ -125,7 +125,7 @@ export class RubricGeneratorComponent {
 
   onSelectSection(event: any) {
     const id = event.value;
-    const section = this.sections.find(s => s._id == id);
+    const section = this.sections.find(s => s._id === id);
     if (section) {
       this.section = section;
       this.subjects = section.subjects;
@@ -227,7 +227,7 @@ export class RubricGeneratorComponent {
       competence: this.competence,
       levels
     };
-    const text = `Necesito que me construyas en contenido de una rubrica ${rubricType == 'SINTETICA' ? 'Sintética (Holística)' : 'Analítica (Global)'} para evaluar el contenido de "${content}" de ${data.subject} de ${this.section.year} grado de educación ${this.section.level}.
+    const text = `Necesito que me construyas en contenido de una rubrica ${rubricType === 'SINTETICA' ? 'Sintética (Holística)' : 'Analítica (Global)'} para evaluar el contenido de "${content}" de ${data.subject} de ${this.section.year} grado de educación ${this.section.level}.
 La rubrica sera aplicada tras esta actividad/evidencia: ${activity}.${scored ? ' La rubrica tendra un valor de ' + minScore + ' a ' + maxScore + ' puntos.' : ''}
 Los criterios a evaluar deben estar basados en estos indicadores de logro:
 - ${achievementIndicators.join('\n- ')}

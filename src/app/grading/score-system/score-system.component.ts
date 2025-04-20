@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { GradingActivity, GroupedGradingActivity, ScoreSystem } from '../../interfaces/score-system';
 import { UserSettings } from '../../interfaces/user-settings';
 import { ClassSection } from '../../interfaces/class-section';
@@ -17,7 +17,7 @@ import { StudentsService } from '../../services/students.service';
     templateUrl: './score-system.component.html',
     styleUrl: './score-system.component.scss'
 })
-export class ScoreSystemComponent {
+export class ScoreSystemComponent implements OnInit {
 	@Input() scoreSystem: ScoreSystem | null = null;
 	@Input() user: UserSettings | null = null;
 	@Input() section: ClassSection | null = null;
@@ -108,7 +108,7 @@ export class ScoreSystemComponent {
 
 	get content(): ContentBlock[] {
 		if (this.scoreSystem) {
-			if (typeof this.scoreSystem.content.join == 'function') {
+			if (typeof this.scoreSystem.content.join === 'function') {
 				return this.scoreSystem.content;
 			} else {
 				return [this.scoreSystem.content] as any as ContentBlock[];

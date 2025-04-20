@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -34,7 +34,7 @@ import { Test } from '../interfaces/test';
     templateUrl: './diversity-dashboard.component.html',
     styleUrl: './diversity-dashboard.component.scss'
 })
-export class DiversityDashboardComponent {
+export class DiversityDashboardComponent implements OnInit {
     private fb = inject(FormBuilder);
     private sb = inject(MatSnackBar);
     private aiService = inject(AiService);
@@ -87,7 +87,7 @@ export class DiversityDashboardComponent {
 
     onSectionSelect(event: any) {
         setTimeout(() => {
-            const section = this.sections.find(s => s._id == event.value);
+            const section = this.sections.find(s => s._id === event.value);
             if (section)
                 this.subjects = section.subjects;
         }, 0);
@@ -100,15 +100,15 @@ export class DiversityDashboardComponent {
 
     onSubmit() {
         const data: any = this.diversityForm.value;
-        const section = this.sections.find(s => s._id == data.section);
+        const section = this.sections.find(s => s._id === data.section);
         const user = this.user;
         if (!section || !user)
             return;
 
         this.loading = true;
-        const query = `Eres ${user.gender == 'Hombre' ? 'un profesor especializado' : 'una profesora especializada'} en la atencion a la diversidad en el aula y tu tarea es asesorarme para obtener los mejores resultados posibles gastando la menor cantidad de energia posible, es decir, ayudarme a ser tan eficiente como sea posible manteniendo o mejorando mi nivel de efectividad en la eseñanza.
+        const query = `Eres ${user.gender === 'Hombre' ? 'un profesor especializado' : 'una profesora especializada'} en la atencion a la diversidad en el aula y tu tarea es asesorarme para obtener los mejores resultados posibles gastando la menor cantidad de energia posible, es decir, ayudarme a ser tan eficiente como sea posible manteniendo o mejorando mi nivel de efectividad en la eseñanza.
 A continuación te presento mi situación particular en estos momentos.
-Mi nombre es ${user.firstname}, ${user.gender == 'Hombre' ? 'un maestro' : 'una maestra'} que trabaja en ${section.year.toLowerCase()} grado de ${section.level.toLowerCase()} en el centro educativo ${section.school.name}.
+Mi nombre es ${user.firstname}, ${user.gender === 'Hombre' ? 'un maestro' : 'una maestra'} que trabaja en ${section.year.toLowerCase()} grado de ${section.level.toLowerCase()} en el centro educativo ${section.school.name}.
 En esta ocación he planificado una clase de ${data.subject} en la que voy a trabajar o a abordar ${data.topic} en mi curso, pero tengo una situación con un estudiante y quiero adaptarla a su condición que es ${data.condition}.
 Tu trabajo sera guiarme en el proceso de adaptación y sugerirme las estrategias mas adecuadas.
 
@@ -128,7 +128,7 @@ Importante: NO HAGAS PREGUNTAS DE SEGUIMIENTO NI SUGIERAS QUE PUEDO PREGUNTAR YA
 
     async download() {
         const data: any = this.diversityForm.value;
-        const section = this.sections.find(s => s._id == data.section);
+        const section = this.sections.find(s => s._id === data.section);
         if (!section || !this.user)
             return;
 

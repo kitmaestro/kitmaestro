@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { EstimationScaleService } from '../../services/estimation-scale.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -22,7 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
     templateUrl: './estimation-scale-detail.component.html',
     styleUrl: './estimation-scale-detail.component.scss'
 })
-export class EstimationScaleDetailComponent {
+export class EstimationScaleDetailComponent implements OnInit {
   private estimationScaleService = inject(EstimationScaleService);
   private authService = inject(AuthService);
   private pdfService = inject(PdfService);
@@ -60,7 +60,7 @@ export class EstimationScaleDetailComponent {
   deleteInstrument() {
     this.estimationScaleService.delete(this.id).subscribe({
       next: res => {
-        if (res.deletedCount == 1) {
+        if (res.deletedCount === 1) {
           this.router.navigate(['/assessments/estimation-scales']).then(() => {
             this.sb.open('Se ha eliminado el instrumento', 'Ok', { duration: 2500 });
           });

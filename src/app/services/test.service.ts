@@ -128,11 +128,11 @@ export class TestService {
 	});
   }
 
-  private p(text: string, bold: boolean = false): Paragraph {
+  private p(text: string, bold = false): Paragraph {
 	if (bold) {
 		const sections = text.split('**');
 		return new Paragraph({ children: sections.map((s, i) => {
-			if (i == 0)
+			if (i === 0)
 				return new TextRun({ text: s, bold: true });
 			else
 				return new TextRun({ text: s });

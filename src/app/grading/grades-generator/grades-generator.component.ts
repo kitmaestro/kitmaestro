@@ -93,7 +93,7 @@ export class GradesGeneratorComponent implements OnInit {
   }
 
   onSectionSelect(event: any) {
-    const section = this.sections.find(s => s._id == event.value);
+    const section = this.sections.find(s => s._id === event.value);
     if (section) {
       this.section = section;
     }
@@ -101,7 +101,7 @@ export class GradesGeneratorComponent implements OnInit {
 
   onSubmit() {
     this.generating = true;
-    if (this.configForm.value.level == 'primary') {
+    if (this.configForm.value.level === 'primary') {
       this.configForm.get('indicators')?.setValue(3);
     } else {
       this.configForm.get('indicators')?.setValue(4);
@@ -215,9 +215,9 @@ export class GradesGeneratorComponent implements OnInit {
   generateStudentGrades(level: string, improvements: boolean): GradeDataSet {
     if (!this.generated) return [];
     const qtyRequired: number = this.generated.indicators * this.generated.grades.length;
-    const isPrimary = this.generated.level == 'primary';
+    const isPrimary = this.generated.level === 'primary';
     const minGrade = isPrimary ? 65 : 70;
-    const grades: Array<{ p: number, rp: number }[]> = [];
+    const grades: { p: number, rp: number }[][] = [];
     const minMax = this.getMinAndMax(level);
     const additional = this.generated.randomLevel;
     const min = minMax.min - additional;
@@ -226,10 +226,10 @@ export class GradesGeneratorComponent implements OnInit {
     let gradeCount = 0;
     if (this.configForm.value.precise) {
       const indicators: { p: number, rp: number }[][] = [];
-      if (this.generated.grades.length == 1) {
+      if (this.generated.grades.length === 1) {
         const config = { average: parseInt(level), min, max, elements: this.generated.indicators, minGrade };
         const indicator = this.aiService.generatePeriod(config);
-        for (let ind of indicator) {
+        for (const ind of indicator) {
           indicators.push([ind]);
         }
       } else {
@@ -245,7 +245,7 @@ export class GradesGeneratorComponent implements OnInit {
     } else {
       for (let i = 0; i < qtyRequired; i++) {
         gradeCount++;
-        if (grades.length == gradeRow) {
+        if (grades.length === gradeRow) {
           grades[gradeRow] = [];
         }
         const grade = { p: 0, rp: 0 };
@@ -254,7 +254,7 @@ export class GradesGeneratorComponent implements OnInit {
           grade.rp = this.getRandomNumber(grade.p, max);
         }
         grades[gradeRow].push(grade);
-        if (gradeCount == 4) {
+        if (gradeCount === 4) {
           gradeCount = 0;
           gradeRow++;
         }
@@ -337,8 +337,8 @@ export class GradesGeneratorComponent implements OnInit {
         }
       }
     }
-    if (this.generated.level == 'primary'){
-      const calculateAverage = this.generated.grades.length == 4;
+    if (this.generated.level === 'primary'){
+      const calculateAverage = this.generated.grades.length === 4;
       const c1Total = flatten.slice(0, 4).map(row => row.rp ? row.rp : row.p).reduce((l, n) => l + n, 0);
       const c2Total = flatten.slice(4, 8).map(row => row.rp ? row.rp : row.p).reduce((l, n) => l + n, 0);
       const c3Total = flatten.slice(8, 12).map(row => row.rp ? row.rp : row.p).reduce((l, n) => l + n, 0);
@@ -355,7 +355,7 @@ export class GradesGeneratorComponent implements OnInit {
       // const cp4 = Math.round(average.periods.p4 / this.generated.indicators);
       // const cf = cp1 && cp2 && cp3 && cp4 ? Math.round((cp1 + cp2 + cp3 + cp4) / 4) : null;
       // row.push(cp1 ? cp1 : null, cp2 ? cp2 : null, cp3 ? cp3 : null, cp4 ? cp4 : null, cf);
-      const calculateAverage = this.generated.grades.length == 4;
+      const calculateAverage = this.generated.grades.length === 4;
       const c1Total = flatten.slice(0, 4).map(row => row.rp ? row.rp : row.p).reduce((l, n) => l + n, 0);
       const c2Total = flatten.slice(4, 8).map(row => row.rp ? row.rp : row.p).reduce((l, n) => l + n, 0);
       const c3Total = flatten.slice(8, 12).map(row => row.rp ? row.rp : row.p).reduce((l, n) => l + n, 0);

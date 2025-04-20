@@ -4,6 +4,6 @@ export interface SubjectAspectEntry {
 }
 
 export interface SubjectAspects {
-    primary: Array<SubjectAspectEntry[]>,
-    highSchool: Array<SubjectAspectEntry[]>
+    primary: SubjectAspectEntry[][],
+    highSchool: SubjectAspectEntry[][]
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,7 +29,7 @@ import { School } from '../interfaces/school';
     templateUrl: './user-profile.component.html',
     styleUrl: './user-profile.component.scss'
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit {
   private authService = inject(AuthService);
   private schoolService = inject(SchoolService);
   private fb = inject(FormBuilder);
@@ -110,7 +110,7 @@ export class UserProfileComponent {
     const profile: any = this.userForm.value;
     this.authService.update(profile).subscribe({
       next: (res) => {
-        if (res.modifiedCount == 1) {
+        if (res.modifiedCount === 1) {
           this.sb.open('Perfil actualizado con exito', 'Ok', { duration: 2500 });
         }
       },
@@ -162,7 +162,7 @@ export class UserProfileComponent {
 
   get titles() {
     const gender = this.userForm.get('gender')?.value;
-    if (gender == 'Hombre') {
+    if (gender === 'Hombre') {
       return this.titleOptions.Hombre;
     }
     return this.titleOptions.Mujer;

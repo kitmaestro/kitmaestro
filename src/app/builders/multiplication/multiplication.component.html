@@ -91,22 +91,22 @@
                     </div>
                     <br>
                     <div style="margin-bottom: 42px; display: flex;">
-                        @if(multiplicationsForm.get('name')?.value == true) {
+                        @if(multiplicationsForm.get('name')?.value === true) {
                         <div><b>Nombre</b>:</div>
                         <div class="blank"></div>
                         }
-                        @if(multiplicationsForm.get('grade')?.value == true) {
+                        @if(multiplicationsForm.get('grade')?.value === true) {
                         <div style="margin-left: 12px;"><b>Grado</b>:</div>
                         <div class="blank"></div>
                         }
-                        @if(multiplicationsForm.get('date')?.value == true) {
+                        @if(multiplicationsForm.get('date')?.value === true) {
                         <div style="margin-left: 12px;"><b>Fecha</b>:</div>
                         <div style="max-width: 25%;" class="blank"></div>
                         }
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
                         @for(line of multiplications; track $index) {
-                          @if (multiplicationsForm.get('orientation')?.value == "vertical") {
+                          @if (multiplicationsForm.get('orientation')?.value === "vertical") {
                             <div style="display: flex; align-items: center;" (click)="changeFactor($index)">
                               <div>
                                 <b>{{ ($index + 1).toString().padStart(2, '0') }})</b>
@@ -114,7 +114,7 @@
                               <div style="border-bottom: 1px solid black; margin-left: 12px; letter-spacing: 3px; font-family: serif;">
                                 @for(n of line; track $index) {
                                 <div style="text-align: right;">
-                                  @if ($index == line.length - 1) {
+                                  @if ($index === line.length - 1) {
                                   <span style="display: inline-block; margin-right: auto;">&times;</span>
                                   }
                                   {{n}}

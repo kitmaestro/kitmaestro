@@ -137,8 +137,8 @@ export class LogRegistryEntryFormComponent implements OnInit {
   }
 
   studentName(student: Student | string) {
-    if (typeof student == 'string') {
-      const st = this.students.find(s => s._id == student)
+    if (typeof student === 'string') {
+      const st = this.students.find(s => s._id === student)
       if (st) {
         return `${st.firstname} ${st.lastname}`;
       }
@@ -153,7 +153,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
   }
 
   sectionGrade(id: string) {
-    const section = this.sections.find(section => section._id == id);
+    const section = this.sections.find(section => section._id === id);
     if (section) {
       return section.year.toLowerCase();
     }
@@ -161,7 +161,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
   }
 
   sectionName(id: string) {
-    const section = this.sections.find(section => section._id == id);
+    const section = this.sections.find(section => section._id === id);
     if (section) {
       return section.name;
     }
@@ -198,7 +198,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
 
     this.saving = true;
     const studentNames: string[] = logData.students.map((id: string) => {
-      const student = this.students.find(s => s._id == id)
+      const student = this.students.find(s => s._id === id)
       if (student) {
         return this.studentName(student);
       }

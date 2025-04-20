@@ -22,16 +22,16 @@ export interface WordSearchResult {
   unplaced: string[],
 }
 
-let LETTERS = 'abcdefghijklmnpñopqrstuvwxyz'; // letters used for filler
-let WORD_RE = /^[a-z]+$/;                     // what a valid word looks like
-let MAXATTEMPTS = 20;                         // maximum amount of times to place a word
+const LETTERS = 'abcdefghijklmnpñopqrstuvwxyz'; // letters used for filler
+const WORD_RE = /^[a-z]+$/;                     // what a valid word looks like
+const MAXATTEMPTS = 20;                         // maximum amount of times to place a word
 
 /**
  * wordsearch
  *
  * generate a wordsearch puzzle
  */
-export function wordsearch(words: string[], width: number = 20, height: number = 20, opts: WordSearchOptions = { letters: LETTERS, backwards: 0.5 }): WordSearchResult | null {
+export function wordsearch(words: string[], width = 20, height = 20, opts: WordSearchOptions = { letters: LETTERS, backwards: 0.5 }): WordSearchResult | null {
   if (!words || !words.length) return null;
 
   // filter out any non-words
@@ -45,11 +45,11 @@ export function wordsearch(words: string[], width: number = 20, height: number =
   });
 
   // populate the grid with empty arrays
-  let grid: Grid = new Array(height);
+  const grid: Grid = new Array(height);
   for (let i = 0; i < grid.length; i++)
     grid[i] = new Array(width);
 
-  let unplaced: string[] = [];
+  const unplaced: string[] = [];
 
   // loop the words
   let colorno = 0;
@@ -66,8 +66,8 @@ export function wordsearch(words: string[], width: number = 20, height: number =
     let attempts = 0;
     while (attempts < MAXATTEMPTS) {
       // determine the direction (up-right, right, down-right, down)
-      let direction = Math.floor(Math.random() * 4);
-      let info = directioninfo(word, direction, width, height);
+      const direction = Math.floor(Math.random() * 4);
+      const info = directioninfo(word, direction, width, height);
 
       // word is too long, bail out
       if (info.maxx < 0 || info.maxy < 0 || info.maxy < info.miny || info.maxx < info.minx) {
@@ -85,7 +85,7 @@ export function wordsearch(words: string[], width: number = 20, height: number =
       let placeable = true;
       let count = 0;
       for (let l = 0; l < word.length; l++) {
-        let charingrid = grid[y][x];
+        const charingrid = grid[y][x];
 
         if (charingrid) { // check if there is a character in the grid
           if (charingrid !== word.charAt(l)) {
@@ -125,7 +125,7 @@ export function wordsearch(words: string[], width: number = 20, height: number =
   } // end word loop
 
   // the solved grid... XXX I hate this
-  let solved = JSON.parse(JSON.stringify(grid));
+  const solved = JSON.parse(JSON.stringify(grid));
 
   // put in filler characters
   for (let i = 0; i < grid.length; i++)

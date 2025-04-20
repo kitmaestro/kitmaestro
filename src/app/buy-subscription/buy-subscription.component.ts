@@ -37,7 +37,7 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
   private sb = inject(MatSnackBar);
   private router = inject(Router);
   private userSubscriptionService = inject(UserSubscriptionService);
-  alreadyPremium: boolean = false;
+  alreadyPremium = false;
   subscription$: Observable<UserSubscription> = this.userSubscriptionService.checkSubscription();
   loading = true;
   monthlyPricing = false;
@@ -148,7 +148,7 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
   ];
 
   buyPlan(plan: any) {
-    if (plan.name == 'Plan Premium') {
+    if (plan.name === 'Plan Premium') {
       const a = document.createElement('a');
       const text = encodeURIComponent(`Hola!\nMe interesa un plan premium de KitMaestro. Me puedes informar al respecto?`)
       a.href = `https://web.whatsapp.com/send?text=${text}`;
@@ -156,7 +156,7 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
       document.body.appendChild(a);
       a.click()
       document.body.removeChild(a);
-    } else if (plan.name == 'Plan Estándar') {
+    } else if (plan.name === 'Plan Estándar') {
       // process payment
     } else {
       this.router.navigate(['/']).then(() => {
@@ -255,7 +255,7 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
     this.subscription$.subscribe({
       next: (subscription) => {
         this.loading = false;
-        this.alreadyPremium = subscription.status == 'active';
+        this.alreadyPremium = subscription.status === 'active';
       }, error: (err) => {
         console.log(err)
       }

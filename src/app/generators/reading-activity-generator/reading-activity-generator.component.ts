@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,7 +36,7 @@ import { Router, RouterModule } from '@angular/router';
     templateUrl: './reading-activity-generator.component.html',
     styleUrl: './reading-activity-generator.component.scss'
 })
-export class ReadingActivityGeneratorComponent {
+export class ReadingActivityGeneratorComponent implements OnInit {
   private fb = inject(FormBuilder);
   private sb = inject(MatSnackBar);
   private aiService = inject(AiService);
@@ -87,7 +87,7 @@ export class ReadingActivityGeneratorComponent {
 
   onSectionSelect(event: any) {
     const id: string = event.value;
-    const section = this.sections.find(s => s._id == id);
+    const section = this.sections.find(s => s._id === id);
     if (section) {
       this.section = section;
     }
@@ -102,7 +102,7 @@ export class ReadingActivityGeneratorComponent {
   }
 
   generateActivity(form: any) {
-    const section = this.sections.find(section => section._id == form.section);
+    const section = this.sections.find(section => section._id === form.section);
     if (!section)
       return;
     const text = `Escribe un texto de un nivel adecuado para alumnos de ${this.pretify(section.year)} grado de ${this.pretify(section.level)} y ${form.questions} preguntas de comprensión lectora adecuadas para trabajar/evaluar el proceso cognitivo de ${form.level.toLowerCase()}. Responde con formato JSON valido con esta interfaz:

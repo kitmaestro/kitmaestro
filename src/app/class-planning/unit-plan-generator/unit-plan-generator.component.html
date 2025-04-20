@@ -49,7 +49,7 @@
                             <mat-label>Contenidos de Lengua Española</mat-label>
                             <mat-select formControlName="spanishContent" required>
                                 @for (content of contentBlocks; track content._id) {
-                                    @if (content.subject == 'LENGUA_ESPANOLA') {
+                                    @if (content.subject === 'LENGUA_ESPANOLA') {
                                         <mat-option [value]="content._id">{{content.title}}</mat-option>
                                     }
                                 }
@@ -61,7 +61,7 @@
                             <mat-label>Contenidos de Matemática</mat-label>
                             <mat-select multiple formControlName="mathContent" required>
                                 @for (content of contentBlocks; track content._id) {
-                                    @if(content.subject == 'MATEMATICA') {
+                                    @if(content.subject === 'MATEMATICA') {
                                         <mat-option [value]="content._id">{{content.title}}</mat-option>
                                     }
                                 }
@@ -73,7 +73,7 @@
                             <mat-label>Contenidos de Ciencias Sociales</mat-label>
                             <mat-select formControlName="societyContent" multiple required>
                                 @for (content of contentBlocks; track content._id) {
-                                    @if (content.subject == 'CIENCIAS_SOCIALES') {
+                                    @if (content.subject === 'CIENCIAS_SOCIALES') {
                                         <mat-option [value]="content._id">{{content.title}}</mat-option>
                                     }
                                 }
@@ -85,7 +85,7 @@
                             <mat-label>Contenidos de Ciencias de la Naturaleza</mat-label>
                             <mat-select multiple formControlName="scienceContent" required>
                                 @for (content of contentBlocks; track content._id) {
-                                    @if (content.subject == 'CIENCIAS_NATURALES') {
+                                    @if (content.subject === 'CIENCIAS_NATURALES') {
                                         <mat-option [value]="content._id">{{content.title}}</mat-option>
                                     }
                                 }
@@ -97,7 +97,7 @@
                             <mat-label>Contenidos de Inglés</mat-label>
                             <mat-select formControlName="englishContent" required>
                                 @for (content of contentBlocks; track content._id) {
-                                    @if (content.subject == 'INGLES') {
+                                    @if (content.subject === 'INGLES') {
                                         <mat-option [value]="content._id">{{content.title}}</mat-option>
                                     }
                                 }
@@ -109,7 +109,7 @@
                             <mat-label>Contenidos de Francés</mat-label>
                             <mat-select formControlName="frenchContent" required>
                                 @for (content of contentBlocks; track content._id) {
-                                    @if (content.subject == 'FRANCES') {
+                                    @if (content.subject === 'FRANCES') {
                                         <mat-option [value]="content._id">{{content.title}}</mat-option>
                                     }
                                 }
@@ -121,7 +121,7 @@
                             <mat-label>Contenidos de Formación Integral Humana y Religiosa</mat-label>
                             <mat-select multiple formControlName="religionContent" required>
                                 @for (content of contentBlocks; track content._id) {
-                                    @if (content.subject == 'FORMACION_HUMANA') {
+                                    @if (content.subject === 'FORMACION_HUMANA') {
                                         <mat-option [value]="content._id">{{content.title}}</mat-option>
                                     }
                                 }
@@ -133,7 +133,7 @@
                             <mat-label>Contenidos de Educación Física</mat-label>
                             <mat-select multiple formControlName="physicalEducationContent" required>
                                 @for (content of contentBlocks; track content._id) {
-                                    @if (content.subject == 'EDUCACION_FISICA') {
+                                    @if (content.subject === 'EDUCACION_FISICA') {
                                         <mat-option [value]="content._id">{{content.title}}</mat-option>
                                     }
                                 }
@@ -145,7 +145,7 @@
                             <mat-label>Contenidos de Educación Artística</mat-label>
                             <mat-select multiple formControlName="artisticEducationContent" required>
                                 @for (content of contentBlocks; track content._id) {
-                                    @if (content.subject == 'EDUCACION_ARTISTICA') {
+                                    @if (content.subject === 'EDUCACION_ARTISTICA') {
                                         <mat-option [value]="content._id">{{content.title}}</mat-option>
                                     }
                                 }
@@ -163,7 +163,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        @if (learningSituationForm.value.situationType == 'realityProblem') {
+                        @if (learningSituationForm.value.situationType === 'realityProblem') {
                             <div style="flex: 1 1 auto;">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Problema a Abordar</mat-label>
@@ -175,7 +175,7 @@
                                 </mat-form-field>
                             </div>
                         }
-                        @if (learningSituationForm.value.situationType == 'reality') {
+                        @if (learningSituationForm.value.situationType === 'reality') {
                             <div style="flex: 1 1 auto;">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Realidad del Curso</mat-label>
@@ -263,7 +263,7 @@
                                 <h3>Actividades de Ense&ntilde;anza</h3>
                                 <ul style="margin: 0; padding: 0; list-style: none;">
                                     @for (list of teacher_activities; track list.subject) {
-                                        @if (student_activities.length == 1) {
+                                        @if (student_activities.length === 1) {
                                             @for (activity of list.activities; track activity) {
                                                 <li>{{activity}}</li>
                                             }
@@ -282,7 +282,7 @@
                                 <h3>Actividades de Aprendizaje</h3>
                                 <ul style="margin: 0; padding: 0; list-style: none;">
                                     @for (list of student_activities; track list.subject) {
-                                        @if (student_activities.length == 1) {
+                                        @if (student_activities.length === 1) {
                                             @for (activity of list.activities; track activity) {
                                                 <li>{{activity}}</li>
                                             }
@@ -301,7 +301,7 @@
                                 <h3>Actividades de Evaluaci&oacute;n</h3>
                                 <ul style="margin: 0; padding: 0; list-style: none;">
                                     @for (list of evaluation_activities; track list.subject) {
-                                        @if (student_activities.length == 1) {
+                                        @if (student_activities.length === 1) {
                                             @for (activity of list.activities; track activity) {
                                                 <li>{{activity}}</li>
                                             }

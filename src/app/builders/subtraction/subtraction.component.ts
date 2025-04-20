@@ -38,9 +38,9 @@ export class SubtractionComponent implements OnInit {
   pdfService = inject(PdfService);
   sb = inject(MatSnackBar);
 
-  teacherName: string = '';
-  schoolName: string = '';
-  subtractions: Array<number[]> = [];
+  teacherName = '';
+  schoolName = '';
+  subtractions: number[][] = [];
 
   subtractionsForm = this.fb.group({
     title: ["Resta"],
@@ -64,11 +64,11 @@ export class SubtractionComponent implements OnInit {
   }
 
   generateNumber(min: number, max: number): number {
-    const digits = min == max ? min : Math.round(Math.random() * (max - min)) + min;
-    let str = this.subtractionsForm.get("subtractionType")?.value == "signed" ? (Math.round(Math.random()) ? "" : "-") : "";
+    const digits = min === max ? min : Math.round(Math.random() * (max - min)) + min;
+    let str = this.subtractionsForm.get("subtractionType")?.value === "signed" ? (Math.round(Math.random()) ? "" : "-") : "";
 
     for (let i = 0; i < digits; i++) {
-      if (i == 0) {
+      if (i === 0) {
         str += shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9])[0];
       } else {
         str += shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 0])[0];
@@ -91,7 +91,7 @@ export class SubtractionComponent implements OnInit {
       for (let j = 0; j < subtrahendQty; j++) {
         subtraction.push(this.generateNumber(minDigits, maxDigits));
       }
-      if (this.subtractionsForm.get("results")?.value == "positive") {
+      if (this.subtractionsForm.get("results")?.value === "positive") {
         subtraction.sort((a, b) => b - a);
       }
       this.subtractions.push(subtraction);
@@ -136,7 +136,7 @@ export class SubtractionComponent implements OnInit {
       subtraction.push(this.generateNumber(minDigits, maxDigits));
     }
 
-    if (this.subtractionsForm.get("results")?.value == "positive") {
+    if (this.subtractionsForm.get("results")?.value === "positive") {
       subtraction.sort((a, b) => b - a);
     }
     this.subtractions[index] = subtraction;

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { filter, Observable } from 'rxjs';
 import { NavigationComponent } from './navigation/navigation.component';
@@ -19,7 +19,7 @@ import { collectionData, collection, Firestore } from '@angular/fire/firestore';
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private user$ = this.authService.profile();

@@ -18,7 +18,7 @@ export class AiService {
     })
   };
 
-  askClaude(text: string, max_tokens: number = 1024) {
+  askClaude(text: string, max_tokens = 1024) {
     return this.http.post(this.apiBaseUrl + 'claude', { text, max_tokens }, this.config);
   }
 
@@ -66,7 +66,7 @@ export class AiService {
 
       while (true) {
         currentAverage = Math.round(adjustedNumbers.reduce((acc, curr) => acc + (curr.rp > 0 ? curr.rp : curr.p), 0) / elements);
-        if (currentAverage == average) {
+        if (currentAverage === average) {
           break;
         }
         adjustment = average - currentAverage;

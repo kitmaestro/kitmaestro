@@ -5,9 +5,9 @@
                 <mat-card-content>
                     <div class="page" id="guide-{{$index}}">
                         <h2 mat-card-title>Gu&iacute;a de Observaci&oacute;n</h2>
-                        <div [style]="guide.date == '' ? 'display: flex; gap: 12px;' : 'display: block;'">
+                        <div [style]="guide.date === '' ? 'display: flex; gap: 12px;' : 'display: block;'">
                             <span><b>Fecha</b>: </span>
-                            @if (guide.date == '') {
+                            @if (guide.date === '') {
                                 <div style="border-bottom: 1px solid black; flex: 1 1 auto;">&nbsp;</div>
                             } @else {
                                 {{ guide.date }}
@@ -68,9 +68,9 @@
                 <div class="page" id="guide">
                     <h2 mat-card-title>Gu&iacute;a de Observaci&oacute;n</h2>
                     <h3 mat-card-subtitle>{{guide.title}}</h3>
-                    <div [style]="guide.date == '' ? 'display: flex; gap: 12px;' : 'display: block;'">
+                    <div [style]="guide.date === '' ? 'display: flex; gap: 12px;' : 'display: block;'">
                         <span><b>Fecha</b>: </span>
-                        @if (guide.date == '') {
+                        @if (guide.date === '') {
                             <div style="border-bottom: 1px solid black; flex: 1 1 auto;">&nbsp;</div>
                         } @else {
                             {{ guide.date | date: 'dd/MM/YYYY' }}

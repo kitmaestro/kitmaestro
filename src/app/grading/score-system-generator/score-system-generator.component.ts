@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ScoreSystemService } from '../../services/score-system.service';
@@ -41,7 +41,7 @@ import { UserSettings } from '../../interfaces/user-settings';
     templateUrl: './score-system-generator.component.html',
     styleUrl: './score-system-generator.component.scss'
 })
-export class ScoreSystemGeneratorComponent {
+export class ScoreSystemGeneratorComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private fb = inject(FormBuilder);
 	private scoreService = inject(ScoreSystemService);
@@ -236,7 +236,7 @@ Algunos puntos 'fijos' son los cuadernos (5 a 15 puntos) y la participacion acti
 	}
 
 	getSection(id: string) {
-		return this.sections.find(s => s._id == id);
+		return this.sections.find(s => s._id === id);
 	}
 
 	onSectionChange(event: any) {

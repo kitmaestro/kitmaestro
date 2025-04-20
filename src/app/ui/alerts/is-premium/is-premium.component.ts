@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -20,11 +20,11 @@ import { UserSubscriptionService } from '../../../services/user-subscription.ser
     templateUrl: './is-premium.component.html',
     styleUrl: './is-premium.component.scss'
 })
-export class IsPremiumComponent {
+export class IsPremiumComponent implements OnInit {
   private userSubscriptionService = inject(UserSubscriptionService);
 
   public isPremium$: Observable<boolean> = this.userSubscriptionService.checkSubscription().pipe(
-    map(sub => sub.status == 'active' && !sub.subscriptionType.toLowerCase().includes('free') && +(new Date(sub.endDate)) > +(new Date())),
+    map(sub => sub.status === 'active' && !sub.subscriptionType.toLowerCase().includes('free') && +(new Date(sub.endDate)) > +(new Date())),
     tap(premium => {
       this.loading = false;
       this.onLoaded.emit(premium)
@@ -32,7 +32,7 @@ export class IsPremiumComponent {
   );
   public loading = true;
 
-  @Output() onLoaded: EventEmitter<boolean> = new EventEmitter();
+  @Output() onLoaded = new EventEmitter<boolean>();
 
   ngOnInit() {
   }

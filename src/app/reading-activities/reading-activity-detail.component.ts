@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { ReadingActivity } from '../interfaces/reading-activity';
@@ -53,7 +53,7 @@ import { ReadingActivityService } from '../services/reading-activity.service';
     width: 100%;
 }`
 })
-export class ReadingActivityDetailComponent {
+export class ReadingActivityDetailComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<ReadingActivityDetailComponent>);
   readonly data = inject<ReadingActivity>(MAT_DIALOG_DATA);
   private raService = inject(ReadingActivityService);

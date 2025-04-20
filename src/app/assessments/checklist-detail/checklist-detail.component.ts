@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ChecklistComponent } from '../checklist/checklist.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChecklistService } from '../../services/checklist.service';
@@ -19,7 +19,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   templateUrl: './checklist-detail.component.html',
   styleUrl: './checklist-detail.component.scss'
 })
-export class ChecklistDetailComponent {
+export class ChecklistDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private sb = inject(MatSnackBar);

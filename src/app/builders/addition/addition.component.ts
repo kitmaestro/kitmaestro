@@ -36,9 +36,9 @@ export class AdditionComponent implements OnInit {
   pdfService = inject(PdfService);
   sb = inject(MatSnackBar);
 
-  teacherName: string = '';
-  schoolName: string = '';
-  additions: Array<number[]> = [];
+  teacherName = '';
+  schoolName = '';
+  additions: number[][] = [];
 
   additionsForm = this.fb.group({
     addends: [2, Validators.min(2)],
@@ -58,11 +58,11 @@ export class AdditionComponent implements OnInit {
   }
 
   generateAddend(min: number, max: number): number {
-    const digits = min == max ? min : Math.round(Math.random() * (max - min)) + min;
+    const digits = min === max ? min : Math.round(Math.random() * (max - min)) + min;
     let str = "";
 
     for (let i = 0; i < digits; i++) {
-      if (i == 0) {
+      if (i === 0) {
         str += shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9])[0];
       } else {
         str += shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 0])[0];

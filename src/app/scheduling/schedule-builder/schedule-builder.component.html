@@ -23,7 +23,7 @@
                   <mat-label>Formato</mat-label>
                   <mat-select formControlName="format">
                     @for (format of formats; track format.id) {
-                      <mat-option [disabled]="format.id != 'JEE'" [value]="format.id">{{format.label}}</mat-option>
+                      <mat-option [disabled]="format.id !== 'JEE'" [value]="format.id">{{format.label}}</mat-option>
                     }
                   </mat-select>
                 </mat-form-field>

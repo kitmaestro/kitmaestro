@@ -5,7 +5,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Estudiante</th>
-                        @if (generated.level == 'primary') {
+                        @if (generated.level === 'primary') {
                             <th colspan="8" scope="col" *ngFor="let col of [].constructor(generated.indicators); let i = index">Competencia {{i + 1}}</th>
                             <th colspan="6" scope="col">Promedios</th>
                         } @else {
@@ -28,7 +28,7 @@
                             <th>P4</th>
                             <th>RP4</th>
                         }
-                        @if (generated.level == 'primary') {
+                        @if (generated.level === 'primary') {
                             <th>C1</th>
                             <th>C2</th>
                             <th>C3</th>
@@ -155,7 +155,7 @@
                                         <mat-label>Cantidad</mat-label>
                                         <input type="number" min="1" max="50" matInput [formControl]="qty">
                                     </mat-form-field>
-                                    <button type="button" (click)="addStudent()" mat-raised-button color="accent">Agregar {{ qty.value }} Estudiante{{ qty.value == 1 ? '' : 's' }}</button>
+                                    <button type="button" (click)="addStudent()" mat-raised-button color="accent">Agregar {{ qty.value }} Estudiante{{ qty.value === 1 ? '' : 's' }}</button>
                                 </div>
                             </div>
                         </div>

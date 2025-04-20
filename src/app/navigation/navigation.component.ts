@@ -43,7 +43,7 @@ export class NavigationComponent {
 
   public isPrintView = window.location.href.includes('print');
 
-  @Output() signOut: EventEmitter<boolean> = new EventEmitter();
+  @Output() signOut = new EventEmitter<boolean>();
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -51,7 +51,7 @@ export class NavigationComponent {
       shareReplay()
     );
   userSettings$ = this.authService.profile();
-  subscription$ = this.userSubscriptionService.checkSubscription().pipe(map(sub => sub.status == 'active' && sub.subscriptionType.toLowerCase().includes('premium') && +(new Date(sub.endDate)) > +(new Date())));
+  subscription$ = this.userSubscriptionService.checkSubscription().pipe(map(sub => sub.status === 'active' && sub.subscriptionType.toLowerCase().includes('premium') && +(new Date(sub.endDate)) > +(new Date())));
 
   showNames = true;
 
@@ -81,7 +81,7 @@ export class NavigationComponent {
 
   logout() {
     this.authService.logout().subscribe(result => {
-      if (result.message == "Logout successful") {
+      if (result.message === "Logout successful") {
         this.signOut.emit(true);
         this.router.navigate(['/auth', 'login']).then(() => {
           this.sb.open('Se ha cerrado la sesion, nos vemos pronto!', 'Ok', { duration: 2500 });

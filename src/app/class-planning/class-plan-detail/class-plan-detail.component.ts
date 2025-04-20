@@ -60,7 +60,7 @@ export class ClassPlanDetailComponent {
 
   deletePlan() {
     this.classPlanService.deletePlan(this.planId).subscribe(res => {
-      if (res.deletedCount == 1) {
+      if (res.deletedCount === 1) {
         this.router.navigate(['/class-plans']).then(() => {
           this.sb.open('Se ha eliminado el plan', 'Ok', { duration: 2500 });
         });

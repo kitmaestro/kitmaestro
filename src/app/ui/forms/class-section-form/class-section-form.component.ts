@@ -34,7 +34,7 @@ export class ClassSectionFormComponent {
   private schoolService = inject(SchoolService);
   sb = inject(MatSnackBar);
   saving = false;
-  id: string = '';
+  id = '';
 
   schools: School[] = [];
 
@@ -85,7 +85,7 @@ export class ClassSectionFormComponent {
       const { school, name, level, year, subjects } = this.sectionForm.value;
       if (this.data) {
         this.classSectionService.updateSection(this.id, { school, name, level, year, subjects  }).subscribe((res) => {
-          if (res.modifiedCount == 1) {
+          if (res.modifiedCount === 1) {
             this.sb.open('Sección actualizada con éxito.', 'Ok', { duration: 2500 });
             this.dialogRef.close(res);
           }

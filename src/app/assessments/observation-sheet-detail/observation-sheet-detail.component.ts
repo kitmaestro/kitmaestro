@@ -57,7 +57,7 @@ export class ObservationSheetDetailComponent implements OnInit {
 
   deleteGuide() {
     this.guideService.delete(this.id).subscribe(res => {
-      if (res.deletedCount == 1) {
+      if (res.deletedCount === 1) {
         this.router.navigate(['/assessments/observation-sheets']).then(() => {
           this.sb.open('El instrumento ha sido eliminado', 'Ok', { duration: 2500 });
         });

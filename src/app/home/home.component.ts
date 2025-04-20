@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AppEntry } from '../interfaces/app-entry';
@@ -38,7 +38,7 @@ import { MatChipsModule } from '@angular/material/chips';
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   private favoritesService = inject(FavoritesService);
   private userSettingsService = inject(UserSettingsService);
   favorites: AppEntry[] = [];
@@ -473,6 +473,41 @@ export class HomeComponent {
       categories: ['Productividad'],
       icon: '/assets/undraw_ideas_41b9.svg'
     },
+    {
+      name: 'Reflexiones Diarias',
+      description: 'Crea reflexiones personalizadas para tus estudiantes',
+      link: ['/reflection-generator'],
+      categories: ['Actividades'],
+      icon: '/assets/undraw_creative-thinking_ruwx.svg'
+    },
+    {
+      name: 'Rompehielos',
+      description: 'Crea actividades dinámicas para iniciar tus clases',
+      link: ['/icebreaker-generator'],
+      categories: ['Actividades'],
+      icon: '/assets/undraw_team-up_qeem.svg'
+    },
+    {
+      name: 'Trabalenguas',
+      description: 'Crea trabalenguas divertidos para tus clases',
+      link: ['/tongue-twister-generator'],
+      categories: ['Actividades'],
+      icon: '/assets/undraw_things-to-say_f5mi.svg'
+    },
+    {
+      name: 'Prácticas Deportivas',
+      description: 'Obtén planes de entrenamiento detallados para tus clases',
+      link: ['/sports-practice-generator'],
+      categories: ['Actividades', 'Planificación'],
+	  icon: '/assets/undraw_track-and-field_i2au.svg'
+    },
+    {
+		name: 'Ganchos para la clase',
+		description: 'Crea ideas atractivas para iniciar tus lecciones',
+		link: ['/class-hook-generator'],
+		categories: ['Actividades', 'Planificación'],
+		icon: '/assets/undraw_sharing-knowledge_pu0e.svg'
+    },
   ];
 
   filteredApps: AppEntry[] = [];
@@ -503,7 +538,7 @@ export class HomeComponent {
   }
 
   isAFav(app: any) {
-    return this.favorites.some(f => f.name == app.name);
+    return this.favorites.some(f => f.name === app.name);
   }
 
   markFavorite(event: any) {

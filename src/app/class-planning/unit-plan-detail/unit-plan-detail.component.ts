@@ -70,8 +70,8 @@ export class UnitPlanDetailComponent implements OnInit {
   }
 
   pretifyCompetence(value: string, level: string) {
-    if (level == 'PRIMARIA') {
-      if (value == 'Comunicativa') {
+    if (level === 'PRIMARIA') {
+      if (value === 'Comunicativa') {
         return 'Comunicativa';
       }
       if (value.includes('Pensamiento')) {
@@ -81,25 +81,25 @@ export class UnitPlanDetailComponent implements OnInit {
         return 'Ética Y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud';
       }
     } else {
-      if (value == 'Comunicativa') {
+      if (value === 'Comunicativa') {
         return 'Comunicativa';
       }
-      if (value == 'Pensamiento Logico') {
+      if (value === 'Pensamiento Logico') {
         return 'Pensamiento Lógico, Creativo y Crítico';
       }
-      if (value == 'Resolucion De Problemas') {
+      if (value === 'Resolucion De Problemas') {
         return 'Resolución de Problemas';
       }
-      if (value == 'Ciencia Y Tecnologia') {
+      if (value === 'Ciencia Y Tecnologia') {
         return 'Tecnológica y Científica';
       }
-      if (value == 'Etica Y Ciudadana') {
+      if (value === 'Etica Y Ciudadana') {
         return 'Ética y Ciudadana';
       }
-      if (value == 'Desarrollo Personal Y Espiritual') {
+      if (value === 'Desarrollo Personal Y Espiritual') {
         return 'Desarrollo Personal y Espiritual';
       }
-      if (value == 'Ambiental Y De La Salud') {
+      if (value === 'Ambiental Y De La Salud') {
         return 'Ambiental y de la Salud';
       }
     }
@@ -128,31 +128,31 @@ export class UnitPlanDetailComponent implements OnInit {
   }
 
   pretifySubject(subject: string) {
-    if (subject == 'LENGUA_ESPANOLA') {
+    if (subject === 'LENGUA_ESPANOLA') {
       return 'Lengua Española';
     }
-    if (subject == 'MATEMATICA') {
+    if (subject === 'MATEMATICA') {
       return 'Matemática';
     }
-    if (subject == 'CIENCIAS_SOCIALES') {
+    if (subject === 'CIENCIAS_SOCIALES') {
       return 'Ciencias Sociales';
     }
-    if (subject == 'CIENCIAS_NATURALES') {
+    if (subject === 'CIENCIAS_NATURALES') {
       return 'Ciencias de la Naturaleza';
     }
-    if (subject == 'INGLES') {
+    if (subject === 'INGLES') {
       return 'Inglés';
     }
-    if (subject == 'FRANCES') {
+    if (subject === 'FRANCES') {
       return 'Francés';
     }
-    if (subject == 'FORMACION_HUMANA') {
+    if (subject === 'FORMACION_HUMANA') {
       return 'Formación Integral Humana y Religiosa';
     }
-    if (subject == 'EDUCACION_FISICA') {
+    if (subject === 'EDUCACION_FISICA') {
       return 'Educación Física';
     }
-    if (subject == 'EDUCACION_ARTISTICA') {
+    if (subject === 'EDUCACION_ARTISTICA') {
       return 'Educación Artística';
     }
     return 'Talleres Optativos';
@@ -167,7 +167,7 @@ export class UnitPlanDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.unitPlanService.delete(id).subscribe((result) => {
-        if (result.deletedCount == 1) {
+        if (result.deletedCount === 1) {
           this.router.navigate(['/unit-plans']).then(() => {
             this.sb.open('El plan ha sido eliminado.', 'Ok', { duration: 2500 });
           })

@@ -147,7 +147,7 @@ export class TodosComponent implements OnInit {
     completed.completed = !completed.completed;
     this.todoService.update(todo._id, completed).subscribe({
       next: (result) => {
-        if (result.upsertedCount == 1) {
+        if (result.upsertedCount === 1) {
           this.sb.open('Pendiente ' + completed.completed ? 'completado!' : 'pendiente', undefined, { duration: 2500 });
           this.loadTodos();
         }
@@ -158,7 +158,7 @@ export class TodosComponent implements OnInit {
   deleteTodo(id: string) {
     this.todoService.delete(id).subscribe({
       next: (result) => {
-        if (result.deletedCount == 1) {
+        if (result.deletedCount === 1) {
           this.sb.open('La tarea ha sido eliminada', undefined, { duration: 2500 });
           this.loadTodos();
         }
@@ -179,7 +179,7 @@ export class TodosComponent implements OnInit {
     const list: any = this.listForm.value;
     this.todoService.update(list._id, list).subscribe({
       next: (result) => {
-        if (result.upsertedCount == 1) {
+        if (result.upsertedCount === 1) {
           this.sb.open('Los detalles de la lista han sido actualizados.', undefined, { duration: 2500 });
           this.loadList();
         }

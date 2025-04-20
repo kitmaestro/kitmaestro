@@ -165,7 +165,7 @@
 
 <!-- <div class="pricing-table-container">
     @for (plan of pricingPlans; track $index) {
-        <mat-card class="pricing-card" [class.standard]="$index == 1">
+        <mat-card class="pricing-card" [class.standard]="$index === 1">
             <mat-card-content>
                 <mat-slide-toggle [checked]="monthlyPricing" (change)="monthlyPricing = !monthlyPricing"></mat-slide-toggle>
                 <p>{{ monthlyPricing ? 'Pago Mensual' : 'Pago Anual' }}</p>
@@ -173,8 +173,8 @@
                 @if (plan.price.month.original > 0 && !monthlyPricing) {
                     <h2 style="margin: 0 auto; text-decoration: line-through; color: #f44336;" mat-card-subtitle>{{ (monthlyPricing ? plan.price.month.original : plan.price.year.original) | currency : 'USD' }}</h2>
                 }
-                <h2 style="margin: 0 auto;" mat-card-subtitle>{{ plan.price.month.now == 0 ? 'Gratis' : ((monthlyPricing ? plan.price.month.now : plan.price.year.now) | currency : 'USD') }}</h2>
-                @if (monthlyPricing && $index == 1) {
+                <h2 style="margin: 0 auto;" mat-card-subtitle>{{ plan.price.month.now === 0 ? 'Gratis' : ((monthlyPricing ? plan.price.month.now : plan.price.year.now) | currency : 'USD') }}</h2>
+                @if (monthlyPricing && $index === 1) {
                     <mat-icon style="color: #673ab7;">verified</mat-icon>
                 }
                 <ul style="margin-bottom: 12px;">
@@ -182,7 +182,7 @@
                         <li>{{ feature }}</li>
                     }
                 </ul>
-                @if ($index == 1) {
+                @if ($index === 1) {
                     <div [class.hidden]="monthlyPricing" id="paypal-button-container-P-52T24700U3639062UM4OD5MY"></div>
                     <div [class.hidden]="!monthlyPricing" id="paypal-button-container-P-2EE66704US3183602M4OD3PA"></div>
                     @if (monthlyPricing) {
@@ -190,7 +190,7 @@
                     } @else {
                         <a style="width: 100%;" [href]="links.blackfriday.standard.yearly" target="_blank" rel="noopener noreferrer" mat-raised-button color="primary">Suscribeme</a>
                     }
-                } @else if ($index == 2) {
+                } @else if ($index === 2) {
                     <div [class.hidden]="monthlyPricing" id="paypal-button-container-P-18K0318878962562NM4OWONQ"></div>
                     <div [class.hidden]="!monthlyPricing" id="paypal-button-container-P-65554646XG739770LM4OWNZI"></div>
                     @if (monthlyPricing) {

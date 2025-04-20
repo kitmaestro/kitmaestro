@@ -8,7 +8,7 @@ function distance(x1: number, y1: number, x2: number, y2: number): number {
 }
 
 function weightedAverage(weights: number[], values: number[]): number {
-    var temp = 0;
+    let temp = 0;
 
     for(let k = 0; k < weights.length; k++){
 	    temp += weights[k] * values[k];
@@ -53,17 +53,17 @@ function computeScore4(val: number, word: string){
 
 // Word functions
 function addWord(best: any, words: any, table: any){
-    var bestScore = best[0];
-    var word = best[1];
-    var index = best[2];
-    var bestI = best[3];
-    var bestJ = best[4];
-    var bestO = best[5];
+    const bestScore = best[0];
+    const word = best[1];
+    const index = best[2];
+    const bestI = best[3];
+    const bestJ = best[4];
+    const bestO = best[5];
     
     words[index].startx = bestJ + 1;			
     words[index].starty = bestI + 1;
     
-    if(bestO == 0){
+    if(bestO === 0){
 	for(let k = 0; k < word.length; k++){
 	    table[bestI][bestJ + k] = word.charAt(k);
 	}
@@ -79,11 +79,11 @@ function addWord(best: any, words: any, table: any){
 }
 
 function assignPositions(words: any){
-    var positions: any = {};
-    for(let index in words){
-        var word = words[index];
+    const positions: any = {};
+    for(const index in words){
+        const word = words[index];
         if(word.orientation != "none"){
-            var tempStr = word.starty + "," + word.startx;
+            const tempStr = word.starty + "," + word.startx;
             if(tempStr in positions){
 	        word.position = positions[tempStr];
             }
@@ -97,7 +97,7 @@ function assignPositions(words: any){
 }
 
 function computeDimension(words: any, factor: any){
-    var temp = 0;
+    let temp = 0;
     for(let i = 0; i < words.length; i++){
 	if(temp < words[i].answer.length){
 	    temp = words[i].answer.length;
@@ -110,10 +110,10 @@ function computeDimension(words: any, factor: any){
 
 // Table functions
 function initTable(rows: any, cols: any){
-    var table: string[][] = [];
+    const table: string[][] = [];
     for(let i = 0; i < rows; i++){
 	for(let j = 0; j < cols; j++){
-	    if(j == 0){
+	    if(j === 0){
 		    table[i] = ["-"];
 	    }
 	    else{
@@ -129,16 +129,16 @@ function isConflict(table: any, isVertical: any, character: any, i: any, j: any)
     if(character != table[i][j] && table[i][j] != "-"){
 	return true;
     }
-    else if(table[i][j] == "-" && !isVertical && (i + 1) in table && table[i + 1][j] != "-"){
+    else if(table[i][j] === "-" && !isVertical && (i + 1) in table && table[i + 1][j] != "-"){
 	return true;
     }
-    else if(table[i][j] == "-" && !isVertical && (i - 1) in table && table[i - 1][j] != "-"){
+    else if(table[i][j] === "-" && !isVertical && (i - 1) in table && table[i - 1][j] != "-"){
 	return true;
     }
-    else if(table[i][j] == "-" && isVertical && (j + 1) in table[i] && table[i][j + 1] != "-"){
+    else if(table[i][j] === "-" && isVertical && (j + 1) in table[i] && table[i][j + 1] != "-"){
 	return true;
     }
-    else if(table[i][j] == "-" && isVertical && (j - 1) in table[i] && table[i][j - 1] != "-"){
+    else if(table[i][j] === "-" && isVertical && (j - 1) in table[i] && table[i][j - 1] != "-"){
 	return true
     }
     else{
@@ -147,10 +147,10 @@ function isConflict(table: any, isVertical: any, character: any, i: any, j: any)
 }
 
 function attemptToInsert(rows: any, cols: any, table: any, weights: any, verticalCount: any, totalCount: any, word: any, index: any){
-    var bestI = 0;
-    var bestJ = 0;
-    var bestO = 0;
-    var bestScore = -1;
+    let bestI = 0;
+    let bestJ = 0;
+    let bestO = 0;
+    let bestScore = -1;
 
     // Horizontal
     for(let i = 0; i < rows; i++){
@@ -165,7 +165,7 @@ function attemptToInsert(rows: any, cols: any, table: any, weights: any, vertica
 		    isValid = false;
 		    break;
 		}
-		else if(table[i][j + k] == "-"){
+		else if(table[i][j + k] === "-"){
 		    prevFlag = false;
 		    atleastOne = true;
 		}
@@ -218,7 +218,7 @@ function attemptToInsert(rows: any, cols: any, table: any, weights: any, vertica
 		    isValid = false;
 		    break;
 		}
-		else if(table[i + k][j] == "-"){
+		else if(table[i + k][j] === "-"){
 		    prevFlag = false;
 		    atleastOne = true;
 		}
@@ -267,33 +267,33 @@ function attemptToInsert(rows: any, cols: any, table: any, weights: any, vertica
 }
 
 function generateTable(table: any, rows: any, cols: any, words: any, weights: any){
-    var verticalCount = 0;
-    var totalCount = 0;
+    let verticalCount = 0;
+    let totalCount = 0;
     
-    for(let outerIndex in words){
-	var best = [-1];
-	for(let innerIndex in words){
+    for(const outerIndex in words){
+	let best = [-1];
+	for(const innerIndex in words){
 	    if("answer" in words[innerIndex] && !("startx" in words[innerIndex])){
-		var temp = attemptToInsert(rows, cols, table, weights, verticalCount, totalCount, words[innerIndex].answer, innerIndex);
+		const temp = attemptToInsert(rows, cols, table, weights, verticalCount, totalCount, words[innerIndex].answer, innerIndex);
 		if(temp[0] > best[0]){
 		    best = temp;
 		}
 	    }
 	}
 	
-	if(best[0] == -1){
+	if(best[0] === -1){
             break;
         }
 	else{
 	    addWord(best, words, table);
-	    if(best[5] == 1){
+	    if(best[5] === 1){
 		verticalCount += 1;
 	    }
 	    totalCount += 1;
 	}
     }
 
-    for(let index in words){
+    for(const index in words){
         if(!("startx" in words[index])){
             words[index].orientation = "none";
         }
@@ -303,35 +303,35 @@ function generateTable(table: any, rows: any, cols: any, words: any, weights: an
 }
 
 function removeIsolatedWords(data: any){
-    var oldTable = data.table;
-    var words = data.result;
-    var rows = oldTable.length;
-    var cols = oldTable[0].length;
-    var newTable = initTable(rows, cols);
+    const oldTable = data.table;
+    const words = data.result;
+    const rows = oldTable.length;
+    const cols = oldTable[0].length;
+    let newTable = initTable(rows, cols);
 
     // Draw intersections as "X"'s
-    for(let wordIndex in words){
+    for(const wordIndex in words){
         var word = words[wordIndex];
-        if(word.orientation == "across"){
+        if(word.orientation === "across"){
             var i = word.starty - 1;
             var j = word.startx - 1;
             for(let k = 0; k < word.answer.length; k++){
-                if(newTable[i][j + k] == "-"){
+                if(newTable[i][j + k] === "-"){
                     newTable[i][j + k] = "O";
                 }
-                else if(newTable[i][j + k] == "O"){
+                else if(newTable[i][j + k] === "O"){
                     newTable[i][j + k] = "X";
                 }
             }
         }
-        else if(word.orientation == "down"){
+        else if(word.orientation === "down"){
             var i = word.starty - 1;
             var j = word.startx - 1;
             for(let k = 0; k < word.answer.length; k++){
-                if(newTable[i + k][j] == "-"){
+                if(newTable[i + k][j] === "-"){
                     newTable[i + k][j] = "O";
                 }
-                else if(newTable[i + k][j] == "O"){
+                else if(newTable[i + k][j] === "O"){
                     newTable[i + k][j] = "X";
                 }
             }
@@ -339,24 +339,24 @@ function removeIsolatedWords(data: any){
     }
 
     // Set orientations to "none" if they have no intersections
-    for(let wordIndex in words){
+    for(const wordIndex in words){
         var word = words[wordIndex];
-        var isIsolated = true;
-        if(word.orientation == "across"){
+        let isIsolated = true;
+        if(word.orientation === "across"){
             var i = word.starty - 1;
             var j = word.startx - 1;
             for(let k = 0; k < word.answer.length; k++){
-                if(newTable[i][j + k] == "X"){
+                if(newTable[i][j + k] === "X"){
                     isIsolated = false;
                     break;
                 }
             }
         }
-        else if(word.orientation == "down"){
+        else if(word.orientation === "down"){
             var i = word.starty - 1;
             var j = word.startx - 1;
             for(let k = 0; k < word.answer.length; k++){
-                if(newTable[i + k][j] == "X"){
+                if(newTable[i + k][j] === "X"){
                     isIsolated = false;
                     break;
                 }
@@ -372,16 +372,16 @@ function removeIsolatedWords(data: any){
 
     // Draw new table
     newTable = initTable(rows, cols);
-    for(let wordIndex in words){
+    for(const wordIndex in words){
         var word = words[wordIndex];
-        if(word.orientation == "across"){
+        if(word.orientation === "across"){
             var i = word.starty - 1;
             var j = word.startx - 1;
             for(let k = 0; k < word.answer.length; k++){
                 newTable[i][j + k] = word.answer.charAt(k);
             }
         }
-        else if(word.orientation == "down"){
+        else if(word.orientation === "down"){
             var i = word.starty - 1;
             var j = word.startx - 1;
             for(let k = 0; k < word.answer.length; k++){
@@ -394,20 +394,20 @@ function removeIsolatedWords(data: any){
 }
 
 function trimTable(data: any){
-    var table = data.table;
-    var rows = table.length;
-    var cols = table[0].length;
+    const table = data.table;
+    const rows = table.length;
+    const cols = table[0].length;
 
-    var leftMost = cols;
-    var topMost = rows;
-    var rightMost = -1;
-    var bottomMost = -1;
+    let leftMost = cols;
+    let topMost = rows;
+    let rightMost = -1;
+    let bottomMost = -1;
     
     for(let i = 0; i < rows; i++){
 	for(let j = 0; j < cols; j++){
 	    if(table[i][j] != "-"){
-		var x = j;
-		var y = i;
+		const x = j;
+		const y = i;
 		
 		if(x < leftMost){
 		    leftMost = x;
@@ -425,15 +425,15 @@ function trimTable(data: any){
 	}
     }
     
-    var trimmedTable = initTable(bottomMost - topMost + 1, rightMost - leftMost + 1);
+    const trimmedTable = initTable(bottomMost - topMost + 1, rightMost - leftMost + 1);
     for(let i = topMost; i < bottomMost + 1; i++){
         for(let j = leftMost; j < rightMost + 1; j++){
             trimmedTable[i - topMost][j - leftMost] = table[i][j];
         }
     }
     
-    var words = data.result;
-    for(let entry in words){
+    const words = data.result;
+    for(const entry in words){
         if("startx" in words[entry]) {
 	    words[entry].startx -= leftMost;
 	    words[entry].starty -= topMost;
@@ -444,31 +444,31 @@ function trimTable(data: any){
 }
 
 function generateSimpleTable(words: any){
-    var rows = computeDimension(words, 3);
-    var cols = rows;
-    var blankTable = initTable(rows, cols);
-    var table = generateTable(blankTable, rows, cols, words, [0.7, 0.15, 0.1, 0.05]);
-    var newTable = removeIsolatedWords(table);
-    var finalTable = trimTable(newTable);
+    const rows = computeDimension(words, 3);
+    const cols = rows;
+    const blankTable = initTable(rows, cols);
+    const table = generateTable(blankTable, rows, cols, words, [0.7, 0.15, 0.1, 0.05]);
+    const newTable = removeIsolatedWords(table);
+    const finalTable = trimTable(newTable);
     assignPositions(finalTable.result);
     return finalTable;
 }
 
 export interface CrossWordLayout {
     table: string[][],
-    result: Array<{
+    result: {
         clue: string,
         answer: string,
         startx: number,
         starty: number,
         orientation: string,
         position: number
-    }>,
+    }[],
     rows: number,
     cols: number,
 }
 
 export function generateLayout(words_json: any): CrossWordLayout {
-    var layout = generateSimpleTable(words_json);
+    const layout = generateSimpleTable(words_json);
     return layout;
 }

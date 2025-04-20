@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
@@ -21,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './checklists.component.html',
   styleUrl: './checklists.component.scss'
 })
-export class ChecklistsComponent {
+export class ChecklistsComponent implements OnInit {
   private checklistService = inject(ChecklistService);
   private sb = inject(MatSnackBar);
 

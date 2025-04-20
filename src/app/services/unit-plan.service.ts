@@ -48,8 +48,8 @@ export class UnitPlanService {
   }
 
   private pretifyCompetence(value: string, level: string) {
-    if (level == 'PRIMARIA') {
-      if (value == 'Comunicativa') {
+    if (level === 'PRIMARIA') {
+      if (value === 'Comunicativa') {
         return 'Comunicativa';
       }
       if (value.includes('Pensamiento')) {
@@ -59,25 +59,25 @@ export class UnitPlanService {
         return 'Ética Y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud';
       }
     } else {
-      if (value == 'Comunicativa') {
+      if (value === 'Comunicativa') {
         return 'Comunicativa';
       }
-      if (value == 'Pensamiento Logico') {
+      if (value === 'Pensamiento Logico') {
         return 'Pensamiento Lógico, Creativo y Crítico';
       }
-      if (value == 'Resolucion De Problemas') {
+      if (value === 'Resolucion De Problemas') {
         return 'Resolución de Problemas';
       }
-      if (value == 'Ciencia Y Tecnologia') {
+      if (value === 'Ciencia Y Tecnologia') {
         return 'Tecnológica y Científica';
       }
-      if (value == 'Etica Y Ciudadana') {
+      if (value === 'Etica Y Ciudadana') {
         return 'Ética y Ciudadana';
       }
-      if (value == 'Desarrollo Personal Y Espiritual') {
+      if (value === 'Desarrollo Personal Y Espiritual') {
         return 'Desarrollo Personal y Espiritual';
       }
-      if (value == 'Ambiental Y De La Salud') {
+      if (value === 'Ambiental Y De La Salud') {
         return 'Ambiental y de la Salud';
       }
     }
@@ -358,7 +358,7 @@ export class UnitPlanService {
               children: [
                 new TextRun({
                   // color: '#000000',
-                  text: plan.subjects.map((s, i, arr) => ((arr.length > 1 && i == arr.length - 1) ? "y " : "") + this.pretify(s)).join(", "),
+                  text: plan.subjects.map((s, i, arr) => ((arr.length > 1 && i === arr.length - 1) ? "y " : "") + this.pretify(s)).join(", "),
                 })
               ],
               heading: HeadingLevel.HEADING_3,

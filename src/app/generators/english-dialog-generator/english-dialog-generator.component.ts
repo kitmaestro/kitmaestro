@@ -52,7 +52,7 @@ export class EnglishDialogGeneratorComponent {
 
   get topics(): string[] {
     const { level } = this.generatorForm.value;
-    if (level == 1) {
+    if (level === 1) {
       return easySpeakConversations.map(d => d.topic).reduce((prev: string[], curr: string) => {
         if (prev.includes(curr)) {
           return prev;
@@ -61,7 +61,7 @@ export class EnglishDialogGeneratorComponent {
           return prev;
         }
       }, [] as string[]);
-    } else if (level == 2) {
+    } else if (level === 2) {
       return easyDialogsConversations.map(d => d.topic).reduce((prev: string[], curr: string) => {
         if (prev.includes(curr)) {
           return prev;
@@ -80,7 +80,7 @@ export class EnglishDialogGeneratorComponent {
   }
 
   randomEasySpeakDialog(topic?: string): EnglishConversation {
-    const filtered = topic ? easySpeakConversations.filter(c => c.topic == topic) : easyDialogsConversations;
+    const filtered = topic ? easySpeakConversations.filter(c => c.topic === topic) : easyDialogsConversations;
     const index = Math.round(Math.random() * (filtered.length - 1));
     const dialog = filtered[index];
     dialog.talk.sort((a,b) => a.id - b.id);
@@ -88,7 +88,7 @@ export class EnglishDialogGeneratorComponent {
   }
 
   randomEasyDialog(topic?: string): EnglishConversation {
-    const filtered = topic ? easyDialogsConversations.filter(c => c.topic == topic) : easyDialogsConversations;
+    const filtered = topic ? easyDialogsConversations.filter(c => c.topic === topic) : easyDialogsConversations;
     const index = Math.round(Math.random() * (filtered.length - 1));
     const dialog = filtered[index];
     dialog.talk.sort((a,b) => a.id - b.id);
@@ -168,12 +168,12 @@ export class EnglishDialogGeneratorComponent {
     const pickedTopic = topic ? topic : topics[Math.round(Math.random() * (topics.length - 1))];
 
     if (useAi) {
-      this.generateConversationWithAI(pickedTopic.toLowerCase(), this.dialogLevels[level || 0], level == 0 ? 8 : level == 1 ? 12 : 16);
+      this.generateConversationWithAI(pickedTopic.toLowerCase(), this.dialogLevels[level || 0], level === 0 ? 8 : level === 1 ? 12 : 16);
     } else {
-      if (level == 0) {
+      if (level === 0) {
         this.conversation = this.randomKinderDialog();
         this.generating = false;
-      } else if (level == 1) {
+      } else if (level === 1) {
         this.conversation = this.randomEasySpeakDialog(pickedTopic);
         this.generating = false;
       } else {

@@ -16,13 +16,13 @@
             <p><b>Apellido(s)</b>: {{user.lastname}}</p>
             <p><b>Título Alcanzado</b>: {{user.title}}</p>
             <!-- TODO: Fix up this shit -->
-            @if (activeUser && activeUser.email == 'orgalay.dev@gmail.com') {
+            @if (activeUser && activeUser.email === 'orgalay.dev@gmail.com') {
                 <p><b>Email</b>: {{user.email}}</p>
                 <p><b>Teléfono</b>: {{user.phone}}</p>
             }
             <p><b>Codigo de Referencia</b>: {{user.refCode}}</p>
 
-            @if (activeUser && activeUser.email == 'orgalay.dev@gmail.com') {
+            @if (activeUser && activeUser.email === 'orgalay.dev@gmail.com') {
                 <h3>Escuelas</h3>
                 @for (school of schools; track $index) {
                     <p>{{$index + 1}}. {{school.name}} ({{school.level | pretify}}) Distrito {{school.regional}}-{{school.district}}</p>
@@ -35,7 +35,7 @@
     
                 <h3>Suscripción</h3>
                 @if (subscription) {
-                    @if (subscription.subscriptionType == 'FREE') {
+                    @if (subscription.subscriptionType === 'FREE') {
                         <p>Usuario Gratuito</p>
                     } @else {
                         <p>{{subscription.subscriptionType}} hasta {{subscription.endDate | date : 'dd/MM/YYYY'}}</p>

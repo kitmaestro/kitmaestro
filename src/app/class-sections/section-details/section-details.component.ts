@@ -49,7 +49,7 @@ export class SectionDetailsComponent implements OnInit {
   private authService = inject(AuthService);
 
   id = this.route.snapshot.paramMap.get('id') || '';
-  uid: string = '';
+  uid = '';
   section: ClassSection | null = null;
   students$: Observable<Student[]> = this.studentService.findBySection(this.id);
   students: Student[] = [];
@@ -108,7 +108,7 @@ export class SectionDetailsComponent implements OnInit {
 
   removeStudent(id: string) {
     this.studentService.delete(id).subscribe(result => {
-      if (result.deletedCount == 1) {
+      if (result.deletedCount === 1) {
         this.sb.open('Estudiante eliminado', 'Ok', {duration: 2500})
         this.loadStudents();
       }
@@ -149,7 +149,7 @@ export class SectionDetailsComponent implements OnInit {
   processData(data: any[]) {
     const cols: string[] = data[0];
     const firstnameIndex = cols.findIndex(c => ['name', 'nombre', 'nombres', 'names', 'firstname'].includes(c.trim().toLowerCase()));
-    if (firstnameIndex == -1) {
+    if (firstnameIndex === -1) {
       this.sb.open('No se encontro una columna de nombres.', 'Ok', {duration: 2500})
       return;
     }

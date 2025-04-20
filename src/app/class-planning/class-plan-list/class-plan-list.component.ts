@@ -35,7 +35,7 @@ export class ClassPlanListComponent {
 
   deletePlan(id: string) {
     this.classPlansService.deletePlan(id).subscribe((res) => {
-      if (res.deletedCount == 1) {
+      if (res.deletedCount === 1) {
         this.classPlans$ = this.classPlansService.findAll();
         this.sb.open('El Plan fue eliminado!', 'Ok', { duration: 2500 });
       }

@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ClassPlan } from '../../interfaces/class-plan';
 import { DatePipe } from '@angular/common';
 import { UserSettings } from '../../interfaces/user-settings';
@@ -13,7 +13,7 @@ import { ClassSection } from '../../interfaces/class-section';
     templateUrl: './class-plan.component.html',
     styleUrl: './class-plan.component.scss'
 })
-export class ClassPlanComponent {
+export class ClassPlanComponent implements OnInit {
   @Input() classPlan: ClassPlan | null = null;
   @Input() section: ClassSection | null = null;
   userService = inject(AuthService);

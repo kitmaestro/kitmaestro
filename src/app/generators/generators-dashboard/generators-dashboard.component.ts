@@ -46,9 +46,9 @@ export class GeneratorsDashboardComponent {
       [],
       [],
     ];
-    for (let app of this.apps) {
+    for (const app of this.apps) {
       final[next].push(app);
-      if (next == 4) {
+      if (next === 4) {
         next = 0;
       } else {
         next++;

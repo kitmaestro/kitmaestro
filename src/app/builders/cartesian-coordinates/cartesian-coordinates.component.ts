@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,7 +23,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
     templateUrl: './cartesian-coordinates.component.html',
     styleUrl: './cartesian-coordinates.component.scss'
 })
-export class CartesianCoordinatesComponent {
+export class CartesianCoordinatesComponent implements OnInit {
     private fb = inject(FormBuilder);
     private sb = inject(MatSnackBar);
 
@@ -112,7 +112,7 @@ export class CartesianCoordinatesComponent {
         }
     }
 
-    randBetween(min: number, max: number, decimals: boolean = false) {
+    randBetween(min: number, max: number, decimals = false) {
         return decimals ? (Math.random() * (max - min + 1) + min).toFixed(1) : Math.floor(Math.random() * (max - min + 1) + min);
     }
 
@@ -176,7 +176,7 @@ export class CartesianCoordinatesComponent {
         return functions;
     }
 
-    generateCartesianCoordinateSystem(maxValue: number, steps: number, axisColor: string = 'black', gridColor: string = '#eee'): string {
+    generateCartesianCoordinateSystem(maxValue: number, steps: number, axisColor = 'black', gridColor = '#eee'): string {
         const xMax = maxValue;
         const yMax = maxValue;
         const xMin = xMax * -1;
@@ -220,7 +220,7 @@ export class CartesianCoordinatesComponent {
         svg += `<circle cx="${midX + 1}" cy="${midY + 1}" r="8" fill="${axisColor}" />`
         // vertical lines
         for (let x = xMin; x <= xMax; x += steps) {
-            if (x == 0)
+            if (x === 0)
                 continue;
             const xPos = (axisLineWidth + (x - xMin) * xScale);
             svg += `<text x="${xPos}" y="${midY - 16}" fill="${axisColor}">${x}</text>`
@@ -228,7 +228,7 @@ export class CartesianCoordinatesComponent {
         }
         // horizontal lines
         for (let y = yMin; y <= yMax; y += steps) {
-            if (y == 0)
+            if (y === 0)
                 continue;
             const yPos = (axisLineWidth + (y - yMin) * yScale);
             svg += `<text y="${yPos + 6}" x="${midX + 16}" fill="${axisColor}">${y * -1}</text>`

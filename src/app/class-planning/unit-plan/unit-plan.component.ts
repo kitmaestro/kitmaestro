@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UnitPlan } from '../../interfaces/unit-plan';
 import { CompetenceEntry } from '../../interfaces/competence-entry';
 import { ContentBlock } from '../../interfaces/content-block';
@@ -15,7 +15,7 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
     templateUrl: './unit-plan.component.html',
     styleUrl: './unit-plan.component.scss'
 })
-export class UnitPlanComponent {
+export class UnitPlanComponent implements OnInit {
   @Input() unitPlan: UnitPlan | null = null;
   @Input() section: ClassSection | null = null;
   @Input() user: UserSettings | null = null;
@@ -49,31 +49,31 @@ export class UnitPlanComponent {
   }
 
   subjectValue(subject: string) {
-    if (subject == 'LENGUA_ESPANOLA') {
+    if (subject === 'LENGUA_ESPANOLA') {
       return 1;
     }
-    if (subject == 'MATEMATICA') {
+    if (subject === 'MATEMATICA') {
       return 2;
     }
-    if (subject == 'CIENCIAS_SOCIALES') {
+    if (subject === 'CIENCIAS_SOCIALES') {
       return 3;
     }
-    if (subject == 'CIENCIAS_NATURALES') {
+    if (subject === 'CIENCIAS_NATURALES') {
       return 4;
     }
-    if (subject == 'INGLES') {
+    if (subject === 'INGLES') {
       return 5;
     }
-    if (subject == 'FRANCES') {
+    if (subject === 'FRANCES') {
       return 6;
     }
-    if (subject == 'FORMACION_HUMANA') {
+    if (subject === 'FORMACION_HUMANA') {
       return 7;
     }
-    if (subject == 'EDUCACION_FISICA') {
+    if (subject === 'EDUCACION_FISICA') {
       return 8;
     }
-    if (subject == 'EDUCACION_ARTISTICA') {
+    if (subject === 'EDUCACION_ARTISTICA') {
       return 9;
     }
     return 10;
@@ -88,7 +88,7 @@ export class UnitPlanComponent {
         const found: string[] = []
         const reduceContents = (prev: ContentBlock[], curr: ContentBlock) => {
           if (found.includes(curr.subject)) {
-            const old = prev.find(block => block.subject == curr.subject)
+            const old = prev.find(block => block.subject === curr.subject)
             if (old) {
               old.concepts = this.removeDuplicates([...old.concepts, ...curr.concepts]);
               old.procedures = this.removeDuplicates([...old.procedures, ...curr.procedures]);

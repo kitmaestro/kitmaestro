@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -23,7 +23,7 @@ import { UserSettingsService } from '../services/user-settings.service';
   templateUrl: './idea-board.component.html',
   styleUrl: './idea-board.component.scss'
 })
-export class IdeaBoardComponent {
+export class IdeaBoardComponent implements OnInit {
   private ideaService = inject(IdeaService);
   private fb = inject(FormBuilder);
   private userSettingsService = inject(UserSettingsService);
@@ -100,22 +100,22 @@ export class IdeaBoardComponent {
   }
 
   likes(idea: Idea) {
-    return idea.votes.filter(v => v.like == true).length;
+    return idea.votes.filter(v => v.like === true).length;
   }
 
   dislikes(idea: Idea) {
-    return idea.votes.filter(v => v.like == false).length;
+    return idea.votes.filter(v => v.like === false).length;
   }
 
   didIVoteIt(idea: Idea) {
-    return idea.votes.some(v => v.user == this.user?._id);
+    return idea.votes.some(v => v.user === this.user?._id);
   }
 
   iLikedIt(idea: Idea) {
-    return idea.votes.some(v => v.user == this.user?._id && v.like == true);
+    return idea.votes.some(v => v.user === this.user?._id && v.like === true);
   }
 
   iDislikedIt(idea: Idea) {
-    return idea.votes.some(v => v.user == this.user?._id && v.like == false);
+    return idea.votes.some(v => v.user === this.user?._id && v.like === false);
   }
 }

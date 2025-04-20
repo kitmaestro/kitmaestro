@@ -118,7 +118,7 @@ Criterios de evaluacion:
 
   onSectionSelect(event: any) {
     const value: string = event.value;
-    const section = this.sections.find(s => s._id == value);
+    const section = this.sections.find(s => s._id === value);
     if (section) {
       this.subjects = section.subjects.map(subject => ({ id: subject, label: this.pretify(subject) }));
       this.generatorForm.get('subject')?.setValue(section.subjects[0]);
@@ -128,7 +128,7 @@ Criterios de evaluacion:
 
   onSubjectSelect(event: any) {
     setTimeout(() => {
-      const section = this.sections.find(s => s._id == this.generatorForm.get('section')?.value);
+      const section = this.sections.find(s => s._id === this.generatorForm.get('section')?.value);
       if (section) {
 
         this.contentService.findAll({ year: section.year, level: section.level, subject: event.value }).subscribe({
@@ -148,7 +148,7 @@ Criterios de evaluacion:
 	onContentSelect() {
 		setTimeout(() => {
 			const subject = this.generatorForm.get('subject')?.value;
-			const section = this.sections.find(s => s._id == this.generatorForm.get('section')?.value);
+			const section = this.sections.find(s => s._id === this.generatorForm.get('section')?.value);
 			if (subject && section) {
 				const { year, level } = section;
 				this.competenceService.findAll({ grade: year, level, subject }).subscribe(c => {
@@ -174,11 +174,11 @@ Criterios de evaluacion:
 
   onSubmit() {
     const data: any = this.generatorForm.value;
-    data.p1 = (data.p1 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
-    data.p2 = (data.p2 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
-    data.p3 = (data.p3 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
-    data.p4 = (data.p4 as string[]).map(s => this.contents.find(c => c.title == s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
-    const section = this.sections.find(s => s._id == data.section);
+    data.p1 = (data.p1 as string[]).map(s => this.contents.find(c => c.title === s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
+    data.p2 = (data.p2 as string[]).map(s => this.contents.find(c => c.title === s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
+    data.p3 = (data.p3 as string[]).map(s => this.contents.find(c => c.title === s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
+    data.p4 = (data.p4 as string[]).map(s => this.contents.find(c => c.title === s) as ContentBlock).flatMap(block => [block.concepts, block.procedures, block.attitudes, block.achievement_indicators].flat().join('\n- '));
+    const section = this.sections.find(s => s._id === data.section);
     if (section) {
       this.generating = true;
       const query = this.prompt.replace('aspect_qty', data.qty)

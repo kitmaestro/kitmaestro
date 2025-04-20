@@ -31,7 +31,7 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 export class ResourceCardComponent {
   settingsService = inject(UserSettingsService);
   @Input() resource: DidacticResource | null = null;
-  @Input() owned: boolean = false;
+  @Input() owned = false;
 
   didacticResourceService = inject(DidacticResourceService);
   sb = inject(MatSnackBar);

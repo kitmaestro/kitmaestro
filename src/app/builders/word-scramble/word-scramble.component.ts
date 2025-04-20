@@ -41,8 +41,8 @@ export class WordScrambleComponent implements OnInit {
   pdfService = inject(PdfService);
   sb = inject(MatSnackBar);
 
-  teacherName: string = '';
-  schoolName: string = '';
+  teacherName = '';
+  schoolName = '';
   wordScramble: { scrambled: string, answer: string }[] = [];
   topics: TopicEntry[] = TOPICS;
   levels: LevelEntry[] = [
@@ -80,7 +80,7 @@ export class WordScrambleComponent implements OnInit {
     if (!level || !topic || !size)
       return;
 
-    const list = WORD_LISTS.find(l => l.level_id == level && l.topic_id == topic);
+    const list = WORD_LISTS.find(l => l.level_id === level && l.topic_id === topic);
 
     if (!list)
       return;
@@ -124,7 +124,7 @@ export class WordScrambleComponent implements OnInit {
       return;
 
     const target = this.wordScramble[index];
-    const list = WORD_LISTS.find(l => l.level_id == level && l.topic_id == topic);
+    const list = WORD_LISTS.find(l => l.level_id === level && l.topic_id === topic);
 
     if (!list)
       return;
@@ -139,7 +139,7 @@ export class WordScrambleComponent implements OnInit {
 
   print() {
     this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
-    const topic = this.topics.find(t => t.id == this.wsForm.get('topic')?.value);
+    const topic = this.topics.find(t => t.id === this.wsForm.get('topic')?.value);
     this.pdfService.createAndDownloadFromHTML("wordscramble", `Palabras Revueltas - ${topic?.topic}`);
     this.pdfService.createAndDownloadFromHTML("wordscramble-solution", `Palabras Revueltas - ${topic?.topic} - Solucion`);
   }

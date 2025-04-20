@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Test } from '../../interfaces/test';
 import { TestService } from '../../services/test.service';
@@ -20,7 +20,7 @@ import { TestComponent } from '../test/test.component';
   templateUrl: './test-detail.component.html',
   styleUrl: './test-detail.component.scss'
 })
-export class TestDetailComponent {
+export class TestDetailComponent implements OnInit {
 	private testService = inject(TestService);
 	private route = inject(ActivatedRoute);
 	private router = inject(Router);

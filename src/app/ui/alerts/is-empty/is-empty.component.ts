@@ -45,8 +45,8 @@ import { MatCardModule } from '@angular/material/card';
   `]
 })
 export class IsEmptyComponent {
-  @Input('resource') resourceName: string = 'Recurso';
-  @Output() onCreateRequest: EventEmitter<void> = new EventEmitter();
+  @Input('resource') resourceName = 'Recurso';
+  @Output() onCreateRequest = new EventEmitter<void>();
 
   createRequest() {
     this.onCreateRequest.emit();

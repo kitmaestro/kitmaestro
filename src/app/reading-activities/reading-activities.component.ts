@@ -65,7 +65,7 @@ export class ReadingActivitiesComponent implements OnInit {
 
   deleteActivity(id: string) {
     this.activityService.delete(id).subscribe(res => {
-      if (res.deletedCount == 1) {
+      if (res.deletedCount === 1) {
         this.sb.open('Se ha eliminado la actividad', 'Ok', { duration: 2500 });
         this.loadActivities();
       }

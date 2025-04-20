@@ -98,7 +98,7 @@ export class ScoreSystemService {
         }),
         ...grouped.flatMap(group => {
           const rows = group.grading.map((activities, i) => {
-            if (i == 0) {
+            if (i === 0) {
               return new TableRow({
                 children: [
                   new TableCell({ rowSpan: group.grading.length + 1, children: [new Paragraph("Competencia " + group.competence)] }),

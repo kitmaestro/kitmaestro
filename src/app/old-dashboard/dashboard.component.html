@@ -2,12 +2,12 @@
     <mat-sidenav class="sidenav no-print" mode="over" [opened]="false" #sidenav>
         <mat-toolbar><span>Menu</span></mat-toolbar>
         <mat-nav-list>
-            <a [activated]="activatedRoute == '/app'" mat-list-item routerLink="/"><mat-icon matListItemIcon>dashboard</mat-icon>Inicio</a>
+            <a [activated]="activatedRoute === '/app'" mat-list-item routerLink="/"><mat-icon matListItemIcon>dashboard</mat-icon>Inicio</a>
             <a [activated]="activatedRoute.includes('/app/sections')" mat-list-item routerLink="/app/sections"><mat-icon matListItemIcon>class</mat-icon> Secciones</a>
-            <a [activated]="activatedRoute == '/app/unit-plans/list'" mat-list-item routerLink="/app/unit-plans/list"><mat-icon matListItemIcon>menu_book</mat-icon> Unidades de Aprendizaje</a>
-            <a [activated]="activatedRoute == '/app/class-plans/list'" mat-list-item routerLink="/app/class-plans/list"><mat-icon matListItemIcon>library_books</mat-icon> Planes Diarios</a>
-            <a [activated]="activatedRoute == '/app/settings'" mat-list-item routerLink="/app/settings"><mat-icon matListItemIcon>settings</mat-icon>Ajustes</a>
-            <a [activated]="activatedRoute == '/app/profile'" mat-list-item routerLink="/app/profile"><mat-icon matListItemIcon>person_circle</mat-icon>Perfil</a>
+            <a [activated]="activatedRoute === '/app/unit-plans/list'" mat-list-item routerLink="/app/unit-plans/list"><mat-icon matListItemIcon>menu_book</mat-icon> Unidades de Aprendizaje</a>
+            <a [activated]="activatedRoute === '/app/class-plans/list'" mat-list-item routerLink="/app/class-plans/list"><mat-icon matListItemIcon>library_books</mat-icon> Planes Diarios</a>
+            <a [activated]="activatedRoute === '/app/settings'" mat-list-item routerLink="/app/settings"><mat-icon matListItemIcon>settings</mat-icon>Ajustes</a>
+            <a [activated]="activatedRoute === '/app/profile'" mat-list-item routerLink="/app/profile"><mat-icon matListItemIcon>person_circle</mat-icon>Perfil</a>
             <!-- <a [activated]="activatedRoute.includes('/generators')" mat-list-item routerLink="/app/generators"><mat-icon matListItemIcon>smart_toy</mat-icon> Generadores</a> -->
             <!-- <a [activated]="activatedRoute.includes('/assistants')" mat-list-item routerLink="/app/assistants"><mat-icon matListItemIcon>precision_manufacturing</mat-icon> Asistentes</a> -->
             <ng-container *ngIf="!(subscription$ | async)">

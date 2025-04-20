@@ -40,8 +40,8 @@ export class SynonymsComponent implements OnInit {
   pdfService = inject(PdfService);
   sb = inject(MatSnackBar);
 
-  teacherName: string = '';
-  schoolName: string = '';
+  teacherName = '';
+  schoolName = '';
   synonyms: WordEntry[] = [];
   solutionShown: number[] = [];
   topics: string[] = WORD_ENTRIES.map(entry => entry.categories).flat().filter((v, i, a) => a.indexOf(v) === i);
@@ -92,7 +92,7 @@ export class SynonymsComponent implements OnInit {
     if (!level || !size)
       return;
 
-    const list = WORD_ENTRIES.filter(e => e.level == level && (topic == "" ? true : e.categories.includes(topic as string)));
+    const list = WORD_ENTRIES.filter(e => e.level === level && (topic === "" ? true : e.categories.includes(topic as string)));
 
     if (!list)
       return;
@@ -135,7 +135,7 @@ export class SynonymsComponent implements OnInit {
       return;
 
     const target = this.synonyms[index];
-    const list = WORD_ENTRIES.filter(l => l.level == level && topic == "" ? true : l.categories.includes(topic as string));
+    const list = WORD_ENTRIES.filter(l => l.level === level && topic === "" ? true : l.categories.includes(topic as string));
 
     if (!list)
       return;
@@ -152,7 +152,7 @@ export class SynonymsComponent implements OnInit {
   changeSolution(index: number) {
     const solutions = this.synonyms[index].synonyms.length;
     const current = this.solutionShown[index];
-    if (current == solutions - 1) {
+    if (current === solutions - 1) {
       this.solutionShown[index] = 0;
     } else {
       this.solutionShown[index]++;

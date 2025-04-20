@@ -9,7 +9,7 @@
                 {{ section()?.name }}
             </h3>
         }
-		@if (rub.rubricType == 'SINTETICA') {
+		@if (rub.rubricType === 'SINTETICA') {
 			<div style="display: flex; gap: 12px; margin-bottom: 12px;">
 				<div style="font-weight: bold;">Estudiante:</div>
 				<div style="border-bottom: 1px solid black; width: 100%; flex: 1 1 auto;"></div>
@@ -30,7 +30,7 @@
             }
         </ul>
         <div style="margin-bottom: 12px; margin-top: 12px;"><b>Evidencia o Actividad</b>: {{rub.activity}}</div>
-        @if (rub.rubricType == 'SINTETICA') {
+        @if (rub.rubricType === 'SINTETICA') {
             <table style="border-collapse: collapse;">
                 <thead>
                     <tr>

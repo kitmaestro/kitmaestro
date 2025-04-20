@@ -35,11 +35,11 @@ export class PretifyPipe implements PipeTransform {
 			case 'analysis': return 'Analizar';
 			case 'evaluation': return 'Evaluar';
 			case 'creation': return 'Crear';
-			case 'Comunicativa': return level == 'SECUNDARIA' ? 'Comunicativa' : 'Comunicativa';
-			case 'Pensamiento Logico': return level == 'SECUNDARIA' ? 'Pensamiento Lógico, Creativo y Crítico' : 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Científica y Tecnológica';
+			case 'Comunicativa': return level === 'SECUNDARIA' ? 'Comunicativa' : 'Comunicativa';
+			case 'Pensamiento Logico': return level === 'SECUNDARIA' ? 'Pensamiento Lógico, Creativo y Crítico' : 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Científica y Tecnológica';
 			case 'Resolucion De Problemas': return 'Resolución de Problemas';
 			case 'Ciencia Y Tecnologia': return 'Científica y Tecnológica';
-			case 'Etica Y Ciudadana': return level == 'SECUNDARIA' ? 'Ética y Ciudadana' : 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud';
+			case 'Etica Y Ciudadana': return level === 'SECUNDARIA' ? 'Ética y Ciudadana' : 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud';
 			case 'Desarrollo Personal Y Espiritual': return 'Desarrollo Personal y Espiritual';
 			case 'Ambiental Y De La Salud': return 'Ambiental y de la Salud';
 			default: return value;

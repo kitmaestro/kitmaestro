@@ -30,7 +30,7 @@
 
 @for (resource of resources; track resource._id) {
     <div style="margin-top: 24px; margin-bottom: 24px;">
-        <app-resource-card [owned]="resource.author._id == user?._id" [resource]="resource"></app-resource-card>
+        <app-resource-card [owned]="resource.author._id === user?._id" [resource]="resource"></app-resource-card>
     </div>
 } @empty {
     <app-is-empty (onCreateRequest)="openCreateResourceDialog()"></app-is-empty>

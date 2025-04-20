@@ -46,8 +46,8 @@ export class WordsearchComponent implements OnInit {
   private sb = inject(MatSnackBar);
   private sectionService = inject(ClassSectionService);
 
-  teacherName: string = '';
-  schoolName: string = '';
+  teacherName = '';
+  schoolName = '';
   wordsearch: WordSearchResult | null = null;
   includedWords: string[] = [];
   wordLists: VocabularyEntry[] = WORD_LISTS;
@@ -84,7 +84,7 @@ export class WordsearchComponent implements OnInit {
   }
 
   onSectionSelect(event: any) {
-    this.schoolName = this.sections.find(s => s._id == event.value)?.school.name || '';
+    this.schoolName = this.sections.find(s => s._id === event.value)?.school.name || '';
   }
 
   generateWordSearch() {
@@ -93,7 +93,7 @@ export class WordsearchComponent implements OnInit {
     if (!level || !topic || !size)
       return;
 
-    const list = this.wordLists.find(l => l.level_id == level && l.topic_id == topic);
+    const list = this.wordLists.find(l => l.level_id === level && l.topic_id === topic);
 
     if (!list)
       return;
@@ -133,7 +133,7 @@ export class WordsearchComponent implements OnInit {
   }
 
   topicName(): string {
-    const topic = this.topics.find(t => t.id == this.wsForm.get('topic')?.value);
+    const topic = this.topics.find(t => t.id === this.wsForm.get('topic')?.value);
     return topic ? topic.topic : '';
   }
 

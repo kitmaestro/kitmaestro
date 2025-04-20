@@ -23,7 +23,7 @@ interface Student {
 interface AttendanceRecord {
   id: number;
   name: string;
-  attendance: Array<'P' | 'A' | 'T' | 'E'>;
+  attendance: ('P' | 'A' | 'T' | 'E')[];
 }
 
 @Component({
@@ -74,7 +74,7 @@ export class AttendanceGeneratorComponent {
     const attendanceRecords: AttendanceRecord[] = [];
 
     students.forEach((student, index) => {
-      const attendance: Array<'P' | 'A' | 'T' | 'E'> = [];
+      const attendance: ('P' | 'A' | 'T' | 'E')[] = [];
 
       for (let i = 0; i < numberOfDays; i++) {
         const randomNumber = Math.random() * 100; // Generate a random number between 0 and 100
@@ -112,7 +112,7 @@ export class AttendanceGeneratorComponent {
     const days = this.numberOfDays.value || 15;
 
     for (let i = 0; i < days; i++) {
-      const qty = attendance.filter(a => a[i] == 'P' || a[i] == 'T').length;
+      const qty = attendance.filter(a => a[i] === 'P' || a[i] === 'T').length;
 
       summary.push(qty > 0 ? qty.toString() : '');
     }
@@ -187,10 +187,10 @@ export class AttendanceGeneratorComponent {
     const totals = attendance.reduce(
       (p: { p: number, t: number, a: number, e: number }, c: string) => {
 
-        p.p += c == 'P' ? 1 : 0;
-        p.t += c == 'T' ? 1 : 0;
-        p.a += c == 'A' ? 1 : 0;
-        p.e += c == 'E' ? 1 : 0;
+        p.p += c === 'P' ? 1 : 0;
+        p.t += c === 'T' ? 1 : 0;
+        p.a += c === 'A' ? 1 : 0;
+        p.e += c === 'E' ? 1 : 0;
 
         return p;
       }, { p: 0, t: 0, a: 0, e: 0 }

@@ -47,15 +47,15 @@
             <h5 style="font-size: medium; margin-bottom: 32px;">{{ sudokuTitle.value }}</h5>
           </div>
           <div style="margin-bottom: 32px; display: flex;">
-            @if(sudokuFields.get('name')?.value == true) {
+            @if(sudokuFields.get('name')?.value === true) {
               <div><b>Nombre</b>:</div>
               <div class="blank"></div>
             }
-            @if(sudokuFields.get('grade')?.value == true) {
+            @if(sudokuFields.get('grade')?.value === true) {
               <div style="margin-left: 12px;"><b>Grado</b>:</div>
               <div class="blank"></div>
             }
-            @if(sudokuFields.get('date')?.value == true) {
+            @if(sudokuFields.get('date')?.value === true) {
               <div style="margin-left: 12px;"><b>Fecha</b>:</div>
               <div style="max-width: 20%;" class="blank"></div>
             }
@@ -83,7 +83,7 @@
               @for (box of solvedBoard; track box; let i = $index) {
                 <div style="display: grid; gap: 0; border: 1px solid black; grid-template-columns: 1fr 1fr 1fr;">
                   @for (tile of box; track $index) {
-                    @if (board[i][$index] == null) {
+                    @if (board[i][$index] === null) {
                       <div style="font-size: 14pt; font-weight: bold; display: flex; color: #00acc1; padding: 12px; align-items: center; justify-content: center; border: 1px solid black; aspect-ratio: 1/1;">{{tile}}</div>
                     } @else {
                       <div style="font-size: 14pt; display: flex; padding: 12px; align-items: center; justify-content: center; border: 1px solid black; aspect-ratio: 1/1;">{{tile}}</div>

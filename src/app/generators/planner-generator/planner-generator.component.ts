@@ -50,7 +50,7 @@ export class PlannerGeneratorComponent implements OnInit {
   private settingsService = inject(UserSettingsService);
   private sectionService = inject(ClassSectionService);
 
-  generating: boolean = false;
+  generating = false;
   imgSrc = '';
   m = new Date().getMonth();
   months = [
@@ -156,8 +156,8 @@ export class PlannerGeneratorComponent implements OnInit {
   ];
 
   subjects: string[] = [];
-  school: string = '';
-  fullname: string = '';
+  school = '';
+  fullname = '';
   visible = false;
   queue = 0;
 
@@ -213,8 +213,8 @@ export class PlannerGeneratorComponent implements OnInit {
 
     const classrooms = this.sections.filter(s => classroom.includes(s._id)).map(s => s.name);
 
-    for (let cr of classrooms) {
-      for (let subject of subjects as any as string[]) {
+    for (const cr of classrooms) {
+      for (const subject of subjects as any as string[]) {
         const template: PlannerTemplate = {
           date: d,
           subject,
@@ -379,12 +379,12 @@ export class PlannerGeneratorComponent implements OnInit {
       setTimeout(() => {
         this.pdfService.createAndDownloadFromHTML('template-' + i, 'Plan Diario de Primaria - ' + t.subject, false).then(() => {
           this.queue--;
-          if (this.queue == 0) {
+          if (this.queue === 0) {
             this.sb.open('Todas las descargas han finalizado. Ya puedes salir de esta pantalla.')
           }
         }).catch(() => {
           this.queue--;
-          if (this.queue == 0) {
+          if (this.queue === 0) {
             this.sb.open('Todas las descargas han finalizado. Ya puedes salir de esta pantalla.')
           }
         });

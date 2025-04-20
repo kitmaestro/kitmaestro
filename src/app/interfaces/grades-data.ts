@@ -1,4 +1,4 @@
-export type GradeDataSet = Array<number | null>;
+export type GradeDataSet = (number | null)[];
 
 export interface GradesData {
     level: string,

@@ -69,7 +69,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 
   bloomLevels = [
     { id: 'knowledge', label: 'Recordar' },
-    { id: 'undertanding', label: 'Aprender' },
+    { id: 'understanding', label: 'Aprender' },
     { id: 'application', label: 'Aplicar' },
     { id: 'analysis', label: 'Analizar' },
     { id: 'evaluation', label: 'Evaluar' },
@@ -107,11 +107,11 @@ export class ClassPlanGeneratorComponent implements OnInit {
 			// determine day of the week and date of last monday (or today) count plans made this week, subjects they have and calculate just 1 plan by subject a week
 			const today = new Date();
 			const dayOfTheWeek = today.getDay();
-			const lastMonday = dayOfTheWeek == 1 ? today : new Date(today.setDate(today.getDate() - (7 - dayOfTheWeek)));
+			const lastMonday = dayOfTheWeek === 1 ? today : new Date(today.setDate(today.getDate() - (7 - dayOfTheWeek)));
 			this.classPlanService.findAll().subscribe(plans => {
 			  const createdThisWeek = plans.filter((plan: any) => +(new Date(plan.createdAt)) > +lastMonday).length;
-			  const createdThisMonth = plans.filter((plan: any) => +(new Date(plan.createdAt)).getMonth == (new Date().getMonth())).length;
-        if ((subscription.subscriptionType.toLowerCase().includes('standard') && createdThisWeek == 32) || (subscription.subscriptionType == 'FREE' && createdThisMonth == 5)) {
+			  const createdThisMonth = plans.filter((plan: any) => +(new Date(plan.createdAt)).getMonth === (new Date().getMonth())).length;
+        if ((subscription.subscriptionType.toLowerCase().includes('standard') && createdThisWeek === 32) || (subscription.subscriptionType === 'FREE' && createdThisMonth === 5)) {
 				this.router.navigateByUrl('/').then(() => {
 				  this.sb.open('Haz alcanzado el limite de planes diarios de esta semana. Contrata el plan premium para eliminar las restricciones o vuelve la proxima semana.', 'Ok', { duration: 5000 });
 				});
@@ -128,7 +128,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
       if (sections.length) {
         this.planForm.get('classSection')?.setValue(sections[0]._id || '');
         this.onSectionSelect();
-        if (sections[0].subjects.length == 1) {
+        if (sections[0].subjects.length === 1) {
           this.planForm.get('subject')?.setValue(sections[0].subjects[0]);
           this.onSubjectSelect();
         }
@@ -139,7 +139,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
   onSectionSelect() {
     setTimeout(() => {
       const sectionId = this.planForm.get('classSection')?.value;
-      const section = this.classSections.find(s => s._id == sectionId);
+      const section = this.classSections.find(s => s._id === sectionId);
       if (section) {
         this.section = section;
         this.subjects = section.subjects;
@@ -187,8 +187,8 @@ export class ClassPlanGeneratorComponent implements OnInit {
         topics
       } = this.planForm.value;
 
-      const sectionLevel = this.classSections.find(cs => cs._id == classSection)?.level;
-      const sectionYear = this.classSections.find(cs => cs._id == classSection)?.year;
+      const sectionLevel = this.classSections.find(cs => cs._id === classSection)?.level;
+      const sectionYear = this.classSections.find(cs => cs._id === classSection)?.year;
 
       if (sectionLevel && sectionYear && subject && duration && topics && resources && this.competence) {
         this.generating = true;
@@ -215,12 +215,12 @@ export class ClassPlanGeneratorComponent implements OnInit {
             plan.date = new Date(date ? date : this.todayDate);
             plan.subject = this.planForm.value.subject;
             this.plan = plan;
-            if (sectionLevel == 'PRIMARIA') {
-              if (sectionYear == 'PRIMERO') {
-              } else if (sectionYear == 'SEGUNDO') {
-              } else if (sectionYear == 'TERCERO') {
-              } else if (sectionYear == 'CUARTO') {
-              } else if (sectionYear == 'QUINTO') {
+            if (sectionLevel === 'PRIMARIA') {
+              if (sectionYear === 'PRIMERO') {
+              } else if (sectionYear === 'SEGUNDO') {
+              } else if (sectionYear === 'TERCERO') {
+              } else if (sectionYear === 'CUARTO') {
+              } else if (sectionYear === 'QUINTO') {
               } else {
               }
             } else {}
@@ -259,11 +259,11 @@ export class ClassPlanGeneratorComponent implements OnInit {
   }
 
   yearIndex(year: string): number {
-    return year == 'PRIMERO' ? 0 :
-      year == 'SEGUNDO' ? 1 :
-        year == 'TERCERO' ? 2 :
-          year == 'CUARTO' ? 3 :
-            year == 'QUINTO' ? 4 :
+    return year === 'PRIMERO' ? 0 :
+      year === 'SEGUNDO' ? 1 :
+        year === 'TERCERO' ? 2 :
+          year === 'CUARTO' ? 3 :
+            year === 'QUINTO' ? 4 :
               5;
   }
 
@@ -294,22 +294,22 @@ export class ClassPlanGeneratorComponent implements OnInit {
   }
 
   pretifyBloomLevel(level: string) {
-    if (level == 'knowledge')
+    if (level === 'knowledge')
       return 'Recordar';
-    if (level == 'undertanding')
+    if (level === 'understanding')
         return 'Comprender';
-    if (level == 'application')
+    if (level === 'application')
       return 'Aplicar';
-    if (level == 'analysis')
+    if (level === 'analysis')
       return 'Analizar';
-    if (level == 'evaluation')
+    if (level === 'evaluation')
       return 'Evaluar';
 
     return 'Crear';
   }
 
   get sectionSubjects() {
-    const subjects = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.subjects as any as string[];
+    const subjects = this.classSections.find(s => s._id === this.planForm.get('classSection')?.value)?.subjects as any as string[];
     if (subjects && subjects.length) {
       return subjects;
     }
@@ -317,7 +317,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
   }
 
   get classSectionName() {
-    const name = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.name;
+    const name = this.classSections.find(s => s._id === this.planForm.get('classSection')?.value)?.name;
     if (name) {
       return name;
     }
@@ -325,7 +325,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
   }
 
   get classSectionLevel() {
-    const level = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.level;
+    const level = this.classSections.find(s => s._id === this.planForm.get('classSection')?.value)?.level;
     if (level) {
       return level;
     }
@@ -333,7 +333,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
   }
 
   get classSectionYear() {
-    const year = this.classSections.find(s => s._id == this.planForm.get('classSection')?.value)?.year;
+    const year = this.classSections.find(s => s._id === this.planForm.get('classSection')?.value)?.year;
     if (year) {
       return year;
     }

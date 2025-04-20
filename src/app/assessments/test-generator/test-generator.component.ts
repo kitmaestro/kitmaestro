@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,7 +19,7 @@ import { Test } from '../../interfaces/test';
 import { TestService } from '../../services/test.service';
 
 @Component({
-  selector: 'app-test-generator',
+	selector: 'app-test-generator',
 	imports: [
 		MatCardModule,
 		MatButtonModule,
@@ -32,11 +32,11 @@ import { TestService } from '../../services/test.service';
 		MarkdownComponent,
 		RouterLink,
 		PretifyPipe,
-  ],
-  templateUrl: './test-generator.component.html',
-  styleUrl: './test-generator.component.scss'
+	],
+	templateUrl: './test-generator.component.html',
+	styleUrl: './test-generator.component.scss'
 })
-export class TestGeneratorComponent {
+export class TestGeneratorComponent implements OnInit {
 	private router = inject(Router);
 	private sb = inject(MatSnackBar);
 	private fb = inject(FormBuilder);
@@ -73,7 +73,7 @@ export class TestGeneratorComponent {
 		subject: ['', Validators.required],
 		topics: ['', Validators.required],
 		items: [[] as string[], Validators.required],
-		itemQuantity: [3, [Validators.required, Validators.min(3), Validators.max(5)]],
+		itemQuantity: [4, [Validators.required, Validators.min(3), Validators.max(10)]],
 		maxScore: [30, [Validators.required, Validators.min(1), Validators.max(100)]],
 	});
 
@@ -94,7 +94,7 @@ export class TestGeneratorComponent {
 
 	onSectionSelect(event: any) {
 		const sectionId: string = event.value;
-		const section = this.sections.find(s => s._id == sectionId) || null;
+		const section = this.sections.find(s => s._id === sectionId) || null;
 		if (section) {
 			this.section = section;
 			this.subjects = section.subjects;

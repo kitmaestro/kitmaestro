@@ -11,7 +11,7 @@
 </mat-card>
 <mat-accordion>
     @for (update of (updates$ | async); track update; let i = $index) {
-        <mat-expansion-panel [expanded]="i == 0">
+        <mat-expansion-panel [expanded]="i === 0">
             <mat-expansion-panel-header>
                 <mat-panel-title>{{ update.title }}</mat-panel-title>
                 <mat-panel-description>{{ update.description }}</mat-panel-description>
@@ -20,9 +20,9 @@
                 <b>{{ update.author }}</b><br>
                 {{ update.date | date : 'dd/MM/YYYY' }}
                 <br><br>
-                @if (update.type == 'notice') {
+                @if (update.type === 'notice') {
                     <i>Actualizaci&oacute;n</i>
-                } @else if (update.type == 'feature') {
+                } @else if (update.type === 'feature') {
                     <i>¡Nueva Funci&oacute;n Disponible!</i>
                 } @else {
                     <i>¡Error Arreglado!</i>

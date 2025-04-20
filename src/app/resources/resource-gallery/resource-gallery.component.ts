@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -38,7 +38,7 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
     templateUrl: './resource-gallery.component.html',
     styleUrl: './resource-gallery.component.scss'
 })
-export class ResourceGalleryComponent {
+export class ResourceGalleryComponent implements OnInit {
   private fb = inject(FormBuilder);
   private resourcesService = inject(DidacticResourceService);
   private dialog = inject(MatDialog);

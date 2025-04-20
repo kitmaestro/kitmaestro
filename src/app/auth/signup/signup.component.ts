@@ -1,4 +1,4 @@
-import { Component, inject, isDevMode } from '@angular/core';
+import { Component, inject, isDevMode, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -32,7 +32,7 @@ import { environment } from '../../../environments/environment';
     templateUrl: './signup.component.html',
     styleUrl: './signup.component.scss'
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
   private sb = inject(MatSnackBar);
   private fb = inject(FormBuilder);
   private modal = inject(MatDialog);
@@ -94,7 +94,7 @@ export class SignupComponent {
   }
 
   get validConfirmation() {
-    return this.confirmation.value !== '' && this.confirmation.value == this.signupForm.get('password')?.value;
+    return this.confirmation.value !== '' && this.confirmation.value === this.signupForm.get('password')?.value;
   }
 
   onSubmit() {

@@ -3,60 +3,68 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
     // authentication
     { path: 'auth', loadComponent: () => import('./auth/auth-container/auth-container.component').then((mod) => mod.AuthContainerComponent), children: [
-        { path: 'signup', loadComponent: () => import('./auth/signup/signup.component').then(mod => mod.SignupComponent) },
-        { path: 'login', loadComponent: () => import('./auth/login/login.component').then(mod => mod.LoginComponent) },
-        { path: 'login/success/:jwt', loadComponent: () => import('./auth/login/login.component').then(mod => mod.LoginComponent) },
+        { path: 'signup', loadComponent: () => import('./auth/signup/signup.component').then(mod => mod.SignupComponent), title: 'Registro de Usuario' },
+        { path: 'login', loadComponent: () => import('./auth/login/login.component').then(mod => mod.LoginComponent), title: 'Inicio de Sesión' },
+        { path: 'login/success/:jwt', loadComponent: () => import('./auth/login/login.component').then(mod => mod.LoginComponent), title: 'Inicio de Sesión' },
         { path: 'login/failure', redirectTo: '/auth/login?error=Login Failure', pathMatch: 'full' },
-        { path: 'reset', loadComponent: () => import('./auth/pass-update/pass-update.component').then(mod => mod.PassUpdateComponent) },
+        { path: 'reset', loadComponent: () => import('./auth/pass-update/pass-update.component').then(mod => mod.PassUpdateComponent), title: 'Restablece tu Contraseña' },
         { path: '**', redirectTo: '/auth/login', pathMatch: 'full' },
     ] },
     // Admin area
-    { path: 'admin', loadComponent: () => import('./admin/admin-dashboard/admin-dashboard.component').then(mod => mod.AdminDashboardComponent) },
-    { path: 'admin/users', loadComponent: () => import('./admin/users/users.component').then(mod => mod.UsersComponent) },
-    { path: 'users/:id', loadComponent: () => import('./admin/user-details/user-details.component').then(mod => mod.UserDetailsComponent) },
+    { path: 'admin', loadComponent: () => import('./admin/admin-dashboard/admin-dashboard.component').then(mod => mod.AdminDashboardComponent), title: 'Panel de Administración' },
+    { path: 'admin/users', loadComponent: () => import('./admin/users/users.component').then(mod => mod.UsersComponent), title: 'Usuarios' },
+    { path: 'users/:id', loadComponent: () => import('./admin/user-details/user-details.component').then(mod => mod.UserDetailsComponent), title: 'Detalles del Usuario' },
 
     // inspiration
-    { path: 'ideas', loadComponent: () => import('./idea-board/idea-board.component').then(mod => mod.IdeaBoardComponent) },
-    { path: 'ai-assistant', loadComponent: () => import('./ai-assistant/ai-assistant.component').then(mod => mod.AiAssistantComponent) },
+    { path: 'ideas', loadComponent: () => import('./idea-board/idea-board.component').then(mod => mod.IdeaBoardComponent), title: 'Panel de Ideas' },
+    { path: 'ai-assistant', loadComponent: () => import('./ai-assistant/ai-assistant.component').then(mod => mod.AiAssistantComponent), title: 'Asistente Virtual' },
 
     // informational
-    { path: '', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent) },
-    { path: 'pricing', loadComponent: () => import('./buy-subscription/buy-subscription.component').then(mod => mod.BuySubscriptionComponent) },
-    { path: 'buy', loadComponent: () => import('./buy-subscription/buy-subscription.component').then(mod => mod.BuySubscriptionComponent) },
-    { path: 'updates', loadComponent: () => import('./updates/update-list/update-list.component').then(mod => mod.UpdateListComponent) },
-    { path: 'tutorials', loadComponent: () => import('./tutorials/tutorials.component').then(mod => mod.TutorialsComponent) },
-    { path: 'updates/new', loadComponent: () => import('./updates/new/new.component').then(mod => mod.NewComponent) },
-    { path: 'roadmap', loadComponent: () => import('./roadmap/roadmap.component').then(mod => mod.RoadmapComponent) },
+    { path: '', loadComponent: () => import('./home/home.component').then(mod => mod.HomeComponent), title: 'Inicio - KitMaestro' },
+    { path: 'pricing', loadComponent: () => import('./buy-subscription/buy-subscription.component').then(mod => mod.BuySubscriptionComponent), title: 'Precios' },
+    { path: 'buy', loadComponent: () => import('./buy-subscription/buy-subscription.component').then(mod => mod.BuySubscriptionComponent), title: 'Comprar Suscripción' },
+    { path: 'updates', loadComponent: () => import('./updates/update-list/update-list.component').then(mod => mod.UpdateListComponent), title: 'Noticias - KitMaestro' },
+    { path: 'tutorials', loadComponent: () => import('./tutorials/tutorials.component').then(mod => mod.TutorialsComponent), title: 'Tutoriales' },
+    { path: 'updates/new', loadComponent: () => import('./updates/new/new.component').then(mod => mod.NewComponent), title: 'Crear Entrada' },
+    { path: 'roadmap', loadComponent: () => import('./roadmap/roadmap.component').then(mod => mod.RoadmapComponent), title: 'Planes de Desarrollo' },
 
     // user data
-    { path: 'profile', loadComponent: () => import('./user-profile/user-profile.component').then(mod => mod.UserProfileComponent) },
-    { path: 'referrals', loadComponent: () => import('./referrals/referrals.component').then(mod => mod.ReferralsComponent) },
+    { path: 'profile', loadComponent: () => import('./user-profile/user-profile.component').then(mod => mod.UserProfileComponent), title: 'Perfil del Usuario' },
+    { path: 'referrals', loadComponent: () => import('./referrals/referrals.component').then(mod => mod.ReferralsComponent), title: 'Panel de Referidos' },
 
     // utility links
-    { path: 'print-unit-plan/:id', loadComponent: () => import('./class-planning/unit-plan-detail/unit-plan-detail.component').then(mod => mod.UnitPlanDetailComponent) },
+    { path: 'print-unit-plan/:id', loadComponent: () => import('./class-planning/unit-plan-detail/unit-plan-detail.component').then(mod => mod.UnitPlanDetailComponent), title: 'Plan de Unidad' },
 
     // todo
-    { path: 'todos', loadComponent: () => import('./todo-lists/todo-lists.component').then(mod => mod.TodoListsComponent) },
-    { path: 'todos/:id', loadComponent: () => import('./todos/todos.component').then(mod => mod.TodosComponent) },
+    { path: 'todos', loadComponent: () => import('./todo-lists/todo-lists.component').then(mod => mod.TodoListsComponent), title: 'Lista de Pendientes' },
+    { path: 'todos/:id', loadComponent: () => import('./todos/todos.component').then(mod => mod.TodosComponent), title: 'Lista de Tareas' },
 
     // sections
-    { path: 'sections', loadComponent: () => import('./class-sections/class-sections/class-sections.component').then(mod => mod.ClassSectionsComponent) },
-    { path: 'sections/:id', loadComponent: () => import('./class-sections/section-details/section-details.component').then(mod => mod.SectionDetailsComponent) },
+    { path: 'sections', loadComponent: () => import('./class-sections/class-sections/class-sections.component').then(mod => mod.ClassSectionsComponent), title: 'Mis Secciones' },
+    { path: 'sections/:id', loadComponent: () => import('./class-sections/section-details/section-details.component').then(mod => mod.SectionDetailsComponent), title: 'Detalles de la Sección' },
 
     // calculators
-    { path: 'average-calculator', loadComponent: () => import('./calculators/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent) },
-    { path: 'attendance-calculator', loadComponent: () => import('./calculators/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent) },
+    { path: 'average-calculator', loadComponent: () => import('./calculators/average-calculator/average-calculator.component').then(mod => mod.AverageCalculatorComponent), title: 'Calculadora de Promedios' },
+    { path: 'attendance-calculator', loadComponent: () => import('./calculators/attendance-calculator/attendance-calculator.component').then(mod => mod.AttendanceCalculatorComponent), title: 'Calculadora de Asistencia' },
 
     // Activities
-    { path: 'guided-reading-generator', loadComponent: () => import('./generators/reading-activity-generator/reading-activity-generator.component').then(mod => mod.ReadingActivityGeneratorComponent) },
-    { path: 'guided-reading', loadComponent: () => import('./reading-activities/reading-activities.component').then(mod => mod.ReadingActivitiesComponent) },
-    { path: 'holiday-activity-generator', loadComponent: () => import('./holiday-activity-generator/holiday-activity-generator.component').then(mod => mod.HolidayActivityGeneratorComponent) },
+    { path: 'tongue-twister-generator', loadComponent: () => import('./activities/tongue-twister-generator.component').then(mod => mod.TongueTwisterGeneratorComponent), title: 'Generador de Trabalenguas' },
+    { path: 'guided-reading-generator', loadComponent: () => import('./generators/reading-activity-generator/reading-activity-generator.component').then(mod => mod.ReadingActivityGeneratorComponent), title: 'Generador de Actividad de Lectura' },
+    { path: 'guided-reading', loadComponent: () => import('./reading-activities/reading-activities.component').then(mod => mod.ReadingActivitiesComponent), title: 'Actividades de Lectura' },
+    { path: 'holiday-activity-generator', loadComponent: () => import('./holiday-activity-generator/holiday-activity-generator.component').then(mod => mod.HolidayActivityGeneratorComponent), title: 'Actividades para Efemérides' },
 
     // Grades/Grading
-    { path: 'grades-generator', loadComponent: () => import('./grading/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent) },
-    { path: 'grading-systems', loadComponent: () => import('./grading/score-system-generator/score-system-generator.component').then(mod => mod.ScoreSystemGeneratorComponent) },
-    { path: 'grading-systems/list', loadComponent: () => import('./grading/score-systems/score-systems.component').then(mod => mod.ScoreSystemsComponent) },
-    { path: 'grading-systems/:id', loadComponent: () => import('./grading/score-system-detail/score-system-detail.component').then(mod => mod.ScoreSystemDetailComponent) },
+    { path: 'grades-generator', loadComponent: () => import('./grading/grades-generator/grades-generator.component').then(mod => mod.GradesGeneratorComponent), title: 'Generador de Calificaciones' },
+    { path: 'grading-systems', loadComponent: () => import('./grading/score-system-generator/score-system-generator.component').then(mod => mod.ScoreSystemGeneratorComponent), title: 'Generador de Sistemas de Calificación' },
+    { path: 'grading-systems/list', loadComponent: () => import('./grading/score-systems/score-systems.component').then(mod => mod.ScoreSystemsComponent), title: 'Mis Sistemas de Calificación' },
+	{ path: 'grading-systems/:id', loadComponent: () => import('./grading/score-system-detail/score-system-detail.component').then(mod => mod.ScoreSystemDetailComponent), title: 'Detalles del Sistema de Calificación' },
+
+	// motivation
+	{ path: 'reflection-generator', loadComponent: () => import('./motivation/reflection-generator.component').then(m => m.ReflectionGeneratorComponent), title: 'Generador de Reflexiones' },
+
+	// class-management
+	{ path: 'icebreaker-generator', loadComponent: () => import('./class-management/icebreaker-generator.component').then(m => m.IcebreakerGeneratorComponent), title: 'Generador de Rompehielos' },
+	{ path: 'class-hook-generator', loadComponent: () => import('./class-management/class-hook-generator.component').then(mod => mod.ClassHookGeneratorComponent), title: 'Generador de Ganchos' },
 
     // Generators
     { path: 'schedule-generator', loadComponent: () => import('./generators/schedule-generator/schedule-generator.component').then(mod => mod.ScheduleGeneratorComponent) },
@@ -108,6 +116,9 @@ export const routes: Routes = [
     { path: 'estimation-scale', loadComponent: () => import('./assessments/estimation-scale/estimation-scale.component').then(mod => mod.EstimationScaleComponent), },
     { path: 'estimation-scales', loadComponent: () => import('./assessments/estimation-scales/estimation-scales.component').then(mod => mod.EstimationScalesComponent), },
     { path: 'estimation-scales/:id', loadComponent: () => import('./assessments/estimation-scale-detail/estimation-scale-detail.component').then(mod => mod.EstimationScaleDetailComponent), },
+    
+	// Class planning
+	{ path: 'sports-practice-generator', loadComponent: () => import('./class-planning/sports-practice-generator.component').then(mod => mod.SportsPracticeGeneratorComponent), title: 'Generador de Prácticas Deportivas' },
     { path: 'class-plans', loadComponent: () => import('./class-planning/class-plan-generator/class-plan-generator.component').then(mod => mod.ClassPlanGeneratorComponent) },
     { path: 'class-plans/list', loadComponent: () => import('./class-planning/class-plan-list/class-plan-list.component').then(mod => mod.ClassPlanListComponent) },
     { path: 'class-plans/:id', loadComponent: () => import('./class-planning/class-plan-detail/class-plan-detail.component').then(mod => mod.ClassPlanDetailComponent) },

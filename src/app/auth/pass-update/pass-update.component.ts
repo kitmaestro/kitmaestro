@@ -63,7 +63,7 @@ export class PassUpdateComponent implements OnInit {
 
     this.authService.resetPassword(email, token, password).subscribe({
       next: (res: any) => {
-        if (res.message == 'Invalid token') {
+        if (res.message === 'Invalid token') {
           this.router.navigate(['/auth', 'login']).then(() => {
             this.sb.open('El token es invalido. Tendras que solicitar otro cambio de contraseña.', 'Ok', { duration: 2500 });
           });

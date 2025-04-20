@@ -42,10 +42,10 @@
                         <div class="decimals">.{{getDecimals(resource.price)}}</div>
                     </div>
                     <div class="btn-container">
-                        <button (click)="downloadOrBuy(resource.downloadLink, resource.price == 0)" mat-flat-button color="primary">
-                            <mat-icon>{{ resource.price == 0 ? 'download' : 'shopping_cart' }}</mat-icon>
+                        <button (click)="downloadOrBuy(resource.downloadLink, resource.price === 0)" mat-flat-button color="primary">
+                            <mat-icon>{{ resource.price === 0 ? 'download' : 'shopping_cart' }}</mat-icon>
                             {{ resource.downloads }}
-                            {{ resource.price == 0 ? 'Descargar' : 'Comprar Ahora' }}
+                            {{ resource.price === 0 ? 'Descargar' : 'Comprar Ahora' }}
                         </button>
                         <button mat-raised-button color="link" (click)="bookmark()" [color]="bookmarked ? 'accent' : 'link'">
                             <mat-icon>bookmark</mat-icon>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UserSettingsService } from '../../services/user-settings.service';
 import { UserSettings } from '../../interfaces/user-settings';
@@ -43,7 +43,7 @@ mat-form-field {
   width: 100%;
 }`
 })
-export class UserDetailsComponent {
+export class UserDetailsComponent implements OnInit {
   private router = inject(Router);
   private sb = inject(MatSnackBar);
   private fb = inject(FormBuilder);

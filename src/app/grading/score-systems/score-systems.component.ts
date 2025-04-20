@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ScoreSystemService } from '../../services/score-system.service';
 import { GradingActivity, ScoreSystem } from '../../interfaces/score-system';
@@ -25,7 +25,7 @@ import { StudentsService } from '../../services/students.service';
     templateUrl: './score-systems.component.html',
     styleUrl: './score-systems.component.scss'
 })
-export class ScoreSystemsComponent {
+export class ScoreSystemsComponent implements OnInit {
 	private scoreSystemService = inject(ScoreSystemService);
 	private studentService = inject(StudentsService);
 	private sb = inject(MatSnackBar);

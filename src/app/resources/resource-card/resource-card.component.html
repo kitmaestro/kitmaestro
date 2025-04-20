@@ -26,7 +26,7 @@
                 <div style="display: flex; margin-bottom: 24px; align-items: center;" routerLink="/users/{{resource.author._id}}">
                     <img src="https://gravatar.com/avatar/{{gravatar(resource.author.email)}}" style="width: 32px; margin-right: 8px; border-radius: 50%;"> <span style="flex: 1 1 auto;">{{resource.author.firstname}} {{resource.author.lastname}}</span>
                 </div>
-                @if (resource.price == 0) {
+                @if (resource.price === 0) {
                     <div class="price">
                         <div class="integer free">&iexcl;GRATIS!</div>
                     </div>

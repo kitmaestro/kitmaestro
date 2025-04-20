@@ -98,7 +98,7 @@ export class LogRegistryGeneratorComponent implements OnInit {
 
   deleteLogRegistryEntry(id: string) {
     this.logService.delete(id).subscribe(res => {
-      if (res.deletedCount == 1) {
+      if (res.deletedCount === 1) {
         this.sb.open('Se ha eliminado el registro', 'Ok', { duration: 2500 });
       }
     })

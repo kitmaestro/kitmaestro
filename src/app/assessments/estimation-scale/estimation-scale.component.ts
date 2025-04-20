@@ -96,11 +96,11 @@ export class EstimationScaleComponent implements OnInit {
     const sectionId = id || this.scaleForm.get('grade')?.value;
     if (!sectionId) return;
 
-    const section = this.sections.find(g => g._id == sectionId);
+    const section = this.sections.find(g => g._id === sectionId);
     if (!section) return;
 
     this.competenceService.findByGrade(section.year).subscribe(competence => {
-      this.competenceCol = competence.filter(c => c.subject == this.scaleForm.value.subject);
+      this.competenceCol = competence.filter(c => c.subject === this.scaleForm.value.subject);
     });
   }
 
@@ -109,7 +109,7 @@ export class EstimationScaleComponent implements OnInit {
     const { qty, activity, subject, section, title } = this.scaleForm.value;
     const competence = this.competenceCol.map(col => col.entries).flat();
     const levels = this.scaleLevels.value;
-    const gradeStr = this.selectedSection ? `${this.selectedSection.year.toLowerCase()} de educacion ${this.selectedSection.level == 'PRIMARIA' ? 'primaria' : 'secundaria'}` : '';
+    const gradeStr = this.selectedSection ? `${this.selectedSection.year.toLowerCase()} de educacion ${this.selectedSection.level === 'PRIMARIA' ? 'primaria' : 'secundaria'}` : '';
     const query = `Necesito que me escribas una lista con ${qty} criterios para evaluar (con una escala de estimacion) una actividad de ${this.pretifySubject(subject || '')} que he realizado con mis alumnos de ${gradeStr}: "${activity}".
 Las competencias que voy a evaluar son estas:
 - ${competence.join('\n- ')}
@@ -201,7 +201,7 @@ Ya tengo los niveles de desempeno, asi que solo necesito los criterios. Los crit
       this.subjects = [];
       return;
     }
-    const section = this.sections.find(s => s._id == value);
+    const section = this.sections.find(s => s._id === value);
     if (section) {
       this.subjects = (section.subjects as any);
     } else {
@@ -218,7 +218,7 @@ Ya tengo los niveles de desempeno, asi que solo necesito los criterios. Los crit
       return;
     }
     const sectionId = this.scaleForm.get('section')?.value;
-    const section = this.sections.find(s => s._id == sectionId);
+    const section = this.sections.find(s => s._id === sectionId);
     this.loadCompetences(sectionId || '');
     if (section) {
       const { year, level } = section;
@@ -264,12 +264,12 @@ Ya tengo los niveles de desempeno, asi que solo necesito los criterios. Los crit
       return secondary;
     }
 
-    const section = this.sections.find(g => g._id == sectionId);
+    const section = this.sections.find(g => g._id === sectionId);
     if (!section) {
       return secondary;
     }
 
-    if (section.level == 'PRIMARIA') {
+    if (section.level === 'PRIMARIA') {
       return primary;
     }
 
@@ -292,7 +292,7 @@ Ya tengo los niveles de desempeno, asi que solo necesito los criterios. Los crit
   }
 
   get selectedSection() {
-    return this.sections.find(section => section._id == this.scaleForm.get('section')?.value);
+    return this.sections.find(section => section._id === this.scaleForm.get('section')?.value);
   }
 
   get scaleLevels(): FormArray {

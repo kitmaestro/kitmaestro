@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Test } from '../../interfaces/test';
 import { TestService } from '../../services/test.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -24,7 +24,7 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
   templateUrl: './test-list.component.html',
   styleUrl: './test-list.component.scss'
 })
-export class TestListComponent {
+export class TestListComponent implements OnInit {
 	testService = inject(TestService);
 	dialog = inject(MatDialog);
 	loading = false;

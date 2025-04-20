@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { SliderComponent } from '../../ui/slider/slider.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DidacticResource } from '../../interfaces/didactic-resource';
@@ -29,7 +29,7 @@ import { UserSettings } from '../../interfaces/user-settings';
     templateUrl: './resource-details.component.html',
     styleUrl: './resource-details.component.scss'
 })
-export class ResourceDetailsComponent {
+export class ResourceDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private sb = inject(MatSnackBar);
@@ -37,7 +37,7 @@ export class ResourceDetailsComponent {
   private settingsService = inject(UserSettingsService);
 
   id = this.route.snapshot.paramMap.get('id') || '';
-  bookmarked: boolean = false;
+  bookmarked = false;
   downloading = false;
   user: UserSettings | null = null;
   resource: DidacticResource | null = null;
@@ -73,7 +73,7 @@ export class ResourceDetailsComponent {
     return n ? `${n}`.split('.').reverse()[0].padStart(2, '0') : '00';
   }
 
-  downloadOrBuy(link: string, download: boolean = false) {
+  downloadOrBuy(link: string, download = false) {
     if (!this.id || this.downloading)
       return;
 

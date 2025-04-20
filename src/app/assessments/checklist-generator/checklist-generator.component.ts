@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -42,7 +42,7 @@ import { ChecklistComponent } from '../../assessments/checklist/checklist.compon
     templateUrl: './checklist-generator.component.html',
     styleUrl: './checklist-generator.component.scss'
 })
-export class ChecklistGeneratorComponent {
+export class ChecklistGeneratorComponent implements OnInit {
     private fb = inject(FormBuilder);
     private classSectionService = inject(ClassSectionService);
     private sclService = inject(SubjectConceptListService);
@@ -97,7 +97,7 @@ export class ChecklistGeneratorComponent {
     }
 
     onSectionSelect(event: any) {
-        const section = this.sections.find(s => s._id == event.value);
+        const section = this.sections.find(s => s._id === event.value);
         if (section) {
             this.section = section;
             this.subjects = section.subjects;

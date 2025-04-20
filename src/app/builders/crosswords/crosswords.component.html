@@ -60,15 +60,15 @@
                         <h5 style="font-size: medium; margin-bottom: 24px;">Crucigrama de {{topicName()}}</h5>
                     </div>
                     <div style="margin-bottom: 42px; display: flex;">
-                        @if(crossWordForm.get('name')?.value == true) {
+                        @if(crossWordForm.get('name')?.value === true) {
                             <div><b>Nombre</b>:</div>
                             <div class="blank"></div>
                         }
-                        @if(crossWordForm.get('grade')?.value == true) {
+                        @if(crossWordForm.get('grade')?.value === true) {
                             <div style="margin-left: 12px;"><b>Grado</b>:</div>
                             <div class="blank"></div>
                         }
-                        @if(crossWordForm.get('date')?.value == true) {
+                        @if(crossWordForm.get('date')?.value === true) {
                             <div style="margin-left: 12px;"><b>Fecha</b>:</div>
                             <div style="max-width: 20%;" class="blank"></div>
                         }
@@ -78,8 +78,8 @@
                             @for(line of crossword.table; track line; let y = $index) {
                                 <div class="line">
                                     @for(tile of line; track tile; let x = $index) {
-                                        <div class="tile" [class.empty]="tile == '-'" [style]="'width:'+ (100 / crossword.cols).toFixed(2) + '%'">
-                                            <span class="text">{{ tile == '-' ? '' : markIfAble(x, y)}}</span>
+                                        <div class="tile" [class.empty]="tile === '-'" [style]="'width:'+ (100 / crossword.cols).toFixed(2) + '%'">
+                                            <span class="text">{{ tile === '-' ? '' : markIfAble(x, y)}}</span>
                                         </div>
                                     }
                                 </div>
@@ -92,7 +92,7 @@
                                     <h5>Horizontal</h5>
                                     <ul style="margin: 0; padding: 0; list-style: none;">
                                         @for(word of crossword.result; track $index) {
-                                            @if(word.orientation == "across") {
+                                            @if(word.orientation === "across") {
                                                 <li style="padding: 6px 12px 6px 0px; font-size: 14px;">{{ word.position }}- {{ word.clue }}</li>
                                             }
                                         }
@@ -102,7 +102,7 @@
                                     <h5>Vertical</h5>
                                     <ul style="margin: 0; padding: 0; list-style: none;">
                                         @for(word of crossword.result; track $index) {
-                                            @if(word.orientation == "down") {
+                                            @if(word.orientation === "down") {
                                                 <li style="padding: 6px 12px 6px 0px; font-size: 14px;">{{ word.position }}- {{ word.clue }}</li>
                                             }
                                         }
@@ -125,7 +125,7 @@
                             @for(line of crossword.table; track $index) {
                                 <div class="line">
                                     @for(tile of line; track $index) {
-                                        <div class="tile" [class.empty]="tile == '-'" [style]="'width:'+ (100 / crossword.cols).toFixed(2) + '%'">{{tile !== '-' ? tile : ''}}</div>
+                                        <div class="tile" [class.empty]="tile === '-'" [style]="'width:'+ (100 / crossword.cols).toFixed(2) + '%'">{{tile !== '-' ? tile : ''}}</div>
                                     }
                                 </div>
                             }
@@ -137,7 +137,7 @@
                                     <h5>Horizontal</h5>
                                     <ul style="margin: 0; padding: 0; list-style: none;">
                                         @for(word of crossword.result; track $index) {
-                                            @if(word.orientation == "across") {
+                                            @if(word.orientation === "across") {
                                                 <li style="padding: 6px 12px 6px 0px; font-size: 14px;">{{ word.position }}- {{ word.answer.toUpperCase() }}</li>
                                             }
                                         }
@@ -147,7 +147,7 @@
                                     <h5>Vertical</h5>
                                     <ul style="margin: 0; padding: 0; list-style: none;">
                                         @for(word of crossword.result; track $index) {
-                                            @if(word.orientation == "down") {
+                                            @if(word.orientation === "down") {
                                                 <li style="padding: 6px 12px 6px 0px; font-size: 14px;">{{ word.position }}- {{ word.answer.toUpperCase() }}</li>
                                             }
                                         }

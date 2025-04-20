@@ -51,8 +51,8 @@ export class ObservationSheetComponent implements OnInit {
   private router = inject(Router);
   private sb = inject(MatSnackBar);
   user: UserSettings | null = null;
-  teacherName: string = '';
-  schoolName: string = '';
+  teacherName = '';
+  schoolName = '';
   
   groups: ClassSection[] = [];
   competenceCol: CompetenceEntry[] = [];
@@ -112,7 +112,7 @@ export class ObservationSheetComponent implements OnInit {
     this.loadCompetences(id);
     this.loadStudents(id);
     this.compentenceOptions = this.getCompentenceOptions(id);
-    const group = this.groups.find(g => g._id == id);
+    const group = this.groups.find(g => g._id === id);
     if (group) {
       this.schoolName = group.school.name;
     }
@@ -121,10 +121,10 @@ export class ObservationSheetComponent implements OnInit {
   onSubmit() {
     this.observationSheet = null;
     const { customAspects, blankDate, title, date, individual, group, aspects, subject, competence, duration, description } = this.sheetForm.value as any;
-    const comps = this.competenceCol.filter(c => c.subject == subject && competence?.includes(c.name));
+    const comps = this.competenceCol.filter(c => c.subject === subject && competence?.includes(c.name));
 
     const competenceMap = competence.map((s: string) => {
-      const items = comps.find(c => c.name == s)?.entries || [];
+      const items = comps.find(c => c.name === s)?.entries || [];
 
       return {
         fundamental: s,
@@ -167,7 +167,7 @@ export class ObservationSheetComponent implements OnInit {
     ];
 
     const index = Math.round(Math.random() * (starting.length - 1));
-    const group = this.groups.find(g => g._id == groupId);
+    const group = this.groups.find(g => g._id === groupId);
     if (!group)
       return '';
 
@@ -186,7 +186,7 @@ export class ObservationSheetComponent implements OnInit {
       { value: 'EDUCACION_FISICA', label: 'Educación Física' },
       { value: 'FORMACION_HUMANA', label: 'Formación Integral Humana y Religiosa' },
     ];
-    return subjects.find(s => s.value == subject)?.label || "";
+    return subjects.find(s => s.value === subject)?.label || "";
   }
 
   print() {
@@ -222,7 +222,7 @@ export class ObservationSheetComponent implements OnInit {
     const sectionId = id || this.sheetForm.get('grade')?.value;
     if (!sectionId) return;
 
-    const section = this.groups.find(g => g._id == sectionId);
+    const section = this.groups.find(g => g._id === sectionId);
     if (!section) return;
 
     this.competenceService.findByGrade(section.year).subscribe(competence => {
@@ -260,12 +260,12 @@ export class ObservationSheetComponent implements OnInit {
       return secondary;
     }
     
-    const section = this.groups.find(g => g._id == sectionId);
+    const section = this.groups.find(g => g._id === sectionId);
     if (!section) {
       return secondary;
     }
     
-    if(section.level == 'PRIMARIA') {
+    if(section.level === 'PRIMARIA') {
       return primary;
     }
 
@@ -273,7 +273,7 @@ export class ObservationSheetComponent implements OnInit {
   }
 
   get gradeSubjects(): string[] {
-    const grade = this.groups.find(g => g._id == this.sheetForm.get('group')?.value);
+    const grade = this.groups.find(g => g._id === this.sheetForm.get('group')?.value);
     if (!grade)
       return [];
 

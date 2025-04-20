@@ -55,7 +55,7 @@ export class AiAssistantComponent implements OnInit {
       next: sections => {
         this.sections = sections;
         this.loading = false;
-        if (sections.length == 0) {
+        if (sections.length === 0) {
           this.sb.open('Vas a necesitar una seccion para usar esta herramienta.', 'Ok', { duration: 2500 });
         }
       },
@@ -73,13 +73,13 @@ export class AiAssistantComponent implements OnInit {
 
   onSubmit() {
     const data: any = this.assistantForm.value;
-    const section = this.sections.find(s => s._id == data.section);
+    const section = this.sections.find(s => s._id === data.section);
     if (!this.user || !section)
       return;
 
     this.loading = true;
     const query = `Eres mi asistente personal y consejero experto en el area de la educacion, especialmente la dominicana. Esta es toda la informacion que necesitas sobre mi para poder ayudarme.
-Mi nombre es ${this.user.firstname} ${this.user.lastname}, soy un${this.user.gender == 'Hombre' ? '' : 'a'} docente de la República Dominicana. El centro educativo en el que trabajo se llama ${section.school.name}. Es un centro educativo del nivel ${this.pretify(section.school.level)} y trabajo en ${this.pretify(section.year)} grado de educacion ${this.pretify(section.level)} impartiendo estas asignaturas: ${section.subjects.map(s => this.pretify(s)).join(', ')}.
+Mi nombre es ${this.user.firstname} ${this.user.lastname}, soy un${this.user.gender === 'Hombre' ? '' : 'a'} docente de la República Dominicana. El centro educativo en el que trabajo se llama ${section.school.name}. Es un centro educativo del nivel ${this.pretify(section.school.level)} y trabajo en ${this.pretify(section.year)} grado de educacion ${this.pretify(section.level)} impartiendo estas asignaturas: ${section.subjects.map(s => this.pretify(s)).join(', ')}.
 Te agradeceria que me hables de manera familiar, nada formal, con confianza y relajadamente puedes hablar con un pequeño grado de humor. Demuestrame con tus palabras que te sientes cercano a mi, que tienes tiempo conmigo y que estas comprometido con ayudarme.
 Aqui esta mi consulta de el dia de hoy:
 

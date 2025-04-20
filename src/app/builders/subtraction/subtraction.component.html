@@ -100,22 +100,22 @@
 					</div>
 					<br>
 					<div style="margin-bottom: 42px; display: flex;">
-						@if(subtractionsForm.get('name')?.value == true) {
+						@if(subtractionsForm.get('name')?.value === true) {
 						<div><b>Nombre</b>:</div>
 						<div class="blank"></div>
 						}
-						@if(subtractionsForm.get('grade')?.value == true) {
+						@if(subtractionsForm.get('grade')?.value === true) {
 						<div style="margin-left: 12px;"><b>Grado</b>:</div>
 						<div class="blank"></div>
 						}
-						@if(subtractionsForm.get('date')?.value == true) {
+						@if(subtractionsForm.get('date')?.value === true) {
 						<div style="margin-left: 12px;"><b>Fecha</b>:</div>
 						<div style="max-width: 20%;" class="blank"></div>
 						}
 					</div>
 					<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; justify-content: space-between;">
 						@for(line of subtractions; track $index) {
-							@if (orientation == "horizontal") {
+							@if (orientation === "horizontal") {
 								<div
 									(click)="changeSustrahend($index)"
 									style="margin-left: 12px; width: 50%; min-width: fit-content;"
@@ -135,7 +135,7 @@
 									<div style="border-bottom: 1px solid black; margin-left: 12px; letter-spacing: 3px; font-family: serif;">
 										@for(n of line; track $index) {
 											<div style="text-align: right;">
-												@if ($index == line.length - 1) {
+												@if ($index === line.length - 1) {
 													<span style="display: inline-block; margin-right: auto;">-</span>
 												}
 												{{n}}

@@ -151,12 +151,12 @@ export class UnitPlanGeneratorComponent implements OnInit {
       // determine day of the week and date of last monday (or today) count plans made this week, subjects they have and calculate just 1 plan by subject a week
       const today = new Date();
       const dayOfTheWeek = today.getDay();
-      const lastMonday = dayOfTheWeek == 1 ? today : new Date(today.setDate(today.getDate() - (7 - dayOfTheWeek)));
+      const lastMonday = dayOfTheWeek === 1 ? today : new Date(today.setDate(today.getDate() - (7 - dayOfTheWeek)));
       this.unitPlanService.findAll().subscribe(plans => {
         const createdThisWeek = plans.filter((plan: any) => +(new Date(plan.createdAt)) > +lastMonday).length;
         this.classSectionService.findSections().subscribe(sections => {
         const subjects = sections.map(section => section.subjects.filter(s => s !== 'TALLERES_OPTATIVOS').length).reduce((l, c) => l + c, 0);
-          if (subscription.subscriptionType == 'FREE' || createdThisWeek == subjects) {
+          if (subscription.subscriptionType === 'FREE' || createdThisWeek === subjects) {
           this.router.navigateByUrl('/').then(() => {
           this.sb.open('Haz alcanzado el limite de planes de esta semana. Contrata el plan premium para eliminar las restricciones o vuelve la proxima semana.', 'Ok', { duration: 5000 });
           });
@@ -179,7 +179,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
         if (value.length) {
           this.classSections = value;
           this.learningSituationForm.get('classSection')?.setValue(value[0]._id || '');
-          if (value[0].subjects.length == 1) {
+          if (value[0].subjects.length === 1) {
             this.learningSituationForm.get('subjects')?.setValue([value[0].subjects[0]])
             this.onSubjectSelect();
           }
@@ -193,7 +193,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
   onSectionSelect() {
     setTimeout(() => {
       const subjects = this.classSection?.subjects;
-      if (subjects && subjects.length == 1) {
+      if (subjects && subjects.length === 1) {
         this.learningSituationForm.get('subjects')?.setValue([subjects[0]])
         this.onSubjectSelect();
       }
@@ -374,7 +374,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
     this.competenceService.findAll().subscribe(competence => {
       const subjects = (this.learningSituationForm.value.subjects as string[])
       this._evaluationCriteria = competence.filter(c => {
-        return (c.grade == this.classSectionYear && c.level == this.classSectionLevel && subjects.includes(c.subject))
+        return (c.grade === this.classSectionYear && c.level === this.classSectionLevel && subjects.includes(c.subject))
       });
     });
 
@@ -384,7 +384,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
       .replace('section_name', this.classSectionName)
       .replace('ambiente_operativo', environment)
       .replace('theme_axis', (this.mainTheme.value || 'Salud y Bienestar').toLowerCase())
-      .replace('situacion_o_problema', situationType == 'fiction' ? 'situacion, problema o evento ficticio' : reality)
+      .replace('situacion_o_problema', situationType === 'fiction' ? 'situacion, problema o evento ficticio' : reality)
       .replace('condicion_inicial', 'Los alumnos aun no saben nada sobre el tema')
       .replace('contenido_especifico', contents);
 
@@ -432,11 +432,11 @@ export class UnitPlanGeneratorComponent implements OnInit {
   }
 
   yearIndex(year: string): number {
-    return year == 'PRIMERO' ? 0 :
-      year == 'SEGUNDO' ? 1 :
-      year == 'TERCERO' ? 2 :
-      year == 'CUARTO' ? 3 :
-      year == 'QUINTO' ? 4 :
+    return year === 'PRIMERO' ? 0 :
+      year === 'SEGUNDO' ? 1 :
+      year === 'TERCERO' ? 2 :
+      year === 'CUARTO' ? 3 :
+      year === 'QUINTO' ? 4 :
       5;
   }
 
@@ -449,7 +449,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
   get classSection() {
     const { classSection } = this.learningSituationForm.value;
-    return this.classSections.find(s => s._id == classSection) || null;
+    return this.classSections.find(s => s._id === classSection) || null;
   }
 
   get classSectionSchoolName() {
@@ -483,19 +483,19 @@ export class UnitPlanGeneratorComponent implements OnInit {
   get competence(): CompetenceEntry[] {
     return this._evaluationCriteria.filter(c => {
       const { subjects } = this.learningSituationForm.value as any;
-      return c.grade == this.classSectionYear &&
-      c.level == this.classSectionLevel &&
+      return c.grade === this.classSectionYear &&
+      c.level === this.classSectionLevel &&
       subjects.includes(c.subject);
     }).map(c => ({ ...c, entries: [this.randomCompetence(c.entries)]}));
   }
 
   randomCompetence(categorized: string[]): string {
-    let random = Math.round(Math.random() * (categorized.length - 1))
+    const random = Math.round(Math.random() * (categorized.length - 1))
     return categorized[random];
   }
 
   randomCriteria(categorized: string[]): string {
-    let random = Math.round(Math.random() * (categorized.length - 1))
+    const random = Math.round(Math.random() * (categorized.length - 1))
     return categorized[random];
   }
 
@@ -543,31 +543,31 @@ export class UnitPlanGeneratorComponent implements OnInit {
   }
 
   pretifySubject(subject: string) {
-    if (subject == 'LENGUA_ESPANOLA') {
+    if (subject === 'LENGUA_ESPANOLA') {
       return 'Lengua Española';
     }
-    if (subject == 'MATEMATICA') {
+    if (subject === 'MATEMATICA') {
       return 'Matemática';
     }
-    if (subject == 'CIENCIAS_SOCIALES') {
+    if (subject === 'CIENCIAS_SOCIALES') {
       return 'Ciencias Sociales';
     }
-    if (subject == 'CIENCIAS_NATURALES') {
+    if (subject === 'CIENCIAS_NATURALES') {
       return 'Ciencias de la Naturaleza';
     }
-    if (subject == 'INGLES') {
+    if (subject === 'INGLES') {
       return 'Inglés';
     }
-    if (subject == 'FRANCES') {
+    if (subject === 'FRANCES') {
       return 'Francés';
     }
-    if (subject == 'FORMACION_HUMANA') {
+    if (subject === 'FORMACION_HUMANA') {
       return 'Formación Integral Humana y Religiosa';
     }
-    if (subject == 'EDUCACION_FISICA') {
+    if (subject === 'EDUCACION_FISICA') {
       return 'Educación Física';
     }
-    if (subject == 'EDUCACION_ARTISTICA') {
+    if (subject === 'EDUCACION_ARTISTICA') {
       return 'Educación Artística';
     }
     return 'Talleres Optativos';

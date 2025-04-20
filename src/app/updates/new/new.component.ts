@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -28,7 +28,7 @@ import { UpdateService } from '../../services/update.service';
     templateUrl: './new.component.html',
     styleUrl: './new.component.scss'
 })
-export class NewComponent {
+export class NewComponent implements OnInit {
   private authService = inject(AuthService);
   private updateService = inject(UpdateService);
   private fb = inject(FormBuilder);

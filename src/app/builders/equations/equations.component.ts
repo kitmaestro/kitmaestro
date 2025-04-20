@@ -35,8 +35,8 @@ export class EquationsComponent implements OnInit {
   pdfService = inject(PdfService);
   sb = inject(MatSnackBar);
 
-  teacherName: string = '';
-  schoolName: string = '';
+  teacherName = '';
+  schoolName = '';
   exercises: string[] = [];
 
   exerciseForm: FormGroup = this.fb.group({

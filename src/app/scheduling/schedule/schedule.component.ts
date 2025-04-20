@@ -96,7 +96,7 @@ export class ScheduleComponent {
 
   findSubject(day: number, hour: string) {
     if (this.schedule) {
-      const period = this.schedule.periods.find(p => p.startTime == hour && p.dayOfWeek == day);
+      const period = this.schedule.periods.find(p => p.startTime === hour && p.dayOfWeek === day);
       if (period) {
         return this.pretify(period.subject);
       }
@@ -105,11 +105,11 @@ export class ScheduleComponent {
   }
 
   pretifyFormat(str: string) {
-    if (str == 'JEE') return 'Jornada Extendida';
-    if (str == 'MATUTINA') return 'Matutina';
-    if (str == 'VESPERTINA') return 'Vespertina';
-    if (str == 'NOCTURNA') return 'Nocturna';
-    if (str == 'SABATINA') return 'Sabatina';
+    if (str === 'JEE') return 'Jornada Extendida';
+    if (str === 'MATUTINA') return 'Matutina';
+    if (str === 'VESPERTINA') return 'Vespertina';
+    if (str === 'NOCTURNA') return 'Nocturna';
+    if (str === 'SABATINA') return 'Sabatina';
     return 'error';
   }
 

@@ -82,7 +82,7 @@
         </ng-container>
         <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef>Estado de la Suscripci&oacute;n</th>
-            <td mat-cell *matCellDef="let element"> {{element.subscription.status == 'active' ? 'Activa' : 'Inactiva'}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.subscription.status === 'active' ? 'Activa' : 'Inactiva'}} </td>
         </ng-container>
         <ng-container matColumnDef="comision">
             <th mat-header-cell *matHeaderCellDef>Comisi&oacute;n</th>
@@ -90,7 +90,7 @@
         </ng-container>
         <ng-container matColumnDef="comision-status">
             <th mat-header-cell *matHeaderCellDef>Estado de la Comisi&oacute;n</th>
-            <td mat-cell *matCellDef="let element"> {{element.ref.status == 'pending' ? 'Pendiente' : element.status}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.ref.status === 'pending' ? 'Pendiente' : element.status}} </td>
         </ng-container>
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>

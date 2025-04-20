@@ -69,13 +69,13 @@ export class AverageCalculatorComponent {
   }
 
   addNumber(value: number) {
-    if (value == 0 && this.screenValue == '0') return;
+    if (value === 0 && this.screenValue === '0') return;
     this.screenValue += value;
   }
 
   addPeriod() {
     if (!this.screenValue.includes('.')) {
-      if (this.screenValue == '') {
+      if (this.screenValue === '') {
         this.screenValue += 0;
       }
       this.screenValue += '.';

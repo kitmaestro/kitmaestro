@@ -27,7 +27,7 @@
 						@for (group of grouped; track group.competence) {
 							@for (row of group.grading; track $index) {
 								<tr>
-									@if ($index == 0) {
+									@if ($index === 0) {
 										<td [attr.rowspan]="group.grading.length + 1">{{group.competence}}</td>
 									}
 									<td>{{row.activity}} ({{row.activityType}})</td>

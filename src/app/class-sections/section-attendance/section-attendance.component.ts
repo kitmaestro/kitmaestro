@@ -81,8 +81,8 @@ export class SectionAttendanceComponent {
   daysInMonth(month: number, year: number) {
     if ([0, 2, 4, 6, 7, 9, 11].includes(month)) {
       return 31;
-    } else if (month == 1) {
-      if ((0 == year % 4) && (0 != year % 100) || (0 == year % 400)) {
+    } else if (month === 1) {
+      if ((0 === year % 4) && (0 != year % 100) || (0 === year % 400)) {
         return 29;
       } else {
         return 28;
@@ -97,7 +97,7 @@ export class SectionAttendanceComponent {
     const cols = ['Estudiante'];
     for (let i = 0; i < days; i++) {
       const day = (new Date(year, month, i + 1)).getDay();
-      if (day == 0 || day == 6) {
+      if (day === 0 || day === 6) {
         continue;
       }
       const date = ['D', 'L', 'M', 'M', 'J', 'V', 'S'][day] + ' ' + String(i + 1).padStart(2, '0');
@@ -108,7 +108,7 @@ export class SectionAttendanceComponent {
   }
 
   prevMonth() {
-    if (this.currentMonth == 0) {
+    if (this.currentMonth === 0) {
       this.currentMonth = 11;
       this.currentYear -= 1;
     } else {
@@ -118,7 +118,7 @@ export class SectionAttendanceComponent {
   }
 
   nextMonth() {
-    if (this.currentMonth == 11) {
+    if (this.currentMonth === 11) {
       this.currentMonth = 0;
       this.currentYear += 1;
     } else {

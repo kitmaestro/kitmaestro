@@ -82,10 +82,10 @@ Regístrate en KitMaestro ahora. La app es gratis y, con mi enlace, obtienes un 
       // this.referrals = refs;
       const currentMonth = new Date().getMonth();
       const currentYear = new Date().getFullYear();
-      this.refs.thisMonth = refs.filter(r => r.date && new Date(r.date).getMonth() == currentMonth && new Date(r.date).getFullYear() == currentYear).length;
+      this.refs.thisMonth = refs.filter(r => r.date && new Date(r.date).getMonth() === currentMonth && new Date(r.date).getFullYear() === currentYear).length;
       this.refs.before = refs.length - this.refs.thisMonth;
-      this.refs.paid = refs.filter(r => r.status == 'paid').length;
-      this.refs.pending = refs.filter(r => r.status == 'pending').length;
+      this.refs.paid = refs.filter(r => r.status === 'paid').length;
+      this.refs.pending = refs.filter(r => r.status === 'pending').length;
     })
   }
 

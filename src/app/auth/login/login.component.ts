@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit {
         this.authService.login(email, password).subscribe({
           next: result => {
             if (result.error) {
-              this.sb.open('Error al iniciar sesion: ' + result.error == "Cannot read properties of null (reading 'passwordHash')" ? 'El usuario no existe' : 'Error en el usuario o contraseña.', 'ok', { duration: 2500 });
+              this.sb.open('Error al iniciar sesion: ' + result.error === "Cannot read properties of null (reading 'passwordHash')" ? 'El usuario no existe' : 'Error en el usuario o contraseña.', 'ok', { duration: 2500 });
               this.loading = false;
             } else {
               this.router.navigate(this.route.snapshot.queryParamMap.get('next')?.split('/') || ['/'], { queryParamsHandling: 'preserve' }).then(() => {

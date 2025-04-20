@@ -36,9 +36,9 @@ export class MultiplicationComponent implements OnInit {
   pdfService = inject(PdfService);
   sb = inject(MatSnackBar);
 
-  teacherName: string = '';
-  schoolName: string = '';
-  multiplications: Array<number[]> = [];
+  teacherName = '';
+  schoolName = '';
+  multiplications: number[][] = [];
 
   multiplicationsForm = this.fb.group({
     title: ["Multiplicación"],
@@ -61,11 +61,11 @@ export class MultiplicationComponent implements OnInit {
   }
 
   generateFactor(min: number, max: number): number {
-    const digits = min == max ? min : Math.round(Math.random() * (max - min)) + min;
-    let str = this.multiplicationsForm.get("numericalSet")?.value == "integer" ? (Math.round(Math.random()) ? "" : "-") : "";
+    const digits = min === max ? min : Math.round(Math.random() * (max - min)) + min;
+    let str = this.multiplicationsForm.get("numericalSet")?.value === "integer" ? (Math.round(Math.random()) ? "" : "-") : "";
 
     for (let i = 0; i < digits; i++) {
-      if (i == 0) {
+      if (i === 0) {
         str += shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9])[0];
       } else {
         str += shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 0])[0];

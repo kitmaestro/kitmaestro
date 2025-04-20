@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClassScheduleService } from '../../services/class-schedule.service';
 import { AuthService } from '../../services/auth.service';
@@ -34,7 +34,7 @@ import { ClassPeriod } from '../../interfaces/class-schedule';
     templateUrl: './schedule-builder.component.html',
     styleUrl: './schedule-builder.component.scss'
 })
-export class ScheduleBuilderComponent {
+export class ScheduleBuilderComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private scheduleService = inject(ClassScheduleService);

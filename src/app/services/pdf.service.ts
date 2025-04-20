@@ -9,7 +9,7 @@ import html2pdf from "html2pdf.js/dist/html2pdf.bundle.min.js"
 })
 export class PdfService {
 
-  async createFromHTML(id: string, p: boolean = true): Promise<jspdf> {
+  async createFromHTML(id: string, p = true): Promise<jspdf> {
     const el = document.getElementById(id) as HTMLElement;
     const canvas = await html2canvas(el, {});
     const imgWidth = p ? 208 : 279.4;
@@ -22,12 +22,12 @@ export class PdfService {
     return pdf;
   }
 
-  async createAndDownloadFromHTML(id: string, name: string, p: boolean = true) {
+  async createAndDownloadFromHTML(id: string, name: string, p = true) {
     const pdf = await this.createFromHTML(id, p);
     pdf.save(name + '.pdf');
   }
 
-  exportTableToPDF(tableId: string, title: string, portrait: boolean = true) {
+  exportTableToPDF(tableId: string, title: string, portrait = true) {
     const data = document.getElementById(tableId);
     if (data) {
       html2canvas(data).then(canvas => {

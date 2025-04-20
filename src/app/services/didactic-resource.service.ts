@@ -23,7 +23,7 @@ export class DidacticResourceService {
   findAll(filters?: any): Observable<DidacticResource[]> {
     let params = new HttpParams();
     if (filters) {
-      for (let filter in filters) {
+      for (const filter in filters) {
         params = params.append(filter, filters[filter]);
       }
     }

@@ -65,7 +65,7 @@ export class TodoListsComponent {
   deleteList(id: string) {
     this.todoListService.delete(id).subscribe({
       next: (result) => {
-        if (result.deletedCount == 1) {
+        if (result.deletedCount === 1) {
           this.sb.open('La Lista ha sido borrada')
           this.todoLists$ = this.todoListService.findAll();
         }

@@ -57,7 +57,7 @@ export class RubricDetailComponent implements OnInit {
 
   deleteRubric() {
     this.rubricService.delete(this.id).subscribe(res => {
-      if (res.deletedCount == 1) {
+      if (res.deletedCount === 1) {
         this.router.navigate(['/assessments/rubrics']).then(() => this.sb.open('Se ha eliminado la rubrica', 'Ok', { duration: 2500 }));
       }
     });

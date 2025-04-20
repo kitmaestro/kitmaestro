@@ -37,8 +37,8 @@ export class SudokuComponent implements OnInit {
   userSettingsService = inject(UserSettingsService);
   sb = inject(MatSnackBar);
 
-  teacherName: string = '';
-  schoolName: string = '';
+  teacherName = '';
+  schoolName = '';
   sudokuLevel = this.fb.control('easy');
   sudokuTitle = this.fb.control('Sudoku');
   sudokuIncludeSolution = this.fb.control(true);
@@ -49,8 +49,8 @@ export class SudokuComponent implements OnInit {
   });
 
   sudoku: Sudoku | null = null;
-  board: Array<number | null>[] = [];
-  solvedBoard: Array<number | null>[] = [];
+  board: (number | null)[][] = [];
+  solvedBoard: (number | null)[][] = [];
 
   levels = [
     {

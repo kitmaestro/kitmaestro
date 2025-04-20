@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -33,7 +33,7 @@ import { MatIconModule } from '@angular/material/icon';
     templateUrl: './attendance-dashboard.component.html',
     styleUrl: './attendance-dashboard.component.scss'
 })
-export class AttendanceDashboardComponent {
+export class AttendanceDashboardComponent implements OnInit {
     private sectionService = inject(ClassSectionService);
     private studentService = inject(StudentsService);
     private sb = inject(MatSnackBar);
@@ -99,7 +99,7 @@ export class AttendanceDashboardComponent {
                 this.attendanceService.delete(entry._id).subscribe(res => {
                     if (res.deletedCount > 0) {
                         count++;
-                        if (count == this.attendance.length) {
+                        if (count === this.attendance.length) {
                             this.makeCalendar();
                             this.removing = false;
                         }
@@ -107,7 +107,7 @@ export class AttendanceDashboardComponent {
                 }, error => {
                     console.log(error.message)
                     count++;
-                    if (count == this.attendance.length) {
+                    if (count === this.attendance.length) {
                         this.makeCalendar();
                         this.removing = false;
                     }
@@ -135,7 +135,7 @@ export class AttendanceDashboardComponent {
                     next: res => {
                         sus.unsubscribe();
                         count += 1;
-                        if (count == this.attendance.length) {
+                        if (count === this.attendance.length) {
                             this.sb.open('Guardado finalizado ' + (errors ? 'con errores' : 'sin errores'), 'Ok', { duration: 2500 });
                             this.saving = false;
                         }
@@ -145,7 +145,7 @@ export class AttendanceDashboardComponent {
                         count += 1;
                         errors = true;
                         console.log(err.message)
-                        if (count == this.attendance.length) {
+                        if (count === this.attendance.length) {
                             this.sb.open('Guardado finalizado con errores', 'Ok', { duration: 2500 });
                             this.saving = false;
                         }
@@ -156,7 +156,7 @@ export class AttendanceDashboardComponent {
                     next: res => {
                         sus.unsubscribe();
                         count += 1;
-                        if (count == this.attendance.length) {
+                        if (count === this.attendance.length) {
                             this.sb.open('Guardado finalizado ' + (errors ? 'con errores' : 'sin errores'), 'Ok', { duration: 2500 });
                             this.saving = false;
                         }
@@ -166,7 +166,7 @@ export class AttendanceDashboardComponent {
                         count += 1;
                         errors = true;
                         console.log(err.message)
-                        if (count == this.attendance.length) {
+                        if (count === this.attendance.length) {
                             this.sb.open('Guardado finalizado con errores', 'Ok', { duration: 2500 });
                             this.saving = false;
                         }
@@ -182,7 +182,7 @@ export class AttendanceDashboardComponent {
                 if (sections.length) {
                     this.sections = sections;
                     if (this.id) {
-                        const section = sections.find(s => s._id == this.id);
+                        const section = sections.find(s => s._id === this.id);
                         if (section) {
                             this.section.setValue(section._id);
                             this.onSectionSelect({ value: section._id });
@@ -203,9 +203,9 @@ export class AttendanceDashboardComponent {
         const date = new Date(year, month - 1, 1);
         const firstDay = date.getDay();
         let count = 1;
-        while (date.getMonth() == month - 1) {
+        while (date.getMonth() === month - 1) {
             date.setDate(date.getDate() + 1);
-            if (date.getDay() == firstDay) {
+            if (date.getDay() === firstDay) {
                 count++;
             }
         }
@@ -231,9 +231,9 @@ export class AttendanceDashboardComponent {
                         week: i + 1,
                     }
                     // insert before this month days
-                    if (i == 0) {
+                    if (i === 0) {
                         const firstDay = date.getDay();
-                        if (firstDay == 0) {
+                        if (firstDay === 0) {
                             date.setDate(date.getDate() + 1);
                             for (let j = 5; j > 0; j--) {
                                 const d = new Date(date);
@@ -242,7 +242,7 @@ export class AttendanceDashboardComponent {
                             }
                             continue;
                         }
-                        if (firstDay == 6) {
+                        if (firstDay === 6) {
                             date.setDate(date.getDate() + 2);
                             for (let j = 5; j > 0; j--) {
                                 const d = new Date(date);
@@ -265,7 +265,7 @@ export class AttendanceDashboardComponent {
                     } else {
                         for (let j = 0; j < 7; j++) {
                             if (![0, 6].includes(date.getDay())) {
-                                if (date.getMonth() == (this.month.value - 1)) {
+                                if (date.getMonth() === (this.month.value - 1)) {
                                     week.days.push({
                                         date: dateStr(date),
                                         dayOfTheWeek: dayOfTheWeek(date)
@@ -300,9 +300,9 @@ export class AttendanceDashboardComponent {
     }
 
     onSectionSelect(event: any) {
-        const section = this.sections.find(s => s._id == event.value);
+        const section = this.sections.find(s => s._id === event.value);
         if (section) {
-            this.mode == section.school.journey;
+            this.mode === section.school.journey;
         }
         this.fetchAttendance(this.year.value, this.month.value);
         this.makeCalendar();
@@ -360,9 +360,9 @@ export class AttendanceDashboardComponent {
     }
 
     getAttendanceDay(student: string, day: string) {
-        const at = this.attendance.find(a => a.student._id == student)
+        const at = this.attendance.find(a => a.student._id === student)
         if (at) {
-            const d = at.data.find(d => d.date == parseInt(day));
+            const d = at.data.find(d => d.date === parseInt(day));
             if (d) {
                 return d.attendance;
             }
@@ -372,7 +372,7 @@ export class AttendanceDashboardComponent {
 
     toggleAttendance(student: string, day: string) {
         const current = this.getAttendanceDay(student, day);
-        const entry = this.attendance.find(a => a.student._id == student)?.data.find(d => d.date == parseInt(day));
+        const entry = this.attendance.find(a => a.student._id === student)?.data.find(d => d.date === parseInt(day));
         if (!entry)
             return;
 
@@ -403,26 +403,26 @@ export class AttendanceDashboardComponent {
     getDayTotal(day: string) {
         if (this.holidays.includes(day))
             return '';
-        return this.attendance.flatMap(a => a.data.filter(d => d.date == parseInt(day)).map(d => d.attendance)).reduce((p, c) => p + (c == 'PRESENTE' ? 1 : 0), 0) || '';
+        return this.attendance.flatMap(a => a.data.filter(d => d.date === parseInt(day)).map(d => d.attendance)).reduce((p, c) => p + (c === 'PRESENTE' ? 1 : 0), 0) || '';
     }
 
     getStudentTotalP(student: string) {
-        const at = this.attendance.filter(a => a.student._id == student);
-        return at.flatMap(a => a.data.filter(d => !this.holidays.includes(`${d.date}`.padStart(2, '0')) && d.attendance == 'PRESENTE')).length;
+        const at = this.attendance.filter(a => a.student._id === student);
+        return at.flatMap(a => a.data.filter(d => !this.holidays.includes(`${d.date}`.padStart(2, '0')) && d.attendance === 'PRESENTE')).length;
     }
 
     getStudentTotalT(student: string) {
-        const at = this.attendance.filter(a => a.student._id == student);
-        return at.flatMap(a => a.data.filter(d => !this.holidays.includes(`${d.date}`.padStart(2, '0')) && d.attendance == 'TARDE')).length;
+        const at = this.attendance.filter(a => a.student._id === student);
+        return at.flatMap(a => a.data.filter(d => !this.holidays.includes(`${d.date}`.padStart(2, '0')) && d.attendance === 'TARDE')).length;
     }
 
     getStudentTotalA(student: string) {
-        const at = this.attendance.filter(a => a.student._id == student);
-        return at.flatMap(a => a.data.filter(d => !this.holidays.includes(`${d.date}`.padStart(2, '0')) && d.attendance == 'AUSENTE')).length;
+        const at = this.attendance.filter(a => a.student._id === student);
+        return at.flatMap(a => a.data.filter(d => !this.holidays.includes(`${d.date}`.padStart(2, '0')) && d.attendance === 'AUSENTE')).length;
     }
 
     getStudentTotalE(student: string) {
-        const at = this.attendance.filter(a => a.student._id == student);
-        return at.flatMap(a => a.data.filter(d => !this.holidays.includes(`${d.date}`.padStart(2, '0')) && d.attendance == 'EXCUSA')).length;
+        const at = this.attendance.filter(a => a.student._id === student);
+        return at.flatMap(a => a.data.filter(d => !this.holidays.includes(`${d.date}`.padStart(2, '0')) && d.attendance === 'EXCUSA')).length;
     }
 }

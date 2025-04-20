@@ -53,7 +53,7 @@ export class TodoFormComponent {
     console.log('updating')
     this.todoService.update(todo._id, todo).subscribe({
       next: (res) => {
-        if (res.modifiedCount == 1) {
+        if (res.modifiedCount === 1) {
           this.dialogRef.close(res)
           this.sb.open('La tarea ha sido actualizada.', 'Ok', { duration: 2500 });
         }

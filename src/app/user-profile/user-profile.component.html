@@ -8,7 +8,7 @@
             <div>
                 <mat-form-field appearance="outline">
                     <mat-label>Sexo</mat-label>
-                    <mat-select (valueChange)="userForm.get('title')?.setValue(gender.value == 'Mujer' ? 'Licda' : 'Licdo')" formControlName="gender" #gender>
+                    <mat-select (valueChange)="userForm.get('title')?.setValue(gender.value === 'Mujer' ? 'Licda' : 'Licdo')" formControlName="gender" #gender>
                         <mat-option value="Hombre">Hombre</mat-option>
                         <mat-option value="Mujer">Mujer</mat-option>
                     </mat-select>
