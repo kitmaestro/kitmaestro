@@ -1,24 +1,25 @@
 mat-form-field {
-  width: 100%;
+	width: 100%;
 }
 
 .grid-2 {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: 1fr;
+	display: grid;
+	gap: 12px;
+	grid-template-columns: 1fr;
 
-  @media screen and (min-width: 960px) {
-    grid-template-columns: 1fr 1fr;
-  }
+	@media screen and (min-width: 960px) {
+		grid-template-columns: 1fr 1fr;
+	}
 }
 
 table {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
 }
 
-td, th {
-  padding: 8px;
-  border: 1px solid #ccc;
+td,
+th {
+	padding: 8px;
+	border: 1px solid #ccc;
 }

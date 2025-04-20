@@ -1,20 +1,6 @@
-import { SubjectContents } from "../interfaces/subject-contents";
+import { SubjectContents } from '../interfaces/subject-contents';
 
 export const WORKSHOP_CONTENTS: SubjectContents = {
-    primary: [
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-    ],
-    highSchool: [
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-    ],
-}
+	primary: [[], [], [], [], [], []],
+	highSchool: [[], [], [], [], [], []],
+};

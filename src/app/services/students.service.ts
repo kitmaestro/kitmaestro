@@ -7,40 +7,50 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class StudentsService {
-  private http = inject(HttpClient);
-  private apiBaseUrl = environment.apiUrl + 'students/';
-  private config = {
-    withCredentials: true,
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-    }),
-  };
+	private http = inject(HttpClient);
+	private apiBaseUrl = environment.apiUrl + 'students/';
+	private config = {
+		withCredentials: true,
+		headers: new HttpHeaders({
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+		}),
+	};
 
-  findBySection(section: string): Observable<Student[]> {
-    return this.http.get<Student[]>(this.apiBaseUrl + 'by-section/' + section, this.config);
-  }
+	findBySection(section: string): Observable<Student[]> {
+		return this.http.get<Student[]>(
+			this.apiBaseUrl + 'by-section/' + section,
+			this.config,
+		);
+	}
 
-  findAll(): Observable<Student[]> {
-    return this.http.get<Student[]>(this.apiBaseUrl, this.config);
-  }
+	findAll(): Observable<Student[]> {
+		return this.http.get<Student[]>(this.apiBaseUrl, this.config);
+	}
 
-  find(id: string): Observable<Student> {
-    return this.http.get<Student>(this.apiBaseUrl + id, this.config);
-  }
+	find(id: string): Observable<Student> {
+		return this.http.get<Student>(this.apiBaseUrl + id, this.config);
+	}
 
-  create(plan: Student): Observable<Student> {
-    return this.http.post<Student>(this.apiBaseUrl, plan, this.config);
-  }
+	create(plan: Student): Observable<Student> {
+		return this.http.post<Student>(this.apiBaseUrl, plan, this.config);
+	}
 
-  update(id: string, plan: any): Observable<ApiUpdateResponse> {
-    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, plan, this.config);
-  }
+	update(id: string, plan: any): Observable<ApiUpdateResponse> {
+		return this.http.patch<ApiUpdateResponse>(
+			this.apiBaseUrl + id,
+			plan,
+			this.config,
+		);
+	}
 
-  delete(id: string): Observable<ApiDeleteResponse> {
-    return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id, this.config);
-  }
+	delete(id: string): Observable<ApiDeleteResponse> {
+		return this.http.delete<ApiDeleteResponse>(
+			this.apiBaseUrl + id,
+			this.config,
+		);
+	}
 }

@@ -1,94 +1,97 @@
 h3 {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 p {
-  font-size: 16px;
-  line-height: 1.5;
-  font-family: Roboto, sans-serif;
-  margin-top: 20px;
-  margin-bottom: 20px;
+	font-size: 16px;
+	line-height: 1.5;
+	font-family: Roboto, sans-serif;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .text-center {
-  text-align: center;
+	text-align: center;
 }
 
 .pricing-grid {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: 1fr;
-  text-align: center;
+	display: grid;
+	gap: 12px;
+	grid-template-columns: 1fr;
+	text-align: center;
 
-  .standard {
-    background-color: #ffd740 !important;
-  }
+	.standard {
+		background-color: #ffd740 !important;
+	}
 
-  @media screen and (min-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+	@media screen and (min-width: 1200px) {
+		grid-template-columns: repeat(3, 1fr);
+	}
 }
 
 .pricing-table-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin: 20px 0;
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	flex-wrap: wrap;
+	margin: 20px 0;
 }
 
 .pricing-card {
-  width: 300px;
-  text-align: center;
+	width: 300px;
+	text-align: center;
 }
 
 .pricing-card mat-card-title {
-  font-size: 24px;
-  font-weight: bold;
+	font-size: 24px;
+	font-weight: bold;
 }
 
 .pricing-card mat-card-subtitle {
-  font-size: 20px;
-  color: #666;
+	font-size: 20px;
+	color: #666;
 }
 
 .pricing-card ul {
-  list-style: none;
-  padding: 0;
+	list-style: none;
+	padding: 0;
 }
 
 .pricing-card li {
-  margin: 8px 0;
+	margin: 8px 0;
 }
 
 mat-card-actions {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 .hidden {
-  display: none;
+	display: none;
 }
 
-td, th {
-  vertical-align: middle;
-  text-align: center;
-  padding: 6px;
-  border: 1px solid #ccc;
+td,
+th {
+	vertical-align: middle;
+	text-align: center;
+	padding: 6px;
+	border: 1px solid #ccc;
 }
 
-tr td:first-child, tr th:first-child {
-  text-align: start;
+tr td:first-child,
+tr th:first-child {
+	text-align: start;
 }
 
-tr td:nth-child(4), tr th:nth-child(4) {
-  background-color: #673ab7;
-  border-color: white;
-  color: white;
+tr td:nth-child(4),
+tr th:nth-child(4) {
+	background-color: #673ab7;
+	border-color: white;
+	color: white;
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid #ccc;
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid #ccc;
 }

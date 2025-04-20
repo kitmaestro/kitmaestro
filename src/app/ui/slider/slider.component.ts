@@ -3,15 +3,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-slider',
-    imports: [
-        MatButtonModule,
-        MatIconModule,
-    ],
-    templateUrl: './slider.component.html',
-    styleUrl: './slider.component.scss'
+	selector: 'app-slider',
+	imports: [MatButtonModule, MatIconModule],
+	templateUrl: './slider.component.html',
+	styleUrl: './slider.component.scss',
 })
 export class SliderComponent {
-  @Input() slides: string[] = [];
-  slideIndex = 0;
+	@Input() slides: string[] = [];
+	slideIndex = 0;
 }

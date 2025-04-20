@@ -1,90 +1,178 @@
 <mat-card>
-    <mat-card-header>
-        <h2 mat-card-title>Generador de Operaciones Mixtas</h2>
-    </mat-card-header>
-    <mat-card-content>
-        <div style="margin-top: 24px;">
-            <form [formGroup]="generatorForm" (ngSubmit)="onSubmit()">
-                <div>
-                    <mat-form-field>
-                        <mat-label>Cant. de Ejercicios</mat-label>
-                        <input formControlName="size" type="text" matInput>
-                    </mat-form-field>
-                </div>
-                <div style="margin-bottom: 12px;">
-                    <mat-label>Campos a Incluir:</mat-label>
-                    <mat-chip-set>
-                        <mat-chip-option [selected]="true" (selectionChange)="toggleName()">Nombre</mat-chip-option>
-                        <mat-chip-option [selected]="true" (selectionChange)="toggleGrade()">Grado</mat-chip-option>
-                        <mat-chip-option [selected]="true" (selectionChange)="toggleDate()">Fecha</mat-chip-option>
-                    </mat-chip-set>
-                </div>
-                <div>
-                    @if (exercises.length) {
-                        <button type="button" (click)="print()" style="margin-right: 12px;" mat-raised-button color="accent">Imprimir</button>
-                    }
-                    <button mat-flat-button type="submit">{{ exercises.length > 0 ? 'Regenerar' : 'Generar'}}</button>
-                </div>
-            </form>
-        </div>
-    </mat-card-content>
+	<mat-card-header>
+		<h2 mat-card-title>Generador de Operaciones Mixtas</h2>
+	</mat-card-header>
+	<mat-card-content>
+		<div style="margin-top: 24px">
+			<form [formGroup]="generatorForm" (ngSubmit)="onSubmit()">
+				<div>
+					<mat-form-field>
+						<mat-label>Cant. de Ejercicios</mat-label>
+						<input formControlName="size" type="text" matInput />
+					</mat-form-field>
+				</div>
+				<div style="margin-bottom: 12px">
+					<mat-label>Campos a Incluir:</mat-label>
+					<mat-chip-set>
+						<mat-chip-option
+							[selected]="true"
+							(selectionChange)="toggleName()"
+							>Nombre</mat-chip-option
+						>
+						<mat-chip-option
+							[selected]="true"
+							(selectionChange)="toggleGrade()"
+							>Grado</mat-chip-option
+						>
+						<mat-chip-option
+							[selected]="true"
+							(selectionChange)="toggleDate()"
+							>Fecha</mat-chip-option
+						>
+					</mat-chip-set>
+				</div>
+				<div>
+					@if (exercises.length) {
+						<button
+							type="button"
+							(click)="print()"
+							style="margin-right: 12px"
+							mat-raised-button
+							color="accent"
+						>
+							Imprimir
+						</button>
+					}
+					<button mat-flat-button type="submit">
+						{{ exercises.length > 0 ? "Regenerar" : "Generar" }}
+					</button>
+				</div>
+			</form>
+		</div>
+	</mat-card-content>
 </mat-card>
 
-@if(exercises.length) {
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px;">
-        <mat-card>
-            <mat-card-content>
-                <div class="page" id="exercises" style="padding: 12px;">
-                    <div style="text-align: center;">
-                        <h3 style="margin-bottom: 0; font-weight: bold; font-size: large;">{{ schoolName }}</h3>
-                        <h4 style="margin-bottom: 0;">{{ teacherName }}</h4>
-                        <h5 style="font-size: medium; margin-bottom: 24px;">Calcula las Siguientes Divisiones</h5>
-                    </div>
-                    <br>
-                    <div style="margin-bottom: 42px; display: flex;">
-                        @if(generatorForm.get('name')?.value === true) {
-                        <div><b>Nombre</b>:</div>
-                        <div class="blank"></div>
-                        }
-                        @if(generatorForm.get('grade')?.value === true) {
-                        <div style="margin-left: 12px;"><b>Grado</b>:</div>
-                        <div class="blank"></div>
-                        }
-                        @if(generatorForm.get('date')?.value === true) {
-                        <div style="margin-left: 12px;"><b>Fecha</b>:</div>
-                        <div style="max-width: 20%;" class="blank"></div>
-                        }
-                    </div>
-                    <div style="display: flex; flex-direction: column; gap: 16px;">
-                        @for(exercise of exercises; track $index) {
-                            <div style="display: flex; justify-content: space-between;">
-                                <div style="margin-left: 12px;"><b>{{ ($index + 1).toString().padStart(2, '0') }}) 
-                                    <app-math-exercise [exercise]="exercise" />
-                                </b>=</div>
-                                <div style="max-width: 50%; margin-left: auto" class="blank"></div>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </mat-card-content>
-        </mat-card>
-        <mat-card style="display: none;">
-            <mat-card-content>
-                <div class="page" id="exercises-solution" style="padding: 12px;">
-                    <div style="text-align: center; margin-bottom: 24px;">
-                        <h4 style="margin-bottom: 0;">Calcula las Siguientes Sumas</h4>
-                        <h5 style="font-size: medium; margin-bottom: 24px;">Hoja de Respuestas</h5>
-                    </div>
-                    <div style="display: flex; flex-direction: column; gap: 16px;">
-                        @for(line of exercises; track $index) {
-                        <div style="display: flex; justify-content: space-between;">
-                            <div style="margin-left: 12px;"><b>{{ ($index + 1).toString().padStart(2, '0') }}) <app-math-exercise [exercise]="line" /></b>=</div>
-                            <div style="max-width: 50%; margin-left: auto; text-align: center;" class="blank">{{ calculate(line) }}</div>
-                        </div>
-                        }
-                    </div>
-                </div>
-            </mat-card-content>
-        </mat-card>
-    </div>
+@if (exercises.length) {
+	<div
+		style="
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 24px;
+			margin-top: 24px;
+		"
+	>
+		<mat-card>
+			<mat-card-content>
+				<div class="page" id="exercises" style="padding: 12px">
+					<div style="text-align: center">
+						<h3
+							style="
+								margin-bottom: 0;
+								font-weight: bold;
+								font-size: large;
+							"
+						>
+							{{ schoolName }}
+						</h3>
+						<h4 style="margin-bottom: 0">{{ teacherName }}</h4>
+						<h5 style="font-size: medium; margin-bottom: 24px">
+							Calcula las Siguientes Divisiones
+						</h5>
+					</div>
+					<br />
+					<div style="margin-bottom: 42px; display: flex">
+						@if (generatorForm.get("name")?.value === true) {
+							<div><b>Nombre</b>:</div>
+							<div class="blank"></div>
+						}
+						@if (generatorForm.get("grade")?.value === true) {
+							<div style="margin-left: 12px"><b>Grado</b>:</div>
+							<div class="blank"></div>
+						}
+						@if (generatorForm.get("date")?.value === true) {
+							<div style="margin-left: 12px"><b>Fecha</b>:</div>
+							<div style="max-width: 20%" class="blank"></div>
+						}
+					</div>
+					<div
+						style="display: flex; flex-direction: column; gap: 16px"
+					>
+						@for (exercise of exercises; track $index) {
+							<div
+								style="
+									display: flex;
+									justify-content: space-between;
+								"
+							>
+								<div style="margin-left: 12px">
+									<b
+										>{{
+											($index + 1)
+												.toString()
+												.padStart(2, "0")
+										}})
+										<app-math-exercise
+											[exercise]="exercise"
+										/> </b
+									>=
+								</div>
+								<div
+									style="max-width: 50%; margin-left: auto"
+									class="blank"
+								></div>
+							</div>
+						}
+					</div>
+				</div>
+			</mat-card-content>
+		</mat-card>
+		<mat-card style="display: none">
+			<mat-card-content>
+				<div class="page" id="exercises-solution" style="padding: 12px">
+					<div style="text-align: center; margin-bottom: 24px">
+						<h4 style="margin-bottom: 0">
+							Calcula las Siguientes Sumas
+						</h4>
+						<h5 style="font-size: medium; margin-bottom: 24px">
+							Hoja de Respuestas
+						</h5>
+					</div>
+					<div
+						style="display: flex; flex-direction: column; gap: 16px"
+					>
+						@for (line of exercises; track $index) {
+							<div
+								style="
+									display: flex;
+									justify-content: space-between;
+								"
+							>
+								<div style="margin-left: 12px">
+									<b
+										>{{
+											($index + 1)
+												.toString()
+												.padStart(2, "0")
+										}})
+										<app-math-exercise
+											[exercise]="line" /></b
+									>=
+								</div>
+								<div
+									style="
+										max-width: 50%;
+										margin-left: auto;
+										text-align: center;
+									"
+									class="blank"
+								>
+									{{ calculate(line) }}
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+			</mat-card-content>
+		</mat-card>
+	</div>
 }

@@ -3,14 +3,18 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class CurrencyService {
+	private http = inject(HttpClient);
+	private apiUrl =
+		'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/';
 
-  private http = inject(HttpClient);
-  private apiUrl = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/';
-
-  convert(origin: string, target: string): Observable<number> {
-    return this.http.get<Record<string, Record<string, number>>>(this.apiUrl + origin + '.json').pipe(map(res => res[origin][target]));
-  }
+	convert(origin: string, target: string): Observable<number> {
+		return this.http
+			.get<
+				Record<string, Record<string, number>>
+			>(this.apiUrl + origin + '.json')
+			.pipe(map((res) => res[origin][target]));
+	}
 }

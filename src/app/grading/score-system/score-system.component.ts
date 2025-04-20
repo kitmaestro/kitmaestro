@@ -1,5 +1,9 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { GradingActivity, GroupedGradingActivity, ScoreSystem } from '../../interfaces/score-system';
+import {
+	GradingActivity,
+	GroupedGradingActivity,
+	ScoreSystem,
+} from '../../interfaces/score-system';
 import { UserSettings } from '../../interfaces/user-settings';
 import { ClassSection } from '../../interfaces/class-section';
 import { ContentBlock } from '../../interfaces/content-block';
@@ -9,13 +13,10 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 import { StudentsService } from '../../services/students.service';
 
 @Component({
-    selector: 'app-score-system',
-    imports: [
-        MatCardModule,
-        PretifyPipe,
-    ],
-    templateUrl: './score-system.component.html',
-    styleUrl: './score-system.component.scss'
+	selector: 'app-score-system',
+	imports: [MatCardModule, PretifyPipe],
+	templateUrl: './score-system.component.html',
+	styleUrl: './score-system.component.scss',
 })
 export class ScoreSystemComponent implements OnInit {
 	@Input() scoreSystem: ScoreSystem | null = null;
@@ -29,18 +30,26 @@ export class ScoreSystemComponent implements OnInit {
 	ngOnInit() {
 		if (this.scoreSystem) {
 			this.grouped = this.groupByCompetence(this.scoreSystem.activities);
-			this.studentsService.findBySection(this.section?._id || this.scoreSystem.section._id).subscribe({
-				next: students => {
-					this.students = students;
-				}
-			})
+			this.studentsService
+				.findBySection(
+					this.section?._id || this.scoreSystem.section._id,
+				)
+				.subscribe({
+					next: (students) => {
+						this.students = students;
+					},
+				});
 		}
 	}
 
-	groupByCompetence(gradingActivities: GradingActivity[]): GroupedGradingActivity[] {
+	groupByCompetence(
+		gradingActivities: GradingActivity[],
+	): GroupedGradingActivity[] {
 		const grouped = gradingActivities.reduce((acc, activity) => {
 			// Si ya existe un grupo con la misma competencia, añade la actividad al grupo
-			const existingGroup = acc.find(group => group.competence === activity.competence);
+			const existingGroup = acc.find(
+				(group) => group.competence === activity.competence,
+			);
 
 			if (existingGroup) {
 				existingGroup.grading.push(activity);
@@ -50,7 +59,7 @@ export class ScoreSystemComponent implements OnInit {
 				acc.push({
 					competence: activity.competence,
 					grading: [activity],
-					total: activity.points
+					total: activity.points,
 				});
 			}
 
@@ -60,10 +69,14 @@ export class ScoreSystemComponent implements OnInit {
 		return grouped;
 	}
 
-	adjustGradingActivities(gradingActivities: GradingActivity[]): GradingActivity[] {
+	adjustGradingActivities(
+		gradingActivities: GradingActivity[],
+	): GradingActivity[] {
 		// Paso 1: Agrupamos por 'competence' y calculamos el total
 		const grouped = gradingActivities.reduce((acc, activity) => {
-			const existingGroup = acc.find(group => group.competence === activity.competence);
+			const existingGroup = acc.find(
+				(group) => group.competence === activity.competence,
+			);
 
 			if (existingGroup) {
 				existingGroup.grading.push(activity);
@@ -72,7 +85,7 @@ export class ScoreSystemComponent implements OnInit {
 				acc.push({
 					competence: activity.competence,
 					grading: [activity],
-					total: activity.points
+					total: activity.points,
 				});
 			}
 
@@ -80,7 +93,7 @@ export class ScoreSystemComponent implements OnInit {
 		}, [] as GroupedGradingActivity[]);
 
 		// Paso 2: Ajustar los grupos que tengan un total menor a 100
-		grouped.forEach(group => {
+		grouped.forEach((group) => {
 			if (group.total < 100) {
 				// Calculamos la diferencia que falta para llegar a 100
 				const difference = 100 - group.total;
@@ -103,7 +116,7 @@ export class ScoreSystemComponent implements OnInit {
 		});
 
 		// Paso 3: Retornar el array plano de GradingActivity con los puntos ajustados
-		return grouped.flatMap(group => group.grading);
+		return grouped.flatMap((group) => group.grading);
 	}
 
 	get content(): ContentBlock[] {

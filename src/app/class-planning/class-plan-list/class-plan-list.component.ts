@@ -12,39 +12,40 @@ import { ClassPlan } from '../../interfaces/class-plan';
 import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
-    selector: 'app-class-plan-list',
-    imports: [
-        MatButtonModule,
-        MatCardModule,
-        MatListModule,
-        DatePipe,
-        RouterModule,
-        MatIconModule,
-        MatTableModule,
-        PretifyPipe,
-    ],
-    templateUrl: './class-plan-list.component.html',
-    styleUrl: './class-plan-list.component.scss'
+	selector: 'app-class-plan-list',
+	imports: [
+		MatButtonModule,
+		MatCardModule,
+		MatListModule,
+		DatePipe,
+		RouterModule,
+		MatIconModule,
+		MatTableModule,
+		PretifyPipe,
+	],
+	templateUrl: './class-plan-list.component.html',
+	styleUrl: './class-plan-list.component.scss',
 })
 export class ClassPlanListComponent {
-  classPlansService = inject(ClassPlansService);
-  classPlans$ = this.classPlansService.findAll();
-  sb = inject(MatSnackBar);
+	classPlansService = inject(ClassPlansService);
+	classPlans$ = this.classPlansService.findAll();
+	sb = inject(MatSnackBar);
 
-  displayedColumns = ['section', 'subject', 'date', 'actions'];
+	displayedColumns = ['section', 'subject', 'date', 'actions'];
 
-  deletePlan(id: string) {
-    this.classPlansService.deletePlan(id).subscribe((res) => {
-      if (res.deletedCount === 1) {
-        this.classPlans$ = this.classPlansService.findAll();
-        this.sb.open('El Plan fue eliminado!', 'Ok', { duration: 2500 });
-      }
-    });
-  }
+	deletePlan(id: string) {
+		this.classPlansService.deletePlan(id).subscribe((res) => {
+			if (res.deletedCount === 1) {
+				this.classPlans$ = this.classPlansService.findAll();
+				this.sb.open('El Plan fue eliminado!', 'Ok', {
+					duration: 2500,
+				});
+			}
+		});
+	}
 
-  async download(plan: ClassPlan) {
-    this.sb.open('Estamos descargando tu plan.', 'Ok', { duration: 2500 });
-    await this.classPlansService.download(plan);
-  }
-
+	async download(plan: ClassPlan) {
+		this.sb.open('Estamos descargando tu plan.', 'Ok', { duration: 2500 });
+		await this.classPlansService.download(plan);
+	}
 }

@@ -1,41 +1,99 @@
 <div class="flex-wrapper">
-    <mat-card class="signup-card">
-        <mat-card-header>
-            <div style="display: flex; justify-content: center; width: 100%;">
-                <h2 mat-card-title>Reg&iacute;strate</h2>
-            </div>
-        </mat-card-header>
-        <mat-card-content>
-            <img src="/assets/base.png" style="display: block; margin: 0 auto 12px; width: 96px;">
-            <!-- <img src="/assets/teach.svg" class="teach-svg" alt=""> -->
-            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-                <mat-form-field appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input type="email" matInput formControlName="email">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Contrase&ntilde;a</mat-label>
-                    <input type="password" matInput formControlName="password">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Confirma tu Contrase&ntilde;a</mat-label>
-                    <input required type="password" matInput [formControl]="confirmation">
-                </mat-form-field>
-                <mat-checkbox required class="example-margin" formControlName="acceptConditions">He le&iacute;do y acepto los <a target="_blank" href="https://kitmaestro.com/conditions.html">t&eacute;rminos y condiciones</a> y la <a href="https://kitmaestro.com/privacy-policy.html" target="_blank">pol&iacute;tica de privacidad</a> de KitMaestro</mat-checkbox>
-                <div style="margin: 12px 0; display: flex; flex-direction: column; gap: 12px;">
-                    <button [disabled]="loading || signupForm.invalid || !validConfirmation" mat-flat-button color="primary"
-                        type="submit">Registrarme Ahora</button>
-                    <a mat-button [href]="apiUrl + (referrer ? ('?ref=' + referrer) : '')"><bi-icon icon="google"></bi-icon> Continuar con Google</a>
-                    <button style="display: none;" mat-flat-button color="link" (click)="signupWithFacebook()" type="button"><bi-icon
-                            icon="facebook"></bi-icon> Continuar con Facebook</button>
-                </div>
-            </form>
-        </mat-card-content>
-        <mat-card-actions>
-            <div style="width: 100%; padding: 0 6px; text-align: center;">
-                Ya tienes cuenta? <a [routerLink]="['/auth', 'login']">Inicia Sesi&oacute;n</a>
-            </div>
-            <!-- <a mat-flat-button style="margin-right: auto;" color="accent" target="_blank" href="https://wa.me/+18094659650?text=Hola!+Quiero+solicitar+una+cuenta+de+KitMaestro.+Me+puedes+dar+más+información?">Solicitar Cuenta</a> -->
-        </mat-card-actions>
-    </mat-card>
+	<mat-card class="signup-card">
+		<mat-card-header>
+			<div style="display: flex; justify-content: center; width: 100%">
+				<h2 mat-card-title>Reg&iacute;strate</h2>
+			</div>
+		</mat-card-header>
+		<mat-card-content>
+			<img
+				src="/assets/base.png"
+				style="display: block; margin: 0 auto 12px; width: 96px"
+			/>
+			<!-- <img src="/assets/teach.svg" class="teach-svg" alt=""> -->
+			<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+				<mat-form-field appearance="outline">
+					<mat-label>Email</mat-label>
+					<input type="email" matInput formControlName="email" />
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Contrase&ntilde;a</mat-label>
+					<input
+						type="password"
+						matInput
+						formControlName="password"
+					/>
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Confirma tu Contrase&ntilde;a</mat-label>
+					<input
+						required
+						type="password"
+						matInput
+						[formControl]="confirmation"
+					/>
+				</mat-form-field>
+				<mat-checkbox
+					required
+					class="example-margin"
+					formControlName="acceptConditions"
+					>He le&iacute;do y acepto los
+					<a
+						target="_blank"
+						href="https://kitmaestro.com/conditions.html"
+						>t&eacute;rminos y condiciones</a
+					>
+					y la
+					<a
+						href="https://kitmaestro.com/privacy-policy.html"
+						target="_blank"
+						>pol&iacute;tica de privacidad</a
+					>
+					de KitMaestro</mat-checkbox
+				>
+				<div
+					style="
+						margin: 12px 0;
+						display: flex;
+						flex-direction: column;
+						gap: 12px;
+					"
+				>
+					<button
+						[disabled]="
+							loading || signupForm.invalid || !validConfirmation
+						"
+						mat-flat-button
+						color="primary"
+						type="submit"
+					>
+						Registrarme Ahora
+					</button>
+					<a
+						mat-button
+						[href]="apiUrl + (referrer ? '?ref=' + referrer : '')"
+						><bi-icon icon="google"></bi-icon> Continuar con
+						Google</a
+					>
+					<button
+						style="display: none"
+						mat-flat-button
+						color="link"
+						(click)="signupWithFacebook()"
+						type="button"
+					>
+						<bi-icon icon="facebook"></bi-icon> Continuar con
+						Facebook
+					</button>
+				</div>
+			</form>
+		</mat-card-content>
+		<mat-card-actions>
+			<div style="width: 100%; padding: 0 6px; text-align: center">
+				Ya tienes cuenta?
+				<a [routerLink]="['/auth', 'login']">Inicia Sesi&oacute;n</a>
+			</div>
+			<!-- <a mat-flat-button style="margin-right: auto;" color="accent" target="_blank" href="https://wa.me/+18094659650?text=Hola!+Quiero+solicitar+una+cuenta+de+KitMaestro.+Me+puedes+dar+más+información?">Solicitar Cuenta</a> -->
+		</mat-card-actions>
+	</mat-card>
 </div>

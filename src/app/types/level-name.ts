@@ -1,1 +1,1 @@
-export type LevelName = "PRIMARIA" | "SECUNDARIA";
+export type LevelName = 'PRIMARIA' | 'SECUNDARIA';

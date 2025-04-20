@@ -1,2 +1,1 @@
-export interface AttendanceTableData {
-}
+export interface AttendanceTableData {}

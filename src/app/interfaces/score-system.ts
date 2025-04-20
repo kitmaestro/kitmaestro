@@ -21,5 +21,5 @@ export interface ScoreSystem {
 	section: ClassSection;
 	user: UserSettings;
 	content: ContentBlock[];
-	activities: GradingActivity[]
+	activities: GradingActivity[];
 }

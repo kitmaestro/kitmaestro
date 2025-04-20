@@ -1,9 +1,9 @@
 <app-loading [loading]="loading"></app-loading>
 @if (user) {
-  <app-navigation (signOut)="reset()"></app-navigation>
-  <div class="main-container">
-    <router-outlet></router-outlet>
-  </div>
+	<app-navigation (signOut)="reset()"></app-navigation>
+	<div class="main-container">
+		<router-outlet></router-outlet>
+	</div>
 } @else {
-  <router-outlet></router-outlet>
+	<router-outlet></router-outlet>
 }

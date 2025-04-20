@@ -4,24 +4,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { YouTubePlayer } from '@angular/youtube-player';
 
 interface TutorialVideo {
-  title: string;
-  description: string;
-  url: string;
-  time: string;
-  author: string;
-  authorLink: string;
+	title: string;
+	description: string;
+	url: string;
+	time: string;
+	author: string;
+	authorLink: string;
 }
 
 @Component({
-    selector: 'app-tutorials',
-    imports: [
-        MatCardModule,
-        MatButtonModule,
-        YouTubePlayer,
-    ],
-    templateUrl: './tutorials.component.html',
-    styleUrl: './tutorials.component.scss'
+	selector: 'app-tutorials',
+	imports: [MatCardModule, MatButtonModule, YouTubePlayer],
+	templateUrl: './tutorials.component.html',
+	styleUrl: './tutorials.component.scss',
 })
 export class TutorialsComponent {
-  tutorials: TutorialVideo[] = [];
+	tutorials: TutorialVideo[] = [];
 }

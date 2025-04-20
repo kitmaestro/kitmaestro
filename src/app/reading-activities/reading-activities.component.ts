@@ -13,68 +13,77 @@ import { ReadingActivityDetailComponent } from './reading-activity-detail.compon
 import { DatePipe } from '@angular/common';
 
 @Component({
-    selector: 'app-reading-activities',
-    imports: [
-        RouterLink,
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTableModule,
-        MatSnackBarModule,
-        DatePipe,
-        PretifyPipe,
-        MatDialogModule,
-    ],
-    templateUrl: './reading-activities.component.html'
+	selector: 'app-reading-activities',
+	imports: [
+		RouterLink,
+		MatCardModule,
+		MatButtonModule,
+		MatIconModule,
+		MatTableModule,
+		MatSnackBarModule,
+		DatePipe,
+		PretifyPipe,
+		MatDialogModule,
+	],
+	templateUrl: './reading-activities.component.html',
 })
 export class ReadingActivitiesComponent implements OnInit {
-  private activityService = inject(ReadingActivityService);
-  private sb = inject(MatSnackBar);
-  private dialog = inject(MatDialog);
+	private activityService = inject(ReadingActivityService);
+	private sb = inject(MatSnackBar);
+	private dialog = inject(MatDialog);
 
-  printing = false;
-  public activities: ReadingActivity[] = [];
-  public displayedColumns = ['section', 'creationDate', 'level', 'title', 'questions', 'actions'];
+	printing = false;
+	public activities: ReadingActivity[] = [];
+	public displayedColumns = [
+		'section',
+		'creationDate',
+		'level',
+		'title',
+		'questions',
+		'actions',
+	];
 
-  ngOnInit() {
-    this.loadActivities();
-  }
+	ngOnInit() {
+		this.loadActivities();
+	}
 
-  loadActivities() {
-    const sus = this.activityService.findAll().subscribe({
-      next: activities => {
-        sus.unsubscribe();
-        if (activities.length) {
-          this.activities = activities;
-        }
-      },
-    })
-  }
+	loadActivities() {
+		const sus = this.activityService.findAll().subscribe({
+			next: (activities) => {
+				sus.unsubscribe();
+				if (activities.length) {
+					this.activities = activities;
+				}
+			},
+		});
+	}
 
-  openActivity(activity: ReadingActivity) {
-    this.dialog.open(ReadingActivityDetailComponent, {
-      data: activity,
-      width: '90%',
-      maxWidth: '1200px',
-    });
-  }
+	openActivity(activity: ReadingActivity) {
+		this.dialog.open(ReadingActivityDetailComponent, {
+			data: activity,
+			width: '90%',
+			maxWidth: '1200px',
+		});
+	}
 
-  pretify(str: string) {
-    return (new PretifyPipe()).transform(str);
-  }
+	pretify(str: string) {
+		return new PretifyPipe().transform(str);
+	}
 
-  deleteActivity(id: string) {
-    this.activityService.delete(id).subscribe(res => {
-      if (res.deletedCount === 1) {
-        this.sb.open('Se ha eliminado la actividad', 'Ok', { duration: 2500 });
-        this.loadActivities();
-      }
-    })
-  }
+	deleteActivity(id: string) {
+		this.activityService.delete(id).subscribe((res) => {
+			if (res.deletedCount === 1) {
+				this.sb.open('Se ha eliminado la actividad', 'Ok', {
+					duration: 2500,
+				});
+				this.loadActivities();
+			}
+		});
+	}
 
-  async downloadActivity(activity: ReadingActivity) {
-    this.printing = true;
-    await this.activityService.download(activity);
-    this.printing = false;
-  }
+	async downloadActivity(activity: ReadingActivity) {
+		this.printing = true;
+		await this.activityService.download(activity);
+		this.printing = false;
+	}
 }

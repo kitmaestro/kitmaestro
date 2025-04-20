@@ -10,41 +10,49 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-    selector: 'app-recover',
-    imports: [
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatSnackBarModule,
-        MatDialogModule,
-        MatButtonModule,
-        MatInputModule,
-        MatIconModule,
-    ],
-    templateUrl: './recover.component.html',
-    styleUrl: './recover.component.scss'
+	selector: 'app-recover',
+	imports: [
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatSnackBarModule,
+		MatDialogModule,
+		MatButtonModule,
+		MatInputModule,
+		MatIconModule,
+	],
+	templateUrl: './recover.component.html',
+	styleUrl: './recover.component.scss',
 })
 export class RecoverComponent {
-  private fb = inject(FormBuilder);
-  private sb = inject(MatSnackBar);
-  private dialogRef = inject(DialogRef<RecoverComponent>);
-  private authService = inject(AuthService);
+	private fb = inject(FormBuilder);
+	private sb = inject(MatSnackBar);
+	private dialogRef = inject(DialogRef<RecoverComponent>);
+	private authService = inject(AuthService);
 
-  email = this.fb.control('', [Validators.email, Validators.required]);
+	email = this.fb.control('', [Validators.email, Validators.required]);
 
-  onSubmit() {
-    const email = this.email.value;
-    if (!email) return;
+	onSubmit() {
+		const email = this.email.value;
+		if (!email) return;
 
-    this.authService.recover(email.trim()).subscribe({
-      next: (res) => {
-        console.log(res)
-        this.sb.open('El correo de recuperacion ha sido enviado!', 'Ok', { duration: 2500 });
-        this.dialogRef.close();
-      },
-      error: (err) => {
-        console.log(err.message)
-        this.sb.open('Ha ocurrido un problema. Intentalo de nuevo.', 'Ok', { duration: 2500 });
-      }
-    });
-  }
+		this.authService.recover(email.trim()).subscribe({
+			next: (res) => {
+				console.log(res);
+				this.sb.open(
+					'El correo de recuperacion ha sido enviado!',
+					'Ok',
+					{ duration: 2500 },
+				);
+				this.dialogRef.close();
+			},
+			error: (err) => {
+				console.log(err.message);
+				this.sb.open(
+					'Ha ocurrido un problema. Intentalo de nuevo.',
+					'Ok',
+					{ duration: 2500 },
+				);
+			},
+		});
+	}
 }

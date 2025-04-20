@@ -9,57 +9,63 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-checklists',
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSnackBarModule,
-    PretifyPipe,
-    RouterLink,
-  ],
-  templateUrl: './checklists.component.html',
-  styleUrl: './checklists.component.scss'
+	selector: 'app-checklists',
+	imports: [
+		MatCardModule,
+		MatButtonModule,
+		MatIconModule,
+		MatSnackBarModule,
+		PretifyPipe,
+		RouterLink,
+	],
+	templateUrl: './checklists.component.html',
+	styleUrl: './checklists.component.scss',
 })
 export class ChecklistsComponent implements OnInit {
-  private checklistService = inject(ChecklistService);
-  private sb = inject(MatSnackBar);
+	private checklistService = inject(ChecklistService);
+	private sb = inject(MatSnackBar);
 
-  checklists: Checklist[] = [];
+	checklists: Checklist[] = [];
 
-  load() {
-    this.checklistService.findAll().subscribe({
-      next: checklists => {
-        if (checklists.length) {
-          this.checklists = checklists;
-        }
-      }
-    });
-  }
+	load() {
+		this.checklistService.findAll().subscribe({
+			next: (checklists) => {
+				if (checklists.length) {
+					this.checklists = checklists;
+				}
+			},
+		});
+	}
 
-  ngOnInit() {
-    this.load();
-  }
+	ngOnInit() {
+		this.load();
+	}
 
-  download(checklist: Checklist) {
-    this.checklistService.download(checklist);
-  }
+	download(checklist: Checklist) {
+		this.checklistService.download(checklist);
+	}
 
-  delete(id: string) {
-    this.checklistService.delete(id).subscribe({
-      next: res => {
-        if (res.deletedCount > 0) {
-          this.sb.open('Se ha eliminado la lista de cotejo.', 'Ok', { duration: 2500 });
-        } else {
-          this.sb.open('Ha ocurrido un error al eliminar', 'Ok', { duration: 2500 });
-        }
-        this.load();
-      },
-      error: err => {
-        this.load();
-        this.sb.open('Ha ocurrido un error al eliminar', 'Ok', { duration: 2500 });
-        console.log(err.message);
-      }
-    });
-  }
+	delete(id: string) {
+		this.checklistService.delete(id).subscribe({
+			next: (res) => {
+				if (res.deletedCount > 0) {
+					this.sb.open('Se ha eliminado la lista de cotejo.', 'Ok', {
+						duration: 2500,
+					});
+				} else {
+					this.sb.open('Ha ocurrido un error al eliminar', 'Ok', {
+						duration: 2500,
+					});
+				}
+				this.load();
+			},
+			error: (err) => {
+				this.load();
+				this.sb.open('Ha ocurrido un error al eliminar', 'Ok', {
+					duration: 2500,
+				});
+				console.log(err.message);
+			},
+		});
+	}
 }

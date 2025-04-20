@@ -12,39 +12,40 @@ import { DidacticResourceService } from '../../services/didactic-resource.servic
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-resources-dashboard',
-    templateUrl: './resources-dashboard.component.html',
-    styleUrl: './resources-dashboard.component.scss',
-    imports: [
-        MatGridListModule,
-        MatMenuModule,
-        MatIconModule,
-        MatButtonModule,
-        MatCardModule,
-        MatDialogModule,
-        MatSnackBarModule,
-        IsEmptyComponent
-    ]
+	selector: 'app-resources-dashboard',
+	templateUrl: './resources-dashboard.component.html',
+	styleUrl: './resources-dashboard.component.scss',
+	imports: [
+		MatGridListModule,
+		MatMenuModule,
+		MatIconModule,
+		MatButtonModule,
+		MatCardModule,
+		MatDialogModule,
+		MatSnackBarModule,
+		IsEmptyComponent,
+	],
 })
 export class ResourcesDashboardComponent implements OnInit {
-  private dialog = inject(MatDialog);
-  private resourceService = inject(DidacticResourceService);
-  private sb = inject(MatSnackBar);
-  public resources: DidacticResource[] = [];
+	private dialog = inject(MatDialog);
+	private resourceService = inject(DidacticResourceService);
+	private sb = inject(MatSnackBar);
+	public resources: DidacticResource[] = [];
 
-  ngOnInit() {
-    this.resourceService.findMyResources().subscribe({
-      next: (resources) => {
-        if (resources.length)
-          this.resources = resources;
-      },
-      error: (err) => {
-        this.sb.open('Error al cargar tus recursos', 'Ok', { duration: 2500 });
-      }
-    })
-  }
+	ngOnInit() {
+		this.resourceService.findMyResources().subscribe({
+			next: (resources) => {
+				if (resources.length) this.resources = resources;
+			},
+			error: (err) => {
+				this.sb.open('Error al cargar tus recursos', 'Ok', {
+					duration: 2500,
+				});
+			},
+		});
+	}
 
-  createResource() {
-    this.dialog.open(ResourceFormComponent);
-  }
+	createResource() {
+		this.dialog.open(ResourceFormComponent);
+	}
 }

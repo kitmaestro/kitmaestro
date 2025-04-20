@@ -1,48 +1,70 @@
-<mat-card style="margin-bottom: 42px;">
-    <mat-card-header>
-        <h2 mat-card-title>Notificaciones</h2>
-        @if (authorUser) {
-            <span style="flex: 1 1 auto;"></span>
-            <button mat-mini-fab type="button" routerLink="/updates/new" color="primary">
-                <mat-icon>add</mat-icon>
-            </button>
-        }
-    </mat-card-header>
+<mat-card style="margin-bottom: 42px">
+	<mat-card-header>
+		<h2 mat-card-title>Notificaciones</h2>
+		@if (authorUser) {
+			<span style="flex: 1 1 auto"></span>
+			<button
+				mat-mini-fab
+				type="button"
+				routerLink="/updates/new"
+				color="primary"
+			>
+				<mat-icon>add</mat-icon>
+			</button>
+		}
+	</mat-card-header>
 </mat-card>
 <mat-accordion>
-    @for (update of (updates$ | async); track update; let i = $index) {
-        <mat-expansion-panel [expanded]="i === 0">
-            <mat-expansion-panel-header>
-                <mat-panel-title>{{ update.title }}</mat-panel-title>
-                <mat-panel-description>{{ update.description }}</mat-panel-description>
-            </mat-expansion-panel-header>
-            <p>
-                <b>{{ update.author }}</b><br>
-                {{ update.date | date : 'dd/MM/YYYY' }}
-                <br><br>
-                @if (update.type === 'notice') {
-                    <i>Actualizaci&oacute;n</i>
-                } @else if (update.type === 'feature') {
-                    <i>¡Nueva Funci&oacute;n Disponible!</i>
-                } @else {
-                    <i>¡Error Arreglado!</i>
-                }
-                <br><br>
-                @for (paragraph of update.content.split("\n"); track $index) {
-                    {{ paragraph }}
-                    @if ($index < update.content.split('\n').length - 1) {
-                        <br><br>
-                    }
-                }
-                <span style="display: block; margin-top: 24px;">
-                    @for (action of update.actions; track action) {
-                        <button mat-raised-button color="link" style="margin-right: 12px;" [routerLink]="action.link">{{action.label}}</button>
-                    }
-                    @for (link of update.links || []; track link) {
-                        <a mat-raised-button color="link" style="margin-right: 12px;" [target]="link.external ? '_blank' : ''" [href]="link.link">{{link.label}}</a>
-                    }
-                </span>
-            </p>
-        </mat-expansion-panel>
-    }
+	@for (update of updates$ | async; track update; let i = $index) {
+		<mat-expansion-panel [expanded]="i === 0">
+			<mat-expansion-panel-header>
+				<mat-panel-title>{{ update.title }}</mat-panel-title>
+				<mat-panel-description>{{
+					update.description
+				}}</mat-panel-description>
+			</mat-expansion-panel-header>
+			<p>
+				<b>{{ update.author }}</b
+				><br />
+				{{ update.date | date: "dd/MM/YYYY" }}
+				<br /><br />
+				@if (update.type === "notice") {
+					<i>Actualizaci&oacute;n</i>
+				} @else if (update.type === "feature") {
+					<i>¡Nueva Funci&oacute;n Disponible!</i>
+				} @else {
+					<i>¡Error Arreglado!</i>
+				}
+				<br /><br />
+				@for (paragraph of update.content.split("\n"); track $index) {
+					{{ paragraph }}
+					@if ($index < update.content.split("\n").length - 1) {
+						<br /><br />
+					}
+				}
+				<span style="display: block; margin-top: 24px">
+					@for (action of update.actions; track action) {
+						<button
+							mat-raised-button
+							color="link"
+							style="margin-right: 12px"
+							[routerLink]="action.link"
+						>
+							{{ action.label }}
+						</button>
+					}
+					@for (link of update.links || []; track link) {
+						<a
+							mat-raised-button
+							color="link"
+							style="margin-right: 12px"
+							[target]="link.external ? '_blank' : ''"
+							[href]="link.link"
+							>{{ link.label }}</a
+						>
+					}
+				</span>
+			</p>
+		</mat-expansion-panel>
+	}
 </mat-accordion>

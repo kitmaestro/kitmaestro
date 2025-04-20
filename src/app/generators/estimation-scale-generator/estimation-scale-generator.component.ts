@@ -4,15 +4,11 @@ import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.com
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-    selector: 'app-estimation-scale-generator',
-    imports: [
-        IsPremiumComponent,
-        InProgressComponent,
-        MatCardModule,
-    ],
-    templateUrl: './estimation-scale-generator.component.html',
-    styleUrl: './estimation-scale-generator.component.scss'
+	selector: 'app-estimation-scale-generator',
+	imports: [IsPremiumComponent, InProgressComponent, MatCardModule],
+	templateUrl: './estimation-scale-generator.component.html',
+	styleUrl: './estimation-scale-generator.component.scss',
 })
 export class EstimationScaleGeneratorComponent {
-  working = false;
+	working = false;
 }

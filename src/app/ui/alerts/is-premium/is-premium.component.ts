@@ -8,32 +8,38 @@ import { map, Observable, tap } from 'rxjs';
 import { UserSubscriptionService } from '../../../services/user-subscription.service';
 
 @Component({
-    selector: 'app-is-premium',
-    imports: [
-        RouterModule,
-        CommonModule,
-        MatCardModule,
-        MatListModule,
-        MatButtonModule,
-        AsyncPipe,
-    ],
-    templateUrl: './is-premium.component.html',
-    styleUrl: './is-premium.component.scss'
+	selector: 'app-is-premium',
+	imports: [
+		RouterModule,
+		CommonModule,
+		MatCardModule,
+		MatListModule,
+		MatButtonModule,
+		AsyncPipe,
+	],
+	templateUrl: './is-premium.component.html',
+	styleUrl: './is-premium.component.scss',
 })
 export class IsPremiumComponent implements OnInit {
-  private userSubscriptionService = inject(UserSubscriptionService);
+	private userSubscriptionService = inject(UserSubscriptionService);
 
-  public isPremium$: Observable<boolean> = this.userSubscriptionService.checkSubscription().pipe(
-    map(sub => sub.status === 'active' && !sub.subscriptionType.toLowerCase().includes('free') && +(new Date(sub.endDate)) > +(new Date())),
-    tap(premium => {
-      this.loading = false;
-      this.onLoaded.emit(premium)
-    })
-  );
-  public loading = true;
+	public isPremium$: Observable<boolean> = this.userSubscriptionService
+		.checkSubscription()
+		.pipe(
+			map(
+				(sub) =>
+					sub.status === 'active' &&
+					!sub.subscriptionType.toLowerCase().includes('free') &&
+					+new Date(sub.endDate) > +new Date(),
+			),
+			tap((premium) => {
+				this.loading = false;
+				this.onLoaded.emit(premium);
+			}),
+		);
+	public loading = true;
 
-  @Output() onLoaded = new EventEmitter<boolean>();
+	@Output() onLoaded = new EventEmitter<boolean>();
 
-  ngOnInit() {
-  }
+	ngOnInit() {}
 }

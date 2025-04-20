@@ -1,12 +1,12 @@
 .fields-grid {
-    display: grid;
-    gap: 12px;
+	display: grid;
+	gap: 12px;
 
-    &.col-3 {
-        grid-template-columns: repeat(3, 1fr);
-    }
+	&.col-3 {
+		grid-template-columns: repeat(3, 1fr);
+	}
 
-    &.col-4 {
-        grid-template-columns: repeat(4, 1fr);
-    }
+	&.col-4 {
+		grid-template-columns: repeat(4, 1fr);
+	}
 }

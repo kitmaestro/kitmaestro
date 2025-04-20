@@ -6,30 +6,22 @@ import { EMPTY, Observable } from 'rxjs';
 import { ClassSection } from '../interfaces/class-section';
 
 @Component({
-  selector: 'app-datacenter',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatTableModule,
-    RouterModule,
-  ],
-  templateUrl: './datacenter.component.html',
-  styleUrl: './datacenter.component.scss'
+	selector: 'app-datacenter',
+	standalone: true,
+	imports: [MatCardModule, MatTableModule, RouterModule],
+	templateUrl: './datacenter.component.html',
+	styleUrl: './datacenter.component.scss',
 })
 export class DatacenterComponent implements OnInit {
-  sections: Observable<ClassSection[]> = EMPTY;
+	sections: Observable<ClassSection[]> = EMPTY;
 
-  sectionsColumns = ['name', 'level', 'grade', 'subjects'];
+	sectionsColumns = ['name', 'level', 'grade', 'subjects'];
 
-  ngOnInit(): void {
-  }
+	ngOnInit(): void {}
 
-  addSection(section: ClassSection) {
-  }
+	addSection(section: ClassSection) {}
 
-  removeSection(section: ClassSection) {
-  }
+	removeSection(section: ClassSection) {}
 
-  updateSection(section: ClassSection, updated: any) {
-  }
+	updateSection(section: ClassSection, updated: any) {}
 }

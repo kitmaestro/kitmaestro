@@ -1,106 +1,189 @@
 <mat-card>
-    <mat-card-header>
-        <mat-card-title>Actualizaciones</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <div style="margin-top: 12px;">
-            <h2>Crear Nueva Entrada</h2>
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                <div style="display: flex; gap: 12px; margin-top: 24px;">
-                    <div style="flex: 1 1 auto;">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Tipo de Publicaci&oacute;n</mat-label>
-                            <mat-select formControlName="type">
-                                @for (option of postType; track $index) {
-                                    <mat-option [value]="option.id">{{option.label}}</mat-option>
-                                }
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div style="flex: 1 1 auto;">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Fecha</mat-label>
-                            <input type="date" matInput formControlName="date">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div>
-                    <mat-form-field appearance="outline">
-                        <mat-label>T&iacute;tulo</mat-label>
-                        <input type="text" matInput formControlName="title">
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Descripci&oacute;n</mat-label>
-                        <input type="text" matInput formControlName="description">
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Contenido</mat-label>
-                        <textarea matInput formControlName="content" rows="4"></textarea>
-                    </mat-form-field>
-                </div>
-                <div formArrayName="links">
-                    <h3>Enlaces</h3>
-                    @for (control of links.controls; track $index) {
-                        <div [formGroupName]="$index" style="display: grid; gap: 12px; grid-template-columns: 2fr 2fr 1fr 1fr;">
-                            <div>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Nombre</mat-label>
-                                    <input type="text" matInput formControlName="label">
-                                </mat-form-field>
-                            </div>
-                            <div>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Link</mat-label>
-                                    <input type="text" matInput formControlName="link">
-                                </mat-form-field>
-                            </div>
-                            <div>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Es externo?</mat-label>
-                                    <mat-select formControlName="external">
-                                        <mat-option [value]="true">Si</mat-option>
-                                        <mat-option [value]="false">No</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div>
-                                <button type="button" (click)="removeLink($index)" mat-raised-button color="warn">Eliminar</button>
-                            </div>
-                        </div>
-                    }
-                    <button mat-raised-button type="button" color="accent" (click)="addLink()">Agregar Enlace</button>
-                </div>
-                <div formArrayName="actions" style="margin-top: 12px;">
-                    <h3>Acciones</h3>
-                    @for (control of actions.controls; track $index) {
-                        <div [formGroupName]="$index" style="display: grid; gap: 12px; grid-template-columns: 2fr 2fr 1fr;">
-                            <div>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Nombre</mat-label>
-                                    <input type="text" matInput formControlName="label">
-                                </mat-form-field>
-                            </div>
-                            <div>
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Link</mat-label>
-                                    <input type="text" matInput formControlName="link">
-                                </mat-form-field>
-                            </div>
-                            <div>
-                                <button type="button" (click)="removeAction($index)" mat-raised-button color="warn">Eliminar</button>
-                            </div>
-                        </div>
-                    }
-                    <button mat-raised-button type="button" color="accent" (click)="addAction()">Agregar Acci&oacute;n</button>
-                </div>
-                <div style="margin-top: 24px;">
-                    <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </mat-card-content>
+	<mat-card-header>
+		<mat-card-title>Actualizaciones</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<div style="margin-top: 12px">
+			<h2>Crear Nueva Entrada</h2>
+			<form [formGroup]="form" (ngSubmit)="onSubmit()">
+				<div style="display: flex; gap: 12px; margin-top: 24px">
+					<div style="flex: 1 1 auto">
+						<mat-form-field appearance="outline">
+							<mat-label>Tipo de Publicaci&oacute;n</mat-label>
+							<mat-select formControlName="type">
+								@for (option of postType; track $index) {
+									<mat-option [value]="option.id">{{
+										option.label
+									}}</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div style="flex: 1 1 auto">
+						<mat-form-field appearance="outline">
+							<mat-label>Fecha</mat-label>
+							<input
+								type="date"
+								matInput
+								formControlName="date"
+							/>
+						</mat-form-field>
+					</div>
+				</div>
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>T&iacute;tulo</mat-label>
+						<input type="text" matInput formControlName="title" />
+					</mat-form-field>
+				</div>
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Descripci&oacute;n</mat-label>
+						<input
+							type="text"
+							matInput
+							formControlName="description"
+						/>
+					</mat-form-field>
+				</div>
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Contenido</mat-label>
+						<textarea
+							matInput
+							formControlName="content"
+							rows="4"
+						></textarea>
+					</mat-form-field>
+				</div>
+				<div formArrayName="links">
+					<h3>Enlaces</h3>
+					@for (control of links.controls; track $index) {
+						<div
+							[formGroupName]="$index"
+							style="
+								display: grid;
+								gap: 12px;
+								grid-template-columns: 2fr 2fr 1fr 1fr;
+							"
+						>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Nombre</mat-label>
+									<input
+										type="text"
+										matInput
+										formControlName="label"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Link</mat-label>
+									<input
+										type="text"
+										matInput
+										formControlName="link"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Es externo?</mat-label>
+									<mat-select formControlName="external">
+										<mat-option [value]="true"
+											>Si</mat-option
+										>
+										<mat-option [value]="false"
+											>No</mat-option
+										>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div>
+								<button
+									type="button"
+									(click)="removeLink($index)"
+									mat-raised-button
+									color="warn"
+								>
+									Eliminar
+								</button>
+							</div>
+						</div>
+					}
+					<button
+						mat-raised-button
+						type="button"
+						color="accent"
+						(click)="addLink()"
+					>
+						Agregar Enlace
+					</button>
+				</div>
+				<div formArrayName="actions" style="margin-top: 12px">
+					<h3>Acciones</h3>
+					@for (control of actions.controls; track $index) {
+						<div
+							[formGroupName]="$index"
+							style="
+								display: grid;
+								gap: 12px;
+								grid-template-columns: 2fr 2fr 1fr;
+							"
+						>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Nombre</mat-label>
+									<input
+										type="text"
+										matInput
+										formControlName="label"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Link</mat-label>
+									<input
+										type="text"
+										matInput
+										formControlName="link"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<button
+									type="button"
+									(click)="removeAction($index)"
+									mat-raised-button
+									color="warn"
+								>
+									Eliminar
+								</button>
+							</div>
+						</div>
+					}
+					<button
+						mat-raised-button
+						type="button"
+						color="accent"
+						(click)="addAction()"
+					>
+						Agregar Acci&oacute;n
+					</button>
+				</div>
+				<div style="margin-top: 24px">
+					<button
+						type="submit"
+						[disabled]="form.invalid"
+						mat-raised-button
+						color="primary"
+					>
+						Guardar
+					</button>
+				</div>
+			</form>
+		</div>
+	</mat-card-content>
 </mat-card>

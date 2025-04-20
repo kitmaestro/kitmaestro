@@ -1,121 +1,238 @@
-<mat-card style="margin-bottom: 24px;">
-    <mat-card-header>
-        <h2 mat-card-title>Generador de Ejercicios con Ant&oacute;nimos</h2>
-    </mat-card-header>
-    <mat-card-content>
-        <form [formGroup]="antonymsForm" (ngSubmit)="generateSynonyms()">
-            <div style="display: flex; gap: 16px;">
-                <div style="min-width: 25%;">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Nivel</mat-label>
-                        <mat-select formControlName="level">
-                            @for(option of levels; track option.id) {
-                                <mat-option [value]="option.id">{{option.level}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div style="min-width: 25%;">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Tema</mat-label>
-                        <mat-select formControlName="topic">
-                            @for(option of topics; track $index) {
-                                <mat-option [value]="option">{{option}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div style="min-width: 25%;">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Cantidad de Palabras</mat-label>
-                        <input matInput formControlName="size" type="number" min="1" max="25">
-                    </mat-form-field>
-                </div>
-                <div style="min-width: 25%;">
-                    <mat-label>Campos a Incluir:</mat-label>
-                    <mat-chip-set>
-                        <mat-chip-option [selected]="true" (selectionChange)="toggleName()">Nombre</mat-chip-option>
-                        <mat-chip-option [selected]="true" (selectionChange)="toggleGrade()">Grado</mat-chip-option>
-                        <mat-chip-option [selected]="true" (selectionChange)="toggleDate()">Fecha</mat-chip-option>
-                    </mat-chip-set>
-                </div>
-            </div>
-            @if (antonyms.length) {
-            <div style="padding: 20px; background-color: #46a7f5; color: white; margin-bottom: 15px;">
-                Para reemplazar cualquiera de las palabras generadas, haz doble click sobre ella. Tambien puedes hacer
-                un click a cualquier respuesta para ver otras respuestas v&aacute;lidas.
-            </div>
-            }
-            @if (antonyms.length) {
-            <button type="button" (click)="print()" style="margin-right: 12px;" mat-raised-button
-                color="accent">Imprimir</button>
-            }
-            <button type="submit" mat-raised-button color="primary">{{ antonyms.length ? 'Regenerar' : 'Generar'
-                }}</button>
-        </form>
-    </mat-card-content>
+<mat-card style="margin-bottom: 24px">
+	<mat-card-header>
+		<h2 mat-card-title>Generador de Ejercicios con Ant&oacute;nimos</h2>
+	</mat-card-header>
+	<mat-card-content>
+		<form [formGroup]="antonymsForm" (ngSubmit)="generateSynonyms()">
+			<div style="display: flex; gap: 16px">
+				<div style="min-width: 25%">
+					<mat-form-field appearance="outline">
+						<mat-label>Nivel</mat-label>
+						<mat-select formControlName="level">
+							@for (option of levels; track option.id) {
+								<mat-option [value]="option.id">{{
+									option.level
+								}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div style="min-width: 25%">
+					<mat-form-field appearance="outline">
+						<mat-label>Tema</mat-label>
+						<mat-select formControlName="topic">
+							@for (option of topics; track $index) {
+								<mat-option [value]="option">{{
+									option
+								}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div style="min-width: 25%">
+					<mat-form-field appearance="outline">
+						<mat-label>Cantidad de Palabras</mat-label>
+						<input
+							matInput
+							formControlName="size"
+							type="number"
+							min="1"
+							max="25"
+						/>
+					</mat-form-field>
+				</div>
+				<div style="min-width: 25%">
+					<mat-label>Campos a Incluir:</mat-label>
+					<mat-chip-set>
+						<mat-chip-option
+							[selected]="true"
+							(selectionChange)="toggleName()"
+							>Nombre</mat-chip-option
+						>
+						<mat-chip-option
+							[selected]="true"
+							(selectionChange)="toggleGrade()"
+							>Grado</mat-chip-option
+						>
+						<mat-chip-option
+							[selected]="true"
+							(selectionChange)="toggleDate()"
+							>Fecha</mat-chip-option
+						>
+					</mat-chip-set>
+				</div>
+			</div>
+			@if (antonyms.length) {
+				<div
+					style="
+						padding: 20px;
+						background-color: #46a7f5;
+						color: white;
+						margin-bottom: 15px;
+					"
+				>
+					Para reemplazar cualquiera de las palabras generadas, haz
+					doble click sobre ella. Tambien puedes hacer un click a
+					cualquier respuesta para ver otras respuestas
+					v&aacute;lidas.
+				</div>
+			}
+			@if (antonyms.length) {
+				<button
+					type="button"
+					(click)="print()"
+					style="margin-right: 12px"
+					mat-raised-button
+					color="accent"
+				>
+					Imprimir
+				</button>
+			}
+			<button type="submit" mat-raised-button color="primary">
+				{{ antonyms.length ? "Regenerar" : "Generar" }}
+			</button>
+		</form>
+	</mat-card-content>
 </mat-card>
 
-@if(antonyms.length) {
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px;">
-    <mat-card>
-        <mat-card-content>
-            <div class="page" id="antonyms" style="padding: 12px;">
-                <div style="text-align: center;">
-                    <h3 style="margin-bottom: 0; font-weight: bold; font-size: large;">{{ schoolName }}</h3>
-                    <h4 style="margin-bottom: 0;">{{ teacherName }}</h4>
-                    <h5 style="font-size: medium; margin-bottom: 24px;">Escribe un Ant&oacute;nimo</h5>
-                </div>
-                <br>
-                <div style="margin-bottom: 42px; display: flex;">
-                    @if(antonymsForm.get('name')?.value === true) {
-                    <div><b>Nombre</b>:</div>
-                    <div class="blank"></div>
-                    }
-                    @if(antonymsForm.get('grade')?.value === true) {
-                    <div style="margin-left: 12px;"><b>Grado</b>:</div>
-                    <div class="blank"></div>
-                    }
-                    @if(antonymsForm.get('date')?.value === true) {
-                    <div style="margin-left: 12px;"><b>Fecha</b>:</div>
-                    <div style="max-width: 20%;" class="blank"></div>
-                    }
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    @for(line of antonyms; track $index) {
-                    <div style="display: flex; justify-content: space-between;">
-                        <div (dblclick)="changeWord($index)" style="margin-left: 12px;"><b>{{ ($index +
-                                1).toString().padStart(2, '0') }}) <span
-                                    style="letter-spacing: 3px; font-family: serif;">{{ line.word.toUpperCase()
-                                    }}</span></b>:</div>
-                        <div style="max-width: 50%; margin-left: auto" class="blank"></div>
-                    </div>
-                    }
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
-    <mat-card>
-        <mat-card-content>
-            <div class="page" id="antonyms-solution" style="padding: 12px;">
-                <div style="text-align: center; margin-bottom: 24px;">
-                    <h4 style="margin-bottom: 0;">Escribe un Ant&oacute;nimo</h4>
-                    <h5 style="font-size: medium; margin-bottom: 24px;">Hoja de Respuestas</h5>
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    @for(line of antonyms; track $index) {
-                    <div style="display: flex; justify-content: space-between;">
-                        <div style="margin-left: 12px;"><b>{{ ($index + 1).toString().padStart(2, '0') }}) <span
-                                    style="letter-spacing: 3px; font-family: serif;">{{ line.word.toUpperCase()
-                                    }}</span></b>:</div>
-                        <div (click)="changeSolution($index)"
-                            style="max-width: 50%; margin-left: auto; text-align: center;" class="blank">{{
-                            line.antonyms[solutionShown[$index]].toUpperCase() }}</div>
-                    </div>
-                    }
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
-</div>
+@if (antonyms.length) {
+	<div
+		style="
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 24px;
+			margin-top: 24px;
+		"
+	>
+		<mat-card>
+			<mat-card-content>
+				<div class="page" id="antonyms" style="padding: 12px">
+					<div style="text-align: center">
+						<h3
+							style="
+								margin-bottom: 0;
+								font-weight: bold;
+								font-size: large;
+							"
+						>
+							{{ schoolName }}
+						</h3>
+						<h4 style="margin-bottom: 0">{{ teacherName }}</h4>
+						<h5 style="font-size: medium; margin-bottom: 24px">
+							Escribe un Ant&oacute;nimo
+						</h5>
+					</div>
+					<br />
+					<div style="margin-bottom: 42px; display: flex">
+						@if (antonymsForm.get("name")?.value === true) {
+							<div><b>Nombre</b>:</div>
+							<div class="blank"></div>
+						}
+						@if (antonymsForm.get("grade")?.value === true) {
+							<div style="margin-left: 12px"><b>Grado</b>:</div>
+							<div class="blank"></div>
+						}
+						@if (antonymsForm.get("date")?.value === true) {
+							<div style="margin-left: 12px"><b>Fecha</b>:</div>
+							<div style="max-width: 20%" class="blank"></div>
+						}
+					</div>
+					<div
+						style="display: flex; flex-direction: column; gap: 16px"
+					>
+						@for (line of antonyms; track $index) {
+							<div
+								style="
+									display: flex;
+									justify-content: space-between;
+								"
+							>
+								<div
+									(dblclick)="changeWord($index)"
+									style="margin-left: 12px"
+								>
+									<b
+										>{{
+											($index + 1)
+												.toString()
+												.padStart(2, "0")
+										}})
+										<span
+											style="
+												letter-spacing: 3px;
+												font-family: serif;
+											"
+											>{{ line.word.toUpperCase() }}</span
+										></b
+									>:
+								</div>
+								<div
+									style="max-width: 50%; margin-left: auto"
+									class="blank"
+								></div>
+							</div>
+						}
+					</div>
+				</div>
+			</mat-card-content>
+		</mat-card>
+		<mat-card>
+			<mat-card-content>
+				<div class="page" id="antonyms-solution" style="padding: 12px">
+					<div style="text-align: center; margin-bottom: 24px">
+						<h4 style="margin-bottom: 0">
+							Escribe un Ant&oacute;nimo
+						</h4>
+						<h5 style="font-size: medium; margin-bottom: 24px">
+							Hoja de Respuestas
+						</h5>
+					</div>
+					<div
+						style="display: flex; flex-direction: column; gap: 16px"
+					>
+						@for (line of antonyms; track $index) {
+							<div
+								style="
+									display: flex;
+									justify-content: space-between;
+								"
+							>
+								<div style="margin-left: 12px">
+									<b
+										>{{
+											($index + 1)
+												.toString()
+												.padStart(2, "0")
+										}})
+										<span
+											style="
+												letter-spacing: 3px;
+												font-family: serif;
+											"
+											>{{ line.word.toUpperCase() }}</span
+										></b
+									>:
+								</div>
+								<div
+									(click)="changeSolution($index)"
+									style="
+										max-width: 50%;
+										margin-left: auto;
+										text-align: center;
+									"
+									class="blank"
+								>
+									{{
+										line.antonyms[
+											solutionShown[$index]
+										].toUpperCase()
+									}}
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+			</mat-card-content>
+		</mat-card>
+	</div>
 }

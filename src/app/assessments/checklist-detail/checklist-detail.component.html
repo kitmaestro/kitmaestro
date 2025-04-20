@@ -1,11 +1,15 @@
 <div>
-    <h2 style="text-align: center;">Detalles de la Lista de Cotejo</h2>
-    <div style="display: flex; gap: 12px; justify-content: center;">
-        <button mat-raised-button (click)="deleteList()" type="button">Eliminar</button>
-        <a mat-stroked-button routerLink="/checklists" type="button">Volver</a>
-        <button mat-flat-button (click)="download()" type="button">Descargar</button>
-    </div>
-    @if (checklist) {
-        <app-checklist [checklist]="checklist"></app-checklist>
-    }
+	<h2 style="text-align: center">Detalles de la Lista de Cotejo</h2>
+	<div style="display: flex; gap: 12px; justify-content: center">
+		<button mat-raised-button (click)="deleteList()" type="button">
+			Eliminar
+		</button>
+		<a mat-stroked-button routerLink="/checklists" type="button">Volver</a>
+		<button mat-flat-button (click)="download()" type="button">
+			Descargar
+		</button>
+	</div>
+	@if (checklist) {
+		<app-checklist [checklist]="checklist"></app-checklist>
+	}
 </div>

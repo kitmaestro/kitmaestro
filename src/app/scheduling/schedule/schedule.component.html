@@ -1,40 +1,73 @@
 @if (schedule) {
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>
-        {{schedule.section.name}} - {{schedule.section.school.name}} - {{pretifyFormat(schedule.format)}}
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <table>
-        <thead>
-          <tr>
-            <th style="max-width: fit-content;">Hora</th>
-            <th>Lunes</th>
-            <th>Martes</th>
-            <th>Miercoles</th>
-            <th>Jueves</th>
-            <th>Viernes</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (period of classPeriods; track period; let hour = $index) {
-          <tr>
-            <td style="max-width: fit-content; font-weight: bold;">{{stringToDate(hours[hour].startTime) | date : 'hh:mm a'}}
-              - {{stringToDate(hours[hour].endTime) | date : 'hh:mm a'}}</td>
-            @if (hours[hour].classSession) {
-            @for (day of daysOfWeek; track day) {
-            <td>
-              {{findSubject(day, hours[hour].startTime)}}
-            </td>
-            }
-            } @else {
-            <td style="text-align: center; font-weight: bold;" colspan="5">{{hours[hour].label}}</td>
-            }
-          </tr>
-          }
-        </tbody>
-      </table>
-    </mat-card-content>
-  </mat-card>
+	<mat-card>
+		<mat-card-header>
+			<mat-card-title>
+				{{ schedule.section.name }} -
+				{{ schedule.section.school.name }} -
+				{{ pretifyFormat(schedule.format) }}
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<table>
+				<thead>
+					<tr>
+						<th style="max-width: fit-content">Hora</th>
+						<th>Lunes</th>
+						<th>Martes</th>
+						<th>Miercoles</th>
+						<th>Jueves</th>
+						<th>Viernes</th>
+					</tr>
+				</thead>
+				<tbody>
+					@for (
+						period of classPeriods;
+						track period;
+						let hour = $index
+					) {
+						<tr>
+							<td
+								style="
+									max-width: fit-content;
+									font-weight: bold;
+								"
+							>
+								{{
+									stringToDate(hours[hour].startTime)
+										| date: "hh:mm a"
+								}}
+								-
+								{{
+									stringToDate(hours[hour].endTime)
+										| date: "hh:mm a"
+								}}
+							</td>
+							@if (hours[hour].classSession) {
+								@for (day of daysOfWeek; track day) {
+									<td>
+										{{
+											findSubject(
+												day,
+												hours[hour].startTime
+											)
+										}}
+									</td>
+								}
+							} @else {
+								<td
+									style="
+										text-align: center;
+										font-weight: bold;
+									"
+									colspan="5"
+								>
+									{{ hours[hour].label }}
+								</td>
+							}
+						</tr>
+					}
+				</tbody>
+			</table>
+		</mat-card-content>
+	</mat-card>
 }

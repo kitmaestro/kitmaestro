@@ -3,13 +3,11 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { Test } from '../../interfaces/test';
 
 @Component({
-  selector: 'app-test',
-  imports: [
-    MarkdownComponent,
-  ],
-  templateUrl: './test.component.html',
-  styleUrl: './test.component.scss'
+	selector: 'app-test',
+	imports: [MarkdownComponent],
+	templateUrl: './test.component.html',
+	styleUrl: './test.component.scss',
 })
 export class TestComponent {
-  data = input<string>('');
+	data = input<string>('');
 }

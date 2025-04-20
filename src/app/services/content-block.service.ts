@@ -7,42 +7,56 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class ContentBlockService {
-  private http = inject(HttpClient);
-  private apiBaseUrl = environment.apiUrl + 'content-blocks/';
-  private config = {
-    withCredentials: true,
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-    }),
-  };
+	private http = inject(HttpClient);
+	private apiBaseUrl = environment.apiUrl + 'content-blocks/';
+	private config = {
+		withCredentials: true,
+		headers: new HttpHeaders({
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+		}),
+	};
 
-  findAll(filters?: any): Observable<ContentBlock[]> {
-    let params = new HttpParams();
-    if (filters) {
-      Object.keys(filters).forEach(key => {
-        params = params.set(key, filters[key]);
-      });
-    }
-    return this.http.get<ContentBlock[]>(this.apiBaseUrl, { ...this.config, params });
-  }
+	findAll(filters?: any): Observable<ContentBlock[]> {
+		let params = new HttpParams();
+		if (filters) {
+			Object.keys(filters).forEach((key) => {
+				params = params.set(key, filters[key]);
+			});
+		}
+		return this.http.get<ContentBlock[]>(this.apiBaseUrl, {
+			...this.config,
+			params,
+		});
+	}
 
-  find(id: string): Observable<ContentBlock> {
-    return this.http.get<ContentBlock>(this.apiBaseUrl + id, this.config);
-  }
+	find(id: string): Observable<ContentBlock> {
+		return this.http.get<ContentBlock>(this.apiBaseUrl + id, this.config);
+	}
 
-  create(block: ContentBlock): Observable<ContentBlock> {
-    return this.http.post<ContentBlock>(this.apiBaseUrl, block, this.config);
-  }
+	create(block: ContentBlock): Observable<ContentBlock> {
+		return this.http.post<ContentBlock>(
+			this.apiBaseUrl,
+			block,
+			this.config,
+		);
+	}
 
-  update(id: string, block: any): Observable<ApiUpdateResponse> {
-    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, block, this.config);
-  }
+	update(id: string, block: any): Observable<ApiUpdateResponse> {
+		return this.http.patch<ApiUpdateResponse>(
+			this.apiBaseUrl + id,
+			block,
+			this.config,
+		);
+	}
 
-  delete(id: string): Observable<ApiDeleteResponse> {
-    return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id, this.config);
-  }
+	delete(id: string): Observable<ApiDeleteResponse> {
+		return this.http.delete<ApiDeleteResponse>(
+			this.apiBaseUrl + id,
+			this.config,
+		);
+	}
 }

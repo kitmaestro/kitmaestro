@@ -16,11 +16,11 @@ import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'app-users',
-    imports: [
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
+	selector: 'app-users',
+	imports: [
+		MatCardModule,
+		MatButtonModule,
+		MatIconModule,
 		MatTableModule,
 		RouterLink,
 		DatePipe,
@@ -29,9 +29,9 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 		MatFormFieldModule,
 		MatSnackBarModule,
 		MatInputModule,
-    ],
-    templateUrl: './users.component.html',
-    styleUrl: './users.component.scss'
+	],
+	templateUrl: './users.component.html',
+	styleUrl: './users.component.scss',
 })
 export class UsersComponent {
 	private userService = inject(UserSettingsService);
@@ -41,7 +41,14 @@ export class UsersComponent {
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
 
-	columnsToDisplay = ['name', 'sex', 'email', 'phone', 'memberSince', 'actions']
+	columnsToDisplay = [
+		'name',
+		'sex',
+		'email',
+		'phone',
+		'memberSince',
+		'actions',
+	];
 
 	users$ = this.userService.findAll();
 	subscriptions$ = this.subscriptionService.findAll();
@@ -59,25 +66,25 @@ export class UsersComponent {
 
 	deleteUser(id: string) {
 		this.userService.delete(id).subscribe({
-			next: res => {
+			next: (res) => {
 				if (res.deletedCount > 0) {
 					this.users$ = this.userService.findAll();
 				}
-			}
+			},
 		});
 	}
 
 	createUser() {
 		this.userService.create(this.userForm.value as any).subscribe({
-			next: res => {
+			next: (res) => {
 				if (res._id) {
 					this.users$ = this.userService.findAll();
 				}
 			},
-			error: err => {
+			error: (err) => {
 				this.sb.open('Usuario no guardado.', 'Ok', { duration: 2500 });
 				console.log(err.message);
-			}
+			},
 		});
 	}
 }

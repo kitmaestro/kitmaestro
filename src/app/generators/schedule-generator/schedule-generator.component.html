@@ -1,22 +1,22 @@
 <table>
-  <thead>
-    <tr>
-      <th>Hora</th>
-      <th>Lunes</th>
-      <th>Martes</th>
-      <th>Miercoles</th>
-      <th>Jueves</th>
-      <th>Viernes</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (sesion of sesiones; track $index) {
-      <tr>
-        <td>{{sesion.inicio}} - {{sesion.fin}}</td>
-          @for (hora of horario[$index]; track hora) {
-            <td>{{hora}}</td>
-          }
-      </tr>
-    }
-  </tbody>
+	<thead>
+		<tr>
+			<th>Hora</th>
+			<th>Lunes</th>
+			<th>Martes</th>
+			<th>Miercoles</th>
+			<th>Jueves</th>
+			<th>Viernes</th>
+		</tr>
+	</thead>
+	<tbody>
+		@for (sesion of sesiones; track $index) {
+			<tr>
+				<td>{{ sesion.inicio }} - {{ sesion.fin }}</td>
+				@for (hora of horario[$index]; track hora) {
+					<td>{{ hora }}</td>
+				}
+			</tr>
+		}
+	</tbody>
 </table>

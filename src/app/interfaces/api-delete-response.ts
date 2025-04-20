@@ -1,4 +1,4 @@
 export interface ApiDeleteResponse {
-    acknowledged: boolean,
-    deletedCount: number
+	acknowledged: boolean;
+	deletedCount: number;
 }

@@ -1,20 +1,6 @@
-import { SubjectAspects } from "../interfaces/subject-aspects";
+import { SubjectAspects } from '../interfaces/subject-aspects';
 
 export const FRENCH_ASPECTS: SubjectAspects = {
-    primary: [
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-    ],
-    highSchool: [
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-    ],
-}
+	primary: [[], [], [], [], [], []],
+	highSchool: [[], [], [], [], [], []],
+};

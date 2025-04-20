@@ -1,50 +1,116 @@
-<h2 style="font-size: 24pt; margin-bottom: 24px;">Calculadora de Promedios</h2>
+<h2 style="font-size: 24pt; margin-bottom: 24px">Calculadora de Promedios</h2>
 
 <div class="wrapper">
-    <div class="calculator-frame">
-        <div class="calculator-container">
-            <div class="screen">
-                <div class="history">({{history.join(' + ') || 0}}) / {{history.length}} = {{ average(history) }}</div>
-                <div class="current">({{currentCalculation.join(' + ') || 0}}) / {{currentCalculation.length}} = {{ average(currentCalculation) }}</div>
-                <div class="value">
-                    {{screenValue || 0}}
-                </div>
-            </div>
-            <div class="keyboard">
-                <div class="numberpad">
-                    <button color="link" mat-fab *ngFor="let key of numberKeys" class="key number" type="button" (click)="addNumber(key.value)">{{key.label}}</button>
-                    <button color="link" mat-fab class="key number" type="button" (click)="addPeriod()">.</button>
-                    <button color="link" mat-fab class="key number" type="button" (click)="addNumber(0)">0</button>
-                    <button color="link" mat-fab class="key number" type="button" (click)="sendGrade()"><mat-icon>send</mat-icon></button>
-                    <button color="link" mat-fab class="key number" type="button" (click)="reset()"><mat-icon>arrow_upward</mat-icon></button>
-                    <button color="link" mat-fab class="key number" type="button" (click)="clearScreen()">C</button>
-                    <button color="link" mat-fab class="key number" type="button" (click)="backspace()"><mat-icon>backspace</mat-icon></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="hide-under-md">
-        <h2>Controles</h2>
-        <mat-list>
-            <mat-list-item>
-                <mat-chip>0 - 9</mat-chip> Insertar N&uacute;mero
-            </mat-list-item>
-            <mat-list-item>
-                <mat-chip>.</mat-chip> Insertar Punto
-            </mat-list-item>
-            <mat-list-item>
-                <mat-chip><mat-icon>keyboard_return</mat-icon></mat-chip> Agregar Calificaci&oacute;n
-            </mat-list-item>
-            <mat-list-item>
-                <mat-chip><mat-icon>space_bar</mat-icon></mat-chip> Nuevo C&aacute;lculo
-            </mat-list-item>
-            <mat-list-item>
-                <mat-chip>Esc</mat-chip> Limpiar Pantalla
-            </mat-list-item>
-            <mat-list-item>
-                <mat-chip><mat-icon>backspace</mat-icon></mat-chip> Borrar
-            </mat-list-item>
-        </mat-list>
-    </div>
+	<div class="calculator-frame">
+		<div class="calculator-container">
+			<div class="screen">
+				<div class="history">
+					({{ history.join(" + ") || 0 }}) / {{ history.length }} =
+					{{ average(history) }}
+				</div>
+				<div class="current">
+					({{ currentCalculation.join(" + ") || 0 }}) /
+					{{ currentCalculation.length }} =
+					{{ average(currentCalculation) }}
+				</div>
+				<div class="value">
+					{{ screenValue || 0 }}
+				</div>
+			</div>
+			<div class="keyboard">
+				<div class="numberpad">
+					<button
+						color="link"
+						mat-fab
+						*ngFor="let key of numberKeys"
+						class="key number"
+						type="button"
+						(click)="addNumber(key.value)"
+					>
+						{{ key.label }}
+					</button>
+					<button
+						color="link"
+						mat-fab
+						class="key number"
+						type="button"
+						(click)="addPeriod()"
+					>
+						.
+					</button>
+					<button
+						color="link"
+						mat-fab
+						class="key number"
+						type="button"
+						(click)="addNumber(0)"
+					>
+						0
+					</button>
+					<button
+						color="link"
+						mat-fab
+						class="key number"
+						type="button"
+						(click)="sendGrade()"
+					>
+						<mat-icon>send</mat-icon>
+					</button>
+					<button
+						color="link"
+						mat-fab
+						class="key number"
+						type="button"
+						(click)="reset()"
+					>
+						<mat-icon>arrow_upward</mat-icon>
+					</button>
+					<button
+						color="link"
+						mat-fab
+						class="key number"
+						type="button"
+						(click)="clearScreen()"
+					>
+						C
+					</button>
+					<button
+						color="link"
+						mat-fab
+						class="key number"
+						type="button"
+						(click)="backspace()"
+					>
+						<mat-icon>backspace</mat-icon>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="hide-under-md">
+		<h2>Controles</h2>
+		<mat-list>
+			<mat-list-item>
+				<mat-chip>0 - 9</mat-chip> Insertar N&uacute;mero
+			</mat-list-item>
+			<mat-list-item>
+				<mat-chip>.</mat-chip> Insertar Punto
+			</mat-list-item>
+			<mat-list-item>
+				<mat-chip><mat-icon>keyboard_return</mat-icon></mat-chip>
+				Agregar Calificaci&oacute;n
+			</mat-list-item>
+			<mat-list-item>
+				<mat-chip><mat-icon>space_bar</mat-icon></mat-chip> Nuevo
+				C&aacute;lculo
+			</mat-list-item>
+			<mat-list-item>
+				<mat-chip>Esc</mat-chip> Limpiar Pantalla
+			</mat-list-item>
+			<mat-list-item>
+				<mat-chip><mat-icon>backspace</mat-icon></mat-chip> Borrar
+			</mat-list-item>
+		</mat-list>
+	</div>
 </div>

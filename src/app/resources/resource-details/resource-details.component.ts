@@ -15,96 +15,97 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 import { UserSettings } from '../../interfaces/user-settings';
 
 @Component({
-    selector: 'app-resource-details',
-    imports: [
-        SliderComponent,
-        CommonModule,
-        MatCardModule,
-        MatButtonModule,
-        MatSnackBarModule,
-        GravatarPipe,
-        PretifyPipe,
-        MatIconModule,
-    ],
-    templateUrl: './resource-details.component.html',
-    styleUrl: './resource-details.component.scss'
+	selector: 'app-resource-details',
+	imports: [
+		SliderComponent,
+		CommonModule,
+		MatCardModule,
+		MatButtonModule,
+		MatSnackBarModule,
+		GravatarPipe,
+		PretifyPipe,
+		MatIconModule,
+	],
+	templateUrl: './resource-details.component.html',
+	styleUrl: './resource-details.component.scss',
 })
 export class ResourceDetailsComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private sb = inject(MatSnackBar);
-  private didacticResourceService = inject(DidacticResourceService);
-  private settingsService = inject(UserSettingsService);
+	private route = inject(ActivatedRoute);
+	private router = inject(Router);
+	private sb = inject(MatSnackBar);
+	private didacticResourceService = inject(DidacticResourceService);
+	private settingsService = inject(UserSettingsService);
 
-  id = this.route.snapshot.paramMap.get('id') || '';
-  bookmarked = false;
-  downloading = false;
-  user: UserSettings | null = null;
-  resource: DidacticResource | null = null;
+	id = this.route.snapshot.paramMap.get('id') || '';
+	bookmarked = false;
+	downloading = false;
+	user: UserSettings | null = null;
+	resource: DidacticResource | null = null;
 
-  load() {
-    this.settingsService.getSettings().subscribe(user => {
-      this.user = user;
-      this.bookmarked = user.bookmarks.includes(this.id);
-    });
-    this.didacticResourceService.findOne(this.id).subscribe({
-      next: resource => {
-        if (resource)
-          this.resource = resource;
-      },
-      error: err => {
-        console.log(err)
-        this.router.navigateByUrl('/resources').then(() => {
-          this.sb.open('No se encontro el recurso');
-        });
-      }
-    });
-  }
+	load() {
+		this.settingsService.getSettings().subscribe((user) => {
+			this.user = user;
+			this.bookmarked = user.bookmarks.includes(this.id);
+		});
+		this.didacticResourceService.findOne(this.id).subscribe({
+			next: (resource) => {
+				if (resource) this.resource = resource;
+			},
+			error: (err) => {
+				console.log(err);
+				this.router.navigateByUrl('/resources').then(() => {
+					this.sb.open('No se encontro el recurso');
+				});
+			},
+		});
+	}
 
-  ngOnInit() {
-    this.load();
-  }
+	ngOnInit() {
+		this.load();
+	}
 
-  getInteger(n?: number) {
-    return n ? `${n}`.split('.')[0] : '0';
-  }
+	getInteger(n?: number) {
+		return n ? `${n}`.split('.')[0] : '0';
+	}
 
-  getDecimals(n?: number) {
-    return n ? `${n}`.split('.').reverse()[0].padStart(2, '0') : '00';
-  }
+	getDecimals(n?: number) {
+		return n ? `${n}`.split('.').reverse()[0].padStart(2, '0') : '00';
+	}
 
-  downloadOrBuy(link: string, download = false) {
-    if (!this.id || this.downloading)
-      return;
+	downloadOrBuy(link: string, download = false) {
+		if (!this.id || this.downloading) return;
 
-    this.downloading = true;
+		this.downloading = true;
 
-    if (download) {
-      const a = document.createElement('a') as HTMLAnchorElement;
-      document.body.appendChild(a);
-      a.style.display = 'none';
-      a.href = link;
-      a.download = link.split('/').reverse()[0];
-      a.target = '_blank';
-      a.click();
-      document.body.removeChild(a);
-      this.didacticResourceService.download(this.id).subscribe(res => {
-        this.load();
-      });
-      this.downloading = false;
-    } else {
-      this.downloading = false;
-    }
-  }
+		if (download) {
+			const a = document.createElement('a') as HTMLAnchorElement;
+			document.body.appendChild(a);
+			a.style.display = 'none';
+			a.href = link;
+			a.download = link.split('/').reverse()[0];
+			a.target = '_blank';
+			a.click();
+			document.body.removeChild(a);
+			this.didacticResourceService.download(this.id).subscribe((res) => {
+				this.load();
+			});
+			this.downloading = false;
+		} else {
+			this.downloading = false;
+		}
+	}
 
-  bookmark() {
-    if (!this.id)
-      return;
+	bookmark() {
+		if (!this.id) return;
 
-    this.didacticResourceService.bookmark(this.id).subscribe((res) => {
-      this.load();
-      if (res.modifiedCount > 0)
-        this.sb.open('El recurso ha sido guardado en tu biblioteca!', 'Ok', { duration: 2500 });
-    });
-  }
+		this.didacticResourceService.bookmark(this.id).subscribe((res) => {
+			this.load();
+			if (res.modifiedCount > 0)
+				this.sb.open(
+					'El recurso ha sido guardado en tu biblioteca!',
+					'Ok',
+					{ duration: 2500 },
+				);
+		});
+	}
 }

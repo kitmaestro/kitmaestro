@@ -1,2 +1,1 @@
-export interface ApiCreationResponse {
-}
+export interface ApiCreationResponse {}

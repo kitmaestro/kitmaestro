@@ -1,46 +1,90 @@
-<mat-card style="max-width: 100%;" *ngIf="resource">
-    <mat-card-content>
-        <div class="grid">
-            <div class="img" style="background: url('{{resource.preview}}') center; background-size: cover; width: 100%;"></div>
-            <div>
-                <h2>{{resource.title}}</h2>
-                <p>{{resource.description}}</p>
-                <p>
-                    <b>Nivel{{resource.level.length > 1 ? 'es' : ''}}</b>:
-                    @for (level of resource.level; track $index) {
-                        {{$index > 0 ? ', ' : ''}}{{level | pretify}}
-                    }
-                </p>
-                <p>
-                    <b>Grado{{resource.grade.length > 1 ? 's' : ''}}</b>:
-                    @for (grade of resource.grade; track $index) {
-                        {{$index > 0 ? ', ' : ''}}{{grade | pretify}}
-                    }
-                </p>
-                <p>
-                    <b>&Aacute;rea{{resource.subject.length > 1 ? 's' : ''}}</b>:
-                    @for (subject of resource.subject; track $index) {
-                        {{$index > 0 ? ', ' : ''}}{{subject | pretify}}
-                    }
-                </p>
-                <div style="display: flex; margin-bottom: 24px; align-items: center;" routerLink="/users/{{resource.author._id}}">
-                    <img src="https://gravatar.com/avatar/{{gravatar(resource.author.email)}}" style="width: 32px; margin-right: 8px; border-radius: 50%;"> <span style="flex: 1 1 auto;">{{resource.author.firstname}} {{resource.author.lastname}}</span>
-                </div>
-                @if (resource.price === 0) {
-                    <div class="price">
-                        <div class="integer free">&iexcl;GRATIS!</div>
-                    </div>
-                } @else {
-                    <div class="price">
-                        <div class="integer">RD${{getInteger(resource.price)}}</div>
-                        <div class="decimals">.{{getDecimals(resource.price)}}</div>
-                    </div>
-                }
-                <div style="margin-top: 24px; display: flex; gap: 12px;">
-                    <button mat-button (click)="bookmark()">{{resource.bookmarks}} <mat-icon>bookmark</mat-icon></button>
-                    <button mat-flat-button color="primary" type="button" [routerLink]="'/resources/' + resource._id">Detalles</button>
-                </div>
-            </div>
-        </div>
-    </mat-card-content>
+<mat-card style="max-width: 100%" *ngIf="resource">
+	<mat-card-content>
+		<div class="grid">
+			<div
+				class="img"
+				style="background: url('{{
+					resource.preview
+				}}') center; background-size: cover; width: 100%;"
+			></div>
+			<div>
+				<h2>{{ resource.title }}</h2>
+				<p>{{ resource.description }}</p>
+				<p>
+					<b>Nivel{{ resource.level.length > 1 ? "es" : "" }}</b
+					>:
+					@for (level of resource.level; track $index) {
+						{{ $index > 0 ? ", " : "" }}{{ level | pretify }}
+					}
+				</p>
+				<p>
+					<b>Grado{{ resource.grade.length > 1 ? "s" : "" }}</b
+					>:
+					@for (grade of resource.grade; track $index) {
+						{{ $index > 0 ? ", " : "" }}{{ grade | pretify }}
+					}
+				</p>
+				<p>
+					<b
+						>&Aacute;rea{{
+							resource.subject.length > 1 ? "s" : ""
+						}}</b
+					>:
+					@for (subject of resource.subject; track $index) {
+						{{ $index > 0 ? ", " : "" }}{{ subject | pretify }}
+					}
+				</p>
+				<div
+					style="
+						display: flex;
+						margin-bottom: 24px;
+						align-items: center;
+					"
+					routerLink="/users/{{ resource.author._id }}"
+				>
+					<img
+						src="https://gravatar.com/avatar/{{
+							gravatar(resource.author.email)
+						}}"
+						style="
+							width: 32px;
+							margin-right: 8px;
+							border-radius: 50%;
+						"
+					/>
+					<span style="flex: 1 1 auto"
+						>{{ resource.author.firstname }}
+						{{ resource.author.lastname }}</span
+					>
+				</div>
+				@if (resource.price === 0) {
+					<div class="price">
+						<div class="integer free">&iexcl;GRATIS!</div>
+					</div>
+				} @else {
+					<div class="price">
+						<div class="integer">
+							RD${{ getInteger(resource.price) }}
+						</div>
+						<div class="decimals">
+							.{{ getDecimals(resource.price) }}
+						</div>
+					</div>
+				}
+				<div style="margin-top: 24px; display: flex; gap: 12px">
+					<button mat-button (click)="bookmark()">
+						{{ resource.bookmarks }} <mat-icon>bookmark</mat-icon>
+					</button>
+					<button
+						mat-flat-button
+						color="primary"
+						type="button"
+						[routerLink]="'/resources/' + resource._id"
+					>
+						Detalles
+					</button>
+				</div>
+			</div>
+		</div>
+	</mat-card-content>
 </mat-card>

@@ -1,45 +1,64 @@
-<h2 mat-dialog-title>{{ data ? 'Editar' : 'Crear'}} Seccion</h2>
+<h2 mat-dialog-title>{{ data ? "Editar" : "Crear" }} Seccion</h2>
 <mat-dialog-content>
-    <form (ngSubmit)="onSubmit()" [formGroup]="sectionForm">
-        <mat-form-field>
-            <mat-label>Escuela</mat-label>
-            <mat-select formControlName="school">
-                @for(school of schools; track school._id) {
-                    <mat-option [value]="school._id">{{school.name}}</mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Nivel</mat-label>
-            <mat-select formControlName="level">
-                <mat-option value="PREPRIMARIA">Pre Primaria</mat-option>
-                <mat-option value="PRIMARIA">Primaria</mat-option>
-                <mat-option value="SECUNDARIA">Secundaria</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Grado</mat-label>
-            <mat-select formControlName="year">
-                <mat-option value="PRIMERO">Primero</mat-option>
-                <mat-option value="SEGUNDO">Segundo</mat-option>
-                <mat-option value="TERCERO">Tercero</mat-option>
-                <mat-option value="CUARTO">Cuarto</mat-option>
-                <mat-option value="QUINTO">Quinto</mat-option>
-                <mat-option value="SEXTO">Sexto</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Asignaturas</mat-label>
-            <mat-select multiple formControlName="subjects">
-                <mat-option *ngFor="let subject of subjectOptions" [value]="subject.value">{{subject.label}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Nombre de la Secci&oacute;n</mat-label>
-            <input type="text" placeholder="1ro A" formControlName="name" required matInput>
-        </mat-form-field>
-        <div style="text-align: end; margin-top: 32px;">
-            <button [disabled]="saving || sectionForm.invalid" type="submit" mat-raised-button color="primary">Guardar</button>
-        </div>
-    </form>
+	<form (ngSubmit)="onSubmit()" [formGroup]="sectionForm">
+		<mat-form-field>
+			<mat-label>Escuela</mat-label>
+			<mat-select formControlName="school">
+				@for (school of schools; track school._id) {
+					<mat-option [value]="school._id">{{
+						school.name
+					}}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Nivel</mat-label>
+			<mat-select formControlName="level">
+				<mat-option value="PREPRIMARIA">Pre Primaria</mat-option>
+				<mat-option value="PRIMARIA">Primaria</mat-option>
+				<mat-option value="SECUNDARIA">Secundaria</mat-option>
+			</mat-select>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Grado</mat-label>
+			<mat-select formControlName="year">
+				<mat-option value="PRIMERO">Primero</mat-option>
+				<mat-option value="SEGUNDO">Segundo</mat-option>
+				<mat-option value="TERCERO">Tercero</mat-option>
+				<mat-option value="CUARTO">Cuarto</mat-option>
+				<mat-option value="QUINTO">Quinto</mat-option>
+				<mat-option value="SEXTO">Sexto</mat-option>
+			</mat-select>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Asignaturas</mat-label>
+			<mat-select multiple formControlName="subjects">
+				<mat-option
+					*ngFor="let subject of subjectOptions"
+					[value]="subject.value"
+					>{{ subject.label }}</mat-option
+				>
+			</mat-select>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Nombre de la Secci&oacute;n</mat-label>
+			<input
+				type="text"
+				placeholder="1ro A"
+				formControlName="name"
+				required
+				matInput
+			/>
+		</mat-form-field>
+		<div style="text-align: end; margin-top: 32px">
+			<button
+				[disabled]="saving || sectionForm.invalid"
+				type="submit"
+				mat-raised-button
+				color="primary"
+			>
+				Guardar
+			</button>
+		</div>
+	</form>
 </mat-dialog-content>

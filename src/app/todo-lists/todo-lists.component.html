@@ -1,58 +1,91 @@
-<mat-card style="margin-bottom: 24px;">
-    <mat-card-header>
-        <h2 mat-card-title>Listas de Tareas</h2>
-        <button style="margin-left: auto;" mat-mini-fab color="primary" (click)="toggleForm()">
-            @if (showForm) {
-                <mat-icon>close</mat-icon>
-            } @else {
-                <mat-icon>add</mat-icon>
-            }
-        </button>
-    </mat-card-header>
-    <mat-card-content>
-        @if (showForm) {
-            <form [formGroup]="todoListForm" (ngSubmit)="addList()">
-                <div style="margin-bottom: 12px;">
-                    <mat-slide-toggle formControlName="active">Activa</mat-slide-toggle>
-                </div>
-                <div>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Nombre</mat-label>
-                        <input matInput formControlName="name" autocomplete="list-name">
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Descripci&oacute;n</mat-label>
-                        <textarea matInput formControlName="description" autocomplete="list-description">
-                        </textarea>
-                    </mat-form-field>
-                </div>
-                <div style="text-align: end;">
-                    <button mat-raised-button color="primary" type="submit">Agregar</button>
-                </div>
-            </form>
-        }
-    </mat-card-content>
+<mat-card style="margin-bottom: 24px">
+	<mat-card-header>
+		<h2 mat-card-title>Listas de Tareas</h2>
+		<button
+			style="margin-left: auto"
+			mat-mini-fab
+			color="primary"
+			(click)="toggleForm()"
+		>
+			@if (showForm) {
+				<mat-icon>close</mat-icon>
+			} @else {
+				<mat-icon>add</mat-icon>
+			}
+		</button>
+	</mat-card-header>
+	<mat-card-content>
+		@if (showForm) {
+			<form [formGroup]="todoListForm" (ngSubmit)="addList()">
+				<div style="margin-bottom: 12px">
+					<mat-slide-toggle formControlName="active"
+						>Activa</mat-slide-toggle
+					>
+				</div>
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Nombre</mat-label>
+						<input
+							matInput
+							formControlName="name"
+							autocomplete="list-name"
+						/>
+					</mat-form-field>
+				</div>
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Descripci&oacute;n</mat-label>
+						<textarea
+							matInput
+							formControlName="description"
+							autocomplete="list-description"
+						>
+						</textarea>
+					</mat-form-field>
+				</div>
+				<div style="text-align: end">
+					<button mat-raised-button color="primary" type="submit">
+						Agregar
+					</button>
+				</div>
+			</form>
+		}
+	</mat-card-content>
 </mat-card>
 
 <div class="card-grid">
-    @for(list of (todoLists$ | async); track list) {
-        <mat-card>
-            <mat-card-header>
-                <h3 mat-card-title>{{list.name}} ({{ list.active ? 'Activa' : 'Inactiva' }})</h3>
-            </mat-card-header>
-            <mat-card-content>
-                <p style="padding: 12px;">
-                    {{list.description}}
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button type="button" [routerLink]="['/todos', list._id]" mat-raised-button color="accent" style="margin-right: 12px; margin-left: auto;">Abrir</button>
-                <button type="button" (click)="deleteList(list._id)" mat-raised-button color="warn" style="margin-right: auto;">
-                    Eliminar
-                </button>
-            </mat-card-actions>
-        </mat-card>
-    }
+	@for (list of todoLists$ | async; track list) {
+		<mat-card>
+			<mat-card-header>
+				<h3 mat-card-title>
+					{{ list.name }} ({{ list.active ? "Activa" : "Inactiva" }})
+				</h3>
+			</mat-card-header>
+			<mat-card-content>
+				<p style="padding: 12px">
+					{{ list.description }}
+				</p>
+			</mat-card-content>
+			<mat-card-actions>
+				<button
+					type="button"
+					[routerLink]="['/todos', list._id]"
+					mat-raised-button
+					color="accent"
+					style="margin-right: 12px; margin-left: auto"
+				>
+					Abrir
+				</button>
+				<button
+					type="button"
+					(click)="deleteList(list._id)"
+					mat-raised-button
+					color="warn"
+					style="margin-right: auto"
+				>
+					Eliminar
+				</button>
+			</mat-card-actions>
+		</mat-card>
+	}
 </div>

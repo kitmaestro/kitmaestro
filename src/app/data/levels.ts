@@ -1,5 +1,1 @@
-export const LEVELS = [
-    'Pre Primaria',
-    'Primaria',
-    'Secundaria',
-];
+export const LEVELS = ['Pre Primaria', 'Primaria', 'Secundaria'];

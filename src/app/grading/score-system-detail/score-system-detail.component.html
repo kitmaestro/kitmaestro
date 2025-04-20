@@ -1,14 +1,33 @@
 <mat-card>
 	<mat-card-header>
-		<mat-card-title>Detalles del Sistema de Calificaci&oacute;n</mat-card-title>
-		<div style="margin-left: auto;">
-			<button type="button" routerLink="/grading-systems/list" mat-icon-button color="accent">
+		<mat-card-title
+			>Detalles del Sistema de Calificaci&oacute;n</mat-card-title
+		>
+		<div style="margin-left: auto">
+			<button
+				type="button"
+				routerLink="/grading-systems/list"
+				mat-icon-button
+				color="accent"
+			>
 				<mat-icon>home</mat-icon>
 			</button>
-			<button (click)="deleteScoreSystem()" type="button" mat-icon-button color="warn" [disabled]="printing || deleting">
+			<button
+				(click)="deleteScoreSystem()"
+				type="button"
+				mat-icon-button
+				color="warn"
+				[disabled]="printing || deleting"
+			>
 				<mat-icon>delete</mat-icon>
 			</button>
-			<button (click)="print()" type="button" mat-icon-button color="primary" [disabled]="printing || deleting">
+			<button
+				(click)="print()"
+				type="button"
+				mat-icon-button
+				color="primary"
+				[disabled]="printing || deleting"
+			>
 				<mat-icon>download</mat-icon>
 			</button>
 		</div>

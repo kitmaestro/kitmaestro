@@ -1,42 +1,41 @@
 <mat-card>
-    <mat-card-header>
-        <mat-card-title>Panel de Administraci&oacute;n</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-    </mat-card-content>
+	<mat-card-header>
+		<mat-card-title>Panel de Administraci&oacute;n</mat-card-title>
+	</mat-card-header>
+	<mat-card-content> </mat-card-content>
 </mat-card>
 
 <div class="grid">
-    <mat-card routerLink="/admin/users">
-        <mat-card-header style="justify-content: center;">
-            <mat-card-title>Usuarios Registrados</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p class="giant-text">{{users$ | async}}</p>
-        </mat-card-content>
-    </mat-card>
-    <mat-card>
-        <mat-card-header style="justify-content: center;">
-            <mat-card-title>Suscripciones</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p class="giant-text">{{subscriptions$ | async}}</p>
-        </mat-card-content>
-    </mat-card>
-    <mat-card>
-        <mat-card-header style="justify-content: center;">
-            <mat-card-title>Unidades Generadas</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p class="giant-text">{{unitPlans$ | async}}</p>
-        </mat-card-content>
-    </mat-card>
-    <mat-card>
-        <mat-card-header style="justify-content: center;">
-            <mat-card-title>Planes Diarios</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p class="giant-text">{{classPlans$ | async}}</p>
-        </mat-card-content>
-    </mat-card>
+	<mat-card routerLink="/admin/users">
+		<mat-card-header style="justify-content: center">
+			<mat-card-title>Usuarios Registrados</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<p class="giant-text">{{ users$ | async }}</p>
+		</mat-card-content>
+	</mat-card>
+	<mat-card>
+		<mat-card-header style="justify-content: center">
+			<mat-card-title>Suscripciones</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<p class="giant-text">{{ subscriptions$ | async }}</p>
+		</mat-card-content>
+	</mat-card>
+	<mat-card>
+		<mat-card-header style="justify-content: center">
+			<mat-card-title>Unidades Generadas</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<p class="giant-text">{{ unitPlans$ | async }}</p>
+		</mat-card-content>
+	</mat-card>
+	<mat-card>
+		<mat-card-header style="justify-content: center">
+			<mat-card-title>Planes Diarios</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<p class="giant-text">{{ classPlans$ | async }}</p>
+		</mat-card-content>
+	</mat-card>
 </div>

@@ -1,82 +1,152 @@
 @if (estimationScale) {
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>{{estimationScale.title}}</mat-card-title>
-            <span style="flex: 1 1 auto;"></span>
-            <a routerLink="/assessments/estimation-scales" mat-icon-button color="link" style="margin-right: 8px;"
-                title="Todas las escalas de estimacion">
-                <mat-icon>home</mat-icon>
-            </a>
-            <button mat-icon-button color="warn" (click)="deleteInstrument()" style="margin-right: 8px;"
-                title="Eliminar esta escala de estimacion">
-                <mat-icon>delete</mat-icon>
-            </button>
-            <!-- <a target="_blank" routerLink="/print-activities/{{id}}" mat-icon-button color="link" style="margin-right: 8px;">
+	<mat-card>
+		<mat-card-header>
+			<mat-card-title>{{ estimationScale.title }}</mat-card-title>
+			<span style="flex: 1 1 auto"></span>
+			<a
+				routerLink="/assessments/estimation-scales"
+				mat-icon-button
+				color="link"
+				style="margin-right: 8px"
+				title="Todas las escalas de estimacion"
+			>
+				<mat-icon>home</mat-icon>
+			</a>
+			<button
+				mat-icon-button
+				color="warn"
+				(click)="deleteInstrument()"
+				style="margin-right: 8px"
+				title="Eliminar esta escala de estimacion"
+			>
+				<mat-icon>delete</mat-icon>
+			</button>
+			<!-- <a target="_blank" routerLink="/print-activities/{{id}}" mat-icon-button color="link" style="margin-right: 8px;">
                     <mat-icon>print</mat-icon>
                 </a> -->
-            <button (click)="print()" mat-icon-button color="accent" title="Descargar como PDF">
-                <mat-icon>download</mat-icon>
-            </button>
-        </mat-card-header>
-        <mat-card-content></mat-card-content>
-    </mat-card>
-    <mat-card style="margin-top: 24px;">
-        <mat-card-content>
-            <div style="width: 8.5in; padding: 0.35in; margin: 0 auto;" id="estimation-scale">
-                <div style="text-align: center;">
-                    <h2 style="margin: 0px;">{{estimationScale.section.school.name}}</h2>
-                    <h3 style="margin: 0px;">A&ntilde;o Escolar {{schoolYear}}</h3>
-                    <h3 style="margin: 0px;">{{user?.title}}. {{user?.firstname}} {{user?.lastname}}</h3>
-                    <h2 style="margin: 0px;">Escala de Estimaci&oacute;n</h2>
-                    <h3 style="margin: 0px;">{{estimationScale.title}}</h3>
-                </div>
-                <h3 style="text-align: end;">{{ estimationScale.section.name }}</h3>
-                <div style="display: grid; gap: 12px; margin-bottom: 12px; grid-template-columns: 3fr 1fr;">
-                    <div style="display: flex; gap: 12px;">
-                        <div style="font-weight: bold;">Estudiante:</div>
-                        <div style="border-bottom: 1px solid black; width: 100%; flex: 1 1 auto;"></div>
-                    </div>
-                    <div style="display: flex; gap: 12px;">
-                        <div style="font-weight: bold;">Fecha:</div>
-                        <div style="border-bottom: 1px solid black; width: 100%; flex: 1 1 auto;"></div>
-                    </div>
-                </div>
-                <h3 style="font-weight: bold; margin-bottom: 8px; margin-top: 8px;">Competencias Espec&iacute;ficas</h3>
-                <ul style="list-style: none; margin: 0; padding: 0;">
-                    @for(item of estimationScale.competence; track item) {
-                    <li>- {{item}}</li>
-                    }
-                </ul>
-                <h3 style="font-weight: bold; margin-bottom: 8px; margin-top: 8px;">Indicadores de Logro</h3>
-                <ul style="list-style: none; margin: 0 0 12px; padding: 0;">
-                    @for(item of estimationScale.achievementIndicators; track item) {
-                    <li>- {{item}}</li>
-                    }
-                </ul>
-                <p><b>Evidencia o Actividad</b>: {{estimationScale.activity}}</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Indicador o Criterio</th>
-                            @for(level of estimationScale.levels; track level) {
-                                <th>{{level}}</th>
-                            }
-                            <th>Observaciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for(row of estimationScale.criteria; track row) {
-                            <tr>
-                                <td>{{row}}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </mat-card-content>
-    </mat-card>
+			<button
+				(click)="print()"
+				mat-icon-button
+				color="accent"
+				title="Descargar como PDF"
+			>
+				<mat-icon>download</mat-icon>
+			</button>
+		</mat-card-header>
+		<mat-card-content></mat-card-content>
+	</mat-card>
+	<mat-card style="margin-top: 24px">
+		<mat-card-content>
+			<div
+				style="width: 8.5in; padding: 0.35in; margin: 0 auto"
+				id="estimation-scale"
+			>
+				<div style="text-align: center">
+					<h2 style="margin: 0px">
+						{{ estimationScale.section.school.name }}
+					</h2>
+					<h3 style="margin: 0px">
+						A&ntilde;o Escolar {{ schoolYear }}
+					</h3>
+					<h3 style="margin: 0px">
+						{{ user?.title }}. {{ user?.firstname }}
+						{{ user?.lastname }}
+					</h3>
+					<h2 style="margin: 0px">Escala de Estimaci&oacute;n</h2>
+					<h3 style="margin: 0px">{{ estimationScale.title }}</h3>
+				</div>
+				<h3 style="text-align: end">
+					{{ estimationScale.section.name }}
+				</h3>
+				<div
+					style="
+						display: grid;
+						gap: 12px;
+						margin-bottom: 12px;
+						grid-template-columns: 3fr 1fr;
+					"
+				>
+					<div style="display: flex; gap: 12px">
+						<div style="font-weight: bold">Estudiante:</div>
+						<div
+							style="
+								border-bottom: 1px solid black;
+								width: 100%;
+								flex: 1 1 auto;
+							"
+						></div>
+					</div>
+					<div style="display: flex; gap: 12px">
+						<div style="font-weight: bold">Fecha:</div>
+						<div
+							style="
+								border-bottom: 1px solid black;
+								width: 100%;
+								flex: 1 1 auto;
+							"
+						></div>
+					</div>
+				</div>
+				<h3
+					style="
+						font-weight: bold;
+						margin-bottom: 8px;
+						margin-top: 8px;
+					"
+				>
+					Competencias Espec&iacute;ficas
+				</h3>
+				<ul style="list-style: none; margin: 0; padding: 0">
+					@for (item of estimationScale.competence; track item) {
+						<li>- {{ item }}</li>
+					}
+				</ul>
+				<h3
+					style="
+						font-weight: bold;
+						margin-bottom: 8px;
+						margin-top: 8px;
+					"
+				>
+					Indicadores de Logro
+				</h3>
+				<ul style="list-style: none; margin: 0 0 12px; padding: 0">
+					@for (
+						item of estimationScale.achievementIndicators;
+						track item
+					) {
+						<li>- {{ item }}</li>
+					}
+				</ul>
+				<p>
+					<b>Evidencia o Actividad</b>: {{ estimationScale.activity }}
+				</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Indicador o Criterio</th>
+							@for (
+								level of estimationScale.levels;
+								track level
+							) {
+								<th>{{ level }}</th>
+							}
+							<th>Observaciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (row of estimationScale.criteria; track row) {
+							<tr>
+								<td>{{ row }}</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</mat-card-content>
+	</mat-card>
 }

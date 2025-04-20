@@ -7,32 +7,31 @@ import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class UpdateService {
-  private http = inject(HttpClient);
-  private apiBaseUrl = environment.apiUrl + 'updates/';
+	private http = inject(HttpClient);
+	private apiBaseUrl = environment.apiUrl + 'updates/';
 
-  constructor(
-  ) { }
+	constructor() {}
 
-  findAll(): Observable<Update[]> {
-    return this.http.get<Update[]>(this.apiBaseUrl);
-  }
+	findAll(): Observable<Update[]> {
+		return this.http.get<Update[]>(this.apiBaseUrl);
+	}
 
-  find(id: string): Observable<Update> {
-    return this.http.get<Update>(this.apiBaseUrl + id);
-  }
+	find(id: string): Observable<Update> {
+		return this.http.get<Update>(this.apiBaseUrl + id);
+	}
 
-  create(update: Update): Observable<Update> {
-    return this.http.post<Update>(this.apiBaseUrl, update);
-  }
+	create(update: Update): Observable<Update> {
+		return this.http.post<Update>(this.apiBaseUrl, update);
+	}
 
-  update(id: string, update: Update): Observable<ApiUpdateResponse> {
-    return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, update);
-  }
+	update(id: string, update: Update): Observable<ApiUpdateResponse> {
+		return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, update);
+	}
 
-  delete(id: string): Observable<ApiDeleteResponse> {
-    return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id);
-  }
+	delete(id: string): Observable<ApiDeleteResponse> {
+		return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id);
+	}
 }

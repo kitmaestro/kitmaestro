@@ -1,4 +1,4 @@
 export interface GradePeriod {
-    p: number,
-    rp: number,
+	p: number;
+	rp: number;
 }

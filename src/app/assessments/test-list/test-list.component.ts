@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
 import { PretifyPipe } from '../../pipes/pretify.pipe';
 
 @Component({
-  selector: 'app-test-list',
+	selector: 'app-test-list',
 	imports: [
 		MatDialogModule,
 		MatCardModule,
@@ -20,9 +20,9 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 		MatIconModule,
 		RouterLink,
 		PretifyPipe,
-  ],
-  templateUrl: './test-list.component.html',
-  styleUrl: './test-list.component.scss'
+	],
+	templateUrl: './test-list.component.html',
+	styleUrl: './test-list.component.scss',
 })
 export class TestListComponent implements OnInit {
 	testService = inject(TestService);
@@ -36,10 +36,10 @@ export class TestListComponent implements OnInit {
 	load() {
 		this.loading = true;
 		this.testService.findAll().subscribe({
-			next: tests => {
+			next: (tests) => {
 				this.tests = tests;
 				this.loading = false;
-			}
+			},
 		});
 	}
 
@@ -48,15 +48,14 @@ export class TestListComponent implements OnInit {
 	}
 
 	delete(id: string) {
-		this.testService.delete(id).subscribe(res => {
-			if (res.deletedCount > 0)
-				this.load();
+		this.testService.delete(id).subscribe((res) => {
+			if (res.deletedCount > 0) this.load();
 		});
 	}
 
 	open(test: Test) {
 		this.dialog.open(TestComponent, {
-			data: test
+			data: test,
 		});
 	}
 

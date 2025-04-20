@@ -1,1 +1,4 @@
-export interface LevelEntry { id: number, level: string }
+export interface LevelEntry {
+	id: number;
+	level: string;
+}

@@ -1,39 +1,45 @@
 .grid-3-cols {
-    display: grid;
-    gap: 12px;
-    grid-template-columns: 1fr;
+	display: grid;
+	gap: 12px;
+	grid-template-columns: 1fr;
 
-    @media screen and (min-width: 960px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
+	@media screen and (min-width: 960px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
 
-    @media screen and (min-width: 1200px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
+	@media screen and (min-width: 1200px) {
+		grid-template-columns: repeat(3, 1fr);
+	}
 
-    & > div {
-      max-width: 100%;
-    }
+	& > div {
+		max-width: 100%;
+	}
 }
 
 mat-form-field {
-    width: 100%;
-    max-width: 100%;
+	width: 100%;
+	max-width: 100%;
 }
 
-mat-select, select, input, textarea {
-  max-width: 100%;
+mat-select,
+select,
+input,
+textarea {
+	max-width: 100%;
 }
 
 table {
-    border-collapse: collapse;
-    border: 1px solid #ccc;
+	border-collapse: collapse;
+	border: 1px solid #ccc;
 }
 
-td, tr, th {
-    border: 1px solid #ccc;
+td,
+tr,
+th {
+	border: 1px solid #ccc;
 }
 
-td, th {
-    padding: 12px;
+td,
+th {
+	padding: 12px;
 }

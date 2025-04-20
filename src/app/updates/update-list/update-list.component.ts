@@ -12,34 +12,36 @@ import { UpdateService } from '../../services/update.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-    selector: 'app-updates',
-    imports: [
-        MatCardModule,
-        MatExpansionModule,
-        MatButtonModule,
-        MatIconModule,
-        RouterModule,
-        DatePipe,
-        AsyncPipe,
-    ],
-    templateUrl: './update-list.component.html'
+	selector: 'app-updates',
+	imports: [
+		MatCardModule,
+		MatExpansionModule,
+		MatButtonModule,
+		MatIconModule,
+		RouterModule,
+		DatePipe,
+		AsyncPipe,
+	],
+	templateUrl: './update-list.component.html',
 })
 export class UpdateListComponent implements OnInit {
-  private updateService = inject(UpdateService);
-  private authService = inject(AuthService);
-  public updates$: Observable<Update[]> = this.updateService.findAll().pipe(map(updates => {
-    const sorted = updates.sort((a, b) => +new Date(b.date) - +new Date(a.date))
-    return sorted;
-  }));
-  public authorUser = false;
+	private updateService = inject(UpdateService);
+	private authService = inject(AuthService);
+	public updates$: Observable<Update[]> = this.updateService.findAll().pipe(
+		map((updates) => {
+			const sorted = updates.sort(
+				(a, b) => +new Date(b.date) - +new Date(a.date),
+			);
+			return sorted;
+		}),
+	);
+	public authorUser = false;
 
-  authors: string[] = [
-    'orgalay.dev@gmail.com'
-  ];
+	authors: string[] = ['orgalay.dev@gmail.com'];
 
-  ngOnInit() {
-    this.authService.profile().subscribe(user => {
-      this.authorUser = this.authors.includes(user.email);
-    })
-  }
+	ngOnInit() {
+		this.authService.profile().subscribe((user) => {
+			this.authorUser = this.authors.includes(user.email);
+		});
+	}
 }

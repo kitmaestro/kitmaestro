@@ -18,130 +18,150 @@ import { WORD_LISTS } from '../../data/word-lists';
 import { TOPICS } from '../../data/topics';
 
 @Component({
-    selector: 'app-word-scramble',
-    imports: [
-        MatCardModule,
-        MatButtonModule,
-        MatListModule,
-        MatSelectModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatChipsModule,
-        ReactiveFormsModule,
-        MatSnackBarModule,
-    ],
-    templateUrl: './word-scramble.component.html',
-    styleUrl: './word-scramble.component.scss'
+	selector: 'app-word-scramble',
+	imports: [
+		MatCardModule,
+		MatButtonModule,
+		MatListModule,
+		MatSelectModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatChipsModule,
+		ReactiveFormsModule,
+		MatSnackBarModule,
+	],
+	templateUrl: './word-scramble.component.html',
+	styleUrl: './word-scramble.component.scss',
 })
 export class WordScrambleComponent implements OnInit {
+	gamesService = inject(GamesService);
+	fb = inject(FormBuilder);
+	userSettingsService = inject(UserSettingsService);
+	pdfService = inject(PdfService);
+	sb = inject(MatSnackBar);
 
-  gamesService = inject(GamesService);
-  fb = inject(FormBuilder);
-  userSettingsService = inject(UserSettingsService);
-  pdfService = inject(PdfService);
-  sb = inject(MatSnackBar);
+	teacherName = '';
+	schoolName = '';
+	wordScramble: { scrambled: string; answer: string }[] = [];
+	topics: TopicEntry[] = TOPICS;
+	levels: LevelEntry[] = [
+		{
+			id: 1,
+			level: 'Primaria',
+		},
+		{
+			id: 2,
+			level: 'Secundaria',
+		},
+	];
 
-  teacherName = '';
-  schoolName = '';
-  wordScramble: { scrambled: string, answer: string }[] = [];
-  topics: TopicEntry[] = TOPICS;
-  levels: LevelEntry[] = [
-    {
-      id: 1,
-      level: 'Primaria'
-    },
-    {
-      id: 2,
-      level: 'Secundaria'
-    },
-  ];
+	wsForm = this.fb.group({
+		words: [0],
+		level: [1],
+		topic: [1],
+		size: [10],
+		name: [false],
+		grade: [false],
+		date: [false],
+	});
 
-  wsForm = this.fb.group({
-    words: [0],
-    level: [1],
-    topic: [1],
-    size: [10],
-    name: [false],
-    grade: [false],
-    date: [false],
-  });
+	ngOnInit() {
+		this.userSettingsService.getSettings().subscribe((settings) => {
+			this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
+			// TODO: fix school name
+			// this.schoolName = settings.schoolName;
+		});
+	}
 
-  ngOnInit() {
-    this.userSettingsService.getSettings().subscribe(settings => {
-      this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
-      // TODO: fix school name
-      // this.schoolName = settings.schoolName;
-    });
-  }
+	generateWordScramble() {
+		const { level, topic, size } = this.wsForm.value;
 
-  generateWordScramble() {
-    const { level, topic, size } = this.wsForm.value;
+		if (!level || !topic || !size) return;
 
-    if (!level || !topic || !size)
-      return;
+		const list = WORD_LISTS.find(
+			(l) => l.level_id === level && l.topic_id === topic,
+		);
 
-    const list = WORD_LISTS.find(l => l.level_id === level && l.topic_id === topic);
+		if (!list) return;
 
-    if (!list)
-      return;
+		const selection: string[] =
+			size >= list.vocabulary.length
+				? shuffle(list.vocabulary)
+				: shuffle(list.vocabulary).slice(0, size);
 
-    const selection: string[] = size >= list.vocabulary.length ? shuffle(list.vocabulary) : shuffle(list.vocabulary).slice(0, size);
+		this.wordScramble = selection.map((w) => ({
+			scrambled: shuffle(w.split('')).join(''),
+			answer: w,
+		}));
+	}
 
-    this.wordScramble = selection.map(w => ({ scrambled: shuffle(w.split('')).join(''), answer: w }));
-  }
+	toggleName() {
+		const val = this.wsForm.get('name')?.value;
+		if (!val) {
+			this.wsForm.get('name')?.setValue(true);
+		} else {
+			this.wsForm.get('name')?.setValue(false);
+		}
+	}
 
-  toggleName() {
-    const val = this.wsForm.get('name')?.value;
-    if (!val) {
-      this.wsForm.get('name')?.setValue(true);
-    } else {
-      this.wsForm.get('name')?.setValue(false);
-    }
-  }
+	toggleGrade() {
+		const val = this.wsForm.get('grade')?.value;
+		if (!val) {
+			this.wsForm.get('grade')?.setValue(true);
+		} else {
+			this.wsForm.get('grade')?.setValue(false);
+		}
+	}
 
-  toggleGrade() {
-    const val = this.wsForm.get('grade')?.value;
-    if (!val) {
-      this.wsForm.get('grade')?.setValue(true);
-    } else {
-      this.wsForm.get('grade')?.setValue(false);
-    }
-  }
+	toggleDate() {
+		const val = this.wsForm.get('date')?.value;
+		if (!val) {
+			this.wsForm.get('date')?.setValue(true);
+		} else {
+			this.wsForm.get('date')?.setValue(false);
+		}
+	}
 
-  toggleDate() {
-    const val = this.wsForm.get('date')?.value;
-    if (!val) {
-      this.wsForm.get('date')?.setValue(true);
-    } else {
-      this.wsForm.get('date')?.setValue(false);
-    }
-  }
+	changeWord(index: number) {
+		const { level, topic, size } = this.wsForm.value;
 
-  changeWord(index: number) {
-    const { level, topic, size } = this.wsForm.value;
+		if (!level || !topic || !size) return;
 
-    if (!level || !topic || !size)
-      return;
+		const target = this.wordScramble[index];
+		const list = WORD_LISTS.find(
+			(l) => l.level_id === level && l.topic_id === topic,
+		);
 
-    const target = this.wordScramble[index];
-    const list = WORD_LISTS.find(l => l.level_id === level && l.topic_id === topic);
+		if (!list) return;
 
-    if (!list)
-      return;
+		const available = list.vocabulary.filter(
+			(w) => !this.wordScramble.map((s) => s.answer).includes(w),
+		);
+		const randomWord = shuffle(available).pop();
+		if (!randomWord) return;
 
-    const available = list.vocabulary.filter(w => !this.wordScramble.map(s => s.answer).includes(w));
-    const randomWord = shuffle(available).pop();
-    if (!randomWord)
-      return;
+		this.wordScramble[index] = {
+			answer: randomWord,
+			scrambled: shuffle(randomWord.split('')).join(''),
+		};
+	}
 
-    this.wordScramble[index] = { answer: randomWord, scrambled: shuffle(randomWord.split('')).join('') };
-  }
-
-  print() {
-    this.sb.open('Imprimiendo como PDF!, por favor espera un momento.', undefined, { duration: 5000 });
-    const topic = this.topics.find(t => t.id === this.wsForm.get('topic')?.value);
-    this.pdfService.createAndDownloadFromHTML("wordscramble", `Palabras Revueltas - ${topic?.topic}`);
-    this.pdfService.createAndDownloadFromHTML("wordscramble-solution", `Palabras Revueltas - ${topic?.topic} - Solucion`);
-  }
-
+	print() {
+		this.sb.open(
+			'Imprimiendo como PDF!, por favor espera un momento.',
+			undefined,
+			{ duration: 5000 },
+		);
+		const topic = this.topics.find(
+			(t) => t.id === this.wsForm.get('topic')?.value,
+		);
+		this.pdfService.createAndDownloadFromHTML(
+			'wordscramble',
+			`Palabras Revueltas - ${topic?.topic}`,
+		);
+		this.pdfService.createAndDownloadFromHTML(
+			'wordscramble-solution',
+			`Palabras Revueltas - ${topic?.topic} - Solucion`,
+		);
+	}
 }

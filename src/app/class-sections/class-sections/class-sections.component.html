@@ -1,35 +1,79 @@
 <mat-card>
-    <mat-card-header>
-        <div style="display: flex; width: 100%; align-items: center; justify-content: space-between;">
-            <h2 style="margin-top: auto; margin-bottom: auto;" mat-card-title>Secciones</h2>
-            <button (click)="openSectionFormDialog()" mat-fab>
-                <mat-icon>add</mat-icon>
-            </button>
-        </div>
-    </mat-card-header>
-    <mat-card-content>
-        <p style="color: gray;">Aqui puedes administrar las secciones con las que trabajas.</p>
-    </mat-card-content>
+	<mat-card-header>
+		<div
+			style="
+				display: flex;
+				width: 100%;
+				align-items: center;
+				justify-content: space-between;
+			"
+		>
+			<h2 style="margin-top: auto; margin-bottom: auto" mat-card-title>
+				Secciones
+			</h2>
+			<button (click)="openSectionFormDialog()" mat-fab>
+				<mat-icon>add</mat-icon>
+			</button>
+		</div>
+	</mat-card-header>
+	<mat-card-content>
+		<p style="color: gray">
+			Aqui puedes administrar las secciones con las que trabajas.
+		</p>
+	</mat-card-content>
 </mat-card>
 
 @if ((sections$ | async)?.length) {
-    <div class="grid">
-        <mat-card *ngFor="let section of sections$ | async" style="margin-top: 20px;">
-            <mat-card-header>
-                <h2 mat-card-title>{{ section.name }}</h2>
-                <h3 mat-card-subtitle>{{ section.school.name }}</h3>
-                <h3 mat-card-subtitle>{{ formatValue(section.year) }} de {{ formatValue(section.level) }}</h3>
-            </mat-card-header>
-            <mat-card-actions style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-                <!-- <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/attendance', section._id]" mat-raised-button color="accent" style="width: 100%; display: block;">Asistencia</button> -->
-                <!-- <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/tracking', 'section', section._id]" mat-raised-button color="primary" style="width: 100%; display: block;">Notas</button> -->
-                <button [routerLink]="['/sections', section._id]" mat-button color="primary" style="width: 100%; display: block;">Detalles</button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
+	<div class="grid">
+		<mat-card
+			*ngFor="let section of sections$ | async"
+			style="margin-top: 20px"
+		>
+			<mat-card-header>
+				<h2 mat-card-title>{{ section.name }}</h2>
+				<h3 mat-card-subtitle>{{ section.school.name }}</h3>
+				<h3 mat-card-subtitle>
+					{{ formatValue(section.year) }} de
+					{{ formatValue(section.level) }}
+				</h3>
+			</mat-card-header>
+			<mat-card-actions
+				style="
+					display: grid;
+					grid-template-columns: 1fr 1fr 1fr;
+					gap: 8px;
+				"
+			>
+				<!-- <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/attendance', section._id]" mat-raised-button color="accent" style="width: 100%; display: block;">Asistencia</button> -->
+				<!-- <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/tracking', 'section', section._id]" mat-raised-button color="primary" style="width: 100%; display: block;">Notas</button> -->
+				<button
+					[routerLink]="['/sections', section._id]"
+					mat-button
+					color="primary"
+					style="width: 100%; display: block"
+				>
+					Detalles
+				</button>
+			</mat-card-actions>
+		</mat-card>
+	</div>
 } @else {
-    <img mat-card-image src="/assets/empty.svg" style="width: 100%; max-width: 250px; display: block; margin: 42px auto;">
-    <div style="text-align: center; display: flex; justify-content: center; align-items: center;">No hay datos todavia. Presiona el boton <mat-icon>add</mat-icon> para empezar.</div>
+	<img
+		mat-card-image
+		src="/assets/empty.svg"
+		style="width: 100%; max-width: 250px; display: block; margin: 42px auto"
+	/>
+	<div
+		style="
+			text-align: center;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		"
+	>
+		No hay datos todavia. Presiona el boton <mat-icon>add</mat-icon> para
+		empezar.
+	</div>
 }
 
 <!-- <table mat-table [dataSource]="sections" class="mat-elevation-z8" style="width: 100%; margin-top: 20px;">

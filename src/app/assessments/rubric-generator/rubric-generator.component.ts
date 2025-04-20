@@ -6,7 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+	FormArray,
+	FormBuilder,
+	ReactiveFormsModule,
+	Validators,
+} from '@angular/forms';
 import { RubricService } from '../../services/rubric.service';
 import { ClassSectionService } from '../../services/class-section.service';
 import { UserSettingsService } from '../../services/user-settings.service';
@@ -25,209 +30,247 @@ import { CompetenceService } from '../../services/competence.service';
 import { RubricComponent } from '../rubric/rubric.component';
 
 @Component({
-    selector: 'app-rubric-generator',
-    imports: [
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatCardModule,
-        MatSnackBarModule,
-        MatButtonModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatInputModule,
-        RouterLink,
-        PretifyPipe,
-        RubricComponent,
-    ],
-    templateUrl: './rubric-generator.component.html',
-    styleUrl: './rubric-generator.component.scss'
+	selector: 'app-rubric-generator',
+	imports: [
+		ReactiveFormsModule,
+		MatSelectModule,
+		MatCardModule,
+		MatSnackBarModule,
+		MatButtonModule,
+		MatIconModule,
+		MatFormFieldModule,
+		MatInputModule,
+		RouterLink,
+		PretifyPipe,
+		RubricComponent,
+	],
+	templateUrl: './rubric-generator.component.html',
+	styleUrl: './rubric-generator.component.scss',
 })
 export class RubricGeneratorComponent implements OnInit {
-  private sb = inject(MatSnackBar);
-  private fb = inject(FormBuilder);
-  private rubricService = inject(RubricService);
-  private aiService = inject(AiService);
-  private sectionsService = inject(ClassSectionService);
-  private router = inject(Router);
-  private userSettingsService = inject(UserSettingsService);
-  private studentsService = inject(StudentsService);
-  private competenceService = inject(CompetenceService);
-  private sclService = inject(SubjectConceptListService);
-  private contentBlockService = inject(ContentBlockService);
+	private sb = inject(MatSnackBar);
+	private fb = inject(FormBuilder);
+	private rubricService = inject(RubricService);
+	private aiService = inject(AiService);
+	private sectionsService = inject(ClassSectionService);
+	private router = inject(Router);
+	private userSettingsService = inject(UserSettingsService);
+	private studentsService = inject(StudentsService);
+	private competenceService = inject(CompetenceService);
+	private sclService = inject(SubjectConceptListService);
+	private contentBlockService = inject(ContentBlockService);
 
-  sections: ClassSection[] = [];
-  subjects: string[] = [];
-  contentBlocks: ContentBlock[] = [];
-  subjectConceptLists: SubjectConceptList[] = [];
-  achievementIndicators: string[] = [];
+	sections: ClassSection[] = [];
+	subjects: string[] = [];
+	contentBlocks: ContentBlock[] = [];
+	subjectConceptLists: SubjectConceptList[] = [];
+	achievementIndicators: string[] = [];
 
-  // selected data
-  section: ClassSection | null = null;
+	// selected data
+	section: ClassSection | null = null;
 
-  competence: string[] = [];
+	competence: string[] = [];
 
-  userSettings$ = this.userSettingsService.getSettings();
+	userSettings$ = this.userSettingsService.getSettings();
 
-  rubricTypes = [
-    { id: 'SINTETICA', label: 'Sintética (Holística)' },
-    { id: 'ANALITICA', label: 'Analítica (Global)' },
-  ]
+	rubricTypes = [
+		{ id: 'SINTETICA', label: 'Sintética (Holística)' },
+		{ id: 'ANALITICA', label: 'Analítica (Global)' },
+	];
 
-  rubric: Rubric | null = null;
+	rubric: Rubric | null = null;
 
-  generating = false;
-  loading = true;
+	generating = false;
+	loading = true;
 
-  students: Student[] = [];
+	students: Student[] = [];
 
-  rubricForm = this.fb.group({
-    title: [''],
-    minScore: [40, [Validators.required, Validators.min(0), Validators.max(100)]],
-    maxScore: [100, [Validators.required, Validators.min(5), Validators.max(100)]],
-    section: ['', Validators.required],
-    subject: ['', Validators.required],
-    content: ['', Validators.required],
-    activity: ['', Validators.required],
-    scored: [true],
-    rubricType: ['SINTETICA', Validators.required],
-    achievementIndicators: [],
-    levels: this.fb.array([
-		this.fb.control('Receptivo'),
-		this.fb.control('Resolutivo'),
-		this.fb.control('Autónomo'),
-		this.fb.control('Estratégico'),
-    ]),
-  });
+	rubricForm = this.fb.group({
+		title: [''],
+		minScore: [
+			40,
+			[Validators.required, Validators.min(0), Validators.max(100)],
+		],
+		maxScore: [
+			100,
+			[Validators.required, Validators.min(5), Validators.max(100)],
+		],
+		section: ['', Validators.required],
+		subject: ['', Validators.required],
+		content: ['', Validators.required],
+		activity: ['', Validators.required],
+		scored: [true],
+		rubricType: ['SINTETICA', Validators.required],
+		achievementIndicators: [],
+		levels: this.fb.array([
+			this.fb.control('Receptivo'),
+			this.fb.control('Resolutivo'),
+			this.fb.control('Autónomo'),
+			this.fb.control('Estratégico'),
+		]),
+	});
 
-  ngOnInit() {
-    this.loadSections();
-  }
+	ngOnInit() {
+		this.loadSections();
+	}
 
-  loadSections() {
-    this.loading = true;
-    this.sectionsService.findSections().subscribe({
-      next: sections => {
-        this.sections = sections;
-      },
-      error: err => {
-        console.log(err)
-        this.loading = false;
-      },
-      complete: () => {
-        this.loading = false;
-      }
-    });
-  }
+	loadSections() {
+		this.loading = true;
+		this.sectionsService.findSections().subscribe({
+			next: (sections) => {
+				this.sections = sections;
+			},
+			error: (err) => {
+				console.log(err);
+				this.loading = false;
+			},
+			complete: () => {
+				this.loading = false;
+			},
+		});
+	}
 
-  loadContentBlocks() {
-    this.loading = true;
-  }
+	loadContentBlocks() {
+		this.loading = true;
+	}
 
-  onSelectSection(event: any) {
-    const id = event.value;
-    const section = this.sections.find(s => s._id === id);
-    if (section) {
-      this.section = section;
-      this.subjects = section.subjects;
-    }
-  }
+	onSelectSection(event: any) {
+		const id = event.value;
+		const section = this.sections.find((s) => s._id === id);
+		if (section) {
+			this.section = section;
+			this.subjects = section.subjects;
+		}
+	}
 
-  onSubjectSelect(event: any) {
-    const subject = event.value;
-    if (this.section) {
-      this.sclService.findAll({ subject, grade: this.section.year, level: this.section.level }).subscribe({
-        next: res => {
-          this.subjectConceptLists = res;
-        }
-      });
-    }
-  }
+	onSubjectSelect(event: any) {
+		const subject = event.value;
+		if (this.section) {
+			this.sclService
+				.findAll({
+					subject,
+					grade: this.section.year,
+					level: this.section.level,
+				})
+				.subscribe({
+					next: (res) => {
+						this.subjectConceptLists = res;
+					},
+				});
+		}
+	}
 
-  onConceptSelect(event: any) {
-    const concept = event.value;
-    const subject = this.rubricForm.get('subject')?.value || '';
-    if (this.section) {
-      this.competenceService.findAll({ subject, grade: this.section.year, level: this.section.level }).subscribe({
-        next: res => {
-          this.competence = res.flatMap(entry => entry.entries[Math.round(Math.random() * (entry.entries.length - 1))])
-        }
-      })
-      this.contentBlockService.findAll({ subject, year: this.section.year, level: this.section.level, title: concept }).subscribe({
-        next: res => {
-          this.contentBlocks = res;
-          res.forEach(block => {
-            const indicators: string[] = [];
-            block.achievement_indicators.forEach(indicator => {
-              if (!indicators.includes(indicator)) {
-                indicators.push(indicator);
-              }
-            })
-            this.achievementIndicators = indicators;
-          })
-        }
-      })
-    }
-  }
+	onConceptSelect(event: any) {
+		const concept = event.value;
+		const subject = this.rubricForm.get('subject')?.value || '';
+		if (this.section) {
+			this.competenceService
+				.findAll({
+					subject,
+					grade: this.section.year,
+					level: this.section.level,
+				})
+				.subscribe({
+					next: (res) => {
+						this.competence = res.flatMap(
+							(entry) =>
+								entry.entries[
+									Math.round(
+										Math.random() *
+											(entry.entries.length - 1),
+									)
+								],
+						);
+					},
+				});
+			this.contentBlockService
+				.findAll({
+					subject,
+					year: this.section.year,
+					level: this.section.level,
+					title: concept,
+				})
+				.subscribe({
+					next: (res) => {
+						this.contentBlocks = res;
+						res.forEach((block) => {
+							const indicators: string[] = [];
+							block.achievement_indicators.forEach(
+								(indicator) => {
+									if (!indicators.includes(indicator)) {
+										indicators.push(indicator);
+									}
+								},
+							);
+							this.achievementIndicators = indicators;
+						});
+					},
+				});
+		}
+	}
 
-  onSubmit() {
-    this.generating = true;
-    this.loadStudents();
-    this.createRubric(this.rubricForm.value);
-  }
+	onSubmit() {
+		this.generating = true;
+		this.loadStudents();
+		this.createRubric(this.rubricForm.value);
+	}
 
-  loadStudents() {
-    const { section } = this.rubricForm.value;
-    if (section) {
-      this.studentsService.findBySection(section).subscribe(students => {
-        this.students = students
-      })
-    }
-  }
+	loadStudents() {
+		const { section } = this.rubricForm.value;
+		if (section) {
+			this.studentsService
+				.findBySection(section)
+				.subscribe((students) => {
+					this.students = students;
+				});
+		}
+	}
 
-  save() {
-    const rubric: any = this.rubric;
-    this.rubricService.create(rubric).subscribe(res => {
-      if (res._id) {
-        this.router.navigate(['/rubrics/', res._id]).then(() => {
-          this.sb.open('El instrumento ha sido guardado.', 'Ok', { duration: 2500 });
-        });
-      }
-    });
-  }
+	save() {
+		const rubric: any = this.rubric;
+		this.rubricService.create(rubric).subscribe((res) => {
+			if (res._id) {
+				this.router.navigate(['/rubrics/', res._id]).then(() => {
+					this.sb.open('El instrumento ha sido guardado.', 'Ok', {
+						duration: 2500,
+					});
+				});
+			}
+		});
+	}
 
-  createRubric(formValue: any) {
-    const {
-      title,
-      minScore,
-      maxScore,
-      section,
-      subject,
-      content,
-      activity,
-      scored,
-      rubricType,
-      levels,
-      achievementIndicators
-    } = formValue;
-    if (!this.section)
-      return;
-    const data = {
-      title,
-      minScore,
-      maxScore,
-      level: this.section.level,
-      grade: this.section.year,
-      section,
-      subject: this.pretify(subject),
-      content,
-      activity,
-      scored,
-      rubricType,
-      achievementIndicators,
-      competence: this.competence,
-      levels
-    };
-    const text = `Necesito que me construyas en contenido de una rubrica ${rubricType === 'SINTETICA' ? 'Sintética (Holística)' : 'Analítica (Global)'} para evaluar el contenido de "${content}" de ${data.subject} de ${this.section.year} grado de educación ${this.section.level}.
+	createRubric(formValue: any) {
+		const {
+			title,
+			minScore,
+			maxScore,
+			section,
+			subject,
+			content,
+			activity,
+			scored,
+			rubricType,
+			levels,
+			achievementIndicators,
+		} = formValue;
+		if (!this.section) return;
+		const data = {
+			title,
+			minScore,
+			maxScore,
+			level: this.section.level,
+			grade: this.section.year,
+			section,
+			subject: this.pretify(subject),
+			content,
+			activity,
+			scored,
+			rubricType,
+			achievementIndicators,
+			competence: this.competence,
+			levels,
+		};
+		const text = `Necesito que me construyas en contenido de una rubrica ${rubricType === 'SINTETICA' ? 'Sintética (Holística)' : 'Analítica (Global)'} para evaluar el contenido de "${content}" de ${data.subject} de ${this.section.year} grado de educación ${this.section.level}.
 La rubrica sera aplicada tras esta actividad/evidencia: ${activity}.${scored ? ' La rubrica tendra un valor de ' + minScore + ' a ' + maxScore + ' puntos.' : ''}
 Los criterios a evaluar deben estar basados en estos indicadores de logro:
 - ${achievementIndicators.join('\n- ')}
@@ -243,55 +286,77 @@ Tu respuesta debe ser un json valido con esta interfaz:
     }[]
   }[];
 }`;
-    this.aiService.geminiAi(text).subscribe({
-      next: result => {
-        const start = result.response.indexOf('{');
-        const limit = result.response.lastIndexOf('}') + 1;
-        const obj = JSON.parse(result.response.slice(start, limit)) as { title?: string; criteria: { indicator: string, maxScore: number, criterion: { name: string, score: number, }[] }[] };
-        if (!obj) {
-          this.sb.open('Error al generar la rubrica. Intentalo de nuevo.', 'Ok', { duration: 2500 });
-          this.generating = false;
-          return;
-        }
-        const rubric: any = {
-          criteria: obj.criteria,
-          title: obj.title ? obj.title : title,
-          rubricType,
-          section,
-          competence: this.competence,
-          achievementIndicators,
-          activity,
-          progressLevels: levels,
-          user: this.section?.user
-        }
-        this.rubric = rubric;
-        this.generating = false;
-      },
-      error: (error) => {
-        this.sb.open('Error al generar la rubrica. Intentelo de nuevo.', 'Ok', { duration: 2500 })
-        console.log(error.message)
-        this.generating = false;
-      }
-    });
-  }
+		this.aiService.geminiAi(text).subscribe({
+			next: (result) => {
+				const start = result.response.indexOf('{');
+				const limit = result.response.lastIndexOf('}') + 1;
+				const obj = JSON.parse(result.response.slice(start, limit)) as {
+					title?: string;
+					criteria: {
+						indicator: string;
+						maxScore: number;
+						criterion: { name: string; score: number }[];
+					}[];
+				};
+				if (!obj) {
+					this.sb.open(
+						'Error al generar la rubrica. Intentalo de nuevo.',
+						'Ok',
+						{ duration: 2500 },
+					);
+					this.generating = false;
+					return;
+				}
+				const rubric: any = {
+					criteria: obj.criteria,
+					title: obj.title ? obj.title : title,
+					rubricType,
+					section,
+					competence: this.competence,
+					achievementIndicators,
+					activity,
+					progressLevels: levels,
+					user: this.section?.user,
+				};
+				this.rubric = rubric;
+				this.generating = false;
+			},
+			error: (error) => {
+				this.sb.open(
+					'Error al generar la rubrica. Intentelo de nuevo.',
+					'Ok',
+					{ duration: 2500 },
+				);
+				console.log(error.message);
+				this.generating = false;
+			},
+		});
+	}
 
-  addRubricLevel() {
-    this.rubricLevels.push(this.fb.control(''));
-  }
+	addRubricLevel() {
+		this.rubricLevels.push(this.fb.control(''));
+	}
 
-  deleteLevel(pos: number) {
-    this.rubricLevels.removeAt(pos);
-  }
+	deleteLevel(pos: number) {
+		this.rubricLevels.removeAt(pos);
+	}
 
-  pretify(str: string) {
-    return (new PretifyPipe()).transform(str);
-  }
+	pretify(str: string) {
+		return new PretifyPipe().transform(str);
+	}
 
-  yearIndex(grade: string): number {
-    return ['PRIMERO','SEGUNDO','TERCERO','CUARTO','QUINTO','SEXTO'].indexOf(grade);
-  }
+	yearIndex(grade: string): number {
+		return [
+			'PRIMERO',
+			'SEGUNDO',
+			'TERCERO',
+			'CUARTO',
+			'QUINTO',
+			'SEXTO',
+		].indexOf(grade);
+	}
 
-  get rubricLevels() {
-    return this.rubricForm.get('levels') as FormArray;
-  }
+	get rubricLevels() {
+		return this.rubricForm.get('levels') as FormArray;
+	}
 }

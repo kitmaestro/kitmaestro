@@ -1,4 +1,4 @@
-import { ClassSection } from './class-section'
+import { ClassSection } from './class-section';
 import { UserSettings } from './user-settings';
 
 export interface Test {

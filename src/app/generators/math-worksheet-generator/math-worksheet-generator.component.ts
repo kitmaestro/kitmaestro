@@ -10,37 +10,36 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-math-worksheet-generator',
-    imports: [
-        IsPremiumComponent,
-        CommonModule,
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        MatSnackBarModule,
-        ReactiveFormsModule,
-    ],
-    templateUrl: './math-worksheet-generator.component.html',
-    styleUrl: './math-worksheet-generator.component.scss'
+	selector: 'app-math-worksheet-generator',
+	imports: [
+		IsPremiumComponent,
+		CommonModule,
+		MatCardModule,
+		MatButtonModule,
+		MatIconModule,
+		MatSnackBarModule,
+		ReactiveFormsModule,
+	],
+	templateUrl: './math-worksheet-generator.component.html',
+	styleUrl: './math-worksheet-generator.component.scss',
 })
 export class MathWorksheetGeneratorComponent {
-  userSubscriptionService = inject(UserSubscriptionService);
-  fb = inject(FormBuilder);
+	userSubscriptionService = inject(UserSubscriptionService);
+	fb = inject(FormBuilder);
 
-  loading = false;
+	loading = false;
 
-  topics = [
-    { id: 'addition', label: 'Suma' },
-    { id: 'subtraction', label: 'Suma' },
-    { id: 'multiplication', label: 'Suma' },
-    { id: 'division', label: 'Suma' },
-  ]
+	topics = [
+		{ id: 'addition', label: 'Suma' },
+		{ id: 'subtraction', label: 'Suma' },
+		{ id: 'multiplication', label: 'Suma' },
+		{ id: 'division', label: 'Suma' },
+	];
 
-  generatorForm = this.fb.group({
-    topic: ['addition'],
-    type: ['exercise'],
-    level: ["0"],
-    items: [10]
-  })
-
+	generatorForm = this.fb.group({
+		topic: ['addition'],
+		type: ['exercise'],
+		level: ['0'],
+		items: [10],
+	});
 }

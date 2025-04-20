@@ -1,11 +1,11 @@
-import { School } from "./school";
+import { School } from './school';
 
 export interface ClassSection {
-  _id: string;
-  user: string;
-  school: School;
-  level: string;
-  year: string;
-  name: string;
-  subjects: string[];
+	_id: string;
+	user: string;
+	school: School;
+	level: string;
+	year: string;
+	name: string;
+	subjects: string[];
 }

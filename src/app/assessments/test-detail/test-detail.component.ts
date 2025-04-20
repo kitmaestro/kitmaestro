@@ -9,16 +9,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { TestComponent } from '../test/test.component';
 
 @Component({
-  selector: 'app-test-detail',
+	selector: 'app-test-detail',
 	imports: [
 		MatCardModule,
 		RouterModule,
 		MatIconModule,
 		MatButtonModule,
 		TestComponent,
-  ],
-  templateUrl: './test-detail.component.html',
-  styleUrl: './test-detail.component.scss'
+	],
+	templateUrl: './test-detail.component.html',
+	styleUrl: './test-detail.component.scss',
 })
 export class TestDetailComponent implements OnInit {
 	private testService = inject(TestService);
@@ -32,24 +32,30 @@ export class TestDetailComponent implements OnInit {
 
 	ngOnInit() {
 		if (!this.id) {
-			this.sb.open('No se ha encontrado el examen', 'Ok', { duration: 2500 });
+			this.sb.open('No se ha encontrado el examen', 'Ok', {
+				duration: 2500,
+			});
 			return;
 		}
 
 		this.loading = true;
 
 		const sus = this.testService.find(this.id).subscribe({
-			next: test => {
+			next: (test) => {
 				sus.unsubscribe();
 				this.test = test;
 				this.loading = false;
 			},
-			error: err => {
+			error: (err) => {
 				console.log(err);
 				this.router.navigateByUrl('/tests').then(() => {
-					this.sb.open('Ha ocurrido un error al cargar el examen solicitado', 'Ok', { duration: 2500 });
+					this.sb.open(
+						'Ha ocurrido un error al cargar el examen solicitado',
+						'Ok',
+						{ duration: 2500 },
+					);
 				});
-			}
+			},
 		});
 	}
 
@@ -63,16 +69,22 @@ export class TestDetailComponent implements OnInit {
 
 	remove() {
 		this.testService.delete(this.id).subscribe({
-			next: res => {
+			next: (res) => {
 				if (res.deletedCount > 0)
 					this.router.navigateByUrl('/tests').then(() => {
-						this.sb.open('Se ha eliminado el examen', 'Ok', { duration: 2500 });
+						this.sb.open('Se ha eliminado el examen', 'Ok', {
+							duration: 2500,
+						});
 					});
 			},
-			error: err => {
+			error: (err) => {
 				console.log(err);
-				this.sb.open('Ha ocurrido un error al borrar el examen.', 'Ok', { duration: 2500 });
-			}
+				this.sb.open(
+					'Ha ocurrido un error al borrar el examen.',
+					'Ok',
+					{ duration: 2500 },
+				);
+			},
 		});
 	}
 }

@@ -1,1 +1,7 @@
-export type GradeName = "PRIMERO" | "SEGUNDO" | "TERCERO" | "CUARTO" | "QUINTO" | "SEXTO";
+export type GradeName =
+	| 'PRIMERO'
+	| 'SEGUNDO'
+	| 'TERCERO'
+	| 'CUARTO'
+	| 'QUINTO'
+	| 'SEXTO';

@@ -1,12 +1,10 @@
 export const COMPETENCE = [
-    {
-        name: "Comunicativa",
-        specific: {
-            primary: {
-                'LENGUA_ESPANOLA': [
-                    
-                ]
-            }
-        }
-    }
-]
+	{
+		name: 'Comunicativa',
+		specific: {
+			primary: {
+				LENGUA_ESPANOLA: [],
+			},
+		},
+	},
+];

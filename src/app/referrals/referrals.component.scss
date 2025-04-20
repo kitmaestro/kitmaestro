@@ -1,53 +1,53 @@
 .giant {
-    font-size: 5em;
-    text-align: center;
-    padding: 24px;
+	font-size: 5em;
+	text-align: center;
+	padding: 24px;
 }
 
 .card-grid-2 {
-    display: grid;
-    gap: 16px;
-    margin-top: 24px;
-    grid-template-columns: 1fr;
+	display: grid;
+	gap: 16px;
+	margin-top: 24px;
+	grid-template-columns: 1fr;
 
-    @media screen and (min-width: 960px) {
-        grid-template-columns: 1fr 1fr;
-    }
+	@media screen and (min-width: 960px) {
+		grid-template-columns: 1fr 1fr;
+	}
 }
 
 .card-grid {
-    display: grid;
-    gap: 16px;
-    margin-top: 24px;
-    grid-template-columns: 1fr;
+	display: grid;
+	gap: 16px;
+	margin-top: 24px;
+	grid-template-columns: 1fr;
 
-    @media screen and (min-width: 960px) {
-        grid-template-columns: 1fr 1fr;
-    }
+	@media screen and (min-width: 960px) {
+		grid-template-columns: 1fr 1fr;
+	}
 
-    @media screen and (min-width: 1200px) {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
+	@media screen and (min-width: 1200px) {
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+	}
 }
 
 .shadow {
-    box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
-    -webkit-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+	-webkit-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
 }
 
 .mobile {
-  display: block;
+	display: block;
 
-  @media screen and (min-width: 960px) {
-    display: none;
-  }
+	@media screen and (min-width: 960px) {
+		display: none;
+	}
 }
 
 .desktop {
-  display: none;
+	display: none;
 
-  @media screen and (min-width: 960px) {
-    display: block;
-  }
+	@media screen and (min-width: 960px) {
+		display: block;
+	}
 }

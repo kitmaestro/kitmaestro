@@ -3,15 +3,10 @@ import { InProgressComponent } from '../../ui/alerts/in-progress/in-progress.com
 import { IsPremiumComponent } from '../../ui/alerts/is-premium/is-premium.component';
 
 @Component({
-  selector: 'app-grading-systems',
-  standalone: true,
-  imports: [
-    InProgressComponent,
-    IsPremiumComponent,
-  ],
-  templateUrl: './grading-systems.component.html',
-  styleUrl: './grading-systems.component.scss'
+	selector: 'app-grading-systems',
+	standalone: true,
+	imports: [InProgressComponent, IsPremiumComponent],
+	templateUrl: './grading-systems.component.html',
+	styleUrl: './grading-systems.component.scss',
 })
-export class GradingSystemsComponent {
-
-}
+export class GradingSystemsComponent {}

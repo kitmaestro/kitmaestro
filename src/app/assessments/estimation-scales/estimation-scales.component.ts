@@ -9,42 +9,44 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-estimation-scales',
-    imports: [
-        MatTableModule,
-        MatSnackBarModule,
-        MatButtonModule,
-        MatIconModule,
-        RouterLink,
-        MatCardModule,
-    ],
-    templateUrl: './estimation-scales.component.html',
-    styleUrl: './estimation-scales.component.scss'
+	selector: 'app-estimation-scales',
+	imports: [
+		MatTableModule,
+		MatSnackBarModule,
+		MatButtonModule,
+		MatIconModule,
+		RouterLink,
+		MatCardModule,
+	],
+	templateUrl: './estimation-scales.component.html',
+	styleUrl: './estimation-scales.component.scss',
 })
 export class EstimationScalesComponent implements OnInit {
-  private scaleService = inject(EstimationScaleService);
-  private sb = inject(MatSnackBar);
+	private scaleService = inject(EstimationScaleService);
+	private sb = inject(MatSnackBar);
 
-  displayedColumns = ['title', 'section', 'subject', 'activity', 'actions'];
+	displayedColumns = ['title', 'section', 'subject', 'activity', 'actions'];
 
-  assessments: EstimationScale[] = [];
+	assessments: EstimationScale[] = [];
 
-  ngOnInit(): void {
-    this.loadInstruments();
-  }
+	ngOnInit(): void {
+		this.loadInstruments();
+	}
 
-  loadInstruments() {
-    this.scaleService.findAll().subscribe(scales => {
-      if (scales.length) {
-        this.assessments = scales;
-      }
-    });
-  }
+	loadInstruments() {
+		this.scaleService.findAll().subscribe((scales) => {
+			if (scales.length) {
+				this.assessments = scales;
+			}
+		});
+	}
 
-  deleteAssessment(id: string) {
-    this.scaleService.delete(id).subscribe(() => {
-      this.sb.open('Se ha eliminado el intrumento', 'Ok', { duration: 2500 });
-      this.loadInstruments();
-    });
-  }
+	deleteAssessment(id: string) {
+		this.scaleService.delete(id).subscribe(() => {
+			this.sb.open('Se ha eliminado el intrumento', 'Ok', {
+				duration: 2500,
+			});
+			this.loadInstruments();
+		});
+	}
 }

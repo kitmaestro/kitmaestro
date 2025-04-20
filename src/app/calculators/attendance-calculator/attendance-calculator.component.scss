@@ -1,34 +1,34 @@
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 
-input[type=number] {
-    -moz-appearance: textfield;
+input[type="number"] {
+	-moz-appearance: textfield;
 }
 
 tr:nth-child(even) {
-    background-color: #f8f8f8;
+	background-color: #f8f8f8;
 }
 
 .form-container {
-    display: flex;
-    gap: 16px;
-    align-items: center;
+	display: flex;
+	gap: 16px;
+	align-items: center;
 
-    input {
-        margin-top: auto;
-        margin-bottom: auto;
-        font-size: 22pt;
-        display: inline-block;
-        border: 1px solid #f2f2f2;
-        border-radius: 8px;
-        padding: 4px 8px;
-        text-align: center;
-    }
+	input {
+		margin-top: auto;
+		margin-bottom: auto;
+		font-size: 22pt;
+		display: inline-block;
+		border: 1px solid #f2f2f2;
+		border-radius: 8px;
+		padding: 4px 8px;
+		text-align: center;
+	}
 }
 
 .card {
-    margin-bottom: 16px;
+	margin-bottom: 16px;
 }

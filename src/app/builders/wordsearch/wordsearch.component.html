@@ -1,102 +1,169 @@
-<mat-card style="margin-bottom: 24px;">
-    <mat-card-header>
-        <h2 mat-card-title>Generador de Sopas de Letras</h2>
-    </mat-card-header>
-    <mat-card-content>
-        <form [formGroup]="wsForm" (ngSubmit)="generateWordSearch()">
-            <div style="display: flex; gap: 16px;">
-                <div style="min-width: 25%;">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Curso</mat-label>
-                        <mat-select formControlName="section" (selectionChange)="onSectionSelect($event)">
-                            @for(option of sections; track option._id) {
-                                <mat-option [value]="option._id">{{option.name}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div style="min-width: 25%;">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Tema</mat-label>
-                        <mat-select formControlName="topic">
-                            @for(option of topics; track option.id) {
-                                <mat-option [value]="option.id">{{option.topic}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div style="min-width: 25%;">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Cantidad de Palabras</mat-label>
-                        <input matInput formControlName="size" type="number" min="1" max="25">
-                    </mat-form-field>
-                </div>
-                <div style="min-width: 25%;">
-                    <mat-label>Campos a Incluir:</mat-label>
-                    <mat-chip-set>
-                        <mat-chip-option [selected]="true" (selectionChange)="toggleName()">Nombre</mat-chip-option>
-                        <mat-chip-option [selected]="true" (selectionChange)="toggleGrade()">Grado</mat-chip-option>
-                        <mat-chip-option [selected]="true" (selectionChange)="toggleDate()">Fecha</mat-chip-option>
-                    </mat-chip-set>
-                </div>
-            </div>
-            @if (wordsearch) {
-                <button type="button" (click)="print()" style="margin-right: 12px;" mat-raised-button color="accent">Exportar</button>
-            }
-            <button type="submit" mat-raised-button color="primary">{{ wordsearch ? 'Regenerar' : 'Generar' }}</button>
-        </form>
-    </mat-card-content>
+<mat-card style="margin-bottom: 24px">
+	<mat-card-header>
+		<h2 mat-card-title>Generador de Sopas de Letras</h2>
+	</mat-card-header>
+	<mat-card-content>
+		<form [formGroup]="wsForm" (ngSubmit)="generateWordSearch()">
+			<div style="display: flex; gap: 16px">
+				<div style="min-width: 25%">
+					<mat-form-field appearance="outline">
+						<mat-label>Curso</mat-label>
+						<mat-select
+							formControlName="section"
+							(selectionChange)="onSectionSelect($event)"
+						>
+							@for (option of sections; track option._id) {
+								<mat-option [value]="option._id">{{
+									option.name
+								}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div style="min-width: 25%">
+					<mat-form-field appearance="outline">
+						<mat-label>Tema</mat-label>
+						<mat-select formControlName="topic">
+							@for (option of topics; track option.id) {
+								<mat-option [value]="option.id">{{
+									option.topic
+								}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div style="min-width: 25%">
+					<mat-form-field appearance="outline">
+						<mat-label>Cantidad de Palabras</mat-label>
+						<input
+							matInput
+							formControlName="size"
+							type="number"
+							min="1"
+							max="25"
+						/>
+					</mat-form-field>
+				</div>
+				<div style="min-width: 25%">
+					<mat-label>Campos a Incluir:</mat-label>
+					<mat-chip-set>
+						<mat-chip-option
+							[selected]="true"
+							(selectionChange)="toggleName()"
+							>Nombre</mat-chip-option
+						>
+						<mat-chip-option
+							[selected]="true"
+							(selectionChange)="toggleGrade()"
+							>Grado</mat-chip-option
+						>
+						<mat-chip-option
+							[selected]="true"
+							(selectionChange)="toggleDate()"
+							>Fecha</mat-chip-option
+						>
+					</mat-chip-set>
+				</div>
+			</div>
+			@if (wordsearch) {
+				<button
+					type="button"
+					(click)="print()"
+					style="margin-right: 12px"
+					mat-raised-button
+					color="accent"
+				>
+					Exportar
+				</button>
+			}
+			<button type="submit" mat-raised-button color="primary">
+				{{ wordsearch ? "Regenerar" : "Generar" }}
+			</button>
+		</form>
+	</mat-card-content>
 </mat-card>
 
-@if(wordsearch) {
-    <mat-card>
-        <mat-card-content>
-            <div class="page" id="wordsearch" style="padding: 12px;">
-                <div style="text-align: center;">
-                    <h3 style="margin-bottom: 0; font-weight: bold; font-size: large;">{{ schoolName }}</h3>
-                    <h4 style="margin-bottom: 0;">{{ teacherName }}</h4>
-                    <h5 style="font-size: medium; margin-bottom: 24px;">Sopa de Letras - {{topicName()}}</h5>
-                </div>
-                <div style="margin-bottom: 42px; display: flex;">
-                    @if(wsForm.get('name')?.value === true) {
-                        <div><b>Nombre</b>:</div>
-                        <div class="blank"></div>
-                    }
-                    @if(wsForm.get('grade')?.value === true) {
-                        <div style="margin-left: 12px;"><b>Grado</b>:</div>
-                        <div class="blank"></div>
-                    }
-                    @if(wsForm.get('date')?.value === true) {
-                        <div style="margin-left: 12px;"><b>Fecha</b>:</div>
-                        <div style="max-width: 20%;" class="blank"></div>
-                    }
-                </div>
-                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px;">
-                    <div class="board">
-                        @for(line of wordsearch.grid; track $index) {
-                            <div class="line">
-                                @for(tile of line; track $index) {
-                                    <div class="tile" [style]="'width:'+ (100 / line.length).toFixed(2) + '%'">{{tile}}</div>
-                                }
-                            </div>
-                        }
-                    </div>
-                    <div>
-                        <h4 style="font-weight: bold;">Palabras a Buscar</h4>
-                        <ul style="margin: 0; padding: 0; list-style: none;">
-                            @for(word of includedWords; track $index) {
-                                <li style="padding: 6px 12px 6px 0px; font-size: 14px;">{{ word.toUpperCase() }}</li>
-                            }
-                        </ul>
-                        <!-- <h2>Palabras Excluidas</h2>
+@if (wordsearch) {
+	<mat-card>
+		<mat-card-content>
+			<div class="page" id="wordsearch" style="padding: 12px">
+				<div style="text-align: center">
+					<h3
+						style="
+							margin-bottom: 0;
+							font-weight: bold;
+							font-size: large;
+						"
+					>
+						{{ schoolName }}
+					</h3>
+					<h4 style="margin-bottom: 0">{{ teacherName }}</h4>
+					<h5 style="font-size: medium; margin-bottom: 24px">
+						Sopa de Letras - {{ topicName() }}
+					</h5>
+				</div>
+				<div style="margin-bottom: 42px; display: flex">
+					@if (wsForm.get("name")?.value === true) {
+						<div><b>Nombre</b>:</div>
+						<div class="blank"></div>
+					}
+					@if (wsForm.get("grade")?.value === true) {
+						<div style="margin-left: 12px"><b>Grado</b>:</div>
+						<div class="blank"></div>
+					}
+					@if (wsForm.get("date")?.value === true) {
+						<div style="margin-left: 12px"><b>Fecha</b>:</div>
+						<div style="max-width: 20%" class="blank"></div>
+					}
+				</div>
+				<div
+					style="
+						display: grid;
+						grid-template-columns: 2fr 1fr;
+						gap: 16px;
+					"
+				>
+					<div class="board">
+						@for (line of wordsearch.grid; track $index) {
+							<div class="line">
+								@for (tile of line; track $index) {
+									<div
+										class="tile"
+										[style]="
+											'width:' +
+											(100 / line.length).toFixed(2) +
+											'%'
+										"
+									>
+										{{ tile }}
+									</div>
+								}
+							</div>
+						}
+					</div>
+					<div>
+						<h4 style="font-weight: bold">Palabras a Buscar</h4>
+						<ul style="margin: 0; padding: 0; list-style: none">
+							@for (word of includedWords; track $index) {
+								<li
+									style="
+										padding: 6px 12px 6px 0px;
+										font-size: 14px;
+									"
+								>
+									{{ word.toUpperCase() }}
+								</li>
+							}
+						</ul>
+						<!-- <h2>Palabras Excluidas</h2>
                         <mat-list>
                             @for(word of wordsearch.unplaced; track $index) {
                                 <mat-list-item>{{ word.toUpperCase() }}</mat-list-item>
                             }
                         </mat-list> -->
-                    </div>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
+					</div>
+				</div>
+			</div>
+		</mat-card-content>
+	</mat-card>
 }

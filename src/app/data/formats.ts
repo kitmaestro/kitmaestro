@@ -1,8 +1,1 @@
-export const FORMATS = [
-    'PDF',
-    'Word',
-    'Excel',
-    'Imágenes',
-    'Videos',
-    'Audio'
-];
+export const FORMATS = ['PDF', 'Word', 'Excel', 'Imágenes', 'Videos', 'Audio'];

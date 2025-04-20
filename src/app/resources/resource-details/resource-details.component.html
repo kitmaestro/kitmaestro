@@ -1,60 +1,99 @@
 @if (resource) {
-    <mat-card class="resource-card">
-        <mat-card-header>
-            <h2 mat-card-title class="title">{{resource.title}}</h2>
-        </mat-card-header>
-        <mat-card-content>
-            <h3 mat-card-subtitle class="subtitle">
-                <img [src]="resource.author.email | gravatar" style="border-radius: 50%; width: 32px; height: auto;" alt="{{resource.author.firstname}} {{resource.author.lastname}}">
-                <span>{{resource.author.firstname}} {{resource.author.lastname}}</span>
-            </h3>
-            <div class="content-box">
-                <div class="slider-container">
-                    <app-slider [slides]="[resource.preview]"></app-slider>
-                </div>
-                <div class="details">
-                    <p>
-                        <b>Descripción:</b>
-                        {{resource.description}}
-                    </p>
-                    <p>
-                        <b>Nivel{{resource.level.length > 1 ? 'es' : ''}}:</b>
-                        @for (level of resource.level; track $index) {
-                            {{$index > 0 ? ', ' : ''}}{{level | pretify}}
-                        }
-                    </p>
-                    <p>
-                        <b>Grado{{resource.grade.length > 1 ? 's' : ''}}:</b>
-                        @for (grade of resource.grade; track $index) {
-                            {{$index > 0 ? ', ' : ''}}{{grade | pretify}}
-                        }
-                    </p>
-                    <p>
-                        <b>&Aacute;rea{{resource.subject.length > 1 ? 's' : ''}}:</b>
-                        @for (subject of resource.subject; track $index) {
-                            {{$index > 0 ? ', ' : ''}}{{subject | pretify}}
-                        }
-                    </p>
-                </div>
-                <div class="purchase-options">
-                    <div class="price">
-                        <div class="integer">RD${{getInteger(resource.price)}}</div>
-                        <div class="decimals">.{{getDecimals(resource.price)}}</div>
-                    </div>
-                    <div class="btn-container">
-                        <button (click)="downloadOrBuy(resource.downloadLink, resource.price === 0)" mat-flat-button color="primary">
-                            <mat-icon>{{ resource.price === 0 ? 'download' : 'shopping_cart' }}</mat-icon>
-                            {{ resource.downloads }}
-                            {{ resource.price === 0 ? 'Descargar' : 'Comprar Ahora' }}
-                        </button>
-                        <button mat-raised-button color="link" (click)="bookmark()" [color]="bookmarked ? 'accent' : 'link'">
-                            <mat-icon>bookmark</mat-icon>
-                            {{ resource.bookmarks }}
-                            {{ bookmarked ? 'Olvidar' : 'Guardar' }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
+	<mat-card class="resource-card">
+		<mat-card-header>
+			<h2 mat-card-title class="title">{{ resource.title }}</h2>
+		</mat-card-header>
+		<mat-card-content>
+			<h3 mat-card-subtitle class="subtitle">
+				<img
+					[src]="resource.author.email | gravatar"
+					style="border-radius: 50%; width: 32px; height: auto"
+					alt="{{ resource.author.firstname }} {{
+						resource.author.lastname
+					}}"
+				/>
+				<span
+					>{{ resource.author.firstname }}
+					{{ resource.author.lastname }}</span
+				>
+			</h3>
+			<div class="content-box">
+				<div class="slider-container">
+					<app-slider [slides]="[resource.preview]"></app-slider>
+				</div>
+				<div class="details">
+					<p>
+						<b>Descripción:</b>
+						{{ resource.description }}
+					</p>
+					<p>
+						<b>Nivel{{ resource.level.length > 1 ? "es" : "" }}:</b>
+						@for (level of resource.level; track $index) {
+							{{ $index > 0 ? ", " : "" }}{{ level | pretify }}
+						}
+					</p>
+					<p>
+						<b>Grado{{ resource.grade.length > 1 ? "s" : "" }}:</b>
+						@for (grade of resource.grade; track $index) {
+							{{ $index > 0 ? ", " : "" }}{{ grade | pretify }}
+						}
+					</p>
+					<p>
+						<b
+							>&Aacute;rea{{
+								resource.subject.length > 1 ? "s" : ""
+							}}:</b
+						>
+						@for (subject of resource.subject; track $index) {
+							{{ $index > 0 ? ", " : "" }}{{ subject | pretify }}
+						}
+					</p>
+				</div>
+				<div class="purchase-options">
+					<div class="price">
+						<div class="integer">
+							RD${{ getInteger(resource.price) }}
+						</div>
+						<div class="decimals">
+							.{{ getDecimals(resource.price) }}
+						</div>
+					</div>
+					<div class="btn-container">
+						<button
+							(click)="
+								downloadOrBuy(
+									resource.downloadLink,
+									resource.price === 0
+								)
+							"
+							mat-flat-button
+							color="primary"
+						>
+							<mat-icon>{{
+								resource.price === 0
+									? "download"
+									: "shopping_cart"
+							}}</mat-icon>
+							{{ resource.downloads }}
+							{{
+								resource.price === 0
+									? "Descargar"
+									: "Comprar Ahora"
+							}}
+						</button>
+						<button
+							mat-raised-button
+							color="link"
+							(click)="bookmark()"
+							[color]="bookmarked ? 'accent' : 'link'"
+						>
+							<mat-icon>bookmark</mat-icon>
+							{{ resource.bookmarks }}
+							{{ bookmarked ? "Olvidar" : "Guardar" }}
+						</button>
+					</div>
+				</div>
+			</div>
+		</mat-card-content>
+	</mat-card>
 }

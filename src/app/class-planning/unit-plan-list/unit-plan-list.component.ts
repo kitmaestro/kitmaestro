@@ -13,40 +13,44 @@ import { PretifyPipe } from '../../pipes/pretify.pipe';
 import { UnitPlan } from '../../interfaces/unit-plan';
 
 @Component({
-    selector: 'app-unit-plan-list',
-    imports: [
-        MatButtonModule,
-        MatCardModule,
-        MatListModule,
-        MatTableModule,
-        DatePipe,
-        RouterModule,
-        MatIconModule,
-        PretifyPipe,
-    ],
-    templateUrl: './unit-plan-list.component.html',
-    styleUrl: './unit-plan-list.component.scss'
+	selector: 'app-unit-plan-list',
+	imports: [
+		MatButtonModule,
+		MatCardModule,
+		MatListModule,
+		MatTableModule,
+		DatePipe,
+		RouterModule,
+		MatIconModule,
+		PretifyPipe,
+	],
+	templateUrl: './unit-plan-list.component.html',
+	styleUrl: './unit-plan-list.component.scss',
 })
 export class UnitPlanListComponent {
-  unitPlansService = inject(UnitPlanService);
-  unitPlans$ = this.unitPlansService.findAll().pipe(tap(() => this.loading = false));
-  sb = inject(MatSnackBar);
+	unitPlansService = inject(UnitPlanService);
+	unitPlans$ = this.unitPlansService
+		.findAll()
+		.pipe(tap(() => (this.loading = false)));
+	sb = inject(MatSnackBar);
 
-  displayedColumns = ['title', 'section', 'subject', 'date', 'actions'];
+	displayedColumns = ['title', 'section', 'subject', 'date', 'actions'];
 
-  loading = true;
+	loading = true;
 
-  deletePlan(id: string) {
-    this.unitPlansService.delete(id).subscribe((result) => {
-      if (result.deletedCount === 1) {
-        this.sb.open('El Plan fue eliminado!', 'Ok', { duration: 2500 });
-        this.unitPlans$ = this.unitPlansService.findAll();
-      }
-    });
-  }
+	deletePlan(id: string) {
+		this.unitPlansService.delete(id).subscribe((result) => {
+			if (result.deletedCount === 1) {
+				this.sb.open('El Plan fue eliminado!', 'Ok', {
+					duration: 2500,
+				});
+				this.unitPlans$ = this.unitPlansService.findAll();
+			}
+		});
+	}
 
-  async download(plan: UnitPlan) {
-    await this.unitPlansService.download(plan);
-    this.sb.open('Se ha descargado tu plan', 'Ok', { duration: 2500 });
-  }
+	async download(plan: UnitPlan) {
+		await this.unitPlansService.download(plan);
+		this.sb.open('Se ha descargado tu plan', 'Ok', { duration: 2500 });
+	}
 }

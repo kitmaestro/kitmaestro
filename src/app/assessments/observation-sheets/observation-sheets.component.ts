@@ -10,43 +10,45 @@ import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-    selector: 'app-observation-sheets',
-    imports: [
-        MatTableModule,
-        MatSnackBarModule,
-        MatButtonModule,
-        MatIconModule,
-        RouterLink,
-        DatePipe,
-        MatCardModule,
-    ],
-    templateUrl: './observation-sheets.component.html',
-    styleUrl: './observation-sheets.component.scss'
+	selector: 'app-observation-sheets',
+	imports: [
+		MatTableModule,
+		MatSnackBarModule,
+		MatButtonModule,
+		MatIconModule,
+		RouterLink,
+		DatePipe,
+		MatCardModule,
+	],
+	templateUrl: './observation-sheets.component.html',
+	styleUrl: './observation-sheets.component.scss',
 })
 export class ObservationSheetsComponent implements OnInit {
-  private guideService = inject(ObservationGuideService);
-  private sb = inject(MatSnackBar);
+	private guideService = inject(ObservationGuideService);
+	private sb = inject(MatSnackBar);
 
-  displayedColumns = ['title', 'date', 'section', 'individual', 'actions'];
+	displayedColumns = ['title', 'date', 'section', 'individual', 'actions'];
 
-  assessments: ObservationGuide[] = [];
+	assessments: ObservationGuide[] = [];
 
-  ngOnInit(): void {
-    this.loadGuides();
-  }
+	ngOnInit(): void {
+		this.loadGuides();
+	}
 
-  loadGuides() {
-    this.guideService.findAll().subscribe(guides => {
-      if (guides.length) {
-        this.assessments = guides;
-      }
-    });
-  }
+	loadGuides() {
+		this.guideService.findAll().subscribe((guides) => {
+			if (guides.length) {
+				this.assessments = guides;
+			}
+		});
+	}
 
-  deleteAssessment(id: string) {
-    this.guideService.delete(id).subscribe(() => {
-      this.sb.open('Se ha eliminado el intrumento', 'Ok', { duration: 2500 });
-      this.loadGuides();
-    });
-  }
+	deleteAssessment(id: string) {
+		this.guideService.delete(id).subscribe(() => {
+			this.sb.open('Se ha eliminado el intrumento', 'Ok', {
+				duration: 2500,
+			});
+			this.loadGuides();
+		});
+	}
 }
