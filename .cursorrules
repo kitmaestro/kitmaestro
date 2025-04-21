@@ -1,0 +1,53 @@
+# Reglas y Preferencias para Generar Componentes Angular
+
+Estas son las directrices a seguir al crear nuevos componentes Angular:
+
+1.  **Idioma (Language):**
+    * **Código Interno:** Usar **Inglés** para nombres de variables, métodos, clases, propiedades, controles de formulario, etc. (`isLoading`, `onSubmit`, `hookForm`, `sectionCtrl`).
+    * **UI Text:** Usar **Español** para texto visible por el usuario (labels de `mat-form-field`, texto en botones, placeholders, opciones fijas en `mat-select`, mensajes de `mat-error`, títulos de `mat-card-title/subtitle`).
+    * **Comentarios:** Pueden estar en Español o Inglés.
+
+2.  **Estructura del Componente (Component Structure):**
+    * **Plana (Flat):** Implementar componentes como "flat components". La plantilla (`template: \`...\``) y los estilos (`styles: [\`...\`]`) deben estar **inline** dentro del decorador `@Component` en el archivo `.ts`. No crear archivos `.html` o `.scss` separados.
+    * **Standalone:** Preferir componentes `standalone: true`.
+
+3.  **Iconos (Icons):**
+    * Utilizar exclusivamente el componente `<mat-icon>` de Angular Material para mostrar iconos. No usar `<span>` con clases CSS de iconos.
+
+4.  **Gestión del Ciclo de Vida (Lifecycle Management):**
+    * Implementar `OnInit` y `OnDestroy`.
+    * Utilizar `Subject` y el operador `takeUntil(this.#destroy$)` para gestionar todas las suscripciones a observables de larga duración iniciadas en `ngOnInit` y prevenir fugas de memoria. Asegurarse de llamar a `this.#destroy$.next()` y `this.#destroy$.complete()` en `ngOnDestroy`.
+
+5.  **Formularios (Forms):**
+    * Utilizar **`ReactiveFormsModule`** (`FormBuilder`, `FormGroup`, `FormControl`). No usar `FormsModule` (`[(ngModel)]`).
+    * Aplicar validadores (`Validators.required`, etc.) según sea necesario.
+    * Manejar el estado `disabled` de los controles dependientes (ej: deshabilitar "Asignatura" hasta que se seleccione "Curso").
+    * Implementar validación condicional si es necesario (ej: campo personalizado requerido solo si se selecciona "Otro").
+
+6.  **Layout y Estilos (Layout & Styles):**
+    * **Estilos Inline:** Definir los estilos dentro de la propiedad `styles: [\`...\`]` del decorador `@Component`.
+
+7.  **Servicios y Rutas (Services & Paths):**
+    * Utilizar las rutas de servicios (ej: `src/app/services/`) e interfaces (ej: `src/app/interfaces/`) proporcionadas o asumir una estructura estándar si no se especifican.
+    * Utilizar los nombres de servicios y métodos indicados (ej: `ClassSectionService.getSections()`, `AiService.geminiAi()`).
+
+8.  **Librería UI (UI Library):**
+    * Utilizar **Angular Material** para todos los componentes de UI (`MatCard`, `MatFormField`, `MatSelect`, `MatInput`, `MatButton`, `MatIcon`, `MatProgressSpinner`, `MatSnackBar`).
+
+9.  **Características Angular (Angular Features):**
+    * Usar control de flujo incorporado (`@if`, `@for`).
+    * Usar Signals para gestionar el estado interno de la UI (ej: `isLoading`, `showResult`) donde sea apropiado y no entre en conflicto con el uso de `ReactiveFormsModule` para el formulario principal.
+
+10. **Generación DOCX (DOCX Generation):**
+    * Incluir la funcionalidad para descargar los resultados generados como un archivo `.docx`.
+    * Utilizar las librerías `docx` y `file-saver`.
+    * Incluir información de contexto relevante (curso, asignatura, tema, etc.) dentro del documento descargado y en el nombre del archivo.
+
+11. **Ingeniería de Prompts (Prompt Engineering):**
+    * Construir prompts detallados y específicos para el servicio de IA (`AiService.geminiAi`).
+    * Especificar claramente el contexto (nivel educativo, asignatura, tema), el formato de salida deseado, la audiencia objetivo (ej: "profesor sin experiencia previa"), y cualquier restricción o requisito particular (ej: "generar 3-5 ideas variadas", "sin saludos ni despedidas").
+
+12. **Manejo de Errores (Error Handling):**
+    * Implementar manejo básico de errores para las llamadas a servicios asíncronos (ej: `try/catch` con `async/await`, o `catchError` con `rxjs`).
+    * Mostrar mensajes de error claros al usuario utilizando `MatSnackBar`.
+    * Utilizar `finalize` para asegurar que los indicadores de carga (`isLoading`, `isGenerating`) se desactiven incluso si ocurre un error.

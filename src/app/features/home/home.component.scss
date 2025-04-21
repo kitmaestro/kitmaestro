@@ -1,0 +1,137 @@
+.apps-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 24px;
+	max-width: 1200px;
+	margin: 24px auto;
+	padding-bottom: 24px;
+
+	@media screen and (max-width: 720px) {
+		h2 {
+			font-size: 16px;
+		}
+	}
+
+	@media screen and (min-width: 720px) {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	@media screen and (min-width: 960px) {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	@media screen and (min-width: 1400px) {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+.app-icon {
+	display: block;
+	aspect-ratio: 1/1;
+	border-radius: 50%;
+	margin: 0 auto 12px;
+	max-width: 80%;
+	border-width: 5px;
+	border-style: solid;
+	border-radius: 50%;
+	background-color: #fff;
+
+	@media screen and (min-width: 960px) {
+		max-width: 50%;
+	}
+}
+
+.app-card {
+	cursor: pointer;
+	margin-bottom: 16px;
+	display: block;
+	color: #263238;
+	height: 100%;
+	text-decoration: none;
+}
+
+.pro {
+	border-color: #ffd740;
+}
+
+.free {
+	border-color: #673ab7;
+}
+
+.incomplete {
+	-webkit-box-shadow: 0px 0px 21px 8px rgba(244, 67, 54, 0.61);
+	-moz-box-shadow: 0px 0px 21px 8px rgba(244, 67, 54, 0.61);
+	box-shadow: 0px 0px 21px 8px rgba(244, 67, 54, 0.61);
+	// border: 2px solid #f44336;
+}
+
+.app-icon {
+	width: 75%;
+	margin: 16px auto;
+	display: block;
+	aspect-ratio: 1/1;
+}
+
+.is-premium-icon {
+	position: absolute;
+	top: 12px;
+	right: 0;
+	transform: translate(50%, -50%);
+}
+
+p {
+	font-size: 14px;
+	color: gray;
+	font-family: Roboto, sans-serif;
+	line-height: 1.5;
+}
+
+.inner-grid {
+	display: grid;
+	grid-template-rows: 1fr 1fr;
+	gap: 12px;
+	height: 100%;
+	align-items: center;
+
+	img {
+		width: 50%;
+		display: block;
+		aspect-ratio: 4/3;
+		margin: 0 auto 12px;
+	}
+}
+
+.card {
+	height: 100%;
+}
+
+.card:hover {
+	background-color: #d7e3ff;
+
+	& p {
+		color: #005cbb;
+	}
+}
+
+.search-container {
+	width: 90%;
+	margin: 0 auto 24px;
+
+	@media screen and (min-width: 1100px) {
+		width: 50%;
+		max-width: 720px;
+	}
+
+	mat-form-field {
+		width: 100%;
+	}
+}
+
+.container {
+	margin: 24px;
+
+	@media screen and (min-width: 1200px) {
+		margin: 0 auto;
+		max-width: 1200px;
+	}
+}
