@@ -499,16 +499,18 @@ export const routes: Routes = [
 				path: 'synonyms',
 				loadComponent: () =>
 					import(
-						'./features/builders/synonyms/synonyms.component'
-					).then((m) => m.SynonymsComponent),
+						'./features/generators/synonyms-generator.component'
+						// './features/builders/synonyms/synonyms.component'
+					).then((m) => m.SynonymsGeneratorComponent),
 				title: 'Generador de Sinónimos',
 			},
 			{
 				path: 'antonyms',
 				loadComponent: () =>
 					import(
-						'./features/builders/antonyms/antonyms.component'
-					).then((m) => m.AntonymsComponent),
+						'./features/generators/antonyms-generator.component'
+						// './features/builders/antonyms/antonyms.component'
+					).then((m) => m.AntonymsGeneratorComponent),
 				title: 'Generador de Antónimos',
 			},
 			{

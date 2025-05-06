@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { delay, filter, finalize, of, switchMap } from 'rxjs';
+import { delay, filter, finalize, of, switchMap, take } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 import { User } from '../core/interfaces/user';
 import { NavigationComponent } from './components/navigation.component';
@@ -91,12 +91,9 @@ export class MainLayoutComponent {
 	}
 
 	ngOnInit() {
-		of()
-			.pipe(
-				delay(1300),
-				switchMap(() => this.#router.events),
-				filter((event) => event instanceof NavigationEnd),
+		this.#authService.profile().pipe(
 				switchMap(() => this.#authService.profile()),
+				filter((event) => event instanceof NavigationEnd),
 				finalize(() => this.loading.set(false)),
 			)
 			.subscribe({
