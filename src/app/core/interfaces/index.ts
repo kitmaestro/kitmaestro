@@ -1,5 +1,5 @@
 export * from './anniversary';
-export * from './api-creation-response';
+// export * from './api-creation-response';
 export * from './api-delete-response';
 export * from './api-error-response';
 export * from './api-update-response';

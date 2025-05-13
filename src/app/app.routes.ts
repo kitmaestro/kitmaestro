@@ -54,20 +54,32 @@ export const routes: Routes = [
 		children: [
 			// Admin area
 			{
-				path: 'admin',
-				loadComponent: () =>
-					import(
-						'./features/admin/admin-dashboard/admin-dashboard.component'
-					).then((mod) => mod.AdminDashboardComponent),
-				title: 'Panel de Administración',
-			},
-			{
-				path: 'admin/users',
-				loadComponent: () =>
-					import('./features/admin/users/users.component').then(
-						(mod) => mod.UsersComponent,
-					),
-				title: 'Usuarios',
+				path: 'admin', children: [
+					{
+						path: '',
+						loadComponent: () =>
+							import(
+								'./features/admin/admin-dashboard.component'
+							).then((mod) => mod.AdminDashboardComponent),
+						title: 'Panel de Administración',
+					},
+					{
+						path: 'content-blocks',
+						loadComponent: () =>
+							import('./features/admin/content-blocks-management.component').then(
+								(mod) => mod.ContentBlocksManagementComponent
+							),
+						title: 'Bloques de Contenido',
+					},
+					{
+						path: 'users',
+						loadComponent: () =>
+							import('./features/admin/users/users.component').then(
+								(mod) => mod.UsersComponent,
+							),
+						title: 'Usuarios',
+					},
+				]
 			},
 			{
 				path: 'users/:id',

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, computed, EventEmitter, inject, Output, signal } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -8,7 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router, RouterModule } from '@angular/router';
 import { QuoteDialogComponent } from '../../shared/ui/quote-dialog.component';
@@ -30,6 +30,16 @@ import { UserSubscriptionService } from '../../core/services/user-subscription.s
 					alt=""
 			/></span>
 			<span class="spacer"></span>
+			@if (userIsAdmin()) {
+				<button
+					mat-icon-button
+					color="primary"
+					[routerLink]="['/admin']"
+					style="margin-right: 6px; color: #005cbb"
+				>
+					<mat-icon>settings</mat-icon>
+				</button>
+			}
 			<button
 				mat-icon-button
 				color="primary"
@@ -174,6 +184,8 @@ export class NavigationComponent {
 
 	showNames = true;
 
+	userIsAdmin = signal<boolean>(false);
+
 	sidebarLinks: {
 		label: string;
 		route: string;
@@ -249,6 +261,10 @@ export class NavigationComponent {
 			label: 'Perfil',
 		},
 	];
+
+	ngOnInit() {
+		this.userSettings$.pipe(map(user => ['orgalay.dev@gmail.com'].includes(user.email))).subscribe(res => this.userIsAdmin.set(res));
+	}
 
 	toggleNames() {
 		this.showNames = !this.showNames;
