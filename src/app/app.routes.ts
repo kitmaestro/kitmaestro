@@ -1,114 +1,37 @@
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout.component';
 import { MainLayoutComponent } from './layouts/main-layout.component';
+import authRoutes from './features/auth/auth.routes';
+import adminRoutes from './features/admin/admin.routes';
+
+import { authGuard } from './core/guards/auth.guard';
+import { adminGuard } from './core/guards/admin.guard';
+import resourcesRoutes from './features/resources/resources.routes';
+import todoRoutes from './features/todo/todo.routes';
+import publicRoutes from './features/public/public.routes';
+import { PrintLayoutComponent } from './layouts/print-layout.component';
+import { PublicLayoutComponent } from './layouts/public-layout.component';
+import schedulingRoutes from './features/scheduling/scheduling.routes';
+import classPlanningRoutes from './features/class-planning/class-planning.routes';
 
 export const routes: Routes = [
 	// authentication
 	{
 		path: 'auth',
 		component: AuthLayoutComponent,
-		children: [
-			{
-				path: 'signup',
-				loadComponent: () =>
-					import('./features/auth/signup/signup.component').then(
-						(mod) => mod.SignupComponent,
-					),
-				title: 'Registro de Usuario',
-			},
-			{
-				path: 'login',
-				loadComponent: () =>
-					import('./features/auth/login/login.component').then(
-						(mod) => mod.LoginComponent,
-					),
-				title: 'Inicio de Sesión',
-			},
-			{
-				path: 'login/success/:jwt',
-				loadComponent: () =>
-					import('./features/auth/login/login.component').then(
-						(mod) => mod.LoginComponent,
-					),
-				title: 'Inicio de Sesión',
-			},
-			{
-				path: 'login/failure',
-				redirectTo: '/auth/login?error=Login Failure',
-				pathMatch: 'full',
-			},
-			{
-				path: 'reset',
-				loadComponent: () =>
-					import(
-						'./features/auth/pass-update/pass-update.component'
-					).then((mod) => mod.PassUpdateComponent),
-				title: 'Restablece tu Contraseña',
-			},
-			{ path: '**', redirectTo: '/auth/login', pathMatch: 'full' },
-		],
+		children: authRoutes,
+	},
+	{
+		path: 'admin',
+		component: MainLayoutComponent,
+		canActivate: [adminGuard],
+		children: adminRoutes,
 	},
 	{
 		path: '',
+		canActivate: [authGuard],
 		component: MainLayoutComponent,
 		children: [
-			// Admin area
-			{
-				path: 'admin', children: [
-					{
-						path: '',
-						loadComponent: () =>
-							import(
-								'./features/admin/admin-dashboard.component'
-							).then((mod) => mod.AdminDashboardComponent),
-						title: 'Panel de Administración',
-					},
-					{
-						path: 'content-blocks',
-						loadComponent: () =>
-							import('./features/admin/content-blocks-management.component').then(
-								(mod) => mod.ContentBlocksManagementComponent
-							),
-						title: 'Bloques de Contenido',
-					},
-					{
-						path: 'users',
-						loadComponent: () =>
-							import('./features/admin/users/users.component').then(
-								(mod) => mod.UsersComponent,
-							),
-						title: 'Usuarios',
-					},
-				]
-			},
-			{
-				path: 'users/:id',
-				loadComponent: () =>
-					import(
-						'./features/admin/user-details/user-details.component'
-					).then((mod) => mod.UserDetailsComponent),
-				title: 'Detalles del Usuario',
-			},
-
-			// inspiration
-			{
-				path: 'ideas',
-				loadComponent: () =>
-					import('./features/idea-board/idea-board.component').then(
-						(mod) => mod.IdeaBoardComponent,
-					),
-				title: 'Panel de Ideas',
-			},
-			{
-				path: 'ai-assistant',
-				loadComponent: () =>
-					import('./features/ai/ai-assistant.component').then(
-						(mod) => mod.AiAssistantComponent,
-					),
-				title: 'Asistente Virtual',
-			},
-
-			// informational
 			{
 				path: '',
 				loadComponent: () =>
@@ -118,52 +41,20 @@ export const routes: Routes = [
 				title: 'Inicio - KitMaestro',
 			},
 			{
-				path: 'pricing',
+				path: 'users/:id',
 				loadComponent: () =>
 					import(
-						'./features/buy-subscription/buy-subscription.component'
-					).then((mod) => mod.BuySubscriptionComponent),
-				title: 'Precios',
+						'./features/admin/pages/user-details.component'
+					).then((mod) => mod.UserDetailsComponent),
+				title: 'Detalles del Usuario',
 			},
 			{
-				path: 'buy',
+				path: 'ai-assistant',
 				loadComponent: () =>
-					import(
-						'./features/buy-subscription/buy-subscription.component'
-					).then((mod) => mod.BuySubscriptionComponent),
-				title: 'Comprar Suscripción',
-			},
-			{
-				path: 'updates',
-				loadComponent: () =>
-					import(
-						'./features/updates/update-list/update-list.component'
-					).then((mod) => mod.UpdateListComponent),
-				title: 'Noticias - KitMaestro',
-			},
-			{
-				path: 'tutorials',
-				loadComponent: () =>
-					import('./features/tutorials/tutorials.component').then(
-						(mod) => mod.TutorialsComponent,
+					import('./features/ai/ai-assistant.component').then(
+						(mod) => mod.AiAssistantComponent,
 					),
-				title: 'Tutoriales',
-			},
-			{
-				path: 'updates/new',
-				loadComponent: () =>
-					import('./features/updates/new/new.component').then(
-						(mod) => mod.NewComponent,
-					),
-				title: 'Crear Entrada',
-			},
-			{
-				path: 'roadmap',
-				loadComponent: () =>
-					import('./features/roadmap/roadmap.component').then(
-						(mod) => mod.RoadmapComponent,
-					),
-				title: 'Planes de Desarrollo',
+				title: 'Asistente Virtual',
 			},
 
 			// user data
@@ -183,34 +74,7 @@ export const routes: Routes = [
 					),
 				title: 'Panel de Referidos',
 			},
-
-			// utility links
-			{
-				path: 'print-unit-plan/:id',
-				loadComponent: () =>
-					import(
-						'./features/class-planning/unit-plan-detail/unit-plan-detail.component'
-					).then((mod) => mod.UnitPlanDetailComponent),
-				title: 'Plan de Unidad',
-			},
-
-			// todo
-			{
-				path: 'todos',
-				loadComponent: () =>
-					import('./features/todo-lists/todo-lists.component').then(
-						(mod) => mod.TodoListsComponent,
-					),
-				title: 'Lista de Pendientes',
-			},
-			{
-				path: 'todos/:id',
-				loadComponent: () =>
-					import('./features/todos/todos.component').then(
-						(mod) => mod.TodosComponent,
-					),
-				title: 'Lista de Tareas',
-			},
+			{ path: 'todos', children: todoRoutes, },
 
 			// sections
 			{
@@ -606,32 +470,6 @@ export const routes: Routes = [
 				title: 'Generador de Planos Cartesianos',
 			},
 
-			// scheduling
-			{
-				path: 'schedules',
-				loadComponent: () =>
-					import(
-						'./features/scheduling/schedule-list/schedule-list.component'
-					).then((mod) => mod.ScheduleListComponent),
-				title: 'Administrador de Horarios',
-			},
-			{
-				path: 'schedules/create',
-				loadComponent: () =>
-					import(
-						'./features/scheduling/schedule-builder/schedule-builder.component'
-					).then((mod) => mod.ScheduleBuilderComponent),
-				title: 'Registrar Horario',
-			},
-			{
-				path: 'schedules/:id',
-				loadComponent: () =>
-					import(
-						'./features/scheduling/schedule-detail/schedule-detail.component'
-					).then((mod) => mod.ScheduleDetailComponent),
-				title: 'Detalles del Horario',
-			},
-
 			// assessments
 			{
 				path: 'checklist-generator',
@@ -753,80 +591,6 @@ export const routes: Routes = [
 					).then((mod) => mod.EstimationScaleDetailComponent),
 				title: 'Detalles de la Escala de Estimación',
 			},
-
-			// Class planning
-			{
-				path: 'sports-practice-generator',
-				loadComponent: () =>
-					import(
-						'./features/class-planning/sports-practice-generator.component'
-					).then((mod) => mod.SportsPracticeGeneratorComponent),
-				title: 'Generador de Prácticas Deportivas',
-			},
-			{
-				path: 'class-plans',
-				loadComponent: () =>
-					import(
-						'./features/class-planning/class-plan-generator/class-plan-generator.component'
-					).then((mod) => mod.ClassPlanGeneratorComponent),
-				title: 'Generador de Planes de Clase',
-			},
-			{
-				path: 'class-plans/list',
-				loadComponent: () =>
-					import(
-						'./features/class-planning/class-plan-list/class-plan-list.component'
-					).then((mod) => mod.ClassPlanListComponent),
-				title: 'Mis Planes de Clase',
-			},
-			{
-				path: 'class-plans/:id',
-				loadComponent: () =>
-					import(
-						'./features/class-planning/class-plan-detail/class-plan-detail.component'
-					).then((mod) => mod.ClassPlanDetailComponent),
-				title: 'Detalles del Plan de Clase',
-			},
-			{
-				path: 'class-plans/:id/edit',
-				loadComponent: () =>
-					import(
-						'./features/class-planning/class-plan-edit/class-plan-edit.component'
-					).then((mod) => mod.ClassPlanEditComponent),
-				title: 'Editar Plan de Clase',
-			},
-			{
-				path: 'unit-plans',
-				loadComponent: () =>
-					import(
-						'./features/class-planning/unit-plan-generator/unit-plan-generator.component'
-					).then((mod) => mod.UnitPlanGeneratorComponent),
-				title: 'Generador de Planes de Unidad',
-			},
-			{
-				path: 'unit-plans/list',
-				loadComponent: () =>
-					import(
-						'./features/class-planning/unit-plan-list/unit-plan-list.component'
-					).then((mod) => mod.UnitPlanListComponent),
-				title: 'Mis Planes de Unidad',
-			},
-			{
-				path: 'unit-plans/:id',
-				loadComponent: () =>
-					import(
-						'./features/class-planning/unit-plan-detail/unit-plan-detail.component'
-					).then((mod) => mod.UnitPlanDetailComponent),
-				title: 'Detalles del Plan de Unidad',
-			},
-			{
-				path: 'unit-plans/:id/edit',
-				loadComponent: () =>
-					import(
-						'./features/class-planning/unit-plan-edit/unit-plan-edit.component'
-					).then((mod) => mod.UnitPlanEditComponent),
-				title: 'Editar Plan de Unidad',
-			},
 			{
 				path: 'attendance',
 				loadComponent: () =>
@@ -843,39 +607,9 @@ export const routes: Routes = [
 					).then((mod) => mod.SectionAttendanceComponent),
 				title: 'Detalles de la Asistencia',
 			},
-
-			// user's resources dashboard
-			{
-				path: 'my-resources',
-				loadComponent: () =>
-					import(
-						'./features/resources/resources-dashboard/resources-dashboard.component'
-					).then((mod) => mod.ResourcesDashboardComponent),
-				title: 'Mis Recursos',
-			},
 			{
 				path: 'resources',
-				loadComponent: () =>
-					import(
-						'./features/resources/resource-gallery/resource-gallery.component'
-					).then((m) => m.ResourceGalleryComponent),
-				title: 'Galería de Recursos',
-			},
-			{
-				path: 'resources/by/:id',
-				loadComponent: () =>
-					import(
-						'./features/resources/creator/creator.component'
-					).then((m) => m.CreatorComponent),
-				title: 'Crear Recurso',
-			},
-			{
-				path: 'resources/:id',
-				loadComponent: () =>
-					import(
-						'./features/resources/resource-details/resource-details.component'
-					).then((m) => m.ResourceDetailsComponent),
-				title: 'Detalles del Recurso',
+				children: resourcesRoutes,
 			},
 			{
 				path: 'diversity',
@@ -886,6 +620,27 @@ export const routes: Routes = [
 				title: 'Diversificador de Contenidos',
 			},
 		],
+	},
+
+	{ path: '', component: PublicLayoutComponent, children: publicRoutes, canActivate: [authGuard] },
+	
+	{ path: '', component: MainLayoutComponent, canActivate: [authGuard], children: classPlanningRoutes },
+
+	{ path: 'schedules', component: MainLayoutComponent, canActivate: [authGuard], children: schedulingRoutes },
+
+	{
+		path: '',
+		component: PrintLayoutComponent,
+		children: [
+			{
+				path: 'print-unit-plan/:id',
+				loadComponent: () =>
+					import(
+						'./features/class-planning/pages/unit-plan-detail/unit-plan-detail.component'
+					).then((mod) => mod.UnitPlanDetailComponent),
+				title: 'Plan de Unidad',
+			},
+		]
 	},
 
 	{ path: '**', redirectTo: '/', pathMatch: 'full' },

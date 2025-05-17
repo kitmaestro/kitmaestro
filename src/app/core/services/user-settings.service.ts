@@ -5,11 +5,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { environment } from '../../../environments/environment';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
+import { ApiService } from './api.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UserSettingsService {
+	#apiService = inject(ApiService);
 	private http = inject(HttpClient);
 	private config = {
 		withCredentials: true,
@@ -20,6 +22,10 @@ export class UserSettingsService {
 	};
 
 	private apiBaseUrl = environment.apiUrl + 'users/';
+
+	countUsers(): Observable<{ users: number }> {
+		return this.#apiService.get<{ users: number }>('users/count');
+	}
 
 	findAll(): Observable<UserSettings[]> {
 		return this.http.get<UserSettings[]>(this.apiBaseUrl, this.config);

@@ -18,11 +18,13 @@ import {
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
+import { ApiService } from './api.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ClassPlansService {
+	#apiService = inject(ApiService);
 	private http = inject(HttpClient);
 	private apiBaseUrl = environment.apiUrl + 'class-plans/';
 	private config = {
@@ -33,6 +35,11 @@ export class ClassPlansService {
 		}),
 	};
 	private pretify = new PretifyPipe().transform;
+
+
+	countPlans(): Observable<{ plans: number }> {
+		return this.#apiService.get<{ plans: number }>('class-plans/count');
+	}
 
 	findAll(): Observable<ClassPlan[]> {
 		return this.http.get<ClassPlan[]>(this.apiBaseUrl, this.config);

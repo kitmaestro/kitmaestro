@@ -11,7 +11,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
-import { StudentDetailComponent } from '../../student-detail/student-detail.component';
+import { StudentDetailComponent } from '../../students/components/student-detail.component';
 import { ClassSectionFormComponent } from '../../../shared/ui/class-section-form.component';
 import { StudentFormComponent } from '../../../shared/ui/student-form.component';
 import { ClassSectionService } from '../../../core/services/class-section.service';

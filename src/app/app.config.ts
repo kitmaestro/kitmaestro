@@ -4,14 +4,17 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideServiceWorker } from '@angular/service-worker';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideMarkdown } from 'ngx-markdown';
+import { appInterceptor } from './core/interceptors/app.interceptor';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
 		provideRouter(routes),
-		provideHttpClient(),
+		provideHttpClient(
+			withInterceptors([appInterceptor]),
+		),
 		provideAnimationsAsync(),
 		provideServiceWorker('ngsw-worker.js', {
 			enabled: !isDevMode(),

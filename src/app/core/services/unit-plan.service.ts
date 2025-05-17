@@ -21,11 +21,13 @@ import {
 } from 'docx';
 import saveAs from 'file-saver';
 import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
+import { ApiService } from './api.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UnitPlanService {
+	#apiService = inject(ApiService);
 	private http = inject(HttpClient);
 	private apiBaseUrl = environment.apiUrl + 'unit-plans/';
 	private config = {
@@ -35,6 +37,10 @@ export class UnitPlanService {
 			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
 		}),
 	};
+
+	countPlans(): Observable<{ plans: number }> {
+		return this.#apiService.get<{ plans: number }>('unit-plans/count');
+	}
 
 	findAll(): Observable<UnitPlan[]> {
 		return this.http.get<UnitPlan[]>(this.apiBaseUrl, this.config);

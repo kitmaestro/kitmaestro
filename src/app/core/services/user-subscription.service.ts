@@ -5,11 +5,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { environment } from '../../../environments/environment';
+import { ApiService } from './api.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UserSubscriptionService {
+	#apiService = inject(ApiService);
 	private http = inject(HttpClient);
 	private apiBaseUrl = environment.apiUrl + 'user-subscriptions/';
 
@@ -20,6 +22,10 @@ export class UserSubscriptionService {
 			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
 		}),
 	};
+
+	countSubscriptions(): Observable<{ subscriptions: number }> {
+		return this.#apiService.get<{ subscriptions: number }>('user-subscriptions/count');
+	}
 
 	findAll(): Observable<UserSubscription[]> {
 		return this.http.get<UserSubscription[]>(this.apiBaseUrl, this.config);

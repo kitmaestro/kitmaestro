@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
 	selector: 'app-public-layout',
 	imports: [RouterOutlet],
 	standalone: true,
-	template: ``,
+	template: `<router-outlet />`,
 	styles: ``,
 })
 export class PublicLayoutComponent {}
