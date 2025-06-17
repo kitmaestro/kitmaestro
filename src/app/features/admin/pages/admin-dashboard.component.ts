@@ -6,9 +6,10 @@ import { ClassPlansService } from '../../../core/services/class-plans.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { AsyncPipe } from '@angular/common';
-import { map } from 'rxjs';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { map, of, switchMap } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
 	selector: 'app-admin-dashboard',
@@ -18,6 +19,7 @@ import { RouterLink } from '@angular/router';
 		MatIconModule,
 		RouterLink,
 		AsyncPipe,
+		CurrencyPipe,
 	],
 	template: `
 		<mat-card>
@@ -65,6 +67,26 @@ import { RouterLink } from '@angular/router';
 				</mat-card-content>
 			</mat-card>
 		</div>
+		<div style="margin-bottom: 12px;">
+			<mat-card>
+				<mat-card-header style="justify-content: center">
+					<mat-card-title>Ingresos por Subscripcion Hasta Hoy</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<p class="giant-text">{{ dopRate | currency : 'dop' : 'RD$' }}</p>
+			</mat-card-content>
+			</mat-card>
+		</div>
+		<div style="margin-top: 12px; margin-bottom: 12px;">
+			<mat-card>
+				<mat-card-header style="justify-content: center">
+					<mat-card-title>Media de Pago por usuario</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<p class="giant-text">{{ dopRate / subs | currency : 'dop' : 'RD$' }}</p>
+			</mat-card-content>
+			</mat-card>
+		</div>
 	`,
 	styles: `
 		.grid {
@@ -72,6 +94,7 @@ import { RouterLink } from '@angular/router';
 			grid-template-columns: 1fr;
 			gap: 12px;
 			margin-top: 12px;
+			margin-bottom: 12px;
 
 			@media screen and (min-width: 720px) {
 				grid-template-columns: 1fr 1fr;
@@ -104,9 +127,28 @@ export class AdminDashboardComponent {
 	#unitPlanService = inject(UnitPlanService);
 	#classPlanService = inject(ClassPlansService);
 	#subscriptionService = inject(UserSubscriptionService);
+	http = inject(HttpClient);
+
+	endpoint = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json';
+	dopRate = 0;
+	subs = 0;
 
 	users$ = this.#userService.countUsers().pipe(map(res => res.users));
 	unitPlans$ = this.#unitPlanService.countPlans().pipe(map((e) => e.plans));
 	classPlans$ = this.#classPlanService.countPlans().pipe(map((e) => e.plans));
-	subscriptions$ = this.#subscriptionService.countSubscriptions().pipe(map((e) => e.subscriptions));
+	subscriptions$ = this.#subscriptionService.countSubscriptions().pipe(map((e) => { this.subs = e.subscriptions; return e.subscriptions }));
+	revenue$ = this.#subscriptionService.findAll().pipe(map((e) => e.reduce((acc, sub) => acc + sub.amount, 0)));
+
+	async fetchRate() {
+		of(await (await fetch(this.endpoint)).json()).pipe(
+			map((res: any) => { console.log(res); return res.usd.dop }),
+			switchMap((dopRate) => this.revenue$.pipe(map((rev) => rev * dopRate)))
+		).subscribe((res) => {
+			this.dopRate = res;
+		});
+	}
+
+	ngOnInit() {
+		this.fetchRate();
+	}
 }

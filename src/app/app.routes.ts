@@ -623,7 +623,7 @@ export const routes: Routes = [
 	},
 
 	{ path: '', component: PublicLayoutComponent, children: publicRoutes, canActivate: [authGuard] },
-	
+
 	{ path: '', component: MainLayoutComponent, canActivate: [authGuard], children: classPlanningRoutes },
 
 	{ path: 'schedules', component: MainLayoutComponent, canActivate: [authGuard], children: schedulingRoutes },

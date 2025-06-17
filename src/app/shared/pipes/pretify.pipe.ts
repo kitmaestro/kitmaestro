@@ -31,10 +31,10 @@ export class PretifyPipe implements PipeTransform {
 				return 'Manuales e Instructivos';
 			case 'FASCICULOS':
 				return 'Fascículos';
-			case 'PRIMARIA':
-				return 'Primaria';
 			case 'PRE_PRIMARIA':
 				return 'Pre Primaria';
+			case 'PRIMARIA':
+				return 'Primaria';
 			case 'SECUNDARIA':
 				return 'Secundaria';
 			case 'PRIMERO':

@@ -40,7 +40,7 @@ import { MatChipsModule } from '@angular/material/chips'; // For displaying arra
 
 // --- Core Services & Interfaces (Using new structure paths) ---
 import { ContentBlockService } from '../../../core/services/content-block.service';
-import { ContentBlock } from '../../../core/interfaces/content-block';
+import { ContentBlock, SchoolLevel, SchoolSubject, SchoolYear } from '../../../core/interfaces/content-block';
 import { ApiUpdateResponse } from '../../../core/interfaces/api-update-response';
 
 
@@ -486,9 +486,9 @@ export class ContentBlocksManagementComponent implements OnInit, OnDestroy {
 
     const blockData: Partial<ContentBlock> = {
       title: formValue.title!,
-      level: formValue.level!,
-      year: formValue.year!,
-      subject: formValue.subject!,
+      level: formValue.level! as SchoolLevel | undefined,
+      year: formValue.year! as SchoolYear | undefined,
+      subject: formValue.subject! as SchoolSubject | undefined,
       order: formValue.order!,
       concepts: this.#splitStringToArray(formValue.conceptsStr),
       procedures: this.#splitStringToArray(formValue.proceduresStr),
@@ -506,7 +506,7 @@ export class ContentBlocksManagementComponent implements OnInit, OnDestroy {
 
     operation$.pipe(
       takeUntil(this.#destroy$),
-      tap(response => {
+      tap(() => {
         const title = blockData.title;
         if (this.editingBlockId()) {
             this.#snackBar.open(`Bloque "${title}" actualizado exitosamente.`, 'Cerrar', { duration: 3000 });

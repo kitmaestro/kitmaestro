@@ -12,9 +12,9 @@ export const authGuard: CanActivateFn = async (route, state) => {
     if (profile && profile._id)
       return true;
     else
-      return authRoute;
-  } catch (error) {
-    console.log(error)
-    return false;
+		return authRoute
+} catch (error) {
+	console.log(error)
+	return authRoute
   }
 };
