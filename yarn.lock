@@ -291,14 +291,13 @@
   optionalDependencies:
     lmdb "3.4.2"
 
-"@angular/cdk@^19.0.4":
-  version "19.0.4"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-19.0.4.tgz#2728efdf11f0871ed4382da7f604834f08539b27"
-  integrity sha512-P8V1n6AFFjBUJG3YRgw8DiiNDWPZVrwQ42wbwgZxd4s2TQAuNFg3YY8h/DSMVxt2sXpavrshZsoLtP9yLKZjHA==
+"@angular/cdk@^20.2.0":
+  version "20.2.0"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-20.2.0.tgz#e63d3fe844735fa3d2d7e5d560e02f6ae5ae5378"
+  integrity sha512-BZkhRMr3nEOHHCzEgKZM537G4aq0VAwoejhYn7oIvY0UU+arHKz+U7Gc44KH5GaAgVLojtJtkFXsArifzYUwzw==
   dependencies:
+    parse5 "^8.0.0"
     tslib "^2.3.0"
-  optionalDependencies:
-    parse5 "^7.1.2"
 
 "@angular/cli@^20.2.0":
   version "20.2.0"
@@ -377,10 +376,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/material@^19.0.4":
-  version "19.0.4"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-19.0.4.tgz#2672f4a44e45e476b642537641ac5651d9ee4400"
-  integrity sha512-8WRMbN1+oRXx1ZFLni+BRz60F4FWzJPFORsQ8qAvY3sHWzyjunsYZkpbze3uiZO6bu3hiyQCU6g+k/58Qc6kkw==
+"@angular/material@^20.2.0":
+  version "20.2.0"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-20.2.0.tgz#2e4a057d3229a60b89265edb7c6ece195477281e"
+  integrity sha512-lwkV1VP7PkC/dhPRXLeYaNtPaIAOjI8/zfpkPnmxJuGA7t7hkngtTxmY+6gElDAtfnle9ZJulW4KndKGr3ng/g==
   dependencies:
     tslib "^2.3.0"
 
@@ -4651,7 +4650,7 @@ ent@~2.2.0:
   resolved "https://registry.yarnpkg.com/ent/-/ent-2.2.0.tgz#e964219325a21d05f44466a2f686ed6ce5f5dd1d"
   integrity sha512-GHrMyVZQWvTIdDtpiEXdHZnFQKzeO09apj8Cbl4pKWy4i0Oprcq17usfDt5aO63swf0JOeMWjWQE/LzgSRuWpA==
 
-entities@^4.2.0, entities@^4.4.0:
+entities@^4.2.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/entities/-/entities-4.5.0.tgz#5d268ea5e7113ec74c4d033b79ea5a35a488fb48"
   integrity sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==
@@ -6989,13 +6988,6 @@ parse5-sax-parser@^8.0.0:
   integrity sha512-/dQ8UzHZwnrzs3EvDj6IkKrD/jIZyTlB+8XrHJvcjNgRdmWruNdN9i9RK/JtxakmlUdPwKubKPTCqvbTgzGhrw==
   dependencies:
     parse5 "^8.0.0"
-
-parse5@^7.1.2:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/parse5/-/parse5-7.1.2.tgz#0736bebbfd77793823240a23b7fc5e010b7f8e32"
-  integrity sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==
-  dependencies:
-    entities "^4.4.0"
 
 parse5@^8.0.0:
   version "8.0.0"
