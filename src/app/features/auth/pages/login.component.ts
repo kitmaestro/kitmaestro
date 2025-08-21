@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BiIconComponent } from '../../../shared/ui/bi-icon.component';
@@ -21,6 +22,7 @@ import { AuthService } from '../../../core/services/auth.service';
 		MatSnackBarModule,
 		MatFormFieldModule,
 		MatInputModule,
+		MatCheckboxModule,
 		MatButtonModule,
 		MatIconModule,
 		MatDialogModule,
@@ -38,6 +40,7 @@ import { AuthService } from '../../../core/services/auth.service';
 				<mat-card-content>
 					<img
 						src="/assets/base.png"
+						alt="Logo KitMaestro"
 						style="display: block; margin: 0 auto 12px; width: 96px"
 					/>
 					<!-- <img src="/assets/teach.svg" class="teach-svg" alt=""> -->
@@ -54,6 +57,7 @@ import { AuthService } from '../../../core/services/auth.service';
 								formControlName="password"
 							/>
 						</mat-form-field>
+						<mat-checkbox formControlName="remember">Recordarme</mat-checkbox>
 						<div
 							style="
 								margin: 12px 0;
@@ -164,6 +168,7 @@ export class LoginComponent implements OnInit {
 	loginForm = this.fb.group({
 		email: ['', [Validators.required, Validators.email]],
 		password: ['', Validators.required],
+		remember: [false],
 	});
 
 	ngOnInit() {
@@ -196,8 +201,6 @@ export class LoginComponent implements OnInit {
 				? `?ref=${this.referrer}`
 				: '';
 	}
-
-	loginWithFacebook() {}
 
 	onSubmit() {
 		if (this.loginForm.valid) {
