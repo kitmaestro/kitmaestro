@@ -388,12 +388,13 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/youtube-player@19.0.4":
-  version "19.0.4"
-  resolved "https://registry.yarnpkg.com/@angular/youtube-player/-/youtube-player-19.0.4.tgz#b2d38776f994f6683ca7fdedd743876bd774c164"
-  integrity sha512-mz67NI+YSwgFQnpY/RrjJngp6jl/9qcFLREqcKWavKLmNK0oY3SJkith5t/oZUi6TVewOaSr5eFfv9pp5d0sAQ==
+"@angular/youtube-player@20.2.0":
+  version "20.2.0"
+  resolved "https://registry.yarnpkg.com/@angular/youtube-player/-/youtube-player-20.2.0.tgz#5e292201369f665d237190a34d17d942bbe1db66"
+  integrity sha512-ebQkoSb6XzemMEoFphcmR2ieer8tZP7GPYhc+LOvAJjVkA70J3P5H60fevdAPWG6SKy6WSU+FV2/6Jpn94y4kA==
   dependencies:
-    "@types/youtube" "^0.1.0"
+    "@types/youtube" "0.1.2"
+    safevalues "^1.2.0"
     tslib "^2.3.0"
 
 "@antfu/install-pkg@^0.4.1":
@@ -3073,10 +3074,10 @@
   resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-2.0.7.tgz#baccb07a970b91707df3a3e8ba6896c57ead2d11"
   integrity sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==
 
-"@types/youtube@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@types/youtube/-/youtube-0.1.0.tgz#0e116bd0a8ddb93daf1372fb5e07f576cf9fe5cc"
-  integrity sha512-Pg33m3X2mFgdmhtvzOlAfUfgOa3341N3/2JCrVY/mXVxb4hagcqqEG6w4vGCfB64StQNWHSj/T8Eotb1Rko/FQ==
+"@types/youtube@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@types/youtube/-/youtube-0.1.2.tgz#e87d9ceeb8a00b3ac6d7325cc5217995a0cedfcc"
+  integrity sha512-n1/KqusanheyQRWHamNZv8K3kydlRqyEsZEKxMTeNWXQTC15lZprITCUt+WgL1vAIvKHCjPBIWz/gf/KQLsB3g==
 
 "@typescript-eslint/eslint-plugin@8.40.0":
   version "8.40.0"
@@ -7428,6 +7429,11 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
+
+safevalues@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/safevalues/-/safevalues-1.2.0.tgz#f9e646d6ebf31788004ef192d2a7d646c9896bb2"
+  integrity sha512-zIsuhjYvJCjfsfjoim2ab6gLKFYAnTiDSJGh0cC3T44L/4kNLL90hBG2BzrXPrHA3f8Ms8FSJ1mljKH5dVR1cw==
 
 sass@1.90.0:
   version "1.90.0"
