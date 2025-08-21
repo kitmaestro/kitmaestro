@@ -43,7 +43,7 @@ import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 	templateUrl: './class-plan-generator.component.html',
 	styleUrl: './class-plan-generator.component.scss',
 })
-export class ClassPlanGeneratorComponent implements OnInit {
+export class EmiClassPlanGeneratorComponent implements OnInit {
 	sb = inject(MatSnackBar);
 	fb = inject(FormBuilder);
 	classSectionService = inject(ClassSectionService);
@@ -145,11 +145,11 @@ export class ClassPlanGeneratorComponent implements OnInit {
 							);
 				this.classPlanService.findAll().subscribe((plans) => {
 					const createdThisWeek = plans.filter(
-						(plan: any) => +new Date(plan.createdAt) > +lastMonday,
+						(plan) => +new Date(plan.createdAt || '') > +lastMonday,
 					).length;
 					const createdThisMonth = plans.filter(
-						(plan: any) =>
-							+new Date(plan.createdAt).getMonth ===
+						(plan) =>
+							+new Date(plan.createdAt || '').getMonth ===
 							new Date().getMonth(),
 					).length;
 					if (

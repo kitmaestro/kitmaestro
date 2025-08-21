@@ -35,4 +35,6 @@ export interface ClassPlan {
 	vocabulary: string[];
 	readings: string;
 	competence: string;
+	createdAt?: string;
+	updatedAt?: string;
 }
