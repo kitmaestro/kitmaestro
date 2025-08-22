@@ -1,6 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { delay, filter, finalize, of, switchMap, take } from 'rxjs';
+import { filter, finalize, switchMap } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 import { User } from '../core/interfaces/user';
 import { NavigationComponent } from './components/navigation.component';
@@ -65,7 +65,7 @@ import { LoadingComponent } from '../shared/ui/loading.component';
 		}
 	`,
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent implements OnInit {
 	#authService = inject(AuthService);
 	#router = inject(Router);
 
@@ -91,7 +91,9 @@ export class MainLayoutComponent {
 	}
 
 	ngOnInit() {
-		this.#authService.profile().pipe(
+		this.#authService
+			.profile()
+			.pipe(
 				switchMap(() => this.#authService.profile()),
 				filter((event) => event instanceof NavigationEnd),
 				finalize(() => this.loading.set(false)),

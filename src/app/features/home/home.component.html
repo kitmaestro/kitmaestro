@@ -1,50 +1,20 @@
 <div class="container">
-	<div style="text-align: center; margin-top: 24px">
-		<img
-			src="/assets/logo KitMaestro.png"
-			alt="Logo KitMaestro"
-			style="margin: 0 auto; display: block; width: 128px"
-		/>
+	<header class="primary-bg">
+		<img src="/assets/logo KitMaestro.png" alt="Logo KitMaestro" style="margin: 0 auto; display: block; width: 128px" />
 		<h2 style="margin-bottom: 0; margin-top: 0">KitMaestro</h2>
-		<p style="margin-top: 0; margin-bottom: 12px">
-			La caja de herramientas definitiva
+		<p style="margin-bottom: 12px">
+			Planifica en 5 minutos
 		</p>
-		@if (user && user.firstname) {
+		@if (user; as profile) {
+			@if (!profile.firstname) {
 			<p>
-				¡{{ user.gender === "Mujer" ? "Bienvenida" : "Bienvenido" }},
-				{{ user.firstname }}!
-			</p>
-		} @else {
-			<p>
-				Tu perfil esta incompleto, recuerda completar los datos de tu
+				Tu perfil esta incompleto, recuerda completar los datos de
+				tu
 				<a routerLink="/profile">perfil</a>
 			</p>
-		}
-		<div class="search-container">
-			<mat-form-field appearance="outline">
-				<mat-label>Buscar</mat-label>
-				<input
-					type="search"
-					[formControl]="search"
-					placeholder="Buscar Herramienta"
-					matInput
-					(keyup)="onSearch()"
-				/>
-			</mat-form-field>
-		</div>
-	</div>
-	<div>
-		<h3>Categorías</h3>
-		<mat-chip-listbox
-			[formControl]="catFilter"
-			multiple
-			(change)="onCategoriesChange()"
-		>
-			@for (category of categories; track category) {
-				<mat-chip-option>{{ category }}</mat-chip-option>
 			}
-		</mat-chip-listbox>
-	</div>
+		}
+	</header>
 	<!-- @if (
 		search.value === "" || (catFilter.value && catFilter.value.length > 0)
 	) {
@@ -62,9 +32,23 @@
 		</div>
 	} -->
 	<!-- <h3>Todas las Herramientas</h3> -->
-	<div class="apps-grid">
-		@for (app of filteredApps; track $index) {
-			<app-tile [app]="app" [isFav]="favorites.includes(app)" />
+		@if (user; as profile) {
+			@if (!profile.firstname) {
+			<p style="padding: 24px; text-align: center; background-color: #f44336; color: #fff;">
+				Tu perfil esta incompleto, recuerda completar los datos de
+				tu
+				<a style="color: #fff; font-weight: bold;" routerLink="/profile">perfil</a>
+			</p>
+			}
+		}
+	<div>
+		@for (toolList of apps; track $index) {
+			<h3>{{ toolList.category }}</h3>
+			<div class="apps-grid">
+				@for (tool of toolList.tools; track $index) {
+					<app-tile [app]="tool" />
+				}
+			</div>
 		} @empty {
 			<p style="padding: 24px; text-align: center">
 				No tenemos esa herramienta.<br />Considera

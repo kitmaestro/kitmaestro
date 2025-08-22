@@ -1,0 +1,8 @@
+export enum GRADE {
+  PRIMERO,
+  SEGUNDO,
+  TERCERO,
+  CUARTO,
+  QUINTO,
+  SEXTO,
+}

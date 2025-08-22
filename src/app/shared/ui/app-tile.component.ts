@@ -10,28 +10,17 @@ import { MatButtonModule } from '@angular/material/button';
 	imports: [RouterLink, MatCardModule, MatIconModule, MatButtonModule],
 	template: `
 		@if (app(); as entry) {
-			<mat-card class="card">
-				@if (entry.link.length) {
-					<button
-						mat-icon-button
-						[class.active]="isFav()"
-						(click)="mark()"
-					>
-						<mat-icon>star</mat-icon>
-					</button>
-				}
+			<mat-card class="card" [routerLink]="entry.link">
 				<mat-card-content>
-					<a [routerLink]="entry.link" class="app-card">
-						<div class="inner-grid">
-							<img [src]="entry.icon" [alt]="entry.name" />
-							<div style="text-align: center;">
-								<p style="font-weight: bold;">
-									{{ entry.name }}
-								</p>
-								<p>{{ entry.description }}</p>
-							</div>
+					<div class="inner">
+						<img [src]="entry.icon" [alt]="entry.name" />
+						<div>
+							<p style="font-weight: bold;">
+								{{ entry.name }}
+							</p>
+							<p>{{ entry.description }}</p>
 						</div>
-					</a>
+					</div>
 				</mat-card-content>
 			</mat-card>
 		}
@@ -57,6 +46,18 @@ import { MatButtonModule } from '@angular/material/button';
 			line-height: 1.5;
 		}
 
+		.inner {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+
+			img {
+				width: 96px;
+				display: block;
+				aspect-ratio: 1/1;
+			}
+		}
+
 		.inner-grid {
 			display: grid;
 			margin-top: 12px;
@@ -75,6 +76,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 		.card {
 			height: 100%;
+			cursor: pointer;
 			position: relative;
 		}
 

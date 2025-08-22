@@ -110,7 +110,7 @@ Mi nombre es ${user.firstname}, ${user.gender === 'Hombre' ? 'un maestro' : 'una
 En esta ocación he planificado una clase de ${data.subject} en la que voy a trabajar o a abordar ${data.topic} en mi curso, pero tengo una situación con un estudiante y quiero adaptarla a su condición que es ${data.condition}.
 Tu trabajo sera guiarme en el proceso de adaptación y sugerirme las estrategias mas adecuadas.
 
-Importante: NO HAGAS PREGUNTAS DE SEGUIMIENTO NI SUGIERAS QUE PUEDO PREGUNTAR YA QUE ESTO NO ME ES POSIBLE Y RESPONDE EN FORMATO MARKDOWN SIN TABLAS NI EMOTICONES.`;
+Importante: NO SUGIERAS QUE PUEDO PREGUNTAR YA QUE ESTO NO ME ES POSIBLE Y RESPONDE EN FORMATO MARKDOWN SIN TABLAS NI EMOTICONES.`;
 		this.aiService.geminiAi(query).subscribe({
 			next: (res) => {
 				this.generated = res.response;

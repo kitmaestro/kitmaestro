@@ -28,7 +28,7 @@ export class ClassScheduleService {
 		return this.http.get<ClassSchedule>(this.apiBaseUrl + id, this.config);
 	}
 
-	create(schedule: ClassSchedule): Observable<ClassSchedule> {
+	create(schedule: any): Observable<ClassSchedule> {
 		return this.http.post<ClassSchedule>(
 			this.apiBaseUrl,
 			schedule,

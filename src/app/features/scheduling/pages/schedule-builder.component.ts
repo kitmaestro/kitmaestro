@@ -1,478 +1,502 @@
-import { Component, inject, OnInit } from '@angular/core';
-import {
-	FormArray,
-	FormBuilder,
-	ReactiveFormsModule,
-	Validators,
-} from '@angular/forms';
-import { ClassScheduleService } from '../../../core/services/class-schedule.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { ClassSectionService } from '../../../core/services/class-section.service';
-import { ClassSection } from '../../../core/interfaces/class-section';
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { Component, OnInit, signal, inject, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CdkDragDrop, CdkDropList, CdkDropListGroup, DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
-import { DatePipe } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { ClassPeriod } from '../../../core/interfaces/class-schedule';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassScheduleService } from '../../../core/services/class-schedule.service';
+import { ClassSectionService } from '../../../core/services/class-section.service';
+import { Schedule } from '../../../core/interfaces/schedule';
+import { GRADE, JOURNEY, LEVEL } from '../../../core/enums';
+import { ClassBlock } from '../../../core/interfaces/class-block';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({
 	selector: 'app-schedule-builder',
+	standalone: true,
 	imports: [
-		MatCardModule,
-		MatButtonModule,
-		MatIconModule,
-		MatFormFieldModule,
+		CommonModule,
+		DragDropModule,
 		MatSelectModule,
-		MatInputModule,
-		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatButtonModule,
 		MatSnackBarModule,
-		RouterModule,
-		DatePipe,
+		CdkDropList,
+		CdkDropListGroup,
+		PretifyPipe,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
-				<mat-card-title>Manejo de Horario</mat-card-title>
-			</mat-card-header>
-			<mat-card-content>
-				<div>
-					<form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
-						<div style="margin-top: 12px">
-							<div class="grid-2">
-								<div>
-									<mat-form-field appearance="outline">
-										<mat-label>Secci&oacute;n</mat-label>
-										<mat-select formControlName="section">
-											@for (
-												section of sections;
-												track section._id
-											) {
-												<mat-option [value]="section._id">{{
-													section.name
-												}}</mat-option>
-											}
-										</mat-select>
-									</mat-form-field>
-								</div>
-								<div>
-									<mat-form-field appearance="outline">
-										<mat-label>Formato</mat-label>
-										<mat-select formControlName="format">
-											@for (
-												format of formats;
-												track format.id
-											) {
-												<mat-option
-													[disabled]="format.id !== 'JEE'"
-													[value]="format.id"
-													>{{ format.label }}</mat-option
-												>
-											}
-										</mat-select>
-									</mat-form-field>
+    <div class="schedule-builder-container">
+      <!-- Main Content: Schedule Grid -->
+      <div class="schedule-grid-wrapper">
+        <div class="header">
+            <mat-form-field appearance="outline" class="w-full md:w-1/3">
+                <mat-label>Selecciona una sección</mat-label>
+                <mat-select (selectionChange)="onSectionChange($event.value)">
+					@for (section of classSections(); track section._id) {
+						<mat-option [value]="section._id">
+							{{ section.name }}
+						</mat-option>
+					}
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="saveSchedule()" [disabled]="!selectedSection()">
+                Guardar
+            </button>
+        </div>
+
+        <div class="schedule-grid">
+          <!-- Day Headers -->
+          <div class="day-header">Bloques</div>
+          <div *ngFor="let day of days" class="day-header">{{ day }}</div>
+
+          <!-- Time Slots and Grid Cells -->
+          <ng-container *ngFor="let time of timeSlots; let i = index">
+            <div class="time-slot">{{ time }}</div>
+            <div *ngFor="let day of days; let j = index"
+                 class="grid-cell"
+                 cdkDropList
+				 [id]="getDropListId(j, i)"
+                 [cdkDropListData]="getBlocksForCell(j, i)"
+                 (cdkDropListDropped)="drop($event)">
+                 <div *ngFor="let block of getBlocksForCell(j, i)" class="class-block" [ngClass]="getBlockClass(block)" [style.height.%]="getBlockHeight(block)" cdkDrag>
+                    <div class="block-content">
+                        <strong>{{ block.subject }}</strong>
+                        <small>{{ block.duration }} min</small>
+                    </div>
+                 </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Sidebar: Draggable Subjects -->
+      <div class="subjects-sidebar" [class.disabled]="!selectedSection()">
+        <h3>Asignaturas</h3>
+		@if (selectedSection()) {
+			<div cdkDropListGroup>
+				@for (subject of availableSubjects(); track $index) {
+					<div class="subject-drag-list">
+						<h4>{{ subject | pretify }}</h4>
+						<div class="subject-variation-list" cdkDropList [cdkDropListData]="[{subject: subject, duration: 45, id: subject + '_45'}]" [id]="subject + '_45_list'">
+							<div class="class-block type-45" cdkDrag>
+								<div class="block-content">
+									<strong>{{ subject | pretify }}</strong>
+									<small>45 min</small>
 								</div>
 							</div>
 						</div>
-						<div style="margin-bottom: 12px">
-							<small
-								style="
-									font-style: italic;
-									font-size: 10pt;
-									font-family:
-										&quot;Lucida Sans&quot;,
-										&quot;Lucida Sans Regular&quot;,
-										&quot;Lucida Grande&quot;,
-										&quot;Lucida Sans Unicode&quot;, Geneva,
-										Verdana, sans-serif;
-								"
-								>**<b>Nota</b>: Por ahora este asistente solo crea
-								horarios por <b>curso</b> para Jornada Escolar
-								Extendida**</small
-							>
+						 <div class="subject-variation-list" cdkDropList [cdkDropListData]="[{subject: subject, duration: 90, id: subject + '_90'}]" [id]="subject + '_90_list'">
+							<div class="class-block type-90" cdkDrag>
+								 <div class="block-content">
+									<strong>{{ subject | pretify }}</strong>
+									<small>90 min</small>
+								</div>
+							</div>
 						</div>
-						<div style="margin-bottom: 12px">
-							<table>
-								<thead>
-									<tr>
-										<th style="max-width: fit-content">Hora</th>
-										<th>Lunes</th>
-										<th>Martes</th>
-										<th>Miercoles</th>
-										<th>Jueves</th>
-										<th>Viernes</th>
-									</tr>
-								</thead>
-								<tbody formArrayName="periods">
-									@for (
-										period of classPeriods;
-										track period;
-										let hour = $index
-									) {
-										<tr>
-											<td
-												style="
-													max-width: fit-content;
-													font-weight: bold;
-												"
-											>
-												{{
-													stringToDate(
-														hours[hour].startTime
-													) | date: "hh:mm a"
-												}}
-												-
-												{{
-													stringToDate(
-														hours[hour].endTime
-													) | date: "hh:mm a"
-												}}
-											</td>
-											@if (hours[hour].classSession) {
-												@for (
-													day of daysOfWeek;
-													track day
-												) {
-													<td
-														[formGroupName]="
-															hour * 5 + (day - 1)
-														"
-													>
-														<input
-															type="hidden"
-															[value]="day"
-															formControlName="dayOfWeek"
-														/>
-														<input
-															type="hidden"
-															[value]="
-																hours[hour]
-																	.startTime
-															"
-															formControlName="startTime"
-														/>
-														<input
-															type="hidden"
-															[value]="
-																hours[hour].endTime
-															"
-															formControlName="endTime"
-														/>
-														<select
-															formControlName="subject"
-															style="
-																border: none;
-																background-color: transparent;
-																width: 100%;
-																text-align: center;
-																padding: 8px;
-															"
-														>
-															<option
-																value="Hora Libre"
-															>
-																Hora Libre
-															</option>
-															@for (
-																subject of subjects;
-																track subject
-															) {
-																<option
-																	[value]="
-																		subject
-																	"
-																>
-																	{{
-																		pretify(
-																			subject
-																		)
-																	}}
-																</option>
-															}
-															<option
-																value="Planificación y Registro"
-															>
-																Planificaci&oacute;n
-																y Registro
-															</option>
-														</select>
-													</td>
-												}
-											} @else {
-												<td
-													style="
-														text-align: center;
-														font-weight: bold;
-													"
-													colspan="5"
-												>
-													{{ hours[hour].label }}
-												</td>
-											}
-										</tr>
-									}
-								</tbody>
-							</table>
-						</div>
-						<div style="text-align: end">
-							<button mat-flat-button type="submit" color="primary">
-								Guardar
-							</button>
-						</div>
-					</form>
-				</div>
-			</mat-card-content>
-		</mat-card>
-	`,
-	styles: `
-		mat-form-field {
-			width: 100%;
+					</div>
+				}
+			</div>
+		} @else {
+			<p>Selecciona un grado para ver las asignaturas.</p>
 		}
-
-		.grid-2 {
-			display: grid;
-			gap: 12px;
-			grid-template-columns: 1fr;
-
-			@media screen and (min-width: 960px) {
-				grid-template-columns: 1fr 1fr;
+      </div>
+    </div>
+  `,
+	styles: [
+		`
+			:host {
+				display: block;
+				font-family: Roboto, 'Helvetica Neue', sans-serif;
 			}
-		}
-
-		table {
-			width: 100%;
-			table-layout: fixed;
-			border-collapse: collapse;
-		}
-
-		td,
-		th {
-			padding: 8px;
-			border: 1px solid #ccc;
-		}
-	`,
+			.schedule-builder-container {
+				display: flex;
+				width: 100%;
+				//   height: calc(100vh - 80px); /* Adjust based on your header height */
+			}
+			.schedule-grid-wrapper {
+				flex: 3;
+				padding: 20px;
+				overflow-y: auto;
+				background-color: #f9f9f9;
+			}
+			.subjects-sidebar {
+				flex: 1;
+				padding: 20px;
+				border-left: 1px solid #ccc;
+				background-color: #fff;
+				overflow-y: auto;
+				transition: opacity 0.3s ease;
+			}
+			.subjects-sidebar.disabled {
+				opacity: 0.5;
+				pointer-events: none;
+			}
+			.header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+			.schedule-grid {
+				display: grid;
+				grid-template-columns: 60px repeat(7, 1fr);
+				grid-template-rows: 30px repeat(14, 60px);
+				gap: 2px;
+				background-color: #e0e0e0;
+				border: 1px solid #ccc;
+			}
+			.day-header,
+			.time-slot {
+				background-color: #f0f0f0;
+				font-weight: bold;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 0.8em;
+				padding: 5px;
+			}
+			.time-slot {
+				font-size: 0.7em;
+			}
+			.grid-cell {
+				background-color: #ffffff;
+				min-height: 60px;
+				position: relative;
+			}
+			.class-block {
+				width: 100%;
+				box-sizing: border-box;
+				border-radius: 4px;
+				padding: 8px;
+				color: white;
+				cursor: move;
+				font-size: 0.8em;
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+				transition: box-shadow 0.2s ease;
+			}
+			.class-block:hover {
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			}
+			.block-content {
+				text-align: center;
+			}
+			.block-content small {
+				display: block;
+				opacity: 0.8;
+			}
+			.cdk-drag-placeholder {
+				opacity: 0.3;
+			}
+			.cdk-drag-animating {
+				transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+			}
+			.grid-cell.cdk-drop-list-dragging
+				.class-block:not(.cdk-drag-placeholder) {
+				transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+			}
+			.subject-drag-list h4 {
+				margin-top: 15px;
+				margin-bottom: 5px;
+				font-size: 1em;
+				font-weight: 500;
+			}
+			.subject-variation-list {
+				padding: 5px;
+				border: 1px dashed #ccc;
+				border-radius: 4px;
+				margin-bottom: 5px;
+				min-height: 50px;
+			}
+			/* Subject-specific colors for better visualization */
+			.type-45 {
+				height: 100%;
+			}
+			.type-90 {
+				height: 200%;
+			}
+			.subject-Lengua-Española {
+				background-color: #4285f4;
+			}
+			.subject-Matemática {
+				background-color: #db4437;
+			}
+			.subject-Ciencias-Sociales {
+				background-color: #f4b400;
+			}
+			.subject-Ciencias-Naturales {
+				background-color: #0f9d58;
+			}
+			.subject-Inglés {
+				background-color: #9c27b0;
+			}
+			.subject-Francés {
+				background-color: #673ab7;
+			}
+			.subject-Educación-Artística {
+				background-color: #e91e63;
+			}
+			.subject-Educación-Física {
+				background-color: #ff9800;
+			}
+			.subject-Formación-Humana {
+				background-color: #795548;
+			}
+			.subject-Talleres-Optativos {
+				background-color: #607d8b;
+			}
+		`,
+	],
 })
 export class ScheduleBuilderComponent implements OnInit {
-	private fb = inject(FormBuilder);
-	private authService = inject(AuthService);
+	// Services injection
+	private classSectionService = inject(ClassSectionService);
 	private scheduleService = inject(ClassScheduleService);
-	private sectionService = inject(ClassSectionService);
+	private snackBar = inject(MatSnackBar);
 	private router = inject(Router);
-	private sb = inject(MatSnackBar);
 
-	sections: ClassSection[] = [];
+	// Component state signals
+	classSections = signal<ClassSection[]>([]);
+	selectedSection = signal<ClassSection | null>(null);
+	schedule = signal<Schedule | null>(null);
 
-	formats = [
-		{ id: 'JEE', label: 'Jornada Extendida' },
-		{ id: 'MATUTINA', label: 'Matutina' },
-		{ id: 'VESPERTINA', label: 'Vespertina' },
-		{ id: 'NOCTURNA', label: 'Nocturna' },
-		{ id: 'SABATINA', label: 'Sabatina' },
+	// UI related properties
+	days = [
+		'Domingo',
+		'Lunes',
+		'Martes',
+		'Miercoles',
+		'Jueves',
+		'Viernes',
+		'Sabado',
 	];
+	timeSlots = this.generateTimeSlots();
 
-	subjects = [
-		'LENGUA_ESPANOLA',
-		'MATEMATICA',
-		'CIENCIAS_SOCIALES',
-		'CIENCIAS_NATURALES',
-		'INGLES',
-		'FRANCES',
-		'FORMACION_HUMANA',
-		'EDUCACION_FISICA',
-		'EDUCACION_ARTISTICA',
-		'TALLERES_OPTATIVOS',
-	];
-
-	hours = [
-		{
-			classSession: false,
-			startTime: '08:00',
-			endTime: '08:15',
-			label: 'Acto Cívico',
-		},
-		{
-			classSession: true,
-			startTime: '08:15',
-			endTime: '09:00',
-		},
-		{
-			classSession: true,
-			startTime: '09:00',
-			endTime: '09:45',
-		},
-		{
-			classSession: false,
-			startTime: '09:45',
-			endTime: '10:15',
-			label: 'Recreo',
-		},
-		{
-			classSession: true,
-			startTime: '10:15',
-			endTime: '11:00',
-		},
-		{
-			classSession: true,
-			startTime: '11:00',
-			endTime: '11:45',
-		},
-		{
-			classSession: false,
-			startTime: '11:45',
-			endTime: '12:45',
-			label: 'Almuerzo',
-		},
-		{
-			classSession: true,
-			startTime: '12:45',
-			endTime: '13:30',
-		},
-		{
-			classSession: true,
-			startTime: '13:30',
-			endTime: '14:15',
-		},
-		{
-			classSession: false,
-			startTime: '14:15',
-			endTime: '14:30',
-			label: 'Receso',
-		},
-		{
-			classSession: true,
-			startTime: '14:30',
-			endTime: '15:15',
-		},
-		{
-			classSession: true,
-			startTime: '15:15',
-			endTime: '16:00',
-		},
-	];
-
-	daysOfWeek = [1, 2, 3, 4, 5];
-	classPeriods = [null, 0, 1, null, 2, 3, null, 4, 5, null, 6, 7];
-
-	scheduleForm = this.fb.group({
-		user: [''],
-		section: ['', Validators.required],
-		format: ['JEE', Validators.required],
-		periods: this.fb.array(
-			this.hours
-				.map((block) => {
-					if (block.classSession) {
-						return this.daysOfWeek.map((dayOfWeek) => {
-							return this.fb.group({
-								subject: ['Hora Libre'],
-								dayOfWeek: [dayOfWeek],
-								startTime: [block.startTime],
-								endTime: [block.endTime],
-							});
-						});
-					} else {
-						return this.daysOfWeek.map(() => null);
-					}
-				})
-				.flat(),
-		),
+	// Computes the subjects available for the selected class section
+	availableSubjects = computed(() => {
+		const section = this.selectedSection();
+		return section ? section.subjects : [];
 	});
 
 	ngOnInit() {
-		this.authService.profile().subscribe((user) => {
-			if (user._id) {
-				this.scheduleForm.get('user')?.setValue(user._id);
-			}
-		});
-		this.sectionService.findSections().subscribe({
+		this.loadClassSections();
+	}
+
+	async loadClassSections() {
+		this.classSectionService.findSections().subscribe({
 			next: (sections) => {
-				if (sections.length) {
-					this.sections = sections;
-					this.scheduleForm.get('section')?.setValue(sections[0]._id);
-				}
+				this.classSections.set(sections);
+			},
+			error: (error) => {
+				console.log(error);
+				this.showError('Could not load class sections.');
 			},
 		});
 	}
 
-	stringToDate(str?: string) {
-		if (str) {
-			const [hours, minutes] = str.split(':');
-			const date = new Date();
-			date.setHours(+hours);
-			date.setMinutes(+minutes);
-			return date;
-		}
-		return new Date();
-	}
-
-	onSubmit() {
-		const schedule: any = this.scheduleForm.value;
-		schedule.periods = schedule.periods.filter(
-			(period: ClassPeriod | null) => period != null,
+	onSectionChange(sectionId: string) {
+		const section = this.classSections().find(
+			(section) => section._id === sectionId,
 		);
-		this.scheduleService.create(schedule).subscribe({
-			next: (result) => {
-				if (result._id) {
-					this.router.navigate(['/schedules']).then(() => {
-						this.sb.open('Se ha guardado tu horario', 'Ok', {
-							duration: 2500,
-						});
-					});
-				}
-			},
-			error: (err) => {
-				this.sb.open('Ha ocurrido un error al guardar', 'Ok', {
-					duration: 2500,
-				});
-				console.log(err.message);
-			},
-		});
-	}
-
-	get periods() {
-		return this.scheduleForm.get('periods') as FormArray;
-	}
-
-	addEntry(day: number, startTime: string, endTime: string) {
-		const entry = this.fb.group({
-			subject: ['Hora Libre'],
-			dayOfWeek: [day],
-			startTime: [startTime],
-			endTime: [endTime],
-		});
-		this.periods.push(entry);
-	}
-
-	removeEntry(index: number) {
-		this.periods.removeAt(index);
-	}
-
-	pretify(str: string) {
-		switch (str) {
-			case 'LENGUA_ESPANOLA':
-				return 'Lengua Española';
-			case 'MATEMATICA':
-				return 'Matemática';
-			case 'CIENCIAS_SOCIALES':
-				return 'Ciencias Sociales';
-			case 'CIENCIAS_NATURALES':
-				return 'Ciencias de la Naturaleza';
-			case 'INGLES':
-				return 'Inglés';
-			case 'FRANCES':
-				return 'Francés';
-			case 'FORMACION_HUMANA':
-				return 'Formación Integral Humana y Religiosa';
-			case 'EDUCACION_FISICA':
-				return 'Educación Física';
-			case 'EDUCACION_ARTISTICA':
-				return 'Educación Artística';
-			default:
-				return 'Talleres Optativos';
+		if (!section) {
+			this.showError('Section not found.');
+			return;
 		}
+		this.selectedSection.set(section);
+		this.initializeSchedule(section);
+	}
+
+	initializeSchedule(section: ClassSection) {
+		// A simple mapping, you might need a more complex logic
+		const gradeMap: Record<string, GRADE> = {};
+
+		const newSchedule: Schedule = {
+			grade: gradeMap[section.name] || GRADE.PRIMERO,
+			level: section.level as any as LEVEL,
+			journey: JOURNEY.JEE,
+			dailySchedule: this.days.map((_, i) => ({ day: i, blocks: [] })),
+		};
+		this.schedule.set(newSchedule);
+	}
+
+	generateTimeSlots(): string[] {
+		const slots: string[] = [];
+		for (let i = 0; i < 8; i++) {
+			// const hour = 7 + Math.floor((i * 45) / 60);
+			// const minute = (i * 45) % 60;
+			// const nextHour = 7 + Math.floor(((i + 1) * 45) / 60);
+			// const nextMinute = ((i + 1) * 45) % 60;
+			// slots.push(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} - ${nextHour.toString().padStart(2, '0')}:${nextMinute.toString().padStart(2, '0')}`);
+			slots.push('Bloque ' + (i + 1));
+		}
+		return slots;
+	}
+
+	getDropListId(dayIndex: number, timeIndex: number): string {
+		return `day-${dayIndex}-time-${timeIndex}`;
+	}
+
+	getBlocksForCell(dayIndex: number, timeIndex: number): ClassBlock[] {
+		const currentSchedule = this.schedule();
+		if (!currentSchedule) return [];
+
+		const daySchedule = currentSchedule.dailySchedule[dayIndex];
+		return daySchedule.blocks.filter((b) => b.position === timeIndex + 1);
+	}
+
+	drop(event: CdkDragDrop<any[]>) {
+		const item = event.item.data;
+
+		// If moving from sidebar to grid
+		if (event.previousContainer.id.includes('_list')) {
+			const [_, dayIndexStr, __, timeIndexStr] =
+				event.container.id.split('-');
+			const dayIndex = parseInt(dayIndexStr, 10);
+			const timeIndex = parseInt(timeIndexStr, 10);
+
+			const newBlock: ClassBlock = {
+				...item,
+				position: timeIndex + 1,
+				id: `${item.subject}_${Date.now()}`, // Ensure unique ID
+			};
+
+			if (this.isCollision(dayIndex, timeIndex, newBlock.duration)) {
+				this.showError(
+					'Cannot place block here, it overlaps with another.',
+				);
+				return;
+			}
+
+			this.schedule.update((currentSchedule) => {
+				if (!currentSchedule) return null;
+				const newDailySchedule = [...currentSchedule.dailySchedule];
+				newDailySchedule[dayIndex].blocks.push(newBlock);
+				return { ...currentSchedule, dailySchedule: newDailySchedule };
+			});
+		} else {
+			// If moving within the grid
+			const [prevDay, prevTime] = this.getIndicesFromId(
+				event.previousContainer.id,
+			);
+			const [newDay, newTime] = this.getIndicesFromId(event.container.id);
+
+			// Remove from old position
+			let movedBlock: ClassBlock | undefined;
+			this.schedule.update((currentSchedule) => {
+				if (!currentSchedule) return null;
+				const blockIndex = currentSchedule.dailySchedule[
+					prevDay
+				].blocks.findIndex((b) => b.id === item.id);
+				if (blockIndex > -1) {
+					movedBlock = currentSchedule.dailySchedule[
+						prevDay
+					].blocks.splice(blockIndex, 1)[0];
+				}
+				return { ...currentSchedule };
+			});
+
+			if (!movedBlock) return;
+
+			// Check for collision at new position
+			if (this.isCollision(newDay, newTime, movedBlock.duration)) {
+				this.showError(
+					'Cannot move block here, it overlaps with another.',
+				);
+				// Re-add to original position
+				this.schedule.update((currentSchedule) => {
+					if (!currentSchedule) return null;
+					currentSchedule.dailySchedule[prevDay].blocks.push(
+						movedBlock!,
+					);
+					return { ...currentSchedule };
+				});
+				return;
+			}
+
+			// Add to new position
+			movedBlock.position = newTime + 1;
+			this.schedule.update((currentSchedule) => {
+				if (!currentSchedule) return null;
+				currentSchedule.dailySchedule[newDay].blocks.push(movedBlock!);
+				return { ...currentSchedule };
+			});
+		}
+	}
+
+	isCollision(
+		dayIndex: number,
+		timeIndex: number,
+		duration: 45 | 90,
+	): boolean {
+		const blocksInDay =
+			this.schedule()?.dailySchedule[dayIndex].blocks ?? [];
+		const newBlockStart = timeIndex + 1;
+		const newBlockEnd = newBlockStart + (duration === 90 ? 1 : 0);
+
+		if (newBlockEnd > 14) return true; // Exceeds schedule bounds
+
+		for (const block of blocksInDay) {
+			const existingBlockStart = block.position;
+			const existingBlockEnd =
+				existingBlockStart + (block.duration === 90 ? 1 : 0);
+
+			// Check for overlap
+			if (
+				newBlockStart <= existingBlockEnd &&
+				newBlockEnd >= existingBlockStart
+			) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	getIndicesFromId(id: string): [number, number] {
+		const [_, dayIndexStr, __, timeIndexStr] = id.split('-');
+		return [parseInt(dayIndexStr, 10), parseInt(timeIndexStr, 10)];
+	}
+
+	getBlockHeight(block: ClassBlock): number {
+		return block.duration === 90 ? 200 : 100;
+	}
+
+	getBlockClass(block: ClassBlock): string {
+		const subjectClass = `subject-${block.subject}`.replace(/\s|_/g, '-');
+		return subjectClass;
+	}
+
+	async saveSchedule() {
+		const currentSchedule = this.schedule();
+		if (!currentSchedule) {
+			this.showError('No schedule to save.');
+			return;
+		}
+
+		this.scheduleService.create(currentSchedule).subscribe({
+			next: (savedSchedule) => {
+				this.snackBar.open('Schedule saved successfully!', 'Close', {
+					duration: 3000,
+				});
+				this.router.navigate(['/user/schedules', savedSchedule._id]);
+			},
+			error: (error) => {
+				this.showError(error.message || 'An unknown error occurred.');
+			},
+		});
+	}
+
+	private showError(message: string) {
+		this.snackBar.open(message, 'Close', {
+			duration: 3000,
+			panelClass: ['error-snackbar'],
+		});
 	}
 }
