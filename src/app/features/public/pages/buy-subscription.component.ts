@@ -1,754 +1,367 @@
-import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, isDevMode, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { BankAccountComponent } from '../../../shared/ui/bank-account.component';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserSubscription } from '../../../core/interfaces/user-subscription';
 import { MatIconModule } from '@angular/material/icon';
-import { MatBadgeModule } from '@angular/material/badge';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 
 declare const paypal: any;
 
 @Component({
 	selector: 'app-buy-subscription',
+	standalone: true,
 	imports: [
+		FormsModule,
 		MatCardModule,
 		MatButtonModule,
 		MatIconModule,
-		MatDialogModule,
 		MatListModule,
 		MatSnackBarModule,
 		MatSlideToggleModule,
-		MatBadgeModule,
-		RouterModule,
 		RouterModule,
 	],
 	template: `
-		<div class="text-center">
-			<h1>Precios de Suscripción a KitMaestro</h1>
-		</div>
+    <div class="pricing-container">
+		<img src="/assets/logo KitMaestro.png" style="max-width: 128px; cursor: pointer;" alt="KitMaestro v4 logo" routerLink="/" />
+        <h1>KitMaestro</h1>
+      <div class="header">
+        <h1>Planes y Precios</h1>
+        <p>Elige el plan que mejor se adapte a tus necesidades.</p>
+      </div>
 
-		<!-- <div id="zf-widget-root-id"></div> -->
-
-		<table>
-			<thead>
-				<tr>
-					<th>Características</th>
-					<th>Educador Básico</th>
-					<th>Docente Pro</th>
-					<th>
-						<mat-icon style="color: #ffd740">favorite</mat-icon>
-						<div>Plan Innovador</div>
-					</th>
-					<th>Plan Maestro</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Precio Mensual</td>
-					<td>RD$0</td>
-					<td>RD$599</td>
-					<td>RD$1,199</td>
-					<td>RD$2,399</td>
-				</tr>
-				<tr>
-					<td>Precio Anual (2 meses gratis)</td>
-					<td>N/A</td>
-					<td>RD$5,999</td>
-					<td>RD$11,999</td>
-					<td>RD$23,999</td>
-				</tr>
-				<tr>
-					<td>Generación de planes diarios</td>
-					<td>5/mes</td>
-					<td>Ilimitado</td>
-					<td>Ilimitado</td>
-					<td>Ilimitado</td>
-				</tr>
-				<tr>
-					<td>Generador de calificaciones</td>
-					<td>1 clase (20 alumnos máx.)</td>
-					<td>Ilimitado</td>
-					<td>Ilimitado</td>
-					<td>Ilimitado</td>
-				</tr>
-				<tr>
-					<td>Generador de unidades de aprendizaje</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Calculadora de promedio</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Generador de asistencia</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>Hasta 3 clases (100 alumnos)</td>
-					<td>Ilimitado</td>
-					<td>Ilimitado</td>
-				</tr>
-				<tr>
-					<td>Generación de rúbricas y sistemas de calificación</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Gestión de horarios de clases</td>
-					<td>Básico (2 horarios máx.)</td>
-					<td>Básico</td>
-					<td>Avanzado</td>
-					<td>Avanzado</td>
-				</tr>
-				<tr>
-					<td>Generador de plantillas de planificación</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Generador de exámenes</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Generadores de ejercicios matemáticos y lingüísticos</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Galería de recursos (subir y monetizar)</td>
-					<td>Solo recursos gratuitos</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Gestión avanzada de clases y asignaturas (Google Classroom)</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Generador de registros anecdóticos</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Generación de proyectos grupales, guías de debate, escritura
-						creativa
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Generación de lecturas guiadas y ejercicios avanzados</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Acceso a herramientas avanzadas de IA</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Analíticas avanzadas del desempeño del alumnado</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-				<tr>
-					<td>Soporte prioritario 24/7</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #f44336; font-weight: bold"
-							>close</mat-icon
-						>
-					</td>
-					<td>
-						<mat-icon style="color: #4caf50; font-weight: bold"
-							>check</mat-icon
-						>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<!-- <div class="pricing-table-container">
-			@for (plan of pricingPlans; track $index) {
-				<mat-card class="pricing-card" [class.standard]="$index === 1">
-					<mat-card-content>
-						<mat-slide-toggle [checked]="monthlyPricing" (change)="monthlyPricing = !monthlyPricing"></mat-slide-toggle>
-						<p>{{ monthlyPricing ? 'Pago Mensual' : 'Pago Anual' }}</p>
-						<h2 style="margin: 0 auto;" mat-card-title>{{ plan.name }}</h2>
-						@if (plan.price.month.original > 0 && !monthlyPricing) {
-							<h2 style="margin: 0 auto; text-decoration: line-through; color: #f44336;" mat-card-subtitle>{{ (monthlyPricing ? plan.price.month.original : plan.price.year.original) | currency : 'USD' }}</h2>
-						}
-						<h2 style="margin: 0 auto;" mat-card-subtitle>{{ plan.price.month.now === 0 ? 'Gratis' : ((monthlyPricing ? plan.price.month.now : plan.price.year.now) | currency : 'USD') }}</h2>
-						@if (monthlyPricing && $index === 1) {
-							<mat-icon style="color: #673ab7;">verified</mat-icon>
-						}
-						<ul style="margin-bottom: 12px;">
-							@for(feature of plan.features; track feature) {
-								<li>{{ feature }}</li>
-							}
-						</ul>
-						@if ($index === 1) {
-							<div [class.hidden]="monthlyPricing" id="paypal-button-container-P-52T24700U3639062UM4OD5MY"></div>
-							<div [class.hidden]="!monthlyPricing" id="paypal-button-container-P-2EE66704US3183602M4OD3PA"></div>
-							@if (monthlyPricing) {
-								<a style="width: 100%;" [href]="links.blackfriday.standard.monthly" target="_blank" rel="noopener noreferrer" mat-raised-button color="primary">Suscribeme</a>
-							} @else {
-								<a style="width: 100%;" [href]="links.blackfriday.standard.yearly" target="_blank" rel="noopener noreferrer" mat-raised-button color="primary">Suscribeme</a>
-							}
-						} @else if ($index === 2) {
-							<div [class.hidden]="monthlyPricing" id="paypal-button-container-P-18K0318878962562NM4OWONQ"></div>
-							<div [class.hidden]="!monthlyPricing" id="paypal-button-container-P-65554646XG739770LM4OWNZI"></div>
-							@if (monthlyPricing) {
-								<a style="width: 100%;" [href]="links.blackfriday.premium.monthly" target="_blank" rel="noopener noreferrer" mat-raised-button color="primary">Suscribeme</a>
-							} @else {
-								<a style="width: 100%;" [href]="links.blackfriday.premium.yearly" target="_blank" rel="noopener noreferrer" mat-raised-button color="primary">Suscribeme</a>
-							}
-						} @else {
-						<button style="width: 100%; margin-top: auto;" mat-raised-button color="primary" (click)="buyPlan(plan)">{{ plan.buttonText }}</button>
-						}
-				</mat-card-content>
-			</mat-card>
-			}
-		</div> -->
-
-		<mat-card style="display: none">
-			<mat-card-content>
-				<div class="text-center">
-					<h2>
-						Adquiere un paquete de suscripción y disfruta de los siguientes
-						beneficios:
-					</h2>
-					<ul style="list-style: none">
-						<li>
-							Al adquirir la suscripción premium, recibirás un código de
-							afiliado exclusivo para compartir con tus colegas.
-						</li>
-						<li>
-							Cada vez que alguien se registre con tu código, obtendrá un
-							descuento del 20% en su suscripción.
-						</li>
-						<li>
-							Como agradecimiento por tu recomendación, recibirás el 20%
-							del costo la suscripci&oacute;n de cada usuario que se
-							registre con tu código.
-						</li>
-					</ul>
-				</div>
-			</mat-card-content>
-		</mat-card>
-	`,
+      <div class="pricing-grid">
+		@for (plan of pricingPlans; track plan.id) {
+			<div
+			  class="pricing-card"
+			  [class.most-popular]="plan.mostPopular"
+			>
+				@if (plan.mostPopular) {
+					<div class="popular-badge">Más Popular</div>
+				}
+			  <h2>{{ plan.name }}</h2>
+			  <div class="price">$
+				{{ plan.price }}
+				<span class="period">/ mes</span>
+			  </div>
+			  <p class="description">{{ plan.description }}</p>
+			  <ul class="features-list">
+				@for (feature of plan.features; track $index) {
+					<li>
+					  <mat-icon>check_circle</mat-icon> {{ feature }}
+					</li>
+				}
+			  </ul>
+			  @if (plan.price) {
+				<div [id]="plan.id+'-container'">
+					</div>
+			  } @else {
+				  <button (click)="goFree()" mat-flat-button color="primary" class="cta-button">
+					{{ plan.buttonText }}
+				  </button>
+			  }
+			</div>
+		}
+      </div>
+    </div>
+  `,
 	styles: `
-		h3 {
-			font-weight: bold;
-		}
+    :host {
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      background-color: #f9fafb;
+      font-family: 'Inter', sans-serif;
+    }
 
-		p {
-			font-size: 16px;
-			line-height: 1.5;
-			font-family: Roboto, sans-serif;
-			margin-top: 20px;
-			margin-bottom: 20px;
-		}
+    .pricing-container {
+      width: 100%;
+      max-width: 1200px;
+      text-align: center;
+    }
 
-		.text-center {
-			text-align: center;
-		}
+    .header h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 16px;
+    }
 
-		.pricing-grid {
-			display: grid;
-			gap: 12px;
-			grid-template-columns: 1fr;
-			text-align: center;
+    .header p {
+      font-size: 1.125rem;
+      color: #6b7280;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
 
-			.standard {
-				background-color: #ffd740 !important;
-			}
+    .billing-toggle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 48px;
+      font-size: 1rem;
+      color: #374151;
+    }
 
-			@media screen and (min-width: 1200px) {
-				grid-template-columns: repeat(3, 1fr);
-			}
-		}
+    .billing-toggle span {
+        font-weight: 500;
+    }
 
-		.pricing-table-container {
-			display: flex;
-			justify-content: center;
-			gap: 20px;
-			flex-wrap: wrap;
-			margin: 20px 0;
-		}
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      justify-content: center;
+    }
 
-		.pricing-card {
-			width: 300px;
-			text-align: center;
-		}
+    /* Estilos para tablets y escritorios */
+    @media (min-width: 768px) {
+      .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
 
-		.pricing-card mat-card-title {
-			font-size: 24px;
-			font-weight: bold;
-		}
+    @media (min-width: 1200px) {
+      .pricing-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
 
-		.pricing-card mat-card-subtitle {
-			font-size: 20px;
-			color: #666;
-		}
+    .pricing-card {
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 32px;
+      text-align: left;
+      transition: all 0.3s ease;
+      position: relative;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    }
 
-		.pricing-card ul {
-			list-style: none;
-			padding: 0;
-		}
+    .pricing-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    }
 
-		.pricing-card li {
-			margin: 8px 0;
-		}
+    .pricing-card.most-popular {
+      border-color: #6366f1;
+      border-width: 2px;
+    }
 
-		mat-card-actions {
-			display: flex;
-			justify-content: center;
-		}
+    .popular-badge {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #6366f1;
+      color: white;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
 
-		.hidden {
-			display: none;
-		}
+    .pricing-card h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 16px;
+    }
 
-		td,
-		th {
-			vertical-align: middle;
-			text-align: center;
-			padding: 6px;
-			border: 1px solid #ccc;
-		}
+    .price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: baseline;
+    }
 
-		tr td:first-child,
-		tr th:first-child {
-			text-align: start;
-		}
+    .price .currency {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-right: 4px;
+    }
 
-		tr td:nth-child(4),
-		tr th:nth-child(4) {
-			background-color: #673ab7;
-			border-color: white;
-			color: white;
-		}
+    .price .period {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #6b7280;
+      margin-left: 8px;
+    }
 
-		table {
-			width: 100%;
-			border-collapse: collapse;
-			border: 1px solid #ccc;
-		}
-	`,
+    .description {
+        color: #6b7280;
+        margin-bottom: 24px;
+        min-height: 40px;
+    }
+
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 24px 0;
+      color: #374151;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .features-list mat-icon {
+      color: #6366f1;
+    }
+
+    .cta-button {
+      width: 100%;
+      padding: 12px 0;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      background-color: #6366f1;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    .pricing-card:not(.most-popular) .cta-button {
+        background-color: #ffffff;
+        color: #6366f1;
+        border: 2px solid #e5e7eb;
+    }
+
+    .pricing-card:not(.most-popular) .cta-button:hover {
+        background-color: #f9fafb;
+        border-color: #d1d5db;
+    }
+
+    .cta-button:hover {
+      background-color: #4f46e5;
+    }
+  `,
 })
-export class BuySubscriptionComponent implements OnInit, AfterViewInit {
-	private dialog = inject(MatDialog);
+export class BuySubscriptionComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private router = inject(Router);
 	private userSubscriptionService = inject(UserSubscriptionService);
-	alreadyPremium = false;
-	subscription$: Observable<UserSubscription> =
-		this.userSubscriptionService.checkSubscription();
+
+	// Estado para el interruptor de facturación
+	billedAnnually = signal(false);
 	loading = true;
-	monthlyPricing = false;
-	script: any = null;
+	alreadyPremium = false;
+	subscription$: Observable<UserSubscription> = this.userSubscriptionService.checkSubscription();
 
-	links = {
-		blackfriday: {
-			standard: {
-				yearly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-93026442NP193262GM5AFP7Q',
-				monthly:
-					'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-5KR33576CF752782RM5AFRTI',
-			},
-			premium: {
-				yearly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-9UM88252AL146524LM5AF5YQ',
-				monthly:
-					'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-31K00861C1627213SM5AF7TA',
-			},
-		},
-		regular: {
-			standard: {
-				yearly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-52T24700U3639062UM4OD5MY',
-				monthly:
-					'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-2EE66704US3183602M4OD3PA',
-			},
-			premium: {
-				yearly: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-18K0318878962562NM4OWONQ',
-				monthly:
-					'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-65554646XG739770LM4OWNZI',
-			},
-		},
-	};
-
+	// Datos de los planes de precios, simplificados para el nuevo diseño
 	pricingPlans = [
 		{
+			id: 'FREE',
+			name: 'Plan Gratuito',
+			code: 'FREE',
+			price: 0,
+			description: 'Herramientas esenciales para empezar a organizar tus clases.',
+			features: [
+				'5 planes diarios/mes',
+				'1 unidad de aprendizaje/mes',
+				'2 instrumentos de evaluacion/mes',
+				'Generador de aspectos trabajados',
+				'Generador de calificaciones (1 curso)',
+			],
+			buttonText: 'Comenzar Gratis',
+			mostPopular: false,
+		},
+		{
+			id: isDevMode() ? 'P-1S5529330X126793CNCVNPKQ' : 'P-6XC51067601278041NCVPXHY',
 			name: 'Plan Básico',
-			price: {
-				month: {
-					original: 0,
-					now: 0,
-				},
-				year: {
-					original: 0,
-					now: 0,
-				},
-			},
+			code: 'BASICO',
+			price: 9.58,
+			description: 'Ideal para docentes de área que buscan simplificar su vida, ahorrando al menos 5 horas a la semana.',
 			features: [
-				'Calculadora de Promedios',
-				'Calculadora de Asistencia',
-				'Hojas de Ejercicios',
-				'Lista de Pendientes',
-				'Administra tus Cursos',
-				'Registro Anecdótico',
-				'Plantillas de Planificación',
-				'Galería de Recursos Educativos',
+				'Planes de clase(diarios)',
+				'Planes de unidad',
+				'Instrumentos de evaluación',
+				'Manejo de asistencia',
+				'Manejo de calificaciones',
+				'Actividades didácticas básicas',
+				'Aspectos trabajados(registro)',
+				'Asistente IA',
+				'Galería de recursos didácticos',
 			],
-			buttonText: 'Empezar',
+			buttonText: 'Elegir Plan Pro',
+			mostPopular: false,
 		},
 		{
-			name: 'Plan Estándar',
-			price: {
-				month: {
-					original: 600,
-					// now: 3.75,
-					now: 399,
-				},
-				year: {
-					original: 4800,
-					// now: 24.99,
-					now: 2999,
-				},
-			},
+			id: isDevMode() ? 'P-1UE72299DR9852449NCVQGVQ' : 'P-14G421255Y3461609NCVPWCQ',
+			name: 'Plan Plus',
+			code: 'PLUS',
+			price: 15.97,
+			description: 'Perfecto para docentes en aula, que imparten 4 o más asignaturas en uno o varios grados, logrando ahorras al menos 10 horas de trabajo cada semana.',
 			features: [
-				'Todo del Plan Básico',
-				'Planes Diarios',
-				'Planes de Unidad',
-				'Generador de Calificaciones',
-				'Generador de Asistencia',
-				'Conversaciones en Inglés',
-				'Generador de Actividades',
-				'Generador de Aspectos Trabajados',
-				'Instrumentos de Evaluación',
-				'Sistemas de Calificación',
-				'Gestion de Horario',
+				'Todo lo del plan básico',
+				'Planes diarios automáticos',
+				'Registro anecdótico',
+				'Generador de exámenes',
+				'Actividades de comprensión lectora',
+				'Actividades de matemática',
+				'Actividades de historia y geografía',
+				'Actividades de ciencias de la naturaleza',
+				'Recursos decorativos para el aula',
+				'Actividades para efemérides',
+				'Planificación de eventos',
+				'Encuestas y retroalimentación',
+				'Corrección automática de tareas',
+				'Juegos didácticos',
 			],
-			buttonText: 'Suscríbeme',
+			buttonText: 'Elegir Plan Innovador',
+			mostPopular: true,
 		},
 		{
+			id: isDevMode() ? 'P-4YU16384DJ898973ENCVQHAY' : 'P-4YH83305EL092640VNCVPYFQ',
 			name: 'Plan Premium',
-			price: {
-				month: {
-					original: 2400,
-					// now: 11.25,
-					now: 999,
-				},
-				year: {
-					original: 14000,
-					// now: 112.49,
-					now: 8999,
-				},
-			},
+			code: 'PREMIUM',
+			price: 38.36,
+			description: 'Perfecto para el docente eficiente e innovador que valora su tiempo al máximo, con este plan, el maestro puede ahorrar hasta 20 horas a la semana.',
 			features: [
-				'Todo del Plan Estándar',
-				'Recursos Educativos Premium',
-				'Planes Automatizados',
-				'Planes de Efemerides',
-				'Hasta 5 profesores',
-				'Docente Adicional $2.99/mes',
-				'Soporte Prioritario',
+				'Todo lo del plan Plus',
+				'Plan anual de clases',
+				'Planes de acción',
+				'Planes de mejora',
+				'Mensajes automáticos a padres',
+				'Boletines de calificación',
+				'Informes de rendimiento individual',
+				'Taza personalizada',
+				'T-Shirt personalizado',
+				'Asesores de desarrollo personal',
+				'Asesores de desarrollo profesional',
+				'Caja de suscripción trimestral *',
+				'Recursos didácticos gratuitos *',
+				'3 días de resort todo incluido *',
+				'Cursos gratuitos en KitMaestro Academy *',
+				// '5 entradas a KitMaestro Con *',
 			],
-			buttonText: 'Más Información',
+			buttonText: 'Contactar Ventas',
+			mostPopular: false,
 		},
 	];
 
-	buyPlan(plan: any) {
-		if (plan.name === 'Plan Premium') {
-			const a = document.createElement('a');
-			const text = encodeURIComponent(
-				`Hola!\nMe interesa un plan premium de KitMaestro. Me puedes informar al respecto?`,
-			);
-			a.href = `https://web.whatsapp.com/send?text=${text}`;
-			a.target = '_blank';
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-		} else if (plan.name === 'Plan Estándar') {
-			// process payment
-		} else {
-			this.router.navigate(['/']).then(() => {
-				if (this.alreadyPremium) {
-					this.sb.open(
-						'Tu cuenta volvera a ser gratuita una vez llegue tu dia de facturacion. Regresa pronto!',
-						'Ok',
-						{ duration: 2500 },
-					);
-				} else {
-					this.sb.open(
-						'Tu cuenta ya es gratuita. Te esperamos del lado premium!',
-						'Ok',
-						{ duration: 2500 },
-					);
-				}
-			});
-		}
-	}
-
-	subscribe(plan: string, method: string, days: number, amount: number) {
-		const sub = this.userSubscriptionService
-			.subscribe(plan, method, days, amount)
-			.subscribe((result) => {
-				sub.unsubscribe();
-				console.log(result);
-				this.alertSuccess();
-			});
+	ngOnInit(): void {
+		this.subscription$.subscribe({
+			next: (subscription) => {
+				this.loading = false;
+				this.alreadyPremium = subscription.status === 'active';
+			},
+			error: (err) => {
+				console.error('Error al verificar la suscripción:', err);
+				this.loading = false;
+			},
+		});
+		setTimeout(() => this.renderButtons(), 500);
 	}
 
 	renderButtons() {
@@ -758,109 +371,34 @@ export class BuySubscriptionComponent implements OnInit, AfterViewInit {
 			layout: 'vertical',
 			label: 'subscribe',
 		};
-		const plans = [
-			{
-				plan_id: 'P-18K0318878962562NM4OWONQ',
-				name: 'Premium Yearly',
-				days: 365,
-				price: 149.99,
-			},
-			{
-				plan_id: 'P-52T24700U3639062UM4OD5MY',
-				name: 'Premium Yearly Standard',
-				days: 365,
-				price: 49.99,
-			},
-			{
-				plan_id: 'P-65554646XG739770LM4OWNZI',
-				name: 'Premium Monthly',
-				days: 30,
-				price: 14.99,
-			},
-			{
-				plan_id: 'P-2EE66704US3183602M4OD3PA',
-				name: 'Premium Monthly Standard',
-				days: 30,
-				price: 4.99,
-			},
-		];
-		plans.forEach((plan) => {
+		this.pricingPlans.filter(p => p.price).forEach(({ id: plan_id, name, code, price }) => {
+			const days = 30
 			paypal
 				.Buttons({
 					style,
-					createSubscription: (data: any, actions: any) =>
-						actions.subscription.create({ plan_id: plan.plan_id }),
-					onApprove: () =>
-						this.subscribe(
-							plan.name,
-							'PayPal',
-							plan.days,
-							plan.price,
-						),
+					createSubscription: (data: any, actions: any) => actions.subscription.create({ plan_id }),
+					onApprove: () => this.userSubscriptionService.subscribe(code, 'PayPal', days, price).subscribe(() => this.alertSuccess(name)),
 				})
-				.render(`#paypal-button-container-${plan.plan_id}`);
+				.render(`#${plan_id}-container`);
 		});
 	}
 
-	ngAfterViewInit(): void {
-		// setTimeout(() => this.renderButtons(), 0);
+	goFree() {
+		this.userSubscriptionService.subscribe('FREE', 'none', 0, 0).subscribe(() => this.alertSuccess('Gratuito'));
 	}
 
-	loadScript() {
-		return new Promise((resolve, reject) => {
-			//load script
-			this.script = document.createElement('script');
-			this.script.type = 'text/javascript';
-			this.script.src =
-				'https://js.zohostatic.com/books/zfwidgets/assets/js/zf-widget.js';
-			this.script.id = 'zf-pricing-table';
-			this.script.dataset.digest =
-				'2-95ce2c643a93915e4414ee32022e96100489a80773ede99b72a9aeba00aafbd7922440bc604ebb1fb737c2b253195bdf7d83ce4d81667ad587551cfd218224f5';
-			this.script.dataset.product_url = 'https://billing.zoho.com';
-			console.log(this.script);
-			if (this.script.readyState) {
-				this.script.onreadystatechange = () => {
-					if (
-						this.script.readyState === 'loaded' ||
-						this.script.readyState === 'complete'
-					) {
-						this.script.onreadystatechange = null;
-						resolve({ loaded: true, status: 'Loaded' });
-					}
-				};
-			} else {
-				this.script.onload = () => {
-					resolve({ loaded: true, status: 'Loaded' });
-				};
-			}
-			this.script.onerror = (error: any) =>
-				resolve({ loaded: false, status: 'Loaded' });
-			document.getElementsByTagName('head')[0].appendChild(this.script);
-		});
+	toggleBillingPeriod(): void {
+		console.log('Facturación anual:', this.billedAnnually);
+		// Aquí puedes añadir lógica adicional si es necesario cuando cambia el período
 	}
 
-	ngOnInit(): void {
-		// this.loadScript();
-		this.subscription$.subscribe({
-			next: (subscription) => {
-				this.loading = false;
-				this.alreadyPremium = subscription.status === 'active';
-			},
-			error: (err) => {
-				console.log(err);
-			},
-		});
-	}
-
-	showBankAccount() {
-		this.dialog.open(BankAccountComponent, {});
-	}
-
-	alertSuccess() {
-		this.sb.open(
-			'Su suscripción premium ha sido procesada. Su suscripción será activada en un plazo de 0 a 6 horas tras la confirmación.',
-			undefined,
-			{ duration: 5000 },
-		);
+	alertSuccess(plan: string) {
+		this.router.navigate(plan == 'Gratuito' ? ['/'] : ['/premium-welcome'], { queryParams: { plan: plan } }).then(() => {
+			this.sb.open(
+				'Serás redirigido para completar tu compra. Tu suscripción se activará tras la confirmación.',
+				'OK',
+				{ duration: 5000 }
+			);
+		})
 	}
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AppEntry } from '../../core/interfaces/app-entry';
@@ -15,6 +15,10 @@ import { AppTileComponent } from '../../shared/ui/app-tile.component';
 import { UserSettingsService } from '../../core/services/user-settings.service';
 import { UserSettings } from '../../core/interfaces/user-settings';
 import { MatChipsModule } from '@angular/material/chips';
+import { UserSubscription } from '../../core/interfaces/user-subscription';
+import { UserSubscriptionService } from '../../core/services/user-subscription.service';
+import { WhatsAppShareService } from '../../core/services/whatsapp.service';
+import { tap } from 'rxjs';
 
 const planningTools: AppEntry[] = [
 	{
@@ -23,6 +27,7 @@ const planningTools: AppEntry[] = [
 		link: ['/unit-plans'],
 		categories: ['Planificación'],
 		icon: '/assets/assistant.svg',
+		tier: 1,
 	},
 	{
 		name: 'Planes Diarios',
@@ -30,6 +35,7 @@ const planningTools: AppEntry[] = [
 		link: ['/class-plans'],
 		categories: ['Planificación'],
 		icon: '/assets/undraw_real_time_sync_re_nky7.svg',
+		tier: 1,
 	},
 	{
 		name: 'Prácticas Deportivas',
@@ -37,6 +43,7 @@ const planningTools: AppEntry[] = [
 		link: ['/sports-practice-generator'],
 		categories: ['Actividades', 'Planificación'],
 		icon: '/assets/undraw_track-and-field_i2au.svg',
+		tier: 2,
 	},
 	{
 		name: 'Generador de Ruta de Estudio',
@@ -44,6 +51,7 @@ const planningTools: AppEntry[] = [
 		link: ['/study-path-generator'],
 		categories: ['Actividades', 'Planificación'],
 		icon: '/assets/undraw_studying_n5uj.svg',
+		tier: 3,
 	},
 ];
 
@@ -55,6 +63,7 @@ const activitiesTools: AppEntry[] = [
 		categories: ['Actividades'],
 		icon: '/assets/dialog.svg',
 		isNew: true,
+		tier: 1,
 	},
 	{
 		name: 'Generador de Lecturas Guiadas',
@@ -62,6 +71,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/guided-reading-generator'],
 		categories: ['Actividades', 'Hojas de Trabajo'],
 		icon: '/assets/icons/education/PNG/creativity-svgrepo-com.png',
+		tier: 1,
 	},
 	{
 		name: 'Actividades para Efemérides',
@@ -69,6 +79,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/holiday-activity-generator'],
 		categories: ['Actividades', 'Efemérides'],
 		icon: '/assets/undraw_festivities_q090.svg',
+		tier: 1,
 	},
 	{
 		name: 'Ordena las Palabras',
@@ -76,6 +87,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/word-scramble'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_specs_re_546x.svg',
+		tier: 1,
 	},
 	{
 		name: 'Generador de Sinónimos',
@@ -84,6 +96,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/synonyms'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_file_searching_re_3evy.svg',
+		tier: 1,
 	},
 	{
 		name: 'Generador de Antónimos',
@@ -92,6 +105,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/antonyms'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_file_searching_re_3evy.svg',
+		tier: 1,
 	},
 	{
 		name: 'Crucigramas',
@@ -99,6 +113,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/crosswords'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_file_searching_re_3evy.svg',
+		tier: 1,
 	},
 	{
 		name: 'Sopas de Letras',
@@ -106,6 +121,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/wordsearch'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_file_searching_re_3evy.svg',
+		tier: 1,
 	},
 	{
 		name: 'Suma',
@@ -113,6 +129,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/addition'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_new_entries_re_cffr.svg',
+		tier: 1,
 	},
 	{
 		name: 'Resta',
@@ -120,6 +137,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/subtraction'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_new_entries_re_cffr.svg',
+		tier: 1,
 	},
 	{
 		name: 'Multiplicación',
@@ -127,6 +145,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/multiplication'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_new_entries_re_cffr.svg',
+		tier: 1,
 	},
 	{
 		name: 'División',
@@ -134,6 +153,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/division'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_new_entries_re_cffr.svg',
+		tier: 1,
 	},
 	{
 		name: 'Ejercicios Mixtos',
@@ -141,6 +161,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/mixed-operations'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_new_entries_re_cffr.svg',
+		tier: 1,
 	},
 	{
 		name: 'Ecuaciones',
@@ -148,6 +169,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/equations'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_new_entries_re_cffr.svg',
+		tier: 1,
 	},
 	{
 		name: 'Recta Numérica',
@@ -155,6 +177,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/number-line'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_new_entries_re_cffr.svg',
+		tier: 1,
 	},
 	{
 		name: 'Planos Cartesianos',
@@ -162,6 +185,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/cartesian-coordinates'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_new_entries_re_cffr.svg',
+		tier: 1,
 	},
 	{
 		name: 'Sudoku',
@@ -170,6 +194,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/sudoku'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_game_day_ucx9.svg',
+		tier: 1,
 	},
 	{
 		name: 'Reflexiones Diarias',
@@ -177,6 +202,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/reflection-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_creative-thinking_ruwx.svg',
+		tier: 1,
 	},
 	{
 		name: 'Rompehielos',
@@ -184,6 +210,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/icebreaker-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_team-up_qeem.svg',
+		tier: 1,
 	},
 	{
 		name: 'Trabalenguas',
@@ -191,6 +218,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/tongue-twister-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_things-to-say_f5mi.svg',
+		tier: 1,
 	},
 	{
 		name: 'Problemas Matemáticos',
@@ -198,6 +226,7 @@ const activitiesTools: AppEntry[] = [
 		link: ['/math-problem-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_mathematics_hc2c.svg',
+		tier: 1,
 	},
 ];
 
@@ -208,6 +237,7 @@ const assessmentTools: AppEntry[] = [
 		link: ['/test-generator'],
 		categories: ['Instrumentos de Evaluación'],
 		icon: '/assets/undraw_exams_d2tf.svg',
+		tier: 1,
 	},
 	{
 		link: ['/formation'],
@@ -215,6 +245,7 @@ const assessmentTools: AppEntry[] = [
 		name: 'Evaluación Formativa',
 		icon: '/assets/learning.svg',
 		description: 'Herramientas interactivas para evaluar en tiempo real.',
+		tier: 4,
 	},
 	{
 		name: 'Generador de Listas de Cotejo',
@@ -222,6 +253,7 @@ const assessmentTools: AppEntry[] = [
 		link: ['/checklist-generator'],
 		categories: ['Evaluación'],
 		icon: '/assets/undraw_check-boxes_ewf2.svg',
+		tier: 1,
 	},
 	{
 		name: 'Registro Anecdótico',
@@ -229,6 +261,7 @@ const assessmentTools: AppEntry[] = [
 		link: ['/log-registry-generator'],
 		categories: ['Registro', 'Productividad'],
 		icon: '/assets/undraw_upload_image_re_svxx.svg',
+		tier: 1,
 	},
 	{
 		name: 'Generador de Guía de Observación',
@@ -236,6 +269,7 @@ const assessmentTools: AppEntry[] = [
 		link: ['/observation-sheet'],
 		categories: ['Evaluación', 'Instrumentos de Evaluación'],
 		icon: '/assets/checklist.svg',
+		tier: 1,
 	},
 	{
 		name: 'Generador de Rúbricas',
@@ -243,6 +277,7 @@ const assessmentTools: AppEntry[] = [
 		link: ['/rubric-generator'],
 		categories: ['Evaluación', 'Instrumentos de Evaluación'],
 		icon: '/assets/checklist.svg',
+		tier: 1,
 	},
 	{
 		name: 'Generador de Escala de Estimación',
@@ -250,6 +285,7 @@ const assessmentTools: AppEntry[] = [
 		link: ['/estimation-scale'],
 		categories: ['Evaluación', 'Instrumentos de Evaluación'],
 		icon: '/assets/checklist.svg',
+		tier: 1,
 	},
 	{
 		name: 'Sistemas de Calificación',
@@ -262,6 +298,7 @@ const assessmentTools: AppEntry[] = [
 			'Evaluación',
 		],
 		icon: '/assets/undraw_portfolio_website_re_jsdd.svg',
+		tier: 1,
 	},
 	{
 		link: ['/reviews'],
@@ -270,6 +307,7 @@ const assessmentTools: AppEntry[] = [
 		icon: '/assets/review.svg',
 		description:
 			'Recopilación de retroalimentación para mejorar la enseñanza.',
+		tier: 1,
 	},
 ];
 
@@ -280,6 +318,7 @@ const registryTools = [
 		link: ['/average-calculator'],
 		categories: ['Calculadora', 'Registro'],
 		icon: '/assets/calculator.svg',
+		tier: 1,
 	},
 	{
 		name: 'Calculadora de Asistencias',
@@ -287,6 +326,7 @@ const registryTools = [
 		link: ['/attendance-calculator'],
 		categories: ['Calculadora', 'Registro'],
 		icon: '/assets/attendance.svg',
+		tier: 1,
 	},
 	{
 		link: ['/attendance'],
@@ -294,6 +334,7 @@ const registryTools = [
 		name: 'Control de Asistencia',
 		icon: '/assets/attend.svg',
 		description: 'Registra tablas de asistencia.',
+		tier: 1,
 	},
 	{
 		name: 'Generador de Calificaciones',
@@ -301,6 +342,7 @@ const registryTools = [
 		link: ['/grades-generator'],
 		categories: ['Productividad', 'Registro'],
 		icon: '/assets/grades.svg',
+		tier: 2,
 	},
 	{
 		name: 'Generador de Asistencia',
@@ -309,6 +351,7 @@ const registryTools = [
 		categories: ['Productividad', 'Registro'],
 		icon: '/assets/undraw_analysis_dq08.svg',
 		isNew: true,
+		tier: 2,
 	},
 	{
 		name: 'Generador de Aspectos Trabajados',
@@ -316,6 +359,7 @@ const registryTools = [
 		link: ['/aspects-generator'],
 		categories: ['Registro'],
 		icon: '/assets/aspects.svg',
+		tier: 1,
 	},
 ];
 
@@ -326,6 +370,7 @@ const resourcesTools = [
 		link: ['/class-hook-generator'],
 		categories: ['Actividades', 'Planificación'],
 		icon: '/assets/undraw_sharing-knowledge_pu0e.svg',
+		tier: 2,
 	},
 	{
 		name: 'Generador de Cuentos',
@@ -333,6 +378,7 @@ const resourcesTools = [
 		link: ['/story-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_book-writer_ri5u.svg',
+		tier: 3,
 	},
 	{
 		name: 'Generador de Poesía',
@@ -340,6 +386,7 @@ const resourcesTools = [
 		link: ['/poem-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_writer_r7ca.svg',
+		tier: 3,
 	},
 	{
 		name: 'Generador de Fábulas',
@@ -347,6 +394,7 @@ const resourcesTools = [
 		link: ['/fable-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_refreshing-beverage_w8al.svg',
+		tier: 3,
 	},
 	{
 		name: 'Generador de Chistes',
@@ -354,6 +402,7 @@ const resourcesTools = [
 		link: ['/joke-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_coffee_7r49.svg',
+		tier: 3,
 	},
 	{
 		name: 'Generador de Adivinanzas',
@@ -362,6 +411,7 @@ const resourcesTools = [
 		link: ['/riddle-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_body-text_b6qq.svg',
+		tier: 3,
 	},
 	{
 		name: 'Generador de Curiosidades',
@@ -369,6 +419,7 @@ const resourcesTools = [
 		link: ['/fun-fact-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_startled_ez5h.svg',
+		tier: 3,
 	},
 	{
 		name: 'Generador de Refranes',
@@ -376,6 +427,7 @@ const resourcesTools = [
 		link: ['/proverb-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_blooming_g9e9.svg',
+		tier: 3,
 	},
 	{
 		name: 'Generador de Canciones',
@@ -383,6 +435,7 @@ const resourcesTools = [
 		link: ['/song-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_compose-music_9403.svg',
+		tier: 3,
 	},
 	{
 		name: 'Generador de Artículo Expositivo',
@@ -390,6 +443,7 @@ const resourcesTools = [
 		link: ['/expository-article-generator'],
 		categories: ['Actividades'],
 		icon: '/assets/undraw_sharing-articles_agyr.svg',
+		tier: 3,
 	},
 	{
 		name: 'Papel Cuadriculado',
@@ -397,6 +451,7 @@ const resourcesTools = [
 		link: ['/graph-paper'],
 		categories: ['Hojas de Trabajo'],
 		icon: '/assets/undraw_new_entries_re_cffr.svg',
+		tier: 3,
 	},
 	{
 		link: ['/games'],
@@ -405,6 +460,7 @@ const resourcesTools = [
 		icon: '/assets/games.svg',
 		description:
 			'Juegos educativos para hacer el aprendizaje más interactivo y divertido.',
+		tier: 4,
 	},
 	{
 		name: 'Seguimiento del Estudiante',
@@ -412,6 +468,7 @@ const resourcesTools = [
 		link: ['/tracking'],
 		categories: ['Evaluación'],
 		icon: '/assets/grade.svg',
+		tier: 4,
 	},
 ];
 
@@ -422,6 +479,7 @@ const supportTools = [
 		link: ['/ai-assistant'],
 		categories: ['Productividad'],
 		icon: '/assets/machine.svg',
+		tier: 1,
 	},
 	{
 		name: 'Lista de Pendientes',
@@ -429,6 +487,7 @@ const supportTools = [
 		link: ['/todos'],
 		categories: ['Productividad'],
 		icon: '/assets/undraw_to_do_list_re_9nt7 (1).svg',
+		tier: 1,
 	},
 	{
 		name: 'Tablero de Ideas',
@@ -437,6 +496,7 @@ const supportTools = [
 		link: ['/ideas'],
 		categories: ['Productividad'],
 		icon: '/assets/undraw_ideas_41b9.svg',
+		tier: 2,
 	},
 	{
 		name: 'Recursos Educativos',
@@ -445,6 +505,7 @@ const supportTools = [
 		link: ['/resources'],
 		categories: ['Recursos', 'Plantillas'],
 		icon: '/assets/library_books.svg',
+		tier: 1,
 	},
 	// {
 	// 	name: 'Gestion de Horario',
@@ -459,6 +520,7 @@ const supportTools = [
 		name: 'Adaptación a la Diversidad',
 		icon: '/assets/inclusion.svg',
 		description: 'Recursos para la enseñanza inclusiva.',
+		tier: 1,
 	},
 	// {
 	// 	name: 'Generador de Horarios',
@@ -473,6 +535,7 @@ const supportTools = [
 		link: ['/planner-generator'],
 		categories: ['Plantillas', 'Planificación'],
 		icon: '/assets/undraw_responsive_re_e1nn.svg',
+		tier: 1,
 	},
 ];
 
@@ -499,7 +562,10 @@ const supportTools = [
 })
 export class HomeComponent implements OnInit {
 	private userSettingsService = inject(UserSettingsService);
+	private userSubscriptionService = inject(UserSubscriptionService);
+	private waService = inject(WhatsAppShareService);
 	user: UserSettings | null = null;
+	subscription = signal<UserSubscription | null>(null);
 	categories: string[] = [];
 
 	apps: { category: string, tools: AppEntry[] }[] = [
@@ -511,9 +577,28 @@ export class HomeComponent implements OnInit {
 		{ category: 'Apoyo y Soporte', tools: supportTools },
 	];
 
+	waMessage = '';
+
 	ngOnInit() {
 		this.userSettingsService
 			.getSettings()
+			.pipe(
+				tap(user => this.waMessage = `Ultimamente he estado utilizando una app para hacer mis planificaciones en solo 5 minutos.
+Aqui esta el link para que la pruebes:
+https://app.kitmaestro.com/auth/signup?ref=${user.username || user.refCode || user.email.split('@')[0]}`)
+			)
 			.subscribe((user) => (this.user = user));
+		this.userSubscriptionService.checkSubscription().subscribe(sub => this.subscription.set(sub));
+	}
+
+	visibleToUser(tier: number = 1) {
+		const sub = this.subscription();
+		if (!sub) return false;
+		const accessLevel: number = sub.subscriptionType == 'FREE' || sub.status !== 'active' ? 1 : (sub.subscriptionType == 'Plan Básico' ? 2 : (sub.subscriptionType == 'Plan Plus' ? 3 : 4));
+		return tier <= accessLevel;
+	}
+
+	share() {
+		this.waService.open(this.waMessage);
 	}
 }

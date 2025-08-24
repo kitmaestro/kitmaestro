@@ -41,6 +41,14 @@ export const routes: Routes = [
 				title: 'Inicio - KitMaestro',
 			},
 			{
+				path: 'buy',
+				loadComponent: () =>
+					import(
+						'./features/public/pages/buy-subscription.component'
+					).then((mod) => mod.BuySubscriptionComponent),
+				title: 'Comprar Suscripción',
+			},
+			{
 				path: 'users/:id',
 				loadComponent: () =>
 					import(

@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, inject, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -7,14 +7,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';
-import { lastValueFrom, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router, RouterModule } from '@angular/router';
 import { QuoteDialogComponent } from '../../shared/ui/quote-dialog.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../core/services/auth.service';
 import { UserSubscriptionService } from '../../core/services/user-subscription.service';
+import { UserSubscription } from '../../core/interfaces/user-subscription';
 
 @Component({
 	selector: 'app-navigation',
@@ -40,27 +41,21 @@ import { UserSubscriptionService } from '../../core/services/user-subscription.s
 					<mat-icon>settings</mat-icon>
 				</button>
 			}
-			<button
-				mat-icon-button
-				color="primary"
-				[routerLink]="['/tutorials']"
-				style="margin-right: 6px; color: #005cbb"
-			>
-				<mat-icon>video_library</mat-icon>
-			</button>
-			<button
-				mat-icon-button
-				color="primary"
-				[routerLink]="['/updates']"
-				style="margin-right: 6px; color: #005cbb"
-			>
-				<mat-icon
-					matBadge="1"
-					matBadgeOverlap="true"
-					matBadgeColor="accent"
-					>notifications</mat-icon
+			@if (!(subscription$ | async)) {
+				<button
+					mat-icon-button
+					color="primary"
+					[routerLink]="['/buy']"
+					style="margin-right: 6px; color: #005cbb"
 				>
-			</button>
+					<mat-icon
+						matBadge="1"
+						matBadgeOverlap="true"
+						matBadgeColor="accent"
+						>rocket</mat-icon
+					>
+				</button>
+			}
 			<button
 				[matMenuTriggerFor]="menu"
 				mat-icon-button
@@ -82,7 +77,11 @@ import { UserSubscriptionService } from '../../core/services/user-subscription.s
 					<mat-icon>analytics</mat-icon>
 					<span>Mis Recursos</span>
 				</button>
-				@if (subscription$ | async) {
+				<button routerLink="/tutorials" mat-menu-item>
+					<mat-icon>video_library</mat-icon>
+					<span>Tutoriales</span>
+				</button>
+				@if (subscription()?.subscriptionType == 'Plan Premium') {
 					<button routerLink="/referrals" mat-menu-item>
 						<mat-icon>people_circle</mat-icon>
 						<span>Mis Referidos</span>
@@ -171,13 +170,14 @@ export class NavigationComponent {
 			shareReplay(),
 		);
 	userSettings$ = this.authService.profile();
+	subscription = signal<UserSubscription | null>(null);
 	subscription$ = this.userSubscriptionService
 		.checkSubscription()
 		.pipe(
 			map(
 				(sub) =>
 					sub.status === 'active' &&
-					sub.subscriptionType.toLowerCase().includes('premium') &&
+					(sub.subscriptionType.toLowerCase() !== 'free') &&
 					+new Date(sub.endDate) > +new Date(),
 			),
 		);
@@ -186,84 +186,11 @@ export class NavigationComponent {
 
 	userIsAdmin = signal<boolean>(false);
 
-	sidebarLinks: {
-		label: string;
-		route: string;
-		icon: string;
-		activeIf: string;
-	}[] = [
-		{ activeIf: 'none', route: '/', icon: 'dashboard', label: 'Inicio' },
-		{
-			activeIf: 'unit-plans',
-			route: '/unit-plans/list',
-			icon: 'menu_book',
-			label: 'Unidades de Aprendizaje',
-		},
-		{
-			activeIf: 'class-plans',
-			route: '/class-plans/list',
-			icon: 'library_books',
-			label: 'Planes Diarios',
-		},
-		{
-			activeIf: 'assessments',
-			route: '/assessments/list',
-			icon: 'history_edu',
-			label: 'Instrumentos',
-		},
-		{
-			activeIf: 'activities',
-			route: '/activities',
-			icon: 'school',
-			label: 'Actividades',
-		},
-		{
-			activeIf: 'grading-systems',
-			route: '/grading-systems/list',
-			icon: 'scoreboard',
-			label: 'Sistemas de Calificacion',
-		},
-		{
-			activeIf: 'sections',
-			route: '/sections',
-			icon: 'class',
-			label: 'Secciones',
-		},
-		{
-			activeIf: 'schedules',
-			route: '/schedules',
-			icon: 'calendar_month',
-			label: 'Horario',
-		},
-		{
-			activeIf: 'log-registry',
-			route: '/log-registry-generator',
-			icon: 'edit_note',
-			label: 'Registro Anecdótico',
-		},
-		{
-			activeIf: 'todos',
-			route: '/todos',
-			icon: 'list',
-			label: 'Pendientes',
-		},
-		// { route: "/settings", icon: "settings", label: "Ajustes", },
-		{
-			activeIf: 'my-resources',
-			route: '/my-resources',
-			icon: 'analytics',
-			label: 'Mis Recursos',
-		},
-		{
-			activeIf: 'profile',
-			route: '/profile',
-			icon: 'person_circle',
-			label: 'Perfil',
-		},
-	];
-
 	ngOnInit() {
 		this.userSettings$.pipe(map(user => ['orgalay.dev@gmail.com'].includes(user.email))).subscribe(res => this.userIsAdmin.set(res));
+		this.userSubscriptionService.checkSubscription().subscribe(sub => {
+			this.subscription.set(sub);
+		})
 	}
 
 	toggleNames() {

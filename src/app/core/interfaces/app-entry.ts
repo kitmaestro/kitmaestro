@@ -7,4 +7,5 @@ export interface AppEntry {
 	premium?: boolean;
 	isNew?: boolean;
 	isWorking?: boolean;
+	tier?: number;
 }

@@ -1,17 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/services/auth.service';
 import { UserSettings } from '../../core/interfaces/user-settings';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SchoolService } from '../../core/services/school.service';
 import { School } from '../../core/interfaces/school';
+import { RouterLink } from '@angular/router';
+import { UserSubscription } from '../../core/interfaces/user-subscription';
+import { UserSubscriptionService } from '../../core/services/user-subscription.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-user-profile',
@@ -22,8 +25,9 @@ import { School } from '../../core/interfaces/school';
 		MatSelectModule,
 		MatInputModule,
 		MatSnackBarModule,
-		CommonModule,
+		RouterLink,
 		MatIconModule,
+		DatePipe,
 		ReactiveFormsModule,
 	],
 	templateUrl: './user-profile.component.html',
@@ -32,11 +36,13 @@ import { School } from '../../core/interfaces/school';
 export class UserProfileComponent implements OnInit {
 	private authService = inject(AuthService);
 	private schoolService = inject(SchoolService);
+	private userSubscriptionService = inject(UserSubscriptionService);
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
 	public user: UserSettings | null = null;
 
 	public alreadyCode = false;
+	userSubscription = signal<UserSubscription | null>(null);
 
 	userForm = this.fb.group({
 		title: [''],
@@ -65,17 +71,17 @@ export class UserProfileComponent implements OnInit {
 		Hombre: { value: string; label: string }[];
 		Mujer: { value: string; label: string }[];
 	} = {
-		Hombre: [
-			{ value: 'Licdo', label: 'Licenciado' },
-			{ value: 'Mtro', label: 'Maestro' },
-			{ value: 'Dr', label: 'Doctor' },
-		],
-		Mujer: [
-			{ value: 'Licda', label: 'Licenciada' },
-			{ value: 'Mtra', label: 'Maestra' },
-			{ value: 'Dra', label: 'Doctora' },
-		],
-	};
+			Hombre: [
+				{ value: 'Licdo', label: 'Licenciado' },
+				{ value: 'Mtro', label: 'Maestro' },
+				{ value: 'Dr', label: 'Doctor' },
+			],
+			Mujer: [
+				{ value: 'Licda', label: 'Licenciada' },
+				{ value: 'Mtra', label: 'Maestra' },
+				{ value: 'Dra', label: 'Doctora' },
+			],
+		};
 
 	ngOnInit() {
 		this.schoolService.findAll().subscribe((schools) => {
@@ -86,6 +92,7 @@ export class UserProfileComponent implements OnInit {
 				});
 			}
 		});
+		this.userSubscriptionService.checkSubscription().subscribe((sub) => this.userSubscription.set(sub));
 		this.authService.profile().subscribe({
 			next: (user) => {
 				this.user = user;
