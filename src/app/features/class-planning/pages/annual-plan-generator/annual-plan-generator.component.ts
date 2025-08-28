@@ -24,14 +24,11 @@ import {
     classroomResources,
     generateActivitySequencePrompt,
     generateLearningSituationPrompt,
-    generateStrategiesPrompt,
     mainThemeCategories,
     schoolEnvironments,
 } from '../../../../config/constants';
-import { forkJoin } from 'rxjs';
 import { ContentBlockService } from '../../../../core/services/content-block.service';
 import { ContentBlock } from '../../../../core/interfaces/content-block';
-import { TEACHING_METHODS } from '../../../../core/data/teaching-methods';
 import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 import { UserSubscriptionService } from '../../../../core/services/user-subscription.service';
 import { CommonModule } from '@angular/common';
@@ -54,7 +51,6 @@ import { MainThemeService } from '../../../../core/services/main-theme.service';
         MatIconModule,
         MatChipsModule,
         RouterModule,
-        PretifyPipe,
     ],
     templateUrl: './annual-plan-generator.component.html',
     styleUrl: './annual-plan-generator.component.scss',

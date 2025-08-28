@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -45,7 +45,6 @@ interface PlanToGenerate {
 		MatFormFieldModule,
 		MatSelectModule,
 		MatChipsModule,
-		PretifyPipe,
 	],
 	template: `
 		<div class="container">

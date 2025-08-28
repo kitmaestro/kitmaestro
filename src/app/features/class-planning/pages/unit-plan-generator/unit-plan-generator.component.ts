@@ -183,6 +183,16 @@ export class UnitPlanGeneratorComponent implements OnInit {
 								),
 							);
 				this.unitPlanService.findAll().subscribe((plans) => {
+					const createdThisMonth = plans.filter(
+						(plan: any) => {
+							const created = new Date(plan.createdAt);
+							return (
+								created.getMonth() === today.getMonth() &&
+								created.getFullYear() === today.getFullYear()
+							);
+						},
+					).length;
+					console.log(createdThisMonth)
 					const createdThisWeek = plans.filter(
 						(plan: any) => +new Date(plan.createdAt) > +lastMonday,
 					).length;
@@ -198,12 +208,12 @@ export class UnitPlanGeneratorComponent implements OnInit {
 								)
 								.reduce((l, c) => l + c, 0);
 							if (
-								subscription.subscriptionType === 'FREE' ||
+								(subscription.subscriptionType === 'FREE' && createdThisMonth > 0) ||
 								createdThisWeek === subjects
 							) {
 								this.router.navigateByUrl('/').then(() => {
 									this.sb.open(
-										'Haz alcanzado el limite de planes de esta semana. Contrata el plan premium para eliminar las restricciones o vuelve la proxima semana.',
+										'Haz alcanzado el limite de planes de esta semana. Mejora tu suscripcion para eliminar las restricciones o vuelve la proxima semana.',
 										'Ok',
 										{ duration: 5000 },
 									);

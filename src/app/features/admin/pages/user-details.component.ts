@@ -167,6 +167,12 @@ class SectionCreatorComponent {
 						<p><b>Teléfono</b>: {{ user.phone }}</p>
 					}
 					<p><b>Codigo de Referencia</b>: {{ user.refCode }}</p>
+                    <div style="margin-top: 20px; margin-bottom: 20px;">
+                         <button mat-raised-button color="accent" (click)="exportContact()">
+                            <mat-icon>save_alt</mat-icon>
+                            Exportar Contacto
+                        </button>
+                    </div>
 
 					@if (activeUser && activeUser.email === "orgalay.dev@gmail.com") {
 						<h3>Escuelas</h3>
@@ -466,5 +472,64 @@ export class UserDetailsComponent implements OnInit {
 		this.schoolService.delete(id).subscribe(() => {
 			this.loadSchools();
 		});
+	}
+
+	/**
+	 * Genera un archivo CSV con los datos del usuario para importarlo
+	 * como contacto en Google Contacts o HubSpot.
+	 */
+	exportContact() {
+		if (!this.user) {
+			this.sb.open('Los datos del usuario aún no se han cargado.', 'Ok', { duration: 3000 });
+			return;
+		}
+
+		// Encabezados estándar para Google Contacts.
+		const headers = ['Name', 'Given Name', 'Family Name', 'E-mail 1 - Value', 'Phone 1 - Value'];
+
+		const fullName = `${this.user.firstname || ''} ${this.user.lastname || ''}`.trim();
+
+		const userRow = [
+			fullName,
+			(this.user.firstname || '') + ' Profe',
+			this.user.lastname || '',
+			this.user.email || '',
+			this.user.phone || ''
+		];
+
+		// Función para escapar comillas y comas para mantener la integridad del CSV.
+		const escapeCsvField = (field: string) => {
+			if (field === null || field === undefined) {
+				return '';
+			}
+			let escapedField = field.toString().replace(/"/g, '""');
+			if (escapedField.includes(',') || escapedField.includes('"') || escapedField.includes('\n')) {
+				escapedField = `"${escapedField}"`;
+			}
+			return escapedField;
+		};
+
+		// Construye el contenido del CSV.
+		const csvContent = [
+			headers.join(','),
+			userRow.map(escapeCsvField).join(',')
+		].join('\n');
+
+		// Crea un Blob y simula un clic para descargar el archivo.
+		const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+		const link = document.createElement('a');
+
+		const url = URL.createObjectURL(blob);
+		link.setAttribute('href', url);
+
+		// Crea un nombre de archivo seguro.
+		const filename = `contacto_${this.user.firstname}_${this.user.lastname}.csv`.replace(/[^a-z0-9_.]/gi, '_').toLowerCase();
+		link.setAttribute('download', filename);
+
+		link.style.visibility = 'hidden';
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		URL.revokeObjectURL(url); // Libera la memoria del objeto URL.
 	}
 }
