@@ -19,6 +19,8 @@ import { UserSubscription } from '../../core/interfaces/user-subscription';
 import { UserSubscriptionService } from '../../core/services/user-subscription.service';
 import { WhatsAppShareService } from '../../core/services/whatsapp.service';
 import { tap } from 'rxjs';
+import { ClassSectionService } from '../../core/services/class-section.service';
+import { ClassSection } from '../../core/interfaces/class-section';
 
 const planningTools: AppEntry[] = [
 	{
@@ -587,10 +589,13 @@ const supportTools = [
 export class HomeComponent implements OnInit {
 	private userSettingsService = inject(UserSettingsService);
 	private userSubscriptionService = inject(UserSubscriptionService);
+	private classSectionsService = inject(ClassSectionService);
 	private waService = inject(WhatsAppShareService);
 	user: UserSettings | null = null;
 	subscription = signal<UserSubscription | null>(null);
 	categories: string[] = [];
+
+	sections = signal<ClassSection[]>([]);
 
 	apps: { category: string, tools: AppEntry[] }[] = [
 		{ category: 'Planificación', tools: planningTools },
@@ -604,6 +609,7 @@ export class HomeComponent implements OnInit {
 	waMessage = '';
 
 	ngOnInit() {
+		this.classSectionsService.findSections().subscribe(sections => this.sections.set(sections));
 		this.userSettingsService
 			.getSettings()
 			.pipe(
