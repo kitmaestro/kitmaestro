@@ -51,7 +51,7 @@ import { AuthService } from '../../../core/services/auth.service';
 					<p>
 						<b>{{ update.author }}</b
 						><br />
-						{{ update.date | date: "dd/MM/YYYY" }}
+						{{ update.date | date: "dd/MM/yyyy" }}
 						<br /><br />
 						@if (update.type === "notice") {
 							<i>Actualizaci&oacute;n</i>

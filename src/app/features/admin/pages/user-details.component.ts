@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UserSettingsService } from '../../../core/services/user-settings.service';
 import { UserSettings } from '../../../core/interfaces/user-settings';
@@ -13,12 +13,106 @@ import { DatePipe } from '@angular/common';
 import { School } from '../../../core/interfaces/school';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { ClassSection } from '../../../core/interfaces/class-section';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../core/services/auth.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { SCHOOL_SUBJECT } from '../../../core/enums/school-subject.enum';
+
+@Component({
+	selector: 'app-section-creator',
+	imports: [
+		MatFormFieldModule,
+		MatSelectModule,
+		MatButtonModule,
+		FormsModule,
+		MatInputModule,
+		MatDialogModule,
+		PretifyPipe,
+	],
+	template: `
+		<h3 mat-dialog-title>Crear Sección</h3>
+		<mat-dialog-content>
+			<form>
+				<mat-form-field appearance="outline">
+					<mat-label>Nivel</mat-label>
+					<mat-select [(ngModel)]="level" name="level">
+						<mat-option value="PRIMARIA">Primaria</mat-option>
+						<mat-option value="SECUNDARIA">Secundaria</mat-option>
+					</mat-select>
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Grado</mat-label>
+					<mat-select [(ngModel)]="year" name="year">
+						@for (grade of grades; track grade.value) {
+							<mat-option [value]="grade.value">{{ grade.label }}</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Nombre</mat-label>
+					<input matInput [(ngModel)]="name" name="name" />
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Asignaturas</mat-label>
+					<mat-select multiple [(ngModel)]="subjects" name="subjects">
+						@for (subject of subjectOptions; track $index) {
+							<mat-option [value]="subject">{{ subject | pretify }}</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
+				<button mat-flat-button color="primary" (click)="onSubmit()">Crear</button>
+			</form>
+		</mat-dialog-content>
+	`,
+	styles: [`
+		form {
+			display: grid;
+			margin-top: 12px;
+			grid-template-columns: 1fr 1fr;
+			gap: 12px;
+		}
+	`]
+})
+class SectionCreatorComponent {
+	private dialogRef = inject(MatDialogRef<SectionCreatorComponent>);
+
+	school = signal('');
+	user = signal('');
+	level = signal('');
+	year = signal('');
+	name = signal('');
+	subjects = signal<string[]>([]);
+
+	grades = [
+		{ value: 'PRIMERO', label: 'Primero' },
+		{ value: 'SEGUNDO', label: 'Segundo' },
+		{ value: 'TERCERO', label: 'Tercero' },
+		{ value: 'CUARTO', label: 'Cuarto' },
+		{ value: 'QUINTO', label: 'Quinto' },
+		{ value: 'SEXTO', label: 'Sexto' },
+	];
+	subjectOptions = Object.values(SCHOOL_SUBJECT);
+
+	constructor(
+		@Inject(MAT_DIALOG_DATA) private data: ClassSection,
+	) {
+		if (this.data.school) this.school.set(this.data.school._id);
+		if (this.data.user) this.user.set(this.data.user);
+		if (this.data.level) this.level.set(this.data.level);
+		if (this.data.year) this.year.set(this.data.year);
+		if (this.data.name) this.name.set(this.data.name);
+		if (this.data.subjects) this.subjects.set(this.data.subjects);
+	}
+
+	onSubmit() {
+		this.dialogRef.close({ ...this.data, user: this.user(), level: this.level(), year: this.year(), name: this.name(), subjects: this.subjects() });
+	}
+}
 
 @Component({
 	selector: 'app-user-details',
@@ -33,6 +127,7 @@ import { AuthService } from '../../../core/services/auth.service';
 		MatButtonModule,
 		PretifyPipe,
 		DatePipe,
+		MatIconModule,
 	],
 	template: `
 		@if (user) {
@@ -57,7 +152,7 @@ import { AuthService } from '../../../core/services/auth.service';
 					>
 					<mat-card-subtitle
 						>Miembro desde
-						{{ user.createdAt | date: "dd/MM/YYYY" }}</mat-card-subtitle
+						{{ user.createdAt | date: "dd/MM/yyyy" }}</mat-card-subtitle
 					>
 				</mat-card-header>
 				<mat-card-content>
@@ -76,22 +171,41 @@ import { AuthService } from '../../../core/services/auth.service';
 					@if (activeUser && activeUser.email === "orgalay.dev@gmail.com") {
 						<h3>Escuelas</h3>
 						@for (school of schools; track $index) {
-							<p>
-								{{ $index + 1 }}. {{ school.name }} ({{
-									school.level | pretify
-								}}) Distrito {{ school.regional }}-{{ school.district }}
-							</p>
+							@if (school) {
+								<div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px">
+									<p>
+										{{ $index + 1 }}. {{ school.name }} ({{
+											school.level | pretify
+										}}) Distrito {{ school.regional }}-{{ school.district }}
+									</p>
+									<button mat-icon-button (click)="addSection(school._id)">
+										<mat-icon>add</mat-icon>
+									</button>
+									<button mat-icon-button (click)="deleteSchool(school._id)">
+										<mat-icon>delete</mat-icon>
+									</button>
+								</div>
+							}
 						}
 
 						<h3>Secciones</h3>
 						@for (section of classSections; track $index) {
-							<p>
-								{{ $index + 1 }}. {{ section.name }} ({{
+							@if (section.school) {
+								<div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px">
+								<p>
+									{{ $index + 1 }}. {{ section.name }} ({{
 									section.year | pretify
-								}}
-								de {{ section.level | pretify }}) -
+								}} de {{ section.level | pretify }}) -
 								{{ section.school.name }}
-							</p>
+								</p>
+								<button mat-icon-button (click)="editSection(section)">
+									<mat-icon>edit</mat-icon>
+								</button>
+								<button mat-icon-button (click)="deleteSection(section._id)">
+									<mat-icon>delete</mat-icon>
+								</button>
+							</div>
+							}
 						}
 
 						<h3>Suscripción</h3>
@@ -101,7 +215,7 @@ import { AuthService } from '../../../core/services/auth.service';
 							} @else {
 								<p>
 									{{ subscription.subscriptionType }} hasta
-									{{ subscription.endDate | date: "dd/MM/YYYY" }}
+									{{ subscription.endDate | date: "dd/MM/yyyy" }}
 								</p>
 							}
 						}
@@ -117,14 +231,17 @@ import { AuthService } from '../../../core/services/auth.service';
 									<mat-form-field appearance="outline">
 										<mat-label>Suscripción</mat-label>
 										<mat-select formControlName="subscriptionType">
-											<mat-option value="Plan Básico"
+											<mat-option value="Premium Básico"
 												>Plan Básico</mat-option
 											>
-											<mat-option value="Plan Plus"
+											<mat-option value="Premium Plus"
 												>Plan Plus</mat-option
 											>
-											<mat-option value="Plan Premium"
+											<mat-option value="Premium"
 												>Plan Premium</mat-option
+											>
+											<mat-option value="FREE"
+												>Gratuito</mat-option
 											>
 										</mat-select>
 									</mat-form-field>
@@ -217,6 +334,7 @@ export class UserDetailsComponent implements OnInit {
 	private schoolService = inject(SchoolService);
 	private sectionService = inject(ClassSectionService);
 	private authService = inject(AuthService);
+	private dialog = inject(MatDialog);
 
 	user: UserSettings | null = null;
 	subscription: UserSubscription | null = null;
@@ -227,7 +345,7 @@ export class UserDetailsComponent implements OnInit {
 
 	subscriptionForm = this.fb.group({
 		user: [''],
-		subscriptionType: ['Plan Básico'],
+		subscriptionType: ['Premium Básico'],
 		status: ['active'],
 		startDate: [new Date().toISOString().split('T')[0]],
 		endDate: [
@@ -296,10 +414,57 @@ export class UserDetailsComponent implements OnInit {
 	}
 
 	onSubmit() {
+		const subscription: UserSubscription = this.subscriptionForm.value as unknown as UserSubscription;
 		this.subscriptionService
-			.create(this.subscriptionForm.value as any)
+			.create(subscription)
 			.subscribe(() => {
 				this.loadUser();
+				this.sb.open('Suscripción creada exitosamente', 'Ok', { duration: 2500 });
 			});
+	}
+
+	editSection(section: ClassSection) {
+		const ref = this.dialog.open(SectionCreatorComponent, {
+			data: section,
+		});
+		ref.afterClosed().subscribe(result => {
+			if (result) {
+				this.sectionService.updateSection(result._id, result).subscribe(() => {
+					this.loadSections();
+					this.sb.open('Sección actualizada exitosamente', 'Ok', { duration: 2500 });
+				});
+			}
+		});
+	}
+
+	addSection(schoolId: string) {
+		const data = {
+			school: schoolId,
+			user: this.userId,
+		}
+		const ref = this.dialog.open(SectionCreatorComponent, {
+			data,
+		});
+		ref.afterClosed().subscribe(result => {
+			if (result) {
+				this.sectionService.addSection(result).subscribe((section) => {
+					this.classSections.push(section);
+					this.sb.open('Sección creada exitosamente', 'Ok', { duration: 2500 });
+				});
+			}
+		});
+	}
+
+	deleteSection(id: string) {
+		this.sectionService.deleteSection(id).subscribe(() => {
+			this.loadSections();
+			this.sb.open('Sección eliminada exitosamente', 'Ok', { duration: 2500 });
+		});
+	}
+
+	deleteSchool(id: string) {
+		this.schoolService.delete(id).subscribe(() => {
+			this.loadSchools();
+		});
 	}
 }

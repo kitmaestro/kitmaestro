@@ -30,7 +30,7 @@ import {
 	mainThemeCategories,
 	schoolEnvironments,
 } from '../../../../config/constants';
-import { forkJoin } from 'rxjs';
+import { forkJoin, lastValueFrom } from 'rxjs';
 import { ContentBlockService } from '../../../../core/services/content-block.service';
 import { ContentBlock } from '../../../../core/interfaces/content-block';
 import { TEACHING_METHODS } from '../../../../core/data/teaching-methods';
@@ -484,7 +484,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 		}
 	}
 
-	generateLearningSituation() {
+	generateLearningSituation(cb?: any) {
 		const { environment, situationType, reality } =
 			this.learningSituationForm.value;
 
@@ -536,6 +536,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 			.replace('contenido_especifico', contents);
 
 		this.generating = true;
+		console.log(text)
 
 		this.aiService.geminiAi(text).subscribe({
 			next: (res) => {
@@ -554,6 +555,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 				this.learningSituationTitle.setValue(learningSituation.title);
 				this.learningSituation.setValue(learningSituation.content);
 				this.strategies.clear();
+				if (cb) { cb(learningSituation)}
 				if (
 					learningSituation.strategies &&
 					learningSituation.strategies.length

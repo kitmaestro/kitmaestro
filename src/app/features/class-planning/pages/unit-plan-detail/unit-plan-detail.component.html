@@ -52,5 +52,23 @@
 			<h1 style="text-align: center">{{ plan.title }}</h1>
 		}
 		<app-unit-plan [unitPlan]="plan" />
+		@if (!isPrintView) {
+			<div>
+				<h2>Planes Diarios</h2>
+				<ul style="list-style: none;">
+					@for (dailyPlan of classPlans; track dailyPlan._id) {
+						<li>
+							<a [routerLink]="['/daily-plans', dailyPlan._id]">
+								{{ dailyPlan.date | date: 'dd/MM/yyyy' }}
+							</a>
+						</li>
+					} @empty {
+						<li>No hay planes diarios asociados</li>
+					}
+				</ul>
+			</div>
+			<h2>Generar Planes Diarios</h2>
+			<app-daily-plan-batch-generator [plan]="plan" />
+		}
 	</div>
 </app-is-premium>

@@ -154,7 +154,7 @@ import { DatePipe } from '@angular/common';
 										&nbsp;
 									</div>
 								} @else {
-									{{ guide.date | date: 'dd/MM/YYYY' }}
+									{{ guide.date | date: 'dd/MM/yyyy' }}
 								}
 							</div>
 							<div>

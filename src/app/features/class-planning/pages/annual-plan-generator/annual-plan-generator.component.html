@@ -1,0 +1,113 @@
+<mat-card>
+	<mat-card-header class="header">
+		<h2 class="title" mat-card-title>
+			Generador de Planificación Anual
+		</h2>
+		<button class="title-button" mat-flat-button [routerLink]="['/unit-plans', 'list']" color="accent">
+			Ver mis Planes
+		</button>
+	</mat-card-header>
+	<mat-card-content>
+		<form [formGroup]="yearlyPlanForm" (ngSubmit)="generateYearlyPlan()" style="padding-top: 16px">
+			<div class="cols-2">
+				<!-- Selector de Grado -->
+				<mat-form-field appearance="outline">
+					<mat-label>Grado</mat-label>
+					<mat-select formControlName="classSection" (selectionChange)="onSectionOrSubjectChange()">
+						@for (section of classSections; track section._id) {
+						<mat-option [value]="section._id">{{ section.name }}</mat-option>
+						}
+					</mat-select>
+					@if (yearlyPlanForm.get('classSection')?.hasError('required')) {
+					<mat-error>El grado es requerido.</mat-error>
+					}
+				</mat-form-field>
+
+				<!-- Selector de Asignatura -->
+				<mat-form-field appearance="outline">
+					<mat-label>Asignatura</mat-label>
+					<mat-select formControlName="subject" (selectionChange)="onSectionOrSubjectChange()">
+						@for (subject of subjectsForSelectedSection; track subject.id) {
+						<mat-option [value]="subject.id">{{ subject.label }}</mat-option>
+						}
+					</mat-select>
+					@if (yearlyPlanForm.get('subject')?.hasError('required')) {
+					<mat-error>La asignatura es requerida.</mat-error>
+					}
+				</mat-form-field>
+
+				<!-- Selector de Eje Transversal -->
+				<mat-form-field appearance="outline">
+					<mat-label>Eje Transversal</mat-label>
+					<mat-select formControlName="mainTheme">
+						@for (theme of mainThemeCategories; track theme) {
+						<mat-option [value]="theme">{{ theme }}</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
+
+				<!-- Selector de Ambiente Operativo -->
+				<mat-form-field appearance="outline">
+					<mat-label>Ambiente Operativo</mat-label>
+					<mat-select formControlName="environment">
+						@for (env of environments; track env) {
+						<mat-option [value]="env">{{ env }}</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
+			</div>
+
+			<div class="cols-2" style="align-items: flex-start;">
+				<!-- Tipo de Situación y Realidad -->
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Tipo de Situación</mat-label>
+						<mat-select formControlName="situationType">
+							@for (type of situationTypes; track type.id) {
+							<mat-option [value]="type.id">{{ type.label }}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+
+					@if (yearlyPlanForm.value.situationType === 'realityProblem') {
+					<mat-form-field appearance="outline">
+						<mat-label>Problema a Abordar</mat-label>
+						<mat-select formControlName="reality">
+							@for (problem of problems; track problem) {
+							<mat-option [value]="problem">{{ problem }}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+					}
+					@if (yearlyPlanForm.value.situationType === 'reality') {
+					<mat-form-field appearance="outline">
+						<mat-label>Realidad del Curso</mat-label>
+						<input matInput type="text" formControlName="reality">
+					</mat-form-field>
+					}
+				</div>
+
+				<!-- Recursos Disponibles -->
+				<div class="resource-section">
+					<mat-label>Recursos Disponibles</mat-label>
+					<mat-chip-listbox formControlName="resources" multiple>
+						@for (resource of resources; track resource) {
+						<mat-chip-option [value]="resource">{{ resource }}</mat-chip-option>
+						}
+					</mat-chip-listbox>
+				</div>
+			</div>
+
+			<div style="text-align: end; margin-top: 24px;">
+				<button mat-raised-button color="primary" type="submit"
+					[disabled]="generating || yearlyPlanForm.invalid">
+					@if (generating) {
+					<span>Generando... ({{ plansGenerated }} / {{ totalPlansToGenerate }})</span>
+					} @else {
+					<span>Generar Planificación Anual</span>
+					}
+				</button>
+			</div>
+		</form>
+	</mat-card-content>
+</mat-card>

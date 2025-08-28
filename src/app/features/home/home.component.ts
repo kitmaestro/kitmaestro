@@ -22,6 +22,14 @@ import { tap } from 'rxjs';
 
 const planningTools: AppEntry[] = [
 	{
+		name: 'Plan Anual',
+		description: 'Diseña unidades de aprendizaje, para ya.',
+		link: ['/annual-plans'],
+		categories: ['Planificación'],
+		icon: '/assets/undraw_scrum-board_uqku.svg',
+		tier: 3,
+	},
+	{
 		name: 'Unidades de Aprendizaje',
 		description: 'Diseña unidades de aprendizaje, para ya.',
 		link: ['/unit-plans'],
@@ -36,6 +44,22 @@ const planningTools: AppEntry[] = [
 		categories: ['Planificación'],
 		icon: '/assets/undraw_real_time_sync_re_nky7.svg',
 		tier: 1,
+	},
+	{
+		name: 'Planes Diario Multigrado',
+		description: 'Planes de clase para multigrado.',
+		link: ['/emi-class-plans'],
+		categories: ['Planificación'],
+		icon: '/assets/undraw_educator_6dgp.svg',
+		tier: 2,
+	},
+	{
+		name: 'Planes Diarios en Lote',
+		description: 'Genera todos los planes de clase de una unidad.',
+		link: ['/class-plans/batch'],
+		categories: ['Planificación'],
+		icon: '/assets/undraw_chat-with-ai_ir62.svg',
+		tier: 3,
 	},
 	{
 		name: 'Prácticas Deportivas',

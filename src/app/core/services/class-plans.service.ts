@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ClassPlan } from '../interfaces/class-plan';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { environment } from '../../../environments/environment';
@@ -41,8 +41,14 @@ export class ClassPlansService {
 		return this.#apiService.get<{ plans: number }>('class-plans/count');
 	}
 
-	findAll(): Observable<ClassPlan[]> {
-		return this.http.get<ClassPlan[]>(this.apiBaseUrl, this.config);
+	findAll(filters?: any): Observable<ClassPlan[]> {
+		let params = new HttpParams();
+		if (filters) {
+			Object.keys(filters).forEach((key) => {
+				params = params.set(key, filters[key]);
+			});
+		}
+		return this.http.get<ClassPlan[]>(this.apiBaseUrl, { ...this.config, params });
 	}
 
 	find(id: string): Observable<ClassPlan> {

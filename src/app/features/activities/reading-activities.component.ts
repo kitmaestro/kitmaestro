@@ -55,7 +55,7 @@ import { DatePipe } from '@angular/common';
 			<ng-container matColumnDef="creationDate">
 				<th mat-header-cell *matHeaderCellDef>Fecha de Creación</th>
 				<td mat-cell *matCellDef="let element">
-					{{ element.createdAt | date: 'dd/MM/YYYY' }}
+					{{ element.createdAt | date: 'dd/MM/yyyy' }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="title">

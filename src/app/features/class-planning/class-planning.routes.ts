@@ -10,6 +10,14 @@ export default [
         title: 'Generador de Prácticas Deportivas',
     },
     {
+        path: 'emi-class-plans',
+        loadComponent: () =>
+            import(
+                './pages/multigrade-class-plan-generator/multigrade-class-plan-generator.component'
+            ).then((mod) => mod.MultigradeClassPlanGeneratorComponent),
+        title: 'Generador de Planes de Clase Multigrado',
+    },
+    {
         path: 'class-plans',
         loadComponent: () =>
             import(
@@ -23,6 +31,14 @@ export default [
             import(
                 './pages/class-plan-list/class-plan-list.component'
             ).then((mod) => mod.ClassPlanListComponent),
+        title: 'Mis Planes de Clase',
+    },
+    {
+        path: 'class-plans/batch',
+        loadComponent: () =>
+            import(
+                './pages/daily-plan-batch-generator/daily-plan-batch-generator.component'
+            ).then((mod) => mod.DailyPlanBatchGeneratorComponent),
         title: 'Mis Planes de Clase',
     },
     {
@@ -40,6 +56,14 @@ export default [
                 './pages/class-plan-edit/class-plan-edit.component'
             ).then((mod) => mod.ClassPlanEditComponent),
         title: 'Editar Plan de Clase',
+    },
+    {
+        path: 'annual-plans',
+        loadComponent: () =>
+            import(
+                './pages/annual-plan-generator/annual-plan-generator.component'
+            ).then((mod) => mod.AnnualPlanGeneratorComponent),
+        title: 'Generador de Planes de Unidad',
     },
     {
         path: 'unit-plans',

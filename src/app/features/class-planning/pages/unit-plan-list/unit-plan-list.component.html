@@ -26,7 +26,7 @@
 
 	<ng-container matColumnDef="section">
 		<th mat-header-cell *matHeaderCellDef>Curso</th>
-		<td mat-cell *matCellDef="let plan">{{ plan.section.name }}</td>
+		<td mat-cell *matCellDef="let plan">{{ plan.section ? plan.section.name : 'No Asignado' }}</td>
 	</ng-container>
 
 	<ng-container matColumnDef="subject">
@@ -44,7 +44,7 @@
 	<ng-container matColumnDef="date">
 		<th mat-header-cell *matHeaderCellDef>Fecha</th>
 		<td mat-cell *matCellDef="let plan">
-			{{ plan.createdAt | date: "dd/MM/YYYY" : "+0400" }}
+			{{ plan.createdAt ? (plan.createdAt | date: "dd/MM/yyyy" : "+0400") : 'N/A' }}
 		</td>
 	</ng-container>
 

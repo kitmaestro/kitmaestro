@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { UserSettings } from '../../../core/interfaces/user-settings';
 
 @Component({
 	selector: 'app-users',
@@ -138,7 +139,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 			<ng-container matColumnDef="memberSince">
 				<th mat-header-cell *matHeaderCellDef>Miembro desde</th>
 				<td mat-cell *matCellDef="let user">
-					{{ user.createdAt | date: "dd/MM/YYYY" }}
+					{{ user.createdAt | date: "dd/MM/yyyy" }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="actions">
@@ -226,7 +227,8 @@ export class UsersComponent {
 	}
 
 	createUser() {
-		this.userService.create(this.userForm.value as any).subscribe({
+		const user: UserSettings = this.userForm.value as unknown as UserSettings;
+		this.userService.create(user).subscribe({
 			next: (res) => {
 				if (res._id) {
 					this.users$ = this.userService.findAll();

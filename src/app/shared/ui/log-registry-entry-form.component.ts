@@ -51,7 +51,7 @@ import { UserSettings } from '../../core/interfaces/user-settings';
 						<tbody>
 							<tr>
 								<th>Fecha:</th>
-								<td>{{ entry.date | date: 'dd/MM/YYYY' }}</td>
+								<td>{{ entry.date | date: 'dd/MM/yyyy' }}</td>
 								<th>Hora:</th>
 								<td>{{ entry.date | date: 'hh:mm a' }}</td>
 							</tr>
@@ -269,7 +269,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
 	generatorForm = this.fb.group({
 		type: ['Mejora de comportamiento'],
 		section: [''],
-		date: [this.datePipe.transform(new Date(), 'YYYY-MM-dd')],
+		date: [this.datePipe.transform(new Date(), 'yyyy-MM-dd')],
 		time: [this.datePipe.transform(new Date(), 'HH:mm')],
 		place: ['El salón de clases'],
 		students: [''],
@@ -313,7 +313,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
 			this.generatorForm.setValue({
 				type,
 				section: section._id || '',
-				date: this.datePipe.transform(d, 'YYYY-MM-dd'),
+				date: this.datePipe.transform(d, 'yyyy-MM-dd'),
 				time: this.datePipe.transform(d, 'HH:mm'),
 				place,
 				students: students.toString(),

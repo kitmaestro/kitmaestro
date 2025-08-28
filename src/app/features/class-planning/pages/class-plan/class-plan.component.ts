@@ -24,7 +24,7 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 							<tr>
 								<td style="width: 160px">
 									<b>Fecha</b>:
-									{{ classPlan.date | date: "dd/MM/YYYY" : "UTC+4" }}
+									{{ classPlan.date | date: "dd/MM/yyyy" : "UTC+4" }}
 								</td>
 								<td style="width: 280px">
 									<b>Grado y Sección</b>:

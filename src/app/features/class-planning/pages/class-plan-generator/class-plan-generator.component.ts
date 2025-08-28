@@ -145,12 +145,14 @@ export class ClassPlanGeneratorComponent implements OnInit {
 							);
 				this.classPlanService.findAll().subscribe((plans) => {
 					const createdThisWeek = plans.filter(
-						(plan: any) => +new Date(plan.createdAt) > +lastMonday,
+						(plan) => plan.createdAt && +new Date(plan.createdAt) > +lastMonday,
 					).length;
 					const createdThisMonth = plans.filter(
-						(plan: any) =>
-							+new Date(plan.createdAt).getMonth ===
-							new Date().getMonth(),
+						(plan) => plan.createdAt &&
+							+new Date(plan.createdAt).getMonth() ===
+							+new Date().getMonth() &&
+							+new Date(plan.createdAt).getFullYear() ===
+							+new Date().getFullYear(),
 					).length;
 					if (
 						(subscription.subscriptionType
@@ -207,7 +209,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 		}, 0);
 	}
 
-	onResourceChange(event: any) {
+	onResourceChange(event: { value: string[]}) {
 		setTimeout(() => {
 			const resources = JSON.stringify(event.value);
 			localStorage.setItem('available-resources', resources);
@@ -343,7 +345,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 	printPlan() {
 		const date = this.datePipe.transform(
 			this.planForm.value.date,
-			'dd-MM-YYYY',
+			'dd-MM-yyyy',
 		);
 		this.sb.open(
 			'La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.',

@@ -7,6 +7,7 @@ export interface ClassPlan {
 	date: Date;
 	section: ClassSection;
 	subject: string;
+	unitPlan: string;
 	objective: string;
 	strategies: string[];
 	introduction: {
@@ -35,4 +36,5 @@ export interface ClassPlan {
 	vocabulary: string[];
 	readings: string;
 	competence: string;
+	createdAt?: Date;
 }

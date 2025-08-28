@@ -31,6 +31,9 @@ import {
 import { saveAs } from 'file-saver';
 import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 import { environment } from '../../../../../environments/environment';
+import { DailyPlanBatchGeneratorComponent } from '../daily-plan-batch-generator/daily-plan-batch-generator.component';
+import { ClassPlan } from '../../../../core/interfaces';
+import { ClassPlansService } from '../../../../core/services/class-plans.service';
 
 @Component({
 	selector: 'app-unit-plan-detail',
@@ -44,6 +47,7 @@ import { environment } from '../../../../../environments/environment';
 		CommonModule,
 		MatSnackBarModule,
 		UnitPlanComponent,
+		DailyPlanBatchGeneratorComponent,
 	],
 	templateUrl: './unit-plan-detail.component.html',
 	styleUrl: './unit-plan-detail.component.scss',
@@ -52,6 +56,7 @@ export class UnitPlanDetailComponent implements OnInit {
 	private router = inject(Router);
 	private route = inject(ActivatedRoute);
 	private unitPlanService = inject(UnitPlanService);
+	private classPlanService = inject(ClassPlansService);
 	private userSettingsService = inject(UserSettingsService);
 	private sb = inject(MatSnackBar);
 	private pdfService = inject(PdfService);
@@ -75,6 +80,7 @@ export class UnitPlanDetailComponent implements OnInit {
 			}),
 		);
 	userSettings$ = this.userSettingsService.getSettings();
+	classPlans: ClassPlan[] = [];
 
 	isPrintView = window.location.href.includes('print');
 
@@ -83,6 +89,10 @@ export class UnitPlanDetailComponent implements OnInit {
 			setTimeout(() => {
 				window.print();
 			}, 2000);
+		} else {
+			this.classPlanService.findAll({ unitPlan: this.planId }).subscribe((res) => {
+				this.classPlans = res;
+			});
 		}
 	}
 

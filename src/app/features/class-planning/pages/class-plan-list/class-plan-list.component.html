@@ -32,7 +32,7 @@
 	<ng-container matColumnDef="date">
 		<th mat-header-cell *matHeaderCellDef>Fecha</th>
 		<td mat-cell *matCellDef="let plan">
-			{{ plan.date | date: "dd/MM/YYYY" : "+0400" }}
+			{{ plan.date ? (plan.date | date: "dd/MM/yyyy" : "+0400") : 'N/A' }}
 		</td>
 	</ng-container>
 
