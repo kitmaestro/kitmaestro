@@ -1,0 +1,157 @@
+:host {
+    display: block;
+    padding: 16px;
+}
+
+mat-card-header.header {
+    padding-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h2.title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cols-2 {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+
+    @media screen and (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.question-count {
+    max-width: 200px;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+.actions button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 180px;
+    justify-content: center;
+}
+
+.results-container {
+    margin-top: 32px;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 24px;
+}
+
+.result-actions {
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.evaluation-preview {
+    padding: 24px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    font-family: 'Times New Roman', Times, serif;
+    color: #000;
+}
+
+.evaluation-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.evaluation-header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.evaluation-header h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+.student-info {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.evaluation-section {
+    margin-bottom: 24px;
+}
+
+.evaluation-section h3 {
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #333;
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+}
+
+.instructions {
+    margin-bottom: 16px;
+}
+
+ol.question-list {
+    padding-left: 20px;
+}
+
+ul.options-list {
+    list-style-type: none;
+    padding-left: 20px;
+    margin: 8px 0;
+}
+
+.question-stem {
+    font-weight: normal;
+}
+
+.answer-space {
+    height: 60px;
+    /* Espacio para respuestas escritas */
+}
+
+/* Estilos para impresión */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .no-print,
+    .no-print * {
+        display: none !important;
+    }
+
+    #printable-area,
+    #printable-area * {
+        visibility: visible;
+    }
+
+    #printable-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: none;
+        padding: 0;
+        margin: 0;
+    }
+}

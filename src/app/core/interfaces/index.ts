@@ -50,6 +50,7 @@ export * from './universal-activity';
 export * from './universal-activity-requirement';
 export * from './update';
 export * from './user';
+export * from './diagnostic-evaluation';
 export * from './user-settings';
 export * from './user-subscription';
 export * from './vocabulary-entry';

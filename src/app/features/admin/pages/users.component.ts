@@ -15,6 +15,7 @@ import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { UserSettings } from '../../../core/interfaces/user-settings';
+import { map } from 'rxjs';
 
 @Component({
 	selector: 'app-users',
@@ -202,7 +203,7 @@ export class UsersComponent {
 		'actions',
 	];
 
-	users$ = this.userService.findAll();
+	users$ = this.userService.findAll().pipe(map(users => users.sort((a, b) => +new Date(b.createdAt || Date.now()) - +new Date(a.createdAt || Date.now()))));
 	subscriptions$ = this.subscriptionService.findAll();
 	unitPlans$ = this.unitPlanService.findAll();
 	classPlans$ = this.classPlanService.findAll();

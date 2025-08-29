@@ -480,6 +480,30 @@ export const routes: Routes = [
 
 			// assessments
 			{
+				path: 'diagnostic-evaluation-generator',
+				loadComponent: () =>
+					import(
+						'./features/assessments/diagnostic-evaluation/diagnostic-evaluation.component'
+					).then((mod) => mod.DiagnosticEvaluationGeneratorComponent),
+				title: 'Generador de Pruebas Diagnósticas',
+			},
+			{
+				path: 'diagnostic-evaluations',
+				loadComponent: () =>
+					import(
+						'./features/assessments/diagnostic-evaluations.component'
+					).then((mod) => mod.DiagnosticEvaluationsComponent),
+				title: 'Pruebas Diagnósticas',
+			},
+			{
+				path: 'diagnostic-evaluations/:id',
+				loadComponent: () =>
+					import(
+						'./features/assessments/diagnostic-evaluation-detail.component'
+					).then((mod) => mod.DiagnosticEvaluationDetailComponent),
+				title: 'Detalles de Prueba Diagnóstica',
+			},
+			{
 				path: 'checklist-generator',
 				loadComponent: () =>
 					import(

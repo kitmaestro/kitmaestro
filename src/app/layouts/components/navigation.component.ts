@@ -73,6 +73,14 @@ import { UserSubscription } from '../../core/interfaces/user-subscription';
 					<mat-icon>class</mat-icon>
 					<span>Mis Secciones</span>
 				</button>
+				<button routerLink="/unit-plans/list" mat-menu-item>
+					<mat-icon>schema</mat-icon>
+					<span>Mis Unidades</span>
+				</button>
+				<button routerLink="/class-plans/list" mat-menu-item>
+					<mat-icon>assignment</mat-icon>
+					<span>Mis Planes Diarios</span>
+				</button>
 				<button routerLink="/my-resources" mat-menu-item>
 					<mat-icon>analytics</mat-icon>
 					<span>Mis Recursos</span>

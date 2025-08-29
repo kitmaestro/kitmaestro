@@ -32,4 +32,5 @@ export * from './reading-activity.service';
 export * from './favorites.service';
 export * from './competence.service';
 export * from './ai.service';
+export * from './diagnostic-evaluation.service';
 export * from './user-settings.service';
