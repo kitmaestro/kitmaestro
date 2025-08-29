@@ -113,13 +113,11 @@ export class DiagnosticEvaluationGeneratorComponent implements OnInit {
     onSubjectChange(): void {
         const section = this.classSection;
         const subject = this.evaluationForm.value.subject;
-        console.log('Cargando bloques de contenido para:', section, subject);
+        this.contentBlocks.set([]);
         if (section && subject) {
             const { year, level } = this.prevGrade(section);
-            console.log('Buscando bloques de contenido para:', { year, level, subject });
             this.contentBlockService.findAll({ year, subject, level }).subscribe(blocks => {
                 this.contentBlocks.set(blocks);
-                console.log(blocks)
             });
         }
     }
