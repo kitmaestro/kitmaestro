@@ -14,7 +14,7 @@
                 <div class="cols-2">
                     <mat-form-field appearance="outline">
                         <mat-label>Grado</mat-label>
-                        <mat-select formControlName="classSection" required>
+                        <mat-select formControlName="classSection" required (change)="onClassSectionChange()">
                             @for (section of classSections; track section._id) {
                             <mat-option [value]="section._id">{{ section.name }}</mat-option>
                             }
@@ -23,7 +23,7 @@
 
                     <mat-form-field appearance="outline">
                         <mat-label>Asignatura</mat-label>
-                        <mat-select formControlName="subject" required (change)="onClassSectionChange()">
+                        <mat-select formControlName="subject" required (change)="onSubjectChange()">
                             @for (subject of subjects(); track subject) {
                                 @if (subject !== 'TALLERES_OPTATIVOS') {
                                 <mat-option [value]="subject">{{ subject | pretify }}</mat-option>
