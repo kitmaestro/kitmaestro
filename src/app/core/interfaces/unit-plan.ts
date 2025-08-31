@@ -8,6 +8,7 @@ export interface UnitPlan {
 	_id: string;
 	user: UserSettings;
 	section: ClassSection;
+	sections: ClassSection[];
 	duration: number;
 	learningSituation: string;
 	title: string;

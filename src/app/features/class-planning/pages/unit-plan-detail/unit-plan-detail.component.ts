@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { UnitPlanService } from '../../../../core/services/unit-plan.service';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { UnitPlan } from '../../../../core/interfaces/unit-plan';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -34,6 +34,7 @@ import { environment } from '../../../../../environments/environment';
 import { DailyPlanBatchGeneratorComponent } from '../daily-plan-batch-generator/daily-plan-batch-generator.component';
 import { ClassPlan } from '../../../../core/interfaces';
 import { ClassPlansService } from '../../../../core/services/class-plans.service';
+import { UserSubscriptionService } from '../../../../core/services/user-subscription.service';
 
 @Component({
 	selector: 'app-unit-plan-detail',
@@ -58,11 +59,14 @@ export class UnitPlanDetailComponent implements OnInit {
 	private unitPlanService = inject(UnitPlanService);
 	private classPlanService = inject(ClassPlansService);
 	private userSettingsService = inject(UserSettingsService);
+	private userSubscriptionService = inject(UserSubscriptionService);
 	private sb = inject(MatSnackBar);
 	private pdfService = inject(PdfService);
 	printing = false;
 	planId = this.route.snapshot.paramMap.get('id') || '';
 	plan: UnitPlan | null = null;
+
+	activeSubscription$: Observable<boolean> = this.userSubscriptionService.checkSubscription().pipe(map(sub => sub.subscriptionType.toLowerCase() == 'free' ? false : (sub.status.toLowerCase() == 'active' && +(new Date(sub.endDate)) > Date.now())));
 
 	plan$: Observable<UnitPlan> = this.unitPlanService
 		.findOne(this.planId)

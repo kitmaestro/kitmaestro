@@ -74,6 +74,14 @@ export default [
         title: 'Generador de Planes de Unidad',
     },
     {
+        path: 'emi-unit-plans',
+        loadComponent: () =>
+            import(
+                './pages/multigrade-unit-plan-generator.component'
+            ).then((mod) => mod.MultigradeUnitPlanGeneratorComponent),
+        title: 'Generador de Planes de Unidad Multigrado',
+    },
+    {
         path: 'unit-plans/list',
         loadComponent: () =>
             import(

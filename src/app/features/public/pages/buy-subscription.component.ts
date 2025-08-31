@@ -297,7 +297,8 @@ export class BuySubscriptionComponent implements OnInit {
 			mostPopular: false,
 		},
 		{
-			id: isDevMode() ? 'P-1UE72299DR9852449NCVQGVQ' : 'P-14G421255Y3461609NCVPWCQ',
+			// id: isDevMode() ? 'P-1UE72299DR9852449NCVQGVQ' : 'P-14G421255Y3461609NCVPWCQ', # old one
+			id: isDevMode() ? 'P-1UE72299DR9852449NCVQGVQ' : 'P-2A141077RF7045523NCZSTYY',
 			name: 'Plan Plus',
 			code: 'PLUS',
 			price: 15.97,

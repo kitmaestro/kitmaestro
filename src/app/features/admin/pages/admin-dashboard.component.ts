@@ -67,7 +67,7 @@ import { HttpClient } from '@angular/common/http';
 				</mat-card-content>
 			</mat-card>
 		</div>
-		<div style="margin-bottom: 12px;">
+		<!-- <div style="margin-bottom: 12px;">
 			<mat-card>
 				<mat-card-header style="justify-content: center">
 					<mat-card-title>Ingresos por Subscripcion Hasta Hoy</mat-card-title>
@@ -86,7 +86,7 @@ import { HttpClient } from '@angular/common/http';
 					<p class="giant-text">{{ dopRate / subs | currency : 'dop' : 'RD$' }}</p>
 			</mat-card-content>
 			</mat-card>
-		</div>
+		</div> -->
 	`,
 	styles: `
 		.grid {

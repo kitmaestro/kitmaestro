@@ -58,8 +58,8 @@
 				<ul style="list-style: none;">
 					@for (dailyPlan of classPlans; track dailyPlan._id) {
 						<li>
-							<a [routerLink]="['/daily-plans', dailyPlan._id]">
-								{{ dailyPlan.date | date: 'dd/MM/yyyy' }}
+							<a [routerLink]="['/class-plans', dailyPlan._id]">
+								Plan diario para el {{ dailyPlan.date | date: 'dd/MM/yyyy' }}
 							</a>
 						</li>
 					} @empty {
@@ -67,8 +67,12 @@
 					}
 				</ul>
 			</div>
-			<h2>Generar Planes Diarios</h2>
-			<app-daily-plan-batch-generator [plan]="plan" />
+			@if (activeSubscription$ | async) {
+				@if (classPlans.length == 0) {
+					<h2>Generar Planes Diarios</h2>
+					<app-daily-plan-batch-generator [plan]="plan" />
+				}
+			}
 		}
 	</div>
 </app-is-premium>

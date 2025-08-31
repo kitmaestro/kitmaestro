@@ -192,6 +192,10 @@ export class ClassPlanGeneratorComponent implements OnInit {
 						?.setValue(sections[0].subjects[0]);
 					this.onSubjectSelect();
 				}
+			} else {
+				this.router.navigateByUrl('/sections').then(() => {
+					this.sb.open('Para poder planificar, primero tienes que crear una seccion', 'Ok', { duration: 5000 });
+				});
 			}
 		});
 	}

@@ -354,6 +354,72 @@ Solo necesito el nombre de la estrategia, por ejemplo:
 La lista no debe contener menos de 3 ni mas de 6 estrategias, lo ideal es 4-5, maximo 6
 La respuesta debe ser un array de cadenas en formato json valido`;
 
+
+export const generateMultigradeLearningSituationPrompt = `Una situación de aprendizaje debe ser un texto coherente que conecte los conocimientos a adquirir con un contexto real o simulado.
+
+Genera una situación de aprendizaje COHESIVA y UNIFICADA para los siguientes grados: niveles_y_grados.
+El objetivo es crear un único escenario o proyecto que pueda ser abordado por todos los grados, pero con diferentes niveles de profundidad y complejidad según sus capacidades. La situación de aprendizaje debe ser narrada como si estuviera a punto de pasar o ya estuviera sucediendo.
+
+Considera el siguiente contexto:
+- Ambiente Operativo: ambiente_operativo
+- Situación o Problema Central: situacion_o_problema
+- Eje transversal: theme_axis
+- Aprendizajes requeridos (diferenciados por grado):
+---
+contenido_especifico_por_grado
+---
+
+La situación de aprendizaje generada debe:
+1.  Ser clara, relevante y motivadora para todos los grados involucrados.
+2.  Priorizar la integración de los contenidos de cada grado dentro de un proyecto o problema común.
+3.  Permitir que cada grupo de estudiantes (por grado) pueda contribuir a la solución del problema desde el nivel de sus competencias y contenidos.
+4.  Estar contenida en 1 a 3 párrafos.
+
+La respuesta debe ser un JSON válido con esta interfaz:
+{
+  "title": string; // Un título creativo para la situación de aprendizaje multigrado.
+  "content": string; // El texto de la situación de aprendizaje.
+  "strategies": string[]; // Una lista de 4 a 6 estrategias de enseñanza y aprendizaje recomendadas para un entorno multigrado, como "Aprendizaje Basado en Proyectos (ABP)", "Trabajo Cooperativo por Estaciones", "Tutoría entre Iguales", etc.
+}`;
+
+
+export const generateMultigradeActivitySequencePrompt = `Quiero crear una secuencia didáctica para una clase multigrado que incluye: niveles_y_grados.
+La unidad durará unit_duration semanas (3 sesiones de 45 minutos por semana). La asignatura común es subject_name.
+
+Los contenidos a impartir, diferenciados por grado, son:
+---
+content_list_por_grado
+---
+
+La situación de aprendizaje que guiará la unidad es:
+"learning_situation"
+
+Información adicional:
+- Recursos disponibles: resource_list
+- Metodología de enseñanza principal: teaching_style
+- Eje transversal: theme_axis
+
+Tu tarea es elaborar una secuencia de actividades diferenciadas para cada grado, pero que se desarrollen de manera cohesiva bajo el mismo proyecto o situación de aprendizaje. Las actividades deben seguir una progresión lógica (inicio, desarrollo, cierre) y escalar en complejidad según la taxonomía de Bloom a lo largo de las semanas.
+
+Para cada grado, debes generar:
+-   **Actividades de enseñanza:** Lo que hará el docente. Deben ser oraciones completas que inicien con "El docente", "El maestro", etc. y representar una sesión de clase general.
+-   **Actividades de aprendizaje:** Lo que harán los estudiantes. Deben ser oraciones completas que inicien con "Los estudiantes", "Los alumnos", etc. y ser la contraparte de las actividades del docente.
+-   **Actividades de evaluación:** Deben incluir evaluación formativa y sumativa, especificando la técnica o instrumento a usar (ej. "observación directa usando una lista de cotejo", "revisión de portafolios con una rúbrica").
+
+La respuesta debe ser un JSON válido con esta interfaz:
+{
+  "activities_by_grade": {
+    "grade_level": string; // Ej: "1er Grado de Primaria"
+    "teacher_activities": string[];
+    "student_activities": string[];
+    "evaluation_activities": string[];
+  }[];
+  "instruments": string[]; // Lista de TODAS las técnicas e instrumentos de evaluación mencionados en las actividades (ej: "Rúbrica", "Lista de Cotejo", "Diario Reflexivo", "Metacognición").
+  "resources": string[]; // Lista de recursos necesarios para TODA la unidad multigrado.
+}
+
+Es MUY IMPORTANTE que los instrumentos listados en el array "instruments" se mencionen explícitamente en las descripciones de las "evaluation_activities".`;
+
 export const classPlanPrompt = `Escribe un plan de clases, enfocado en el desarrollo de competencias, de class_subject de class_duration minutos para impartir class_topics en class_year grado de class_level. Esta es la interfaz de la planificacion:
 
 interface Plan {

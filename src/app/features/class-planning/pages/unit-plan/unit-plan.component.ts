@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, computed, Input, OnInit } from '@angular/core';
 import {
 	UnitPlan,
 	CompetenceEntry,
@@ -11,7 +11,9 @@ import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 
 @Component({
 	selector: 'app-unit-plan',
-	imports: [PretifyPipe],
+	imports: [
+		PretifyPipe,
+	],
 	templateUrl: './unit-plan.component.html',
 	styleUrl: './unit-plan.component.scss',
 })
@@ -23,6 +25,21 @@ export class UnitPlanComponent implements OnInit {
 	@Input() competence: CompetenceEntry[] = [];
 	@Input() mainThemes: MainTheme[] = [];
 	public isPrintView = window.location.href.includes('print');
+	planIsForPrimary = computed<boolean>(() => {
+		if (this.section) {
+			return this.section.level.toLowerCase() == 'primaria';
+		}
+		const plan = this.unitPlan;
+		if (plan) {
+			if (plan.section) {
+				return plan.section.level.toLowerCase() == 'primaria';
+			}
+			if (plan.sections.length > 0) {
+				return plan.sections[0].level.toLowerCase() == 'primaria';
+			}
+		}
+		return false;
+	});
 
 	removeDuplicates(strings: string[]): string[] {
 		const seen = new Set<string>();
@@ -93,6 +110,7 @@ export class UnitPlanComponent implements OnInit {
 			);
 			// join all contents and indicators of the same subject
 			if (this.unitPlan) {
+				console.log(this.unitPlan)
 				const found: string[] = [];
 				const reduceContents = (
 					prev: ContentBlock[],

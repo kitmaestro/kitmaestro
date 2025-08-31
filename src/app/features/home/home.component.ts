@@ -56,6 +56,14 @@ const planningTools: AppEntry[] = [
 		tier: 2,
 	},
 	{
+		name: 'Unidades Multigrado',
+		description: 'Unidades de aprendizaje para multigrado.',
+		link: ['/emi-unit-plans'],
+		categories: ['Planificación'],
+		icon: '/assets/undraw_working-together_r43a.svg',
+		tier: 2,
+	},
+	{
 		name: 'Planes Diarios en Lote',
 		description: 'Genera todos los planes de clase de una unidad.',
 		link: ['/class-plans/batch'],

@@ -30,7 +30,7 @@ import {
 	mainThemeCategories,
 	schoolEnvironments,
 } from '../../../../config/constants';
-import { forkJoin, lastValueFrom } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { ContentBlockService } from '../../../../core/services/content-block.service';
 import { ContentBlock } from '../../../../core/interfaces/content-block';
 import { TEACHING_METHODS } from '../../../../core/data/teaching-methods';
@@ -248,10 +248,9 @@ export class UnitPlanGeneratorComponent implements OnInit {
 						this.onSubjectSelect();
 					}
 				} else {
-					this.sb.open(
-						'Para usar esta herramienta, necesitas crear al menos una seccion.',
-						'Ok',
-					);
+					this.router.navigateByUrl('/sections').then(() => {
+						this.sb.open('Para poder planificar, primero tienes que crear una seccion', 'Ok', { duration: 5000 });
+					});
 				}
 			},
 		});
@@ -323,7 +322,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 			artisticEducationContent,
 			physicalEducationContent,
 		} = this.learningSituationForm.value;
-		const selected = [
+		const selected: string[] = [
 			spanishContent,
 			englishContent,
 			frenchContent,
@@ -333,9 +332,8 @@ export class UnitPlanGeneratorComponent implements OnInit {
 			religionContent,
 			physicalEducationContent,
 			artisticEducationContent,
-		]
-			.flat()
-			.filter((s) => s?.length !== 0);
+		].flat().map(s => s?.trim()).filter(s => s && s?.length > 0)
+			.filter((s) => typeof s == 'string');
 		return selected;
 	}
 
@@ -455,6 +453,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 		const plan: any = {
 			user: this.userSettings?._id,
 			section: this.classSection?._id,
+			sections: [],
 			duration: this.unitPlanForm.value.duration || 4,
 			learningSituation: this.learningSituation.value,
 			title: this.learningSituationTitle.value,
