@@ -6,7 +6,7 @@ import { ClassPlansService } from '../../../core/services/class-plans.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { map, of, switchMap } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -19,7 +19,6 @@ import { HttpClient } from '@angular/common/http';
 		MatIconModule,
 		RouterLink,
 		AsyncPipe,
-		CurrencyPipe,
 	],
 	template: `
 		<mat-card>
