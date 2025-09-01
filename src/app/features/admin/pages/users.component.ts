@@ -126,9 +126,7 @@ import { map } from 'rxjs';
 				<td mat-cell *matCellDef="let user">
 					<a
 						target="_blank"
-						href="https://wa.me/+1{{
-							user.phone?.trim()?.replaceAll('-', '')?.replaceAll(' ', '')
-						}}"
+						[href]="waLink(user)"
 						>{{ user.phone }}</a
 					>
 				</td>
@@ -140,7 +138,7 @@ import { map } from 'rxjs';
 			<ng-container matColumnDef="memberSince">
 				<th mat-header-cell *matHeaderCellDef>Miembro desde</th>
 				<td mat-cell *matCellDef="let user">
-					{{ user.createdAt | date: "dd/MM/yyyy" }}
+					{{ user.createdAt | date: "d/M/yyyy, h:mm a" }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="actions">
@@ -216,6 +214,27 @@ export class UsersComponent {
 		password: ['', [Validators.required]],
 		phone: [''],
 	});
+
+	waLink(user: UserSettings): string {
+		if (!user.phone || !user.firstname) return '#';
+		const phone = user.phone.replace(/\D+/g, ''); // elimina todo lo que no sea dígito
+		if (!/^\d{6,15}$/.test(phone)) {
+			console.error('Número de teléfono inválido después de limpiar caracteres.');
+			return '#';
+		}
+
+		const name = (user.firstname || '').trim();
+		const messageLines = [
+			`Hola${name ? ' ' + name : ''}, ¿todo bien con KitMaestro?
+Veo que creaste una cuenta y quería confirmar si pudiste ingresar y crear tu primera planificación.
+Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 minutos por aquí.
+¿Pudiste probarla o quieres que te guíe?`
+		];
+		const message = messageLines.join(' ');
+		const encoded = encodeURIComponent(message);
+
+		return `https://wa.me/${phone.startsWith('809') || phone.startsWith('809') || phone.startsWith('849') ? '+1' + phone : phone}?text=${encoded}`;
+	}
 
 	deleteUser(id: string) {
 		this.userService.delete(id).subscribe({

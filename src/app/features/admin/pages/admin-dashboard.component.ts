@@ -28,7 +28,11 @@ import { HttpClient } from '@angular/common/http';
 			<mat-card-content>
 			</mat-card-content>
 			<mat-card-actions>
-				<button mat-flat-button color="primary" type=button routerLink="/admin/content-blocks">Bloques de Cotenido</button>
+				<div style="display: flex; gap: 12px;">
+					<button mat-flat-button color="primary" type=button routerLink="/admin/content-blocks">Bloques de Cotenido</button>
+					<button mat-flat-button color="primary" type=button routerLink="/admin/main-themes">Ejes Transversales</button>
+					<button mat-flat-button color="primary" type=button routerLink="/admin/competence-entries">Competencias</button>
+				</div>
 			</mat-card-actions>
 		</mat-card>
 

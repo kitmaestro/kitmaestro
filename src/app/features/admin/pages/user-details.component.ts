@@ -164,7 +164,20 @@ class SectionCreatorComponent {
 					<!-- TODO: Fix up this shit -->
 					@if (activeUser && activeUser.email === "orgalay.dev@gmail.com") {
 						<p><b>Email</b>: {{ user.email }}</p>
-						<p><b>Teléfono</b>: {{ user.phone }}</p>
+						@if (user.phone) {
+							<p><b>Teléfono</b>: <a [href]="waLink(user)" target="_blank" >{{ user.phone }}</a></p>
+						}
+						<div style="display: flex; gap: 12px;">
+							<div style="flex: 1 auto auto;">
+								<mat-form-field appearance="outline">
+									<mat-label>Contrase&ntilde;a</mat-label>
+									<input matInput [formControl]="newPassword" />
+								</mat-form-field>
+							</div>
+							<div style="">
+								<button mat-flat-button (click)="updatePassword()" [disabled]="!newPassword.value">Cambiar Contrase&ntilde;a</button>
+							</div>
+						</div>
 					}
 					<p><b>Codigo de Referencia</b>: {{ user.refCode }}</p>
                     <div style="margin-top: 20px; margin-bottom: 20px;">
@@ -349,6 +362,8 @@ export class UserDetailsComponent implements OnInit {
 	gravatarUrl = '';
 	activeUser: UserSettings | null = null;
 
+	newPassword = this.fb.control('');
+
 	subscriptionForm = this.fb.group({
 		user: [''],
 		subscriptionType: ['Premium Básico'],
@@ -363,10 +378,35 @@ export class UserDetailsComponent implements OnInit {
 		amount: [0],
 	});
 
+	waLink(user: UserSettings): string {
+		if (!user.phone || !user.firstname) return '#';
+		const phone = user.phone.replace(/\D+/g, ''); // elimina todo lo que no sea dígito
+		if (!/^\d{6,15}$/.test(phone)) {
+			console.error('Número de teléfono inválido después de limpiar caracteres.');
+			return '#';
+		}
+
+		const name = (user.firstname || '').trim();
+		const messageLines = [
+			`Hola${name ? ' ' + name : ''}, ¿todo bien con KitMaestro?
+Veo que creaste una cuenta y quería confirmar si pudiste ingresar y crear tu primera planificación.
+Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 minutos por aquí.
+¿Pudiste probarla o quieres que te guíe?`
+		];
+		const message = messageLines.join(' ');
+		const encoded = encodeURIComponent(message);
+
+		return `https://wa.me/${phone.startsWith('809') || phone.startsWith('809') || phone.startsWith('849') ? '+1' + phone : phone}?text=${encoded}`;
+	}
+
 	loadSubscription() {
 		this.subscriptionService.findByUser(this.userId).subscribe({
 			next: (subscription) => {
 				this.subscription = subscription;
+				const { user, subscriptionType, status, startDate, endDate, method, amount } = subscription;
+				const start = new Date(startDate).toISOString().split('T')[0];
+				const end = new Date(endDate).toISOString().split('T')[0];
+				this.subscriptionForm.patchValue({ user, subscriptionType, status, startDate: start, endDate: end, method, amount });
 			},
 		});
 	}
@@ -531,5 +571,18 @@ export class UserDetailsComponent implements OnInit {
 		link.click();
 		document.body.removeChild(link);
 		URL.revokeObjectURL(url); // Libera la memoria del objeto URL.
+	}
+
+	updatePassword() {
+		const password: string = this.newPassword.getRawValue() || '';
+		if (password && this.user)
+			this.userService.update(this.user._id, { password }).subscribe({
+				next: () => {
+					this.sb.open('Contrasena actualizada!', 'Ok', { duration: 2500 })
+				},
+				error: () => {
+					this.sb.open('Error al actualizar contrasena', 'Ok', { duration: 2500 })
+				}
+		})
 	}
 }

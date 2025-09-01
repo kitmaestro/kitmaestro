@@ -306,9 +306,9 @@ export class ContentBlocksManagementComponent implements OnInit, OnDestroy {
 
   // --- Fixed Select Options ---
   readonly levels = [
+    { value: 'PRE_PRIMARIA', viewValue: 'Inicial' },
     { value: 'PRIMARIA', viewValue: 'Primaria' },
     { value: 'SECUNDARIA', viewValue: 'Secundaria' },
-    // { value: 'SUPERIOR', viewValue: 'Superior' }, // Removed as per user's latest options
   ];
   readonly allYears = [
     { value: 'PRIMERO', viewValue: '1er Grado' }, { value: 'SEGUNDO', viewValue: '2do Grado' },

@@ -18,6 +18,22 @@ export default [
         title: 'Bloques de Contenido',
     },
     {
+        path: 'main-themes',
+        loadComponent: () =>
+            import('./pages/main-themes-management.component').then(
+                (mod) => mod.MainThemesManagementComponent
+            ),
+        title: 'Ejes Transversales',
+    },
+    {
+        path: 'competence-entries',
+        loadComponent: () =>
+            import('./pages/competence-entries-management.component').then(
+                (mod) => mod.CompetenceEntriesManagementComponent
+            ),
+        title: 'Ejes Transversales',
+    },
+    {
         path: 'users',
         loadComponent: () =>
             import('./pages/users.component').then(
