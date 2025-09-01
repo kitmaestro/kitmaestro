@@ -47,7 +47,7 @@ declare const paypal: any;
 			  <h2>{{ plan.name }}</h2>
 			  <div class="price">$
 				{{ plan.price }}
-				<span class="period">/ mes</span>
+				<span class="period">({{ 'RD$' + ((fetchRate(plan.price) | async) || 0) }})/ mes</span>
 			  </div>
 			  <p class="description">{{ plan.description }}</p>
 			  <ul class="features-list">
@@ -257,6 +257,13 @@ export class BuySubscriptionComponent implements OnInit {
 	loading = true;
 	alreadyPremium = false;
 	subscription$: Observable<UserSubscription> = this.userSubscriptionService.checkSubscription();
+	
+	async fetchRate(amount: number) {
+		const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json');
+		const res: any = await response.json();
+		const rate = res.usd.dop;
+		return rate * amount;
+	}
 
 	// Datos de los planes de precios, simplificados para el nuevo diseño
 	pricingPlans = [
@@ -305,6 +312,8 @@ export class BuySubscriptionComponent implements OnInit {
 			description: 'Perfecto para docentes en aula, que imparten 4 o más asignaturas en uno o varios grados, logrando ahorras al menos 10 horas de trabajo cada semana.',
 			features: [
 				'Todo lo del plan básico',
+				'Plan anual de clases',
+				'Planes diarios por lote',
 				'Planes diarios automáticos',
 				'Registro anecdótico',
 				'Generador de exámenes',
@@ -336,13 +345,13 @@ export class BuySubscriptionComponent implements OnInit {
 				'Mensajes automáticos a padres',
 				'Boletines de calificación',
 				'Informes de rendimiento individual',
-				'Taza personalizada',
-				'T-Shirt personalizado',
+				'Taza personalizada *',
+				'T-Shirt personalizado *',
 				'Asesores de desarrollo personal',
 				'Asesores de desarrollo profesional',
 				'Caja de suscripción trimestral *',
 				'Recursos didácticos gratuitos *',
-				'3 días de resort todo incluido *',
+				// '3 días de resort todo incluido *',
 				'Cursos gratuitos en KitMaestro Academy *',
 				// '5 entradas a KitMaestro Con *',
 			],
