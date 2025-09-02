@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
+import { AsyncPipe } from '@angular/common';
 
 declare const paypal: any;
 
@@ -25,6 +26,7 @@ declare const paypal: any;
 		MatSnackBarModule,
 		MatSlideToggleModule,
 		RouterModule,
+		AsyncPipe,
 	],
 	template: `
     <div class="pricing-container">
@@ -47,7 +49,7 @@ declare const paypal: any;
 			  <h2>{{ plan.name }}</h2>
 			  <div class="price">$
 				{{ plan.price }}
-				<span class="period">({{ 'RD$' + ((fetchRate(plan.price) | async) || 0) }})/ mes</span>
+				<span class="period">({{ 'RD$' + (rate * plan.price) }})/ mes</span>
 			  </div>
 			  <p class="description">{{ plan.description }}</p>
 			  <ul class="features-list">
@@ -257,12 +259,12 @@ export class BuySubscriptionComponent implements OnInit {
 	loading = true;
 	alreadyPremium = false;
 	subscription$: Observable<UserSubscription> = this.userSubscriptionService.checkSubscription();
+	rate = 0
 	
-	async fetchRate(amount: number) {
+	async fetchRate() {
 		const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json');
 		const res: any = await response.json();
-		const rate = res.usd.dop;
-		return rate * amount;
+		this.rate = res.usd.dop;
 	}
 
 	// Datos de los planes de precios, simplificados para el nuevo diseño
@@ -361,6 +363,7 @@ export class BuySubscriptionComponent implements OnInit {
 	];
 
 	ngOnInit(): void {
+		this.fetchRate();
 		this.subscription$.subscribe({
 			next: (subscription) => {
 				this.loading = false;

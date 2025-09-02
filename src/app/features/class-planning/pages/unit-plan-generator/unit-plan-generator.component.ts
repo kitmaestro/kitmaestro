@@ -30,7 +30,7 @@ import {
 	mainThemeCategories,
 	schoolEnvironments,
 } from '../../../../config/constants';
-import { forkJoin } from 'rxjs';
+import { filter, forkJoin, Subject, switchMap, takeUntil } from 'rxjs';
 import { ContentBlockService } from '../../../../core/services/content-block.service';
 import { ContentBlock } from '../../../../core/interfaces/content-block';
 import { TEACHING_METHODS } from '../../../../core/data/teaching-methods';
@@ -157,76 +157,80 @@ export class UnitPlanGeneratorComponent implements OnInit {
 		}),
 	]);
 
+	destroy$ = new Subject<void>();
+
+	ngOnDestroy() {
+		this.destroy$.next();
+		this.destroy$.complete();
+	}
+
 	ngOnInit(): void {
 		this.userSettingsService
 			.getSettings()
-			.subscribe((settings) => (this.userSettings = settings));
-		this.userSubscriptionService
-			.checkSubscription()
-			.subscribe((subscription) => {
-				if (
-					subscription.subscriptionType
-						.toLowerCase()
-						.includes('premium')
-				)
-					return;
+			.pipe(
+				filter(user => user !== null),
+				takeUntil(this.destroy$),
+				switchMap(user => {
+					this.userSettings = user;
+					return forkJoin([
+						this.classSectionService.findSections(),
+						this.userSubscriptionService.checkSubscription(),
+						this.unitPlanService.findAll(),
+					])
+				})
+			)
+			.subscribe({
+				next: ([sections, subscription, plans]) => {
+					let maxPlans = 0;
+					if (sections.length) {
+						this.classSections = sections;
+						maxPlans = sections.flatMap(s => s.subjects.filter(s => s !== 'TALLERES_OPTATIVOS')).length;
+						this.learningSituationForm
+							.get('classSection')
+							?.setValue(sections[0]._id || '');
+						if (sections[0].subjects.length === 1) {
+							this.learningSituationForm
+								.get('subjects')
+								?.setValue([sections[0].subjects[0]]);
+							this.onSubjectSelect();
+						}
+					} else {
+						this.router.navigateByUrl('/sections').then(() => {
+							this.sb.open('Para poder planificar, primero tienes que crear una seccion', 'Ok', { duration: 5000 });
+						});
+						return;
+					}
+					const sub = subscription.subscriptionType.toLowerCase();
+					if (sub == 'plan premium') return;
 
-				// determine day of the week and date of last monday (or today) count plans made this week, subjects they have and calculate just 1 plan by subject a week
-				const today = new Date();
-				const dayOfTheWeek = today.getDay();
-				const lastMonday =
-					dayOfTheWeek === 1
-						? today
-						: new Date(
-								today.setDate(
-									today.getDate() - (7 - dayOfTheWeek),
-								),
-							);
-				this.unitPlanService.findAll().subscribe((plans) => {
 					const createdThisMonth = plans.filter(
 						(plan: any) => {
 							const created = new Date(plan.createdAt);
-							return (
-								created.getMonth() === today.getMonth() &&
-								created.getFullYear() === today.getFullYear()
-							);
+							const thirtyDaysAgo = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30));
+							return +created > +thirtyDaysAgo;
 						},
 					).length;
-					console.log(createdThisMonth)
-					const createdThisWeek = plans.filter(
-						(plan: any) => +new Date(plan.createdAt) > +lastMonday,
-					).length;
-					this.classSectionService
-						.findSections()
-						.subscribe((sections) => {
-							const subjects = sections
-								.map(
-									(section) =>
-										section.subjects.filter(
-											(s) => s !== 'TALLERES_OPTATIVOS',
-										).length,
-								)
-								.reduce((l, c) => l + c, 0);
-							if (
-								(subscription.subscriptionType === 'FREE' && createdThisMonth > 0) ||
-								createdThisWeek === subjects
-							) {
-								this.router.navigateByUrl('/').then(() => {
-									this.sb.open(
-										'Haz alcanzado el limite de planes de esta semana. Mejora tu suscripcion para eliminar las restricciones o vuelve la proxima semana.',
-										'Ok',
-										{ duration: 5000 },
-									);
-								});
-							}
+					if (sub == 'free' && createdThisMonth > 0) {
+						this.router.navigateByUrl('/unit-plans/list').then(() => {
+							this.sb.open('Ya has agotado tu limite de planes para este mes. Para continuar planificando, contrata un plan de pago.', 'Ok', { duration: 10000 })
 						});
-				});
+						return;
+					}
+					if (sub == 'plan plus') maxPlans = maxPlans * 2;
+					if (createdThisMonth >= maxPlans) {
+						this.router.navigateByUrl('/').then(() => {
+							this.sb.open(
+								'Haz alcanzado el limite de planes de este mes. Mejora tu suscripcion para eliminar las restricciones o vuelve la proxima semana.',
+								'Ok',
+								{ duration: 5000 },
+							);
+						});
+					}
+				},
+				error: err => {
+					console.log(err);
+				}
 			});
-		this.userSettingsService.getSettings().subscribe({
-			next: (settings) => {
-				this.userSettings = settings;
-			},
-		});
 		const availableResourcesStr = localStorage.getItem(
 			'available-resources',
 		);
@@ -234,26 +238,6 @@ export class UnitPlanGeneratorComponent implements OnInit {
 			const resources = JSON.parse(availableResourcesStr) as string[];
 			this.unitPlanForm.get('resources')?.setValue(resources);
 		}
-		this.classSectionService.findSections().subscribe({
-			next: (value) => {
-				if (value.length) {
-					this.classSections = value;
-					this.learningSituationForm
-						.get('classSection')
-						?.setValue(value[0]._id || '');
-					if (value[0].subjects.length === 1) {
-						this.learningSituationForm
-							.get('subjects')
-							?.setValue([value[0].subjects[0]]);
-						this.onSubjectSelect();
-					}
-				} else {
-					this.router.navigateByUrl('/sections').then(() => {
-						this.sb.open('Para poder planificar, primero tienes que crear una seccion', 'Ok', { duration: 5000 });
-					});
-				}
-			},
-		});
 	}
 
 	onSectionSelect() {

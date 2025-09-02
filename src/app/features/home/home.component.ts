@@ -271,7 +271,7 @@ const assessmentTools: AppEntry[] = [
 		link: ['/test-generator'],
 		categories: ['Instrumentos de Evaluación'],
 		icon: '/assets/undraw_exams_d2tf.svg',
-		tier: 1,
+		tier: 2,
 	},
 	{
 		name: 'Evaluación Diagnóstica',
@@ -295,7 +295,7 @@ const assessmentTools: AppEntry[] = [
 		link: ['/checklist-generator'],
 		categories: ['Evaluación'],
 		icon: '/assets/undraw_check-boxes_ewf2.svg',
-		tier: 1,
+		tier: 2,
 	},
 	{
 		name: 'Registro Anecdótico',
@@ -303,7 +303,7 @@ const assessmentTools: AppEntry[] = [
 		link: ['/log-registry-generator'],
 		categories: ['Registro', 'Productividad'],
 		icon: '/assets/undraw_upload_image_re_svxx.svg',
-		tier: 1,
+		tier: 2,
 	},
 	{
 		name: 'Generador de Guía de Observación',
@@ -319,7 +319,7 @@ const assessmentTools: AppEntry[] = [
 		link: ['/rubric-generator'],
 		categories: ['Evaluación', 'Instrumentos de Evaluación'],
 		icon: '/assets/checklist.svg',
-		tier: 1,
+		tier: 2,
 	},
 	{
 		name: 'Generador de Escala de Estimación',
@@ -349,7 +349,7 @@ const assessmentTools: AppEntry[] = [
 		icon: '/assets/review.svg',
 		description:
 			'Recopilación de retroalimentación para mejorar la enseñanza.',
-		tier: 1,
+		tier: 5,
 	},
 ];
 
