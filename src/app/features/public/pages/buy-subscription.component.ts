@@ -49,7 +49,7 @@ declare const paypal: any;
 			  <h2>{{ plan.name }}</h2>
 			  <div class="price">$
 				{{ plan.price }}
-				<span class="period">({{ 'RD$' + (rate * plan.price) }})/ mes</span>
+				<span class="period">/ mes</span>
 			  </div>
 			  <p class="description">{{ plan.description }}</p>
 			  <ul class="features-list">
@@ -363,7 +363,7 @@ export class BuySubscriptionComponent implements OnInit {
 	];
 
 	ngOnInit(): void {
-		this.fetchRate();
+		// this.fetchRate();
 		this.subscription$.subscribe({
 			next: (subscription) => {
 				this.loading = false;
