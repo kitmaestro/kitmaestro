@@ -68,7 +68,7 @@
 				</ul>
 			</div>
 			@if (activeSubscription$ | async) {
-				@if (classPlans.length == 0) {
+				@if (classPlans.length === 0) {
 					<h2>Generar Planes Diarios</h2>
 					<app-daily-plan-batch-generator [plan]="plan" />
 				}

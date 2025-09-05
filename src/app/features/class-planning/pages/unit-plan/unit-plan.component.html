@@ -24,7 +24,7 @@
 							<span>{{ section.school.name }}</span>
 						} @else if (unitPlan.section) {
 							<span>{{ unitPlan.section.school.name }}</span>
-						} @else if (unitPlan.sections.length) {
+						} @else if (unitPlan.sections && unitPlan.sections.length) {
 							@for (section of unitPlan.sections; track $index) {
 								<span>{{ $index > 0 ? ', ' : '' }}{{ section.school.name }}</span>
 							}
@@ -41,7 +41,7 @@
 						{{ user ? user.lastname : unitPlan.user.lastname }}
 					</td>
 					<td colspan="2" style="width: 33.33%">
-						@if (unitPlan.sections.length) {
+						@if (unitPlan.sections && unitPlan.sections.length) {
 							<b>Grados y Secciones</b>:
 							@for (section of unitPlan.sections; track $index) {
 								<span>{{ $index > 0 ? ', ' : '' }}{{ section.name }}</span>

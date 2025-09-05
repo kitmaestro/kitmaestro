@@ -27,7 +27,7 @@
 	<ng-container matColumnDef="section">
 		<th mat-header-cell *matHeaderCellDef>Curso</th>
 		<td mat-cell *matCellDef="let plan">
-			@if (plan.sections.length) {
+			@if (plan.sections && plan.sections.length) {
 				@for (section of plan.sections; track $index) { {{$index > 0 ? ', ' : '' }}{{ section.name }} }
 			} @else {
 				{{ plan.section ? plan.section.name : 'No Asignado' }}

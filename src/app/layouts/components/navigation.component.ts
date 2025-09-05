@@ -183,10 +183,12 @@ export class NavigationComponent {
 		.checkSubscription()
 		.pipe(
 			map(
-				(sub) =>
-					sub.status === 'active' &&
-					(sub.subscriptionType.toLowerCase() !== 'free') &&
-					+new Date(sub.endDate) > +new Date(),
+				(sub) => {
+					if (sub.subscriptionType.toLowerCase() == 'free') {
+						return false;
+					}
+					return sub.status == 'active' && (+new Date(sub.endDate) > +new Date());
+				}
 			),
 		);
 

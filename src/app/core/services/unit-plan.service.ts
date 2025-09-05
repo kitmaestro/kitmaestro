@@ -454,7 +454,7 @@ export class UnitPlanService {
 							children: [
 								new TextRun({
 									// color: '#000000',
-									text: 'Año Escolar 2024 - 2025',
+									text: 'Año Escolar 2025 - 2026',
 								}),
 							],
 							heading: HeadingLevel.HEADING_2,
