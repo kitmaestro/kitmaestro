@@ -19,6 +19,7 @@ import { StudentsService } from '../../../core/services/students.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ClassSection } from '../../../core/interfaces/class-section';
 import * as XLSX from 'xlsx';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({
 	selector: 'app-section-details',
@@ -33,6 +34,7 @@ import * as XLSX from 'xlsx';
 		MatSnackBarModule,
 		MatDialogModule,
 		MatChipsModule,
+		PretifyPipe,
 	],
 	templateUrl: './section-details.component.html',
 	styleUrl: './section-details.component.scss',
@@ -133,18 +135,6 @@ export class SectionDetailsComponent implements OnInit {
 		this.dialog.open(StudentDetailComponent, {
 			data: student,
 		});
-	}
-
-	formatValue(value: string) {
-		return value
-			? value
-					.split('_')
-					.map(
-						(s) =>
-							s[0] + s.slice(1).toLowerCase().split('').join(''),
-					)
-					.join(' ')
-			: '';
 	}
 
 	onFileChange(event: any) {

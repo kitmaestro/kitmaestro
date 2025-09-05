@@ -1029,122 +1029,215 @@
 				<tr>
 					<td class="bold text-center" colspan="6">Actividades</td>
 				</tr>
-				<tr>
-					<td class="bold text-center" colspan="2">
-						De Ense&ntilde;anza
-					</td>
-					<td class="bold text-center" colspan="2">De Aprendizaje</td>
-					<td class="bold text-center" colspan="2">
-						De Evaluaci&oacute;n
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<ul style="margin: 0; padding: 0; list-style: none">
-							@for (
-								activityList of unitPlan.teacherActivities;
-								track activityList
-							) {
-								@if (unitPlan.subjects.length === 1) {
+				@if (classPlans().length) {
+					<tr>
+						<td><b>Fecha</b></td>
+						<td><b>Actividades de Aprendizaje</b></td>
+						<td><b>Evidencia</b></td>
+						<td><b>Tecnicas e Instrumentos de Evaluaci&oacute;n</b></td>
+						<td><b>Metacognicion</b></td>
+						<td><b>Recursos</b></td>
+					</tr>
+					@for (plan of classPlans(); track plan._id) {
+						<tr>
+							<td>
+							</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none">
+									<li><b>Inicio</b></li>
 									@for (
-										activity of activityList.activities;
-										track $index
+										activity of plan.introduction.activities;
+										track activity
 									) {
 										<li>- {{ activity }}</li>
 									}
-								} @else {
-									<li class="bold">
-										{{ activityList.subject | pretify }}
-									</li>
-									<ul
-										style="
-											margin: 0;
-											padding: 0;
-											list-style: none;
-										"
-									>
+								</ul>
+								<ul style="margin: 0; padding: 0; list-style: none">
+									<li><b>Desarrollo</b></li>
+									@for (
+										activity of plan.main.activities;
+										track activity
+									) {
+										<li>- {{ activity }}</li>
+									}
+								</ul>
+								<ul style="margin: 0; padding: 0; list-style: none">
+									<li><b>Cierre</b></li>
+									@for (
+										activity of plan.closing.activities;
+										track activity
+									) {
+										<li>- {{ activity }}</li>
+									}
+								</ul>
+							</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none">
+								</ul>
+							</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none">
+									@for (
+										instrument of unitPlan.instruments;
+										track instrument
+									) {
+										<li>- {{ instrument }}</li>
+									}
+								</ul>
+							</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none">
+									<li>- ¿Qué te aprendiste de este tema hoy?</li>
+									<li>- ¿Qué tan importante es este tema a lo largo de sus vidas?</li>
+									<li>- ¿Qué te pareció el tema del día de hoy?</li>
+									<li>- ¿Cómo aprendí estos conocimientos?</li>
+									<li>- ¿Cuál fue la parte que más te intereso?</li>
+									<li>- ¿Como nos beneficiamos de los conocimientos aprendido hoy?</li>
+									<li>- ¿En qué nos ayuda para convivir mejor este tema?</li>
+								</ul>
+							</td>
+							<td>
+								<ul style="margin: 0; padding: 0; list-style: none">
+									@for (
+										resource of plan.introduction.resources;
+										track resource
+									) {
+										<li>- {{ resource }}</li>
+									}
+									@for (
+										resource of plan.main.resources;
+										track resource
+									) {
+										<li>- {{ resource }}</li>
+									}
+									@for (
+										resource of plan.closing.resources;
+										track resource
+									) {
+										<li>- {{ resource }}</li>
+									}
+								</ul>
+							</td>
+						</tr>
+					}
+				} @else {
+					<tr>
+						<td class="bold text-center" colspan="2">
+							De Ense&ntilde;anza
+						</td>
+						<td class="bold text-center" colspan="2">De Aprendizaje</td>
+						<td class="bold text-center" colspan="2">
+							De Evaluaci&oacute;n
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<ul style="margin: 0; padding: 0; list-style: none">
+								@for (
+									activityList of unitPlan.teacherActivities;
+									track activityList
+								) {
+									@if (unitPlan.subjects.length === 1) {
 										@for (
 											activity of activityList.activities;
 											track $index
 										) {
 											<li>- {{ activity }}</li>
 										}
-									</ul>
-								}
-							}
-						</ul>
-					</td>
-					<td colspan="2">
-						<ul style="margin: 0; padding: 0; list-style: none">
-							@for (
-								activityList of unitPlan.studentActivities;
-								track activityList
-							) {
-								@if (unitPlan.subjects.length === 1) {
-									@for (
-										activity of activityList.activities;
-										track $index
-									) {
-										<li>- {{ activity }}</li>
+									} @else {
+										<li class="bold">
+											{{ activityList.subject | pretify }}
+										</li>
+										<ul
+											style="
+												margin: 0;
+												padding: 0;
+												list-style: none;
+											"
+										>
+											@for (
+												activity of activityList.activities;
+												track $index
+											) {
+												<li>- {{ activity }}</li>
+											}
+										</ul>
 									}
-								} @else {
-									<li class="bold">
-										{{ activityList.subject | pretify }}
-									</li>
-									<ul
-										style="
-											margin: 0;
-											padding: 0;
-											list-style: none;
-										"
-									>
+								}
+							</ul>
+						</td>
+						<td colspan="2">
+							<ul style="margin: 0; padding: 0; list-style: none">
+								@for (
+									activityList of unitPlan.studentActivities;
+									track activityList
+								) {
+									@if (unitPlan.subjects.length === 1) {
 										@for (
 											activity of activityList.activities;
 											track $index
 										) {
 											<li>- {{ activity }}</li>
 										}
-									</ul>
-								}
-							}
-						</ul>
-					</td>
-					<td colspan="2">
-						<ul style="margin: 0; padding: 0; list-style: none">
-							@for (
-								activityList of unitPlan.evaluationActivities;
-								track activityList
-							) {
-								@if (unitPlan.subjects.length === 1) {
-									@for (
-										activity of activityList.activities;
-										track $index
-									) {
-										<li>- {{ activity }}</li>
+									} @else {
+										<li class="bold">
+											{{ activityList.subject | pretify }}
+										</li>
+										<ul
+											style="
+												margin: 0;
+												padding: 0;
+												list-style: none;
+											"
+										>
+											@for (
+												activity of activityList.activities;
+												track $index
+											) {
+												<li>- {{ activity }}</li>
+											}
+										</ul>
 									}
-								} @else {
-									<li class="bold">
-										{{ activityList.subject | pretify }}
-									</li>
-									<ul
-										style="
-											margin: 0;
-											padding: 0;
-											list-style: none;
-										"
-									>
+								}
+							</ul>
+						</td>
+						<td colspan="2">
+							<ul style="margin: 0; padding: 0; list-style: none">
+								@for (
+									activityList of unitPlan.evaluationActivities;
+									track activityList
+								) {
+									@if (unitPlan.subjects.length === 1) {
 										@for (
 											activity of activityList.activities;
 											track $index
 										) {
 											<li>- {{ activity }}</li>
 										}
-									</ul>
+									} @else {
+										<li class="bold">
+											{{ activityList.subject | pretify }}
+										</li>
+										<ul
+											style="
+												margin: 0;
+												padding: 0;
+												list-style: none;
+											"
+										>
+											@for (
+												activity of activityList.activities;
+												track $index
+											) {
+												<li>- {{ activity }}</li>
+											}
+										</ul>
+									}
 								}
-							}
-						</ul>
-					</td>
-				</tr>
+							</ul>
+						</td>
+					</tr>
+				}
 				<tr>
 					<td colspan="3" class="bold text-center">
 						T&eacute;cnicas e Instrumentos de Evaluaci&oacute;n

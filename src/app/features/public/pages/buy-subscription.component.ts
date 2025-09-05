@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
-import { AsyncPipe } from '@angular/common';
 
 declare const paypal: any;
 
@@ -26,7 +25,6 @@ declare const paypal: any;
 		MatSnackBarModule,
 		MatSlideToggleModule,
 		RouterModule,
-		AsyncPipe,
 	],
 	template: `
     <div class="pricing-container">

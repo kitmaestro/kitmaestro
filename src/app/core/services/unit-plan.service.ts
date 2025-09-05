@@ -22,6 +22,7 @@ import {
 import saveAs from 'file-saver';
 import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
 import { ApiService } from './api.service';
+import { ClassPlan } from '../interfaces';
 
 @Injectable({
 	providedIn: 'root',
@@ -110,7 +111,7 @@ export class UnitPlanService {
 		return value;
 	}
 
-	async download(plan: UnitPlan) {
+	async download(plan: UnitPlan, classPlans: ClassPlan[] = []) {
 		const logo = await fetch(environment.apiUrl + 'logo-minerd');
 		const { data } = await logo.json();
 
@@ -225,12 +226,9 @@ export class UnitPlanService {
 				}),
 			],
 		});
-		const activitiesTable = new Table({
-			width: {
-				size: 100,
-				type: WidthType.PERCENTAGE,
-			},
-			rows: [
+		let activityRows: TableRow[] = [];
+		if (classPlans.length > 0) {
+			activityRows.push(
 				new TableRow({
 					children: [
 						new TableCell({
@@ -238,17 +236,96 @@ export class UnitPlanService {
 								new Paragraph({
 									children: [
 										new TextRun({
-											text: 'Actividades',
+											text: 'Fecha',
 											bold: true,
 										}),
 									],
 									alignment: AlignmentType.CENTER,
 								}),
 							],
-							columnSpan: 3,
+						}),
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Actividades de Aprendizaje',
+											bold: true,
+										}),
+									],
+									alignment: AlignmentType.CENTER,
+								}),
+							],
+						}),
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Evidencia',
+											bold: true,
+										}),
+									],
+									alignment: AlignmentType.CENTER,
+								}),
+							],
+						}),
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Tecnicas e Instrumentos de Evaluación',
+											bold: true,
+										}),
+									],
+									alignment: AlignmentType.CENTER,
+								}),
+							],
+						}),
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Metacognición',
+											bold: true,
+										}),
+									],
+									alignment: AlignmentType.CENTER,
+								}),
+							],
+						}),
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Recursos',
+											bold: true,
+										}),
+									],
+									alignment: AlignmentType.CENTER,
+								}),
+							],
 						}),
 					],
 				}),
+			);
+			activityRows.push(...classPlans.map((cp) => {
+				return new TableRow({
+					children: [
+						new TableCell({ children: [new Paragraph({ children: [new TextRun('')] })] }), // empty date
+						new TableCell({ children: [new Paragraph({ children: [{ bold: true, break: 1, text: 'Inicio' }, ...cp.introduction.activities.map(s => ({ text: s, break: 1 })), { bold: true, break: 1, text: 'Desarrollo' }, ...cp.main.activities.map(s => ({ text: s, break: 1 })), { bold: true, break: 1, text: 'Cierre' }, ...cp.closing.activities.map(s => ({ text: s, break: 1 }))].map(res => new TextRun(res)) })] }),
+						new TableCell({ children: [new Paragraph({ children: [new TextRun('')] })] }), // empty evidence
+						new TableCell({ children: [new Paragraph({ children: plan.instruments.map(i => new TextRun(i) ) })] }),
+						new TableCell({ children: [new Paragraph({ children: ['¿Qué te aprendiste de este tema hoy?', '¿Qué tan importante es este tema a lo largo de sus vidas?', '¿Qué te pareció el tema del día de hoy?', '¿Cómo aprendí estos conocimientos?', '¿Cuál fue la parte que más te intereso?', '¿Como nos beneficiamos de los conocimientos aprendido hoy?', '¿En qué nos ayuda para convivir mejor este tema?'].map(s => new TextRun(s)) })] }), // fixed metacognition
+						new TableCell({ children: [new Paragraph({ children: [...cp.introduction.resources, ...cp.main.resources, ...cp.closing.resources].map(res => new TextRun({ text: `- ${res}\n`, break: 1 })) })] }),
+					],
+				})
+			}))
+		} else {
+			activityRows.push(
 				new TableRow({
 					children: [
 						new TableCell({
@@ -288,7 +365,9 @@ export class UnitPlanService {
 							],
 						}),
 					],
-				}),
+				})
+			);
+			activityRows.push(
 				new TableRow({
 					children: [
 						new TableCell({
@@ -313,7 +392,34 @@ export class UnitPlanService {
 							),
 						}),
 					],
+				})
+			)
+		}
+		const activitiesTable = new Table({
+			width: {
+				size: 100,
+				type: WidthType.PERCENTAGE,
+			},
+			rows: [
+				new TableRow({
+					children: [
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Actividades',
+											bold: true,
+										}),
+									],
+									alignment: AlignmentType.CENTER,
+								}),
+							],
+							columnSpan: classPlans.length ? 6 : 3,
+						}),
+					],
 				}),
+				...activityRows
 			],
 		});
 		const doc = new Document({

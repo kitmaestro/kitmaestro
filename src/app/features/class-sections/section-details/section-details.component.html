@@ -6,14 +6,12 @@
 		<p><b>Centro Educativo</b>: {{ section.school.name }}</p>
 		<div style="display: grid; grid-template-columns: 1fr 1fr 1fr">
 			<p><b>Nombre</b>: {{ section.name }}</p>
-			<p><b>Grado</b>: {{ formatValue(section.year) }}</p>
-			<p><b>Nivel</b>: {{ formatValue(section.level) }}</p>
+			<p><b>Grado</b>: {{ section.year | pretify }}</p>
+			<p><b>Nivel</b>: {{ section.level | pretify }}</p>
 		</div>
 		<h3>Asignaturas</h3>
 		<mat-chip-set>
-			<mat-chip *ngFor="let subject of section.subjects">{{
-				formatValue(subject)
-			}}</mat-chip>
+			<mat-chip *ngFor="let subject of section.subjects">{{ subject | pretify }}</mat-chip>
 		</mat-chip-set>
 	</mat-card-content>
 	<mat-card-actions>

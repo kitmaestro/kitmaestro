@@ -1,4 +1,4 @@
-import { Component, computed, Input, OnInit } from '@angular/core';
+import { Component, computed, input, Input, OnInit } from '@angular/core';
 import {
 	UnitPlan,
 	CompetenceEntry,
@@ -6,6 +6,7 @@ import {
 	ClassSection,
 	UserSettings,
 	MainTheme,
+	ClassPlan,
 } from '../../../../core/interfaces';
 import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 
@@ -24,6 +25,8 @@ export class UnitPlanComponent implements OnInit {
 	@Input() contents: ContentBlock[] = [];
 	@Input() competence: CompetenceEntry[] = [];
 	@Input() mainThemes: MainTheme[] = [];
+	classPlans = input<ClassPlan[]>([]);
+
 	public isPrintView = window.location.href.includes('print');
 	planIsForPrimary = computed<boolean>(() => {
 		if (this.section) {

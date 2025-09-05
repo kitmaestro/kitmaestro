@@ -101,7 +101,7 @@ class SectionCreatorComponent {
 	constructor(
 		@Inject(MAT_DIALOG_DATA) private data: ClassSection,
 	) {
-		if (this.data.school) this.school.set(this.data.school._id);
+		if (this.data.school) this.school.set(this.data.school as any as string);
 		if (this.data.user) this.user.set(this.data.user);
 		if (this.data.level) this.level.set(this.data.level);
 		if (this.data.year) this.year.set(this.data.year);

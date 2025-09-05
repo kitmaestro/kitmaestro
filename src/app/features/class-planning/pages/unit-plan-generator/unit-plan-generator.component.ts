@@ -69,6 +69,8 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	private competenceService = inject(CompetenceService);
 	private router = inject(Router);
 	private _evaluationCriteria: CompetenceEntry[] = [];
+
+	pretify = (new PretifyPipe()).transform;
 	working = true;
 
 	userSettings: UserSettings | null = null;
@@ -269,7 +271,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 		if (!this.classSection) return;
 
 		const { level, year } = this.classSection;
-		const { subjects } = this.learningSituationForm.value as any;
+		const { subjects } = this.learningSituationForm.getRawValue() as any;
 		const category = this.mainTheme.value as string;
 		forkJoin<MainTheme[][]>(
 			subjects.map((subject: string) =>
@@ -291,6 +293,17 @@ export class UnitPlanGeneratorComponent implements OnInit {
 			this.contentBlocks = result
 				.flat()
 				.sort((a, b) => a.order - b.order);
+		});
+		this.competenceService.findAll().subscribe((competence) => {
+			const subjects = this.learningSituationForm.value
+				.subjects as string[];
+			this._evaluationCriteria = competence.filter((c) => {
+				return (
+					c.grade === this.classSectionYear &&
+					c.level === this.classSectionLevel &&
+					subjects.includes(c.subject)
+				);
+			});
 		});
 	}
 
@@ -332,7 +345,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
 		const contents = this.getSelectedContents()
 			.map((c) => {
-				return `${this.pretifySubject(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\n\nProcedimentales:\n- ${c.procedures.join('\n- ')}\n\nActitudinales:\n- ${c.attitudes.join('\n- ')}`;
+				return `${this.pretify(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\n\nProcedimentales:\n- ${c.procedures.join('\n- ')}\n\nActitudinales:\n- ${c.attitudes.join('\n- ')}`;
 			})
 			.join('\n');
 
@@ -356,7 +369,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 			.replace('learning_situation', this.learningSituation.value || '')
 			.replace(
 				'subject_list',
-				`${this.learningSituationForm.value.subjects?.map((s) => this.pretifySubject(s)).join(',\n- ')}`,
+				`${this.learningSituationForm.value.subjects?.map((s) => this.pretify(s)).join(',\n- ')}`,
 			)
 			.replace(
 				'subject_type',
@@ -459,6 +472,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
 	savePlan() {
 		if (this.plan) {
+			console.log(this.plan)
 			this.unitPlanService.create(this.plan).subscribe({
 				next: (plan) => {
 					if (plan) {
@@ -485,20 +499,9 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
 		const contents = this.getSelectedContents()
 			.map((c) => {
-				return `${this.pretifySubject(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\n\nProcedimentales:\n- ${c.procedures.join('\n- ')}\n\nActitudinales:\n- ${c.attitudes.join('\n- ')}`;
+				return `${this.pretify(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\n\nProcedimentales:\n- ${c.procedures.join('\n- ')}\n\nActitudinales:\n- ${c.attitudes.join('\n- ')}`;
 			})
 			.join('\n');
-		this.competenceService.findAll().subscribe((competence) => {
-			const subjects = this.learningSituationForm.value
-				.subjects as string[];
-			this._evaluationCriteria = competence.filter((c) => {
-				return (
-					c.grade === this.classSectionYear &&
-					c.level === this.classSectionLevel &&
-					subjects.includes(c.subject)
-				);
-			});
-		});
 
 		const text = generateLearningSituationPrompt
 			.replace(
@@ -529,7 +532,6 @@ export class UnitPlanGeneratorComponent implements OnInit {
 			.replace('contenido_especifico', contents);
 
 		this.generating = true;
-		console.log(text)
 
 		this.aiService.geminiAi(text).subscribe({
 			next: (res) => {
@@ -727,7 +729,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	get subjectNames(): string[] {
 		const formValue: any = this.learningSituationForm.value;
 		return formValue.subjects.map((subject: string) =>
-			this.pretifySubject(subject),
+			this.pretify(subject),
 		);
 	}
 
@@ -743,43 +745,12 @@ export class UnitPlanGeneratorComponent implements OnInit {
 		});
 	}
 
-	pretifySubject(subject: string) {
-		if (subject === 'LENGUA_ESPANOLA') {
-			return 'Lengua Española';
-		}
-		if (subject === 'MATEMATICA') {
-			return 'Matemática';
-		}
-		if (subject === 'CIENCIAS_SOCIALES') {
-			return 'Ciencias Sociales';
-		}
-		if (subject === 'CIENCIAS_NATURALES') {
-			return 'Ciencias de la Naturaleza';
-		}
-		if (subject === 'INGLES') {
-			return 'Inglés';
-		}
-		if (subject === 'FRANCES') {
-			return 'Francés';
-		}
-		if (subject === 'FORMACION_HUMANA') {
-			return 'Formación Integral Humana y Religiosa';
-		}
-		if (subject === 'EDUCACION_FISICA') {
-			return 'Educación Física';
-		}
-		if (subject === 'EDUCACION_ARTISTICA') {
-			return 'Educación Artística';
-		}
-		return 'Talleres Optativos';
-	}
-
 	get subjects(): { id: string; label: string }[] {
 		const subjectsFromClassSection = this.classSection?.subjects;
 		if (subjectsFromClassSection && subjectsFromClassSection.length) {
 			return subjectsFromClassSection.map((sId) => ({
 				id: sId,
-				label: this.pretifySubject(sId),
+				label: this.pretify(sId),
 			}));
 		}
 		return [];

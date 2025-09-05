@@ -51,7 +51,7 @@
 		@if (isPrintView) {
 			<h1 style="text-align: center">{{ plan.title }}</h1>
 		}
-		<app-unit-plan [unitPlan]="plan" />
+		<app-unit-plan [classPlans]="classPlans" [unitPlan]="plan" />
 		@if (!isPrintView) {
 			<div>
 				<h2>Planes Diarios</h2>
@@ -73,6 +73,34 @@
 					<app-daily-plan-batch-generator [plan]="plan" />
 				}
 			}
+			<!-- TODO: Finish implementation and publish -->
+			<div style="display: none;">
+				@if (instruments) {
+					<h2>Instrumentos de Evaluaci&oacute;n</h2>
+					<ul style="list-style: none;">
+						@for (rubric of instruments.rubrics; track rubric._id) {
+							<li>
+								<a [routerLink]="['/rubrics', rubric._id]">
+									Rubrica: {{ rubric.title }}
+								</a>
+							</li>
+						}
+						@for (checklist of instruments.checklists; track checklist._id) {
+							<li>
+								<a [routerLink]="['/checklists', checklist._id]">
+									Lista de Cotejo {{ checklist.title }}
+								</a>
+							</li>
+						}
+					</ul>
+				}
+				@if (activeSubscription$ | async) {
+					@if (!instruments || instruments.rubrics.length == 0 && instruments.checklists.length == 0 && instruments.estimationScales.length == 0 && instruments.tests.length == 0) {
+						<h2>Generar Instrumentos</h2>
+						<app-unit-plan-instrument-generator [unitPlan]="plan" />
+					}
+				}
+			</div>
 		}
 	</div>
 </app-is-premium>
