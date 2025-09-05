@@ -226,7 +226,7 @@ export class UnitPlanService {
 				}),
 			],
 		});
-		let activityRows: TableRow[] = [];
+		const activityRows: TableRow[] = [];
 		if (classPlans.length > 0) {
 			activityRows.push(
 				new TableRow({

@@ -41,7 +41,7 @@ import { UserSubscription } from '../../core/interfaces/user-subscription';
 					<mat-icon>settings</mat-icon>
 				</button>
 			}
-			@if (!(subscription$ | async)) {
+			@if ((subscription$ | async) === false) {
 				<button
 					mat-icon-button
 					color="primary"
