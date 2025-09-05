@@ -267,6 +267,13 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 			this.handleError('Por favor, completa todos los campos.');
 			return;
 		}
+		const resources = this.generatorForm.value.resources;
+		if (resources && resources.length > 0) {
+			localStorage.setItem(
+				'available-resources',
+				JSON.stringify(resources),
+			);
+		}
 
 		const selectedUnitPlanId = this.generatorForm.value.unitPlan;
 		const selectedUnitPlan = this.allUnitPlans.find(

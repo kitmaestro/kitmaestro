@@ -107,6 +107,11 @@ export class AnnualPlanGeneratorComponent implements OnInit {
     });
 
     ngOnInit(): void {
+        const res = localStorage.getItem('available-resources') as string;
+        const resources = res ? JSON.parse(res) : null;
+        if (resources && Array.isArray(resources) && resources.length > 0) {
+            this.yearlyPlanForm.get('resources')?.setValue(resources);
+        }
         this.userSettingsService
             .getSettings()
             .subscribe((settings) => (this.userSettings = settings));
@@ -213,6 +218,12 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 
     private async generateAndSaveUnitPlan(unitContents: ContentBlock[]): Promise<void> {
         const { environment, situationType, reality, mainTheme, resources, subject } = this.yearlyPlanForm.value;
+        if (resources && resources.length > 0) {
+            localStorage.setItem(
+                'available-resources',
+                JSON.stringify(resources),
+            );
+        }
         const classSection = this.classSections.find(s => s._id === this.yearlyPlanForm.value.classSection);
 
         if (!classSection || !subject) throw new Error("Información de sección o asignatura inválida.");
