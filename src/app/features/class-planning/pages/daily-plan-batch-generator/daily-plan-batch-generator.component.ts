@@ -231,6 +231,11 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit(): void {
+		const res = localStorage.getItem('available-resources') as string;
+		const resources = res ? JSON.parse(res) : null;
+		if (resources && Array.isArray(resources) && resources.length > 0) {
+			this.generatorForm.get('resources')?.setValue(resources);
+		}
 		this.userSettingsService
 			.getSettings()
 			.subscribe((settings) => (this.userSettings = settings));
