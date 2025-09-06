@@ -113,7 +113,6 @@ export class UnitPlanComponent implements OnInit {
 			);
 			// join all contents and indicators of the same subject
 			if (this.unitPlan) {
-				console.log(this.unitPlan)
 				const found: string[] = [];
 				const reduceContents = (
 					prev: ContentBlock[],

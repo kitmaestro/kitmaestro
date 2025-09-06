@@ -78,8 +78,8 @@ export class RubricGeneratorComponent implements OnInit {
 	userSettings$ = this.userSettingsService.getSettings();
 
 	rubricTypes = [
-		{ id: 'SINTETICA', label: 'Sintética (Holística)' },
-		{ id: 'ANALITICA', label: 'Analítica (Global)' },
+		{ id: 'SINTETICA', label: 'Sintética (Una rubrica por estudiante)' },
+		{ id: 'ANALITICA', label: 'Analítica (Una rubrica para todos los estudiantes)' },
 	];
 
 	rubric: Rubric | null = null;
@@ -182,7 +182,7 @@ export class RubricGeneratorComponent implements OnInit {
 		const concept = event.value;
 		const subject = this.rubricForm.get('subject')?.value || '';
 		if (this.section) {
-			const rubricTitlePrompt = `Necesito que me sugieras un titulo breve y conciso para una rubrica de evaluacion para ${this.pretify(subject)} de ${this.pretify(this.section.year)} de educacion ${this.pretify(this.section.level)}, cuyo contenido es "${concept}". El titulo debe ser en maximo 8 palabras y debe resumir el contenido a evaluar. Tambien vas a sugerir una actividad a realizar, esta tambien debe ser breve y concisa, en maximo 12 palabras. Tu respuesta debe ser un json valido con esta interfaz: { title: string; activity: string; }`;
+			const rubricTitlePrompt = `Necesito que me sugieras un titulo breve y conciso para una rubrica de evaluacion para ${this.pretify(subject)} de ${this.pretify(this.section.year)} de ${this.pretify(this.section.level)} (Republica Dominicana), cuyo contenido es "${concept}". El titulo debe ser en maximo 8 palabras y debe resumir el contenido a evaluar. Tambien vas a sugerir una actividad a realizar, esta tambien debe ser breve y concisa, en maximo 12 palabras. Tu respuesta debe ser un json valido con esta interfaz: { title: string; activity: string; }. Evita incluir "Rubrica", "Evaluacion", la asignatura o el grado en el titulo, simplemente el titulo de la actividad que se va a realizar, algunos ejemplos validos son: "Comunicamos las conclusiones de nuestros experimentos de fosilización", "Leemos y aprendemos con el cuento 'La sombrilla que perdió los colores'" o "Escribiendo cuentos sobre el futuro". Evita explicar la actividad, esta debe ser suficientemente sugerente para que un docente, incluso sin experiencia, la entienda.`;
 			this.generating = true;
 			this.achievementIndicators = [];
 			this.competence = [];
@@ -214,6 +214,7 @@ export class RubricGeneratorComponent implements OnInit {
 							},
 						);
 						this.achievementIndicators = indicators;
+						this.rubricForm.patchValue({ achievementIndicators: indicators.slice(0, 3) })
 					});
 					try {
 						const start = ai.indexOf('{');
@@ -307,7 +308,7 @@ export class RubricGeneratorComponent implements OnInit {
 			competence: this.competence,
 			levels,
 		};
-		const text = `Necesito que me construyas en contenido de una rubrica ${rubricType === 'SINTETICA' ? 'Sintética (Holística)' : 'Analítica (Global)'} para evaluar el contenido de "${content}" de ${data.subject} de ${this.section.year} grado de educación ${this.section.level}.
+		const text = `Necesito que me construyas en contenido de una rubrica ${rubricType === 'SINTETICA' ? 'Sintética (Una rubrica por estudiante)' : 'Analítica (Una rubrica para todos los estudiantes)'} para evaluar el contenido de "${content}" de ${data.subject} de ${this.section.year} grado de educación ${this.section.level}.
 La rubrica sera aplicada tras esta actividad/evidencia: ${activity}.${scored ? ' La rubrica tendra un valor de ' + minScore + ' a ' + maxScore + ' puntos.' : ''}
 Los criterios a evaluar deben estar basados en estos indicadores de logro:
 - ${achievementIndicators.join('\n- ')}
@@ -357,6 +358,7 @@ Tu respuesta debe ser un json valido con esta interfaz:
 				};
 				this.rubric = rubric;
 				this.generating = false;
+				this.save();
 			},
 			error: (error) => {
 				this.sb.open(

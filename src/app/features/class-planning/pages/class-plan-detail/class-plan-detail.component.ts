@@ -30,9 +30,8 @@ export class ClassPlanDetailComponent {
 	planId = this.route.snapshot.paramMap.get('id') || '';
 	classPlanService = inject(ClassPlansService);
 	plan$ = this.classPlanService.find(this.planId).pipe(
-		tap((_) => {
-			this.plan = _;
-			console.log(_);
+		tap((plan) => {
+			this.plan = plan;
 		}),
 	);
 	userSettingsService = inject(UserSettingsService);

@@ -472,7 +472,6 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
 	savePlan() {
 		if (this.plan) {
-			console.log(this.plan)
 			this.unitPlanService.create(this.plan).subscribe({
 				next: (plan) => {
 					if (plan) {

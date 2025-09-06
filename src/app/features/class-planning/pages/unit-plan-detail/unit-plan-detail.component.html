@@ -73,26 +73,28 @@
 					<app-daily-plan-batch-generator [plan]="plan" />
 				}
 			}
-			<div>
-				@if (rubrics.length > 0) {
-					<h2>Instrumentos de Evaluaci&oacute;n</h2>
-					<ul style="list-style: none;">
-						@for (rubric of rubrics; track rubric._id) {
-							<li>
-								<a [routerLink]="['/rubrics', rubric._id]">{{ rubric.title }}</a>
-							</li>
-						} @empty {
-							<li>No hay instrumentos de evaluaci&oacute;n asociados</li>
-						}
-					</ul>
+			<div style="display: none;">
+				<div>
+					@if (rubrics.length > 0) {
+						<h2>Instrumentos de Evaluaci&oacute;n</h2>
+						<ul style="list-style: none;">
+							@for (rubric of rubrics; track rubric._id) {
+								<li>
+									<a [routerLink]="['/rubrics', rubric._id]">{{ rubric.title }}</a>
+								</li>
+							} @empty {
+								<li>No hay instrumentos de evaluaci&oacute;n asociados</li>
+							}
+						</ul>
+					}
+				</div>
+				@if (activeSubscription$ | async) {
+					@if (rubrics.length == 0) {
+						<h2>Generar Instrumentos</h2>
+						<app-rubric-generator [unitPlan]="plan" />
+					}
 				}
 			</div>
-			@if (activeSubscription$ | async) {
-				@if (rubrics.length == 0) {
-					<h2>Generar Instrumentos</h2>
-					<app-rubric-generator [unitPlan]="plan" />
-				}
-			}
 		}
 	</div>
 </app-is-premium>

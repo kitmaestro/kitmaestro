@@ -203,12 +203,13 @@
 				</div>
 			}
 			<div style="text-align: end">
+				<!-- hidden button since it's autosaved -->
 				<button
 					type="button"
 					[disabled]="!rubric"
 					mat-raised-button
 					color="accent"
-					style="margin-right: 12px"
+					style="margin-right: 12px; display: none;"
 					(click)="save()"
 				>
 					Guardar
