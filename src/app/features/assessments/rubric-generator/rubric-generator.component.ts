@@ -29,6 +29,7 @@ import { SubjectConceptList } from '../../../core/interfaces/subject-concept-lis
 import { CompetenceService } from '../../../core/services/competence.service';
 import { RubricComponent } from '../rubric/rubric.component';
 import { UnitPlan } from '../../../core/interfaces';
+import { forkJoin, map } from 'rxjs';
 
 @Component({
 	selector: 'app-rubric-generator',
@@ -181,48 +182,65 @@ export class RubricGeneratorComponent implements OnInit {
 		const concept = event.value;
 		const subject = this.rubricForm.get('subject')?.value || '';
 		if (this.section) {
-			this.competenceService
-				.findAll({
-					subject,
-					grade: this.section.year,
-					level: this.section.level,
-				})
-				.subscribe({
-					next: (res) => {
-						this.competence = res.flatMap(
-							(entry) =>
-								entry.entries[
-									Math.round(
-										Math.random() *
-											(entry.entries.length - 1),
-									)
-								],
+			const rubricTitlePrompt = `Necesito que me sugieras un titulo breve y conciso para una rubrica de evaluacion para ${this.pretify(subject)} de ${this.pretify(this.section.year)} de educacion ${this.pretify(this.section.level)}, cuyo contenido es "${concept}". El titulo debe ser en maximo 8 palabras y debe resumir el contenido a evaluar. Tambien vas a sugerir una actividad a realizar, esta tambien debe ser breve y concisa, en maximo 12 palabras. Tu respuesta debe ser un json valido con esta interfaz: { title: string; activity: string; }`;
+			this.generating = true;
+			this.achievementIndicators = [];
+			this.competence = [];
+			this.contentBlocks = [];
+			forkJoin([
+				this.competenceService.findAll({ subject, grade: this.section.year, level: this.section.level }),
+				this.contentBlockService.findAll({ subject, year: this.section.year, level: this.section.level, title: concept }),
+				this.aiService.geminiAi(rubricTitlePrompt).pipe(map(res => res.response)),
+			]).subscribe({
+				next: ([competence, contentBlocks, ai]) => {
+					this.generating = false;
+					this.competence = competence.flatMap(
+						(entry) =>
+							entry.entries[
+								Math.round(
+									Math.random() *
+										(entry.entries.length - 1),
+								)
+							],
+					);
+					this.contentBlocks = contentBlocks;
+					contentBlocks.forEach((block) => {
+						const indicators: string[] = [];
+						block.achievement_indicators.forEach(
+							(indicator) => {
+								if (!indicators.includes(indicator)) {
+									indicators.push(indicator);
+								}
+							},
 						);
-					},
-				});
-			this.contentBlockService
-				.findAll({
-					subject,
-					year: this.section.year,
-					level: this.section.level,
-					title: concept,
-				})
-				.subscribe({
-					next: (res) => {
-						this.contentBlocks = res;
-						res.forEach((block) => {
-							const indicators: string[] = [];
-							block.achievement_indicators.forEach(
-								(indicator) => {
-									if (!indicators.includes(indicator)) {
-										indicators.push(indicator);
-									}
-								},
-							);
-							this.achievementIndicators = indicators;
-						});
-					},
-				});
+						this.achievementIndicators = indicators;
+					});
+					try {
+						const start = ai.indexOf('{');
+						const limit = ai.lastIndexOf('}') + 1;
+						const obj = JSON.parse(ai.slice(start, limit)) as {
+							title: string;
+							activity: string;
+						};
+						if (obj.title) {
+							this.rubricForm.patchValue({
+								title: obj.title,
+							});
+						}
+						if (obj.activity) {
+							this.rubricForm.patchValue({
+								activity: obj.activity,
+							});
+						}
+					} catch (e) {
+						console.log('Error parsing AI response', e);
+					}
+				},
+				error: err => {
+					this.generating = false;
+					console.log(err);
+				}
+			});
 		}
 	}
 
