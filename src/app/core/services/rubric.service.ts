@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
 import { Rubric } from '../interfaces/rubric';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { environment } from '../../../environments/environment';
@@ -37,8 +37,14 @@ export class RubricService {
 		}),
 	};
 
-	findAll(): Observable<Rubric[]> {
-		return this.http.get<Rubric[]>(this.apiBaseUrl, this.config);
+	findAll(filter?: any): Observable<Rubric[]> {
+		const params = new HttpParams();
+		if (filter) {
+			for (let item in filter) {
+				params.set(item, filter[item]);
+			}
+		}
+		return this.http.get<Rubric[]>(this.apiBaseUrl, { ...this.config, params });
 	}
 
 	find(id: string): Observable<Rubric> {

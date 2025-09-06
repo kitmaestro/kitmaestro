@@ -73,34 +73,26 @@
 					<app-daily-plan-batch-generator [plan]="plan" />
 				}
 			}
-			<!-- TODO: Finish implementation and publish -->
-			<div style="display: none;">
-				@if (instruments) {
+			<div>
+				@if (rubrics.length > 0) {
 					<h2>Instrumentos de Evaluaci&oacute;n</h2>
 					<ul style="list-style: none;">
-						@for (rubric of instruments.rubrics; track rubric._id) {
+						@for (rubric of rubrics; track rubric._id) {
 							<li>
-								<a [routerLink]="['/rubrics', rubric._id]">
-									Rubrica: {{ rubric.title }}
-								</a>
+								<a [routerLink]="['/rubrics', rubric._id]">{{ rubric.title }}</a>
 							</li>
-						}
-						@for (checklist of instruments.checklists; track checklist._id) {
-							<li>
-								<a [routerLink]="['/checklists', checklist._id]">
-									Lista de Cotejo {{ checklist.title }}
-								</a>
-							</li>
+						} @empty {
+							<li>No hay instrumentos de evaluaci&oacute;n asociados</li>
 						}
 					</ul>
 				}
-				@if (activeSubscription$ | async) {
-					@if (!instruments || instruments.rubrics.length == 0 && instruments.checklists.length == 0 && instruments.estimationScales.length == 0 && instruments.tests.length == 0) {
-						<h2>Generar Instrumentos</h2>
-						<app-unit-plan-instrument-generator [unitPlan]="plan" />
-					}
-				}
 			</div>
+			@if (activeSubscription$ | async) {
+				@if (rubrics.length == 0) {
+					<h2>Generar Instrumentos</h2>
+					<app-rubric-generator [unitPlan]="plan" />
+				}
+			}
 		}
 	</div>
 </app-is-premium>

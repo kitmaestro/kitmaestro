@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -28,6 +28,7 @@ import { ContentBlock } from '../../../core/interfaces/content-block';
 import { SubjectConceptList } from '../../../core/interfaces/subject-concept-list';
 import { CompetenceService } from '../../../core/services/competence.service';
 import { RubricComponent } from '../rubric/rubric.component';
+import { UnitPlan } from '../../../core/interfaces';
 
 @Component({
 	selector: 'app-rubric-generator',
@@ -59,6 +60,8 @@ export class RubricGeneratorComponent implements OnInit {
 	private competenceService = inject(CompetenceService);
 	private sclService = inject(SubjectConceptListService);
 	private contentBlockService = inject(ContentBlockService);
+
+	unitPlan = input<UnitPlan | null>(null);
 
 	sections: ClassSection[] = [];
 	subjects: string[] = [];
@@ -101,7 +104,7 @@ export class RubricGeneratorComponent implements OnInit {
 		activity: ['', Validators.required],
 		scored: [true],
 		rubricType: ['SINTETICA', Validators.required],
-		achievementIndicators: [],
+		achievementIndicators: [[] as string[]],
 		levels: this.fb.array([
 			this.fb.control('Receptivo'),
 			this.fb.control('Resolutivo'),
@@ -112,6 +115,20 @@ export class RubricGeneratorComponent implements OnInit {
 
 	ngOnInit() {
 		this.loadSections();
+		const unitPlan = this.unitPlan();
+		if (unitPlan) {
+			this.rubricForm.patchValue({
+				section: unitPlan.section._id,
+				subject: unitPlan.subjects[0] || '',
+				content: unitPlan.contents.length ? unitPlan.contents[0].concepts.length ? unitPlan.contents[0].concepts[0] : '' : '',
+				activity: `Evaluación del plan de unidad: ${unitPlan.title}`,
+				achievementIndicators: unitPlan.contents.flatMap((c) => c.achievement_indicators),
+			});
+			this.onSelectSection({ value: unitPlan.section._id });
+			this.onSubjectSelect({ value: unitPlan.subjects[0] });
+			if (unitPlan.contents.length && unitPlan.contents[0].concepts.length)
+				this.onConceptSelect({ value: unitPlan.contents[0].concepts[0] });
+		}
 	}
 
 	loadSections() {
@@ -228,6 +245,8 @@ export class RubricGeneratorComponent implements OnInit {
 
 	save() {
 		const rubric: any = this.rubric;
+		if (this.unitPlan())
+			rubric.unitPlan = this.unitPlan()?._id;
 		this.rubricService.create(rubric).subscribe((res) => {
 			if (res._id) {
 				this.router.navigate(['/rubrics/', res._id]).then(() => {
@@ -254,7 +273,7 @@ export class RubricGeneratorComponent implements OnInit {
 			achievementIndicators,
 		} = formValue;
 		if (!this.section) return;
-		const data = {
+		const data: any = {
 			title,
 			minScore,
 			maxScore,

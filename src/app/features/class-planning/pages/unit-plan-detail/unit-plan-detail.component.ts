@@ -14,11 +14,12 @@ import { PdfService } from '../../../../core/services/pdf.service';
 import { UnitPlanComponent } from '../unit-plan/unit-plan.component';
 import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 import { DailyPlanBatchGeneratorComponent } from '../daily-plan-batch-generator/daily-plan-batch-generator.component';
-import { ClassPlan } from '../../../../core/interfaces';
+import { ClassPlan, Rubric } from '../../../../core/interfaces';
 import { ClassPlansService } from '../../../../core/services/class-plans.service';
 import { UserSubscriptionService } from '../../../../core/services/user-subscription.service';
-import { UnitPlanInstrumentGeneratorComponent } from '../../components/unit-plan-instrument-generator.component';
 import { UnitPlanInstruments } from '../../../../core/interfaces/unit-plan-instruments';
+import { RubricService } from '../../../../core/services/rubric.service';
+import { RubricGeneratorComponent } from '../../../assessments/rubric-generator/rubric-generator.component';
 
 @Component({
 	selector: 'app-unit-plan-detail',
@@ -33,7 +34,7 @@ import { UnitPlanInstruments } from '../../../../core/interfaces/unit-plan-instr
 		MatSnackBarModule,
 		UnitPlanComponent,
 		DailyPlanBatchGeneratorComponent,
-		UnitPlanInstrumentGeneratorComponent,
+		RubricGeneratorComponent,
 	],
 	templateUrl: './unit-plan-detail.component.html',
 	styleUrl: './unit-plan-detail.component.scss',
@@ -45,12 +46,15 @@ export class UnitPlanDetailComponent implements OnInit {
 	private classPlanService = inject(ClassPlansService);
 	private userSettingsService = inject(UserSettingsService);
 	private userSubscriptionService = inject(UserSubscriptionService);
+	private rubricService = inject(RubricService);
 	private sb = inject(MatSnackBar);
 	private pdfService = inject(PdfService);
 	printing = false;
 	planId = this.route.snapshot.paramMap.get('id') || '';
 	plan: UnitPlan | null = null;
 	instruments: UnitPlanInstruments | null = null;
+
+	rubrics: Rubric[] = [];
 
 	activeSubscription$: Observable<boolean> = this.userSubscriptionService.checkSubscription().pipe(map(sub => sub.subscriptionType.toLowerCase() == 'free' ? false : (sub.status.toLowerCase() == 'active' && +(new Date(sub.endDate)) > Date.now())));
 
@@ -75,15 +79,18 @@ export class UnitPlanDetailComponent implements OnInit {
 	isPrintView = window.location.href.includes('print');
 
 	ngOnInit() {
-		if (this.isPrintView) {
-			setTimeout(() => {
-				window.print();
-			}, 2000);
-		} else {
-			this.classPlanService.findAll({ unitPlan: this.planId }).subscribe((res) => {
-				this.classPlans = res;
-			});
-		}
+		const unitPlan = this.planId;
+		this.classPlanService.findAll({ unitPlan }).subscribe((res) => {
+			this.classPlans = res;
+			if (this.isPrintView) {
+				setTimeout(() => {
+					window.print();
+				}, 2000);
+			}
+		});
+		this.rubricService.findAll({ unitPlan }).subscribe((res) => {
+			this.rubrics = res;
+		});
 	}
 
 	pretify(value: string): string {

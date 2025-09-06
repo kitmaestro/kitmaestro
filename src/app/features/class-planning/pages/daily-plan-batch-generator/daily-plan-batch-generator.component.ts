@@ -384,7 +384,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 			.replace(
 				'plan_compentece',
 				'Generar indicadores de logro relevantes para los temas y actividades.',
-			);
+			) + `Este es el plan numero ${this.plansGenerated} de ${this.totalPlansToGenerate} a generar para la unidad.`;
 
 		const aiResponse = await this.aiService.geminiAi(prompt).toPromise();
 		if (!aiResponse?.response)

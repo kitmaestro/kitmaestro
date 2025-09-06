@@ -1,4 +1,5 @@
 import { ClassSection } from './class-section';
+import { UnitPlan } from './unit-plan';
 
 export interface Rubric {
 	_id: string;
@@ -10,6 +11,7 @@ export interface Rubric {
 	achievementIndicators: string[];
 	activity: string;
 	progressLevels: string[];
+	unitPlan: UnitPlan;
 	criteria: {
 		indicator: string;
 		maxScore: number;

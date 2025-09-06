@@ -274,6 +274,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
             .replace('theme_axis', mainTheme.toLowerCase())
             .replace('situacion_o_problema', situationType === 'fiction' ? 'situacion, problema o evento ficticio' : reality)
             .replace('condicion_inicial', 'Los alumnos aun no saben nada sobre el tema')
+            .replace('[secuencia]', `Esta es la unidad ${this.plansGenerated + 1} de 6 del año escolar`)
             .replace('contenido_especifico', contentStr);
     }
 
