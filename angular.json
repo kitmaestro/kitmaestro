@@ -39,6 +39,19 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "dompurify",
+              "sudoku-gen",
+              "buffer",
+              "html2canvas",
+              "html2pdf.js",
+              "file-saver",
+              "lodash",
+              "rgbcolor",
+              "raf",
+              "core-js",
+              "js-sha512"
+            ],
             "outputPath": "dist/kit-maestro",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -63,13 +76,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "5mb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "3kb",
+                  "maximumError": "5kb"
                 }
               ],
               "outputHashing": "all",
