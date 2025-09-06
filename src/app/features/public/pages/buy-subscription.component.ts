@@ -286,7 +286,7 @@ export class BuySubscriptionComponent implements OnInit {
 		{
 			id: isDevMode() ? 'P-1S5529330X126793CNCVNPKQ' : 'P-6XC51067601278041NCVPXHY',
 			name: 'Plan Básico',
-			code: 'BASICO',
+			code: 'Plan Basico',
 			price: 9.58,
 			description: 'Ideal para docentes de área que buscan simplificar su vida, ahorrando al menos 5 horas a la semana.',
 			features: [
@@ -307,7 +307,7 @@ export class BuySubscriptionComponent implements OnInit {
 			// id: isDevMode() ? 'P-1UE72299DR9852449NCVQGVQ' : 'P-14G421255Y3461609NCVPWCQ', # old one
 			id: isDevMode() ? 'P-1UE72299DR9852449NCVQGVQ' : 'P-2A141077RF7045523NCZSTYY',
 			name: 'Plan Plus',
-			code: 'PLUS',
+			code: 'Plan Plus',
 			price: 15.97,
 			description: 'Perfecto para docentes en aula, que imparten 4 o más asignaturas en uno o varios grados, logrando ahorras al menos 10 horas de trabajo cada semana.',
 			features: [
@@ -334,7 +334,7 @@ export class BuySubscriptionComponent implements OnInit {
 		{
 			id: isDevMode() ? 'P-4YU16384DJ898973ENCVQHAY' : 'P-4YH83305EL092640VNCVPYFQ',
 			name: 'Plan Premium',
-			code: 'PREMIUM',
+			code: 'Plan Premium',
 			price: 38.36,
 			description: 'Perfecto para el docente eficiente e innovador que valora su tiempo al máximo, con este plan, el maestro puede ahorrar hasta 20 horas a la semana.',
 			features: [

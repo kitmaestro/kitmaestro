@@ -515,7 +515,7 @@ export class ContentBlocksManagementComponent implements OnInit, OnDestroy {
         }
         this.resetFormAndState();
         this.showCreateForm.set(false);
-        this.#loadContentBlocks(this.filterForm.value); // Refresh list with current filters
+        this.#loadContentBlocks(); // Refresh list with current filters
       }),
       catchError(error => {
           this.isSubmitting.set(false);

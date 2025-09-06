@@ -279,7 +279,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 			.replace('teaching_style', teachingStyle)
 			.replace('plan_resources', (resources as string[]).join(', '))
 			.replace('plan_compentece', `Contenidos de la unidad: ${subjectContents}`)
-			.replace('[plan_sequence]', `${this.plansGenerated + 1} de ${this.totalPlansToGenerate}`);
+			.replace('[plan_sequence]', `Este es el plan numero ${this.plansGenerated + 1} de ${this.totalPlansToGenerate}. Toma en cuenta los planes previos para mantener coherencia.`);
 
 		const aiResponse = await this.aiService.geminiAi(prompt).toPromise();
 		if (!aiResponse?.response) throw new Error("Respuesta inválida de la IA.");
