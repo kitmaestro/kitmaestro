@@ -372,6 +372,23 @@ export class RubricService {
 		} else {
 			if (rubric.rubricType !== 'SINTETICA') {
 				table.content = rubric.criteria.flatMap((indicator) => {
+					const emptyRowsAmount = 45;
+					const emptyRowsCells = Array.from({ length: rubric.progressLevels.length + 1 }).map(
+						() =>
+							new TableCell({
+								children: [
+									new Paragraph({
+										children: [
+											new TextRun({
+												size: 12,
+												text: '',
+											}),
+										],
+									}),
+								],
+							}),
+					);
+					const emptyRows = Array.from({ length: emptyRowsAmount }).map(() => new TableRow({ children: emptyRowsCells }));
 					return new Table({
 						width: {
 							size: 100,
@@ -414,7 +431,7 @@ export class RubricService {
 										],
 										rowSpan: 2,
 									}),
-									...rubric.progressLevels.map(
+									...(rubric.progressLevels.map(
 										(l, i) =>
 											new TableCell({
 												children: [
@@ -428,7 +445,7 @@ export class RubricService {
 													}),
 												],
 											}),
-									),
+									)),
 								],
 							}),
 							new TableRow({
@@ -448,16 +465,7 @@ export class RubricService {
 										}),
 								),
 							}),
-							...new Array(45).map(
-								() =>
-									new TableRow({
-										children: [
-											new TableCell({
-												children: [new Paragraph('')],
-											}),
-										],
-									}),
-							),
+							...emptyRows,
 						],
 					});
 				});
