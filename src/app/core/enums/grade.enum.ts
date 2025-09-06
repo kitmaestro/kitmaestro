@@ -1,8 +1,8 @@
 export enum GRADE {
-  PRIMERO,
-  SEGUNDO,
-  TERCERO,
-  CUARTO,
-  QUINTO,
-  SEXTO,
+  PRIMERO = 'primero',
+  SEGUNDO = 'segundo',
+  TERCERO = 'tercero',
+  CUARTO = 'cuarto',
+  QUINTO = 'quinto',
+  SEXTO = 'sexto',
 }

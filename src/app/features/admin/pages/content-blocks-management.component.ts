@@ -515,7 +515,12 @@ export class ContentBlocksManagementComponent implements OnInit, OnDestroy {
         }
         this.resetFormAndState();
         this.showCreateForm.set(false);
-        this.#loadContentBlocks(); // Refresh list with current filters
+        const { level, year, subject } = this.filterForm.value;
+        const filters: any = {};
+        if (level) filters.level = level;
+        if (year) filters.year = year;
+        if (subject) filters.subject = subject;
+        this.#loadContentBlocks(filters);
       }),
       catchError(error => {
           this.isSubmitting.set(false);
@@ -555,7 +560,12 @@ export class ContentBlocksManagementComponent implements OnInit, OnDestroy {
             if (response && response.deletedCount > 0) {
               this.#snackBar.open('Bloque eliminado exitosamente.', 'Cerrar', { duration: 3000 });
             }
-            this.#loadContentBlocks(this.filterForm.value);
+            const { level, year, subject } = this.filterForm.value;
+            const filters: any = {};
+            if (level) filters.level = level;
+            if (year) filters.year = year;
+            if (subject) filters.subject = subject;
+            this.#loadContentBlocks(filters);
           }),
           catchError(error => {
               this.isLoadingBlocks.set(false);
