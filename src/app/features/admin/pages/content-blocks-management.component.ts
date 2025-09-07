@@ -22,6 +22,7 @@ import {
   distinctUntilChanged,
   startWith
 } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 // Angular Material Modules
 import { MatCardModule } from '@angular/material/card';
@@ -271,6 +272,7 @@ import { ApiUpdateResponse } from '../../../core/interfaces/api-update-response'
 })
 export class ContentBlocksManagementComponent implements OnInit, OnDestroy {
   // --- Dependencies ---
+  #route = inject(ActivatedRoute);
   #fb = inject(FormBuilder);
   #contentBlockService = inject(ContentBlockService);
   #snackBar = inject(MatSnackBar);
@@ -356,7 +358,21 @@ export class ContentBlocksManagementComponent implements OnInit, OnDestroy {
 
   // --- OnInit ---
   ngOnInit(): void {
-    this.#loadContentBlocks();
+    const { level, year, subject } = this.#route.snapshot.queryParams;
+    const filters: any = {};
+    if (level) {
+      filters.level = level;
+      this.filterForm.get('level')?.setValue(level);
+    }
+    if (year) {
+      filters.year = year;
+      this.filterForm.get('year')?.setValue(year);
+    }
+    if (subject) {
+      filters.subject = subject;
+      this.filterForm.get('subject')?.setValue(subject);
+    }
+    this.#loadContentBlocks(filters);
     this.#listenForFilterChanges();
   }
 
