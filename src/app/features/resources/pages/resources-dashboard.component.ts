@@ -31,7 +31,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 									>
 										<mat-icon>more_vert</mat-icon>
 									</button>
-									<mat-menu #menu="matMenu" xPosition="before">
+									<mat-menu
+										#menu="matMenu"
+										xPosition="before"
+									>
 										<button mat-menu-item>Expand</button>
 										<button mat-menu-item>Remove</button>
 									</mat-menu>

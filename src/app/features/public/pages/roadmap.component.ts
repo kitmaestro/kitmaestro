@@ -38,8 +38,9 @@ interface Stage {
 				</mat-card-header>
 				<mat-card-content>
 					<p>
-						Aqui te presentamos los planes de desarrollo de este proyecto
-						para los proximos tres a&ntilde;os (2024 - 2026).
+						Aqui te presentamos los planes de desarrollo de este
+						proyecto para los proximos tres a&ntilde;os (2024 -
+						2026).
 					</p>
 				</mat-card-content>
 			</mat-card>
@@ -56,7 +57,10 @@ interface Stage {
 				</mat-card>
 
 				<mat-accordion>
-					<mat-expansion-panel hideToggle *ngFor="let tool of stage.tools">
+					<mat-expansion-panel
+						hideToggle
+						*ngFor="let tool of stage.tools"
+					>
 						<mat-expansion-panel-header>
 							<mat-panel-title>{{ tool.name }}</mat-panel-title>
 							<mat-panel-description
@@ -68,9 +72,10 @@ interface Stage {
 						</mat-expansion-panel-header>
 						<div>
 							<mat-list>
-								<mat-list-item *ngFor="let item of tool.description">{{
-									item
-								}}</mat-list-item>
+								<mat-list-item
+									*ngFor="let item of tool.description"
+									>{{ item }}</mat-list-item
+								>
 							</mat-list>
 						</div>
 					</mat-expansion-panel>
@@ -81,29 +86,34 @@ interface Stage {
 				<mat-card-content>
 					<h3>Tu tambi&eacute;n puedes participar</h3>
 					<p>
-						En KitMaestro, valoramos enormemente tu opinión y tus ideas para
-						hacer de nuestra plataforma la mejor herramienta para docentes.
-						Queremos que sepas que tus sugerencias son fundamentales para
-						nosotros y que estamos comprometidos a escuchar y considerar
-						cada una de ellas.
+						En KitMaestro, valoramos enormemente tu opinión y tus
+						ideas para hacer de nuestra plataforma la mejor
+						herramienta para docentes. Queremos que sepas que tus
+						sugerencias son fundamentales para nosotros y que
+						estamos comprometidos a escuchar y considerar cada una
+						de ellas.
 					</p>
 					<p>
-						Si tienes alguna idea brillante para una nueva herramienta,
-						función o característica que te gustaría ver en KitMaestro, ¡te
-						invitamos a compartirla con nosotros! Puedes escribirnos a
+						Si tienes alguna idea brillante para una nueva
+						herramienta, función o característica que te gustaría
+						ver en KitMaestro, ¡te invitamos a compartirla con
+						nosotros! Puedes escribirnos a
 						<a href="mailto:orgalay.dev@gmail.com"
 							>orgalay.dev&#64;gmail.com</a
 						>
-						y estaremos encantados de escuchar lo que tienes en mente.
+						y estaremos encantados de escuchar lo que tienes en
+						mente.
 					</p>
 					<p>
 						Tu retroalimentación es esencial para seguir mejorando y
-						adaptando KitMaestro a tus necesidades y deseos. Juntos, podemos
-						hacer de KitMaestro una plataforma excepcional que potencie la
-						labor docente y el aprendizaje de nuestros estudiantes.
+						adaptando KitMaestro a tus necesidades y deseos. Juntos,
+						podemos hacer de KitMaestro una plataforma excepcional
+						que potencie la labor docente y el aprendizaje de
+						nuestros estudiantes.
 					</p>
 					<p>
-						¡Esperamos con entusiasmo escuchar todas tus increíbles ideas!
+						¡Esperamos con entusiasmo escuchar todas tus increíbles
+						ideas!
 					</p>
 					<p>Gracias por formar parte de la comunidad KitMaestro.</p>
 				</mat-card-content>

@@ -356,7 +356,6 @@ Solo necesito el nombre de la estrategia, por ejemplo:
 La lista no debe contener menos de 3 ni mas de 6 estrategias, lo ideal es 4-5, maximo 6
 La respuesta debe ser un array de cadenas en formato json valido`;
 
-
 export const generateMultigradeLearningSituationPrompt = `Una situación de aprendizaje debe ser un texto coherente que conecte los conocimientos a adquirir con un contexto real o simulado.
 
 Genera una situación de aprendizaje COHESIVA y UNIFICADA para los siguientes grados: niveles_y_grados.
@@ -383,7 +382,6 @@ La respuesta debe ser un JSON válido con esta interfaz:
   "content": string; // El texto de la situación de aprendizaje.
   "strategies": string[]; // Una lista de 4 a 6 estrategias de enseñanza y aprendizaje recomendadas para un entorno multigrado, como "Aprendizaje Basado en Proyectos (ABP)", "Trabajo Cooperativo por Estaciones", "Tutoría entre Iguales", etc.
 }`;
-
 
 export const generateMultigradeActivitySequencePrompt = `Quiero crear una secuencia didáctica para una clase multigrado que incluye: niveles_y_grados.
 La unidad durará unit_duration semanas (3 sesiones de 45 minutos por semana). La asignatura común es subject_name.

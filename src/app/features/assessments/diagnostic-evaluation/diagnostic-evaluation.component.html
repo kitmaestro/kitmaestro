@@ -1,78 +1,125 @@
 <mat-card>
-    <mat-card-header class="header no-print">
-        <h2 class="title" mat-card-title>Generador de Evaluaciones Diagnósticas</h2>
-        <button mat-flat-button routerLink="/diagnostic-evaluations">
-            Mis Evaluaciones
-        </button>
-    </mat-card-header>
-    <mat-card-content>
-        <div class="no-print">
-            <p>Configura los parámetros de tu evaluación y haz clic en "Generar" para crear una prueba diagnóstica
-                personalizada.</p>
+	<mat-card-header class="header no-print">
+		<h2 class="title" mat-card-title>
+			Generador de Evaluaciones Diagnósticas
+		</h2>
+		<button mat-flat-button routerLink="/diagnostic-evaluations">
+			Mis Evaluaciones
+		</button>
+	</mat-card-header>
+	<mat-card-content>
+		<div class="no-print">
+			<p>
+				Configura los parámetros de tu evaluación y haz clic en
+				"Generar" para crear una prueba diagnóstica personalizada.
+			</p>
 
-            <form [formGroup]="evaluationForm" (ngSubmit)="generateEvaluation()" class="form-container">
-                <div class="cols-2">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Grado</mat-label>
-                        <mat-select formControlName="classSection" required (selectionChange)="onClassSectionChange()">
-                            @for (section of classSections; track section._id) {
-                            <mat-option [value]="section._id">{{ section.name }}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
+			<form
+				[formGroup]="evaluationForm"
+				(ngSubmit)="generateEvaluation()"
+				class="form-container"
+			>
+				<div class="cols-2">
+					<mat-form-field appearance="outline">
+						<mat-label>Grado</mat-label>
+						<mat-select
+							formControlName="classSection"
+							required
+							(selectionChange)="onClassSectionChange()"
+						>
+							@for (section of classSections; track section._id) {
+								<mat-option [value]="section._id">{{
+									section.name
+								}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
 
-                    <mat-form-field appearance="outline">
-                        <mat-label>Asignatura</mat-label>
-                        <mat-select formControlName="subject" required (selectionChange)="onSubjectChange()">
-                            @for (subject of subjects(); track subject) {
-                                @if (subject !== 'TALLERES_OPTATIVOS') {
-                                <mat-option [value]="subject">{{ subject | pretify }}</mat-option>
-                                }
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+					<mat-form-field appearance="outline">
+						<mat-label>Asignatura</mat-label>
+						<mat-select
+							formControlName="subject"
+							required
+							(selectionChange)="onSubjectChange()"
+						>
+							@for (subject of subjects(); track subject) {
+								@if (subject !== "TALLERES_OPTATIVOS") {
+									<mat-option [value]="subject">{{
+										subject | pretify
+									}}</mat-option>
+								}
+							}
+						</mat-select>
+					</mat-form-field>
+				</div>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Temas a Evaluar</mat-label>
-                    <mat-select formControlName="topics" required multiple>
-                        @for (block of contentBlocks(); track block._id) {
-                            <mat-option [value]="block._id">{{ block.title }}</mat-option>
-                        }
-                    </mat-select>
-                </mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Temas a Evaluar</mat-label>
+					<mat-select formControlName="topics" required multiple>
+						@for (block of contentBlocks(); track block._id) {
+							<mat-option [value]="block._id">{{
+								block.title
+							}}</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
 
-                <!-- <mat-form-field appearance="outline" class="question-count">
+				<!-- <mat-form-field appearance="outline" class="question-count">
                     <mat-label>Cantidad de Preguntas</mat-label>
                     <input matInput type="number" formControlName="questionCount" min="3" max="20" required>
                 </mat-form-field> -->
 
-                <div class="actions">
-                    <button mat-fab extended type="submit" [disabled]="generating">
-                        <mat-icon>auto_awesome</mat-icon> {{ generating ? 'Generando...' : (evaluation ? 'Regenerar Evaluación' : 'Generar Evaluación') }}
-                    </button>
-                </div>
-            </form>
-        </div>
+				<div class="actions">
+					<button
+						mat-fab
+						extended
+						type="submit"
+						[disabled]="generating"
+					>
+						<mat-icon>auto_awesome</mat-icon>
+						{{
+							generating
+								? "Generando..."
+								: evaluation
+									? "Regenerar Evaluación"
+									: "Generar Evaluación"
+						}}
+					</button>
+				</div>
+			</form>
+		</div>
 
-        <!-- Resultados de la Evaluación -->
-        @if (!generating && evaluation) {
-        <div class="results-container">
-            <div class="actions result-actions no-print">
-                <button mat-fab extended color="accent" (click)="downloadDocx()">
-                    <mat-icon>download</mat-icon>
-                    Descargar DOCX
-                </button>
-                <button mat-fab extended color="accent" (click)="saveEvaluation()">
-                    <mat-icon>save</mat-icon>
-                    Guardar en Mi Cuenta
-                </button>
-            </div>
+		<!-- Resultados de la Evaluación -->
+		@if (!generating && evaluation) {
+			<div class="results-container">
+				<div class="actions result-actions no-print">
+					<button
+						mat-fab
+						extended
+						color="accent"
+						(click)="downloadDocx()"
+					>
+						<mat-icon>download</mat-icon>
+						Descargar DOCX
+					</button>
+					<button
+						mat-fab
+						extended
+						color="accent"
+						(click)="saveEvaluation()"
+					>
+						<mat-icon>save</mat-icon>
+						Guardar en Mi Cuenta
+					</button>
+				</div>
 
-            <div id="printable-area" class="evaluation-preview">
-                <app-diagnostic-evaluation-detail [classSection]="classSection" [evaluationInput]="evaluation"></app-diagnostic-evaluation-detail>
-            </div>
-        </div>
-        }
-    </mat-card-content>
+				<div id="printable-area" class="evaluation-preview">
+					<app-diagnostic-evaluation-detail
+						[classSection]="classSection"
+						[evaluationInput]="evaluation"
+					></app-diagnostic-evaluation-detail>
+				</div>
+			</div>
+		}
+	</mat-card-content>
 </mat-card>

@@ -4,29 +4,29 @@ import { Observable } from 'rxjs';
 import { GeneratedEvaluation } from '../interfaces';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class DiagnosticEvaluationService {
-  private apiService = inject(ApiService);
-  private readonly endpoint = 'diagnostic-evaluations';
+	private apiService = inject(ApiService);
+	private readonly endpoint = 'diagnostic-evaluations';
 
-  findAll(filters: any = {}): Observable<GeneratedEvaluation[]> {
-    return this.apiService.get(this.endpoint, filters);
-  }
+	findAll(filters: any = {}): Observable<GeneratedEvaluation[]> {
+		return this.apiService.get(this.endpoint, filters);
+	}
 
-  findOne(id: string): Observable<GeneratedEvaluation> {
-    return this.apiService.get(`${this.endpoint}/${id}`);
-  }
+	findOne(id: string): Observable<GeneratedEvaluation> {
+		return this.apiService.get(`${this.endpoint}/${id}`);
+	}
 
-  create(data: any): Observable<GeneratedEvaluation> {
-    return this.apiService.post(this.endpoint, data);
-  }
+	create(data: any): Observable<GeneratedEvaluation> {
+		return this.apiService.post(this.endpoint, data);
+	}
 
-  update(id: string, data: any): Observable<GeneratedEvaluation> {
-    return this.apiService.put(`${this.endpoint}/${id}`, data);
-  }
+	update(id: string, data: any): Observable<GeneratedEvaluation> {
+		return this.apiService.put(`${this.endpoint}/${id}`, data);
+	}
 
-  delete(id: string) {
-    return this.apiService.delete(`${this.endpoint}/${id}`);
-  }
+	delete(id: string) {
+		return this.apiService.delete(`${this.endpoint}/${id}`);
+	}
 }

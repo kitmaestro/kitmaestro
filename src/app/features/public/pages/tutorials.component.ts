@@ -34,8 +34,8 @@ interface TutorialVideo {
 					<youtube-player videoId="TPV8mJZEsO0"></youtube-player>
 				</div>
 				<p>
-					Recuerda que elaboramos los tutoriales tomando como referencia sus
-					pedidos. No te quedes sin
+					Recuerda que elaboramos los tutoriales tomando como
+					referencia sus pedidos. No te quedes sin
 					<a
 						mat-raised-button
 						color="link"

@@ -44,7 +44,10 @@ export class RubricService {
 				params.set(item, filter[item]);
 			}
 		}
-		return this.http.get<Rubric[]>(this.apiBaseUrl, { ...this.config, params });
+		return this.http.get<Rubric[]>(this.apiBaseUrl, {
+			...this.config,
+			params,
+		});
 	}
 
 	find(id: string): Observable<Rubric> {
@@ -373,7 +376,9 @@ export class RubricService {
 			if (rubric.rubricType !== 'SINTETICA') {
 				table.content = rubric.criteria.flatMap((indicator) => {
 					const emptyRowsAmount = 45;
-					const emptyRowsCells = Array.from({ length: rubric.progressLevels.length + 1 }).map(
+					const emptyRowsCells = Array.from({
+						length: rubric.progressLevels.length + 1,
+					}).map(
 						() =>
 							new TableCell({
 								children: [
@@ -388,7 +393,9 @@ export class RubricService {
 								],
 							}),
 					);
-					const emptyRows = Array.from({ length: emptyRowsAmount }).map(() => new TableRow({ children: emptyRowsCells }));
+					const emptyRows = Array.from({
+						length: emptyRowsAmount,
+					}).map(() => new TableRow({ children: emptyRowsCells }));
 					return new Table({
 						width: {
 							size: 100,
@@ -431,7 +438,7 @@ export class RubricService {
 										],
 										rowSpan: 2,
 									}),
-									...(rubric.progressLevels.map(
+									...rubric.progressLevels.map(
 										(l, i) =>
 											new TableCell({
 												children: [
@@ -445,7 +452,7 @@ export class RubricService {
 													}),
 												],
 											}),
-									)),
+									),
 								],
 							}),
 							new TableRow({

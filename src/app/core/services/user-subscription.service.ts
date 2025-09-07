@@ -24,7 +24,9 @@ export class UserSubscriptionService {
 	};
 
 	countSubscriptions(): Observable<{ subscriptions: number }> {
-		return this.#apiService.get<{ subscriptions: number }>('user-subscriptions/count');
+		return this.#apiService.get<{ subscriptions: number }>(
+			'user-subscriptions/count',
+		);
 	}
 
 	findAll(): Observable<UserSubscription[]> {

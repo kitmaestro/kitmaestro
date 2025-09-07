@@ -1,20 +1,20 @@
-import { Routes } from "@angular/router";
+import { Routes } from '@angular/router';
 
 export default [
 	{
 		path: 'pricing',
 		loadComponent: () =>
-			import(
-				'./pages/buy-subscription.component'
-			).then((mod) => mod.BuySubscriptionComponent),
+			import('./pages/buy-subscription.component').then(
+				(mod) => mod.BuySubscriptionComponent,
+			),
 		title: 'Precios',
 	},
 	{
 		path: 'updates',
 		loadComponent: () =>
-			import(
-				'./pages/update-list.component'
-			).then((mod) => mod.UpdateListComponent),
+			import('./pages/update-list.component').then(
+				(mod) => mod.UpdateListComponent,
+			),
 		title: 'Noticias - KitMaestro',
 	},
 	{

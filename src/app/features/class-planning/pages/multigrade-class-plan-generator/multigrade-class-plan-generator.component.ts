@@ -475,7 +475,13 @@ Genera un objeto JSON con la siguiente estructura exacta:
 								</table>
 							</div>
 						</div>
-						<p><b>Nota</b>: <i>Puedes copiar tu plan y pegarlo en Word para editarlo o imprimirlo.</i></p>
+						<p>
+							<b>Nota</b>:
+							<i
+								>Puedes copiar tu plan y pegarlo en Word para
+								editarlo o imprimirlo.</i
+							>
+						</p>
 						<mat-card-actions align="end" style="margin-top: 16px;">
 							<button
 								mat-stroked-button

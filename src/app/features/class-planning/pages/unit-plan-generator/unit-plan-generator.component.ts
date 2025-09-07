@@ -70,7 +70,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	private router = inject(Router);
 	private _evaluationCriteria: CompetenceEntry[] = [];
 
-	pretify = (new PretifyPipe()).transform;
+	pretify = new PretifyPipe().transform;
 	working = true;
 
 	userSettings: UserSettings | null = null;
@@ -170,23 +170,27 @@ export class UnitPlanGeneratorComponent implements OnInit {
 		this.userSettingsService
 			.getSettings()
 			.pipe(
-				filter(user => user !== null),
+				filter((user) => user !== null),
 				takeUntil(this.destroy$),
-				switchMap(user => {
+				switchMap((user) => {
 					this.userSettings = user;
 					return forkJoin([
 						this.classSectionService.findSections(),
 						this.userSubscriptionService.checkSubscription(),
 						this.unitPlanService.findAll(),
-					])
-				})
+					]);
+				}),
 			)
 			.subscribe({
 				next: ([sections, subscription, plans]) => {
 					let maxPlans = 0;
 					if (sections.length) {
 						this.classSections = sections;
-						maxPlans = sections.flatMap(s => s.subjects.filter(s => s !== 'TALLERES_OPTATIVOS')).length;
+						maxPlans = sections.flatMap((s) =>
+							s.subjects.filter(
+								(s) => s !== 'TALLERES_OPTATIVOS',
+							),
+						).length;
 						this.learningSituationForm
 							.get('classSection')
 							?.setValue(sections[0]._id || '');
@@ -198,24 +202,34 @@ export class UnitPlanGeneratorComponent implements OnInit {
 						}
 					} else {
 						this.router.navigateByUrl('/sections').then(() => {
-							this.sb.open('Para poder planificar, primero tienes que crear una seccion', 'Ok', { duration: 5000 });
+							this.sb.open(
+								'Para poder planificar, primero tienes que crear una seccion',
+								'Ok',
+								{ duration: 5000 },
+							);
 						});
 						return;
 					}
 					const sub = subscription.subscriptionType.toLowerCase();
 					if (sub == 'plan premium') return;
 
-					const createdThisMonth = plans.filter(
-						(plan: any) => {
-							const created = new Date(plan.createdAt);
-							const thirtyDaysAgo = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30));
-							return +created > +thirtyDaysAgo;
-						},
-					).length;
+					const createdThisMonth = plans.filter((plan: any) => {
+						const created = new Date(plan.createdAt);
+						const thirtyDaysAgo = new Date(
+							Date.now() - 1000 * 60 * 60 * 24 * 30,
+						);
+						return +created > +thirtyDaysAgo;
+					}).length;
 					if (sub == 'free' && createdThisMonth > 0) {
-						this.router.navigateByUrl('/unit-plans/list').then(() => {
-							this.sb.open('Ya has agotado tu limite de planes para este mes. Para continuar planificando, contrata un plan de pago.', 'Ok', { duration: 10000 })
-						});
+						this.router
+							.navigateByUrl('/unit-plans/list')
+							.then(() => {
+								this.sb.open(
+									'Ya has agotado tu limite de planes para este mes. Para continuar planificando, contrata un plan de pago.',
+									'Ok',
+									{ duration: 10000 },
+								);
+							});
 						return;
 					}
 					if (sub == 'plan plus') maxPlans = maxPlans * 2;
@@ -229,9 +243,9 @@ export class UnitPlanGeneratorComponent implements OnInit {
 						});
 					}
 				},
-				error: err => {
+				error: (err) => {
 					console.log(err);
-				}
+				},
 			});
 		const availableResourcesStr = localStorage.getItem(
 			'available-resources',
@@ -329,7 +343,10 @@ export class UnitPlanGeneratorComponent implements OnInit {
 			religionContent,
 			physicalEducationContent,
 			artisticEducationContent,
-		].flat().map(s => s?.trim()).filter(s => s && s?.length > 0)
+		]
+			.flat()
+			.map((s) => s?.trim())
+			.filter((s) => s && s?.length > 0)
 			.filter((s) => typeof s == 'string');
 		return selected;
 	}
@@ -549,7 +566,9 @@ export class UnitPlanGeneratorComponent implements OnInit {
 				this.learningSituationTitle.setValue(learningSituation.title);
 				this.learningSituation.setValue(learningSituation.content);
 				this.strategies.clear();
-				if (cb) { cb(learningSituation)}
+				if (cb) {
+					cb(learningSituation);
+				}
 				if (
 					learningSituation.strategies &&
 					learningSituation.strategies.length

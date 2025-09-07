@@ -55,11 +55,12 @@
 		@if (!isPrintView) {
 			<div>
 				<h2>Planes Diarios</h2>
-				<ul style="list-style: none;">
+				<ul style="list-style: none">
 					@for (dailyPlan of classPlans; track dailyPlan._id) {
 						<li>
 							<a [routerLink]="['/class-plans', dailyPlan._id]">
-								Plan diario para el {{ dailyPlan.date | date: 'dd/MM/yyyy' }}
+								Plan diario para el
+								{{ dailyPlan.date | date: "dd/MM/yyyy" }}
 							</a>
 						</li>
 					} @empty {
@@ -73,17 +74,23 @@
 					<app-daily-plan-batch-generator [plan]="plan" />
 				}
 			}
-			<div style="display: none;">
+			<div style="display: none">
 				<div>
 					@if (rubrics.length > 0) {
 						<h2>Instrumentos de Evaluaci&oacute;n</h2>
-						<ul style="list-style: none;">
+						<ul style="list-style: none">
 							@for (rubric of rubrics; track rubric._id) {
 								<li>
-									<a [routerLink]="['/rubrics', rubric._id]">{{ rubric.title }}</a>
+									<a
+										[routerLink]="['/rubrics', rubric._id]"
+										>{{ rubric.title }}</a
+									>
 								</li>
 							} @empty {
-								<li>No hay instrumentos de evaluaci&oacute;n asociados</li>
+								<li>
+									No hay instrumentos de evaluaci&oacute;n
+									asociados
+								</li>
 							}
 						</ul>
 					}

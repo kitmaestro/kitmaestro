@@ -35,11 +35,19 @@ import { AuthService } from '../../../core/services/auth.service';
 					</mat-form-field>
 					<mat-form-field appearance="outline">
 						<mat-label>Nueva Contrase&ntilde;a</mat-label>
-						<input type="password" matInput [formControl]="password" />
+						<input
+							type="password"
+							matInput
+							[formControl]="password"
+						/>
 					</mat-form-field>
 					<mat-form-field appearance="outline">
 						<mat-label>Confirma tu Contrase&ntilde;a</mat-label>
-						<input type="password" matInput [formControl]="confirmation" />
+						<input
+							type="password"
+							matInput
+							[formControl]="confirmation"
+						/>
 					</mat-form-field>
 					<div
 						style="

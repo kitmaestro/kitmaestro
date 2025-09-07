@@ -40,7 +40,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 			<mat-card-header
 				style="align-items: center; justify-content: space-between"
 			>
-				<h2 mat-card-title>Galer&iacute;a de Recursos Did&aacute;cticos</h2>
+				<h2 mat-card-title>
+					Galer&iacute;a de Recursos Did&aacute;cticos
+				</h2>
 				<button
 					mat-fab
 					extended
@@ -60,9 +62,11 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 							multiple
 							(selectionChange)="filter()"
 						>
-							<mat-option [value]="level" *ngFor="let level of levels">{{
-								level | pretify
-							}}</mat-option>
+							<mat-option
+								[value]="level"
+								*ngFor="let level of levels"
+								>{{ level | pretify }}</mat-option
+							>
 						</mat-select>
 					</mat-form-field>
 					<mat-form-field appearance="outline">
@@ -72,9 +76,11 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 							formControlName="grades"
 							(selectionChange)="filter()"
 						>
-							<mat-option [value]="grade" *ngFor="let grade of grades">{{
-								grade | pretify
-							}}</mat-option>
+							<mat-option
+								[value]="grade"
+								*ngFor="let grade of grades"
+								>{{ grade | pretify }}</mat-option
+							>
 						</mat-select>
 					</mat-form-field>
 					<mat-form-field appearance="outline">
@@ -103,7 +109,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 				></app-resource-card>
 			</div>
 		} @empty {
-			<app-is-empty (onCreateRequest)="openCreateResourceDialog()"></app-is-empty>
+			<app-is-empty
+				(onCreateRequest)="openCreateResourceDialog()"
+			></app-is-empty>
 		}
 
 		<ng-template #error></ng-template>

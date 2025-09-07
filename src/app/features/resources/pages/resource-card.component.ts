@@ -32,33 +32,47 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 					<div class="grid">
 						<div
 							class="img"
-							style="background: url('{{resource.preview}}') center; background-size: cover; width: 100%;"
+							style="background: url('{{
+								resource.preview
+							}}') center; background-size: cover; width: 100%;"
 						></div>
 						<div>
 							<h2>{{ resource.title }}</h2>
 							<p>{{ resource.description }}</p>
 							<p>
-								<b>Nivel{{ resource.level.length > 1 ? "es" : "" }}</b
+								<b
+									>Nivel{{
+										resource.level.length > 1 ? 'es' : ''
+									}}</b
 								>:
 								@for (level of resource.level; track $index) {
-									{{ $index > 0 ? ", " : "" }}{{ level | pretify }}
+									{{ $index > 0 ? ', ' : ''
+									}}{{ level | pretify }}
 								}
 							</p>
 							<p>
-								<b>Grado{{ resource.grade.length > 1 ? "s" : "" }}</b
+								<b
+									>Grado{{
+										resource.grade.length > 1 ? 's' : ''
+									}}</b
 								>:
 								@for (grade of resource.grade; track $index) {
-									{{ $index > 0 ? ", " : "" }}{{ grade | pretify }}
+									{{ $index > 0 ? ', ' : ''
+									}}{{ grade | pretify }}
 								}
 							</p>
 							<p>
 								<b
 									>&Aacute;rea{{
-										resource.subject.length > 1 ? "s" : ""
+										resource.subject.length > 1 ? 's' : ''
 									}}</b
 								>:
-								@for (subject of resource.subject; track $index) {
-									{{ $index > 0 ? ", " : "" }}{{ subject | pretify }}
+								@for (
+									subject of resource.subject;
+									track $index
+								) {
+									{{ $index > 0 ? ', ' : ''
+									}}{{ subject | pretify }}
 								}
 							</p>
 							<div
@@ -86,19 +100,26 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 							</div>
 							@if (resource.price === 0) {
 								<div class="price">
-									<div class="integer free">&iexcl;GRATIS!</div>
+									<div class="integer free">
+										&iexcl;GRATIS!
+									</div>
 								</div>
 							} @else {
 								<div class="price">
-									<div class="integer">RD&#36;{{ getInteger(resource.price) }}</div>
+									<div class="integer">
+										RD&#36;{{ getInteger(resource.price) }}
+									</div>
 									<div class="decimals">
 										.{{ getDecimals(resource.price) }}
 									</div>
 								</div>
 							}
-							<div style="margin-top: 24px; display: flex; gap: 12px">
+							<div
+								style="margin-top: 24px; display: flex; gap: 12px"
+							>
 								<button mat-button (click)="bookmark()">
-									{{ resource.bookmarks }} <mat-icon>bookmark</mat-icon>
+									{{ resource.bookmarks }}
+									<mat-icon>bookmark</mat-icon>
 								</button>
 								<button
 									mat-flat-button

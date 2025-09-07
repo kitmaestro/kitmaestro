@@ -12,9 +12,7 @@ import { appInterceptor } from './core/interceptors/app.interceptor';
 export const appConfig: ApplicationConfig = {
 	providers: [
 		provideRouter(routes),
-		provideHttpClient(
-			withInterceptors([appInterceptor]),
-		),
+		provideHttpClient(withInterceptors([appInterceptor])),
 		provideAnimationsAsync(),
 		provideServiceWorker('ngsw-worker.js', {
 			enabled: !isDevMode(),

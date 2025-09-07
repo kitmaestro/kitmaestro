@@ -51,19 +51,32 @@ import { AuthService } from '../../../core/services/auth.service';
 					<p>
 						<b>{{ update.author }}</b
 						><br />
-						{{ update.date | date: "dd/MM/yyyy" }}
+						{{ update.date | date: 'dd/MM/yyyy' }}
 						<br /><br />
-						@if (update.type === "notice") {
+						@if (update.type === 'notice') {
 							<i>Actualizaci&oacute;n</i>
-						} @else if (update.type === "feature") {
+						} @else if (update.type === 'feature') {
 							<i>¡Nueva Funci&oacute;n Disponible!</i>
 						} @else {
 							<i>¡Error Arreglado!</i>
 						}
 						<br /><br />
-						@for (paragraph of update.content.split("\n"); track $index) {
+						@for (
+							paragraph of update.content.split(
+								'
+'
+							);
+							track $index
+						) {
 							{{ paragraph }}
-							@if ($index < update.content.split("\n").length - 1) {
+							@if (
+								$index <
+								update.content.split(
+									'
+'
+								).length -
+									1
+							) {
 								<br /><br />
 							}
 						}

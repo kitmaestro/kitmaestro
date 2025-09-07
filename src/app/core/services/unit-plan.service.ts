@@ -312,18 +312,102 @@ export class UnitPlanService {
 					],
 				}),
 			);
-			activityRows.push(...classPlans.map((cp) => {
-				return new TableRow({
-					children: [
-						new TableCell({ children: [new Paragraph({ children: [new TextRun('')] })] }), // empty date
-						new TableCell({ children: [new Paragraph({ children: [{ bold: true, break: 1, text: 'Inicio' }, ...cp.introduction.activities.map(s => ({ text: s, break: 1 })), { bold: true, break: 1, text: 'Desarrollo' }, ...cp.main.activities.map(s => ({ text: s, break: 1 })), { bold: true, break: 1, text: 'Cierre' }, ...cp.closing.activities.map(s => ({ text: s, break: 1 }))].map(res => new TextRun(res)) })] }),
-						new TableCell({ children: [new Paragraph({ children: [new TextRun('')] })] }), // empty evidence
-						new TableCell({ children: [new Paragraph({ children: plan.instruments.map(i => new TextRun(i) ) })] }),
-						new TableCell({ children: [new Paragraph({ children: ['¿Qué te aprendiste de este tema hoy?', '¿Qué tan importante es este tema a lo largo de sus vidas?', '¿Qué te pareció el tema del día de hoy?', '¿Cómo aprendí estos conocimientos?', '¿Cuál fue la parte que más te intereso?', '¿Como nos beneficiamos de los conocimientos aprendido hoy?', '¿En qué nos ayuda para convivir mejor este tema?'].map(s => new TextRun(s)) })] }), // fixed metacognition
-						new TableCell({ children: [new Paragraph({ children: [...cp.introduction.resources, ...cp.main.resources, ...cp.closing.resources].map(res => new TextRun({ text: `- ${res}\n`, break: 1 })) })] }),
-					],
-				})
-			}))
+			activityRows.push(
+				...classPlans.map((cp) => {
+					return new TableRow({
+						children: [
+							new TableCell({
+								children: [
+									new Paragraph({
+										children: [new TextRun('')],
+									}),
+								],
+							}), // empty date
+							new TableCell({
+								children: [
+									new Paragraph({
+										children: [
+											{
+												bold: true,
+												break: 1,
+												text: 'Inicio',
+											},
+											...cp.introduction.activities.map(
+												(s) => ({ text: s, break: 1 }),
+											),
+											{
+												bold: true,
+												break: 1,
+												text: 'Desarrollo',
+											},
+											...cp.main.activities.map((s) => ({
+												text: s,
+												break: 1,
+											})),
+											{
+												bold: true,
+												break: 1,
+												text: 'Cierre',
+											},
+											...cp.closing.activities.map(
+												(s) => ({ text: s, break: 1 }),
+											),
+										].map((res) => new TextRun(res)),
+									}),
+								],
+							}),
+							new TableCell({
+								children: [
+									new Paragraph({
+										children: [new TextRun('')],
+									}),
+								],
+							}), // empty evidence
+							new TableCell({
+								children: [
+									new Paragraph({
+										children: plan.instruments.map(
+											(i) => new TextRun(i),
+										),
+									}),
+								],
+							}),
+							new TableCell({
+								children: [
+									new Paragraph({
+										children: [
+											'¿Qué te aprendiste de este tema hoy?',
+											'¿Qué tan importante es este tema a lo largo de sus vidas?',
+											'¿Qué te pareció el tema del día de hoy?',
+											'¿Cómo aprendí estos conocimientos?',
+											'¿Cuál fue la parte que más te intereso?',
+											'¿Como nos beneficiamos de los conocimientos aprendido hoy?',
+											'¿En qué nos ayuda para convivir mejor este tema?',
+										].map((s) => new TextRun(s)),
+									}),
+								],
+							}), // fixed metacognition
+							new TableCell({
+								children: [
+									new Paragraph({
+										children: [
+											...cp.introduction.resources,
+											...cp.main.resources,
+											...cp.closing.resources,
+										].map(
+											(res) =>
+												new TextRun({
+													text: `- ${res}\n`,
+													break: 1,
+												}),
+										),
+									}),
+								],
+							}),
+						],
+					});
+				}),
+			);
 		} else {
 			activityRows.push(
 				new TableRow({
@@ -365,7 +449,7 @@ export class UnitPlanService {
 							],
 						}),
 					],
-				})
+				}),
 			);
 			activityRows.push(
 				new TableRow({
@@ -392,8 +476,8 @@ export class UnitPlanService {
 							),
 						}),
 					],
-				})
-			)
+				}),
+			);
 		}
 		const activitiesTable = new Table({
 			width: {
@@ -419,7 +503,7 @@ export class UnitPlanService {
 						}),
 					],
 				}),
-				...activityRows
+				...activityRows,
 			],
 		});
 		const doc = new Document({

@@ -20,7 +20,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../core/services/auth.service';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+	MatDialogRef,
+	MAT_DIALOG_DATA,
+	MatDialog,
+	MatDialogModule,
+} from '@angular/material/dialog';
 import { SCHOOL_SUBJECT } from '../../../core/enums/school-subject.enum';
 
 @Component({
@@ -49,7 +54,9 @@ import { SCHOOL_SUBJECT } from '../../../core/enums/school-subject.enum';
 					<mat-label>Grado</mat-label>
 					<mat-select [(ngModel)]="year" name="year">
 						@for (grade of grades; track grade.value) {
-							<mat-option [value]="grade.value">{{ grade.label }}</mat-option>
+							<mat-option [value]="grade.value">{{
+								grade.label
+							}}</mat-option>
 						}
 					</mat-select>
 				</mat-form-field>
@@ -61,22 +68,28 @@ import { SCHOOL_SUBJECT } from '../../../core/enums/school-subject.enum';
 					<mat-label>Asignaturas</mat-label>
 					<mat-select multiple [(ngModel)]="subjects" name="subjects">
 						@for (subject of subjectOptions; track $index) {
-							<mat-option [value]="subject">{{ subject | pretify }}</mat-option>
+							<mat-option [value]="subject">{{
+								subject | pretify
+							}}</mat-option>
 						}
 					</mat-select>
 				</mat-form-field>
-				<button mat-flat-button color="primary" (click)="onSubmit()">Crear</button>
+				<button mat-flat-button color="primary" (click)="onSubmit()">
+					Crear
+				</button>
 			</form>
 		</mat-dialog-content>
 	`,
-	styles: [`
-		form {
-			display: grid;
-			margin-top: 12px;
-			grid-template-columns: 1fr 1fr;
-			gap: 12px;
-		}
-	`]
+	styles: [
+		`
+			form {
+				display: grid;
+				margin-top: 12px;
+				grid-template-columns: 1fr 1fr;
+				gap: 12px;
+			}
+		`,
+	],
 })
 class SectionCreatorComponent {
 	private dialogRef = inject(MatDialogRef<SectionCreatorComponent>);
@@ -98,10 +111,9 @@ class SectionCreatorComponent {
 	];
 	subjectOptions = Object.values(SCHOOL_SUBJECT);
 
-	constructor(
-		@Inject(MAT_DIALOG_DATA) private data: ClassSection,
-	) {
-		if (this.data.school) this.school.set(this.data.school as any as string);
+	constructor(@Inject(MAT_DIALOG_DATA) private data: ClassSection) {
+		if (this.data.school)
+			this.school.set(this.data.school as any as string);
 		if (this.data.user) this.user.set(this.data.user);
 		if (this.data.level) this.level.set(this.data.level);
 		if (this.data.year) this.year.set(this.data.year);
@@ -110,7 +122,14 @@ class SectionCreatorComponent {
 	}
 
 	onSubmit() {
-		this.dialogRef.close({ ...this.data, user: this.user(), level: this.level(), year: this.year(), name: this.name(), subjects: this.subjects() });
+		this.dialogRef.close({
+			...this.data,
+			user: this.user(),
+			level: this.level(),
+			year: this.year(),
+			name: this.name(),
+			subjects: this.subjects(),
+		});
 	}
 }
 
@@ -152,7 +171,9 @@ class SectionCreatorComponent {
 					>
 					<mat-card-subtitle
 						>Miembro desde
-						{{ user.createdAt | date: "dd/MM/yyyy" }}</mat-card-subtitle
+						{{
+							user.createdAt | date: 'dd/MM/yyyy'
+						}}</mat-card-subtitle
 					>
 				</mat-card-header>
 				<mat-card-content>
@@ -162,45 +183,79 @@ class SectionCreatorComponent {
 					<p><b>Apellido(s)</b>: {{ user.lastname }}</p>
 					<p><b>Título Alcanzado</b>: {{ user.title }}</p>
 					<!-- TODO: Fix up this shit -->
-					@if (activeUser && activeUser.email === "orgalay.dev@gmail.com") {
+					@if (
+						activeUser &&
+						activeUser.email === 'orgalay.dev@gmail.com'
+					) {
 						<p><b>Email</b>: {{ user.email }}</p>
 						@if (user.phone) {
-							<p><b>Teléfono</b>: <a [href]="waLink(user)" target="_blank" >{{ user.phone }}</a></p>
+							<p>
+								<b>Teléfono</b>:
+								<a [href]="waLink(user)" target="_blank">{{
+									user.phone
+								}}</a>
+							</p>
 						}
 						<div style="display: flex; gap: 12px;">
 							<div style="flex: 1 auto auto;">
 								<mat-form-field appearance="outline">
 									<mat-label>Contrase&ntilde;a</mat-label>
-									<input matInput [formControl]="newPassword" />
+									<input
+										matInput
+										[formControl]="newPassword"
+									/>
 								</mat-form-field>
 							</div>
 							<div style="">
-								<button mat-flat-button (click)="updatePassword()" [disabled]="!newPassword.value">Cambiar Contrase&ntilde;a</button>
+								<button
+									mat-flat-button
+									(click)="updatePassword()"
+									[disabled]="!newPassword.value"
+								>
+									Cambiar Contrase&ntilde;a
+								</button>
 							</div>
 						</div>
 					}
 					<p><b>Codigo de Referencia</b>: {{ user.refCode }}</p>
-                    <div style="margin-top: 20px; margin-bottom: 20px;">
-                         <button mat-raised-button color="accent" (click)="exportContact()">
-                            <mat-icon>save_alt</mat-icon>
-                            Exportar Contacto
-                        </button>
-                    </div>
+					<div style="margin-top: 20px; margin-bottom: 20px;">
+						<button
+							mat-raised-button
+							color="accent"
+							(click)="exportContact()"
+						>
+							<mat-icon>save_alt</mat-icon>
+							Exportar Contacto
+						</button>
+					</div>
 
-					@if (activeUser && activeUser.email === "orgalay.dev@gmail.com") {
+					@if (
+						activeUser &&
+						activeUser.email === 'orgalay.dev@gmail.com'
+					) {
 						<h3>Escuelas</h3>
 						@for (school of schools; track $index) {
 							@if (school) {
-								<div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px">
+								<div
+									style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px"
+								>
 									<p>
 										{{ $index + 1 }}. {{ school.name }} ({{
 											school.level | pretify
-										}}) Distrito {{ school.regional }}-{{ school.district }}
+										}}) Distrito {{ school.regional }}-{{
+											school.district
+										}}
 									</p>
-									<button mat-icon-button (click)="addSection(school._id)">
+									<button
+										mat-icon-button
+										(click)="addSection(school._id)"
+									>
 										<mat-icon>add</mat-icon>
 									</button>
-									<button mat-icon-button (click)="deleteSchool(school._id)">
+									<button
+										mat-icon-button
+										(click)="deleteSchool(school._id)"
+									>
 										<mat-icon>delete</mat-icon>
 									</button>
 								</div>
@@ -210,35 +265,50 @@ class SectionCreatorComponent {
 						<h3>Secciones</h3>
 						@for (section of classSections; track $index) {
 							@if (section.school) {
-								<div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px">
-								<p>
-									{{ $index + 1 }}. {{ section.name }} ({{
-									section.year | pretify
-								}} de {{ section.level | pretify }}) -
-								{{ section.school.name }}
-								</p>
-								<button mat-icon-button (click)="editSection(section)">
-									<mat-icon>edit</mat-icon>
-								</button>
-								<button mat-icon-button (click)="deleteSection(section._id)">
-									<mat-icon>delete</mat-icon>
-								</button>
-							</div>
+								<div
+									style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px"
+								>
+									<p>
+										{{ $index + 1 }}. {{ section.name }} ({{
+											section.year | pretify
+										}}
+										de {{ section.level | pretify }}) -
+										{{ section.school.name }}
+									</p>
+									<button
+										mat-icon-button
+										(click)="editSection(section)"
+									>
+										<mat-icon>edit</mat-icon>
+									</button>
+									<button
+										mat-icon-button
+										(click)="deleteSection(section._id)"
+									>
+										<mat-icon>delete</mat-icon>
+									</button>
+								</div>
 							}
 						}
 
 						<h3>Suscripción</h3>
 						@if (subscription) {
-							@if (subscription.subscriptionType === "FREE") {
+							@if (subscription.subscriptionType === 'FREE') {
 								<p>Usuario Gratuito</p>
 							} @else {
 								<p>
 									{{ subscription.subscriptionType }} hasta
-									{{ subscription.endDate | date: "dd/MM/yyyy" }}
+									{{
+										subscription.endDate
+											| date: 'dd/MM/yyyy'
+									}}
 								</p>
 							}
 						}
-						<form [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">
+						<form
+							[formGroup]="subscriptionForm"
+							(ngSubmit)="onSubmit()"
+						>
 							<div
 								style="
 									display: grid;
@@ -249,7 +319,9 @@ class SectionCreatorComponent {
 								<div>
 									<mat-form-field appearance="outline">
 										<mat-label>Suscripción</mat-label>
-										<mat-select formControlName="subscriptionType">
+										<mat-select
+											formControlName="subscriptionType"
+										>
 											<mat-option value="Premium Básico"
 												>Plan Básico</mat-option
 											>
@@ -290,7 +362,9 @@ class SectionCreatorComponent {
 								</div>
 								<div>
 									<mat-form-field appearance="outline">
-										<mat-label>Fecha de Finalización</mat-label>
+										<mat-label
+											>Fecha de Finalización</mat-label
+										>
 										<input
 											type="date"
 											matInput
@@ -319,7 +393,9 @@ class SectionCreatorComponent {
 									</mat-form-field>
 								</div>
 							</div>
-							<button mat-flat-button type="submit">Guardar</button>
+							<button mat-flat-button type="submit">
+								Guardar
+							</button>
 						</form>
 					}
 				</mat-card-content>
@@ -382,7 +458,9 @@ export class UserDetailsComponent implements OnInit {
 		if (!user.phone || !user.firstname) return '#';
 		const phone = user.phone.replace(/\D+/g, ''); // elimina todo lo que no sea dígito
 		if (!/^\d{6,15}$/.test(phone)) {
-			console.error('Número de teléfono inválido después de limpiar caracteres.');
+			console.error(
+				'Número de teléfono inválido después de limpiar caracteres.',
+			);
 			return '#';
 		}
 
@@ -391,7 +469,7 @@ export class UserDetailsComponent implements OnInit {
 			`Hola${name ? ' ' + name : ''}, ¿todo bien con KitMaestro?
 Veo que creaste una cuenta y quería confirmar si pudiste ingresar y crear tu primera planificación.
 Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 minutos por aquí.
-¿Pudiste probarla o quieres que te guíe?`
+¿Pudiste probarla o quieres que te guíe?`,
 		];
 		const message = messageLines.join(' ');
 		const encoded = encodeURIComponent(message);
@@ -403,10 +481,26 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 		this.subscriptionService.findByUser(this.userId).subscribe({
 			next: (subscription) => {
 				this.subscription = subscription;
-				const { user, subscriptionType, status, startDate, endDate, method, amount } = subscription;
+				const {
+					user,
+					subscriptionType,
+					status,
+					startDate,
+					endDate,
+					method,
+					amount,
+				} = subscription;
 				const start = new Date(startDate).toISOString().split('T')[0];
 				const end = new Date(endDate).toISOString().split('T')[0];
-				this.subscriptionForm.patchValue({ user, subscriptionType, status, startDate: start, endDate: end, method, amount });
+				this.subscriptionForm.patchValue({
+					user,
+					subscriptionType,
+					status,
+					startDate: start,
+					endDate: end,
+					method,
+					amount,
+				});
 			},
 		});
 	}
@@ -460,25 +554,30 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	}
 
 	onSubmit() {
-		const subscription: UserSubscription = this.subscriptionForm.value as unknown as UserSubscription;
-		this.subscriptionService
-			.create(subscription)
-			.subscribe(() => {
-				this.loadUser();
-				this.sb.open('Suscripción creada exitosamente', 'Ok', { duration: 2500 });
+		const subscription: UserSubscription = this.subscriptionForm
+			.value as unknown as UserSubscription;
+		this.subscriptionService.create(subscription).subscribe(() => {
+			this.loadUser();
+			this.sb.open('Suscripción creada exitosamente', 'Ok', {
+				duration: 2500,
 			});
+		});
 	}
 
 	editSection(section: ClassSection) {
 		const ref = this.dialog.open(SectionCreatorComponent, {
 			data: section,
 		});
-		ref.afterClosed().subscribe(result => {
+		ref.afterClosed().subscribe((result) => {
 			if (result) {
-				this.sectionService.updateSection(result._id, result).subscribe(() => {
-					this.loadSections();
-					this.sb.open('Sección actualizada exitosamente', 'Ok', { duration: 2500 });
-				});
+				this.sectionService
+					.updateSection(result._id, result)
+					.subscribe(() => {
+						this.loadSections();
+						this.sb.open('Sección actualizada exitosamente', 'Ok', {
+							duration: 2500,
+						});
+					});
 			}
 		});
 	}
@@ -487,15 +586,17 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 		const data = {
 			school: schoolId,
 			user: this.userId,
-		}
+		};
 		const ref = this.dialog.open(SectionCreatorComponent, {
 			data,
 		});
-		ref.afterClosed().subscribe(result => {
+		ref.afterClosed().subscribe((result) => {
 			if (result) {
 				this.sectionService.addSection(result).subscribe((section) => {
 					this.classSections.push(section);
-					this.sb.open('Sección creada exitosamente', 'Ok', { duration: 2500 });
+					this.sb.open('Sección creada exitosamente', 'Ok', {
+						duration: 2500,
+					});
 				});
 			}
 		});
@@ -504,7 +605,9 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	deleteSection(id: string) {
 		this.sectionService.deleteSection(id).subscribe(() => {
 			this.loadSections();
-			this.sb.open('Sección eliminada exitosamente', 'Ok', { duration: 2500 });
+			this.sb.open('Sección eliminada exitosamente', 'Ok', {
+				duration: 2500,
+			});
 		});
 	}
 
@@ -520,21 +623,30 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	 */
 	exportContact() {
 		if (!this.user) {
-			this.sb.open('Los datos del usuario aún no se han cargado.', 'Ok', { duration: 3000 });
+			this.sb.open('Los datos del usuario aún no se han cargado.', 'Ok', {
+				duration: 3000,
+			});
 			return;
 		}
 
 		// Encabezados estándar para Google Contacts.
-		const headers = ['Name', 'Given Name', 'Family Name', 'E-mail 1 - Value', 'Phone 1 - Value'];
+		const headers = [
+			'Name',
+			'Given Name',
+			'Family Name',
+			'E-mail 1 - Value',
+			'Phone 1 - Value',
+		];
 
-		const fullName = `${this.user.firstname || ''} ${this.user.lastname || ''}`.trim();
+		const fullName =
+			`${this.user.firstname || ''} ${this.user.lastname || ''}`.trim();
 
 		const userRow = [
 			fullName,
 			(this.user.firstname || '') + ' Profe',
 			this.user.lastname || '',
 			this.user.email || '',
-			this.user.phone || ''
+			this.user.phone || '',
 		];
 
 		// Función para escapar comillas y comas para mantener la integridad del CSV.
@@ -543,7 +655,11 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 				return '';
 			}
 			let escapedField = field.toString().replace(/"/g, '""');
-			if (escapedField.includes(',') || escapedField.includes('"') || escapedField.includes('\n')) {
+			if (
+				escapedField.includes(',') ||
+				escapedField.includes('"') ||
+				escapedField.includes('\n')
+			) {
 				escapedField = `"${escapedField}"`;
 			}
 			return escapedField;
@@ -552,18 +668,23 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 		// Construye el contenido del CSV.
 		const csvContent = [
 			headers.join(','),
-			userRow.map(escapeCsvField).join(',')
+			userRow.map(escapeCsvField).join(','),
 		].join('\n');
 
 		// Crea un Blob y simula un clic para descargar el archivo.
-		const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+		const blob = new Blob([csvContent], {
+			type: 'text/csv;charset=utf-8;',
+		});
 		const link = document.createElement('a');
 
 		const url = URL.createObjectURL(blob);
 		link.setAttribute('href', url);
 
 		// Crea un nombre de archivo seguro.
-		const filename = `contacto_${this.user.firstname}_${this.user.lastname}.csv`.replace(/[^a-z0-9_.]/gi, '_').toLowerCase();
+		const filename =
+			`contacto_${this.user.firstname}_${this.user.lastname}.csv`
+				.replace(/[^a-z0-9_.]/gi, '_')
+				.toLowerCase();
 		link.setAttribute('download', filename);
 
 		link.style.visibility = 'hidden';
@@ -578,11 +699,15 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 		if (password && this.user)
 			this.userService.update(this.user._id, { password }).subscribe({
 				next: () => {
-					this.sb.open('Contrasena actualizada!', 'Ok', { duration: 2500 })
+					this.sb.open('Contrasena actualizada!', 'Ok', {
+						duration: 2500,
+					});
 				},
 				error: () => {
-					this.sb.open('Error al actualizar contrasena', 'Ok', { duration: 2500 })
-				}
-		})
+					this.sb.open('Error al actualizar contrasena', 'Ok', {
+						duration: 2500,
+					});
+				},
+			});
 	}
 }

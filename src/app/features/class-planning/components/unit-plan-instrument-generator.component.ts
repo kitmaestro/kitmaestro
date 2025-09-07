@@ -1,4 +1,11 @@
-import { Component, inject, OnInit, Pipe, PipeTransform, Input } from '@angular/core';
+import {
+	Component,
+	inject,
+	OnInit,
+	Pipe,
+	PipeTransform,
+	Input,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -111,248 +118,379 @@ La respuesta debe ser únicamente el objeto JSON.`;
 
 // --- COMPONENTE ---
 @Component({
-    selector: 'app-unit-plan-instrument-generator',
-    standalone: true,
-    imports: [
-        CommonModule,
-        RouterModule,
-        ReactiveFormsModule,
-        MatCardModule,
-        MatSnackBarModule,
-        MatButtonModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatProgressBarModule,
-        MarkdownComponent,
-        RubricComponent,
-        ChecklistComponent,
-    ],
-    template: `
-    <div class="container">
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>Generador de Instrumentos de Evaluación</mat-card-title>
-                <mat-card-subtitle>Para la unidad: {{ unitPlan?.title }}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <form [formGroup]="instrumentForm" (ngSubmit)="generateInstruments()">
-                    <div class="form-grid">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Instrumento para Evaluación Formativa</mat-label>
-                            <mat-select formControlName="formativeType">
-                                <mat-option *ngFor="let type of instrumentTypes" [value]="type.id">{{ type.name }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Instrumento para Evaluación Sumativa</mat-label>
-                            <mat-select formControlName="summativeType">
-                                 <mat-option *ngFor="let type of instrumentTypes" [value]="type.id">{{ type.name }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div *ngIf="isGenerating" class="progress-section">
-                        <p>Generando instrumentos, por favor espere...</p>
-                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-                    </div>
-                    <mat-card-actions align="end">
-                        <button mat-raised-button color="primary" type="submit" [disabled]="isGenerating || instrumentForm.invalid">
-                            <mat-icon>psychology</mat-icon> Generar Instrumentos
-                        </button>
-                    </mat-card-actions>
-                </form>
+	selector: 'app-unit-plan-instrument-generator',
+	standalone: true,
+	imports: [
+		CommonModule,
+		RouterModule,
+		ReactiveFormsModule,
+		MatCardModule,
+		MatSnackBarModule,
+		MatButtonModule,
+		MatIconModule,
+		MatFormFieldModule,
+		MatSelectModule,
+		MatProgressBarModule,
+		MarkdownComponent,
+		RubricComponent,
+		ChecklistComponent,
+	],
+	template: `
+		<div class="container">
+			<mat-card>
+				<mat-card-header>
+					<mat-card-title
+						>Generador de Instrumentos de Evaluación</mat-card-title
+					>
+					<mat-card-subtitle
+						>Para la unidad:
+						{{ unitPlan?.title }}</mat-card-subtitle
+					>
+				</mat-card-header>
+				<mat-card-content>
+					<form
+						[formGroup]="instrumentForm"
+						(ngSubmit)="generateInstruments()"
+					>
+						<div class="form-grid">
+							<mat-form-field appearance="outline">
+								<mat-label
+									>Instrumento para Evaluación
+									Formativa</mat-label
+								>
+								<mat-select formControlName="formativeType">
+									<mat-option
+										*ngFor="let type of instrumentTypes"
+										[value]="type.id"
+										>{{ type.name }}</mat-option
+									>
+								</mat-select>
+							</mat-form-field>
+							<mat-form-field appearance="outline">
+								<mat-label
+									>Instrumento para Evaluación
+									Sumativa</mat-label
+								>
+								<mat-select formControlName="summativeType">
+									<mat-option
+										*ngFor="let type of instrumentTypes"
+										[value]="type.id"
+										>{{ type.name }}</mat-option
+									>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div *ngIf="isGenerating" class="progress-section">
+							<p>Generando instrumentos, por favor espere...</p>
+							<mat-progress-bar
+								mode="indeterminate"
+							></mat-progress-bar>
+						</div>
+						<mat-card-actions align="end">
+							<button
+								mat-raised-button
+								color="primary"
+								type="submit"
+								[disabled]="
+									isGenerating || instrumentForm.invalid
+								"
+							>
+								<mat-icon>psychology</mat-icon> Generar
+								Instrumentos
+							</button>
+						</mat-card-actions>
+					</form>
 
-                <div *ngIf="generatedFormativeInstrument || generatedSummativeInstrument">
-                    <!-- Columna Formativa -->
-                    <div *ngIf="generatedFormativeInstrument">
-                        <mat-card class="instrument-card">
-                            <mat-card-header>
-                                <mat-card-title>Instrumento Formativo</mat-card-title>
-                                <mat-card-subtitle>{{ generatedFormativeInstrument.title }}</mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
-                                <ng-container [ngSwitch]="instrumentForm.value.formativeType">
-                                    <div *ngSwitchCase="'rubric'">
-                                        <app-rubric [rubric]="generatedFormativeInstrument"></app-rubric>
-                                    </div>
-                                    <div *ngSwitchCase="'checklist'">
-                                        <app-checklist [checklist]="generatedFormativeInstrument"></app-checklist>
-                                    </div>
-                                    <!-- Agrega más casos para otros tipos -->
-                                </ng-container>
-                            </mat-card-content>
-                             <mat-card-actions align="end"><button mat-button color="primary">Guardar</button></mat-card-actions>
-                        </mat-card>
-                    </div>
-                     <!-- Columna Sumativa -->
-                    <div *ngIf="generatedSummativeInstrument">
-                        <mat-card class="instrument-card">
-                            <mat-card-header>
-                                <mat-card-title>Instrumento Sumativo</mat-card-title>
-                                <mat-card-subtitle>{{ generatedSummativeInstrument.title || 'Examen' }}</mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
-                                 <ng-container [ngSwitch]="instrumentForm.value.summativeType">
-                                    <div *ngSwitchCase="'test'">
-                                        <markdown [data]="generatedSummativeInstrument.body"></markdown>
-                                    </div>
-                                    <div *ngSwitchCase="'rubric'">
-                                        <app-rubric [rubric]="generatedSummativeInstrument"></app-rubric>
-                                    </div>
-                                    <div *ngSwitchCase="'checklist'">
-                                        <app-checklist [checklist]="generatedSummativeInstrument"></app-checklist>
-                                    </div>
-                                </ng-container>
-                            </mat-card-content>
-                            <mat-card-actions align="end"><button mat-button color="primary">Guardar</button></mat-card-actions>
-                        </mat-card>
-                    </div>
-                </div>
-            </mat-card-content>
-        </mat-card>
-    </div>
-    `,
-    styles: [`
-        .container { padding: 24px; }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-        .progress-section { margin: 24px 0; }
-        .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
-        .instrument-card { height: 100%; display: flex; flex-direction: column; }
-        .instrument-card mat-card-content { flex-grow: 1; }
-        .checklist { list-style-type: '☑️ '; padding-left: 20px; }
-    `]
+					<div
+						*ngIf="
+							generatedFormativeInstrument ||
+							generatedSummativeInstrument
+						"
+					>
+						<!-- Columna Formativa -->
+						<div *ngIf="generatedFormativeInstrument">
+							<mat-card class="instrument-card">
+								<mat-card-header>
+									<mat-card-title
+										>Instrumento Formativo</mat-card-title
+									>
+									<mat-card-subtitle>{{
+										generatedFormativeInstrument.title
+									}}</mat-card-subtitle>
+								</mat-card-header>
+								<mat-card-content>
+									<ng-container
+										[ngSwitch]="
+											instrumentForm.value.formativeType
+										"
+									>
+										<div *ngSwitchCase="'rubric'">
+											<app-rubric
+												[rubric]="
+													generatedFormativeInstrument
+												"
+											></app-rubric>
+										</div>
+										<div *ngSwitchCase="'checklist'">
+											<app-checklist
+												[checklist]="
+													generatedFormativeInstrument
+												"
+											></app-checklist>
+										</div>
+										<!-- Agrega más casos para otros tipos -->
+									</ng-container>
+								</mat-card-content>
+								<mat-card-actions align="end"
+									><button mat-button color="primary">
+										Guardar
+									</button></mat-card-actions
+								>
+							</mat-card>
+						</div>
+						<!-- Columna Sumativa -->
+						<div *ngIf="generatedSummativeInstrument">
+							<mat-card class="instrument-card">
+								<mat-card-header>
+									<mat-card-title
+										>Instrumento Sumativo</mat-card-title
+									>
+									<mat-card-subtitle>{{
+										generatedSummativeInstrument.title ||
+											'Examen'
+									}}</mat-card-subtitle>
+								</mat-card-header>
+								<mat-card-content>
+									<ng-container
+										[ngSwitch]="
+											instrumentForm.value.summativeType
+										"
+									>
+										<div *ngSwitchCase="'test'">
+											<markdown
+												[data]="
+													generatedSummativeInstrument.body
+												"
+											></markdown>
+										</div>
+										<div *ngSwitchCase="'rubric'">
+											<app-rubric
+												[rubric]="
+													generatedSummativeInstrument
+												"
+											></app-rubric>
+										</div>
+										<div *ngSwitchCase="'checklist'">
+											<app-checklist
+												[checklist]="
+													generatedSummativeInstrument
+												"
+											></app-checklist>
+										</div>
+									</ng-container>
+								</mat-card-content>
+								<mat-card-actions align="end"
+									><button mat-button color="primary">
+										Guardar
+									</button></mat-card-actions
+								>
+							</mat-card>
+						</div>
+					</div>
+				</mat-card-content>
+			</mat-card>
+		</div>
+	`,
+	styles: [
+		`
+			.container {
+				padding: 24px;
+			}
+			.form-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 16px;
+				margin-bottom: 16px;
+			}
+			.progress-section {
+				margin: 24px 0;
+			}
+			.results-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 24px;
+				margin-top: 24px;
+			}
+			.instrument-card {
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+			.instrument-card mat-card-content {
+				flex-grow: 1;
+			}
+			.checklist {
+				list-style-type: '☑️ ';
+				padding-left: 20px;
+			}
+		`,
+	],
 })
 export class UnitPlanInstrumentGeneratorComponent implements OnInit {
-    @Input() unitPlan: UnitPlan | null = null;
+	@Input() unitPlan: UnitPlan | null = null;
 
-    private fb = inject(FormBuilder);
-    private aiService = inject(AiService);
-    private sb = inject(MatSnackBar);
-    // Inyecta los servicios de guardado
-    private rubricService = inject(RubricService);
-    private checklistService = inject(ChecklistService);
-    private estimationScaleService = inject(EstimationScaleService);
-    private testService = inject(TestService);
+	private fb = inject(FormBuilder);
+	private aiService = inject(AiService);
+	private sb = inject(MatSnackBar);
+	// Inyecta los servicios de guardado
+	private rubricService = inject(RubricService);
+	private checklistService = inject(ChecklistService);
+	private estimationScaleService = inject(EstimationScaleService);
+	private testService = inject(TestService);
 
-    isGenerating = false;
-    instrumentTypes = [
-        { id: 'rubric', name: 'Rúbrica' },
-        { id: 'checklist', name: 'Lista de Cotejo' },
-        // { id: 'estimation-scale', name: 'Escala de Estimación' },
-        { id: 'test', name: 'Prueba Escrita' },
-    ];
+	isGenerating = false;
+	instrumentTypes = [
+		{ id: 'rubric', name: 'Rúbrica' },
+		{ id: 'checklist', name: 'Lista de Cotejo' },
+		// { id: 'estimation-scale', name: 'Escala de Estimación' },
+		{ id: 'test', name: 'Prueba Escrita' },
+	];
 
-    generatedFormativeInstrument: any = null;
-    generatedSummativeInstrument: any = null;
+	generatedFormativeInstrument: any = null;
+	generatedSummativeInstrument: any = null;
 
-    instrumentForm = this.fb.group({
-        formativeType: ['', Validators.required],
-        summativeType: ['', Validators.required],
-    });
+	instrumentForm = this.fb.group({
+		formativeType: ['', Validators.required],
+		summativeType: ['', Validators.required],
+	});
 
-    ngOnInit(): void {
-        if (!this.unitPlan) {
-            console.error("El componente requiere un [unitPlan] como Input.");
-            this.sb.open('Error: No se proporcionó una unidad de aprendizaje.', 'Cerrar');
-        }
-    }
+	ngOnInit(): void {
+		if (!this.unitPlan) {
+			console.error('El componente requiere un [unitPlan] como Input.');
+			this.sb.open(
+				'Error: No se proporcionó una unidad de aprendizaje.',
+				'Cerrar',
+			);
+		}
+	}
 
-    async generateInstruments() {
-        if (this.instrumentForm.invalid || !this.unitPlan) return;
+	async generateInstruments() {
+		if (this.instrumentForm.invalid || !this.unitPlan) return;
 
-        this.isGenerating = true;
-        this.generatedFormativeInstrument = null;
-        this.generatedSummativeInstrument = null;
+		this.isGenerating = true;
+		this.generatedFormativeInstrument = null;
+		this.generatedSummativeInstrument = null;
 
-        const { formativeType, summativeType } = this.instrumentForm.value;
+		const { formativeType, summativeType } = this.instrumentForm.value;
 
-        try {
-            const formativePromise = this.generateInstrument(formativeType!);
-            const summativePromise = this.generateInstrument(summativeType!);
+		try {
+			const formativePromise = this.generateInstrument(formativeType!);
+			const summativePromise = this.generateInstrument(summativeType!);
 
-            const [formativeResult, summativeResult] = await Promise.all([formativePromise, summativePromise]);
+			const [formativeResult, summativeResult] = await Promise.all([
+				formativePromise,
+				summativePromise,
+			]);
 
-            this.generatedFormativeInstrument = formativeResult;
-            this.generatedSummativeInstrument = summativeResult;
+			this.generatedFormativeInstrument = formativeResult;
+			this.generatedSummativeInstrument = summativeResult;
 
-            // switch (formativeType) {
-            //     case 'rubric': {
-            //         this.rubricService.create(formativeResult).subscribe();
-            //         break;
-            //     }
-            //     case 'checklist': {
-            //         this.checklistService.create(formativeResult).subscribe();
-            //         break;
-            //     }
-            //     case 'estimation-scale': {
-            //         this.estimationScaleService.create(formativeResult).subscribe();
-            //         break;
-            //     }
-            //     case 'test': {
-            //         this.testService.create(formativeResult).subscribe();
-            //         break;
-            //     }
-            // }
+			// switch (formativeType) {
+			//     case 'rubric': {
+			//         this.rubricService.create(formativeResult).subscribe();
+			//         break;
+			//     }
+			//     case 'checklist': {
+			//         this.checklistService.create(formativeResult).subscribe();
+			//         break;
+			//     }
+			//     case 'estimation-scale': {
+			//         this.estimationScaleService.create(formativeResult).subscribe();
+			//         break;
+			//     }
+			//     case 'test': {
+			//         this.testService.create(formativeResult).subscribe();
+			//         break;
+			//     }
+			// }
 
-            // switch (summativeType) {
-            //     case 'rubric': {
-            //         this.rubricService.create(summativeResult).subscribe();
-            //         break;
-            //     }
-            //     case 'checklist': {
-            //         this.checklistService.create(summativeResult).subscribe();
-            //         break;
-            //     }
-            //     case 'estimation-scale': {
-            //         this.estimationScaleService.create(summativeResult).subscribe();
-            //         break;
-            //     }
-            //     case 'test': {
-            //         this.testService.create(summativeResult).subscribe();
-            //         break;
-            //     }
-            // }
+			// switch (summativeType) {
+			//     case 'rubric': {
+			//         this.rubricService.create(summativeResult).subscribe();
+			//         break;
+			//     }
+			//     case 'checklist': {
+			//         this.checklistService.create(summativeResult).subscribe();
+			//         break;
+			//     }
+			//     case 'estimation-scale': {
+			//         this.estimationScaleService.create(summativeResult).subscribe();
+			//         break;
+			//     }
+			//     case 'test': {
+			//         this.testService.create(summativeResult).subscribe();
+			//         break;
+			//     }
+			// }
 
-            this.sb.open('Instrumentos generados con éxito.', 'Ok', { duration: 3000 });
-        } catch (error) {
-            console.error(error);
-            this.sb.open('Ocurrió un error durante la generación.', 'Cerrar');
-        } finally {
-            this.isGenerating = false;
-        }
-    }
+			this.sb.open('Instrumentos generados con éxito.', 'Ok', {
+				duration: 3000,
+			});
+		} catch (error) {
+			console.error(error);
+			this.sb.open('Ocurrió un error durante la generación.', 'Cerrar');
+		} finally {
+			this.isGenerating = false;
+		}
+	}
 
-    private async generateInstrument(type: string): Promise<any> {
-        if (!this.unitPlan) throw new Error("UnitPlan no está disponible.");
+	private async generateInstrument(type: string): Promise<any> {
+		if (!this.unitPlan) throw new Error('UnitPlan no está disponible.');
 
-        const indicators = this.unitPlan.contents.flatMap(c => c.achievement_indicators).join('\n- ');
-        const contents = this.unitPlan.contents.map(c => c.title).join('\n- ');
-        const gradeLevel = `${this.unitPlan.section.year} de ${this.unitPlan.section.level}`;
-        const subjects = this.unitPlan.subjects.join(', ');
+		const indicators = this.unitPlan.contents
+			.flatMap((c) => c.achievement_indicators)
+			.join('\n- ');
+		const contents = this.unitPlan.contents
+			.map((c) => c.title)
+			.join('\n- ');
+		const gradeLevel = `${this.unitPlan.section.year} de ${this.unitPlan.section.level}`;
+		const subjects = this.unitPlan.subjects.join(', ');
 
-        let prompt = '';
-        switch (type) {
-            case 'rubric': prompt = generateRubricPrompt; break;
-            case 'checklist': prompt = generateChecklistPrompt; break;
-            case 'estimation-scale': prompt = generateEstimationScalePrompt; break;
-            case 'test': prompt = generateTestPrompt; break;
-            default: throw new Error('Tipo de instrumento no válido');
-        }
+		let prompt = '';
+		switch (type) {
+			case 'rubric':
+				prompt = generateRubricPrompt;
+				break;
+			case 'checklist':
+				prompt = generateChecklistPrompt;
+				break;
+			case 'estimation-scale':
+				prompt = generateEstimationScalePrompt;
+				break;
+			case 'test':
+				prompt = generateTestPrompt;
+				break;
+			default:
+				throw new Error('Tipo de instrumento no válido');
+		}
 
-        prompt = prompt.replace('[unit_title]', this.unitPlan.title)
-            .replace('[grade_level]', gradeLevel)
-            .replace('[subjects]', subjects)
-            .replace('[indicators]', indicators)
-            .replace('[contents]', contents)
-            .replace('[subject]', this.unitPlan.subjects[0]);
+		prompt = prompt
+			.replace('[unit_title]', this.unitPlan.title)
+			.replace('[grade_level]', gradeLevel)
+			.replace('[subjects]', subjects)
+			.replace('[indicators]', indicators)
+			.replace('[contents]', contents)
+			.replace('[subject]', this.unitPlan.subjects[0]);
 
-        const res = await this.aiService.geminiAi(prompt).toPromise();
-        if (!res) throw new Error("Sin respuesta de la IA.");
+		const res = await this.aiService.geminiAi(prompt).toPromise();
+		if (!res) throw new Error('Sin respuesta de la IA.');
 
-        const jsonStartsAt = res.response.indexOf('{');
-        const jsonEndsAt = res.response.lastIndexOf('}') + 1;
-        const instrument = JSON.parse(res.response.slice(jsonStartsAt, jsonEndsAt));
-        instrument.unitPlan = this.unitPlan._id;
-        return instrument;
-    }
+		const jsonStartsAt = res.response.indexOf('{');
+		const jsonEndsAt = res.response.lastIndexOf('}') + 1;
+		const instrument = JSON.parse(
+			res.response.slice(jsonStartsAt, jsonEndsAt),
+		);
+		instrument.unitPlan = this.unitPlan._id;
+		return instrument;
+	}
 }

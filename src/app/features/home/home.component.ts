@@ -64,6 +64,14 @@ const planningTools: AppEntry[] = [
 		tier: 2,
 	},
 	{
+		name: 'Plan de Unidad Pre Primario',
+		description: 'Unidades de aprendizaje para prescolar.',
+		link: ['/kinder-unit-plans'],
+		categories: ['Planificación'],
+		icon: '/assets/undraw_children_e6ln.svg',
+		tier: 2,
+	},
+	{
 		name: 'Planes Diarios en Lote',
 		description: 'Genera todos los planes de clase de una unidad.',
 		link: ['/class-plans/batch'],
@@ -613,7 +621,7 @@ export class HomeComponent implements OnInit {
 
 	sections = signal<ClassSection[]>([]);
 
-	apps: { category: string, tools: AppEntry[] }[] = [
+	apps: { category: string; tools: AppEntry[] }[] = [
 		{ category: 'Planificación', tools: planningTools },
 		{ category: 'Recursos', tools: resourcesTools },
 		{ category: 'Evaluación', tools: assessmentTools },
@@ -625,22 +633,36 @@ export class HomeComponent implements OnInit {
 	waMessage = '';
 
 	ngOnInit() {
-		this.classSectionsService.findSections().subscribe(sections => this.sections.set(sections));
+		this.classSectionsService
+			.findSections()
+			.subscribe((sections) => this.sections.set(sections));
 		this.userSettingsService
 			.getSettings()
 			.pipe(
-				tap(user => this.waMessage = `Ultimamente he estado utilizando una app para hacer mis planificaciones en solo 5 minutos.
+				tap(
+					(user) =>
+						(this.waMessage = `Ultimamente he estado utilizando una app para hacer mis planificaciones en solo 5 minutos.
 Aqui esta el link para que la pruebes:
-https://app.kitmaestro.com/auth/signup?ref=${user.username || user.refCode || user.email.split('@')[0]}`)
+https://app.kitmaestro.com/auth/signup?ref=${user.username || user.refCode || user.email.split('@')[0]}`),
+				),
 			)
 			.subscribe((user) => (this.user = user));
-		this.userSubscriptionService.checkSubscription().subscribe(sub => this.subscription.set(sub));
+		this.userSubscriptionService
+			.checkSubscription()
+			.subscribe((sub) => this.subscription.set(sub));
 	}
 
 	visibleToUser(tier: number = 1) {
 		const sub = this.subscription();
 		if (!sub) return false;
-		const accessLevel: number = sub.subscriptionType == 'FREE' || sub.status !== 'active' ? 1 : (sub.subscriptionType == 'Plan Básico' ? 2 : (sub.subscriptionType == 'Plan Plus' ? 3 : 4));
+		const accessLevel: number =
+			sub.subscriptionType == 'FREE' || sub.status !== 'active'
+				? 1
+				: sub.subscriptionType == 'Plan Básico'
+					? 2
+					: sub.subscriptionType == 'Plan Plus'
+						? 3
+						: 4;
 		return tier <= accessLevel;
 	}
 

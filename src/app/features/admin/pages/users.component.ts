@@ -64,7 +64,9 @@ import { map } from 'rxjs';
 							<mat-form-field appearance="outline">
 								<mat-label>Sexo</mat-label>
 								<mat-select formControlName="gender">
-									<mat-option value="Hombre">Hombre</mat-option>
+									<mat-option value="Hombre"
+										>Hombre</mat-option
+									>
 									<mat-option value="Mujer">Mujer</mat-option>
 								</mat-select>
 							</mat-form-field>
@@ -72,13 +74,21 @@ import { map } from 'rxjs';
 						<div>
 							<mat-form-field appearance="outline">
 								<mat-label>Teléfono</mat-label>
-								<input type="text" matInput formControlName="phone" />
+								<input
+									type="text"
+									matInput
+									formControlName="phone"
+								/>
 							</mat-form-field>
 						</div>
 						<div>
 							<mat-form-field appearance="outline">
 								<mat-label>Email</mat-label>
-								<input type="email" matInput formControlName="email" />
+								<input
+									type="email"
+									matInput
+									formControlName="email"
+								/>
 							</mat-form-field>
 						</div>
 						<div>
@@ -111,7 +121,11 @@ import { map } from 'rxjs';
 		>
 			<ng-container matColumnDef="name">
 				<th mat-header-cell *matHeaderCellDef>Nombre</th>
-				<td mat-cell *matCellDef="let user" routerLink="/users/{{ user._id }}">
+				<td
+					mat-cell
+					*matCellDef="let user"
+					routerLink="/users/{{ user._id }}"
+				>
 					{{ user.firstname }} {{ user.lastname }}
 				</td>
 			</ng-container>
@@ -124,11 +138,9 @@ import { map } from 'rxjs';
 			<ng-container matColumnDef="phone">
 				<th mat-header-cell *matHeaderCellDef>Teléfono</th>
 				<td mat-cell *matCellDef="let user">
-					<a
-						target="_blank"
-						[href]="waLink(user)"
-						>{{ user.phone }}</a
-					>
+					<a target="_blank" [href]="waLink(user)">{{
+						user.phone
+					}}</a>
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="sex">
@@ -138,7 +150,7 @@ import { map } from 'rxjs';
 			<ng-container matColumnDef="memberSince">
 				<th mat-header-cell *matHeaderCellDef>Miembro desde</th>
 				<td mat-cell *matCellDef="let user">
-					{{ user.createdAt | date: "d/M/yyyy, h:mm a" }}
+					{{ user.createdAt | date: 'd/M/yyyy, h:mm a' }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="actions">
@@ -157,7 +169,10 @@ import { map } from 'rxjs';
 			</ng-container>
 
 			<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-			<tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+			<tr
+				mat-row
+				*matRowDef="let myRowData; columns: columnsToDisplay"
+			></tr>
 		</table>
 	`,
 	styles: `
@@ -201,7 +216,17 @@ export class UsersComponent {
 		'actions',
 	];
 
-	users$ = this.userService.findAll().pipe(map(users => users.sort((a, b) => +new Date(b.createdAt || Date.now()) - +new Date(a.createdAt || Date.now()))));
+	users$ = this.userService
+		.findAll()
+		.pipe(
+			map((users) =>
+				users.sort(
+					(a, b) =>
+						+new Date(b.createdAt || Date.now()) -
+						+new Date(a.createdAt || Date.now()),
+				),
+			),
+		);
 	subscriptions$ = this.subscriptionService.findAll();
 	unitPlans$ = this.unitPlanService.findAll();
 	classPlans$ = this.classPlanService.findAll();
@@ -219,7 +244,9 @@ export class UsersComponent {
 		if (!user.phone || !user.firstname) return '#';
 		const phone = user.phone.replace(/\D+/g, ''); // elimina todo lo que no sea dígito
 		if (!/^\d{6,15}$/.test(phone)) {
-			console.error('Número de teléfono inválido después de limpiar caracteres.');
+			console.error(
+				'Número de teléfono inválido después de limpiar caracteres.',
+			);
 			return '#';
 		}
 
@@ -228,7 +255,7 @@ export class UsersComponent {
 			`Hola${name ? ' ' + name : ''}, ¿todo bien con KitMaestro?
 Veo que creaste una cuenta y quería confirmar si pudiste ingresar y crear tu primera planificación.
 Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 minutos por aquí.
-¿Pudiste probarla o quieres que te guíe?`
+¿Pudiste probarla o quieres que te guíe?`,
 		];
 		const message = messageLines.join(' ');
 		const encoded = encodeURIComponent(message);
@@ -247,7 +274,8 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	}
 
 	createUser() {
-		const user: UserSettings = this.userForm.value as unknown as UserSettings;
+		const user: UserSettings = this.userForm
+			.value as unknown as UserSettings;
 		this.userService.create(user).subscribe({
 			next: (res) => {
 				if (res._id) {

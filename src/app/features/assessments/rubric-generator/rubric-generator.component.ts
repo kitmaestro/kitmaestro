@@ -79,7 +79,10 @@ export class RubricGeneratorComponent implements OnInit {
 
 	rubricTypes = [
 		{ id: 'SINTETICA', label: 'Sintética (Una rubrica por estudiante)' },
-		{ id: 'ANALITICA', label: 'Analítica (Una rubrica para todos los estudiantes)' },
+		{
+			id: 'ANALITICA',
+			label: 'Analítica (Una rubrica para todos los estudiantes)',
+		},
 	];
 
 	rubric: Rubric | null = null;
@@ -121,14 +124,25 @@ export class RubricGeneratorComponent implements OnInit {
 			this.rubricForm.patchValue({
 				section: unitPlan.section._id,
 				subject: unitPlan.subjects[0] || '',
-				content: unitPlan.contents.length ? unitPlan.contents[0].concepts.length ? unitPlan.contents[0].concepts[0] : '' : '',
+				content: unitPlan.contents.length
+					? unitPlan.contents[0].concepts.length
+						? unitPlan.contents[0].concepts[0]
+						: ''
+					: '',
 				activity: `Evaluación del plan de unidad: ${unitPlan.title}`,
-				achievementIndicators: unitPlan.contents.flatMap((c) => c.achievement_indicators),
+				achievementIndicators: unitPlan.contents.flatMap(
+					(c) => c.achievement_indicators,
+				),
 			});
 			this.onSelectSection({ value: unitPlan.section._id });
 			this.onSubjectSelect({ value: unitPlan.subjects[0] });
-			if (unitPlan.contents.length && unitPlan.contents[0].concepts.length)
-				this.onConceptSelect({ value: unitPlan.contents[0].concepts[0] });
+			if (
+				unitPlan.contents.length &&
+				unitPlan.contents[0].concepts.length
+			)
+				this.onConceptSelect({
+					value: unitPlan.contents[0].concepts[0],
+				});
 		}
 	}
 
@@ -188,9 +202,20 @@ export class RubricGeneratorComponent implements OnInit {
 			this.competence = [];
 			this.contentBlocks = [];
 			forkJoin([
-				this.competenceService.findAll({ subject, grade: this.section.year, level: this.section.level }),
-				this.contentBlockService.findAll({ subject, year: this.section.year, level: this.section.level, title: concept }),
-				this.aiService.geminiAi(rubricTitlePrompt).pipe(map(res => res.response)),
+				this.competenceService.findAll({
+					subject,
+					grade: this.section.year,
+					level: this.section.level,
+				}),
+				this.contentBlockService.findAll({
+					subject,
+					year: this.section.year,
+					level: this.section.level,
+					title: concept,
+				}),
+				this.aiService
+					.geminiAi(rubricTitlePrompt)
+					.pipe(map((res) => res.response)),
 			]).subscribe({
 				next: ([competence, contentBlocks, ai]) => {
 					this.generating = false;
@@ -198,23 +223,22 @@ export class RubricGeneratorComponent implements OnInit {
 						(entry) =>
 							entry.entries[
 								Math.round(
-									Math.random() *
-										(entry.entries.length - 1),
+									Math.random() * (entry.entries.length - 1),
 								)
 							],
 					);
 					this.contentBlocks = contentBlocks;
 					contentBlocks.forEach((block) => {
 						const indicators: string[] = [];
-						block.achievement_indicators.forEach(
-							(indicator) => {
-								if (!indicators.includes(indicator)) {
-									indicators.push(indicator);
-								}
-							},
-						);
+						block.achievement_indicators.forEach((indicator) => {
+							if (!indicators.includes(indicator)) {
+								indicators.push(indicator);
+							}
+						});
 						this.achievementIndicators = indicators;
-						this.rubricForm.patchValue({ achievementIndicators: indicators.slice(0, 3) })
+						this.rubricForm.patchValue({
+							achievementIndicators: indicators.slice(0, 3),
+						});
 					});
 					try {
 						const start = ai.indexOf('{');
@@ -237,10 +261,10 @@ export class RubricGeneratorComponent implements OnInit {
 						console.log('Error parsing AI response', e);
 					}
 				},
-				error: err => {
+				error: (err) => {
 					this.generating = false;
 					console.log(err);
-				}
+				},
 			});
 		}
 	}
@@ -264,8 +288,7 @@ export class RubricGeneratorComponent implements OnInit {
 
 	save() {
 		const rubric: any = this.rubric;
-		if (this.unitPlan())
-			rubric.unitPlan = this.unitPlan()?._id;
+		if (this.unitPlan()) rubric.unitPlan = this.unitPlan()?._id;
 		this.rubricService.create(rubric).subscribe((res) => {
 			if (res._id) {
 				this.router.navigate(['/rubrics/', res._id]).then(() => {

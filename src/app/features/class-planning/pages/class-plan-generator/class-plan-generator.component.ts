@@ -19,7 +19,10 @@ import { ClassPlansService } from '../../../../core/services/class-plans.service
 import { Router, RouterModule } from '@angular/router';
 import { CompetenceService } from '../../../../core/services/competence.service';
 import { ClassSection } from '../../../../core/interfaces/class-section';
-import { classPlanPrompt, classroomResources } from '../../../../config/constants';
+import {
+	classPlanPrompt,
+	classroomResources,
+} from '../../../../config/constants';
 import { CompetenceEntry } from '../../../../core/interfaces/competence-entry';
 import { ClassPlanComponent } from '../class-plan/class-plan.component';
 import { UserSubscriptionService } from '../../../../core/services/user-subscription.service';
@@ -145,14 +148,17 @@ export class ClassPlanGeneratorComponent implements OnInit {
 							);
 				this.classPlanService.findAll().subscribe((plans) => {
 					const createdThisWeek = plans.filter(
-						(plan) => plan.createdAt && +new Date(plan.createdAt) > +lastMonday,
+						(plan) =>
+							plan.createdAt &&
+							+new Date(plan.createdAt) > +lastMonday,
 					).length;
 					const createdThisMonth = plans.filter(
-						(plan) => plan.createdAt &&
+						(plan) =>
+							plan.createdAt &&
 							+new Date(plan.createdAt).getMonth() ===
-							+new Date().getMonth() &&
+								+new Date().getMonth() &&
 							+new Date(plan.createdAt).getFullYear() ===
-							+new Date().getFullYear(),
+								+new Date().getFullYear(),
 					).length;
 					if (
 						(subscription.subscriptionType
@@ -194,7 +200,11 @@ export class ClassPlanGeneratorComponent implements OnInit {
 				}
 			} else {
 				this.router.navigateByUrl('/sections').then(() => {
-					this.sb.open('Para poder planificar, primero tienes que crear una seccion', 'Ok', { duration: 5000 });
+					this.sb.open(
+						'Para poder planificar, primero tienes que crear una seccion',
+						'Ok',
+						{ duration: 5000 },
+					);
 				});
 			}
 		});
@@ -213,7 +223,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 		}, 0);
 	}
 
-	onResourceChange(event: { value: string[]}) {
+	onResourceChange(event: { value: string[] }) {
 		setTimeout(() => {
 			const resources = JSON.stringify(event.value);
 			localStorage.setItem('available-resources', resources);

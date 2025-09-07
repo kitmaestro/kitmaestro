@@ -56,7 +56,16 @@ export class UnitPlanDetailComponent implements OnInit {
 
 	rubrics: Rubric[] = [];
 
-	activeSubscription$: Observable<boolean> = this.userSubscriptionService.checkSubscription().pipe(map(sub => sub.subscriptionType.toLowerCase() == 'free' ? false : (sub.status.toLowerCase() == 'active' && +(new Date(sub.endDate)) > Date.now())));
+	activeSubscription$: Observable<boolean> = this.userSubscriptionService
+		.checkSubscription()
+		.pipe(
+			map((sub) =>
+				sub.subscriptionType.toLowerCase() == 'free'
+					? false
+					: sub.status.toLowerCase() == 'active' &&
+						+new Date(sub.endDate) > Date.now(),
+			),
+		);
 
 	plan$: Observable<UnitPlan> = this.unitPlanService
 		.findOne(this.planId)

@@ -1,5 +1,5 @@
 export enum LEVEL {
-  PRE_PRIMARIA = 'pre-primaria',
-  PRIMARIA = 'primaria',
-  SECONDARIA = 'secondaria',
+	PRE_PRIMARIA = 'pre-primaria',
+	PRIMARIA = 'primaria',
+	SECONDARIA = 'secondaria',
 }

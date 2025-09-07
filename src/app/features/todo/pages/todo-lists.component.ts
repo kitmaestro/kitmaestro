@@ -77,7 +77,11 @@ import { tap } from 'rxjs';
 							</mat-form-field>
 						</div>
 						<div style="text-align: end">
-							<button mat-raised-button color="primary" type="submit">
+							<button
+								mat-raised-button
+								color="primary"
+								type="submit"
+							>
 								Agregar
 							</button>
 						</div>
@@ -91,7 +95,9 @@ import { tap } from 'rxjs';
 				<mat-card>
 					<mat-card-header>
 						<h3 mat-card-title>
-							{{ list.name }} ({{ list.active ? "Activa" : "Inactiva" }})
+							{{ list.name }} ({{
+								list.active ? 'Activa' : 'Inactiva'
+							}})
 						</h3>
 					</mat-card-header>
 					<mat-card-content>

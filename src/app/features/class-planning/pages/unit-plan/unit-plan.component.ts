@@ -12,9 +12,7 @@ import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 
 @Component({
 	selector: 'app-unit-plan',
-	imports: [
-		PretifyPipe,
-	],
+	imports: [PretifyPipe],
 	templateUrl: './unit-plan.component.html',
 	styleUrl: './unit-plan.component.scss',
 })

@@ -37,9 +37,14 @@ import { UpdateService } from '../../../core/services/update.service';
 						<div style="display: flex; gap: 12px; margin-top: 24px">
 							<div style="flex: 1 1 auto">
 								<mat-form-field appearance="outline">
-									<mat-label>Tipo de Publicaci&oacute;n</mat-label>
+									<mat-label
+										>Tipo de Publicaci&oacute;n</mat-label
+									>
 									<mat-select formControlName="type">
-										@for (option of postType; track $index) {
+										@for (
+											option of postType;
+											track $index
+										) {
 											<mat-option [value]="option.id">{{
 												option.label
 											}}</mat-option>
@@ -61,7 +66,11 @@ import { UpdateService } from '../../../core/services/update.service';
 						<div>
 							<mat-form-field appearance="outline">
 								<mat-label>T&iacute;tulo</mat-label>
-								<input type="text" matInput formControlName="title" />
+								<input
+									type="text"
+									matInput
+									formControlName="title"
+								/>
 							</mat-form-field>
 						</div>
 						<div>
@@ -118,7 +127,9 @@ import { UpdateService } from '../../../core/services/update.service';
 									<div>
 										<mat-form-field appearance="outline">
 											<mat-label>Es externo?</mat-label>
-											<mat-select formControlName="external">
+											<mat-select
+												formControlName="external"
+											>
 												<mat-option [value]="true"
 													>Si</mat-option
 												>

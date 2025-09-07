@@ -37,7 +37,10 @@ import { MatInputModule } from '@angular/material/input';
 				<div>
 					<mat-form-field>
 						<mat-label>Descripcion</mat-label>
-						<textarea formControlName="description" matInput></textarea>
+						<textarea
+							formControlName="description"
+							matInput
+						></textarea>
 					</mat-form-field>
 				</div>
 				<div style="text-align: end">

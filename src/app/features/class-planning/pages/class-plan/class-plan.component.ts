@@ -24,11 +24,16 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 							<tr>
 								<td style="width: 160px">
 									<b>Fecha</b>:
-									{{ classPlan.date | date: "dd/MM/yyyy" : "UTC+4" }}
+									{{
+										classPlan.date
+											| date: 'dd/MM/yyyy' : 'UTC+4'
+									}}
 								</td>
 								<td style="width: 280px">
 									<b>Grado y Sección</b>:
-									{{ section?.name || classPlan.section.name }}
+									{{
+										section?.name || classPlan.section.name
+									}}
 								</td>
 								<td>
 									<b>Docente</b>: {{ user?.title }}.
@@ -36,7 +41,7 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 								</td>
 								<td colspan="2">
 									<b>Área Curricular</b>:
-									{{ pretify(classPlan.subject || "") }}
+									{{ pretify(classPlan.subject || '') }}
 								</td>
 							</tr>
 							<tr>
@@ -44,7 +49,7 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 									<b
 										>Estrategias y técnicas de
 										enseñanza-aprendizaje</b
-									>: {{ classPlan.strategies.join(", ") }}
+									>: {{ classPlan.strategies.join(', ') }}
 								</td>
 							</tr>
 							<tr>
@@ -55,7 +60,9 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 							</tr>
 							<tr>
 								<th>Momento / Duración</th>
-								<th style="width: 18%">Competencias Especificas</th>
+								<th style="width: 18%">
+									Competencias Especificas
+								</th>
 								<th>Actividades</th>
 								<th style="width: 18%">
 									Organización de los Estudiantes
@@ -66,12 +73,16 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 						<tbody>
 							<tr>
 								<td>
-									<b>Inicio</b> ({{ classPlan.introduction.duration }}
+									<b>Inicio</b> ({{
+										classPlan.introduction.duration
+									}}
 									Minutos)
 								</td>
 								<td rowspan="4">{{ classPlan.competence }}</td>
 								<td>
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
 											actividad of classPlan.introduction
 												.activities;
@@ -85,9 +96,12 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 									{{ classPlan.introduction.layout }}
 								</td>
 								<td>
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
-											recurso of classPlan.introduction.resources;
+											recurso of classPlan.introduction
+												.resources;
 											track recurso
 										) {
 											<li>- {{ recurso }}</li>
@@ -97,13 +111,18 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 							</tr>
 							<tr>
 								<td>
-									<b>Desarrollo</b> ({{ classPlan.main.duration }}
+									<b>Desarrollo</b> ({{
+										classPlan.main.duration
+									}}
 									Minutos)
 								</td>
 								<td>
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
-											actividad of classPlan.main.activities;
+											actividad of classPlan.main
+												.activities;
 											track actividad
 										) {
 											<li>{{ actividad }}</li>
@@ -114,7 +133,9 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 									{{ classPlan.main.layout }}
 								</td>
 								<td>
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
 											recurso of classPlan.main.resources;
 											track recurso
@@ -126,13 +147,18 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 							</tr>
 							<tr>
 								<td>
-									<b>Cierre</b> ({{ classPlan.closing.duration }}
+									<b>Cierre</b> ({{
+										classPlan.closing.duration
+									}}
 									Minutos)
 								</td>
 								<td>
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
-											actividad of classPlan.closing.activities;
+											actividad of classPlan.closing
+												.activities;
 											track actividad
 										) {
 											<li>{{ actividad }}</li>
@@ -143,9 +169,12 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 									{{ classPlan.closing.layout }}
 								</td>
 								<td>
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
-											recurso of classPlan.closing.resources;
+											recurso of classPlan.closing
+												.resources;
 											track recurso
 										) {
 											<li>- {{ recurso }}</li>
@@ -156,7 +185,9 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 							<tr>
 								<td><b>Actividades Complementarias</b></td>
 								<td>
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
 											actividad of classPlan.supplementary
 												.activities;
@@ -170,7 +201,9 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 									{{ classPlan.supplementary.layout }}
 								</td>
 								<td>
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
 											recurso of classPlan.supplementary
 												.resources;
@@ -184,12 +217,15 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 							<tr>
 								<td colspan="5">
 									<b>Vocabulario del día/de la semana</b>:
-									{{ classPlan.vocabulary.join(", ") }}
+									{{ classPlan.vocabulary.join(', ') }}
 								</td>
 							</tr>
 							<tr>
 								<td colspan="5">
-									<b>Lecturas recomendadas/ o libro de la semana</b>:
+									<b
+										>Lecturas recomendadas/ o libro de la
+										semana</b
+									>:
 									{{ classPlan.readings }}
 								</td>
 							</tr>

@@ -1,5 +1,4 @@
-export interface ApiCreationResponse {
-}
+export interface ApiCreationResponse {}
 
 export interface ApiDeleteResponse {
 	acknowledged: boolean;

@@ -82,7 +82,7 @@ export const routes: Routes = [
 					),
 				title: 'Panel de Referidos',
 			},
-			{ path: 'todos', children: todoRoutes, },
+			{ path: 'todos', children: todoRoutes },
 
 			// sections
 			{
@@ -654,11 +654,26 @@ export const routes: Routes = [
 		],
 	},
 
-	{ path: '', component: PublicLayoutComponent, children: publicRoutes, canActivate: [authGuard] },
+	{
+		path: '',
+		component: PublicLayoutComponent,
+		children: publicRoutes,
+		canActivate: [authGuard],
+	},
 
-	{ path: '', component: MainLayoutComponent, canActivate: [authGuard], children: classPlanningRoutes },
+	{
+		path: '',
+		component: MainLayoutComponent,
+		canActivate: [authGuard],
+		children: classPlanningRoutes,
+	},
 
-	{ path: 'schedules', component: MainLayoutComponent, canActivate: [authGuard], children: schedulingRoutes },
+	{
+		path: 'schedules',
+		component: MainLayoutComponent,
+		canActivate: [authGuard],
+		children: schedulingRoutes,
+	},
 
 	{
 		path: '',
@@ -672,7 +687,7 @@ export const routes: Routes = [
 					).then((mod) => mod.UnitPlanDetailComponent),
 				title: 'Plan de Unidad',
 			},
-		]
+		],
 	},
 
 	{ path: '**', redirectTo: '/', pathMatch: 'full' },

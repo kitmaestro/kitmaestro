@@ -179,28 +179,28 @@ export class NavigationComponent {
 		);
 	userSettings$ = this.authService.profile();
 	subscription = signal<UserSubscription | null>(null);
-	subscription$ = this.userSubscriptionService
-		.checkSubscription()
-		.pipe(
-			map(
-				(sub) => {
-					if (sub.subscriptionType.toLowerCase() == 'free') {
-						return false;
-					}
-					return sub.status == 'active' && (+new Date(sub.endDate) > +new Date());
-				}
-			),
-		);
+	subscription$ = this.userSubscriptionService.checkSubscription().pipe(
+		map((sub) => {
+			if (sub.subscriptionType.toLowerCase() == 'free') {
+				return false;
+			}
+			return (
+				sub.status == 'active' && +new Date(sub.endDate) > +new Date()
+			);
+		}),
+	);
 
 	showNames = true;
 
 	userIsAdmin = signal<boolean>(false);
 
 	ngOnInit() {
-		this.userSettings$.pipe(map(user => ['orgalay.dev@gmail.com'].includes(user.email))).subscribe(res => this.userIsAdmin.set(res));
-		this.userSubscriptionService.checkSubscription().subscribe(sub => {
+		this.userSettings$
+			.pipe(map((user) => ['orgalay.dev@gmail.com'].includes(user.email)))
+			.subscribe((res) => this.userIsAdmin.set(res));
+		this.userSubscriptionService.checkSubscription().subscribe((sub) => {
 			this.subscription.set(sub);
-		})
+		});
 	}
 
 	toggleNames() {

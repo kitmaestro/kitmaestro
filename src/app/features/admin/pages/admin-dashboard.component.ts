@@ -25,13 +25,33 @@ import { HttpClient } from '@angular/common/http';
 			<mat-card-header>
 				<mat-card-title>Panel de Administraci&oacute;n</mat-card-title>
 			</mat-card-header>
-			<mat-card-content>
-			</mat-card-content>
+			<mat-card-content> </mat-card-content>
 			<mat-card-actions>
 				<div style="display: flex; gap: 12px;">
-					<button mat-flat-button color="primary" type=button routerLink="/admin/content-blocks">Bloques de Cotenido</button>
-					<button mat-flat-button color="primary" type=button routerLink="/admin/main-themes">Ejes Transversales</button>
-					<button mat-flat-button color="primary" type=button routerLink="/admin/competence-entries">Competencias</button>
+					<button
+						mat-flat-button
+						color="primary"
+						type="button"
+						routerLink="/admin/content-blocks"
+					>
+						Bloques de Cotenido
+					</button>
+					<button
+						mat-flat-button
+						color="primary"
+						type="button"
+						routerLink="/admin/main-themes"
+					>
+						Ejes Transversales
+					</button>
+					<button
+						mat-flat-button
+						color="primary"
+						type="button"
+						routerLink="/admin/competence-entries"
+					>
+						Competencias
+					</button>
 				</div>
 			</mat-card-actions>
 		</mat-card>
@@ -132,23 +152,38 @@ export class AdminDashboardComponent {
 	#subscriptionService = inject(UserSubscriptionService);
 	http = inject(HttpClient);
 
-	endpoint = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json';
+	endpoint =
+		'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json';
 	dopRate = 0;
 	subs = 0;
 
-	users$ = this.#userService.countUsers().pipe(map(res => res.users));
+	users$ = this.#userService.countUsers().pipe(map((res) => res.users));
 	unitPlans$ = this.#unitPlanService.countPlans().pipe(map((e) => e.plans));
 	classPlans$ = this.#classPlanService.countPlans().pipe(map((e) => e.plans));
-	subscriptions$ = this.#subscriptionService.countSubscriptions().pipe(map((e) => { this.subs = e.subscriptions; return e.subscriptions }));
-	revenue$ = this.#subscriptionService.findAll().pipe(map((e) => e.reduce((acc, sub) => acc + sub.amount, 0)));
+	subscriptions$ = this.#subscriptionService.countSubscriptions().pipe(
+		map((e) => {
+			this.subs = e.subscriptions;
+			return e.subscriptions;
+		}),
+	);
+	revenue$ = this.#subscriptionService
+		.findAll()
+		.pipe(map((e) => e.reduce((acc, sub) => acc + sub.amount, 0)));
 
 	async fetchRate() {
-		of(await (await fetch(this.endpoint)).json()).pipe(
-			map((res: any) => { console.log(res); return res.usd.dop }),
-			switchMap((dopRate) => this.revenue$.pipe(map((rev) => rev * dopRate)))
-		).subscribe((res) => {
-			this.dopRate = res;
-		});
+		of(await (await fetch(this.endpoint)).json())
+			.pipe(
+				map((res: any) => {
+					console.log(res);
+					return res.usd.dop;
+				}),
+				switchMap((dopRate) =>
+					this.revenue$.pipe(map((rev) => rev * dopRate)),
+				),
+			)
+			.subscribe((res) => {
+				this.dopRate = res;
+			});
 	}
 
 	ngOnInit() {

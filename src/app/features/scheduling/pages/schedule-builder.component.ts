@@ -1,6 +1,11 @@
 import { Component, OnInit, signal, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdkDragDrop, CdkDropList, CdkDropListGroup, DragDropModule } from '@angular/cdk/drag-drop';
+import {
+	CdkDragDrop,
+	CdkDropList,
+	CdkDropListGroup,
+	DragDropModule,
+} from '@angular/cdk/drag-drop';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,83 +34,132 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 		PretifyPipe,
 	],
 	template: `
-    <div class="schedule-builder-container">
-      <!-- Main Content: Schedule Grid -->
-      <div class="schedule-grid-wrapper">
-        <div class="header">
-            <mat-form-field appearance="outline" class="w-full md:w-1/3">
-                <mat-label>Selecciona una sección</mat-label>
-                <mat-select (selectionChange)="onSectionChange($event.value)">
-					@for (section of classSections(); track section._id) {
-						<mat-option [value]="section._id">
-							{{ section.name }}
-						</mat-option>
-					}
-                </mat-select>
-            </mat-form-field>
-            <button mat-raised-button color="primary" (click)="saveSchedule()" [disabled]="!selectedSection()">
-                Guardar
-            </button>
-        </div>
+		<div class="schedule-builder-container">
+			<!-- Main Content: Schedule Grid -->
+			<div class="schedule-grid-wrapper">
+				<div class="header">
+					<mat-form-field
+						appearance="outline"
+						class="w-full md:w-1/3"
+					>
+						<mat-label>Selecciona una sección</mat-label>
+						<mat-select
+							(selectionChange)="onSectionChange($event.value)"
+						>
+							@for (
+								section of classSections();
+								track section._id
+							) {
+								<mat-option [value]="section._id">
+									{{ section.name }}
+								</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+					<button
+						mat-raised-button
+						color="primary"
+						(click)="saveSchedule()"
+						[disabled]="!selectedSection()"
+					>
+						Guardar
+					</button>
+				</div>
 
-        <div class="schedule-grid">
-          <!-- Day Headers -->
-          <div class="day-header">Bloques</div>
-          <div *ngFor="let day of days" class="day-header">{{ day }}</div>
-
-          <!-- Time Slots and Grid Cells -->
-          <ng-container *ngFor="let time of timeSlots; let i = index">
-            <div class="time-slot">{{ time }}</div>
-            <div *ngFor="let day of days; let j = index"
-                 class="grid-cell"
-                 cdkDropList
-				 [id]="getDropListId(j, i)"
-                 [cdkDropListData]="getBlocksForCell(j, i)"
-                 (cdkDropListDropped)="drop($event)">
-                 <div *ngFor="let block of getBlocksForCell(j, i)" class="class-block" [ngClass]="getBlockClass(block)" [style.height.%]="getBlockHeight(block)" cdkDrag>
-                    <div class="block-content">
-                        <strong>{{ block.subject }}</strong>
-                        <small>{{ block.duration }} min</small>
-                    </div>
-                 </div>
-            </div>
-          </ng-container>
-        </div>
-      </div>
-
-      <!-- Sidebar: Draggable Subjects -->
-      <div class="subjects-sidebar" [class.disabled]="!selectedSection()">
-        <h3>Asignaturas</h3>
-		@if (selectedSection()) {
-			<div cdkDropListGroup>
-				@for (subject of availableSubjects(); track $index) {
-					<div class="subject-drag-list">
-						<h4>{{ subject | pretify }}</h4>
-						<div class="subject-variation-list" cdkDropList [cdkDropListData]="[{subject: subject, duration: 45, id: subject + '_45'}]" [id]="subject + '_45_list'">
-							<div class="class-block type-45" cdkDrag>
-								<div class="block-content">
-									<strong>{{ subject | pretify }}</strong>
-									<small>45 min</small>
-								</div>
-							</div>
-						</div>
-						 <div class="subject-variation-list" cdkDropList [cdkDropListData]="[{subject: subject, duration: 90, id: subject + '_90'}]" [id]="subject + '_90_list'">
-							<div class="class-block type-90" cdkDrag>
-								 <div class="block-content">
-									<strong>{{ subject | pretify }}</strong>
-									<small>90 min</small>
-								</div>
-							</div>
-						</div>
+				<div class="schedule-grid">
+					<!-- Day Headers -->
+					<div class="day-header">Bloques</div>
+					<div *ngFor="let day of days" class="day-header">
+						{{ day }}
 					</div>
+
+					<!-- Time Slots and Grid Cells -->
+					<ng-container *ngFor="let time of timeSlots; let i = index">
+						<div class="time-slot">{{ time }}</div>
+						<div
+							*ngFor="let day of days; let j = index"
+							class="grid-cell"
+							cdkDropList
+							[id]="getDropListId(j, i)"
+							[cdkDropListData]="getBlocksForCell(j, i)"
+							(cdkDropListDropped)="drop($event)"
+						>
+							<div
+								*ngFor="let block of getBlocksForCell(j, i)"
+								class="class-block"
+								[ngClass]="getBlockClass(block)"
+								[style.height.%]="getBlockHeight(block)"
+								cdkDrag
+							>
+								<div class="block-content">
+									<strong>{{ block.subject }}</strong>
+									<small>{{ block.duration }} min</small>
+								</div>
+							</div>
+						</div>
+					</ng-container>
+				</div>
+			</div>
+
+			<!-- Sidebar: Draggable Subjects -->
+			<div class="subjects-sidebar" [class.disabled]="!selectedSection()">
+				<h3>Asignaturas</h3>
+				@if (selectedSection()) {
+					<div cdkDropListGroup>
+						@for (subject of availableSubjects(); track $index) {
+							<div class="subject-drag-list">
+								<h4>{{ subject | pretify }}</h4>
+								<div
+									class="subject-variation-list"
+									cdkDropList
+									[cdkDropListData]="[
+										{
+											subject: subject,
+											duration: 45,
+											id: subject + '_45',
+										},
+									]"
+									[id]="subject + '_45_list'"
+								>
+									<div class="class-block type-45" cdkDrag>
+										<div class="block-content">
+											<strong>{{
+												subject | pretify
+											}}</strong>
+											<small>45 min</small>
+										</div>
+									</div>
+								</div>
+								<div
+									class="subject-variation-list"
+									cdkDropList
+									[cdkDropListData]="[
+										{
+											subject: subject,
+											duration: 90,
+											id: subject + '_90',
+										},
+									]"
+									[id]="subject + '_90_list'"
+								>
+									<div class="class-block type-90" cdkDrag>
+										<div class="block-content">
+											<strong>{{
+												subject | pretify
+											}}</strong>
+											<small>90 min</small>
+										</div>
+									</div>
+								</div>
+							</div>
+						}
+					</div>
+				} @else {
+					<p>Selecciona un grado para ver las asignaturas.</p>
 				}
 			</div>
-		} @else {
-			<p>Selecciona un grado para ver las asignaturas.</p>
-		}
-      </div>
-    </div>
-  `,
+		</div>
+	`,
 	styles: [
 		`
 			:host {

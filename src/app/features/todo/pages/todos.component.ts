@@ -99,7 +99,11 @@ import { TodoFormComponent } from '../components/todo-form.component';
 								</mat-form-field>
 							</div>
 							<div style="text-align: end">
-								<button mat-raised-button color="primary" type="submit">
+								<button
+									mat-raised-button
+									color="primary"
+									type="submit"
+								>
 									Guardar
 								</button>
 							</div>
@@ -124,12 +128,19 @@ import { TodoFormComponent } from '../components/todo-form.component';
 							<div>
 								<mat-form-field appearance="outline">
 									<mat-label>Descripci&oacute;n</mat-label>
-									<textarea formControlName="description" matInput>
+									<textarea
+										formControlName="description"
+										matInput
+									>
 									</textarea>
 								</mat-form-field>
 							</div>
 							<div style="text-align: end">
-								<button type="submit" mat-raised-button color="primary">
+								<button
+									type="submit"
+									mat-raised-button
+									color="primary"
+								>
 									Agregar
 								</button>
 							</div>
@@ -142,9 +153,13 @@ import { TodoFormComponent } from '../components/todo-form.component';
 				@for (todo of todos; track todo) {
 					<mat-expansion-panel>
 						<mat-expansion-panel-header>
-							<mat-panel-title> {{ todo.title }} </mat-panel-title>
+							<mat-panel-title>
+								{{ todo.title }}
+							</mat-panel-title>
 							<mat-panel-description>
-								{{ todo.completed ? "Completado" : "Pendiente" }}
+								{{
+									todo.completed ? 'Completado' : 'Pendiente'
+								}}
 							</mat-panel-description>
 						</mat-expansion-panel-header>
 						<p>
@@ -156,7 +171,9 @@ import { TodoFormComponent } from '../components/todo-form.component';
 								(click)="markAsCompleted(todo)"
 								[title]="
 									'Marcar como ' +
-									(todo.completed ? 'pendiente' : 'completado')
+									(todo.completed
+										? 'pendiente'
+										: 'completado')
 								"
 							>
 								@if (todo.completed) {

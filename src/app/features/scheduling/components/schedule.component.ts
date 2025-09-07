@@ -43,12 +43,12 @@ import { DatePipe } from '@angular/common';
 									>
 										{{
 											stringToDate(hours[hour].startTime)
-												| date: "hh:mm a"
+												| date: 'hh:mm a'
 										}}
 										-
 										{{
 											stringToDate(hours[hour].endTime)
-												| date: "hh:mm a"
+												| date: 'hh:mm a'
 										}}
 									</td>
 									@if (hours[hour].classSession) {

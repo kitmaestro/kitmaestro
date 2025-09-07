@@ -11,7 +11,9 @@
 		</div>
 		<h3>Asignaturas</h3>
 		<mat-chip-set>
-			<mat-chip *ngFor="let subject of section.subjects">{{ subject | pretify }}</mat-chip>
+			<mat-chip *ngFor="let subject of section.subjects">{{
+				subject | pretify
+			}}</mat-chip>
 		</mat-chip-set>
 	</mat-card-content>
 	<mat-card-actions>

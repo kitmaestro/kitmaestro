@@ -52,9 +52,12 @@ import { ClassPeriod } from '../../../core/interfaces/class-schedule';
 												section of sections;
 												track section._id
 											) {
-												<mat-option [value]="section._id">{{
-													section.name
-												}}</mat-option>
+												<mat-option
+													[value]="section._id"
+													>{{
+														section.name
+													}}</mat-option
+												>
 											}
 										</mat-select>
 									</mat-form-field>
@@ -68,9 +71,13 @@ import { ClassPeriod } from '../../../core/interfaces/class-schedule';
 												track format.id
 											) {
 												<mat-option
-													[disabled]="format.id !== 'JEE'"
+													[disabled]="
+														format.id !== 'JEE'
+													"
 													[value]="format.id"
-													>{{ format.label }}</mat-option
+													>{{
+														format.label
+													}}</mat-option
 												>
 											}
 										</mat-select>
@@ -80,26 +87,28 @@ import { ClassPeriod } from '../../../core/interfaces/class-schedule';
 						</div>
 						<div style="margin-bottom: 12px">
 							<small
-								style="
+								style='
 									font-style: italic;
 									font-size: 10pt;
 									font-family:
-										&quot;Lucida Sans&quot;,
-										&quot;Lucida Sans Regular&quot;,
-										&quot;Lucida Grande&quot;,
-										&quot;Lucida Sans Unicode&quot;, Geneva,
+										"Lucida Sans",
+										"Lucida Sans Regular",
+										"Lucida Grande",
+										"Lucida Sans Unicode", Geneva,
 										Verdana, sans-serif;
-								"
-								>**<b>Nota</b>: Por ahora este asistente solo crea
-								horarios por <b>curso</b> para Jornada Escolar
-								Extendida**</small
+								'
+								>**<b>Nota</b>: Por ahora este asistente solo
+								crea horarios por <b>curso</b> para Jornada
+								Escolar Extendida**</small
 							>
 						</div>
 						<div style="margin-bottom: 12px">
 							<table>
 								<thead>
 									<tr>
-										<th style="max-width: fit-content">Hora</th>
+										<th style="max-width: fit-content">
+											Hora
+										</th>
 										<th>Lunes</th>
 										<th>Martes</th>
 										<th>Miercoles</th>
@@ -123,13 +132,13 @@ import { ClassPeriod } from '../../../core/interfaces/class-schedule';
 												{{
 													stringToDate(
 														hours[hour].startTime
-													) | date: "hh:mm a"
+													) | date: 'hh:mm a'
 												}}
 												-
 												{{
 													stringToDate(
 														hours[hour].endTime
-													) | date: "hh:mm a"
+													) | date: 'hh:mm a'
 												}}
 											</td>
 											@if (hours[hour].classSession) {
@@ -158,7 +167,8 @@ import { ClassPeriod } from '../../../core/interfaces/class-schedule';
 														<input
 															type="hidden"
 															[value]="
-																hours[hour].endTime
+																hours[hour]
+																	.endTime
 															"
 															formControlName="endTime"
 														/>
@@ -219,7 +229,11 @@ import { ClassPeriod } from '../../../core/interfaces/class-schedule';
 							</table>
 						</div>
 						<div style="text-align: end">
-							<button mat-flat-button type="submit" color="primary">
+							<button
+								mat-flat-button
+								type="submit"
+								color="primary"
+							>
 								Guardar
 							</button>
 						</div>

@@ -67,7 +67,7 @@ import { saveAs } from 'file-saver';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
-        PretifyPipe,
+		PretifyPipe,
 	],
 	// --- Inline Template ---
 	template: `
@@ -77,7 +77,8 @@ import { saveAs } from 'file-saver';
 					>Generador de Curiosidades (Fun Facts)</mat-card-title
 				>
 				<mat-card-subtitle
-					>Despierta el interés con datos sorprendentes</mat-card-subtitle
+					>Despierta el interés con datos
+					sorprendentes</mat-card-subtitle
 				>
 			</mat-card-header>
 
@@ -142,9 +143,10 @@ import { saveAs } from 'file-saver';
 										subject of availableSubjects();
 										track subject
 									) {
-										<mat-option [value]="subject | pretify">{{
-											subject | pretify
-										}}</mat-option>
+										<mat-option
+											[value]="subject | pretify"
+											>{{ subject | pretify }}</mat-option
+										>
 									}
 									@if (
 										!availableSubjects().length &&

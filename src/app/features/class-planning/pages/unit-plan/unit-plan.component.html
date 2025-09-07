@@ -1,5 +1,5 @@
 @if (unitPlan) {
-	<div style="padding-top: 16px; min-width: 8.5in;">
+	<div style="padding-top: 16px; min-width: 8.5in">
 		<table
 			style="
 				border-collapse: collapse;
@@ -24,9 +24,14 @@
 							<span>{{ section.school.name }}</span>
 						} @else if (unitPlan.section) {
 							<span>{{ unitPlan.section.school.name }}</span>
-						} @else if (unitPlan.sections && unitPlan.sections.length) {
+						} @else if (
+							unitPlan.sections && unitPlan.sections.length
+						) {
 							@for (section of unitPlan.sections; track $index) {
-								<span>{{ $index > 0 ? ', ' : '' }}{{ section.school.name }}</span>
+								<span
+									>{{ $index > 0 ? ", " : ""
+									}}{{ section.school.name }}</span
+								>
 							}
 						} @else {
 							<span>Indeterminado</span>
@@ -44,7 +49,10 @@
 						@if (unitPlan.sections && unitPlan.sections.length) {
 							<b>Grados y Secciones</b>:
 							@for (section of unitPlan.sections; track $index) {
-								<span>{{ $index > 0 ? ', ' : '' }}{{ section.name }}</span>
+								<span
+									>{{ $index > 0 ? ", " : ""
+									}}{{ section.name }}</span
+								>
 							}
 						} @else {
 							<b>Grado y Secci&oacute;n</b>:
@@ -90,59 +98,73 @@
 					<tr>
 						<td colspan="6" style="padding: 0">
 							<div style="display: flex">
-								<div style="
-															text-align: center;
-															border-right: 1px solid #ccc;
-															width: 100%;
-															flex: 1 1 auto;
-														">
+								<div
+									style="
+										text-align: center;
+										border-right: 1px solid #ccc;
+										width: 100%;
+										flex: 1 1 auto;
+									"
+								>
 									Comunicativa
 								</div>
-								<div style="
-															text-align: center;
-															border-right: 1px solid #ccc;
-															width: 100%;
-															flex: 1 1 auto;
-														">
+								<div
+									style="
+										text-align: center;
+										border-right: 1px solid #ccc;
+										width: 100%;
+										flex: 1 1 auto;
+									"
+								>
 									Pensamiento Lógico, Creativo y Crítico
 								</div>
-								<div style="
-															text-align: center;
-															border-right: 1px solid #ccc;
-															width: 100%;
-															flex: 1 1 auto;
-														">
+								<div
+									style="
+										text-align: center;
+										border-right: 1px solid #ccc;
+										width: 100%;
+										flex: 1 1 auto;
+									"
+								>
 									Resolución de Problemas
 								</div>
-								<div style="
-															text-align: center;
-															border-right: 1px solid #ccc;
-															width: 100%;
-															flex: 1 1 auto;
-														">
+								<div
+									style="
+										text-align: center;
+										border-right: 1px solid #ccc;
+										width: 100%;
+										flex: 1 1 auto;
+									"
+								>
 									Tecnológica y Científica
 								</div>
-								<div style="
-															text-align: center;
-															border-right: 1px solid #ccc;
-															width: 100%;
-															flex: 1 1 auto;
-														">
+								<div
+									style="
+										text-align: center;
+										border-right: 1px solid #ccc;
+										width: 100%;
+										flex: 1 1 auto;
+									"
+								>
 									Ética y Ciudadana
 								</div>
-								<div style="
-															text-align: center;
-															border-right: 1px solid #ccc;
-															width: 100%;
-															flex: 1 1 auto;
-														">
+								<div
+									style="
+										text-align: center;
+										border-right: 1px solid #ccc;
+										width: 100%;
+										flex: 1 1 auto;
+									"
+								>
 									Desarrollo Personal y Espiritual
 								</div>
-								<div style="
-															text-align: center;
-															width: 100%;
-															flex: 1 1 auto;
-														">
+								<div
+									style="
+										text-align: center;
+										width: 100%;
+										flex: 1 1 auto;
+									"
+								>
 									Ambiental y de la Salud
 								</div>
 							</div>
@@ -159,7 +181,12 @@
 				@if (planIsForPrimary()) {
 					<tr>
 						<td colspan="2">
-							@for (comp of competence.length ? competence : unitPlan.competence; track comp._id) {
+							@for (
+								comp of competence.length
+									? competence
+									: unitPlan.competence;
+								track comp._id
+							) {
 								@if (comp.name === "Comunicativa") {
 									@if (unitPlan.subjects.length > 1) {
 										<p class="bold">
@@ -181,7 +208,12 @@
 							}
 						</td>
 						<td colspan="2">
-							@for (comp of competence.length ? competence : unitPlan.competence; track comp._id) {
+							@for (
+								comp of competence.length
+									? competence
+									: unitPlan.competence;
+								track comp._id
+							) {
 								@if (comp.name.includes("Pensamiento")) {
 									@if (unitPlan.subjects.length > 1) {
 										<p class="bold">
@@ -203,7 +235,12 @@
 							}
 						</td>
 						<td colspan="2">
-							@for (comp of competence.length ? competence : unitPlan.competence; track comp._id) {
+							@for (
+								comp of competence.length
+									? competence
+									: unitPlan.competence;
+								track comp._id
+							) {
 								@if (comp.name.includes("Ciudadana")) {
 									@if (unitPlan.subjects.length > 1) {
 										<p class="bold">
@@ -237,7 +274,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (comp of competence.length ? competence : unitPlan.competence; track comp._id) {
+									@for (
+										comp of competence.length
+											? competence
+											: unitPlan.competence;
+										track comp._id
+									) {
 										@if (comp.name === "Comunicativa") {
 											@if (unitPlan.subjects.length > 1) {
 												<p class="bold">
@@ -269,7 +311,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (comp of competence.length ? competence : unitPlan.competence; track comp._id) {
+									@for (
+										comp of competence.length
+											? competence
+											: unitPlan.competence;
+										track comp._id
+									) {
 										@if (
 											comp.name === "Pensamiento Logico"
 										) {
@@ -303,7 +350,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (comp of competence.length ? competence : unitPlan.competence; track comp._id) {
+									@for (
+										comp of competence.length
+											? competence
+											: unitPlan.competence;
+										track comp._id
+									) {
 										@if (
 											comp.name ===
 											"Resolucion De Problemas"
@@ -338,7 +390,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (comp of competence.length ? competence : unitPlan.competence; track comp._id) {
+									@for (
+										comp of competence.length
+											? competence
+											: unitPlan.competence;
+										track comp._id
+									) {
 										@if (
 											comp.name === "Ciencia Y Tecnologia"
 										) {
@@ -372,7 +429,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (comp of competence.length ? competence : unitPlan.competence; track comp._id) {
+									@for (
+										comp of competence.length
+											? competence
+											: unitPlan.competence;
+										track comp._id
+									) {
 										@if (
 											comp.name === "Etica Y Ciudadana"
 										) {
@@ -406,7 +468,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (comp of competence.length ? competence : unitPlan.competence; track comp._id) {
+									@for (
+										comp of competence.length
+											? competence
+											: unitPlan.competence;
+										track comp._id
+									) {
 										@if (
 											comp.name ===
 											"Desarrollo Personal Y Espiritual"
@@ -440,7 +507,12 @@
 										width: 100%;
 									"
 								>
-									@for (comp of competence.length ? competence : unitPlan.competence; track comp._id) {
+									@for (
+										comp of competence.length
+											? competence
+											: unitPlan.competence;
+										track comp._id
+									) {
 										@if (
 											comp.name ===
 											"Ambiental Y De La Salud"
@@ -480,7 +552,12 @@
 				@if (planIsForPrimary()) {
 					<tr>
 						<td colspan="2">
-							@for (row of competence.length ? competence : unitPlan.competence; track $index) {
+							@for (
+								row of competence.length
+									? competence
+									: unitPlan.competence;
+								track $index
+							) {
 								@if (row.name === "Comunicativa") {
 									@if (unitPlan.subjects.length > 1) {
 										<h4 class="bold">
@@ -507,7 +584,12 @@
 							}
 						</td>
 						<td colspan="2">
-							@for (row of competence.length ? competence : unitPlan.competence; track $index) {
+							@for (
+								row of competence.length
+									? competence
+									: unitPlan.competence;
+								track $index
+							) {
 								@if (row.name.includes("Pensamiento")) {
 									@if (unitPlan.subjects.length > 1) {
 										<h4 class="bold">
@@ -534,7 +616,12 @@
 							}
 						</td>
 						<td colspan="2">
-							@for (row of competence.length ? competence : unitPlan.competence; track $index) {
+							@for (
+								row of competence.length
+									? competence
+									: unitPlan.competence;
+								track $index
+							) {
 								@if (row.name.includes("Ciudadana")) {
 									@if (unitPlan.subjects.length > 1) {
 										<h4 class="bold">
@@ -573,7 +660,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (row of competence.length ? competence : unitPlan.competence; track $index) {
+									@for (
+										row of competence.length
+											? competence
+											: unitPlan.competence;
+										track $index
+									) {
 										@if (row.name === "Comunicativa") {
 											@if (unitPlan.subjects.length > 1) {
 												<p class="bold">
@@ -609,7 +701,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (row of competence.length ? competence : unitPlan.competence; track $index) {
+									@for (
+										row of competence.length
+											? competence
+											: unitPlan.competence;
+										track $index
+									) {
 										@if (
 											row.name === "Pensamiento Logico"
 										) {
@@ -647,7 +744,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (row of competence.length ? competence : unitPlan.competence; track $index) {
+									@for (
+										row of competence.length
+											? competence
+											: unitPlan.competence;
+										track $index
+									) {
 										@if (
 											row.name ===
 											"Resolucion De Problemas"
@@ -686,7 +788,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (row of competence.length ? competence : unitPlan.competence; track $index) {
+									@for (
+										row of competence.length
+											? competence
+											: unitPlan.competence;
+										track $index
+									) {
 										@if (
 											row.name === "Ciencia Y Tecnologia"
 										) {
@@ -724,7 +831,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (row of competence.length ? competence : unitPlan.competence; track $index) {
+									@for (
+										row of competence.length
+											? competence
+											: unitPlan.competence;
+										track $index
+									) {
 										@if (row.name === "Etica Y Ciudadana") {
 											@if (unitPlan.subjects.length > 1) {
 												<p class="bold">
@@ -760,7 +872,12 @@
 										border-right: 1px solid #ccc;
 									"
 								>
-									@for (row of competence.length ? competence : unitPlan.competence; track $index) {
+									@for (
+										row of competence.length
+											? competence
+											: unitPlan.competence;
+										track $index
+									) {
 										@if (
 											row.name ===
 											"Desarrollo Personal Y Espiritual"
@@ -798,7 +915,12 @@
 										width: 100%;
 									"
 								>
-									@for (row of competence.length ? competence : unitPlan.competence; track $index) {
+									@for (
+										row of competence.length
+											? competence
+											: unitPlan.competence;
+										track $index
+									) {
 										@if (
 											row.name ===
 											"Ambiental Y De La Salud"
@@ -1034,25 +1156,39 @@
 						<td><b>Fecha</b></td>
 						<td><b>Actividades de Aprendizaje</b></td>
 						<td><b>Evidencia</b></td>
-						<td><b>Tecnicas e Instrumentos de Evaluaci&oacute;n</b></td>
+						<td>
+							<b>Tecnicas e Instrumentos de Evaluaci&oacute;n</b>
+						</td>
 						<td><b>Metacognicion</b></td>
 						<td><b>Recursos</b></td>
 					</tr>
 					@for (plan of classPlans(); track plan._id) {
 						<tr>
+							<td></td>
 							<td>
-							</td>
-							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="
+										margin: 0;
+										padding: 0;
+										list-style: none;
+									"
+								>
 									<li><b>Inicio</b></li>
 									@for (
-										activity of plan.introduction.activities;
+										activity of plan.introduction
+											.activities;
 										track activity
 									) {
 										<li>- {{ activity }}</li>
 									}
 								</ul>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="
+										margin: 0;
+										padding: 0;
+										list-style: none;
+									"
+								>
 									<li><b>Desarrollo</b></li>
 									@for (
 										activity of plan.main.activities;
@@ -1061,7 +1197,13 @@
 										<li>- {{ activity }}</li>
 									}
 								</ul>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="
+										margin: 0;
+										padding: 0;
+										list-style: none;
+									"
+								>
 									<li><b>Cierre</b></li>
 									@for (
 										activity of plan.closing.activities;
@@ -1072,11 +1214,22 @@
 								</ul>
 							</td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
-								</ul>
+								<ul
+									style="
+										margin: 0;
+										padding: 0;
+										list-style: none;
+									"
+								></ul>
 							</td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="
+										margin: 0;
+										padding: 0;
+										list-style: none;
+									"
+								>
 									@for (
 										instrument of unitPlan.instruments;
 										track instrument
@@ -1086,18 +1239,49 @@
 								</ul>
 							</td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
-									<li>- ¿Qué te aprendiste de este tema hoy?</li>
-									<li>- ¿Qué tan importante es este tema a lo largo de sus vidas?</li>
-									<li>- ¿Qué te pareció el tema del día de hoy?</li>
-									<li>- ¿Cómo aprendí estos conocimientos?</li>
-									<li>- ¿Cuál fue la parte que más te intereso?</li>
-									<li>- ¿Como nos beneficiamos de los conocimientos aprendido hoy?</li>
-									<li>- ¿En qué nos ayuda para convivir mejor este tema?</li>
+								<ul
+									style="
+										margin: 0;
+										padding: 0;
+										list-style: none;
+									"
+								>
+									<li>
+										- ¿Qué te aprendiste de este tema hoy?
+									</li>
+									<li>
+										- ¿Qué tan importante es este tema a lo
+										largo de sus vidas?
+									</li>
+									<li>
+										- ¿Qué te pareció el tema del día de
+										hoy?
+									</li>
+									<li>
+										- ¿Cómo aprendí estos conocimientos?
+									</li>
+									<li>
+										- ¿Cuál fue la parte que más te
+										intereso?
+									</li>
+									<li>
+										- ¿Como nos beneficiamos de los
+										conocimientos aprendido hoy?
+									</li>
+									<li>
+										- ¿En qué nos ayuda para convivir mejor
+										este tema?
+									</li>
 								</ul>
 							</td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="
+										margin: 0;
+										padding: 0;
+										list-style: none;
+									"
+								>
 									@for (
 										resource of plan.introduction.resources;
 										track resource
@@ -1125,7 +1309,9 @@
 						<td class="bold text-center" colspan="2">
 							De Ense&ntilde;anza
 						</td>
-						<td class="bold text-center" colspan="2">De Aprendizaje</td>
+						<td class="bold text-center" colspan="2">
+							De Aprendizaje
+						</td>
 						<td class="bold text-center" colspan="2">
 							De Evaluaci&oacute;n
 						</td>

@@ -1,4 +1,4 @@
 export enum JOURNEY {
-  REGULAR = "regular",
-  JEE = "jee",
+	REGULAR = 'regular',
+	JEE = 'jee',
 }

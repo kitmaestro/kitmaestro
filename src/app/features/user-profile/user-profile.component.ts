@@ -71,17 +71,17 @@ export class UserProfileComponent implements OnInit {
 		Hombre: { value: string; label: string }[];
 		Mujer: { value: string; label: string }[];
 	} = {
-			Hombre: [
-				{ value: 'Licdo', label: 'Licenciado' },
-				{ value: 'Mtro', label: 'Maestro' },
-				{ value: 'Dr', label: 'Doctor' },
-			],
-			Mujer: [
-				{ value: 'Licda', label: 'Licenciada' },
-				{ value: 'Mtra', label: 'Maestra' },
-				{ value: 'Dra', label: 'Doctora' },
-			],
-		};
+		Hombre: [
+			{ value: 'Licdo', label: 'Licenciado' },
+			{ value: 'Mtro', label: 'Maestro' },
+			{ value: 'Dr', label: 'Doctor' },
+		],
+		Mujer: [
+			{ value: 'Licda', label: 'Licenciada' },
+			{ value: 'Mtra', label: 'Maestra' },
+			{ value: 'Dra', label: 'Doctora' },
+		],
+	};
 
 	ngOnInit() {
 		this.schoolService.findAll().subscribe((schools) => {
@@ -92,7 +92,9 @@ export class UserProfileComponent implements OnInit {
 				});
 			}
 		});
-		this.userSubscriptionService.checkSubscription().subscribe((sub) => this.userSubscription.set(sub));
+		this.userSubscriptionService
+			.checkSubscription()
+			.subscribe((sub) => this.userSubscription.set(sub));
 		this.authService.profile().subscribe({
 			next: (user) => {
 				this.user = user;

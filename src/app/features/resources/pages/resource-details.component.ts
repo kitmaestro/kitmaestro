@@ -55,25 +55,39 @@ import { UserSettings } from '../../../core/interfaces/user-settings';
 								{{ resource.description }}
 							</p>
 							<p>
-								<b>Nivel{{ resource.level.length > 1 ? "es" : "" }}:</b>
+								<b
+									>Nivel{{
+										resource.level.length > 1 ? 'es' : ''
+									}}:</b
+								>
 								@for (level of resource.level; track $index) {
-									{{ $index > 0 ? ", " : "" }}{{ level | pretify }}
+									{{ $index > 0 ? ', ' : ''
+									}}{{ level | pretify }}
 								}
 							</p>
 							<p>
-								<b>Grado{{ resource.grade.length > 1 ? "s" : "" }}:</b>
+								<b
+									>Grado{{
+										resource.grade.length > 1 ? 's' : ''
+									}}:</b
+								>
 								@for (grade of resource.grade; track $index) {
-									{{ $index > 0 ? ", " : "" }}{{ grade | pretify }}
+									{{ $index > 0 ? ', ' : ''
+									}}{{ grade | pretify }}
 								}
 							</p>
 							<p>
 								<b
 									>&Aacute;rea{{
-										resource.subject.length > 1 ? "s" : ""
+										resource.subject.length > 1 ? 's' : ''
 									}}:</b
 								>
-								@for (subject of resource.subject; track $index) {
-									{{ $index > 0 ? ", " : "" }}{{ subject | pretify }}
+								@for (
+									subject of resource.subject;
+									track $index
+								) {
+									{{ $index > 0 ? ', ' : ''
+									}}{{ subject | pretify }}
 								}
 							</p>
 						</div>
@@ -99,14 +113,14 @@ import { UserSettings } from '../../../core/interfaces/user-settings';
 								>
 									<mat-icon>{{
 										resource.price === 0
-											? "download"
-											: "shopping_cart"
+											? 'download'
+											: 'shopping_cart'
 									}}</mat-icon>
 									{{ resource.downloads }}
 									{{
 										resource.price === 0
-											? "Descargar"
-											: "Comprar Ahora"
+											? 'Descargar'
+											: 'Comprar Ahora'
 									}}
 								</button>
 								<button
@@ -117,7 +131,7 @@ import { UserSettings } from '../../../core/interfaces/user-settings';
 								>
 									<mat-icon>bookmark</mat-icon>
 									{{ resource.bookmarks }}
-									{{ bookmarked ? "Olvidar" : "Guardar" }}
+									{{ bookmarked ? 'Olvidar' : 'Guardar' }}
 								</button>
 							</div>
 						</div>

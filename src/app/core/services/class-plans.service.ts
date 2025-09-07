@@ -36,7 +36,6 @@ export class ClassPlansService {
 	};
 	private pretify = new PretifyPipe().transform;
 
-
 	countPlans(): Observable<{ plans: number }> {
 		return this.#apiService.get<{ plans: number }>('class-plans/count');
 	}
@@ -48,7 +47,10 @@ export class ClassPlansService {
 				params = params.set(key, filters[key]);
 			});
 		}
-		return this.http.get<ClassPlan[]>(this.apiBaseUrl, { ...this.config, params });
+		return this.http.get<ClassPlan[]>(this.apiBaseUrl, {
+			...this.config,
+			params,
+		});
 	}
 
 	find(id: string): Observable<ClassPlan> {

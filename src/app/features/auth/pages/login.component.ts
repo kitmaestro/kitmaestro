@@ -33,7 +33,9 @@ import { AuthService } from '../../../core/services/auth.service';
 		<div class="flex-wrapper">
 			<mat-card class="login-card">
 				<mat-card-header>
-					<div style="display: flex; justify-content: center; width: 100%">
+					<div
+						style="display: flex; justify-content: center; width: 100%"
+					>
 						<h2 mat-card-title>Inicia Sesi&oacute;n</h2>
 					</div>
 				</mat-card-header>
@@ -47,7 +49,11 @@ import { AuthService } from '../../../core/services/auth.service';
 					<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 						<mat-form-field appearance="outline">
 							<mat-label>Email</mat-label>
-							<input type="email" matInput formControlName="email" />
+							<input
+								type="email"
+								matInput
+								formControlName="email"
+							/>
 						</mat-form-field>
 						<mat-form-field appearance="outline">
 							<mat-label>Contrase&ntilde;a</mat-label>
@@ -57,7 +63,9 @@ import { AuthService } from '../../../core/services/auth.service';
 								formControlName="password"
 							/>
 						</mat-form-field>
-						<mat-checkbox formControlName="remember">Recordarme</mat-checkbox>
+						<mat-checkbox formControlName="remember"
+							>Recordarme</mat-checkbox
+						>
 						<div
 							style="
 								margin: 12px 0;
@@ -66,10 +74,22 @@ import { AuthService } from '../../../core/services/auth.service';
 								gap: 12px;
 							"
 						>
-							<button [disabled]="loading || loginForm.invalid" mat-flat-button color="primary" type="submit">
+							<button
+								[disabled]="loading || loginForm.invalid"
+								mat-flat-button
+								color="primary"
+								type="submit"
+							>
 								Entrar
 							</button>
-							<a mat-button color="link" [href]="apiUrl + (referrer ? '?ref=' + referrer : '')">
+							<a
+								mat-button
+								color="link"
+								[href]="
+									apiUrl +
+									(referrer ? '?ref=' + referrer : '')
+								"
+							>
 								<bi-icon icon="google"></bi-icon>
 								Iniciar con Google
 							</a>
@@ -108,7 +128,7 @@ import { AuthService } from '../../../core/services/auth.service';
 			bottom: 0;
 			justify-content: center;
 			align-items: center;
-			background-image: url("/assets/teacher.jpg");
+			background-image: url('/assets/teacher.jpg');
 			background-attachment: fixed;
 			background-position: center;
 			background-repeat: no-repeat;

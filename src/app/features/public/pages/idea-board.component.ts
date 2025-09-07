@@ -23,9 +23,9 @@ import { UserSettingsService } from '../../../core/services/user-settings.servic
 	template: `
 		<h2>Pizarron de Ideas</h2>
 		<p>
-			En este espacio, nuestros usuarios pueden presentar sus ideas y votar por
-			las mejores. Cada semana se eligirá la idea mas votada para implementar en
-			la plataforma.
+			En este espacio, nuestros usuarios pueden presentar sus ideas y
+			votar por las mejores. Cada semana se eligirá la idea mas votada
+			para implementar en la plataforma.
 		</p>
 
 		<div>
@@ -40,7 +40,10 @@ import { UserSettingsService } from '../../../core/services/user-settings.servic
 				<div>
 					<mat-form-field appearance="outline">
 						<mat-label>Descripción</mat-label>
-						<textarea formControlName="description" matInput></textarea>
+						<textarea
+							formControlName="description"
+							matInput
+						></textarea>
 					</mat-form-field>
 				</div>
 				<div>
@@ -59,7 +62,10 @@ import { UserSettingsService } from '../../../core/services/user-settings.servic
 					</mat-card-header>
 					<mat-card-content>
 						<p>{{ idea.description }}</p>
-						<p>Por {{ idea.user.firstname }} {{ idea.user.lastname }}</p>
+						<p>
+							Por {{ idea.user.firstname }}
+							{{ idea.user.lastname }}
+						</p>
 					</mat-card-content>
 					<mat-card-actions>
 						<button
@@ -69,7 +75,9 @@ import { UserSettingsService } from '../../../core/services/user-settings.servic
 							(click)="dislike(idea)"
 							[style]="
 								'margin-right: 12px;' +
-								(iDislikedIt(idea) ? 'background-color: #005cbb;' : '')
+								(iDislikedIt(idea)
+									? 'background-color: #005cbb;'
+									: '')
 							"
 						>
 							<mat-icon>thumb_down</mat-icon> {{ dislikes(idea) }}
@@ -79,7 +87,11 @@ import { UserSettingsService } from '../../../core/services/user-settings.servic
 							extended
 							type="button"
 							(click)="like(idea)"
-							[style]="iLikedIt(idea) ? 'background-color: #005cbb;' : ''"
+							[style]="
+								iLikedIt(idea)
+									? 'background-color: #005cbb;'
+									: ''
+							"
 						>
 							<mat-icon>thumb_up</mat-icon> {{ likes(idea) }}
 						</button>
