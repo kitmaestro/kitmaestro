@@ -277,7 +277,7 @@ export class SignupComponent implements OnInit {
 			if (email && password) {
 				this.authService
 					.signup({
-						email,
+						email: email.trim().toLowerCase(),
 						password,
 						ref: this.referrer ? this.referrer : undefined,
 						plan: this.plan ? this.plan : undefined,

@@ -59,7 +59,7 @@ export class RecoverComponent {
 		const email = this.email.value;
 		if (!email) return;
 
-		this.authService.recover(email.trim()).subscribe({
+		this.authService.recover(email.trim().toLowerCase()).subscribe({
 			next: (res) => {
 				console.log(res);
 				this.sb.open(

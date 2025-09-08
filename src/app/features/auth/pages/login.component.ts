@@ -227,7 +227,7 @@ export class LoginComponent implements OnInit {
 			const { email, password } = this.loginForm.value;
 			this.loading = true;
 			if (email && password) {
-				this.authService.login(email, password).subscribe({
+				this.authService.login(email.trim().toLowerCase(), password).subscribe({
 					next: (result) => {
 						if (result.error) {
 							this.sb.open(
