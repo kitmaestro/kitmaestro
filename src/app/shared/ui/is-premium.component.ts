@@ -199,7 +199,7 @@ export class IsPremiumComponent implements OnInit {
 						sub.status !== 'active' ||
 						new Date(sub.endDate) < new Date()
 							? 1
-							: sub.subscriptionType == 'Plan Básico'
+							: sub.subscriptionType == 'Plan Basico'
 								? 2
 								: sub.subscriptionType == 'Plan Plus'
 									? 3
@@ -210,6 +210,7 @@ export class IsPremiumComponent implements OnInit {
 							: minSubscriptionType == 'Plan Plus'
 								? 3
 								: 4;
+					console.log(accessLevel, requiredLevel)
 					return accessLevel >= requiredLevel;
 				}),
 				tap(() => {
@@ -220,6 +221,7 @@ export class IsPremiumComponent implements OnInit {
 			.subscribe((isPremium) => {
 				this.userCanAccess.set(isPremium);
 				setTimeout(() => this.renderButtons(), 1500);
+				this.onLoaded.emit(true);
 			});
 	}
 
