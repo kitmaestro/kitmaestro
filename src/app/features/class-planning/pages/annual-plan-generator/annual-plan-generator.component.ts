@@ -34,6 +34,7 @@ import { UserSubscriptionService } from '../../../../core/services/user-subscrip
 import { CommonModule } from '@angular/common';
 import { MainTheme } from '../../../../core/interfaces';
 import { MainThemeService } from '../../../../core/services/main-theme.service';
+import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
 
 @Component({
 	selector: 'app-annual-plan-generator',
@@ -51,6 +52,7 @@ import { MainThemeService } from '../../../../core/services/main-theme.service';
 		MatIconModule,
 		MatChipsModule,
 		RouterModule,
+		IsPremiumComponent,
 	],
 	templateUrl: './annual-plan-generator.component.html',
 	styleUrl: './annual-plan-generator.component.scss',

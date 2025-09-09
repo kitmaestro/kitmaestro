@@ -14,6 +14,7 @@ import { ClassSection } from '../../core/interfaces/class-section';
 import { AiService } from '../../core/services/ai.service';
 import { MarkdownComponent } from 'ngx-markdown';
 import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
+import { IsPremiumComponent } from '../../shared/ui/is-premium.component';
 
 @Component({
 	selector: 'app-holiday-activity-generator',
@@ -27,93 +28,96 @@ import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
 		MatIconModule,
 		MatSnackBarModule,
 		MarkdownComponent,
+		IsPremiumComponent,
 	],
 	template: `
-		<mat-card style="margin-top: 24px">
-			<mat-card-header>
-				<mat-card-title
-					>Generador de Actividades para Efemérides</mat-card-title
-				>
-			</mat-card-header>
-			<mat-card-content>
-				<div style="margin-top: 24px">
-					<form [formGroup]="holidayForm" (ngSubmit)="onSubmit()">
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Grado a trabajar</mat-label>
-								<mat-select formControlName="section">
-									@for (
-										section of sections;
-										track section._id
-									) {
-										<mat-option [value]="section._id">{{
-											section.name
-										}}</mat-option>
-									}
-								</mat-select>
-							</mat-form-field>
-						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label
-									>Lugar de la celebraci&oacute;n</mat-label
+		<app-is-premium minSubscriptionType="Plan Basico">
+			<mat-card style="margin-top: 24px">
+				<mat-card-header>
+					<mat-card-title
+						>Generador de Actividades para Efemérides</mat-card-title
+					>
+				</mat-card-header>
+				<mat-card-content>
+					<div style="margin-top: 24px">
+						<form [formGroup]="holidayForm" (ngSubmit)="onSubmit()">
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Grado a trabajar</mat-label>
+									<mat-select formControlName="section">
+										@for (
+											section of sections;
+											track section._id
+										) {
+											<mat-option [value]="section._id">{{
+												section.name
+											}}</mat-option>
+										}
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label
+										>Lugar de la celebraci&oacute;n</mat-label
+									>
+									<mat-select formControlName="place">
+										<mat-option value="en el patio"
+											>El patio</mat-option
+										>
+										<mat-option
+											value="en el acto de subir la bandera, en la mañana (10 minutos maximo)"
+											>El acto cívico</mat-option
+										>
+										<mat-option value="en el salon de clases"
+											>El salón de clases</mat-option
+										>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Efeméride a Celebrar</mat-label>
+									<input
+										type="text"
+										formControlName="holiday"
+										matInput
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Detalles adicionales</mat-label>
+									<textarea matInput formControlName="question">
+									</textarea>
+								</mat-form-field>
+							</div>
+							<div>
+								<button
+									[disabled]="holidayForm.invalid || loading"
+									mat-fab
+									extended
+									type="submit"
 								>
-								<mat-select formControlName="place">
-									<mat-option value="en el patio"
-										>El patio</mat-option
-									>
-									<mat-option
-										value="en el acto de subir la bandera, en la mañana (10 minutos maximo)"
-										>El acto cívico</mat-option
-									>
-									<mat-option value="en el salon de clases"
-										>El salón de clases</mat-option
-									>
-								</mat-select>
-							</mat-form-field>
-						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Efeméride a Celebrar</mat-label>
-								<input
-									type="text"
-									formControlName="holiday"
-									matInput
-								/>
-							</mat-form-field>
-						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Detalles adicionales</mat-label>
-								<textarea matInput formControlName="question">
-								</textarea>
-							</mat-form-field>
-						</div>
-						<div>
-							<button
-								[disabled]="holidayForm.invalid || loading"
-								mat-fab
-								extended
-								type="submit"
-							>
-								<mat-icon>bolt</mat-icon>
-								{{ response ? 'Regenerar' : 'Generar' }}
-							</button>
-						</div>
-					</form>
-				</div>
-			</mat-card-content>
-		</mat-card>
+									<mat-icon>bolt</mat-icon>
+									{{ response ? 'Regenerar' : 'Generar' }}
+								</button>
+							</div>
+						</form>
+					</div>
+				</mat-card-content>
+			</mat-card>
 
-		@if (response) {
-			<div style="margin-top: 24px">
-				<mat-card>
-					<mat-card-content>
-						<markdown [data]="response"></markdown>
-					</mat-card-content>
-				</mat-card>
-			</div>
-		}
+			@if (response) {
+				<div style="margin-top: 24px">
+					<mat-card>
+						<mat-card-content>
+							<markdown [data]="response"></markdown>
+						</mat-card-content>
+					</mat-card>
+				</div>
+			}
+		</app-is-premium>
 	`,
 	styles: 'mat-form-field {width: 100%;}',
 })

@@ -322,13 +322,13 @@ class SectionCreatorComponent {
 										<mat-select
 											formControlName="subscriptionType"
 										>
-											<mat-option value="Premium Básico"
+											<mat-option value="Plan Basico"
 												>Plan Básico</mat-option
 											>
-											<mat-option value="Premium Plus"
+											<mat-option value="Plan Plus"
 												>Plan Plus</mat-option
 											>
-											<mat-option value="Premium"
+											<mat-option value="Plan Premium"
 												>Plan Premium</mat-option
 											>
 											<mat-option value="FREE"

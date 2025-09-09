@@ -18,6 +18,7 @@ export class ApiService {
 	#createHeaders(customHeaders?: { [header: string]: string }): HttpHeaders {
 		let headers = new HttpHeaders({
 			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
 		});
 		if (customHeaders) {
 			for (const header in customHeaders) {
@@ -39,7 +40,7 @@ export class ApiService {
 		const headers = this.#createHeaders(customHeaders);
 		const params = new HttpParams({ fromObject: paramsObj || {} });
 		return this.#http
-			.get<T>(url, { headers, params })
+			.get<T>(url, { headers, params, withCredentials: true })
 			.pipe(retry(retryCount), catchError(this.handleError));
 	}
 
@@ -52,7 +53,7 @@ export class ApiService {
 		const url = `${this.#baseUrl}/${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
 		return this.#http
-			.post<T>(url, body, { headers })
+			.post<T>(url, body, { headers, withCredentials: true })
 			.pipe(retry(retryCount), catchError(this.handleError));
 	}
 
@@ -65,7 +66,7 @@ export class ApiService {
 		const url = `${this.#baseUrl}/${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
 		return this.#http
-			.patch<T>(url, body, { headers })
+			.patch<T>(url, body, { headers, withCredentials: true })
 			.pipe(retry(retryCount), catchError(this.handleError));
 	}
 
@@ -78,7 +79,7 @@ export class ApiService {
 		const url = `${this.#baseUrl}/${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
 		return this.#http
-			.patch<T>(url, body, { headers })
+			.patch<T>(url, body, { headers, withCredentials: true })
 			.pipe(retry(retryCount), catchError(this.handleError));
 	}
 
@@ -90,7 +91,7 @@ export class ApiService {
 		const url = `${this.#baseUrl}/${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
 		return this.#http
-			.delete<T>(url, { headers })
+			.delete<T>(url, { headers, withCredentials: true })
 			.pipe(retry(retryCount), catchError(this.handleError));
 	}
 

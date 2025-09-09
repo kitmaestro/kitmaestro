@@ -112,38 +112,63 @@
 		}
 	}
 	<div>
-		@for (toolList of apps; track $index) {
-			<h3
-				[style]="{
-					display:
-						toolList.category == 'Recursos' && visibleToUser(1)
-							? 'none'
-							: 'block',
-				}"
-			>
-				{{ toolList.category }}
-			</h3>
-			<div
-				class="apps-grid"
-				[style]="{
-					display:
-						toolList.category == 'Recursos' && visibleToUser(1)
-							? 'none'
-							: 'grid',
-				}"
-			>
-				@for (tool of toolList.tools; track $index) {
-					@if (visibleToUser(tool.tier)) {
-						<app-tile [app]="tool" />
-					}
-				}
-			</div>
-		} @empty {
-			<p style="padding: 24px; text-align: center">
-				No tenemos esa herramienta.<br />Considera
-				<a mat-button routerLink="/ideas">Proponer la Idea</a> para que
-				la integremos a la plataforma.
-			</p>
-		}
+		<mat-tab-group>
+			<mat-tab label="Planificación">
+				<div class="container">
+					<div class="apps-grid">
+						@for (tool of planningTools; track $index) {
+							<app-tile [app]="tool" />
+						}
+					</div>
+				</div>
+			</mat-tab>
+			<mat-tab label="Evaluación">
+				<div class="container">
+					<div class="apps-grid">
+						@for (tool of assessmentTools; track $index) {
+							<app-tile [app]="tool" />
+						}
+					</div>
+				</div>
+			</mat-tab>
+			<mat-tab label="Recursos">
+				<div class="container">
+					<div
+						class="apps-grid"
+					>
+						@for (tool of resourcesTools; track $index) {
+							<app-tile [app]="tool" />
+						}
+					</div>
+				</div>
+			</mat-tab>
+			<mat-tab label="Registro">
+				<div class="container">
+					<div class="apps-grid">
+						@for (tool of registryTools; track $index) {
+							<app-tile [app]="tool" />
+						}
+					</div>
+				</div>
+			</mat-tab>
+			<mat-tab label="Actividades">
+				<div class="container">
+					<div class="apps-grid">
+						@for (tool of activitiesTools; track $index) {
+							<app-tile [app]="tool" />
+						}
+					</div>
+				</div>
+			</mat-tab>
+			<mat-tab label="Apoyo y Soporte">
+				<div class="container">
+					<div class="apps-grid">
+						@for (tool of supportTools; track $index) {
+							<app-tile [app]="tool" />
+						}
+					</div>
+				</div>
+			</mat-tab>
+		</mat-tab-group>
 	</div>
 </div>
