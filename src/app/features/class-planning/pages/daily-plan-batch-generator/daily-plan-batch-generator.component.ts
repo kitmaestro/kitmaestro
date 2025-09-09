@@ -10,9 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
-import { of, Observable } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { MarkdownComponent } from 'ngx-markdown';
 import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 import { UnitPlan } from '../../../../core/interfaces/unit-plan';
 import { UnitPlanService } from '../../../../core/services/unit-plan.service';
@@ -25,6 +22,7 @@ import {
 	UserSettings,
 } from '../../../../core/interfaces';
 import { classroomResources } from '../../../../config/constants';
+import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
 
 const classPlanPrompt = `
 Eres un docente experto diseñando planes de clase diarios.
@@ -73,106 +71,109 @@ interface PlanToGenerate {
 		MatFormFieldModule,
 		MatSelectModule,
 		MatChipsModule,
+		IsPremiumComponent,
 	],
 	template: `
-		<div class="container">
-			<mat-card>
-				@if (!unitPlanInput) {
-					<mat-card-header class="header"
-						><mat-card-title
-							><h2>
-								Generador por Lotes de Planes Diarios
-							</h2></mat-card-title
-						></mat-card-header
-					>
-				}
-				<mat-card-content>
-					<form
-						[formGroup]="generatorForm"
-						(ngSubmit)="generateDailyPlansBatch()"
-					>
-						@if (!unitPlanInput) {
-							<mat-form-field appearance="outline">
-								<mat-label
-									>Unidad de Aprendizaje Base</mat-label
-								>
-								<mat-select formControlName="unitPlan">
-									<mat-option *ngIf="isLoadingUnits"
-										>Cargando unidades...</mat-option
+		<app-is-premium>
+			<div class="container">
+				<mat-card>
+					@if (!unitPlanInput) {
+						<mat-card-header class="header"
+							><mat-card-title
+								><h2>
+									Generador por Lotes de Planes Diarios
+								</h2></mat-card-title
+							></mat-card-header
+						>
+					}
+					<mat-card-content>
+						<form
+							[formGroup]="generatorForm"
+							(ngSubmit)="generateDailyPlansBatch()"
+						>
+							@if (!unitPlanInput) {
+								<mat-form-field appearance="outline">
+									<mat-label
+										>Unidad de Aprendizaje Base</mat-label
 									>
+									<mat-select formControlName="unitPlan">
+										<mat-option *ngIf="isLoadingUnits"
+											>Cargando unidades...</mat-option
+										>
+										<mat-option
+											*ngFor="let plan of allUnitPlans"
+											[value]="plan._id"
+											>{{ plan.title }}</mat-option
+										>
+									</mat-select>
+								</mat-form-field>
+							}
+							<mat-form-field appearance="outline">
+								<mat-label>Estilo de Enseñanza</mat-label>
+								<mat-select formControlName="teachingStyle">
 									<mat-option
-										*ngFor="let plan of allUnitPlans"
-										[value]="plan._id"
-										>{{ plan.title }}</mat-option
+										*ngFor="let style of teachingStyles"
+										[value]="style.id"
+										>{{ style.label }}</mat-option
 									>
 								</mat-select>
 							</mat-form-field>
-						}
-						<mat-form-field appearance="outline">
-							<mat-label>Estilo de Enseñanza</mat-label>
-							<mat-select formControlName="teachingStyle">
-								<mat-option
-									*ngFor="let style of teachingStyles"
-									[value]="style.id"
-									>{{ style.label }}</mat-option
+							<div class="resource-section">
+								<mat-label>Recursos Disponibles</mat-label>
+								<mat-chip-listbox
+									formControlName="resources"
+									multiple
 								>
-							</mat-select>
-						</mat-form-field>
-						<div class="resource-section">
-							<mat-label>Recursos Disponibles</mat-label>
-							<mat-chip-listbox
-								formControlName="resources"
-								multiple
-							>
-								<mat-chip-option
-									*ngFor="let resource of availableResources"
-									[value]="resource"
-									>{{ resource }}</mat-chip-option
+									<mat-chip-option
+										*ngFor="let resource of availableResources"
+										[value]="resource"
+										>{{ resource }}</mat-chip-option
+									>
+								</mat-chip-listbox>
+							</div>
+							<div *ngIf="isGenerating" class="progress-section">
+								<p>Generando planes diarios, por favor espere...</p>
+								<mat-progress-bar
+									mode="determinate"
+									[value]="
+										(plansGenerated / totalPlansToGenerate) *
+										100
+									"
+								></mat-progress-bar>
+								<p class="progress-label">
+									{{ plansGenerated }} /
+									{{ totalPlansToGenerate }} planes generados
+								</p>
+							</div>
+							<mat-card-actions align="end">
+								<button
+									mat-stroked-button
+									[routerLink]="['/unit-plans', 'list']"
+									type="button"
 								>
-							</mat-chip-listbox>
-						</div>
-						<div *ngIf="isGenerating" class="progress-section">
-							<p>Generando planes diarios, por favor espere...</p>
-							<mat-progress-bar
-								mode="determinate"
-								[value]="
-									(plansGenerated / totalPlansToGenerate) *
-									100
-								"
-							></mat-progress-bar>
-							<p class="progress-label">
-								{{ plansGenerated }} /
-								{{ totalPlansToGenerate }} planes generados
-							</p>
-						</div>
-						<mat-card-actions align="end">
-							<button
-								mat-stroked-button
-								[routerLink]="['/unit-plans', 'list']"
-								type="button"
-							>
-								Volver
-							</button>
-							<button
-								mat-raised-button
-								color="primary"
-								type="submit"
-								[disabled]="
-									isGenerating || generatorForm.invalid
-								"
-							>
-								<mat-icon>bolt</mat-icon>
-								{{
-									isGenerating
-										? 'Generando...'
-										: 'Iniciar Generación'
-								}}
-							</button>
-						</mat-card-actions>
-					</form>
-				</mat-card-content>
-			</mat-card>
-		</div>
+									Volver
+								</button>
+								<button
+									mat-raised-button
+									color="primary"
+									type="submit"
+									[disabled]="
+										isGenerating || generatorForm.invalid
+									"
+								>
+									<mat-icon>bolt</mat-icon>
+									{{
+										isGenerating
+											? 'Generando...'
+											: 'Iniciar Generación'
+									}}
+								</button>
+							</mat-card-actions>
+						</form>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</app-is-premium>
 	`,
 	styles: [
 		`

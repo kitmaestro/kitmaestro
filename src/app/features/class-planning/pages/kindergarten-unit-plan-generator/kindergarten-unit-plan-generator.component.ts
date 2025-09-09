@@ -38,6 +38,7 @@ import {
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { SchoolService } from '../../../../core/services/school.service';
+import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
 
 interface UnitPlanInicial {
 	user: string;
@@ -71,373 +72,376 @@ interface UnitPlanInicial {
 		MatIconModule,
 		MatChipsModule,
 		RouterModule,
+		IsPremiumComponent,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header class="header">
-				<div class="header-text">
-					<mat-icon class="header-icon">child_care</mat-icon>
-					<h2 class="title" mat-card-title>
-						Generador de Unidades para Nivel Inicial
-					</h2>
-				</div>
-				<button
-					class="title-button"
-					mat-flat-button
-					[routerLink]="['/unit-plans', 'list']"
-					color="accent"
-				>
-					Ver mis Planes
-				</button>
-			</mat-card-header>
-			<mat-card-content>
-				<mat-stepper linear #stepper>
-					<!-- PASO 1: DEFINICIÓN DE LA UNIDAD -->
-					<mat-step [stepControl]="infoForm">
-						<form [formGroup]="infoForm" class="form-container">
-							<ng-template matStepLabel
-								>Definición de la Unidad</ng-template
-							>
-
-							<div class="cols-2">
-								<mat-form-field appearance="outline">
-									<mat-label>Grado</mat-label>
-									<mat-select
-										formControlName="grado"
-										required
-									>
-										@for (
-											grade of gradosInicial;
-											track grade
-										) {
-											<mat-option [value]="grade.id">{{
-												grade.label
-											}}</mat-option>
-										}
-									</mat-select>
-								</mat-form-field>
-
-								<mat-form-field appearance="outline">
-									<mat-label>Unidad a Trabajar</mat-label>
-									<mat-select
-										formControlName="dominios"
-										required
-									>
-										@for (
-											domain of dominios;
-											track domain.id
-										) {
-											<mat-option [value]="domain.id">{{
-												domain.label
-											}}</mat-option>
-										}
-									</mat-select>
-								</mat-form-field>
-							</div>
-							<div class="stepper-actions">
-								<button
-									mat-raised-button
-									color="primary"
-									matStepperNext
+		<app-is-premium minSubscriptionType="Plan Basico">
+			<mat-card>
+				<mat-card-header class="header">
+					<div class="header-text">
+						<mat-icon class="header-icon">child_care</mat-icon>
+						<h2 class="title" mat-card-title>
+							Generador de Unidades para Nivel Inicial
+						</h2>
+					</div>
+					<button
+						class="title-button"
+						mat-flat-button
+						[routerLink]="['/unit-plans', 'list']"
+						color="accent"
+					>
+						Ver mis Planes
+					</button>
+				</mat-card-header>
+				<mat-card-content>
+					<mat-stepper linear #stepper>
+						<!-- PASO 1: DEFINICIÓN DE LA UNIDAD -->
+						<mat-step [stepControl]="infoForm">
+							<form [formGroup]="infoForm" class="form-container">
+								<ng-template matStepLabel
+									>Definición de la Unidad</ng-template
 								>
-									Siguiente
-								</button>
-							</div>
-						</form>
-					</mat-step>
 
-					<!-- PASO 2: DELIMITACIÓN Y GENERACIÓN -->
-					<mat-step [stepControl]="delimitacionForm">
-						<form
-							[formGroup]="delimitacionForm"
-							class="form-container"
-						>
-							<ng-template matStepLabel
-								>Delimitación y Generación</ng-template
-							>
-
-							<div class="cols-2">
-								<mat-form-field appearance="outline">
-									<mat-label>Duración</mat-label>
-									<mat-select
-										formControlName="duracion"
-										required
-									>
-										@for (n of [1, 2, 3, 4]; track n) {
-											<mat-option [value]="n"
-												>{{ n }} Semana{{
-													n > 1 ? 's' : ''
-												}}</mat-option
-											>
-										}
-									</mat-select>
-								</mat-form-field>
-
-								<mat-form-field appearance="outline">
-									<mat-label>Metodología Principal</mat-label>
-									<mat-select
-										formControlName="metodologia"
-										required
-									>
-										@for (
-											method of metodologiasInicial;
-											track method
-										) {
-											<mat-option [value]="method">{{
-												method
-											}}</mat-option>
-										}
-									</mat-select>
-								</mat-form-field>
-							</div>
-
-							<div class="resources-section">
-								<mat-label>Recursos Disponibles</mat-label>
-								<mat-chip-listbox
-									formControlName="recursos"
-									multiple
-								>
-									@for (
-										resource of recursosDisponibles;
-										track resource
-									) {
-										<mat-chip-option [value]="resource">{{
-											resource
-										}}</mat-chip-option>
-									}
-								</mat-chip-listbox>
-							</div>
-
-							<div class="stepper-actions generation-actions">
-								<button mat-button matStepperPrevious>
-									Anterior
-								</button>
-								<button
-									[disabled]="generating"
-									mat-raised-button
-                  matStepperNext
-									color="accent"
-									(click)="generateFullPlan()"
-								>
-									<mat-icon>auto_awesome</mat-icon>
-									{{
-										generating
-											? 'Generando Plan'
-											: planGenerado
-												? 'Regenerar Plan'
-												: 'Generar Plan Completo'
-									}}
-								</button>
-							</div>
-						</form>
-					</mat-step>
-
-					<!-- PASO 3: VISUALIZACIÓN DEL PLAN -->
-					<mat-step>
-						<ng-template matStepLabel
-							>Plan de Unidad Generado</ng-template
-						>
-
-						<div
-							*ngIf="!planGenerado && !generating"
-							class="placeholder"
-						>
-							<mat-icon>history_edu</mat-icon>
-							<p>
-								Tu plan de unidad aparecerá aquí una vez
-								generado.
-							</p>
-							<p>
-								Vuelve al paso anterior y haz clic en "Generar
-								Plan Completo".
-							</p>
-						</div>
-
-						<div *ngIf="generating" class="placeholder">
-							<span class="spinner large"></span>
-							<p>
-								Estamos creando tu plan de unidad... Esto puede
-								tardar un momento.
-							</p>
-						</div>
-
-						<div *ngIf="planGenerado" class="plan-display">
-							<!-- Situación de Aprendizaje -->
-							<section class="plan-section">
-								<h3>Situación de Aprendizaje</h3>
-								<h4>{{ planGenerado.tituloSituacion }}</h4>
-								<p>{{ planGenerado.situacionAprendizaje }}</p>
-							</section>
-
-							<!-- Cuadro de Anticipación -->
-							<section class="plan-section">
-								<h3>Cuadro de Anticipación</h3>
-								<div class="anticipacion-grid">
-									<div class="anticipacion-col">
-										<h4>¿Qué sabemos?</h4>
-										<ul>
-											<li
-												*ngFor="
-													let item of planGenerado
-														.cuadroAnticipacion
-														.queSabemos
-												"
-											>
-												{{ item }}
-											</li>
-										</ul>
-									</div>
-									<div class="anticipacion-col">
-										<h4>¿Qué queremos saber?</h4>
-										<ul>
-											<li
-												*ngFor="
-													let item of planGenerado
-														.cuadroAnticipacion
-														.queQueremosSaber
-												"
-											>
-												{{ item }}
-											</li>
-										</ul>
-									</div>
-									<div class="anticipacion-col">
-										<h4>¿Cómo lo vamos a saber?</h4>
-										<ul>
-											<li
-												*ngFor="
-													let item of planGenerado
-														.cuadroAnticipacion
-														.comoLoSaberemos
-												"
-											>
-												{{ item }}
-											</li>
-										</ul>
-									</div>
-								</div>
-							</section>
-
-							<!-- Detalles por Dominio -->
-							<section
-								class="plan-section"
-								*ngFor="
-									let dominio of planGenerado.planDetalladoPorDominio
-								"
-							>
-								<h3>
-									Dominio:
-									{{ getDominioLabel(dominio.dominio) }}
-								</h3>
-								<div class="dominio-details">
-									<p>
-										<strong
-											>Competencia Fundamental:</strong
+								<div class="cols-2">
+									<mat-form-field appearance="outline">
+										<mat-label>Grado</mat-label>
+										<mat-select
+											formControlName="grado"
+											required
 										>
-										{{ dominio.competenciaFundamental }}
-									</p>
-									<p>
-										<strong>Competencia Específica:</strong>
-										{{ dominio.competenciaEspecifica }}
-									</p>
-									<h4>Contenidos:</h4>
-									<ul>
-										<li>
-											<strong>Conceptuales:</strong>
-											{{
-												dominio.contenidos.conceptos.join(
-													', '
-												)
-											}}
-										</li>
-										<li>
-											<strong>Procedimentales:</strong>
-											{{
-												dominio.contenidos.procedimientos.join(
-													', '
-												)
-											}}
-										</li>
-										<li>
-											<strong
-												>Actitudes y Valores:</strong
-											>
-											{{
-												dominio.contenidos.actitudesValores.join(
-													', '
-												)
-											}}
-										</li>
-									</ul>
-									<p>
-										<strong>Indicadores de Logro:</strong>
-										{{
-											dominio.indicadoresDeLogro.join(
-												' | '
-											)
-										}}
-									</p>
-								</div>
-							</section>
+											@for (
+												grade of gradosInicial;
+												track grade
+											) {
+												<mat-option [value]="grade.id">{{
+													grade.label
+												}}</mat-option>
+											}
+										</mat-select>
+									</mat-form-field>
 
-							<!-- Secuencia de Actividades -->
-							<section class="plan-section">
-								<h3>Secuencia Didáctica Sugerida</h3>
-								<div
-									class="actividad-card"
+									<mat-form-field appearance="outline">
+										<mat-label>Unidad a Trabajar</mat-label>
+										<mat-select
+											formControlName="dominios"
+											required
+										>
+											@for (
+												domain of dominios;
+												track domain.id
+											) {
+												<mat-option [value]="domain.id">{{
+													domain.label
+												}}</mat-option>
+											}
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="stepper-actions">
+									<button
+										mat-raised-button
+										color="primary"
+										matStepperNext
+									>
+										Siguiente
+									</button>
+								</div>
+							</form>
+						</mat-step>
+
+						<!-- PASO 2: DELIMITACIÓN Y GENERACIÓN -->
+						<mat-step [stepControl]="delimitacionForm">
+							<form
+								[formGroup]="delimitacionForm"
+								class="form-container"
+							>
+								<ng-template matStepLabel
+									>Delimitación y Generación</ng-template
+								>
+
+								<div class="cols-2">
+									<mat-form-field appearance="outline">
+										<mat-label>Duración</mat-label>
+										<mat-select
+											formControlName="duracion"
+											required
+										>
+											@for (n of [1, 2, 3, 4]; track n) {
+												<mat-option [value]="n"
+													>{{ n }} Semana{{
+														n > 1 ? 's' : ''
+													}}</mat-option
+												>
+											}
+										</mat-select>
+									</mat-form-field>
+
+									<mat-form-field appearance="outline">
+										<mat-label>Metodología Principal</mat-label>
+										<mat-select
+											formControlName="metodologia"
+											required
+										>
+											@for (
+												method of metodologiasInicial;
+												track method
+											) {
+												<mat-option [value]="method">{{
+													method
+												}}</mat-option>
+											}
+										</mat-select>
+									</mat-form-field>
+								</div>
+
+								<div class="resources-section">
+									<mat-label>Recursos Disponibles</mat-label>
+									<mat-chip-listbox
+										formControlName="recursos"
+										multiple
+									>
+										@for (
+											resource of recursosDisponibles;
+											track resource
+										) {
+											<mat-chip-option [value]="resource">{{
+												resource
+											}}</mat-chip-option>
+										}
+									</mat-chip-listbox>
+								</div>
+
+								<div class="stepper-actions generation-actions">
+									<button mat-button matStepperPrevious>
+										Anterior
+									</button>
+									<button
+										[disabled]="generating"
+										mat-raised-button
+					matStepperNext
+										color="accent"
+										(click)="generateFullPlan()"
+									>
+										<mat-icon>auto_awesome</mat-icon>
+										{{
+											generating
+												? 'Generando Plan'
+												: planGenerado
+													? 'Regenerar Plan'
+													: 'Generar Plan Completo'
+										}}
+									</button>
+								</div>
+							</form>
+						</mat-step>
+
+						<!-- PASO 3: VISUALIZACIÓN DEL PLAN -->
+						<mat-step>
+							<ng-template matStepLabel
+								>Plan de Unidad Generado</ng-template
+							>
+
+							<div
+								*ngIf="!planGenerado && !generating"
+								class="placeholder"
+							>
+								<mat-icon>history_edu</mat-icon>
+								<p>
+									Tu plan de unidad aparecerá aquí una vez
+									generado.
+								</p>
+								<p>
+									Vuelve al paso anterior y haz clic en "Generar
+									Plan Completo".
+								</p>
+							</div>
+
+							<div *ngIf="generating" class="placeholder">
+								<span class="spinner large"></span>
+								<p>
+									Estamos creando tu plan de unidad... Esto puede
+									tardar un momento.
+								</p>
+							</div>
+
+							<div *ngIf="planGenerado" class="plan-display">
+								<!-- Situación de Aprendizaje -->
+								<section class="plan-section">
+									<h3>Situación de Aprendizaje</h3>
+									<h4>{{ planGenerado.tituloSituacion }}</h4>
+									<p>{{ planGenerado.situacionAprendizaje }}</p>
+								</section>
+
+								<!-- Cuadro de Anticipación -->
+								<section class="plan-section">
+									<h3>Cuadro de Anticipación</h3>
+									<div class="anticipacion-grid">
+										<div class="anticipacion-col">
+											<h4>¿Qué sabemos?</h4>
+											<ul>
+												<li
+													*ngFor="
+														let item of planGenerado
+															.cuadroAnticipacion
+															.queSabemos
+													"
+												>
+													{{ item }}
+												</li>
+											</ul>
+										</div>
+										<div class="anticipacion-col">
+											<h4>¿Qué queremos saber?</h4>
+											<ul>
+												<li
+													*ngFor="
+														let item of planGenerado
+															.cuadroAnticipacion
+															.queQueremosSaber
+													"
+												>
+													{{ item }}
+												</li>
+											</ul>
+										</div>
+										<div class="anticipacion-col">
+											<h4>¿Cómo lo vamos a saber?</h4>
+											<ul>
+												<li
+													*ngFor="
+														let item of planGenerado
+															.cuadroAnticipacion
+															.comoLoSaberemos
+													"
+												>
+													{{ item }}
+												</li>
+											</ul>
+										</div>
+									</div>
+								</section>
+
+								<!-- Detalles por Dominio -->
+								<section
+									class="plan-section"
 									*ngFor="
-										let act of planGenerado.secuenciaActividades
+										let dominio of planGenerado.planDetalladoPorDominio
 									"
 								>
-									<h4>
-										Semana {{ act.semana }}:
-										{{ act.titulo }}
-									</h4>
-									<p>
-										<strong>Inicio:</strong>
-										{{ act.inicio }}
-									</p>
-									<p>
-										<strong>Desarrollo:</strong>
-										{{ act.desarrollo }}
-									</p>
-									<p>
-										<strong>Cierre:</strong>
-										{{ act.cierre }}
-									</p>
-									<p>
-										<strong>Recursos:</strong>
-										<mat-chip-listbox
-											><mat-chip
-												*ngFor="let res of act.recursos"
-												>{{ res }}</mat-chip
-											></mat-chip-listbox
-										>
-									</p>
-								</div>
-							</section>
+									<h3>
+										Dominio:
+										{{ getDominioLabel(dominio.dominio) }}
+									</h3>
+									<div class="dominio-details">
+										<p>
+											<strong
+												>Competencia Fundamental:</strong
+											>
+											{{ dominio.competenciaFundamental }}
+										</p>
+										<p>
+											<strong>Competencia Específica:</strong>
+											{{ dominio.competenciaEspecifica }}
+										</p>
+										<h4>Contenidos:</h4>
+										<ul>
+											<li>
+												<strong>Conceptuales:</strong>
+												{{
+													dominio.contenidos.conceptos.join(
+														', '
+													)
+												}}
+											</li>
+											<li>
+												<strong>Procedimentales:</strong>
+												{{
+													dominio.contenidos.procedimientos.join(
+														', '
+													)
+												}}
+											</li>
+											<li>
+												<strong
+													>Actitudes y Valores:</strong
+												>
+												{{
+													dominio.contenidos.actitudesValores.join(
+														', '
+													)
+												}}
+											</li>
+										</ul>
+										<p>
+											<strong>Indicadores de Logro:</strong>
+											{{
+												dominio.indicadoresDeLogro.join(
+													' | '
+												)
+											}}
+										</p>
+									</div>
+								</section>
 
-							<div class="stepper-actions final-actions">
-								<button mat-button matStepperPrevious>
-									Atrás
-								</button>
-								<button
-									mat-raised-button
-									color="primary"
-									(click)="saveDocx()"
-									[disabled]="saving"
-								>
-									<mat-icon>save</mat-icon>
-									{{
-										saving ? 'Guardando...' : 'Guardar Plan'
-									}}
-								</button>
+								<!-- Secuencia de Actividades -->
+								<section class="plan-section">
+									<h3>Secuencia Didáctica Sugerida</h3>
+									<div
+										class="actividad-card"
+										*ngFor="
+											let act of planGenerado.secuenciaActividades
+										"
+									>
+										<h4>
+											Semana {{ act.semana }}:
+											{{ act.titulo }}
+										</h4>
+										<p>
+											<strong>Inicio:</strong>
+											{{ act.inicio }}
+										</p>
+										<p>
+											<strong>Desarrollo:</strong>
+											{{ act.desarrollo }}
+										</p>
+										<p>
+											<strong>Cierre:</strong>
+											{{ act.cierre }}
+										</p>
+										<p>
+											<strong>Recursos:</strong>
+											<mat-chip-listbox
+												><mat-chip
+													*ngFor="let res of act.recursos"
+													>{{ res }}</mat-chip
+												></mat-chip-listbox
+											>
+										</p>
+									</div>
+								</section>
+
+								<div class="stepper-actions final-actions">
+									<button mat-button matStepperPrevious>
+										Atrás
+									</button>
+									<button
+										mat-raised-button
+										color="primary"
+										(click)="saveDocx()"
+										[disabled]="saving"
+									>
+										<mat-icon>save</mat-icon>
+										{{
+											saving ? 'Guardando...' : 'Guardar Plan'
+										}}
+									</button>
+								</div>
 							</div>
-						</div>
-					</mat-step>
-				</mat-stepper>
-			</mat-card-content>
-		</mat-card>
+						</mat-step>
+					</mat-stepper>
+				</mat-card-content>
+			</mat-card>
+		</app-is-premium>
 	`,
 	styles: [
 		`
@@ -630,7 +634,7 @@ export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 	];
 
 	blocks = KINDER_CONTENT_BLOCKS;
-	
+
   get dominios(): { id: string, label: string }[] {
     return KINDER_CONTENT_BLOCKS.filter(block => block.year == this.infoForm.value.grado).map((block, i) => ({ id: block.concepts[0], label: `${i + 1}. ` + block.concepts.map(c => c.endsWith(':') ? c : c.endsWith('.') ? c.replace(/.$/, ',') : c + ',').join(' ').replace(/.$/, '.') }) )
   }
@@ -821,7 +825,7 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
       }
     ]
   }
-  
+
   Genera el plan ahora.
 `;
 	}

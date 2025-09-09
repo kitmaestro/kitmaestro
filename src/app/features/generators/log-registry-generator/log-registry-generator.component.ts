@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { Student } from '../../../core/interfaces/student';
 import { LogRegistryEntryService } from '../../../core/services/log-registry-entry.service';
 import { LogRegistryEntryEditFormComponent } from '../../../shared/ui/log-registry-entry-edit-form.component';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 @Component({
 	selector: 'app-log-registry-generator',
@@ -23,6 +24,7 @@ import { LogRegistryEntryEditFormComponent } from '../../../shared/ui/log-regist
 		MatIconModule,
 		MatTableModule,
 		CommonModule,
+		IsPremiumComponent,
 	],
 	templateUrl: './log-registry-generator.component.html',
 	styleUrl: './log-registry-generator.component.scss',

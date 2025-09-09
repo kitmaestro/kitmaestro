@@ -35,6 +35,7 @@ import { ContentBlock } from '../../../core/interfaces/content-block';
 import { TEACHING_METHODS } from '../../../core/data/teaching-methods';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { CommonModule } from '@angular/common';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 @Component({
 	selector: 'app-multigrade-unit-plan-generator',
@@ -51,183 +52,135 @@ import { CommonModule } from '@angular/common';
 		MatButtonModule,
 		MatIconModule,
 		MatChipsModule,
+		IsPremiumComponent,
 		RouterModule,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header class="header">
-				<h2 class="title" mat-card-title>
-					Generador de Unidades de Aprendizaje (Multigrado)
-				</h2>
-				<button
-					class="title-button"
-					mat-flat-button
-					[routerLink]="['/unit-plans', 'list']"
-					color="accent"
-				>
-					Ver mis Planes
-				</button>
-			</mat-card-header>
-			<mat-card-content>
-				<mat-stepper linear #stepper>
-					<mat-step [stepControl]="learningSituationForm">
-						<form
-							[formGroup]="learningSituationForm"
-							style="padding-top: 16px"
-						>
-							<ng-template matStepLabel
-								>Situaci&oacute;n de Aprendizaje</ng-template
+		<app-is-premium>
+			<mat-card>
+				<mat-card-header class="header">
+					<h2 class="title" mat-card-title>
+						Generador de Unidades de Aprendizaje (Multigrado)
+					</h2>
+					<button
+						class="title-button"
+						mat-flat-button
+						[routerLink]="['/unit-plans', 'list']"
+						color="accent"
+					>
+						Ver mis Planes
+					</button>
+				</mat-card-header>
+				<mat-card-content>
+					<mat-stepper linear #stepper>
+						<mat-step [stepControl]="learningSituationForm">
+							<form
+								[formGroup]="learningSituationForm"
+								style="padding-top: 16px"
 							>
-							<div class="cols-2">
-								<mat-form-field appearance="outline">
-									<mat-label>Eje Transversal</mat-label>
-									<mat-select
-										formControlName="mainThemeCategory"
-										required
-									>
-										@for (
-											theme of mainThemeCategories;
-											track theme
-										) {
-											<mat-option [value]="theme">{{
-												theme
-											}}</mat-option>
-										}
-									</mat-select>
-								</mat-form-field>
-								<mat-form-field appearance="outline">
-									<mat-label>Ambiente Operativo</mat-label>
-									<mat-select
-										formControlName="environment"
-										required
-									>
-										@for (
-											env of environments;
-											track $index
-										) {
-											<mat-option [value]="env">{{
-												env
-											}}</mat-option>
-										}
-									</mat-select>
-								</mat-form-field>
-								<mat-form-field appearance="outline">
-									<mat-label>Grados</mat-label>
-									<mat-select
-										formControlName="classSections"
-										required
-										multiple
-										(selectionChange)="onSectionSelect()"
-									>
-										@for (
-											section of allClassSections;
-											track section._id
-										) {
-											<mat-option [value]="section._id">{{
-												section.name
-											}}</mat-option>
-										}
-									</mat-select>
-								</mat-form-field>
-								<mat-form-field appearance="outline">
-									<mat-label>Asignatura Común</mat-label>
-									<mat-select
-										formControlName="subject"
-										required
-										(selectionChange)="onSubjectSelect()"
-									>
-										@for (
-											subject of commonSubjects;
-											track subject.id
-										) {
-											<mat-option [value]="subject.id">{{
-												subject.label
-											}}</mat-option>
-										}
-									</mat-select>
-								</mat-form-field>
-							</div>
-
-							<!-- Dynamic Content Blocks per Grade -->
-							@for (
-								section of selectedClassSections;
-								track section._id
-							) {
-								<div>
-									<h4 class="bold">
-										Contenidos para {{ section.name }}
-									</h4>
+								<ng-template matStepLabel
+									>Situaci&oacute;n de Aprendizaje</ng-template
+								>
+								<div class="cols-2">
 									<mat-form-field appearance="outline">
-										<mat-label
-											>Seleccionar Contenidos</mat-label
-										>
+										<mat-label>Eje Transversal</mat-label>
 										<mat-select
-											[formControlName]="
-												'content_' + section._id
-											"
-											multiple
+											formControlName="mainThemeCategory"
 											required
 										>
 											@for (
-												content of contentBlocksBySection.get(
-													section._id
-												);
-												track content._id
+												theme of mainThemeCategories;
+												track theme
 											) {
-												<mat-option
-													[value]="content._id"
-													>{{
-														content.title
-													}}</mat-option
-												>
+												<mat-option [value]="theme">{{
+													theme
+												}}</mat-option>
 											}
 										</mat-select>
 									</mat-form-field>
-								</div>
-							}
-
-							<div class="flex-on-md">
-								<div style="flex: 1 1 auto">
 									<mat-form-field appearance="outline">
-										<mat-label
-											>Tipo de Situaci&oacute;n</mat-label
-										>
+										<mat-label>Ambiente Operativo</mat-label>
 										<mat-select
-											formControlName="situationType"
+											formControlName="environment"
 											required
 										>
 											@for (
-												type of situationTypes;
+												env of environments;
 												track $index
 											) {
-												<mat-option [value]="type.id">{{
-													type.label
+												<mat-option [value]="env">{{
+													env
+												}}</mat-option>
+											}
+										</mat-select>
+									</mat-form-field>
+									<mat-form-field appearance="outline">
+										<mat-label>Grados</mat-label>
+										<mat-select
+											formControlName="classSections"
+											required
+											multiple
+											(selectionChange)="onSectionSelect()"
+										>
+											@for (
+												section of allClassSections;
+												track section._id
+											) {
+												<mat-option [value]="section._id">{{
+													section.name
+												}}</mat-option>
+											}
+										</mat-select>
+									</mat-form-field>
+									<mat-form-field appearance="outline">
+										<mat-label>Asignatura Común</mat-label>
+										<mat-select
+											formControlName="subject"
+											required
+											(selectionChange)="onSubjectSelect()"
+										>
+											@for (
+												subject of commonSubjects;
+												track subject.id
+											) {
+												<mat-option [value]="subject.id">{{
+													subject.label
 												}}</mat-option>
 											}
 										</mat-select>
 									</mat-form-field>
 								</div>
-								@if (
-									learningSituationForm.value
-										.situationType === 'realityProblem'
+
+								<!-- Dynamic Content Blocks per Grade -->
+								@for (
+									section of selectedClassSections;
+									track section._id
 								) {
-									<div style="flex: 1 1 auto">
+									<div>
+										<h4 class="bold">
+											Contenidos para {{ section.name }}
+										</h4>
 										<mat-form-field appearance="outline">
 											<mat-label
-												>Problema a Abordar</mat-label
+												>Seleccionar Contenidos</mat-label
 											>
 											<mat-select
-												formControlName="reality"
+												[formControlName]="
+													'content_' + section._id
+												"
+												multiple
 												required
 											>
 												@for (
-													problem of problems;
-													track $index
+													content of contentBlocksBySection.get(
+														section._id
+													);
+													track content._id
 												) {
 													<mat-option
-														[value]="problem"
+														[value]="content._id"
 														>{{
-															problem
+															content.title
 														}}</mat-option
 													>
 												}
@@ -235,277 +188,328 @@ import { CommonModule } from '@angular/common';
 										</mat-form-field>
 									</div>
 								}
-								@if (
-									learningSituationForm.value
-										.situationType === 'reality'
-								) {
+
+								<div class="flex-on-md">
 									<div style="flex: 1 1 auto">
 										<mat-form-field appearance="outline">
 											<mat-label
-												>Realidad del Curso</mat-label
+												>Tipo de Situaci&oacute;n</mat-label
 											>
-											<input
-												matInput
-												type="text"
-												formControlName="reality"
+											<mat-select
+												formControlName="situationType"
 												required
+											>
+												@for (
+													type of situationTypes;
+													track $index
+												) {
+													<mat-option [value]="type.id">{{
+														type.label
+													}}</mat-option>
+												}
+											</mat-select>
+										</mat-form-field>
+									</div>
+									@if (
+										learningSituationForm.value
+											.situationType === 'realityProblem'
+									) {
+										<div style="flex: 1 1 auto">
+											<mat-form-field appearance="outline">
+												<mat-label
+													>Problema a Abordar</mat-label
+												>
+												<mat-select
+													formControlName="reality"
+													required
+												>
+													@for (
+														problem of problems;
+														track $index
+													) {
+														<mat-option
+															[value]="problem"
+															>{{
+																problem
+															}}</mat-option
+														>
+													}
+												</mat-select>
+											</mat-form-field>
+										</div>
+									}
+									@if (
+										learningSituationForm.value
+											.situationType === 'reality'
+									) {
+										<div style="flex: 1 1 auto">
+											<mat-form-field appearance="outline">
+												<mat-label
+													>Realidad del Curso</mat-label
+												>
+												<input
+													matInput
+													type="text"
+													formControlName="reality"
+													required
+												/>
+											</mat-form-field>
+										</div>
+									}
+								</div>
+								@if (learningSituation.value) {
+									<div
+										style="margin-top: 16px; margin-bottom: 16px"
+									>
+										<h3 style="font-weight: bold">
+											Situaci&oacute;n de Aprendizaje:
+											{{ learningSituationTitle.value }}
+										</h3>
+										<mat-form-field appearance="outline">
+											<mat-label>T&iacute;tulo</mat-label>
+											<input
+												type="text"
+												matInput
+												[formControl]="
+													learningSituationTitle
+												"
 											/>
+										</mat-form-field>
+										<mat-form-field appearance="outline">
+											<mat-label
+												>Situaci&oacute;n de
+												Aprendizaje</mat-label
+											>
+											<textarea
+												rows="8"
+												[formControl]="learningSituation"
+												matInput
+											></textarea>
 										</mat-form-field>
 									</div>
 								}
-							</div>
-							@if (learningSituation.value) {
-								<div
-									style="margin-top: 16px; margin-bottom: 16px"
-								>
-									<h3 style="font-weight: bold">
-										Situaci&oacute;n de Aprendizaje:
-										{{ learningSituationTitle.value }}
-									</h3>
-									<mat-form-field appearance="outline">
-										<mat-label>T&iacute;tulo</mat-label>
-										<input
-											type="text"
-											matInput
-											[formControl]="
-												learningSituationTitle
-											"
-										/>
-									</mat-form-field>
-									<mat-form-field appearance="outline">
-										<mat-label
-											>Situaci&oacute;n de
-											Aprendizaje</mat-label
-										>
-										<textarea
-											rows="8"
-											[formControl]="learningSituation"
-											matInput
-										></textarea>
-									</mat-form-field>
-								</div>
-							}
-							<div style="text-align: end">
-								<button
-									[disabled]="generating"
-									mat-raised-button
-									type="button"
-									color="accent"
-									(click)="generateLearningSituation()"
-								>
-									@if (generating) {
-										<span>Generando...</span>
-									} @else {
-										@if (learningSituation.value) {
-											<span>Regenerar</span>
+								<div style="text-align: end">
+									<button
+										[disabled]="generating"
+										mat-raised-button
+										type="button"
+										color="accent"
+										(click)="generateLearningSituation()"
+									>
+										@if (generating) {
+											<span>Generando...</span>
 										} @else {
-											<span>Generar</span>
+											@if (learningSituation.value) {
+												<span>Regenerar</span>
+											} @else {
+												<span>Generar</span>
+											}
 										}
+									</button>
+									@if (learningSituation.value) {
+										<button
+											style="margin-left: 8px"
+											mat-raised-button
+											matStepperNext
+										>
+											Siguiente
+										</button>
 									}
-								</button>
-								@if (learningSituation.value) {
+								</div>
+							</form>
+						</mat-step>
+						<mat-step [stepControl]="unitPlanForm">
+							<form [formGroup]="unitPlanForm">
+								<ng-template matStepLabel
+									>Delimitaci&oacute;n</ng-template
+								>
+								<div style="padding-top: 16px">
+									<div>
+										<mat-form-field appearance="outline">
+											<mat-label>Duraci&oacute;n</mat-label>
+											<mat-select
+												formControlName="duration"
+												required
+											>
+												@for (
+													n of [].constructor(6);
+													track $index
+												) {
+													<mat-option [value]="$index + 1"
+														>{{ $index + 1 }} Semana{{
+															$index > 0 ? 's' : ''
+														}}</mat-option
+													>
+												}
+											</mat-select>
+										</mat-form-field>
+									</div>
+									<div>
+										<mat-form-field appearance="outline">
+											<mat-label
+												>Metodolog&iacute;a
+												Principal</mat-label
+											>
+											<mat-select
+												formControlName="teaching_method"
+												required
+											>
+												@for (
+													method of teachingMethods;
+													track $index
+												) {
+													<mat-option
+														[value]="method.name"
+														>{{
+															method.name
+														}}</mat-option
+													>
+												}
+											</mat-select>
+										</mat-form-field>
+									</div>
+									<div style="margin-bottom: 16px">
+										<mat-label>Recursos Disponibles</mat-label>
+										<mat-chip-listbox
+											formControlName="resources"
+											multiple
+											(selectionChange)="
+												onResourceChange($event)
+											"
+										>
+											@for (
+												resource of resources;
+												track resource
+											) {
+												<mat-chip-option>{{
+													resource
+												}}</mat-chip-option>
+											}
+										</mat-chip-listbox>
+									</div>
+								</div>
+								<div style="text-align: end">
+									<button mat-raised-button matStepperPrevious>
+										Anterior
+									</button>
 									<button
 										style="margin-left: 8px"
 										mat-raised-button
+										(click)="generateActivities()"
 										matStepperNext
 									>
 										Siguiente
 									</button>
-								}
-							</div>
-						</form>
-					</mat-step>
-					<mat-step [stepControl]="unitPlanForm">
-						<form [formGroup]="unitPlanForm">
+								</div>
+							</form>
+						</mat-step>
+						<mat-step>
 							<ng-template matStepLabel
-								>Delimitaci&oacute;n</ng-template
+								>Secuencia Did&aacute;ctica</ng-template
 							>
 							<div style="padding-top: 16px">
-								<div>
-									<mat-form-field appearance="outline">
-										<mat-label>Duraci&oacute;n</mat-label>
-										<mat-select
-											formControlName="duration"
-											required
-										>
-											@for (
-												n of [].constructor(6);
-												track $index
-											) {
-												<mat-option [value]="$index + 1"
-													>{{ $index + 1 }} Semana{{
-														$index > 0 ? 's' : ''
-													}}</mat-option
+								@if (activitiesByGrade.length) {
+									@for (
+										gradeActivities of activitiesByGrade;
+										track gradeActivities.grade_level
+									) {
+										<div class="grade-activities-container">
+											<h3>
+												Actividades para
+												{{ gradeActivities.grade_level }}
+											</h3>
+											<div class="flex-on-md">
+												<div
+													style="flex: 1 1 auto; width: 100%"
 												>
-											}
-										</mat-select>
-									</mat-form-field>
-								</div>
-								<div>
-									<mat-form-field appearance="outline">
-										<mat-label
-											>Metodolog&iacute;a
-											Principal</mat-label
-										>
-										<mat-select
-											formControlName="teaching_method"
-											required
-										>
-											@for (
-												method of teachingMethods;
-												track $index
-											) {
-												<mat-option
-													[value]="method.name"
-													>{{
-														method.name
-													}}</mat-option
+													<h4>
+														Actividades de
+														Ense&ntilde;anza
+													</h4>
+													<ul>
+														@for (
+															activity of gradeActivities.teacher_activities;
+															track activity
+														) {
+															<li>{{ activity }}</li>
+														}
+													</ul>
+												</div>
+												<div
+													style="flex: 1 1 auto; width: 100%"
 												>
-											}
-										</mat-select>
-									</mat-form-field>
-								</div>
-								<div style="margin-bottom: 16px">
-									<mat-label>Recursos Disponibles</mat-label>
-									<mat-chip-listbox
-										formControlName="resources"
-										multiple
-										(selectionChange)="
-											onResourceChange($event)
-										"
-									>
-										@for (
-											resource of resources;
-											track resource
-										) {
-											<mat-chip-option>{{
-												resource
-											}}</mat-chip-option>
-										}
-									</mat-chip-listbox>
-								</div>
+													<h4>
+														Actividades de Aprendizaje
+													</h4>
+													<ul>
+														@for (
+															activity of gradeActivities.student_activities;
+															track activity
+														) {
+															<li>{{ activity }}</li>
+														}
+													</ul>
+												</div>
+												<div
+													style="flex: 1 1 auto; width: 100%"
+												>
+													<h4>
+														Actividades de
+														Evaluaci&oacute;n
+													</h4>
+													<ul>
+														@for (
+															activity of gradeActivities.evaluation_activities;
+															track activity
+														) {
+															<li>{{ activity }}</li>
+														}
+													</ul>
+												</div>
+											</div>
+										</div>
+									}
+								}
 							</div>
 							<div style="text-align: end">
 								<button mat-raised-button matStepperPrevious>
 									Anterior
 								</button>
 								<button
+									[disabled]="generating"
 									style="margin-left: 8px"
 									mat-raised-button
-									(click)="generateActivities()"
-									matStepperNext
-								>
-									Siguiente
-								</button>
-							</div>
-						</form>
-					</mat-step>
-					<mat-step>
-						<ng-template matStepLabel
-							>Secuencia Did&aacute;ctica</ng-template
-						>
-						<div style="padding-top: 16px">
-							@if (activitiesByGrade.length) {
-								@for (
-									gradeActivities of activitiesByGrade;
-									track gradeActivities.grade_level
-								) {
-									<div class="grade-activities-container">
-										<h3>
-											Actividades para
-											{{ gradeActivities.grade_level }}
-										</h3>
-										<div class="flex-on-md">
-											<div
-												style="flex: 1 1 auto; width: 100%"
-											>
-												<h4>
-													Actividades de
-													Ense&ntilde;anza
-												</h4>
-												<ul>
-													@for (
-														activity of gradeActivities.teacher_activities;
-														track activity
-													) {
-														<li>{{ activity }}</li>
-													}
-												</ul>
-											</div>
-											<div
-												style="flex: 1 1 auto; width: 100%"
-											>
-												<h4>
-													Actividades de Aprendizaje
-												</h4>
-												<ul>
-													@for (
-														activity of gradeActivities.student_activities;
-														track activity
-													) {
-														<li>{{ activity }}</li>
-													}
-												</ul>
-											</div>
-											<div
-												style="flex: 1 1 auto; width: 100%"
-											>
-												<h4>
-													Actividades de
-													Evaluaci&oacute;n
-												</h4>
-												<ul>
-													@for (
-														activity of gradeActivities.evaluation_activities;
-														track activity
-													) {
-														<li>{{ activity }}</li>
-													}
-												</ul>
-											</div>
-										</div>
-									</div>
-								}
-							}
-						</div>
-						<div style="text-align: end">
-							<button mat-raised-button matStepperPrevious>
-								Anterior
-							</button>
-							<button
-								[disabled]="generating"
-								style="margin-left: 8px"
-								mat-raised-button
-								type="button"
-								color="accent"
-								(click)="generateActivities()"
-							>
-								@if (generating) {
-									<span>Generando...</span>
-								} @else {
-									@if (activitiesByGrade.length) {
-										<span>Regenerar</span>
-									} @else {
-										<span>Generar</span>
-									}
-								}
-							</button>
-							@if (activitiesByGrade.length) {
-								<button
-									style="margin-left: 8px"
-									color="primary"
-									mat-raised-button
-									(click)="fillFinalForm()"
 									type="button"
+									color="accent"
+									(click)="generateActivities()"
 								>
-									Guardar
+									@if (generating) {
+										<span>Generando...</span>
+									} @else {
+										@if (activitiesByGrade.length) {
+											<span>Regenerar</span>
+										} @else {
+											<span>Generar</span>
+										}
+									}
 								</button>
-							}
-						</div>
-					</mat-step>
-				</mat-stepper>
-			</mat-card-content>
-		</mat-card>
+								@if (activitiesByGrade.length) {
+									<button
+										style="margin-left: 8px"
+										color="primary"
+										mat-raised-button
+										(click)="fillFinalForm()"
+										type="button"
+									>
+										Guardar
+									</button>
+								}
+							</div>
+						</mat-step>
+					</mat-stepper>
+				</mat-card-content>
+			</mat-card>
+		</app-is-premium>
 	`,
 	styles: [
 		`

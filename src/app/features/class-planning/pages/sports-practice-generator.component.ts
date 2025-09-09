@@ -52,6 +52,7 @@ import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { saveAs } from 'file-saver';
 import { MarkdownComponent } from 'ngx-markdown';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 // --- Constants ---
 const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
@@ -72,9 +73,11 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
 		MatIconModule,
 		MarkdownComponent,
 		PretifyPipe,
+		IsPremiumComponent,
 	],
 	// --- Inline Template ---
 	template: `
+	<app-is-premium>
 		<mat-card class="sports-practice-card">
 			<mat-card-header>
 				<mat-card-title
@@ -337,6 +340,7 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
 				}
 			</mat-card-content>
 		</mat-card>
+		</app-is-premium>
 	`,
 	// --- Inline Styles ---
 	styles: [

@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { IsPremiumComponent } from '../../shared/ui/is-premium.component';
 
 @Component({
 	selector: 'app-diagnostic-evaluations',
@@ -22,105 +23,108 @@ import { DatePipe } from '@angular/common';
 		DatePipe,
 		MatTooltipModule,
 		MatListModule,
+		IsPremiumComponent,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header class="header">
-				<h2 class="title" mat-card-title>
-					Mis Evaluaciones Diagnósticas
-				</h2>
-				<a
-					mat-flat-button
-					color="primary"
-					routerLink="/diagnostic-evaluation-generator"
-				>
-					Crear Nueva Evaluación
-				</a>
-			</mat-card-header>
-			<mat-card-content>
-				@if (evaluations().length === 0) {
-					<div class="no-evaluations">
-						<p>No tienes evaluaciones guardadas.</p>
-						<a
-							mat-flat-button
-							color="primary"
-							routerLink="/diagnostic-evaluation-generator"
-						>
-							Crear Nueva Evaluación
-						</a>
-					</div>
-				}
-				@if (evaluations().length > 0) {
-					<div class="evaluations-list">
-						<table style="width: 100%; margin-bottom: 16px;">
-							<thead>
-								<tr>
-									<th style="text-align: left;">Título</th>
-									<th style="text-align: left;">
-										Asignatura - Curso
-									</th>
-									<th style="text-align: left;">
-										Fecha de Creación
-									</th>
-									<th style="text-align: right;">Acciones</th>
-								</tr>
-							</thead>
-							<tbody>
-								@for (eval of evaluations(); track eval._id) {
+	<app-is-premium>
+			<mat-card>
+				<mat-card-header class="header">
+					<h2 class="title" mat-card-title>
+						Mis Evaluaciones Diagnósticas
+					</h2>
+					<a
+						mat-flat-button
+						color="primary"
+						routerLink="/diagnostic-evaluation-generator"
+					>
+						Crear Nueva Evaluación
+					</a>
+				</mat-card-header>
+				<mat-card-content>
+					@if (evaluations().length === 0) {
+						<div class="no-evaluations">
+							<p>No tienes evaluaciones guardadas.</p>
+							<a
+								mat-flat-button
+								color="primary"
+								routerLink="/diagnostic-evaluation-generator"
+							>
+								Crear Nueva Evaluación
+							</a>
+						</div>
+					}
+					@if (evaluations().length > 0) {
+						<div class="evaluations-list">
+							<table style="width: 100%; margin-bottom: 16px;">
+								<thead>
 									<tr>
-										<td>{{ eval.title }}</td>
-										<td>
-											{{ eval.subject }} -
-											{{ eval.schoolYear }}
-										</td>
-										@if (eval.createdAt) {
-											<td>
-												Creada el:
-												{{
-													eval.createdAt
-														| date: 'medium'
-												}}
-											</td>
-										}
-										<td>
-											<div
-												style="display: flex; justify-content: flex-end; gap: 8px;"
-											>
-												<button
-													mat-icon-button
-													color="primary"
-													[routerLink]="[
-														'/diagnostic-evaluations',
-														eval._id,
-													]"
-													matTooltip="Ver Evaluación"
-												>
-													<mat-icon
-														>open_in_new</mat-icon
-													>
-												</button>
-												<button
-													mat-icon-button
-													color="warn"
-													(click)="
-														deleteEvaluation(
-															eval._id!
-														)
-													"
-													matTooltip="Eliminar Evaluación"
-												>
-													<mat-icon>delete</mat-icon>
-												</button>
-											</div>
-										</td>
+										<th style="text-align: left;">Título</th>
+										<th style="text-align: left;">
+											Asignatura - Curso
+										</th>
+										<th style="text-align: left;">
+											Fecha de Creación
+										</th>
+										<th style="text-align: right;">Acciones</th>
 									</tr>
-								}
-							</tbody>
-						</table>
-					</div>
-				}
-			</mat-card-content>
-		</mat-card>
+								</thead>
+								<tbody>
+									@for (eval of evaluations(); track eval._id) {
+										<tr>
+											<td>{{ eval.title }}</td>
+											<td>
+												{{ eval.subject }} -
+												{{ eval.schoolYear }}
+											</td>
+											@if (eval.createdAt) {
+												<td>
+													Creada el:
+													{{
+														eval.createdAt
+															| date: 'medium'
+													}}
+												</td>
+											}
+											<td>
+												<div
+													style="display: flex; justify-content: flex-end; gap: 8px;"
+												>
+													<button
+														mat-icon-button
+														color="primary"
+														[routerLink]="[
+															'/diagnostic-evaluations',
+															eval._id,
+														]"
+														matTooltip="Ver Evaluación"
+													>
+														<mat-icon
+															>open_in_new</mat-icon
+														>
+													</button>
+													<button
+														mat-icon-button
+														color="warn"
+														(click)="
+															deleteEvaluation(
+																eval._id!
+															)
+														"
+														matTooltip="Eliminar Evaluación"
+													>
+														<mat-icon>delete</mat-icon>
+													</button>
+												</div>
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					}
+				</mat-card-content>
+			</mat-card>
+		</app-is-premium>
 	`,
 	styles: `
 		.evaluations-list,

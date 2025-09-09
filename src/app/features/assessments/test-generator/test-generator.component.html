@@ -1,120 +1,122 @@
-<mat-card>
-	<mat-card-header
-		style="justify-content: space-between; align-items: center"
-	>
-		<mat-card-title>Generador de Exámenes</mat-card-title>
-		<button mat-flat-button routerLink="/tests">Mis Ex&aacute;menes</button>
-	</mat-card-header>
-	<mat-card-content>
+<app-is-premium>
+	<mat-card>
+		<mat-card-header
+			style="justify-content: space-between; align-items: center"
+		>
+			<mat-card-title>Generador de Exámenes</mat-card-title>
+			<button mat-flat-button routerLink="/tests">Mis Ex&aacute;menes</button>
+		</mat-card-header>
+		<mat-card-content>
+			<div style="margin-top: 24px">
+				<form [formGroup]="testForm" (ngSubmit)="onSubmit()">
+					<div class="grid-2">
+						<div>
+							<mat-form-field>
+								<mat-label>Grado</mat-label>
+								<mat-select
+									formControlName="section"
+									(selectionChange)="onSectionSelect($event)"
+								>
+									@for (section of sections; track section._id) {
+										<mat-option [value]="section._id">{{
+											section.name
+										}}</mat-option>
+									}
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div>
+							<mat-form-field>
+								<mat-label>Asignatura</mat-label>
+								<mat-select formControlName="subject">
+									@for (subject of subjects; track subject) {
+										<mat-option [value]="subject">{{
+											subject | pretify
+										}}</mat-option>
+									}
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+					<div>
+						<mat-form-field>
+							<mat-label>Tipos de Ejercicios</mat-label>
+							<mat-select formControlName="items" multiple>
+								@for (itemType of itemTypes; track itemType) {
+									<mat-option [value]="itemType">{{
+										itemType | pretify
+									}}</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div class="grid-2">
+						<div>
+							<mat-form-field>
+								<mat-label>Cantidad de &Iacute;temes</mat-label>
+								<input
+									type="number"
+									matInput
+									formControlName="itemQuantity"
+								/>
+							</mat-form-field>
+						</div>
+						<div>
+							<mat-form-field>
+								<mat-label>Puntaje M&aacute;ximo</mat-label>
+								<input
+									type="number"
+									matInput
+									formControlName="maxScore"
+								/>
+							</mat-form-field>
+						</div>
+					</div>
+					<div>
+						<mat-form-field>
+							<mat-label>Temas (Un tema por l&iacute;nea)</mat-label>
+							<textarea matInput formControlName="topics"></textarea>
+						</mat-form-field>
+					</div>
+					<div
+						style="
+							display: flex;
+							gap: 12px;
+							flex-direction: row-reverse;
+						"
+					>
+						<button
+							mat-fab
+							extended
+							[disabled]="!test || loading"
+							(click)="save()"
+							type="button"
+						>
+							<mat-icon>save</mat-icon> Guardar
+						</button>
+						<button
+							mat-fab
+							extended
+							[disabled]="testForm.invalid || loading"
+							type="submit"
+						>
+							<mat-icon>bolt</mat-icon>
+							{{ test ? "Regenerar" : "Generar" }}
+						</button>
+					</div>
+				</form>
+			</div>
+		</mat-card-content>
+	</mat-card>
+	@if (result) {
 		<div style="margin-top: 24px">
-			<form [formGroup]="testForm" (ngSubmit)="onSubmit()">
-				<div class="grid-2">
-					<div>
-						<mat-form-field>
-							<mat-label>Grado</mat-label>
-							<mat-select
-								formControlName="section"
-								(selectionChange)="onSectionSelect($event)"
-							>
-								@for (section of sections; track section._id) {
-									<mat-option [value]="section._id">{{
-										section.name
-									}}</mat-option>
-								}
-							</mat-select>
-						</mat-form-field>
-					</div>
-					<div>
-						<mat-form-field>
-							<mat-label>Asignatura</mat-label>
-							<mat-select formControlName="subject">
-								@for (subject of subjects; track subject) {
-									<mat-option [value]="subject">{{
-										subject | pretify
-									}}</mat-option>
-								}
-							</mat-select>
-						</mat-form-field>
-					</div>
-				</div>
-				<div>
-					<mat-form-field>
-						<mat-label>Tipos de Ejercicios</mat-label>
-						<mat-select formControlName="items" multiple>
-							@for (itemType of itemTypes; track itemType) {
-								<mat-option [value]="itemType">{{
-									itemType | pretify
-								}}</mat-option>
-							}
-						</mat-select>
-					</mat-form-field>
-				</div>
-				<div class="grid-2">
-					<div>
-						<mat-form-field>
-							<mat-label>Cantidad de &Iacute;temes</mat-label>
-							<input
-								type="number"
-								matInput
-								formControlName="itemQuantity"
-							/>
-						</mat-form-field>
-					</div>
-					<div>
-						<mat-form-field>
-							<mat-label>Puntaje M&aacute;ximo</mat-label>
-							<input
-								type="number"
-								matInput
-								formControlName="maxScore"
-							/>
-						</mat-form-field>
-					</div>
-				</div>
-				<div>
-					<mat-form-field>
-						<mat-label>Temas (Un tema por l&iacute;nea)</mat-label>
-						<textarea matInput formControlName="topics"></textarea>
-					</mat-form-field>
-				</div>
-				<div
-					style="
-						display: flex;
-						gap: 12px;
-						flex-direction: row-reverse;
-					"
-				>
-					<button
-						mat-fab
-						extended
-						[disabled]="!test || loading"
-						(click)="save()"
-						type="button"
-					>
-						<mat-icon>save</mat-icon> Guardar
-					</button>
-					<button
-						mat-fab
-						extended
-						[disabled]="testForm.invalid || loading"
-						type="submit"
-					>
-						<mat-icon>bolt</mat-icon>
-						{{ test ? "Regenerar" : "Generar" }}
-					</button>
-				</div>
-			</form>
+			<div style="max-width: 8.5in; margin: 0 auto">
+				<mat-card>
+					<mat-card-content>
+						<markdown [data]="result"></markdown>
+					</mat-card-content>
+				</mat-card>
+			</div>
 		</div>
-	</mat-card-content>
-</mat-card>
-@if (result) {
-	<div style="margin-top: 24px">
-		<div style="max-width: 8.5in; margin: 0 auto">
-			<mat-card>
-				<mat-card-content>
-					<markdown [data]="result"></markdown>
-				</mat-card-content>
-			</mat-card>
-		</div>
-	</div>
-}
+	}
+</app-is-premium>

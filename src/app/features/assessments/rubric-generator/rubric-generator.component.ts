@@ -30,6 +30,7 @@ import { CompetenceService } from '../../../core/services/competence.service';
 import { RubricComponent } from '../rubric/rubric.component';
 import { UnitPlan } from '../../../core/interfaces';
 import { forkJoin, map } from 'rxjs';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 @Component({
 	selector: 'app-rubric-generator',
@@ -45,6 +46,7 @@ import { forkJoin, map } from 'rxjs';
 		RouterLink,
 		PretifyPipe,
 		RubricComponent,
+		IsPremiumComponent,
 	],
 	templateUrl: './rubric-generator.component.html',
 	styleUrl: './rubric-generator.component.scss',

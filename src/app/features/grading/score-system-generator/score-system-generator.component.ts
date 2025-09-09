@@ -27,6 +27,7 @@ import {
 } from '../../../core/interfaces/score-system';
 import { ScoreSystemComponent } from '../score-system/score-system.component';
 import { UserSettings } from '../../../core/interfaces/user-settings';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 @Component({
 	selector: 'app-score-system-generator',
@@ -41,6 +42,7 @@ import { UserSettings } from '../../../core/interfaces/user-settings';
 		RouterLink,
 		PretifyPipe,
 		ScoreSystemComponent,
+		IsPremiumComponent,
 	],
 	templateUrl: './score-system-generator.component.html',
 	styleUrl: './score-system-generator.component.scss',

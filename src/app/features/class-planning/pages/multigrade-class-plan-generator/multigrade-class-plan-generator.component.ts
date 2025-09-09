@@ -20,6 +20,7 @@ import { ClassPlansService } from '../../../../core/services/class-plans.service
 import { UserSettings } from '../../../../core/interfaces/user-settings';
 import { ClassPlan } from '../../../../core/interfaces/class-plan';
 import { classroomResources } from '../../../../config/constants';
+import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
 
 // --- NUEVO PROMPT PARA AULAS MULTIGRADO v2 ---
 export const multigradeClassPlanPrompt = `
@@ -95,8 +96,10 @@ Genera un objeto JSON con la siguiente estructura exacta:
 		MatProgressBarModule,
 		PretifyPipe,
 		DatePipe,
+		IsPremiumComponent,
 	],
 	template: `
+	<app-is-premium minSubscriptionType="Plan Basico">
 		<div class="container">
 			<mat-card>
 				<mat-card-header>
@@ -495,6 +498,7 @@ Genera un objeto JSON con la siguiente estructura exacta:
 				</mat-card-content>
 			</mat-card>
 		</div>
+	</app-is-premium>
 	`,
 	styles: [
 		`

@@ -1,120 +1,122 @@
-<mat-card>
-	<mat-card-header>
-		<h2 mat-card-title>Generador de Sistemas de Calificaci&oacute;n</h2>
-		<a
-			mat-raised-button
-			color="accent"
-			style="margin-left: auto"
-			[routerLink]="['/grading-systems', 'list']"
-			>Mis Sistemas</a
-		>
-	</mat-card-header>
-	<mat-card-content>
-		<div style="margin-top: 24px">
-			<form [formGroup]="form" (ngSubmit)="onSubmit()">
-				<div>
-					<mat-form-field appearance="outline">
-						<mat-label>Secci&oacute;n</mat-label>
-						<mat-select
-							formControlName="section"
-							(selectionChange)="onSectionChange($event)"
-						>
-							@for (section of sections; track section._id) {
-								<mat-option [value]="section._id">{{
-									section.name
-								}}</mat-option>
-							}
-						</mat-select>
-					</mat-form-field>
-				</div>
-				<div>
-					<mat-form-field appearance="outline">
-						<mat-label>Asignatura</mat-label>
-						<mat-select
-							formControlName="subject"
-							(selectionChange)="onSubjectChange($event)"
-						>
-							@if (form.get("section")?.value) {
-								@for (subject of subjects; track subject) {
-									<mat-option [value]="subject">{{
-										subject | pretify
+<app-is-premium>
+	<mat-card>
+		<mat-card-header>
+			<h2 mat-card-title>Generador de Sistemas de Calificaci&oacute;n</h2>
+			<a
+				mat-raised-button
+				color="accent"
+				style="margin-left: auto"
+				[routerLink]="['/grading-systems', 'list']"
+				>Mis Sistemas</a
+			>
+		</mat-card-header>
+		<mat-card-content>
+			<div style="margin-top: 24px">
+				<form [formGroup]="form" (ngSubmit)="onSubmit()">
+					<div>
+						<mat-form-field appearance="outline">
+							<mat-label>Secci&oacute;n</mat-label>
+							<mat-select
+								formControlName="section"
+								(selectionChange)="onSectionChange($event)"
+							>
+								@for (section of sections; track section._id) {
+									<mat-option [value]="section._id">{{
+										section.name
 									}}</mat-option>
 								}
-							}
-						</mat-select>
-					</mat-form-field>
-				</div>
-				<div>
-					<mat-form-field appearance="outline">
-						<mat-label>Contenido</mat-label>
-						<mat-select
-							formControlName="content"
-							multiple
-							(selectionChange)="onConceptChange($event)"
-						>
-							@if (
-								form.get("section")?.value &&
-								form.get("subject")?.value
-							) {
-								@for (content of contents; track content) {
-									<mat-option [value]="content">{{
-										content
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div>
+						<mat-form-field appearance="outline">
+							<mat-label>Asignatura</mat-label>
+							<mat-select
+								formControlName="subject"
+								(selectionChange)="onSubjectChange($event)"
+							>
+								@if (form.get("section")?.value) {
+									@for (subject of subjects; track subject) {
+										<mat-option [value]="subject">{{
+											subject | pretify
+										}}</mat-option>
+									}
+								}
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div>
+						<mat-form-field appearance="outline">
+							<mat-label>Contenido</mat-label>
+							<mat-select
+								formControlName="content"
+								multiple
+								(selectionChange)="onConceptChange($event)"
+							>
+								@if (
+									form.get("section")?.value &&
+									form.get("subject")?.value
+								) {
+									@for (content of contents; track content) {
+										<mat-option [value]="content">{{
+											content
+										}}</mat-option>
+									}
+								}
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div>
+						<mat-form-field appearance="outline">
+							<mat-label>Estilo de Ense&ntilde;anza</mat-label>
+							<mat-select formControlName="style">
+								@for (style of styles; track style.name) {
+									<mat-option [value]="style.name">{{
+										style.name
 									}}</mat-option>
 								}
-							}
-						</mat-select>
-					</mat-form-field>
-				</div>
-				<div>
-					<mat-form-field appearance="outline">
-						<mat-label>Estilo de Ense&ntilde;anza</mat-label>
-						<mat-select formControlName="style">
-							@for (style of styles; track style.name) {
-								<mat-option [value]="style.name">{{
-									style.name
-								}}</mat-option>
-							}
-						</mat-select>
-					</mat-form-field>
-				</div>
-				<div style="text-align: end">
-					<button
-						[disabled]="form.invalid || generating || saving"
-						mat-raised-button
-						color="{{ scoreSystem ? 'accent' : 'primary' }}"
-						type="submit"
-					>
-						{{
-							generating
-								? "Generando..."
-								: scoreSystem
-									? "Regenerar"
-									: "Generar"
-						}}
-					</button>
-					@if (scoreSystem) {
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div style="text-align: end">
 						<button
-							[disabled]="saving || generating"
-							type="button"
+							[disabled]="form.invalid || generating || saving"
 							mat-raised-button
-							color="primary"
-							(click)="saveSystem()"
-							style="margin-left: 12px"
+							color="{{ scoreSystem ? 'accent' : 'primary' }}"
+							type="submit"
 						>
-							Guardar
+							{{
+								generating
+									? "Generando..."
+									: scoreSystem
+										? "Regenerar"
+										: "Generar"
+							}}
 						</button>
-					}
-				</div>
-			</form>
-		</div>
-	</mat-card-content>
-</mat-card>
+						@if (scoreSystem) {
+							<button
+								[disabled]="saving || generating"
+								type="button"
+								mat-raised-button
+								color="primary"
+								(click)="saveSystem()"
+								style="margin-left: 12px"
+							>
+								Guardar
+							</button>
+						}
+					</div>
+				</form>
+			</div>
+		</mat-card-content>
+	</mat-card>
 
-@if (scoreSystem) {
-	<app-score-system
-		[scoreSystem]="scoreSystem"
-		[section]="section"
-		[contentBlock]="contentBlock"
-		[user]="user"
-	/>
-}
+	@if (scoreSystem) {
+		<app-score-system
+			[scoreSystem]="scoreSystem"
+			[section]="section"
+			[contentBlock]="contentBlock"
+			[user]="user"
+		/>
+	}
+</app-is-premium>

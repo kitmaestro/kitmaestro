@@ -9,13 +9,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AiService } from '../../../core/services/ai.service';
 import { UserSettingsService } from '../../../core/services/user-settings.service';
-import { NgIf } from '@angular/common';
 import { ReadingActivityService } from '../../../core/services/reading-activity.service';
 import { UserSettings } from '../../../core/interfaces/user-settings';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { ClassSection } from '../../../core/interfaces/class-section';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { Router, RouterModule } from '@angular/router';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { NgIf } from '@angular/common';
 
 @Component({
 	selector: 'app-reading-activity-generator',
@@ -30,6 +31,7 @@ import { Router, RouterModule } from '@angular/router';
 		MatSnackBarModule,
 		RouterModule,
 		NgIf,
+		IsPremiumComponent,
 	],
 	templateUrl: './reading-activity-generator.component.html',
 	styleUrl: './reading-activity-generator.component.scss',

@@ -17,6 +17,7 @@ import { UserSettingsService } from '../../../core/services/user-settings.servic
 import { UserSettings } from '../../../core/interfaces/user-settings';
 import { Test } from '../../../core/interfaces/test';
 import { TestService } from '../../../core/services/test.service';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 @Component({
 	selector: 'app-test-generator',
@@ -32,6 +33,7 @@ import { TestService } from '../../../core/services/test.service';
 		MarkdownComponent,
 		RouterLink,
 		PretifyPipe,
+		IsPremiumComponent,
 	],
 	templateUrl: './test-generator.component.html',
 	styleUrl: './test-generator.component.scss',
