@@ -54,9 +54,7 @@ export class LogRegistryGeneratorComponent implements OnInit {
 
 	loadEntries() {
 		this.logService.findAll().subscribe((entries) => {
-			if (entries.length) {
-				this.entries = entries;
-			}
+			this.entries = entries;
 		});
 	}
 
@@ -101,6 +99,7 @@ export class LogRegistryGeneratorComponent implements OnInit {
 	deleteLogRegistryEntry(id: string) {
 		this.logService.delete(id).subscribe((res) => {
 			if (res.deletedCount === 1) {
+				this.loadEntries();
 				this.sb.open('Se ha eliminado el registro', 'Ok', {
 					duration: 2500,
 				});

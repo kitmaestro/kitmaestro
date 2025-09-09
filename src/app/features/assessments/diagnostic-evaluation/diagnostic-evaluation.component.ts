@@ -37,6 +37,7 @@ import {
 import { ContentBlock, GeneratedEvaluation } from '../../../core/interfaces';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { DiagnosticEvaluationDetailComponent } from '../diagnostic-evaluation-detail.component';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 @Component({
 	selector: 'app-diagnostic-evaluation-generator',
@@ -54,6 +55,7 @@ import { DiagnosticEvaluationDetailComponent } from '../diagnostic-evaluation-de
 		PretifyPipe,
 		RouterLink,
 		DiagnosticEvaluationDetailComponent,
+		IsPremiumComponent,
 	],
 	templateUrl: './diagnostic-evaluation.component.html',
 	styleUrls: ['./diagnostic-evaluation.component.scss'],

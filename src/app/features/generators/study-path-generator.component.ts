@@ -18,11 +18,7 @@ import {
 	Subject,
 	Observable,
 	firstValueFrom,
-	takeUntil,
-	tap,
-	catchError,
 	EMPTY,
-	finalize,
 } from 'rxjs';
 
 // Angular Material Modules
@@ -44,6 +40,7 @@ import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
 import { Document, Packer, Paragraph, AlignmentType, HeadingLevel } from 'docx';
 import { saveAs } from 'file-saver';
 import { MarkdownComponent } from 'ngx-markdown';
+import { IsPremiumComponent } from '../../shared/ui/is-premium.component';
 
 @Component({
 	selector: 'app-study-path-generator', // Component selector
@@ -60,153 +57,156 @@ import { MarkdownComponent } from 'ngx-markdown';
 		MatSnackBarModule,
 		MatIconModule,
 		MarkdownComponent,
+		IsPremiumComponent,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="study-path-card">
-			<mat-card-header>
-				<mat-card-title>Generador de Ruta de Estudio</mat-card-title>
-				<mat-card-subtitle
-					>Planifica tu aprendizaje paso a paso</mat-card-subtitle
-				>
-			</mat-card-header>
-
-			<mat-card-content>
-				@if (!showResult()) {
-					<form
-						[formGroup]="studyPathForm"
-						(ngSubmit)="onSubmit()"
-						class="study-path-form"
+		<app-is-premium minSubscriptionType="Plan Basico">
+			<mat-card class="study-path-card">
+				<mat-card-header>
+					<mat-card-title>Generador de Ruta de Estudio</mat-card-title>
+					<mat-card-subtitle
+						>Planifica tu aprendizaje paso a paso</mat-card-subtitle
 					>
-						<div class="form-row">
-							<mat-form-field
-								appearance="outline"
-								class="form-field"
-							>
-								<mat-label
-									>Tema / Asignatura / Habilidad</mat-label
-								>
-								<input
-									matInput
-									formControlName="topicSkill"
-									required
-									placeholder="Ej: Álgebra Lineal, Programación en Python, Hablar en Público"
-								/>
-								@if (
-									topicSkillCtrl?.invalid &&
-									topicSkillCtrl?.touched
-								) {
-									<mat-error
-										>Este campo es requerido.</mat-error
-									>
-								}
-							</mat-form-field>
+				</mat-card-header>
 
-							<mat-form-field
-								appearance="outline"
-								class="form-field"
-							>
-								<mat-label
-									>Nivel de Maestría Objetivo</mat-label
+				<mat-card-content>
+					@if (!showResult()) {
+						<form
+							[formGroup]="studyPathForm"
+							(ngSubmit)="onSubmit()"
+							class="study-path-form"
+						>
+							<div class="form-row">
+								<mat-form-field
+									appearance="outline"
+									class="form-field"
 								>
-								<mat-select
-									formControlName="masteryLevel"
-									required
-								>
-									@for (level of masteryLevels; track level) {
-										<mat-option [value]="level">{{
-											level
-										}}</mat-option>
+									<mat-label
+										>Tema / Asignatura / Habilidad</mat-label
+									>
+									<input
+										matInput
+										formControlName="topicSkill"
+										required
+										placeholder="Ej: Álgebra Lineal, Programación en Python, Hablar en Público"
+									/>
+									@if (
+										topicSkillCtrl?.invalid &&
+										topicSkillCtrl?.touched
+									) {
+										<mat-error
+											>Este campo es requerido.</mat-error
+										>
 									}
-								</mat-select>
-								@if (
-									masteryLevelCtrl?.invalid &&
-									masteryLevelCtrl?.touched
-								) {
-									<mat-error
-										>Selecciona el nivel deseado.</mat-error
+								</mat-form-field>
+
+								<mat-form-field
+									appearance="outline"
+									class="form-field"
+								>
+									<mat-label
+										>Nivel de Maestría Objetivo</mat-label
 									>
-								}
-							</mat-form-field>
-						</div>
-
-						<div class="form-actions">
-							<button
-								mat-raised-button
-								color="primary"
-								type="submit"
-								[disabled]="
-									studyPathForm.invalid || isGenerating()
-								"
-							>
-								@if (isGenerating()) {
-									<div
-										[style]="{
-											display: 'flex',
-											alignItems: 'center',
-										}"
+									<mat-select
+										formControlName="masteryLevel"
+										required
 									>
-										<mat-spinner
-											diameter="20"
-											color="accent"
-											class="inline-spinner"
-										></mat-spinner>
-										Generando...
-									</div>
-								} @else {
-									<ng-container>
-										<mat-icon>route</mat-icon> Generar Ruta
-										de Estudio
-									</ng-container>
-								}
-							</button>
-						</div>
-					</form>
-				}
+										@for (level of masteryLevels; track level) {
+											<mat-option [value]="level">{{
+												level
+											}}</mat-option>
+										}
+									</mat-select>
+									@if (
+										masteryLevelCtrl?.invalid &&
+										masteryLevelCtrl?.touched
+									) {
+										<mat-error
+											>Selecciona el nivel deseado.</mat-error
+										>
+									}
+								</mat-form-field>
+							</div>
 
-				@if (showResult()) {
-					<div class="study-path-result">
-						<h3>Ruta de Estudio Sugerida:</h3>
-						<div class="study-path-result-content">
-							<markdown
-								[data]="
-									generatedStudyPath().replaceAll(
-										'
+							<div class="form-actions">
+								<button
+									mat-raised-button
+									color="primary"
+									type="submit"
+									[disabled]="
+										studyPathForm.invalid || isGenerating()
+									"
+								>
+									@if (isGenerating()) {
+										<div
+											[style]="{
+												display: 'flex',
+												alignItems: 'center',
+											}"
+										>
+											<mat-spinner
+												diameter="20"
+												color="accent"
+												class="inline-spinner"
+											></mat-spinner>
+											Generando...
+										</div>
+									} @else {
+										<ng-container>
+											<mat-icon>route</mat-icon> Generar Ruta
+											de Estudio
+										</ng-container>
+									}
+								</button>
+							</div>
+						</form>
+					}
 
-',
-										'
-'
-									)
-								"
-							/>
-						</div>
+					@if (showResult()) {
+						<div class="study-path-result">
+							<h3>Ruta de Estudio Sugerida:</h3>
+							<div class="study-path-result-content">
+								<markdown
+									[data]="
+										generatedStudyPath().replaceAll(
+											'
 
-						<div class="result-actions">
-							<button
-								mat-stroked-button
-								color="primary"
-								(click)="goBack()"
-							>
-								<mat-icon>arrow_back</mat-icon> Volver
-							</button>
-							<button
-								mat-raised-button
-								color="primary"
-								(click)="downloadDocx()"
-								[disabled]="
-									!generatedStudyPath() ||
-									generatedStudyPath().startsWith(
-										'Ocurrió un error'
-									)
-								"
-							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
-							</button>
+	',
+											'
+	'
+										)
+									"
+								/>
+							</div>
+
+							<div class="result-actions">
+								<button
+									mat-stroked-button
+									color="primary"
+									(click)="goBack()"
+								>
+									<mat-icon>arrow_back</mat-icon> Volver
+								</button>
+								<button
+									mat-raised-button
+									color="primary"
+									(click)="downloadDocx()"
+									[disabled]="
+										!generatedStudyPath() ||
+										generatedStudyPath().startsWith(
+											'Ocurrió un error'
+										)
+									"
+								>
+									<mat-icon>download</mat-icon> Descargar (.docx)
+								</button>
+							</div>
 						</div>
-					</div>
-				}
-			</mat-card-content>
-		</mat-card>
+					}
+				</mat-card-content>
+			</mat-card>
+		</app-is-premium>
 	`,
 	// --- Inline Styles ---
 	styles: [

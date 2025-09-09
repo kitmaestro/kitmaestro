@@ -75,7 +75,7 @@ interface UnitPlanInicial {
 		IsPremiumComponent,
 	],
 	template: `
-		<app-is-premium minSubscriptionType="Plan Basico">
+		<app-is-premium minSubscriptionType="Plan Plus">
 			<mat-card>
 				<mat-card-header class="header">
 					<div class="header-text">

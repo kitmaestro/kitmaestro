@@ -74,7 +74,7 @@ interface PlanToGenerate {
 		IsPremiumComponent,
 	],
 	template: `
-		<app-is-premium>
+		<app-is-premium minSubscriptionType="Plan Plus">
 			<div class="container">
 				<mat-card>
 					@if (!unitPlanInput) {

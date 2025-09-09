@@ -23,10 +23,8 @@ import { IsPremiumComponent } from '../../shared/ui/is-premium.component';
 		DatePipe,
 		MatTooltipModule,
 		MatListModule,
-		IsPremiumComponent,
 	],
 	template: `
-	<app-is-premium>
 			<mat-card>
 				<mat-card-header class="header">
 					<h2 class="title" mat-card-title>
@@ -124,7 +122,6 @@ import { IsPremiumComponent } from '../../shared/ui/is-premium.component';
 					}
 				</mat-card-content>
 			</mat-card>
-		</app-is-premium>
 	`,
 	styles: `
 		.evaluations-list,

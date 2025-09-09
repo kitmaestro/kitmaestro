@@ -1,163 +1,276 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output, inject, OnInit, input, signal, isDevMode } from '@angular/core';
+import {
+	Component,
+	EventEmitter,
+	Output,
+	inject,
+	OnInit,
+	input,
+	signal,
+	isDevMode,
+	ChangeDetectionStrategy,
+	effect,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { map, tap } from 'rxjs';
+import { map } from 'rxjs';
 import { UserSubscriptionService } from '../../core/services/user-subscription.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
+// Esta declaración es necesaria para que TypeScript no se queje del objeto global de PayPal
 declare const paypal: any;
+
+// Definimos un tipo para los planes para mayor seguridad y autocompletado
+type PlanType = 'Plan Basico' | 'Plan Plus' | 'Plan Premium';
+
+interface PricingPlan {
+	id: string;
+	name: string;
+	code: PlanType;
+	price: number;
+	level: number;
+	features: string[];
+	container: string;
+}
 
 @Component({
 	selector: 'app-is-premium',
 	imports: [CommonModule, MatCardModule, MatButtonModule, MatSnackBarModule],
+	standalone: true, // Es buena práctica hacer los componentes standalone
+	changeDetection: ChangeDetectionStrategy.OnPush, // Mejora el rendimiento
 	template: `
-		<div style="margin: 20px">
-			@if (loading) {
-				<span class="spinner large"></span>
-			} @else {
-				@if (userCanAccess()) {
-					<ng-container>
-						<ng-content></ng-content>
-					</ng-container>
-				} @else {
-					<mat-card>
-						<mat-card-header>
-							<h2 style="margin: 0 auto;">
-								Contenido Premium de KitMaestro
-							</h2>
-						</mat-card-header>
-						<mat-card-content>
-							<p style="text-align: center;">
-								Para acceder a esta funcionalidad, necesitas una
-								suscripción activa.
-							</p>
-							<p style="text-align: center;">
-								Elige el plan que mejor se adapte a tus
-								necesidades y comienza a disfrutar de todas las
-								ventajas que KitMaestro tiene para ofrecerte.
-							</p>
-							<p style="font-size: 1.2em; text-align: center;">
-								¿Cuánto vale tu tiempo?
-							</p>
-							<p style="font-size: 1.2em; text-align: center;">
-								¿Cuánto vale tu tranquilidad?
-							</p>
-							<div
-								style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 20px;"
-							>
-								<div
-									style="min-width: 300px; border: 1px solid #ccc; border-radius: 8px; padding: 16px; width: 300px; box-shadow: 2px 2px 12px rgba(0,0,0,0.1); text-align: center;"
-								>
-									<div>
-										<h2>Plan B&aacute;sico</h2>
-										<div>
-											<p>
-												Acceso a funciones
-												b&aacute;sicas
-											</p>
-										</div>
-										<div>
-											<h3 style="font-size: 2em;">
-												$9.58<small
-													style="font-weight: normal; font-size: 12pt;"
-													>/mes</small
-												>
-											</h3>
-										</div>
-										<div
-											id="basic-plan-button-container"
-										></div>
-									</div>
-								</div>
-								<div
-									style="min-width: 300px; border: 1px solid #ccc; border-radius: 8px; padding: 16px; width: 300px; box-shadow: 2px 2px 12px rgba(0,0,0,0.1); text-align: center;"
-								>
-									<div>
-										<h2>Plan Plus</h2>
-										<div>
-											<p>Acceso a funciones avanzadas</p>
-										</div>
-										<div>
-											<h3 style="font-size: 2em;">
-												$15.97<small
-													style="font-weight: normal; font-size: 12pt;"
-													>/mes</small
-												>
-											</h3>
-										</div>
-										<div
-											id="plus-plan-button-container"
-										></div>
-									</div>
-								</div>
-								<div
-									style="min-width: 300px; border: 1px solid #ccc; border-radius: 8px; padding: 16px; width: 300px; box-shadow: 2px 2px 12px rgba(0,0,0,0.1); text-align: center;"
-								>
-									<div>
-										<h2>Plan Premium</h2>
-										<div>
-											<p>Acceso a todas las funciones</p>
-										</div>
-										<div>
-											<h3 style="font-size: 2em;">
-												$38.36<small
-													style="font-weight: normal; font-size: 12pt;"
-													>/mes</small
-												>
-											</h3>
-										</div>
-										<div
-											id="premium-plan-button-container"
-										></div>
-									</div>
-								</div>
-							</div>
-						</mat-card-content>
-					</mat-card>
-				}
-			}
-		</div>
-	`,
+        <!-- Contenedor principal que se centra vertical y horizontalmente -->
+        <div class="main-container">
+            <!-- 1. Estado de Carga: Se muestra solo mientras se verifica la suscripción -->
+            @if (loading()) {
+            <div class="spinner-container">
+                <span class="spinner large"></span>
+            </div>
+            } @else {
+            <!-- 2. Estado de Acceso Permitido: Muestra el contenido protegido -->
+            @if (userCanAccess()) {
+            <ng-container>
+                <ng-content></ng-content>
+            </ng-container>
+            } @else {
+            <!-- 3. Estado de "Necesita Mejorar Plan": Muestra las opciones de suscripción -->
+            <div class="upgrade-prompt">
+                <header class="upgrade-header">
+                    <h2>Contenido Premium de KitMaestro</h2>
+                    <p>
+                        Para acceder a esta funcionalidad, necesitas un plan
+                        superior. Elige el que mejor se adapte a ti.
+                    </p>
+                </header>
+
+                <!-- Contenedor de las tarjetas de precios, responsive por defecto -->
+                <div class="plans-wrapper">
+                    @for (plan of filteredPlans(); track plan.id) {
+                    <div
+                        class="plan-card"
+                        [class.recommended]="plan.code === 'Plan Plus'"
+                    >
+                        @if (plan.code === 'Plan Plus') {
+                        <div class="recommended-badge">Recomendado</div>
+                        }
+                        <h3 class="plan-name">{{ plan.name }}</h3>
+                        <div class="plan-price">
+                            <span class="price-amount"
+                                >$\{{ plan.price }}</span
+                            >
+                            <span class="price-period">/mes</span>
+                        </div>
+                        <ul class="plan-features">
+                            @for (feature of plan.features; track feature) {
+                            <li>{{ feature }}</li>
+                            }
+                        </ul>
+                        <!-- El botón de PayPal se renderizará aquí -->
+                        <div
+                            class="paypal-button-container"
+                            [id]="plan.container"
+                        ></div>
+                    </div>
+                    }
+                </div>
+            </div>
+            } }
+        </div>
+    `,
 	styles: `
-		/* Spinner animation */
-		.spinner {
-			display: inline-block;
-			width: 18px;
-			height: 18px;
-			border: 3px solid rgba(255, 255, 255, 0.3);
-			border-radius: 50%;
-			border-top-color: #fff;
-			animation: spin 1s ease-in-out infinite;
-			margin-right: 8px;
-			vertical-align: middle;
-		}
-		.spinner.large {
-			width: 40px;
-			height: 40px;
-			border: 4px solid rgba(0, 0, 0, 0.1);
-			border-top-color: var(--mat-primary-500-color);
-		}
-		@keyframes spin {
-			to {
-				transform: rotate(360deg);
-			}
-		}
-	`,
+        :host {
+            display: block;
+            width: 100%;
+        }
+
+        .main-container {
+            padding: 1rem;
+            width: 100%;
+        }
+
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+
+        .upgrade-prompt {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .upgrade-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .upgrade-header h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .upgrade-header p {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .plans-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .plan-card {
+            flex: 1 1 300px;
+            max-width: 350px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden; /* Para el badge */
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan-card.recommended {
+            border-color: #673ab7; /* Color primario de Angular Material */
+            border-width: 2px;
+        }
+        
+        .recommended-badge {
+            position: absolute;
+            top: 15px;
+            right: -45px;
+            background-color: #673ab7;
+            color: white;
+            padding: 6px 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transform: rotate(45deg);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .plan-price {
+            margin-bottom: 1.5rem;
+        }
+
+        .price-amount {
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+
+        .price-period {
+            font-size: 1rem;
+            color: #777;
+            margin-left: 0.25rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+            color: #444;
+            min-height: 100px;
+        }
+
+        .plan-features li {
+            padding: 0.5rem 0;
+        }
+        
+        .paypal-button-container {
+            min-height: 50px; /* Espacio para el botón de PayPal */
+        }
+
+        /* Animación de entrada */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Spinner (sin cambios) */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: #673ab7;
+            animation: spin 1s ease-in-out infinite;
+        }
+        .spinner.large {
+            width: 50px;
+            height: 50px;
+            border-width: 5px;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    `,
 })
 export class IsPremiumComponent implements OnInit {
 	private userSubscriptionService = inject(UserSubscriptionService);
 	private sb = inject(MatSnackBar);
 
-	minSubscriptionType = input<'Plan Basico' | 'Plan Plus' | 'Plan Premium'>(
-		'Plan Basico',
-	);
-	subscription$ = this.userSubscriptionService.subscription$;
-	loading = true;
-	userCanAccess = signal(false);
+	// INPUT: Define el nivel mínimo de suscripción para acceder al contenido
+	minSubscriptionType = input<PlanType>('Plan Basico');
 
-	@Output() onLoaded = new EventEmitter<boolean>();
-	pricingPlans = [
+	// SIGNALS: Gestionan el estado del componente de forma reactiva
+	loading = signal(true);
+	userCanAccess = signal(false);
+	filteredPlans = signal<PricingPlan[]>([]);
+
+	private buttonsRendered = false;
+
+	// Lista de todos los planes disponibles en la plataforma
+	private allPricingPlans: PricingPlan[] = [
 		{
 			id: isDevMode()
 				? 'P-1S5529330X126793CNCVNPKQ'
@@ -165,16 +278,19 @@ export class IsPremiumComponent implements OnInit {
 			name: 'Plan Básico',
 			code: 'Plan Basico',
 			price: 9.58,
+			level: 2,
+			features: ['500 Créditos/mes', '3 Asignaturas', 'Soporte por Email'],
 			container: 'basic-plan-button-container',
 		},
 		{
-			// id: isDevMode() ? 'P-1UE72299DR9852449NCVQGVQ' : 'P-14G421255Y3461609NCVPWCQ', # old one
 			id: isDevMode()
 				? 'P-1UE72299DR9852449NCVQGVQ'
 				: 'P-2A141077RF7045523NCZSTYY',
 			name: 'Plan Plus',
 			code: 'Plan Plus',
 			price: 15.97,
+			level: 3,
+			features: ['1,500 Créditos/mes', '5 Asignaturas', 'Soporte Prioritario'],
 			container: 'plus-plan-button-container',
 		},
 		{
@@ -184,82 +300,88 @@ export class IsPremiumComponent implements OnInit {
 			name: 'Plan Premium',
 			code: 'Plan Premium',
 			price: 38.36,
+			level: 4,
+			features: ['Créditos Ilimitados', 'Integraciones', 'Funciones Colaborativas'],
 			container: 'premium-plan-button-container',
 		},
 	];
 
-	ngOnInit() {
-		const minSubscriptionType = this.minSubscriptionType();
-		this.subscription$
-			.pipe(
-				map((sub) => {
-					if (!sub) return false;
-					const accessLevel: number =
-						sub.subscriptionType == 'FREE' ||
-						sub.status !== 'active' ||
-						new Date(sub.endDate) < new Date()
-							? 1
-							: sub.subscriptionType == 'Plan Basico'
-								? 2
-								: sub.subscriptionType == 'Plan Plus'
-									? 3
-									: 4;
-					const requiredLevel: number =
-						minSubscriptionType == 'Plan Basico'
-							? 2
-							: minSubscriptionType == 'Plan Plus'
-								? 3
-								: 4;
-					console.log(accessLevel, requiredLevel)
-					return accessLevel >= requiredLevel;
-				}),
-				tap(() => {
-					this.loading = false;
-					this.onLoaded.emit(true);
-				}),
-			)
-			.subscribe((isPremium) => {
-				this.userCanAccess.set(isPremium);
-				setTimeout(() => this.renderButtons(), 1500);
-				this.onLoaded.emit(true);
-			});
+	constructor() {
+		// Usamos un effect para renderizar los botones de PayPal
+		// solo cuando sea necesario. Se ejecuta cuando cambian las señales de las que depende.
+		effect(() => {
+			if (!this.loading() && !this.userCanAccess()) {
+				// Pequeño timeout para asegurar que el DOM esté listo
+				setTimeout(() => this.renderPaypalButtons(), 100);
+			}
+		});
 	}
 
-	rendered = false;
+	ngOnInit() {
+		// 1. Determina el nivel de acceso requerido
+		const requiredLevel = this.getlevelForPlan(this.minSubscriptionType());
 
-	renderButtons() {
-		if (this.rendered) return;
-		this.rendered = true;
+		// 2. Filtra los planes para mostrar solo los que son viables para el usuario
+		const plansToShow = this.allPricingPlans.filter(p => p.level >= requiredLevel);
+		this.filteredPlans.set(plansToShow);
+
+		// 3. Se suscribe para verificar el estado de la suscripción del usuario
+		this.userSubscriptionService.subscription$.pipe(
+			map(sub => {
+				if (!sub || sub.status !== 'active' || new Date(sub.endDate) < new Date()) {
+					return false;
+				}
+				const userAccessLevel = this.getlevelForPlan(sub.subscriptionType as PlanType);
+				return userAccessLevel >= requiredLevel;
+			})
+		).subscribe(canAccess => {
+			// **FIX PARA EL PARPADEO**: Actualizamos ambos signals en el mismo ciclo
+			this.userCanAccess.set(canAccess);
+			this.loading.set(false);
+		});
+	}
+
+	private getlevelForPlan(plan: PlanType | 'FREE'): number {
+		switch (plan) {
+			case 'Plan Basico': return 2;
+			case 'Plan Plus': return 3;
+			case 'Plan Premium': return 4;
+			default: return 1; // Nivel para 'FREE' o cualquier otro caso
+		}
+	}
+
+	private renderPaypalButtons() {
+		if (this.buttonsRendered) return;
+		this.buttonsRendered = true;
+
 		const style = {
 			shape: 'rect',
 			color: 'gold',
 			layout: 'vertical',
 			label: 'subscribe',
 		};
-		this.pricingPlans
-			.filter((p) => p.price)
-			.forEach(({ id: plan_id, name, code, price, container }) => {
-				const days = 30;
-				paypal
-					.Buttons({
-						style,
-						createSubscription: (data: any, actions: any) =>
-							actions.subscription.create({ plan_id }),
-						onApprove: () =>
-							this.userSubscriptionService
-								.subscribe(code, 'PayPal', days, price)
-								.subscribe(() => this.alertSuccess(name)),
-					})
-					.render(`#${container}`);
-			});
+
+		this.filteredPlans().forEach(({ id: plan_id, name, code, price, container }) => {
+			if (document.getElementById(container)) {
+				paypal.Buttons({
+					style,
+					createSubscription: (data: any, actions: any) => actions.subscription.create({ plan_id }),
+					onApprove: () => this.handleSubscriptionSuccess(code, price, name),
+				}).render(`#${container}`);
+			}
+		});
 	}
 
-	alertSuccess(plan: string) {
-		this.subscription$.subscribe();
-		this.sb.open(
-			'Tu suscripción ha sido activada. Gracias por apoyar el desarrollo de KitMaestro!',
-			'OK',
-			{ duration: 5000 },
-		);
+	private handleSubscriptionSuccess(code: PlanType, price: number, planName: string) {
+		this.userSubscriptionService.subscribe(code, 'PayPal', 30, price).subscribe(() => {
+			this.sb.open(
+				`¡Felicidades! Tu suscripción al ${planName} ha sido activada.`,
+				'OK',
+				{ duration: 7000 }
+			);
+			// Refresca el estado para que el componente muestre el contenido
+			this.userSubscriptionService.subscription$.subscribe();
+			this.userCanAccess.set(true);
+		});
 	}
 }
