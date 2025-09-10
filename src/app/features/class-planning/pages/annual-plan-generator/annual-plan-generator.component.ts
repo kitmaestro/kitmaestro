@@ -35,6 +35,7 @@ import { CommonModule } from '@angular/common';
 import { MainTheme } from '../../../../core/interfaces';
 import { MainThemeService } from '../../../../core/services/main-theme.service';
 import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
 	selector: 'app-annual-plan-generator',
@@ -109,23 +110,43 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 		if (resources && Array.isArray(resources) && resources.length > 0) {
 			this.yearlyPlanForm.get('resources')?.setValue(resources);
 		}
-		this.userSettingsService
-			.getSettings()
-			.subscribe((settings) => (this.userSettings = settings));
-
-		this.classSectionService.findSections().subscribe({
-			next: (value) => {
-				if (value.length) {
-					this.classSections = value;
-				} else {
-					this.sb.open(
-						'Para usar esta herramienta, necesitas crear al menos una sección.',
-						'Ok',
-						{ duration: 5000 },
-					);
+		forkJoin([
+			this.userSettingsService.getSettings(),
+			this.classSectionService.findSections(),
+			this.unitPlanService.findAll(),
+			this.userSubscriptionService.checkSubscription(),
+		])
+			.subscribe({
+				next: ([settings, sections, unitPlans, subscription]) => {
+					this.userSettings = settings;
+					if (sections.length) {
+						this.classSections = sections;
+					} else {
+						this.router.navigateByUrl('/sections').then(() => {
+							this.sb.open(
+								'Para usar esta herramienta, necesitas crear al menos una sección.',
+								'Ok',
+								{ duration: 5000 },
+							);
+						})
+						return;
+					}
+					const unitPlanLimits = subscription.subscriptionType == 'Plan Premium' ? sections.length * sections.flatMap(s => s.subjects).length * 12 : sections.length * sections.flatMap(s => s.subjects).length * 6;
+					const userPlansThisMonth = unitPlans.filter(plan => {
+						const planDate = new Date(plan.createdAt);
+						return planDate < new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+					}).length;
+					if (userPlansThisMonth >= unitPlanLimits) {
+						this.router.navigateByUrl('/unit-plans/list').then(() => {
+							this.sb.open(`Has alcanzado el límite de ${unitPlanLimits} unidades para este mes según tu plan actual.`, 'Ok', { duration: 7000 });
+						});
+						return;
+					}
+				},
+				error: err => {
+					console.log(err)
 				}
-			},
-		});
+			});
 	}
 
 	onSectionOrSubjectChange(): void {

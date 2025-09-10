@@ -29,7 +29,6 @@ import { CommonModule } from '@angular/common';
 
 // Interfaces y Servicios del Core
 import { ClassSection } from '../../../core/interfaces/class-section';
-import { SubjectConceptList } from '../../../core/interfaces/subject-concept-list';
 import { Rubric } from '../../../core/interfaces/rubric';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { SubjectConceptListService } from '../../../core/services/subject-concept-list.service';
