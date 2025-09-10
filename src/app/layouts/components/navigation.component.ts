@@ -81,9 +81,9 @@ import { UserSubscription } from '../../core/interfaces/user-subscription';
 					<mat-icon>assignment</mat-icon>
 					<span>Mis Planes Diarios</span>
 				</button>
-				<button routerLink="/my-resources" mat-menu-item>
+				<button routerLink="/rubrics" mat-menu-item>
 					<mat-icon>analytics</mat-icon>
-					<span>Mis Recursos</span>
+					<span>Mis Rubricas</span>
 				</button>
 				<button routerLink="/tutorials" mat-menu-item>
 					<mat-icon>video_library</mat-icon>
