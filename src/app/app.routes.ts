@@ -584,6 +584,14 @@ export const routes: Routes = [
 				title: 'Generador de Rúbricas',
 			},
 			{
+				path: 'rubric-lot-generator',
+				loadComponent: () =>
+					import(
+						'./features/assessments/rubric-lot-generator/rubric-lot-generator.component'
+					).then((mod) => mod.RubricLotGeneratorComponent),
+				title: 'Generador de Rúbricas por Lote',
+			},
+			{
 				path: 'rubrics',
 				loadComponent: () =>
 					import(
@@ -650,6 +658,14 @@ export const routes: Routes = [
 						'./features/diversity-dashboard/diversity-dashboard.component'
 					).then((mod) => mod.DiversityDashboardComponent),
 				title: 'Diversificador de Contenidos',
+			},
+			{
+				path: 'ideas',
+				loadComponent: () =>
+					import('./features/public/pages/idea-board.component').then(
+						(mod) => mod.IdeaBoardComponent,
+					),
+				title: 'Panel de Ideas',
 			},
 		],
 	},

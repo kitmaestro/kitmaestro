@@ -41,12 +41,4 @@ export default [
 			),
 		title: 'Planes de Desarrollo',
 	},
-	{
-		path: 'ideas',
-		loadComponent: () =>
-			import('./pages/idea-board.component').then(
-				(mod) => mod.IdeaBoardComponent,
-			),
-		title: 'Panel de Ideas',
-	},
 ] as Routes;

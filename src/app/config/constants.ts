@@ -308,6 +308,14 @@ export const assessmentTools: AppEntry[] = [
 		tier: 2,
 	},
 	{
+		name: 'Generador de Rúbricas por Lote',
+		description: 'Genera rúbricas por asignatura.',
+		link: ['/rubric-lot-generator'],
+		categories: ['Evaluación', 'Instrumentos de Evaluación'],
+		icon: '/assets/undraw_choose_5kz4.svg',
+		tier: 2,
+	},
+	{
 		name: 'Generador de Escala de Estimación',
 		description: 'Escalas de estimación para evaluar.',
 		link: ['/estimation-scale'],
@@ -328,15 +336,15 @@ export const assessmentTools: AppEntry[] = [
 		icon: '/assets/undraw_portfolio_website_re_jsdd.svg',
 		tier: 1,
 	},
-	{
-		link: ['/reviews'],
-		categories: ['Productividad'],
-		name: 'Encuestas y Retroalimentación',
-		icon: '/assets/review.svg',
-		description:
-			'Recopilación de retroalimentación para mejorar la enseñanza.',
-		tier: 5,
-	},
+	// {
+	// 	link: ['/reviews'],
+	// 	categories: ['Productividad'],
+	// 	name: 'Encuestas y Retroalimentación',
+	// 	icon: '/assets/review.svg',
+	// 	description:
+	// 		'Recopilación de retroalimentación para mejorar la enseñanza.',
+	// 	tier: 5,
+	// },
 ];
 
 export const registryTools = [
