@@ -1,8 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -31,7 +29,6 @@ import { ContentBlockService } from '../../../../core/services/content-block.ser
 import { ContentBlock } from '../../../../core/interfaces/content-block';
 import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 import { UserSubscriptionService } from '../../../../core/services/user-subscription.service';
-import { CommonModule } from '@angular/common';
 import { MainTheme } from '../../../../core/interfaces';
 import { MainThemeService } from '../../../../core/services/main-theme.service';
 import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
@@ -41,11 +38,8 @@ import { forkJoin } from 'rxjs';
 	selector: 'app-annual-plan-generator',
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
 		MatSnackBarModule,
-		MatCardModule,
-		MatStepperModule,
 		MatFormFieldModule,
 		MatSelectModule,
 		MatInputModule,
@@ -97,7 +91,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 		subject: ['', Validators.required],
 		mainTheme: ['Salud y Bienestar', Validators.required],
 		environment: ['Salón de clases', Validators.required],
-		situationType: ['realityProblem', Validators.required],
+		situationType: ['fiction', Validators.required],
 		reality: ['Falta de disciplina', Validators.required],
 		resources: [
 			['Pizarra', 'Libros de texto', 'Cuadernos', 'Lápices y bolígrafos'],

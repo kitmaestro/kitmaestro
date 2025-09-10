@@ -101,18 +101,16 @@ Genera un objeto JSON con la siguiente estructura exacta:
 	template: `
 	<app-is-premium minSubscriptionType="Plan Basico">
 		<div class="container">
-			<mat-card>
-				<mat-card-header>
-					<mat-card-title
-						>Generador de Plan Diario Multigrado</mat-card-title
-					>
-				</mat-card-header>
-				<mat-card-content>
+				<div style="display: flex; align-items: center; margin-bottom: 16px; margin-top: 16px; justify-content: space-between;">
+					<h2>Generador de Plan Diario Multigrado</h2>
+				</div>
+				<div>
 					<form
 						[formGroup]="planForm"
 						(ngSubmit)="onSubmit()"
 						*ngIf="!generatedPlan"
 					>
+					<div class="form-row">
 						<mat-form-field appearance="outline">
 							<mat-label>Grados (Selecciona Múltiples)</mat-label>
 							<mat-select
@@ -139,15 +137,7 @@ Genera un objeto JSON con la siguiente estructura exacta:
 								</mat-option>
 							</mat-select>
 						</mat-form-field>
-
-						<mat-form-field appearance="outline">
-							<mat-label>Tema Central de la Clase</mat-label>
-							<textarea
-								matInput
-								formControlName="topics"
-								placeholder="Ej: La estructura del cuento y sus partes"
-							></textarea>
-						</mat-form-field>
+					</div>
 
 						<div class="form-row">
 							<mat-form-field appearance="outline">
@@ -169,6 +159,15 @@ Genera un objeto JSON con la siguiente estructura exacta:
 								</mat-select>
 							</mat-form-field>
 						</div>
+
+						<mat-form-field appearance="outline">
+							<mat-label>Tema Central de la Clase</mat-label>
+							<textarea
+								matInput
+								formControlName="topics"
+								placeholder="Ej: La estructura del cuento y sus partes"
+							></textarea>
+						</mat-form-field>
 
 						<div class="resource-section">
 							<mat-label>Recursos Disponibles</mat-label>
@@ -485,18 +484,16 @@ Genera un objeto JSON con la siguiente estructura exacta:
 								editarlo o imprimirlo.</i
 							>
 						</p>
-						<mat-card-actions align="end" style="margin-top: 16px;">
+						<div class="mat-card-actions" align="end" style="margin-top: 16px;">
 							<button
 								mat-stroked-button
 								(click)="generatedPlan = null"
 							>
 								Generar Otro Plan
 							</button>
-							<!-- Aquí irían los botones de guardar, imprimir, etc. -->
-						</mat-card-actions>
+						</div>
 					</div>
-				</mat-card-content>
-			</mat-card>
+				</div>
 		</div>
 	</app-is-premium>
 	`,
@@ -506,7 +503,7 @@ Genera un objeto JSON con la siguiente estructura exacta:
 				max-width: 1400px;
 				margin: 24px auto;
 			}
-			mat-card-content form {
+			form {
 				display: flex;
 				flex-direction: column;
 				gap: 16px;
@@ -529,7 +526,7 @@ Genera un objeto JSON con la siguiente estructura exacta:
 			.progress-section {
 				margin-top: 16px;
 			}
-			mat-card-actions {
+			div.mat-card-actions {
 				padding: 16px 0 0 !important;
 			}
 			.plan-view {

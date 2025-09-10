@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -42,7 +41,6 @@ import { UserSubscriptionService } from '../../../../core/services/user-subscrip
 	imports: [
 		ReactiveFormsModule,
 		MatSnackBarModule,
-		MatCardModule,
 		MatStepperModule,
 		MatFormFieldModule,
 		MatSelectModule,
