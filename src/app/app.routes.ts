@@ -13,6 +13,7 @@ import { PrintLayoutComponent } from './layouts/print-layout.component';
 import { PublicLayoutComponent } from './layouts/public-layout.component';
 import schedulingRoutes from './features/scheduling/scheduling.routes';
 import classPlanningRoutes from './features/class-planning/class-planning.routes';
+import gradingRoutes from './features/grading/grading.routes';
 
 export const routes: Routes = [
 	// authentication
@@ -155,6 +156,10 @@ export const routes: Routes = [
 			},
 
 			// Grades/Grading
+			{
+				path: 'grading',
+				children: gradingRoutes,
+			},
 			{
 				path: 'grades-generator',
 				loadComponent: () =>
