@@ -503,7 +503,7 @@ export class ClassPlansService {
 						}),
 						new TableCell({
 							columnSpan: 4,
-							children: [new Paragraph(plan.readings)],
+							children: [new Paragraph(plan.readings || '')],
 						}),
 					],
 				}),
