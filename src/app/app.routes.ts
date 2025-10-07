@@ -51,8 +51,6 @@ export const routes: Routes = [
 					).then((mod) => mod.BuySubscriptionComponent),
 				title: 'Comprar Suscripción',
 			},
-			{ path: 'users', children: usersRoutes },
-			{ path: 'profile', redirectTo: '/users/me', },
 			{
 				path: 'referrals',
 				loadComponent: () =>
@@ -62,6 +60,8 @@ export const routes: Routes = [
 				title: 'Panel de Referidos',
 			},
 			{ path: 'todos', children: todoRoutes },
+			{ path: 'users', children: usersRoutes },
+			{ path: 'profile', redirectTo: '/users/me', },
 
 			// sections
 			{
