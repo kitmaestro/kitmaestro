@@ -4,7 +4,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ScoreSystemService } from '../../../core/services/score-system.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { AiService } from '../../../core/services/ai.service';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { UserService } from '../../../core/services/user.service';
 import { SubjectConceptListService } from '../../../core/services/subject-concept-list.service';
 import { ContentBlockService } from '../../../core/services/content-block.service';
 import { ClassSection } from '../../../core/interfaces/class-section';
@@ -26,7 +26,7 @@ import {
 	ScoreSystem,
 } from '../../../core/interfaces/score-system';
 import { ScoreSystemComponent } from '../score-system/score-system.component';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 @Component({
@@ -55,10 +55,10 @@ export class ScoreSystemGeneratorComponent implements OnInit {
 	private contentBlockService = inject(ContentBlockService);
 	private contentService = inject(SubjectConceptListService);
 	private competenceService = inject(CompetenceService);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 	private aiService = inject(AiService);
 	private router = inject(Router);
-	user: UserSettings | null = null;
+	user: User | null = null;
 	sections: ClassSection[] = [];
 	section: ClassSection | null = null;
 	subjects: string[] = [];
@@ -80,7 +80,7 @@ export class ScoreSystemGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit() {
-		this.userSettingsService.getSettings().subscribe((user) => {
+		this.UserService.getSettings().subscribe((user) => {
 			this.user = user;
 		});
 		this.sectionService.findSections().subscribe({

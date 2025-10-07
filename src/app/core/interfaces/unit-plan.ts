@@ -2,11 +2,11 @@ import { ClassSection } from './class-section';
 import { CompetenceEntry } from './competence-entry';
 import { ContentBlock } from './content-block';
 import { MainTheme } from './main-theme';
-import { UserSettings } from './user-settings';
+import { User } from './user';
 
 export interface UnitPlan {
 	_id: string;
-	user: UserSettings;
+	user: User;
 	section: ClassSection;
 	sections: ClassSection[];
 	duration: number;

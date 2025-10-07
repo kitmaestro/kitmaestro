@@ -8,9 +8,9 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { DidacticResourceService } from '../../../core/services/didactic-resource.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { UserService } from '../../../core/services/user.service';
 import { sha512_256 } from 'js-sha512';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({
@@ -184,13 +184,13 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 	`,
 })
 export class ResourceCardComponent {
-	settingsService = inject(UserSettingsService);
+	settingsService = inject(UserService);
 	@Input() resource: DidacticResource | null = null;
 	@Input() owned = false;
 
 	didacticResourceService = inject(DidacticResourceService);
 	sb = inject(MatSnackBar);
-	user: UserSettings | null = null;
+	user: User | null = null;
 
 	bookmarked = false;
 

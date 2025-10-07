@@ -7,8 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Idea } from '../../../core/interfaces/idea';
 import { IdeaService } from '../../../core/services/idea.service';
-import { UserSettings } from '../../../core/interfaces/user-settings';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { User } from '../../../core/interfaces';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
 	selector: 'app-idea-board',
@@ -128,10 +128,10 @@ import { UserSettingsService } from '../../../core/services/user-settings.servic
 export class IdeaBoardComponent implements OnInit {
 	private ideaService = inject(IdeaService);
 	private fb = inject(FormBuilder);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 
 	ideas: Idea[] = [];
-	user: UserSettings | null = null;
+	user: User | null = null;
 	ideaForm = this.fb.group({
 		user: ['', Validators.required],
 		title: ['', Validators.required],
@@ -148,7 +148,7 @@ export class IdeaBoardComponent implements OnInit {
 
 	ngOnInit() {
 		this.loadIdeas();
-		this.userSettingsService.getSettings().subscribe({
+		this.UserService.getSettings().subscribe({
 			next: (user) => {
 				this.user = user;
 				this.ideaForm.get('user')?.setValue(user._id);

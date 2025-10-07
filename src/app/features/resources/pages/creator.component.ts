@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
 	selector: 'app-creator',
@@ -10,8 +10,8 @@ import { UserSettingsService } from '../../../core/services/user-settings.servic
 export class CreatorComponent implements OnInit {
 	route = inject(ActivatedRoute);
 	id = this.route.snapshot.paramMap.get('id');
-	userSettingsService = inject(UserSettingsService);
-	creator$ = this.userSettingsService.getSettings(this.id as string);
+	UserService = inject(UserService);
+	creator$ = this.UserService.getSettings(this.id as string);
 
 	ngOnInit() {
 		this.creator$.subscribe((creator) => console.log(creator));

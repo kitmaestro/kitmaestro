@@ -10,7 +10,7 @@ import { AiService } from '../../../core/services/ai.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PdfService } from '../../../core/services/pdf.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { UserService } from '../../../core/services/user.service';
 import { MatIconModule } from '@angular/material/icon';
 import { ClassSection } from '../../../core/interfaces/class-section';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
@@ -59,7 +59,7 @@ export class PlannerGeneratorComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private aiService = inject(AiService);
 	private pdfService = inject(PdfService);
-	private settingsService = inject(UserSettingsService);
+	private settingsService = inject(UserService);
 	private sectionService = inject(ClassSectionService);
 
 	generating = false;

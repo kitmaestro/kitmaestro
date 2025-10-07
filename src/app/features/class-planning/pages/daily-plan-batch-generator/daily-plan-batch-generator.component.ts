@@ -15,11 +15,11 @@ import { UnitPlan } from '../../../../core/interfaces/unit-plan';
 import { UnitPlanService } from '../../../../core/services/unit-plan.service';
 import { ClassPlansService } from '../../../../core/services/class-plans.service';
 import { AiService } from '../../../../core/services/ai.service';
-import { UserSettingsService } from '../../../../core/services/user-settings.service';
+import { UserService } from '../../../../core/services/user.service';
 import {
 	ClassPlan,
 	ClassSection,
-	UserSettings,
+	User,
 } from '../../../../core/interfaces';
 import { classroomResources } from '../../../../config/constants';
 import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
@@ -221,10 +221,10 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 	private unitPlanService = inject(UnitPlanService);
 	private classPlanService = inject(ClassPlansService);
 	private aiService = inject(AiService);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 	private pretifyPipe = new PretifyPipe().transform;
 
-	userSettings: UserSettings | null = null;
+	User: User | null = null;
 	allUnitPlans: UnitPlan[] = [];
 
 	isLoadingUnits = true;
@@ -255,9 +255,9 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 		if (resources && Array.isArray(resources) && resources.length > 0) {
 			this.generatorForm.get('resources')?.setValue(resources);
 		}
-		this.userSettingsService
+		this.UserService
 			.getSettings()
-			.subscribe((settings) => (this.userSettings = settings));
+			.subscribe((settings) => (this.User = settings));
 
 		if (this.unitPlanInput) {
 			this.allUnitPlans = [this.unitPlanInput];
@@ -402,7 +402,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 		const { teachingStyle, resources } = this.generatorForm.value;
 		if (
 			!unitPlan.section ||
-			!this.userSettings ||
+			!this.User ||
 			!teachingStyle ||
 			!resources
 		)
@@ -445,7 +445,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 
 		const newPlan: Partial<ClassPlan> = {
 			...planJson,
-			user: this.userSettings._id,
+			user: this.User._id,
 			section: unitPlan.section._id,
 			date: date,
 			subject: planInfo.subject,

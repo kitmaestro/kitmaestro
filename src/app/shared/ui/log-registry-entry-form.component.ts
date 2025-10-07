@@ -20,7 +20,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { StudentsService } from '../../core/services/students.service';
 import { AiService } from '../../core/services/ai.service';
 import { ClassSection } from '../../core/interfaces/class-section';
-import { UserSettings } from '../../core/interfaces/user-settings';
+import { User } from '../../core/interfaces';
 
 @Component({
 	selector: 'app-log-registry-entry-form',
@@ -232,7 +232,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
 	private classSectionService = inject(ClassSectionService);
 	private authService = inject(AuthService);
 	private studentService = inject(StudentsService);
-	user: UserSettings | null = null;
+	user: User | null = null;
 	sections: ClassSection[] = [];
 	students: Student[] = [];
 	saving = false;

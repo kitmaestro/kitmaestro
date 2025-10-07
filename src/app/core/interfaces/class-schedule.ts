@@ -1,5 +1,5 @@
 import { ClassSection } from './class-section';
-import { UserSettings } from './user-settings';
+import { User } from './user';
 
 export interface ClassPeriod {
 	subject: string;
@@ -10,7 +10,7 @@ export interface ClassPeriod {
 
 export interface ClassSchedule {
 	_id: string;
-	user: UserSettings;
+	user: User;
 	section: ClassSection;
 	format: string;
 	periods: ClassPeriod[];

@@ -10,8 +10,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { AiService } from '../../../../core/services/ai.service';
 import { ClassSectionService } from '../../../../core/services/class-section.service';
-import { UserSettingsService } from '../../../../core/services/user-settings.service';
-import { UserSettings } from '../../../../core/interfaces/user-settings';
+import { UserService } from '../../../../core/services/user.service';
+import { User } from '../../../../core/interfaces';
 import { UnitPlan } from '../../../../core/interfaces/unit-plan';
 import { UnitPlanService } from '../../../../core/services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
@@ -60,7 +60,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
 	private classSectionService = inject(ClassSectionService);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 	userSubscriptionService = inject(UserSubscriptionService);
 	private contentBlockService = inject(ContentBlockService);
 	private unitPlanService = inject(UnitPlanService);
@@ -71,7 +71,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	pretify = new PretifyPipe().transform;
 	working = true;
 
-	userSettings: UserSettings | null = null;
+	User: User | null = null;
 
 	public mainThemeCategories = mainThemeCategories;
 	public environments = schoolEnvironments;
@@ -165,13 +165,13 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.userSettingsService
+		this.UserService
 			.getSettings()
 			.pipe(
 				filter((user) => user !== null),
 				takeUntil(this.destroy$),
 				switchMap((user) => {
-					this.userSettings = user;
+					this.User = user;
 					return forkJoin([
 						this.classSectionService.findSections(),
 						this.userSubscriptionService.checkSubscription(),
@@ -463,7 +463,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 
 	fillFinalForm() {
 		const plan: any = {
-			user: this.userSettings?._id,
+			user: this.User?._id,
 			section: this.classSection?._id,
 			sections: [],
 			duration: this.unitPlanForm.value.duration || 4,

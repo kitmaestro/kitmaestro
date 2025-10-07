@@ -1,9 +1,9 @@
 import { ClassSection } from './class-section';
-import { UserSettings } from './user-settings';
+import { User } from './user';
 
 export interface MultigradeClassPlan {
 	_id: string;
-	user: UserSettings;
+	user: User;
 	date: Date;
 	sections: ClassSection[];
 	subject: string;

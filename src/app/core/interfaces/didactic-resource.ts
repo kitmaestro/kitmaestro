@@ -1,4 +1,4 @@
-import { UserSettings } from './user-settings';
+import { User } from './user';
 
 export interface DidacticResource {
 	_id: string;
@@ -10,7 +10,7 @@ export interface DidacticResource {
 	downloadLink: string;
 	status: 'draft' | 'preview' | 'public';
 	preview: string;
-	author: UserSettings;
+	author: User;
 	price: number;
 	likes: number;
 	keywords: string[];

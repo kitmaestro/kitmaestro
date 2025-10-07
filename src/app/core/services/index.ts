@@ -33,4 +33,4 @@ export * from './favorites.service';
 export * from './competence.service';
 export * from './ai.service';
 export * from './diagnostic-evaluation.service';
-export * from './user-settings.service';
+export * from './user.service';

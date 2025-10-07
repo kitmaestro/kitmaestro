@@ -4,7 +4,7 @@ import {
 	GroupedGradingActivity,
 	ScoreSystem,
 } from '../../../core/interfaces/score-system';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 import { ClassSection } from '../../../core/interfaces/class-section';
 import { ContentBlock } from '../../../core/interfaces/content-block';
 import { Student } from '../../../core/interfaces/student';
@@ -20,7 +20,7 @@ import { StudentsService } from '../../../core/services/students.service';
 })
 export class ScoreSystemComponent implements OnInit {
 	@Input() scoreSystem: ScoreSystem | null = null;
-	@Input() user: UserSettings | null = null;
+	@Input() user: User | null = null;
 	@Input() section: ClassSection | null = null;
 	@Input() contentBlock: ContentBlock[] = [];
 	private studentsService = inject(StudentsService);

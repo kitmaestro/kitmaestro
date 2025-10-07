@@ -9,8 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '../../../core/interfaces';
 import { AsyncPipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { tap } from 'rxjs';
@@ -156,8 +156,8 @@ import { tap } from 'rxjs';
 export class TodoListsComponent {
 	private sb = inject(MatSnackBar);
 	private todoListService = inject(TodoListService);
-	private userSettingsService = inject(UserSettingsService);
-	private userSettings: UserSettings | null = null;
+	private UserService = inject(UserService);
+	private User: User | null = null;
 	private fb = inject(FormBuilder);
 	private router = inject(Router);
 
@@ -174,8 +174,8 @@ export class TodoListsComponent {
 	});
 
 	constructor() {
-		this.userSettingsService.getSettings().subscribe((settings) => {
-			this.userSettings = settings;
+		this.UserService.getSettings().subscribe((settings) => {
+			this.User = settings;
 		});
 	}
 
@@ -195,9 +195,9 @@ export class TodoListsComponent {
 	}
 
 	addList() {
-		if (this.userSettings) {
+		if (this.User) {
 			const todoList: any = this.todoListForm.value;
-			todoList.user = this.userSettings._id;
+			todoList.user = this.User._id;
 			this.todoListService.create(todoList).subscribe({
 				next: (list) => {
 					this.router.navigate(['/todos', list._id]).then(() => {

@@ -1,11 +1,11 @@
 import { ClassSection } from './class-section';
-import { UserSettings } from './user-settings';
+import { User } from './user';
 
 export interface Test {
 	_id: string;
 	section: ClassSection;
 	subject: string;
-	user: UserSettings;
+	user: User;
 	body: string;
 	answers: string;
 }

@@ -14,6 +14,8 @@ import { PublicLayoutComponent } from './layouts/public-layout.component';
 import schedulingRoutes from './features/scheduling/scheduling.routes';
 import classPlanningRoutes from './features/class-planning/class-planning.routes';
 import gradingRoutes from './features/grading/grading.routes';
+import usersRoutes from './features/users/users.routes';
+import activitiesRoutes from './features/activities/activities.routes';
 
 export const routes: Routes = [
 	// authentication
@@ -49,32 +51,8 @@ export const routes: Routes = [
 					).then((mod) => mod.BuySubscriptionComponent),
 				title: 'Comprar Suscripción',
 			},
-			{
-				path: 'users/:id',
-				loadComponent: () =>
-					import(
-						'./features/admin/pages/user-details.component'
-					).then((mod) => mod.UserDetailsComponent),
-				title: 'Detalles del Usuario',
-			},
-			{
-				path: 'ai-assistant',
-				loadComponent: () =>
-					import('./features/ai/ai-assistant.component').then(
-						(mod) => mod.AiAssistantComponent,
-					),
-				title: 'Asistente Virtual',
-			},
-
-			// user data
-			{
-				path: 'profile',
-				loadComponent: () =>
-					import(
-						'./features/user-profile/user-profile.component'
-					).then((mod) => mod.UserProfileComponent),
-				title: 'Perfil del Usuario',
-			},
+			{ path: 'users', children: usersRoutes },
+			{ path: 'profile', redirectTo: '/users/me', },
 			{
 				path: 'referrals',
 				loadComponent: () =>
@@ -122,38 +100,7 @@ export const routes: Routes = [
 			},
 
 			// Activities
-			{
-				path: 'tongue-twister-generator',
-				loadComponent: () =>
-					import(
-						'./features/activities/tongue-twister-generator.component'
-					).then((mod) => mod.TongueTwisterGeneratorComponent),
-				title: 'Generador de Trabalenguas',
-			},
-			{
-				path: 'guided-reading-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/reading-activity-generator/reading-activity-generator.component'
-					).then((mod) => mod.ReadingActivityGeneratorComponent),
-				title: 'Generador de Actividad de Lectura',
-			},
-			{
-				path: 'guided-reading',
-				loadComponent: () =>
-					import(
-						'./features/activities/reading-activities.component'
-					).then((mod) => mod.ReadingActivitiesComponent),
-				title: 'Actividades de Lectura',
-			},
-			{
-				path: 'holiday-activity-generator',
-				loadComponent: () =>
-					import(
-						'./features/activities/holiday-activity-generator.component'
-					).then((mod) => mod.HolidayActivityGeneratorComponent),
-				title: 'Actividades para Efemérides',
-			},
+			{ path: 'activities', children: activitiesRoutes },
 
 			// Grades/Grading
 			{
@@ -357,130 +304,6 @@ export const routes: Routes = [
 						'./features/generators/planner-generator/planner-generator.component'
 					).then((mod) => mod.PlannerGeneratorComponent),
 				title: 'Generador de Planificadores',
-			},
-
-			// worksheet builders
-			{
-				path: 'wordsearch',
-				loadComponent: () =>
-					import(
-						'./features/builders/wordsearch/wordsearch.component'
-					).then((m) => m.WordsearchComponent),
-				title: 'Generador de Sopa de Letras',
-			},
-			{
-				path: 'word-scramble',
-				loadComponent: () =>
-					import(
-						'./features/builders/word-scramble/word-scramble.component'
-					).then((m) => m.WordScrambleComponent),
-				title: 'Generador de Palabras Revueltas',
-			},
-			{
-				path: 'crosswords',
-				loadComponent: () =>
-					import(
-						'./features/builders/crosswords/crosswords.component'
-					).then((m) => m.CrosswordsComponent),
-				title: 'Generador de Crucigramas',
-			},
-			{
-				path: 'synonyms',
-				loadComponent: () =>
-					import(
-						'./features/generators/synonyms-generator.component'
-						// './features/builders/synonyms/synonyms.component'
-					).then((m) => m.SynonymsGeneratorComponent),
-				title: 'Generador de Sinónimos',
-			},
-			{
-				path: 'antonyms',
-				loadComponent: () =>
-					import(
-						'./features/generators/antonyms-generator.component'
-						// './features/builders/antonyms/antonyms.component'
-					).then((m) => m.AntonymsGeneratorComponent),
-				title: 'Generador de Antónimos',
-			},
-			{
-				path: 'sudoku',
-				loadComponent: () =>
-					import('./features/builders/sudoku/sudoku.component').then(
-						(m) => m.SudokuComponent,
-					),
-				title: 'Generador de Sudoku',
-			},
-			{
-				path: 'addition',
-				loadComponent: () =>
-					import(
-						'./features/builders/addition/addition.component'
-					).then((m) => m.AdditionComponent),
-				title: 'Generador de Sumas',
-			},
-			{
-				path: 'subtraction',
-				loadComponent: () =>
-					import(
-						'./features/builders/subtraction/subtraction.component'
-					).then((m) => m.SubtractionComponent),
-				title: 'Generador de Restas',
-			},
-			{
-				path: 'equations',
-				loadComponent: () =>
-					import(
-						'./features/builders/equations/equations.component'
-					).then((m) => m.EquationsComponent),
-				title: 'Generador de Ecuaciones',
-			},
-			{
-				path: 'multiplication',
-				loadComponent: () =>
-					import(
-						'./features/builders/multiplication/multiplication.component'
-					).then((m) => m.MultiplicationComponent),
-				title: 'Generador de Multiplicaciones',
-			},
-			{
-				path: 'division',
-				loadComponent: () =>
-					import(
-						'./features/builders/division-generator.component'
-					).then((m) => m.DivisionGeneratorComponent),
-				title: 'Generador de Divisones',
-			},
-			{
-				path: 'mixed-operations',
-				loadComponent: () =>
-					import(
-						'./features/builders/mixed-operations/mixed-operations.component'
-					).then((m) => m.MixedOperationsComponent),
-				title: 'Generador de Operaciones Mixtas',
-			},
-			{
-				path: 'graph-paper',
-				loadComponent: () =>
-					import(
-						'./features/builders/graph-paper/graph-paper.component'
-					).then((m) => m.GraphPaperComponent),
-				title: 'Generador de Papel Cuadriculado',
-			},
-			{
-				path: 'number-line',
-				loadComponent: () =>
-					import(
-						'./features/builders/number-line-generator.component'
-					).then((m) => m.NumberLineGeneratorComponent),
-				title: 'Generador de Recta Numerica',
-			},
-			{
-				path: 'cartesian-coordinates',
-				loadComponent: () =>
-					import(
-						'./features/builders/cartesian-coordinates/cartesian-coordinates.component'
-					).then((m) => m.CartesianCoordinatesComponent),
-				title: 'Generador de Planos Cartesianos',
 			},
 
 			// assessments

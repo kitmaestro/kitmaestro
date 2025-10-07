@@ -11,8 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '../../../core/interfaces';
 import { UnitPlan } from '../../../core/interfaces/unit-plan';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
@@ -554,7 +554,7 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
 	private classSectionService = inject(ClassSectionService);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 	private contentBlockService = inject(ContentBlockService);
 	private mainThemeService = inject(MainThemeService);
 	private unitPlanService = inject(UnitPlanService);
@@ -562,7 +562,7 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 	private router = inject(Router);
 
 	generating = false;
-	userSettings: UserSettings | null = null;
+	User: User | null = null;
 	allClassSections: ClassSection[] = [];
 	selectedClassSections: ClassSection[] = [];
 	commonSubjects: { id: string; label: string }[] = [];
@@ -617,9 +617,9 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 	pretifyPipe = new PretifyPipe();
 
 	ngOnInit(): void {
-		this.userSettingsService
+		this.UserService
 			.getSettings()
-			.subscribe((settings) => (this.userSettings = settings));
+			.subscribe((settings) => (this.User = settings));
 		this.classSectionService.findSections().subscribe({
 			next: (value) => {
 				if (value.length) {
@@ -927,7 +927,7 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 		}
 
 		const plan: any = {
-			user: this.userSettings?._id,
+			user: this.User?._id,
 			sections: this.learningSituationForm.get('classSections')?.value,
 			duration: this.unitPlanForm.value.duration,
 			learningSituation: this.learningSituation.value,

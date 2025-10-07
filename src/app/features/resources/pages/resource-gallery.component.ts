@@ -13,7 +13,7 @@ import { IsEmptyComponent } from '../../../shared/ui/is-empty.component';
 import { ResourceCardComponent } from './resource-card.component';
 import { ResourceFormComponent } from '../../../shared/ui/resource-form.component';
 import { MatIconModule } from '@angular/material/icon';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 import { DidacticResource } from '../../../core/interfaces/didactic-resource';
 import { AuthService } from '../../../core/services/auth.service';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
@@ -142,7 +142,7 @@ export class ResourceGalleryComponent implements OnInit {
 
 	resources: DidacticResource[] = [];
 	fullList: DidacticResource[] = [];
-	user: UserSettings | null = null;
+	user: User | null = null;
 
 	filterForm = this.fb.group({
 		subjects: [[] as string[]],

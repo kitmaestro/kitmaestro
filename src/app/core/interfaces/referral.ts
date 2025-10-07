@@ -1,9 +1,9 @@
-import { UserSettings } from './user-settings';
+import { User } from './user';
 
 export interface Referral {
 	_id: string;
-	referrer: UserSettings;
-	referred: UserSettings;
+	referrer: User;
+	referred: User;
 	date: Date;
 	status: string;
 }

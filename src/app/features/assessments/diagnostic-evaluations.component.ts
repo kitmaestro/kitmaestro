@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import {
 	DiagnosticEvaluationService,
-	UserSettingsService,
+	UserService,
 } from '../../core/services';
-import { GeneratedEvaluation, UserSettings } from '../../core/interfaces';
+import { GeneratedEvaluation, User } from '../../core/interfaces';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -166,20 +166,20 @@ import { IsPremiumComponent } from '../../shared/ui/is-premium.component';
 })
 export class DiagnosticEvaluationsComponent {
 	private diagnosticEvaluationService = inject(DiagnosticEvaluationService);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 
-	userSettings = signal<UserSettings | null>(null);
+	User = signal<User | null>(null);
 
 	evaluations = signal<GeneratedEvaluation[]>([]);
 
 	ngOnInit() {
-		this.loadUserSettings();
+		this.loadUser();
 	}
 
-	loadUserSettings() {
-		this.userSettingsService.getSettings().subscribe({
+	loadUser() {
+		this.UserService.getSettings().subscribe({
 			next: (settings) => {
-				this.userSettings.set(settings);
+				this.User.set(settings);
 				this.loadEvaluations();
 			},
 			error: (err) => console.error('Error loading user settings', err),
@@ -187,9 +187,9 @@ export class DiagnosticEvaluationsComponent {
 	}
 
 	loadEvaluations() {
-		console.log({ user: this.userSettings()?._id });
+		console.log({ user: this.User()?._id });
 		this.diagnosticEvaluationService
-			.findAll({ user: this.userSettings()?._id })
+			.findAll({ user: this.User()?._id })
 			.subscribe({
 				next: (evaluations) => {
 					this.evaluations.set(evaluations);

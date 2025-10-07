@@ -39,4 +39,12 @@ export default [
 			import('./pages/users.component').then((mod) => mod.UsersComponent),
 		title: 'Usuarios',
 	},
+	{
+		path: 'users/:id',
+		loadComponent: () =>
+			import(
+				'./pages/user-details.component'
+			).then((mod) => mod.UserDetailsComponent),
+		title: 'Detalles del Usuario',
+	},
 ] as Routes;

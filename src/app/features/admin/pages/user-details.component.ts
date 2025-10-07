@@ -1,7 +1,7 @@
 import { Component, Inject, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '../../../core/interfaces';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { SchoolService } from '../../../core/services/school.service';
@@ -423,7 +423,7 @@ export class UserDetailsComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private fb = inject(FormBuilder);
 	private route = inject(ActivatedRoute);
-	private userService = inject(UserSettingsService);
+	private userService = inject(UserService);
 	private userId = this.route.snapshot.paramMap.get('id') || '';
 	private subscriptionService = inject(UserSubscriptionService);
 	private schoolService = inject(SchoolService);
@@ -431,12 +431,12 @@ export class UserDetailsComponent implements OnInit {
 	private authService = inject(AuthService);
 	private dialog = inject(MatDialog);
 
-	user: UserSettings | null = null;
+	user: User | null = null;
 	subscription: UserSubscription | null = null;
 	schools: School[] = [];
 	classSections: ClassSection[] = [];
 	gravatarUrl = '';
-	activeUser: UserSettings | null = null;
+	activeUser: User | null = null;
 
 	newPassword = this.fb.control('');
 
@@ -454,7 +454,7 @@ export class UserDetailsComponent implements OnInit {
 		amount: [0],
 	});
 
-	waLink(user: UserSettings): string {
+	waLink(user: User): string {
 		if (!user.phone || !user.firstname) return '#';
 		const phone = user.phone.replace(/\D+/g, ''); // elimina todo lo que no sea dígito
 		if (!/^\d{6,15}$/.test(phone)) {

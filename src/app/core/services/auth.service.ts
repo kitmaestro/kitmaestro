@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserSettings } from '../interfaces/user-settings';
+import { User } from '../interfaces';
 import { ApiUpdateResponse } from '../interfaces/api-update-response';
 import { environment } from '../../../environments/environment';
 
@@ -16,11 +16,11 @@ export class AuthService {
 		email: string,
 		password: string,
 	): Observable<{
-		user: UserSettings;
+		user: User;
 		access_token: string;
 		error?: string;
 	}> {
-		return this.http.post<{ user: UserSettings; access_token: string }>(
+		return this.http.post<{ user: User; access_token: string }>(
 			this.apiUrl + 'login',
 			{
 				email,
@@ -35,8 +35,8 @@ export class AuthService {
 		password: string;
 		plan?: string;
 		ref?: string;
-	}): Observable<{ user: UserSettings; access_token: string }> {
-		return this.http.post<{ user: UserSettings; access_token: string }>(
+	}): Observable<{ user: User; access_token: string }> {
+		return this.http.post<{ user: User; access_token: string }>(
 			this.apiUrl + 'signup',
 			body,
 			{ withCredentials: true },
@@ -51,13 +51,13 @@ export class AuthService {
 		);
 	}
 
-	profile(): Observable<UserSettings> {
-		return this.http.get<UserSettings>(this.apiUrl + 'profile', {
+	profile(): Observable<User> {
+		return this.http.get<User>(this.apiUrl + 'profile', {
 			withCredentials: true,
 		});
 	}
 
-	update(data: UserSettings): Observable<ApiUpdateResponse> {
+	update(data: User): Observable<ApiUpdateResponse> {
 		return this.http.patch<ApiUpdateResponse>(
 			this.apiUrl + 'profile',
 			data,

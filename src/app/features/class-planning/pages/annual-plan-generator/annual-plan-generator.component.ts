@@ -9,8 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { AiService } from '../../../../core/services/ai.service';
 import { ClassSectionService } from '../../../../core/services/class-section.service';
-import { UserSettingsService } from '../../../../core/services/user-settings.service';
-import { UserSettings } from '../../../../core/interfaces/user-settings';
+import { UserService } from '../../../../core/services/user.service';
+import { User } from '../../../../core/interfaces';
 import { UnitPlan } from '../../../../core/interfaces/unit-plan';
 import { UnitPlanService } from '../../../../core/services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
@@ -57,7 +57,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
 	private classSectionService = inject(ClassSectionService);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 	public userSubscriptionService = inject(UserSubscriptionService);
 	private contentBlockService = inject(ContentBlockService);
 	private unitPlanService = inject(UnitPlanService);
@@ -66,7 +66,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	private router = inject(Router);
 	private pretifyPipe = new PretifyPipe();
 
-	userSettings: UserSettings | null = null;
+	User: User | null = null;
 	classSections: ClassSection[] = [];
 	contentBlocks: ContentBlock[] = [];
 	competence: CompetenceEntry[] = [];
@@ -105,14 +105,14 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			this.yearlyPlanForm.get('resources')?.setValue(resources);
 		}
 		forkJoin([
-			this.userSettingsService.getSettings(),
+			this.UserService.getSettings(),
 			this.classSectionService.findSections(),
 			this.unitPlanService.findAll(),
 			this.userSubscriptionService.checkSubscription(),
 		])
 			.subscribe({
 				next: ([settings, sections, unitPlans, subscription]) => {
-					this.userSettings = settings;
+					this.User = settings;
 					if (sections.length) {
 						this.classSections = sections;
 					} else {
@@ -329,7 +329,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 		const competence = this.competence.map((c) => c._id);
 		// 3. Construir y Guardar el Plan
 		const plan: Partial<UnitPlan> = {
-			user: this.userSettings?._id,
+			user: this.User?._id,
 			section: classSection._id,
 			duration: 6, // Duración por defecto
 			learningSituation: learningSituationContent,

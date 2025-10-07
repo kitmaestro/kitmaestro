@@ -16,9 +16,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // Servicios y modelos de la aplicación
 import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { UserService } from '../../../core/services/user.service';
 import { ClassSection } from '../../../core/interfaces/class-section';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 
 // Librería para generar DOCX
 import {
@@ -67,7 +67,7 @@ export class DiagnosticEvaluationGeneratorComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private router = inject(Router);
 	private classSectionService = inject(ClassSectionService);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 	private diagnosticEvaluationService = inject(DiagnosticEvaluationService);
 	private contentBlockService = inject(ContentBlockService);
 
@@ -79,7 +79,7 @@ export class DiagnosticEvaluationGeneratorComponent implements OnInit {
 	// Estado del componente
 	generating = false;
 	classSections: ClassSection[] = [];
-	userSettings: UserSettings | null = null;
+	User: User | null = null;
 	evaluation: GeneratedEvaluation | null = null;
 
 	// Formulario reactivo para la configuración de la evaluación
@@ -91,8 +91,8 @@ export class DiagnosticEvaluationGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit(): void {
-		this.userSettingsService.getSettings().subscribe((settings) => {
-			this.userSettings = settings;
+		this.UserService.getSettings().subscribe((settings) => {
+			this.User = settings;
 		});
 
 		this.classSectionService.findSections().subscribe({
@@ -206,7 +206,7 @@ export class DiagnosticEvaluationGeneratorComponent implements OnInit {
 					this.evaluation = JSON.parse(
 						jsonString,
 					) as GeneratedEvaluation;
-					this.evaluation.user = this.userSettings?._id || 'unknown';
+					this.evaluation.user = this.User?._id || 'unknown';
 					this.evaluation.year = this.prevGrade(selectedSection).year;
 					this.evaluation.level =
 						this.prevGrade(selectedSection).level;

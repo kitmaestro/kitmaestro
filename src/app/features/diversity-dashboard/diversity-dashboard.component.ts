@@ -13,7 +13,7 @@ import { AiService } from '../../core/services/ai.service';
 import { MarkdownComponent } from 'ngx-markdown';
 import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
 import { AuthService } from '../../core/services/auth.service';
-import { UserSettings } from '../../core/interfaces/user-settings';
+import { User } from '../../core/interfaces';
 import { TestService } from '../../core/services/test.service';
 import { Test } from '../../core/interfaces/test';
 
@@ -67,7 +67,7 @@ export class DiversityDashboardComponent implements OnInit {
 	];
 	sections: ClassSection[] = [];
 	subjects: string[] = [];
-	user: UserSettings | null = null;
+	user: User | null = null;
 
 	generated = '';
 

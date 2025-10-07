@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { AuthService } from '../../core/services/auth.service';
 import { UserSubscriptionService } from '../../core/services/user-subscription.service';
-import { UserSettings } from '../../core/interfaces/user-settings';
+import { User } from '../../core/interfaces';
 import { CurrencyPipe } from '@angular/common';
 import { ReferralsService } from '../../core/services/referrals.service';
 import { Referral } from '../../core/interfaces/referral';
@@ -34,7 +34,7 @@ export class ReferralsComponent implements OnInit {
 	private referralService = inject(ReferralsService);
 	private authService = inject(AuthService);
 
-	user: UserSettings | null = null;
+	user: User | null = null;
 	referrals: Observable<{ ref: Referral; subscription: UserSubscription }[]> =
 		this.referralService.findAll().pipe(
 			concatMap((referrals) => {

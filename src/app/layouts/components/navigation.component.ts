@@ -95,7 +95,7 @@ import { UserSubscription } from '../../core/interfaces/user-subscription';
 						<span>Mis Referidos</span>
 					</button>
 				}
-				<button routerLink="/profile" mat-menu-item>
+				<button routerLink="/users/me" mat-menu-item>
 					<mat-icon>person_circle</mat-icon>
 					<span>Mi Perfil</span>
 				</button>
@@ -177,7 +177,7 @@ export class NavigationComponent {
 			map((result) => result.matches),
 			shareReplay(),
 		);
-	userSettings$ = this.authService.profile();
+	User$ = this.authService.profile();
 	subscription = signal<UserSubscription | null>(null);
 	subscription$ = this.userSubscriptionService.checkSubscription().pipe(
 		map((sub) => {
@@ -195,7 +195,7 @@ export class NavigationComponent {
 	userIsAdmin = signal<boolean>(false);
 
 	ngOnInit() {
-		this.userSettings$
+		this.User$
 			.pipe(map((user) => ['orgalay.dev@gmail.com'].includes(user.email)))
 			.subscribe((res) => this.userIsAdmin.set(res));
 		this.userSubscriptionService.checkSubscription().subscribe((sub) => {

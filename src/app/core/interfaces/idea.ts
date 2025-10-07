@@ -1,8 +1,8 @@
-import { UserSettings } from './user-settings';
+import { User } from './user';
 
 export interface Idea {
 	_id: string;
-	user: UserSettings;
+	user: User;
 	title: string;
 	description: string;
 	votes: {

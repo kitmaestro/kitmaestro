@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 import { UpdateService } from '../../../core/services/update.service';
 
 @Component({
@@ -239,7 +239,7 @@ export class UpdateCreatorComponent implements OnInit {
 	private fb = inject(FormBuilder);
 	private router = inject(Router);
 	private sb = inject(MatSnackBar);
-	private user: UserSettings | null = null;
+	private user: User | null = null;
 	private route = inject(ActivatedRoute);
 	private updateId = this.route.snapshot.paramMap.get('id') || '';
 

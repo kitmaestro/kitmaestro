@@ -8,9 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AiService } from '../../../core/services/ai.service';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { UserService } from '../../../core/services/user.service';
 import { ReadingActivityService } from '../../../core/services/reading-activity.service';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { ClassSection } from '../../../core/interfaces/class-section';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
@@ -41,12 +41,12 @@ export class ReadingActivityGeneratorComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private aiService = inject(AiService);
 	private router = inject(Router);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 	private acitivtyService = inject(ReadingActivityService);
 	private classSectionService = inject(ClassSectionService);
 
-	public userSettings$ = this.userSettingsService.getSettings();
-	public user: UserSettings | null = null;
+	public User$ = this.UserService.getSettings();
+	public user: User | null = null;
 	public sections: ClassSection[] = [];
 	public section: ClassSection | null = null;
 
@@ -77,7 +77,7 @@ export class ReadingActivityGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit() {
-		this.userSettingsService
+		this.UserService
 			.getSettings()
 			.subscribe((user) => (this.user = user));
 		this.classSectionService.findSections().subscribe({

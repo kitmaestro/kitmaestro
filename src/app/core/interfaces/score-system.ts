@@ -1,5 +1,5 @@
 import { ClassSection } from './class-section';
-import { UserSettings } from './user-settings';
+import { User } from './user';
 import { ContentBlock } from './content-block';
 
 export interface GradingActivity {
@@ -19,7 +19,7 @@ export interface GroupedGradingActivity {
 export interface ScoreSystem {
 	_id: string;
 	section: ClassSection;
-	user: UserSettings;
+	user: User;
 	content: ContentBlock[];
 	activities: GradingActivity[];
 }

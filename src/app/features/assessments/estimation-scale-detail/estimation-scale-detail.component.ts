@@ -4,7 +4,7 @@ import { EstimationScaleService } from '../../../core/services/estimation-scale.
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PdfService } from '../../../core/services/pdf.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 import { EstimationScale } from '../../../core/interfaces/estimation-scale';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,7 +31,7 @@ export class EstimationScaleDetailComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private id = this.route.snapshot.paramMap.get('id') || '';
 
-	public user: UserSettings | null = null;
+	public user: User | null = null;
 	public estimationScale: EstimationScale | null = null;
 
 	public schoolYear =

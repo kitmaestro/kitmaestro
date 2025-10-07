@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { AiService } from '../../../core/services/ai.service';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 import { EstimationScaleService } from '../../../core/services/estimation-scale.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { CompetenceService } from '../../../core/services/competence.service';
@@ -52,7 +52,7 @@ export class EstimationScaleComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private fb = inject(FormBuilder);
 
-	public user: UserSettings | null = null;
+	public user: User | null = null;
 	public estimationScale: EstimationScale | null = null;
 	public sections: ClassSection[] = [];
 	public subjects: string[] = [];

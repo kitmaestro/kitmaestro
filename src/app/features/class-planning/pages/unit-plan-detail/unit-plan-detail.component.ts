@@ -6,7 +6,7 @@ import { UnitPlan } from '../../../../core/interfaces/unit-plan';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
-import { UserSettingsService } from '../../../../core/services/user-settings.service';
+import { UserService } from '../../../../core/services/user.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -44,7 +44,7 @@ export class UnitPlanDetailComponent implements OnInit {
 	private route = inject(ActivatedRoute);
 	private unitPlanService = inject(UnitPlanService);
 	private classPlanService = inject(ClassPlansService);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 	private userSubscriptionService = inject(UserSubscriptionService);
 	private rubricService = inject(RubricService);
 	private sb = inject(MatSnackBar);
@@ -82,7 +82,7 @@ export class UnitPlanDetailComponent implements OnInit {
 				}
 			}),
 		);
-	userSettings$ = this.userSettingsService.getSettings();
+	User$ = this.UserService.getSettings();
 	classPlans: ClassPlan[] = [];
 
 	isPrintView = window.location.href.includes('print');

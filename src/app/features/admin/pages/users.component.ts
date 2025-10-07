@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { UserService } from '../../../core/services/user.service';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { ClassPlansService } from '../../../core/services/class-plans.service';
@@ -14,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 import { map } from 'rxjs';
 
 @Component({
@@ -124,7 +124,7 @@ import { map } from 'rxjs';
 				<td
 					mat-cell
 					*matCellDef="let user"
-					routerLink="/users/{{ user._id }}"
+					routerLink="/admin/users/{{ user._id }}"
 				>
 					{{ user.firstname }} {{ user.lastname }}
 				</td>
@@ -160,7 +160,7 @@ import { map } from 'rxjs';
 						<mat-icon>delete</mat-icon>
 					</button>
 					<a
-						routerLink="/users/{{ user._id }}"
+						routerLink="/admin/users/{{ user._id }}"
 						style="margin-left: 12px"
 						mat-mini-fab
 						><mat-icon>open_in_new</mat-icon></a
@@ -200,7 +200,7 @@ import { map } from 'rxjs';
 	`,
 })
 export class UsersComponent {
-	private userService = inject(UserSettingsService);
+	private userService = inject(UserService);
 	private subscriptionService = inject(UserSubscriptionService);
 	private unitPlanService = inject(UnitPlanService);
 	private classPlanService = inject(ClassPlansService);
@@ -240,7 +240,7 @@ export class UsersComponent {
 		phone: [''],
 	});
 
-	waLink(user: UserSettings): string {
+	waLink(user: User): string {
 		if (!user.phone || !user.firstname) return '#';
 		const phone = user.phone.replace(/\D+/g, ''); // elimina todo lo que no sea dígito
 		if (!/^\d{6,15}$/.test(phone)) {
@@ -274,8 +274,8 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	}
 
 	createUser() {
-		const user: UserSettings = this.userForm
-			.value as unknown as UserSettings;
+		const user: User = this.userForm
+			.value as unknown as User;
 		this.userService.create(user).subscribe({
 			next: (res) => {
 				if (res._id) {

@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { ClassPlan } from '../../../../core/interfaces/class-plan';
 import { DatePipe } from '@angular/common';
-import { UserSettings } from '../../../../core/interfaces/user-settings';
+import { User } from '../../../../core/interfaces';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ClassSection } from '../../../../core/interfaces/class-section';
 
@@ -303,7 +303,7 @@ export class ClassPlanComponent implements OnInit {
 	@Input() classPlan: ClassPlan | null = null;
 	@Input() section: ClassSection | null = null;
 	userService = inject(AuthService);
-	user: UserSettings | null = null;
+	user: User | null = null;
 
 	pretify(str: string) {
 		switch (str) {

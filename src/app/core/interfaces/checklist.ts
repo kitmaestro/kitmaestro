@@ -1,11 +1,11 @@
 import { ClassSection } from './class-section';
 import { CompetenceEntry } from './competence-entry';
 import { ContentBlock } from './content-block';
-import { UserSettings } from './user-settings';
+import { User } from './user';
 
 export interface Checklist {
 	_id: string;
-	user: UserSettings;
+	user: User;
 	title: string;
 	section: ClassSection;
 	competence: CompetenceEntry[];

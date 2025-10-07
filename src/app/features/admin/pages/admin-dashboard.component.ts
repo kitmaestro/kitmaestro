@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { UserService } from '../../../core/services/user.service';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { ClassPlansService } from '../../../core/services/class-plans.service';
@@ -146,7 +146,7 @@ import { HttpClient } from '@angular/common/http';
 	`,
 })
 export class AdminDashboardComponent {
-	#userService = inject(UserSettingsService);
+	#userService = inject(UserService);
 	#unitPlanService = inject(UnitPlanService);
 	#classPlanService = inject(ClassPlansService);
 	#subscriptionService = inject(UserSubscriptionService);

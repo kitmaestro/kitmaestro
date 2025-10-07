@@ -1,12 +1,12 @@
 import { Component, inject, input, signal } from '@angular/core';
 import {
 	DiagnosticEvaluationService,
-	UserSettingsService,
+	UserService,
 } from '../../core/services';
 import {
 	ClassSection,
 	GeneratedEvaluation,
-	UserSettings,
+	User,
 } from '../../core/interfaces';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -51,7 +51,7 @@ import { saveAs } from 'file-saver';
 						}
 					</h2>
 					<p>{{ evaluation.schoolYear }}</p>
-					@if (userSettings(); as user) {
+					@if (User(); as user) {
 						<p>
 							{{ user.title }}. {{ user.firstname }}
 							{{ user.lastname }}
@@ -151,7 +151,7 @@ import { saveAs } from 'file-saver';
 									{{ evaluation.level | pretify }}
 								</h2>
 								<p>{{ evaluation.schoolYear }}</p>
-								@if (userSettings(); as user) {
+								@if (User(); as user) {
 									<p>
 										{{ user.title }}. {{ user.firstname }}
 										{{ user.lastname }}
@@ -334,24 +334,24 @@ export class DiagnosticEvaluationDetailComponent {
 	private route = inject(ActivatedRoute);
 	private router = inject(Router);
 	private sb = inject(MatSnackBar);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 
 	private id = this.route.snapshot.paramMap.get('id') || '';
 	evaluationInput = input<GeneratedEvaluation | null>(null);
 	classSection = input<ClassSection | null>(null);
 
-	userSettings = signal<UserSettings | null>(null);
+	User = signal<User | null>(null);
 
 	evaluation = signal<GeneratedEvaluation | null>(null);
 
 	ngOnInit() {
-		this.loadUserSettings();
+		this.loadUser();
 	}
 
-	loadUserSettings() {
-		this.userSettingsService.getSettings().subscribe({
+	loadUser() {
+		this.UserService.getSettings().subscribe({
 			next: (settings) => {
-				this.userSettings.set(settings);
+				this.User.set(settings);
 				if (this.evaluationInput()) {
 					this.evaluation.set(this.evaluationInput());
 				} else {

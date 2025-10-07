@@ -20,7 +20,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
 import { ClassSection } from '../../../core/interfaces/class-section';
 import { ObservationGuideService } from '../../../core/services/observation-guide.service';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 
 @Component({
 	selector: 'app-observation-sheet',
@@ -49,7 +49,7 @@ export class ObservationSheetComponent implements OnInit {
 	private pdfService = inject(PdfService);
 	private router = inject(Router);
 	private sb = inject(MatSnackBar);
-	user: UserSettings | null = null;
+	user: User | null = null;
 	teacherName = '';
 	schoolName = '';
 

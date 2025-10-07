@@ -11,8 +11,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppTileComponent } from '../../shared/ui/app-tile.component';
-import { UserSettingsService } from '../../core/services/user-settings.service';
-import { UserSettings } from '../../core/interfaces/user-settings';
+import { UserService } from '../../core/services/user.service';
+import { User } from '../../core/interfaces';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
 import { UserSubscription } from '../../core/interfaces/user-subscription';
@@ -45,10 +45,10 @@ import { activitiesTools, assessmentTools, planningTools, registryTools, resourc
 	styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 	private userSubscriptionService = inject(UserSubscriptionService);
 	private classSectionsService = inject(ClassSectionService);
-	user: UserSettings | null = null;
+	user: User | null = null;
 	subscription = signal<UserSubscription | null>(null);
 
 	sections = signal<ClassSection[]>([]);
@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
 	ngOnInit() {
 		forkJoin([
 			this.classSectionsService.findSections(),
-			this.userSettingsService.getSettings(),
+			this.UserService.getSettings(),
 			this.userSubscriptionService.checkSubscription()
 		])
 			.subscribe({

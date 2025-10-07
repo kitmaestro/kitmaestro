@@ -4,7 +4,7 @@ import {
 	CompetenceEntry,
 	ContentBlock,
 	ClassSection,
-	UserSettings,
+	User,
 	MainTheme,
 	ClassPlan,
 } from '../../../../core/interfaces';
@@ -19,7 +19,7 @@ import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 export class UnitPlanComponent implements OnInit {
 	@Input() unitPlan: UnitPlan | null = null;
 	@Input() section: ClassSection | null = null;
-	@Input() user: UserSettings | null = null;
+	@Input() user: User | null = null;
 	@Input() contents: ContentBlock[] = [];
 	@Input() competence: CompetenceEntry[] = [];
 	@Input() mainThemes: MainTheme[] = [];

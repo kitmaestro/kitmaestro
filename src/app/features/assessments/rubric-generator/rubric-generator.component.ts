@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import { RubricService } from '../../../core/services/rubric.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { UserService } from '../../../core/services/user.service';
 import { Rubric } from '../../../core/interfaces/rubric';
 import { Router, RouterLink } from '@angular/router';
 import { Student } from '../../../core/interfaces/student';
@@ -58,7 +58,7 @@ export class RubricGeneratorComponent implements OnInit {
 	private aiService = inject(AiService);
 	private sectionsService = inject(ClassSectionService);
 	private router = inject(Router);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 	private studentsService = inject(StudentsService);
 	private competenceService = inject(CompetenceService);
 	private sclService = inject(SubjectConceptListService);
@@ -77,7 +77,7 @@ export class RubricGeneratorComponent implements OnInit {
 
 	competence: string[] = [];
 
-	userSettings$ = this.userSettingsService.getSettings();
+	User$ = this.UserService.getSettings();
 
 	rubricTypes = [
 		{ id: 'SINTETICA', label: 'Sintética (Una rubrica por estudiante)' },

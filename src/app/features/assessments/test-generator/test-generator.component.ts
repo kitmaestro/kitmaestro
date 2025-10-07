@@ -13,8 +13,8 @@ import { ClassSectionService } from '../../../core/services/class-section.servic
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { AiService } from '../../../core/services/ai.service';
 import { MarkdownComponent, MarkdownService } from 'ngx-markdown';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '../../../core/interfaces';
 import { Test } from '../../../core/interfaces/test';
 import { TestService } from '../../../core/services/test.service';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
@@ -45,14 +45,14 @@ export class TestGeneratorComponent implements OnInit {
 	private aiService = inject(AiService);
 	private testService = inject(TestService);
 	private mdService = inject(MarkdownService);
-	private userService = inject(UserSettingsService);
+	private userService = inject(UserService);
 	private sectionService = inject(ClassSectionService);
 
 	loading = true;
 	sections: ClassSection[] = [];
 	subjects: string[] = [];
 	section: ClassSection | null = null;
-	user: UserSettings | null = null;
+	user: User | null = null;
 	result = '';
 	test: Test | null = null;
 

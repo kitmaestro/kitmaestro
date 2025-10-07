@@ -15,9 +15,9 @@ import { ClassSection } from '../../../../core/interfaces/class-section';
 import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 import { ClassSectionService } from '../../../../core/services/class-section.service';
 import { AiService } from '../../../../core/services/ai.service';
-import { UserSettingsService } from '../../../../core/services/user-settings.service';
+import { UserService } from '../../../../core/services/user.service';
 import { ClassPlansService } from '../../../../core/services/class-plans.service';
-import { UserSettings } from '../../../../core/interfaces/user-settings';
+import { User } from '../../../../core/interfaces';
 import { ClassPlan } from '../../../../core/interfaces/class-plan';
 import { classroomResources } from '../../../../config/constants';
 import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
@@ -226,8 +226,8 @@ Genera un objeto JSON con la siguiente estructura exacta:
 											</td>
 											<td>
 												<b>Docente</b>:
-												{{ userSettings?.firstname }}
-												{{ userSettings?.lastname }}
+												{{ User?.firstname }}
+												{{ User?.lastname }}
 											</td>
 											<td colspan="2">
 												<b>Área Curricular</b>:
@@ -550,11 +550,11 @@ export class MultigradeClassPlanGeneratorComponent implements OnInit {
 	fb = inject(FormBuilder);
 	classSectionService = inject(ClassSectionService);
 	aiService = inject(AiService);
-	userSettingsService = inject(UserSettingsService);
+	UserService = inject(UserService);
 	classPlanService = inject(ClassPlansService);
 
 	allClassSections: ClassSection[] = [];
-	userSettings: UserSettings | null = null;
+	User: User | null = null;
 	generating = false;
 	generatedPlan: ClassPlan | null = null;
 	classroomResources = classroomResources;
@@ -571,9 +571,9 @@ export class MultigradeClassPlanGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit(): void {
-		this.userSettingsService
+		this.UserService
 			.getSettings()
-			.subscribe((settings) => (this.userSettings = settings));
+			.subscribe((settings) => (this.User = settings));
 		this.classSectionService
 			.findSections()
 			.subscribe((sections) => (this.allClassSections = sections));
@@ -645,7 +645,7 @@ export class MultigradeClassPlanGeneratorComponent implements OnInit {
 				this.generatedPlan = {
 					...parsedPlan,
 					_id: `temp_${Date.now()}`,
-					user: this.userSettings!,
+					user: this.User!,
 					date: new Date(formValue.date!),
 					section: selectedSections[0], // Usamos la primera sección para referencia
 					subject: formValue.subject!,

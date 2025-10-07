@@ -7,11 +7,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { DidacticResourceService } from '../../../core/services/didactic-resource.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { UserService } from '../../../core/services/user.service';
 import { MatIconModule } from '@angular/material/icon';
 import { GravatarPipe } from '../../../shared/pipes/gravatar.pipe';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 
 @Component({
 	selector: 'app-resource-details',
@@ -254,12 +254,12 @@ export class ResourceDetailsComponent implements OnInit {
 	private router = inject(Router);
 	private sb = inject(MatSnackBar);
 	private didacticResourceService = inject(DidacticResourceService);
-	private settingsService = inject(UserSettingsService);
+	private settingsService = inject(UserService);
 
 	id = this.route.snapshot.paramMap.get('id') || '';
 	bookmarked = false;
 	downloading = false;
-	user: UserSettings | null = null;
+	user: User | null = null;
 	resource: DidacticResource | null = null;
 
 	load() {

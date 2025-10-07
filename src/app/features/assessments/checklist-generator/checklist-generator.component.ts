@@ -17,7 +17,7 @@ import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
 import { ContentBlock } from '../../../core/interfaces/content-block';
 import { Checklist } from '../../../core/interfaces/checklist';
 import { AuthService } from '../../../core/services/auth.service';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core/interfaces';
 import { AiService } from '../../../core/services/ai.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ChecklistService } from '../../../core/services/checklist.service';
@@ -54,7 +54,7 @@ export class ChecklistGeneratorComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private router = inject(Router);
 
-	user: UserSettings | null = null;
+	user: User | null = null;
 	sections: ClassSection[] = [];
 	section: ClassSection | null = null;
 	subjects: string[] = [];

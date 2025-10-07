@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ClassPlansService } from '../../../../core/services/class-plans.service';
-import { UserSettingsService } from '../../../../core/services/user-settings.service';
+import { UserService } from '../../../../core/services/user.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PdfService } from '../../../../core/services/pdf.service';
 import { MatCardModule } from '@angular/material/card';
@@ -34,8 +34,8 @@ export class ClassPlanDetailComponent {
 			this.plan = plan;
 		}),
 	);
-	userSettingsService = inject(UserSettingsService);
-	settings$ = this.userSettingsService.getSettings();
+	UserService = inject(UserService);
+	settings$ = this.UserService.getSettings();
 	sb = inject(MatSnackBar);
 	pdfService = inject(PdfService);
 	plan: ClassPlan | null = null;

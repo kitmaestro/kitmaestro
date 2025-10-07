@@ -19,8 +19,8 @@ import { Router, RouterModule } from '@angular/router';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { AiService } from '../../../../core/services/ai.service';
 import { UnitPlanService } from '../../../../core/services/unit-plan.service';
-import { UserSettingsService } from '../../../../core/services/user-settings.service';
-import { School, UserSettings } from '../../../../core/interfaces';
+import { UserService } from '../../../../core/services/user.service';
+import { School, User } from '../../../../core/interfaces';
 import { KINDER_CONTENT_BLOCKS } from '../../../../core/data/kinder-content-blocks';
 
 import {
@@ -619,9 +619,9 @@ export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 	private aiService = inject(AiService);
 	private unitPlanService = inject(UnitPlanService);
   private schoolService = inject(SchoolService);
-	private userSettingsService = inject(UserSettingsService);
+	private UserService = inject(UserService);
 
-	userSettings: UserSettings | null = null;
+	User: User | null = null;
   userSchool: School | null = null;
 	generating = false;
 	saving = false;
@@ -678,8 +678,8 @@ export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit(): void {
-		this.userSettingsService.getSettings().subscribe((settings) => {
-			this.userSettings = settings;
+		this.UserService.getSettings().subscribe((settings) => {
+			this.User = settings;
       this.schoolService.findAll({ user: settings._id }).subscribe(schools => {
         this.userSchool = schools[0]
       });
@@ -831,7 +831,7 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
 	}
 
 	savePlanInicial() {
-		if (!this.planGenerado || !this.userSettings) {
+		if (!this.planGenerado || !this.User) {
 			this.sb.open(
 				'No hay un plan generado para guardar o falta información del usuario.',
 				'Error',
@@ -843,7 +843,7 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
 		this.saving = true;
 
 		const plan: UnitPlanInicial = {
-			user: this.userSettings._id,
+			user: this.User._id,
 			grado: this.infoForm.value.grado || '',
 			temaUnidad: this.planGenerado.temaUnidad || '',
 			duracion: this.delimitacionForm.value.duracion || 2,
@@ -879,7 +879,7 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
 	}
 
   public async saveDocx(): Promise<void> {
-    if (!this.planGenerado || !this.userSettings || !this.userSchool) {
+    if (!this.planGenerado || !this.User || !this.userSchool) {
       console.error('Faltan datos para generar el documento.');
       return;
     }
@@ -937,7 +937,7 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
         new TableRow({
           children: [
             new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Centro Educativo:", bold: true }), new TextRun(` ${this.userSchool?.name}`)] })], width: { size: 50, type: WidthType.PERCENTAGE }, borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
-            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Docente:", bold: true }), new TextRun(` ${this.userSettings?.firstname} ${this.userSettings?.lastname}`)] })], width: { size: 50, type: WidthType.PERCENTAGE }, borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Docente:", bold: true }), new TextRun(` ${this.User?.firstname} ${this.User?.lastname}`)] })], width: { size: 50, type: WidthType.PERCENTAGE }, borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
           ],
         }),
         new TableRow({

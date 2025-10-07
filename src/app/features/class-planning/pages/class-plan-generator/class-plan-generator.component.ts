@@ -10,8 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ClassSectionService } from '../../../../core/services/class-section.service';
 import { AiService } from '../../../../core/services/ai.service';
-import { UserSettingsService } from '../../../../core/services/user-settings.service';
-import { UserSettings } from '../../../../core/interfaces/user-settings';
+import { UserService } from '../../../../core/services/user.service';
+import { User } from '../../../../core/interfaces';
 import { PdfService } from '../../../../core/services/pdf.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { ClassPlan } from '../../../../core/interfaces/class-plan';
@@ -52,7 +52,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 	classSectionService = inject(ClassSectionService);
 	compService = inject(CompetenceService);
 	aiService = inject(AiService);
-	userSettingsService = inject(UserSettingsService);
+	UserService = inject(UserService);
 	private userSubscriptionService = inject(UserSubscriptionService);
 	pdfService = inject(PdfService);
 	classPlanService = inject(ClassPlansService);
@@ -63,7 +63,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 		.toISOString()
 		.split('T')[0];
 	classSections: ClassSection[] = [];
-	userSettings: UserSettings | null = null;
+	User: User | null = null;
 	subjects: string[] = [];
 	generating = false;
 	plan: ClassPlan | null = null;
@@ -123,9 +123,9 @@ export class ClassPlanGeneratorComponent implements OnInit {
 	private planPrompt = classPlanPrompt;
 
 	ngOnInit(): void {
-		this.userSettingsService
+		this.UserService
 			.getSettings()
-			.subscribe((settings) => (this.userSettings = settings));
+			.subscribe((settings) => (this.User = settings));
 		this.userSubscriptionService
 			.checkSubscription()
 			.subscribe((subscription) => {
@@ -303,7 +303,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 						);
 						console.log(extract);
 						const plan: any = JSON.parse(extract);
-						plan.user = this.userSettings?._id;
+						plan.user = this.User?._id;
 						plan.section = this.section?._id;
 						plan.date = new Date(date ? date : this.todayDate);
 						plan.subject = this.planForm.value.subject;
