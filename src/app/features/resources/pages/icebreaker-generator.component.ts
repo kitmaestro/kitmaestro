@@ -12,7 +12,7 @@ import {
 	ReactiveFormsModule,
 	Validators,
 	AbstractControl,
-} from '@angular/forms';
+} from '@angular/forms'; // Use Reactive Forms
 import {
 	Subject,
 	firstValueFrom,
@@ -21,7 +21,7 @@ import {
 	catchError,
 	EMPTY,
 	finalize,
-} from 'rxjs';
+} from 'rxjs'; // RxJS imports
 
 // Angular Material Modules
 import { MatCardModule } from '@angular/material/card';
@@ -31,27 +31,26 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule
 
 // --- Services ---
-// Using the paths provided by the user
-import { AiService } from '../../../core/services/ai.service'; // Assuming standard AI service path
+// Adjust paths if necessary
+import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-
-// --- Interfaces ---
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core/interfaces/class-section'; // Assuming interfaces are exported here
 
 // --- DOCX Generation ---
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { saveAs } from 'file-saver';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
-	selector: 'app-tongue-twister-generator', // Component selector
+	selector: 'app-icebreaker-generator',
 	standalone: true,
 	imports: [
-		PretifyPipe,
-		ReactiveFormsModule,
+		// CommonModule, // For @if, @for, async pipe
+		ReactiveFormsModule, // Use Reactive Forms
 		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
@@ -59,15 +58,17 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 		MatButtonModule,
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
-		MatIconModule,
+		MatIconModule, // Import MatIconModule
+		PretifyPipe,
+		MarkdownComponent,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="tongue-twister-card">
+		<mat-card class="icebreaker-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Trabalenguas</mat-card-title>
+				<mat-card-title>Generador de Rompehielos</mat-card-title>
 				<mat-card-subtitle
-					>Crea trabalenguas divertidos para tus
+					>Crea actividades dinámicas para iniciar tus
 					clases</mat-card-subtitle
 				>
 			</mat-card-header>
@@ -75,9 +76,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 			<mat-card-content>
 				@if (!showResult()) {
 					<form
-						[formGroup]="tongueTwisterForm"
+						[formGroup]="icebreakerForm"
 						(ngSubmit)="onSubmit()"
-						class="tongue-twister-form"
+						class="icebreaker-form"
 					>
 						<div class="form-row">
 							<mat-form-field
@@ -166,17 +167,36 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 						<div class="form-row">
 							<mat-form-field
 								appearance="outline"
-								class="form-field full-width-field"
+								class="form-field"
 							>
-								<mat-label
-									>Tema para el trabalenguas
-									(Opcional)</mat-label
+								<mat-label>Tipo de Actividad</mat-label>
+								<mat-select
+									formControlName="activityType"
+									required
 								>
-								<input
-									matInput
-									formControlName="topic"
-									placeholder="Ej: animales, frutas, números"
-								/>
+									@for (type of activityTypes; track type) {
+										<mat-option [value]="type">{{
+											type
+										}}</mat-option>
+									}
+								</mat-select>
+								@if (
+									activityTypeCtrl?.invalid &&
+									activityTypeCtrl?.touched
+								) {
+									<mat-error
+										>Selecciona un tipo de
+										actividad.</mat-error
+									>
+								}
+							</mat-form-field>
+
+							<mat-form-field
+								appearance="outline"
+								class="form-field"
+							>
+								<mat-label>Tema del día (Opcional)</mat-label>
+								<input matInput formControlName="topic" />
 							</mat-form-field>
 						</div>
 
@@ -186,7 +206,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								color="primary"
 								type="submit"
 								[disabled]="
-									tongueTwisterForm.invalid || isGenerating()
+									icebreakerForm.invalid || isGenerating()
 								"
 							>
 								@if (isGenerating()) {
@@ -198,8 +218,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 									Generando...
 								} @else {
 									<ng-container>
-										<mat-icon>record_voice_over</mat-icon>
-										Generar Trabalenguas
+										<mat-icon>auto_awesome</mat-icon>
+										Generar Rompehielos
 									</ng-container>
 								}
 							</button>
@@ -208,18 +228,15 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 				}
 
 				@if (showResult()) {
-					<div class="tongue-twister-result">
-						<h3>Trabalenguas Generado:</h3>
-						<div
-							class="tongue-twister-result-page"
-							[innerHTML]="
-								generatedTongueTwister().replaceAll(
-									'
-',
-									'<br>'
-								)
-							"
-						></div>
+					<div class="icebreaker-result">
+						<h3>Actividad Rompehielos Generada:</h3>
+						<div class="icebreaker-result-page">
+							@if (generatedIcebreaker()) {
+								<markdown
+									[data]="generatedIcebreaker()"
+								></markdown>
+							}
+						</div>
 
 						<div class="result-actions">
 							<button
@@ -234,8 +251,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
-									!generatedTongueTwister() ||
-									generatedTongueTwister().startsWith(
+									!generatedIcebreaker() ||
+									generatedIcebreaker().startsWith(
 										'Ocurrió un error'
 									)
 								"
@@ -253,16 +270,16 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 		`
 			:host {
 				display: block;
-				/* No host padding/margin */
+				/* No host padding/margin as requested */
 			}
 
-			.tongue-twister-card {
-				/* No max-width */
-				margin: 0 auto; /* Center if container allows */
+			.icebreaker-card {
+				margin: 0 auto; /* Center the card if container allows */
 				padding: 15px 25px 25px 25px;
 			}
 
-			.tongue-twister-form {
+			.icebreaker-form {
+				margin-top: 16px;
 				display: flex;
 				flex-direction: column;
 				gap: 15px;
@@ -276,12 +293,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 			.form-field {
 				flex: 1;
-				min-width: 250px;
-			}
-
-			/* Allow topic field to take full width if needed */
-			.full-width-field {
-				flex-basis: 100%;
+				min-width: 250px; /* Adjust min-width */
 			}
 
 			.form-actions {
@@ -293,30 +305,31 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 			.form-actions button mat-icon,
 			.result-actions button mat-icon {
 				margin-right: 5px;
-				vertical-align: middle;
+				vertical-align: middle; /* Align icon nicely */
 			}
 
-			.tongue-twister-result {
+			.icebreaker-result {
 				margin-top: 20px;
 			}
 
-			.tongue-twister-result h3 {
+			.icebreaker-result h3 {
 				margin-bottom: 15px;
+				/* Consider using theme color if theme is properly set up */
+				/* color: mat.get-theme-color(...); */
 			}
 
-			.tongue-twister-result-page {
-				background-color: #f9f9f9; /* Slightly different background */
+			.icebreaker-result-page {
+				background-color: #fff;
 				border: 1px solid #e0e0e0;
-				padding: 30px 40px;
-				min-height: 150px; /* Can be shorter for tongue twisters */
+				padding: 30px 40px; /* Slightly less padding than previous */
+				min-height: 250px;
 				box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-				line-height: 1.7; /* Slightly more spacing */
+				line-height: 1.6;
 				font-family:
-					'Comic Sans MS', cursive, sans-serif; /* More playful font */
-				font-size: 12pt; /* Slightly larger font */
+					'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* More modern font */
+				font-size: 11pt;
 				margin-bottom: 20px;
 				max-width: 100%;
-				white-space: pre-wrap; /* Preserve whitespace and line breaks from AI */
 			}
 
 			.result-actions {
@@ -335,13 +348,13 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 		`,
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	encapsulation: ViewEncapsulation.None,
+	encapsulation: ViewEncapsulation.None, // Optional: Use None if global styles should apply easily, or Emulated (default)
 })
-export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
+export class IcebreakerGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
-	#sectionService = inject(ClassSectionService); // Use ClassSectionService
+	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
 	#pretify = new PretifyPipe();
 
@@ -349,27 +362,38 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 	isLoadingSections = signal(false);
 	isGenerating = signal(false);
 	showResult = signal(false);
-	generatedTongueTwister = signal<string>('');
+	generatedIcebreaker = signal<string>('');
 	sections = signal<ClassSection[]>([]);
 	availableSubjects = signal<string[]>([]);
 
 	// --- Form Definition ---
-	tongueTwisterForm = this.#fb.group({
+	icebreakerForm = this.#fb.group({
 		section: ['', Validators.required],
-		subject: [{ value: '', disabled: true }, Validators.required],
-		topic: [''], // Optional topic
+		subject: [{ value: '', disabled: true }, Validators.required], // Start disabled
+		activityType: ['', Validators.required],
+		topic: [''], // Optional
 	});
+
+	// --- Fixed Data ---
+	readonly activityTypes = [
+		'Presentación personal',
+		'Juego grupal',
+		'Actividad lúdica para animación',
+		'Dinámica de integración',
+		'Preguntas creativas',
+		'Actividad de movimiento corto',
+	];
 
 	// --- Lifecycle Management ---
 	#destroy$ = new Subject<void>();
 
-	// --- OnInit ---
+	// --- OnInit: Load initial data and set up listeners ---
 	ngOnInit(): void {
 		this.#loadSections();
 		this.#listenForSectionChanges();
 	}
 
-	// --- OnDestroy ---
+	// --- OnDestroy: Clean up subscriptions ---
 	ngOnDestroy(): void {
 		this.#destroy$.next();
 		this.#destroy$.complete();
@@ -377,15 +401,14 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- Private Methods ---
 
-	/** Loads sections */
+	/** Loads sections from the service */
 	#loadSections(): void {
 		this.isLoadingSections.set(true);
 		this.#sectionService
 			.findSections()
 			.pipe(
-				// Assuming getSections exists
 				takeUntil(this.#destroy$),
-				tap((sections) => this.sections.set(sections || [])),
+				tap((sections) => this.sections.set(sections || [])), // Store sections
 				catchError((error) => {
 					console.error('Error loading sections:', error);
 					this.#snackBar.open(
@@ -393,21 +416,23 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 						'Cerrar',
 						{ duration: 5000 },
 					);
-					return EMPTY;
+					return EMPTY; // Prevent observable chain from completing on error
 				}),
-				finalize(() => this.isLoadingSections.set(false)),
+				finalize(() => this.isLoadingSections.set(false)), // Stop loading indicator
 			)
-			.subscribe();
+			.subscribe(); // Subscribe to trigger the observable
 	}
 
-	/** Updates subjects based on selected section */
+	/** Listens for changes in the selected section to update subjects */
 	#listenForSectionChanges(): void {
 		this.sectionCtrl?.valueChanges
 			.pipe(
 				takeUntil(this.#destroy$),
 				tap((sectionId) => {
+					// Reset subject and available subjects when section changes
 					this.subjectCtrl?.reset();
 					this.availableSubjects.set([]);
+
 					if (sectionId) {
 						const selectedSection = this.sections().find(
 							(s) => s._id === sectionId,
@@ -416,13 +441,13 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 							this.availableSubjects.set(
 								selectedSection.subjects,
 							);
-							this.subjectCtrl?.enable();
+							this.subjectCtrl?.enable(); // Enable subject selector
 						} else {
-							this.availableSubjects.set([]);
-							this.subjectCtrl?.disable();
+							this.availableSubjects.set([]); // Ensure it's empty if no subjects
+							this.subjectCtrl?.disable(); // Keep disabled if no subjects
 						}
 					} else {
-						this.subjectCtrl?.disable();
+						this.subjectCtrl?.disable(); // Disable if no section is selected
 					}
 				}),
 			)
@@ -431,58 +456,59 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- Public Methods ---
 
-	/** Formats section display name */
+	/** Formats section data for display in the select dropdown */
 	getSectionDisplay(section: ClassSection): string {
 		return `${section.name} (${this.#pretify.transform(section.level)})`;
 	}
 
-	/** Handles form submission */
+	/** Handles form submission to generate the icebreaker */
 	async onSubmit(): Promise<void> {
-		if (this.tongueTwisterForm.invalid) {
-			this.tongueTwisterForm.markAllAsTouched();
+		if (this.icebreakerForm.invalid) {
+			this.icebreakerForm.markAllAsTouched(); // Show validation errors
 			return;
 		}
 
 		this.isGenerating.set(true);
-		this.generatedTongueTwister.set('');
+		this.generatedIcebreaker.set('');
 		this.showResult.set(false);
 
-		const formValue = this.tongueTwisterForm.getRawValue();
+		const formValue = this.icebreakerForm.getRawValue(); // Get all values, including disabled ones
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
 
-		// Construct the prompt for a tongue twister
-		const prompt = `Eres un generador experto de trabalenguas divertidos y educativos.
-      Necesito un trabalenguas original para una clase.
+		// Construct the prompt
+		const prompt = `Eres un asistente experto en pedagogía y dinámicas de grupo.
+      Necesito una actividad rompehielos creativa y divertida para una clase.
       Contexto:
-      - Nivel Educativo: ${this.#pretify.transform(selectedSection?.level || '') || 'No especificado'}
-      - Año/Grado: ${this.#pretify.transform(selectedSection?.year || '') || 'No especificado'}
-      - Asignatura: ${this.#pretify.transform(formValue.subject || '')}
-      ${formValue.topic ? `- Tema Específico (opcional): ${formValue.topic}` : ''}
+      - Nivel Educativo: ${selectedSection?.level || 'No especificado'}
+      - Año/Grado: ${selectedSection?.year || 'No especificado'}
+      - Nombre de la Sección: ${selectedSection?.name || 'No especificada'}
+      - Asignatura: ${formValue.subject}
+      - Tipo de Actividad Deseada: ${formValue.activityType}
+      ${formValue.topic ? `- Tema Opcional del Día: ${formValue.topic}` : ''}
 
       Instrucciones:
-      - Crea un trabalenguas corto o de longitud media.
-      - Debe ser divertido, pegadizo y un poco desafiante de pronunciar.
-      - Asegúrate de que sea apropiado para la edad/nivel educativo indicado.
-      - Si se proporcionó un tema, intenta incorporarlo sutilmente en el trabalenguas.
-      - Solo devuelve el texto del trabalenguas, sin explicaciones, títulos, saludos ni despedidas.`;
+      - Describe la actividad paso a paso de forma clara y concisa.
+      - Indica los materiales necesarios (si aplica, prioriza pocos o ninguno).
+      - Menciona la duración estimada (corta, 5-10 minutos).
+      - Asegúrate de que sea apropiada para el nivel educativo y fomente la participación/interacción.
+      - No incluyas saludos ni despedidas, solo la descripción de la actividad.`;
 
 		try {
 			const result = await firstValueFrom(
 				this.#aiService.geminiAi(prompt),
 			);
-			// Use pre-wrap in CSS to handle newlines, so just set the raw response
-			this.generatedTongueTwister.set(
-				result?.response || 'No se pudo generar el trabalenguas.',
+			this.generatedIcebreaker.set(
+				result?.response || 'No se pudo generar la actividad.',
 			);
-			this.showResult.set(true);
+			this.showResult.set(true); // Show the result view
 		} catch (error) {
-			console.error('Error generating tongue twister:', error);
-			this.generatedTongueTwister.set(
-				'Ocurrió un error al generar el trabalenguas. Por favor, inténtalo de nuevo.',
+			console.error('Error generating icebreaker:', error);
+			this.generatedIcebreaker.set(
+				'Ocurrió un error al generar la actividad. Por favor, inténtalo de nuevo.',
 			);
-			this.showResult.set(true);
+			this.showResult.set(true); // Show error in the result area
 			this.#snackBar.open(
 				'Error al contactar el servicio de IA',
 				'Cerrar',
@@ -493,25 +519,23 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	/** Resets the form and view */
+	/** Resets the form and goes back to the form view */
 	goBack(): void {
 		this.showResult.set(false);
-		this.generatedTongueTwister.set('');
-		this.tongueTwisterForm.reset();
+		this.generatedIcebreaker.set('');
+		this.icebreakerForm.reset();
+		// Ensure subject control is disabled after reset
 		this.subjectCtrl?.disable();
 		this.availableSubjects.set([]);
 	}
 
-	/** Downloads the generated tongue twister as DOCX */
+	/** Downloads the generated icebreaker as a DOCX file */
 	downloadDocx(): void {
-		const tongueTwisterText = this.generatedTongueTwister();
-		if (
-			!tongueTwisterText ||
-			tongueTwisterText.startsWith('Ocurrió un error')
-		)
+		const icebreakerText = this.generatedIcebreaker();
+		if (!icebreakerText || icebreakerText.startsWith('Ocurrió un error'))
 			return;
 
-		const formValue = this.tongueTwisterForm.getRawValue();
+		const formValue = this.icebreakerForm.getRawValue();
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
@@ -525,19 +549,18 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 			/[^a-z0-9]/gi,
 			'_',
 		);
-		const topicName = (formValue.topic || 'General')
+		const activityType = (formValue.activityType || 'Tipo')
 			.substring(0, 15)
 			.replace(/[^a-z0-9]/gi, '_');
 
-		const filename = `Trabalenguas_${sectionName}_${subjectName}_${topicName}.docx`;
+		const filename = `Rompehielos_${sectionName}_${subjectName}_${activityType}.docx`;
 
-		// Create paragraphs
-		// Use the raw text as the AI might format it with its own line breaks
-		const paragraphs = tongueTwisterText.split('\n').map(
+		// Create paragraphs, splitting by newline characters
+		const paragraphs = icebreakerText.split('\n').map(
 			(line) =>
 				new Paragraph({
 					children: [new TextRun(line)],
-					spacing: { after: 150 }, // Less spacing for tongue twisters
+					spacing: { after: 200 }, // Add some spacing after paragraphs
 				}),
 		);
 
@@ -545,18 +568,18 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 		const doc = new Document({
 			sections: [
 				{
-					properties: {},
+					properties: {}, // Default page properties (Letter size)
 					children: [
 						new Paragraph({
 							children: [
 								new TextRun({
-									text: `Trabalenguas Generado`,
+									text: `Rompehielos Generado`,
 									bold: true,
 									size: 28,
 								}),
 							],
 							spacing: { after: 300 },
-						}),
+						}), // Title
 						new Paragraph({
 							children: [
 								new TextRun({
@@ -575,24 +598,15 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 							],
 							spacing: { after: 100 },
 						}),
-						...(formValue.topic
-							? [
-									new Paragraph({
-										children: [
-											new TextRun({
-												text: `Tema: ${formValue.topic}`,
-												size: 24,
-											}),
-										],
-										spacing: { after: 400 },
-									}),
-								]
-							: [
-									new Paragraph({
-										text: '',
-										spacing: { after: 400 },
-									}),
-								]), // Add topic if present or just spacing
+						new Paragraph({
+							children: [
+								new TextRun({
+									text: `Tipo: ${formValue.activityType}`,
+									size: 24,
+								}),
+							],
+							spacing: { after: 400 },
+						}),
 						...paragraphs, // Add the generated content paragraphs
 					],
 				},
@@ -616,9 +630,12 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.tongueTwisterForm.get('section');
+		return this.icebreakerForm.get('section');
 	}
 	get subjectCtrl(): AbstractControl | null {
-		return this.tongueTwisterForm.get('subject');
+		return this.icebreakerForm.get('subject');
+	}
+	get activityTypeCtrl(): AbstractControl | null {
+		return this.icebreakerForm.get('activityType');
 	}
 }

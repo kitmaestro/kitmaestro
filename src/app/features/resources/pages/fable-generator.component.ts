@@ -23,7 +23,6 @@ import {
 	catchError,
 	EMPTY,
 	finalize,
-	distinctUntilChanged,
 } from 'rxjs';
 
 // Angular Material Modules
@@ -38,9 +37,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 // --- Core Services & Interfaces (Using new structure paths) ---
 import { AiService } from '../../../core/services/ai.service';
-import { ClassSectionService } from '../../../core/services/class-section.service';
+import { ClassSectionService } from '../../../core/services';
 import { ClassSection } from '../../../core/interfaces/class-section';
-
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 // --- DOCX Generation ---
@@ -55,7 +53,7 @@ import {
 import { saveAs } from 'file-saver';
 
 @Component({
-	selector: 'app-antonyms-generator', // Component selector
+	selector: 'app-fable-generator', // Component selector
 	standalone: true,
 	imports: [
 		CommonModule,
@@ -68,25 +66,24 @@ import { saveAs } from 'file-saver';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
-		PretifyPipe,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="antonyms-generator-card">
+		<mat-card class="fable-generator-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Antónimos</mat-card-title>
+				<mat-card-title>Generador de Fábulas</mat-card-title>
 				<mat-card-subtitle
-					>Crea listas de palabras y sus antónimos
-					contextualizados</mat-card-subtitle
+					>Crea fábulas con moralejas para tus
+					clases</mat-card-subtitle
 				>
 			</mat-card-header>
 
 			<mat-card-content>
 				@if (!showResult()) {
 					<form
-						[formGroup]="antonymsForm"
+						[formGroup]="fableForm"
 						(ngSubmit)="onSubmit()"
-						class="antonyms-form"
+						class="fable-form"
 					>
 						<div class="form-row">
 							<mat-form-field
@@ -136,37 +133,19 @@ import { saveAs } from 'file-saver';
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Asignatura</mat-label>
-								<mat-select formControlName="subject" required>
-									@for (
-										subject of availableSubjects();
-										track subject
-									) {
-										<mat-option [value]="subject">{{
-											subject | pretify
+								<mat-label>Longitud Deseada</mat-label>
+								<mat-select formControlName="length" required>
+									@for (len of fableLengths; track len) {
+										<mat-option [value]="len">{{
+											len
 										}}</mat-option>
-									}
-									@if (
-										!availableSubjects().length &&
-										sectionCtrl?.valid
-									) {
-										<mat-option disabled
-											>No hay asignaturas para esta
-											sección.</mat-option
-										>
-									}
-									@if (!sectionCtrl?.valid) {
-										<mat-option disabled
-											>Selecciona una sección
-											primero.</mat-option
-										>
 									}
 								</mat-select>
 								@if (
-									subjectCtrl?.invalid && subjectCtrl?.touched
+									lengthCtrl?.invalid && lengthCtrl?.touched
 								) {
 									<mat-error
-										>Selecciona una asignatura.</mat-error
+										>Selecciona la longitud.</mat-error
 									>
 								}
 							</mat-form-field>
@@ -177,46 +156,13 @@ import { saveAs } from 'file-saver';
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Cantidad de Palabras</mat-label>
-								<input
-									matInput
-									type="number"
-									formControlName="quantity"
-									required
-									min="1"
-									max="20"
-								/>
-								@if (
-									quantityCtrl?.invalid &&
-									quantityCtrl?.touched
-								) {
-									@if (quantityCtrl?.hasError('required')) {
-										<mat-error
-											>Indica la cantidad.</mat-error
-										>
-									}
-									@if (quantityCtrl?.hasError('min')) {
-										<mat-error>Mínimo 1 palabra.</mat-error>
-									}
-									@if (quantityCtrl?.hasError('max')) {
-										<mat-error
-											>Máximo 20 palabras.</mat-error
-										>
-									}
-								}
-							</mat-form-field>
-
-							<mat-form-field
-								appearance="outline"
-								class="form-field"
-							>
-								<mat-label>Dificultad</mat-label>
+								<mat-label>Nivel de Vocabulario</mat-label>
 								<mat-select
-									formControlName="difficulty"
+									formControlName="vocabulary"
 									required
 								>
 									@for (
-										level of difficultyLevels;
+										level of vocabularyLevels;
 										track level
 									) {
 										<mat-option [value]="level">{{
@@ -225,28 +171,27 @@ import { saveAs } from 'file-saver';
 									}
 								</mat-select>
 								@if (
-									difficultyCtrl?.invalid &&
-									difficultyCtrl?.touched
+									vocabularyCtrl?.invalid &&
+									vocabularyCtrl?.touched
 								) {
 									<mat-error
-										>Selecciona la dificultad.</mat-error
+										>Selecciona el nivel de
+										vocabulario.</mat-error
 									>
 								}
 							</mat-form-field>
-						</div>
 
-						<div class="form-row">
 							<mat-form-field
 								appearance="outline"
-								class="form-field full-width-field"
+								class="form-field"
 							>
 								<mat-label
-									>Tema Específico (Opcional)</mat-label
+									>Tema o Moraleja (Opcional)</mat-label
 								>
 								<input
 									matInput
 									formControlName="topic"
-									placeholder="Ej: Sentimientos, Tamaños, Acciones"
+									placeholder="Ej: La honestidad, El esfuerzo, La astucia"
 								/>
 							</mat-form-field>
 						</div>
@@ -256,9 +201,7 @@ import { saveAs } from 'file-saver';
 								mat-raised-button
 								color="primary"
 								type="submit"
-								[disabled]="
-									antonymsForm.invalid || isGenerating()
-								"
+								[disabled]="fableForm.invalid || isGenerating()"
 							>
 								@if (isGenerating()) {
 									<div
@@ -276,8 +219,7 @@ import { saveAs } from 'file-saver';
 									</div>
 								} @else {
 									<ng-container>
-										<mat-icon>compare_arrows</mat-icon>
-										Generar Antónimos
+										<mat-icon>pets</mat-icon> Generar Fábula
 									</ng-container>
 								}
 							</button>
@@ -286,16 +228,23 @@ import { saveAs } from 'file-saver';
 				}
 
 				@if (showResult()) {
-					<div class="antonyms-result">
-						<h3>Antónimos Generados:</h3>
+					<div class="fable-result">
+						<h3>Fábula Generada:</h3>
 						<div
-							class="antonyms-result-content"
+							class="fable-result-content"
 							[innerHTML]="
-								generatedAntonyms().replaceAll(
-									'
+								generatedFable()
+									.replaceAll(
+										'
+
 ',
-									'<br>'
-								)
+										'<br><br>'
+									)
+									.replaceAll(
+										'
+',
+										'<br>'
+									)
 							"
 						></div>
 
@@ -312,8 +261,8 @@ import { saveAs } from 'file-saver';
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
-									!generatedAntonyms() ||
-									generatedAntonyms().startsWith(
+									!generatedFable() ||
+									generatedFable().startsWith(
 										'Ocurrió un error'
 									)
 								"
@@ -332,11 +281,11 @@ import { saveAs } from 'file-saver';
 			:host {
 				display: block;
 			}
-			.antonyms-generator-card {
+			.fable-generator-card {
 				margin: 0 auto;
 				padding: 15px 25px 25px 25px;
 			}
-			.antonyms-form {
+			.fable-form {
 				margin-top: 16px;
 				display: flex;
 				flex-direction: column;
@@ -350,9 +299,6 @@ import { saveAs } from 'file-saver';
 			.form-field {
 				flex: 1;
 				min-width: 250px;
-			}
-			.full-width-field {
-				flex-basis: 100%;
 			}
 			.form-actions {
 				display: flex;
@@ -369,38 +315,34 @@ import { saveAs } from 'file-saver';
 				margin-right: 8px;
 				vertical-align: middle;
 			}
-			.antonyms-result {
+			.fable-result {
 				margin-top: 20px;
 			}
-			.antonyms-result h3 {
+			.fable-result h3 {
 				margin-bottom: 15px;
 			}
-			.antonyms-result-content {
-				background-color: #fbe9e7; /* Light deep orange background */
-				border: 1px solid #ffccbc;
-				border-left: 5px solid #ff5722; /* Deep orange accent */
-				padding: 25px 35px;
-				min-height: 200px;
+			.fable-result-content {
+				background-color: #f0f4f8; /* Slightly different background */
+				border: 1px solid #d6e2eb;
+				border-left: 5px solid #1a73e8; /* Blue accent */
+				padding: 30px 40px;
+				min-height: 250px;
 				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-				line-height: 1.8; /* More spacing for lists */
+				line-height: 1.7;
 				font-family:
-					'Verdana', Geneva, Tahoma, sans-serif; /* Clean sans-serif */
-				font-size: 11pt;
+					'Georgia', 'Times New Roman', Times, serif; /* Serif font */
+				font-size: 12pt;
 				margin-bottom: 20px;
 				max-width: 100%;
-				white-space: pre-wrap; /* Preserve formatting */
+				white-space: pre-wrap; /* Preserve paragraphs */
 			}
-			/* Style potential word/antonym pairs */
-			.antonyms-result-content strong {
-				/* Example: Bold text for original word */
-				display: inline-block;
-				margin-right: 5px;
-				font-weight: bold;
-			}
-			.antonyms-result-content br + strong {
-				/* Add space before new word */
-				margin-top: 1em;
-				display: block;
+			/* Style the moral if possible (depends on AI output format) */
+			.fable-result-content p:last-child {
+				/* Try to target the last paragraph as moral */
+				font-style: italic;
+				margin-top: 1.5em;
+				border-top: 1px dashed #aaa;
+				padding-top: 1em;
 			}
 			.result-actions {
 				display: flex;
@@ -414,36 +356,33 @@ import { saveAs } from 'file-saver';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	encapsulation: ViewEncapsulation.None,
 })
-export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
+export class FableGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
+
 	#pretify = new PretifyPipe().transform;
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
 	isGenerating = signal(false);
 	showResult = signal(false);
-	generatedAntonyms = signal<string>(''); // Stores the AI response string
+	generatedFable = signal<string>(''); // Stores the AI response string
 	sections = signal<ClassSection[]>([]);
-	availableSubjects = signal<string[]>([]);
 
 	// --- Form Definition ---
-	antonymsForm = this.#fb.group({
+	fableForm = this.#fb.group({
 		section: ['', Validators.required],
-		subject: [{ value: '', disabled: true }, Validators.required],
-		quantity: [
-			5,
-			[Validators.required, Validators.min(1), Validators.max(20)],
-		], // Default 5
-		difficulty: ['Medio', Validators.required], // Default value
-		topic: [''], // Optional topic
+		length: ['Corto', Validators.required], // Default value
+		vocabulary: ['Medio', Validators.required], // Default value
+		topic: [''], // Optional topic or moral
 	});
 
-	// --- Fixed Select Options ---
-	readonly difficultyLevels = ['Fácil', 'Medio', 'Difícil'];
+	// --- Fixed Select Options (Reused) ---
+	readonly fableLengths = ['Muy Corto', 'Corto', 'Extenso'];
+	readonly vocabularyLevels = ['Reducido', 'Medio', 'Amplio'];
 
 	// --- Lifecycle Management ---
 	#destroy$ = new Subject<void>();
@@ -451,7 +390,6 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 	// --- OnInit ---
 	ngOnInit(): void {
 		this.#loadSections();
-		this.#listenForSectionChanges();
 	}
 
 	// --- OnDestroy ---
@@ -478,50 +416,37 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
-	/** Updates subjects based on selected section */
-	#listenForSectionChanges(): void {
-		this.sectionCtrl?.valueChanges
-			.pipe(
-				takeUntil(this.#destroy$),
-				distinctUntilChanged(),
-				tap((sectionId) => {
-					this.subjectCtrl?.reset();
-					this.subjectCtrl?.disable();
-					this.availableSubjects.set([]);
-					if (sectionId) {
-						const selectedSection = this.sections().find(
-							(s) => s._id === sectionId,
-						);
-						if (selectedSection?.subjects?.length) {
-							this.availableSubjects.set(
-								selectedSection.subjects,
-							);
-							this.subjectCtrl?.enable();
-						}
-					}
-				}),
-			)
-			.subscribe();
-	}
-
 	#handleError(error: any, defaultMessage: string): Observable<never> {
 		console.error(defaultMessage, error);
 		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 });
-		this.isGenerating.set(false); // Ensure loading stops on error
 		return EMPTY;
 	}
 
-	/** Maps user selection to prompt instructions for difficulty */
-	#getDifficultyInstruction(difficultySelection: string): string {
-		switch (difficultySelection) {
-			case 'Fácil':
-				return 'palabras comunes con antónimos claros y directos';
-			case 'Medio':
-				return 'palabras de uso estándar con antónimos comunes, quizás algunos menos obvios';
-			case 'Difícil':
-				return 'palabras menos comunes o más abstractas, con antónimos que requieran mayor comprensión del matiz';
+	/** Maps user selection to prompt instructions for length (reused) */
+	#getLengthInstruction(lengthSelection: string): string {
+		switch (lengthSelection) {
+			case 'Muy Corto':
+				return 'muy corta (aproximadamente 2-3 párrafos breves)';
+			case 'Corto':
+				return 'corta (aproximadamente 4-5 párrafos)';
+			case 'Extenso':
+				return 'extensa (aproximadamente 6-8 párrafos)';
 			default:
-				return 'palabras de uso estándar con antónimos de dificultad media';
+				return 'corta (aproximadamente 4-5 párrafos)';
+		}
+	}
+
+	/** Maps user selection to prompt instructions for vocabulary (reused) */
+	#getVocabularyInstruction(vocabularySelection: string): string {
+		switch (vocabularySelection) {
+			case 'Reducido':
+				return 'un vocabulario sencillo y común, fácil de entender';
+			case 'Medio':
+				return 'un vocabulario estándar, apropiado para la edad/grado indicado';
+			case 'Amplio':
+				return 'un vocabulario un poco más rico y descriptivo';
+			default:
+				return 'un vocabulario estándar, apropiado para la edad/grado indicado';
 		}
 	}
 
@@ -534,8 +459,8 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 
 	/** Handles form submission */
 	async onSubmit(): Promise<void> {
-		if (this.antonymsForm.invalid) {
-			this.antonymsForm.markAllAsTouched();
+		if (this.fableForm.invalid) {
+			this.fableForm.markAllAsTouched();
 			this.#snackBar.open(
 				'Por favor, completa todos los campos requeridos.',
 				'Cerrar',
@@ -545,42 +470,41 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 		}
 
 		this.isGenerating.set(true);
-		this.generatedAntonyms.set('');
+		this.generatedFable.set('');
 		this.showResult.set(false);
 
-		const formValue = this.antonymsForm.getRawValue();
+		const formValue = this.fableForm.getRawValue();
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
 
-		// Construct the prompt for generating antonyms
-		const prompt = `Eres un lexicógrafo experto y profesor de lengua, especializado en el concepto de antonimia y en adaptar el vocabulario a diferentes niveles educativos.
-      Necesito que generes una lista de palabras con sus respectivos antónimos para una clase.
+		// Construct the prompt for generating the fable
+		const prompt = `Eres un escritor experto en fábulas clásicas y modernas para niños y jóvenes.
+      Necesito que escribas una fábula original con una moraleja clara.
 
       Contexto e Instrucciones:
-      - Audiencia: Estudiantes de ${this.#pretify(selectedSection?.level || 'Nivel no especificado')}, ${this.#pretify(selectedSection?.year || 'Grado no especificado')}. Las palabras y los antónimos deben ser apropiados para su edad y nivel de comprensión.
-      - Asignatura: ${this.#pretify(formValue.subject || '')}. Las palabras seleccionadas deben estar preferentemente relacionadas con esta materia.
-      ${formValue.topic ? `- Tema Específico (Opcional): Si es posible, enfoca la selección de palabras en el tema "${formValue.topic}".` : ''}
-      - Cantidad de Palabras: Genera ${formValue.quantity} palabras distintas.
-      - Dificultad: Selecciona ${this.#getDifficultyInstruction(formValue.difficulty!)}. Tanto la palabra original como los antónimos deben ajustarse a esta dificultad.
-      - **Formato Obligatorio:** Para CADA palabra, presenta primero la palabra original y LUEGO, en una línea separada, una lista de 1 a 3 antónimos apropiados (a veces solo hay uno claro). Usa este formato EXACTO:
-          Palabra: [Palabra Original Aquí]
-          Antónimos: [Antónimo 1], [Antónimo 2], ...
-       (Deja dos líneas en blanco entre cada entrada de palabra/antónimos).
+      - Audiencia: Estudiantes de ${this.#pretify(selectedSection?.level || 'Nivel no especificado')}, ${this.#pretify(selectedSection?.year || 'Grado no especificado')}. La fábula debe ser apropiada para su edad y nivel de comprensión.
+      - Personajes: Preferiblemente animales u objetos personificados.
+      - Longitud Deseada: La fábula debe ser ${this.#getLengthInstruction(formValue.length!)}.
+      - Nivel de Vocabulario: Utiliza ${this.#getVocabularyInstruction(formValue.vocabulary!)}.
+      ${formValue.topic ? `- Tema o Moraleja Sugerida: Incorpora la idea o moraleja de "${formValue.topic}" en la historia.` : '- Moraleja: Puedes elegir una moraleja clásica o inventar una apropiada (ej: sobre el esfuerzo, la honestidad, la amistad, la prudencia, etc.).'}
+      - Estructura: La fábula debe tener una narrativa clara (inicio, desarrollo, final) que conduzca a la moraleja.
+      - **Moraleja Explícita:** Al final de la fábula, incluye **obligatoriamente** la moraleja de forma clara y concisa, precedida por la palabra "Moraleja:".
+      - Formato: Escribe la fábula en párrafos bien separados (usa doble salto de línea entre párrafos). No incluyas un título. No incluyas saludos ni despedidas.
 
-      IMPORTANTE: Asegúrate de que los antónimos representen un significado opuesto o muy contrastante en el contexto probable. No incluyas saludos ni despedidas.`;
+      IMPORTANTE: Asegúrate de que la historia ilustre claramente la moraleja final.`;
 
 		try {
 			const result = await firstValueFrom(
 				this.#aiService.geminiAi(prompt),
 			);
-			this.generatedAntonyms.set(
-				result?.response || 'No se pudieron generar los antónimos.',
+			this.generatedFable.set(
+				result?.response || 'No se pudo generar la fábula.',
 			);
 			this.showResult.set(true);
 		} catch (error) {
-			this.generatedAntonyms.set(
-				'Ocurrió un error al generar los antónimos. Por favor, inténtalo de nuevo.',
+			this.generatedFable.set(
+				'Ocurrió un error al generar la fábula. Por favor, inténtalo de nuevo.',
 			);
 			this.showResult.set(true); // Show error in result area
 			this.#handleError(error, 'Error al contactar el servicio de IA');
@@ -592,26 +516,22 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 	/** Resets the form and view */
 	goBack(): void {
 		this.showResult.set(false);
-		this.generatedAntonyms.set('');
+		this.generatedFable.set('');
 		// Reset form to defaults
-		this.antonymsForm.reset({
+		this.fableForm.reset({
 			section: '',
-			subject: '',
-			quantity: 5,
-			difficulty: 'Medio',
+			length: 'Corto',
+			vocabulary: 'Medio',
 			topic: '',
 		});
-		this.antonymsForm.get('subject')?.disable();
-		this.availableSubjects.set([]); // Clear available subjects
 	}
 
-	/** Downloads the generated antonyms as DOCX */
+	/** Downloads the generated fable as DOCX */
 	downloadDocx(): void {
-		const antonymsText = this.generatedAntonyms();
-		if (!antonymsText || antonymsText.startsWith('Ocurrió un error'))
-			return;
+		const fableText = this.generatedFable();
+		if (!fableText || fableText.startsWith('Ocurrió un error')) return;
 
-		const formValue = this.antonymsForm.getRawValue();
+		const formValue = this.fableForm.getRawValue();
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
@@ -621,54 +541,44 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 			/[^a-z0-9]/gi,
 			'_',
 		);
-		const subjectName = this.#pretify(
-			formValue.subject || 'Asignatura',
-		).replace(/[^a-z0-9]/gi, '_');
-		const topicName = (formValue.topic || 'Antonimos')
-			.substring(0, 15)
+		const topicName = (formValue.topic || 'Fabula')
+			.substring(0, 20)
 			.replace(/[^a-z0-9]/gi, '_');
 
-		const filename = `Antonimos_${sectionName}_${subjectName}_${topicName}.docx`;
+		const filename = `Fabula_${sectionName}_${topicName}.docx`;
 
-		// Create paragraphs, trying to format Word/Antonyms
-		const paragraphs: Paragraph[] = [];
-		// Split by the "Palabra:" marker, keeping the delimiter attached to the following block
-		const wordBlocks = antonymsText.split(/\n\s*\n\s*(?=Palabra:)/);
-
-		wordBlocks.forEach((block, index) => {
-			if (block.trim().length === 0) return;
-
-			const lines = block.trim().split('\n');
-			const wordLine = lines.find((l) => l.trim().startsWith('Palabra:'));
-			const antonymsLine = lines.find((l) =>
-				l.trim().startsWith('Antónimos:'),
-			); // Changed from Sinónimos
-
-			const word = wordLine?.replace('Palabra:', '').trim();
-			const antonyms = antonymsLine?.replace('Antónimos:', '').trim(); // Changed from Sinónimos
-
-			if (word) {
-				paragraphs.push(
-					new Paragraph({
+		// Create paragraphs, trying to identify the moral
+		let moralParagraph: Paragraph | null = null;
+		const bodyParagraphs = fableText
+			.split(/\n\s*\n/) // Split by one or more empty lines
+			.filter((p) => p.trim().length > 0)
+			.map((paragraphText) => {
+				const trimmedText = paragraphText.trim();
+				if (trimmedText.toLowerCase().startsWith('moraleja:')) {
+					moralParagraph = new Paragraph({
 						children: [
-							new TextRun({ text: word, bold: true, size: 24 }),
-						], // Make word bold and slightly larger
-						spacing: { before: index > 0 ? 240 : 0, after: 60 }, // Add space before new word
-					}),
-				);
-			}
-			if (antonyms) {
-				paragraphs.push(
-					new Paragraph({
-						children: [
-							new TextRun({ text: antonyms, italics: true }),
-						], // Italicize antonyms
-						spacing: { after: 200 }, // Space after antonyms list
-						indent: { left: 360 }, // Indent antonyms slightly
-					}),
-				);
-			}
-		});
+							new TextRun({
+								text: trimmedText,
+								bold: true,
+								italics: true,
+							}),
+						], // Style moral
+						spacing: { before: 240, after: 120 }, // Add space before moral
+					});
+					return null; // Remove it from the main body flow
+				}
+				return new Paragraph({
+					children: [new TextRun(trimmedText)],
+					spacing: { after: 120 }, // Spacing after paragraph
+					indent: { firstLine: 720 }, // Indent first line
+				});
+			})
+			.filter((p) => p !== null) as Paragraph[]; // Filter out the null where moral was found
+
+		// Add the moral at the end if found
+		if (moralParagraph) {
+			bodyParagraphs.push(moralParagraph);
+		}
 
 		// Create the document
 		const doc = new Document({
@@ -677,7 +587,7 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 					properties: {},
 					children: [
 						new Paragraph({
-							text: `Lista de Antónimos`,
+							text: `Fábula Generada`,
 							heading: HeadingLevel.HEADING_1,
 							alignment: AlignmentType.CENTER,
 							spacing: { after: 300 },
@@ -688,36 +598,36 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 							style: 'SubtleEmphasis',
 						}),
 						new Paragraph({
-							text: `Asignatura: ${formValue.subject}`,
+							text: `Longitud: ${formValue.length}`,
 							alignment: AlignmentType.CENTER,
 							style: 'SubtleEmphasis',
 						}),
 						new Paragraph({
-							text: `Dificultad: ${formValue.difficulty}`,
+							text: `Vocabulario: ${formValue.vocabulary}`,
 							alignment: AlignmentType.CENTER,
 							style: 'SubtleEmphasis',
 						}),
 						...(formValue.topic
 							? [
 									new Paragraph({
-										text: `Tema Guía: ${formValue.topic}`,
+										text: `Tema/Moraleja Guía: ${formValue.topic}`,
 										alignment: AlignmentType.CENTER,
 										style: 'SubtleEmphasis',
 									}),
 								]
 							: []),
 						new Paragraph({ text: '', spacing: { after: 400 } }), // Extra space
-						...paragraphs, // Add the generated word/antonym paragraphs
+						...bodyParagraphs, // Add the generated fable paragraphs (moral included at the end)
 					],
 				},
 			],
 			styles: {
-				// Reusing styles
+				// Reusing styles from story generator
 				paragraphStyles: [
 					{
 						id: 'Normal',
 						name: 'Normal',
-						run: { font: 'Verdana', size: 22 }, // 11pt
+						run: { font: 'Georgia', size: 24 }, // 12pt
 					},
 					{
 						id: 'SubtleEmphasis',
@@ -746,18 +656,15 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.antonymsForm.get('section');
+		return this.fableForm.get('section');
 	}
-	get subjectCtrl(): AbstractControl | null {
-		return this.antonymsForm.get('subject');
+	get lengthCtrl(): AbstractControl | null {
+		return this.fableForm.get('length');
 	}
-	get quantityCtrl(): AbstractControl | null {
-		return this.antonymsForm.get('quantity');
-	}
-	get difficultyCtrl(): AbstractControl | null {
-		return this.antonymsForm.get('difficulty');
+	get vocabularyCtrl(): AbstractControl | null {
+		return this.fableForm.get('vocabulary');
 	}
 	get topicCtrl(): AbstractControl | null {
-		return this.antonymsForm.get('topic');
+		return this.fableForm.get('topic');
 	}
 }

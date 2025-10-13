@@ -16,20 +16,20 @@ import {
 import { CommonModule } from '@angular/common';
 import {
 	Subject,
+	Observable,
 	firstValueFrom,
 	takeUntil,
 	tap,
 	catchError,
 	EMPTY,
 	finalize,
-	distinctUntilChanged,
-	Observable,
 } from 'rxjs';
 
 // Angular Material Modules
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -52,11 +52,8 @@ import {
 } from 'docx';
 import { saveAs } from 'file-saver';
 
-// --- Constants ---
-const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
-
 @Component({
-	selector: 'app-division-generator', // Component selector
+	selector: 'app-proverb-generator', // Component selector
 	standalone: true,
 	imports: [
 		CommonModule,
@@ -64,39 +61,36 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
-		// MatInputModule, // Not needed for this form
+		MatInputModule,
 		MatButtonModule,
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
-		PretifyPipe,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="division-generator-card">
+		<mat-card class="proverb-generator-card">
 			<mat-card-header>
-				<mat-card-title
-					>Generador de Operaciones de División</mat-card-title
-				>
+				<mat-card-title>Generador de Refranes</mat-card-title>
 				<mat-card-subtitle
-					>Crea ejercicios de división
-					personalizados</mat-card-subtitle
+					>Encuentra refranes y su significado para tus
+					clases</mat-card-subtitle
 				>
 			</mat-card-header>
 
 			<mat-card-content>
 				@if (!showResult()) {
 					<form
-						[formGroup]="divisionForm"
+						[formGroup]="proverbForm"
 						(ngSubmit)="onSubmit()"
-						class="division-form"
+						class="proverb-form"
 					>
 						<div class="form-row">
 							<mat-form-field
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Curso/Sección</mat-label>
+								<mat-label>Curso/Sección (Grado)</mat-label>
 								<mat-select formControlName="section" required>
 									@if (isLoadingSections()) {
 										<mat-option disabled
@@ -111,11 +105,9 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 											section of sections();
 											track section._id
 										) {
-											<mat-option [value]="section._id"
-												>{{ section.name }} ({{
-													section.level | pretify
-												}})</mat-option
-											>
+											<mat-option [value]="section._id">{{
+												getSectionDisplay(section)
+											}}</mat-option>
 										}
 										@if (
 											!sections().length &&
@@ -141,13 +133,15 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Nivel de Dificultad</mat-label>
+								<mat-label
+									>Complejidad / Familiaridad</mat-label
+								>
 								<mat-select
-									formControlName="difficulty"
+									formControlName="complexity"
 									required
 								>
 									@for (
-										level of difficultyLevels;
+										level of complexityLevels;
 										track level
 									) {
 										<mat-option [value]="level">{{
@@ -156,11 +150,11 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 									}
 								</mat-select>
 								@if (
-									difficultyCtrl?.invalid &&
-									difficultyCtrl?.touched
+									complexityCtrl?.invalid &&
+									complexityCtrl?.touched
 								) {
 									<mat-error
-										>Selecciona la dificultad.</mat-error
+										>Selecciona la complejidad.</mat-error
 									>
 								}
 							</mat-form-field>
@@ -171,24 +165,30 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Tipos de Números</mat-label>
+								<mat-label
+									>Nivel de Vocabulario (en
+									explicación)</mat-label
+								>
 								<mat-select
-									formControlName="numberType"
+									formControlName="vocabulary"
 									required
 								>
-									@for (type of numberTypes; track type) {
-										<mat-option [value]="type">{{
-											type
+									@for (
+										level of vocabularyLevels;
+										track level
+									) {
+										<mat-option [value]="level">{{
+											level
 										}}</mat-option>
 									}
 								</mat-select>
 								@if (
-									numberTypeCtrl?.invalid &&
-									numberTypeCtrl?.touched
+									vocabularyCtrl?.invalid &&
+									vocabularyCtrl?.touched
 								) {
 									<mat-error
-										>Selecciona el tipo de
-										números.</mat-error
+										>Selecciona el nivel de
+										vocabulario.</mat-error
 									>
 								}
 							</mat-form-field>
@@ -197,28 +197,14 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Tipo de Resultado</mat-label>
-								<mat-select formControlName="resultType">
-									@for (type of resultTypes; track type) {
-										<mat-option [value]="type">{{
-											type
-										}}</mat-option>
-									}
-								</mat-select>
-								@if (
-									resultTypeCtrl?.hasError('required') &&
-									resultTypeCtrl?.touched
-								) {
-									<mat-error
-										>Selecciona el tipo de
-										resultado.</mat-error
-									>
-								}
-								@if (resultTypeCtrl?.disabled) {
-									<mat-hint
-										>No aplica para fracciones</mat-hint
-									>
-								}
+								<mat-label
+									>Tema del refrán (Opcional)</mat-label
+								>
+								<input
+									matInput
+									formControlName="topic"
+									placeholder="Ej: Trabajo, Paciencia, Amistad"
+								/>
 							</mat-form-field>
 						</div>
 
@@ -228,20 +214,27 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								color="primary"
 								type="submit"
 								[disabled]="
-									divisionForm.invalid || isGenerating()
+									proverbForm.invalid || isGenerating()
 								"
 							>
 								@if (isGenerating()) {
-									<mat-spinner
-										diameter="20"
-										color="accent"
-										class="inline-spinner"
-									></mat-spinner>
-									Generando...
+									<div
+										[style]="{
+											display: 'flex',
+											alignItems: 'center',
+										}"
+									>
+										<mat-spinner
+											diameter="20"
+											color="accent"
+											class="inline-spinner"
+										></mat-spinner>
+										Generando...
+									</div>
 								} @else {
 									<ng-container>
-										<mat-icon>calculate</mat-icon> Generar
-										Divisiones
+										<mat-icon>format_quote</mat-icon>
+										Generar Refranes
 									</ng-container>
 								}
 							</button>
@@ -250,12 +243,12 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 				}
 
 				@if (showResult()) {
-					<div class="division-result">
-						<h3>Operaciones de División Generadas:</h3>
+					<div class="proverb-result">
+						<h3>Refrán(es) Generado(s):</h3>
 						<div
-							class="division-result-content"
+							class="proverb-result-content"
 							[innerHTML]="
-								generatedDivisions().replaceAll(
+								generatedProverbs().replaceAll(
 									'
 ',
 									'<br>'
@@ -276,8 +269,8 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
-									!generatedDivisions() ||
-									generatedDivisions().startsWith(
+									!generatedProverbs() ||
+									generatedProverbs().startsWith(
 										'Ocurrió un error'
 									)
 								"
@@ -296,11 +289,11 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 			:host {
 				display: block;
 			}
-			.division-generator-card {
+			.proverb-generator-card {
 				margin: 0 auto;
 				padding: 15px 25px 25px 25px;
 			}
-			.division-form {
+			.proverb-form {
 				margin-top: 16px;
 				display: flex;
 				flex-direction: column;
@@ -330,25 +323,33 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 				margin-right: 8px;
 				vertical-align: middle;
 			}
-			.division-result {
+			.proverb-result {
 				margin-top: 20px;
 			}
-			.division-result h3 {
+			.proverb-result h3 {
 				margin-bottom: 15px;
 			}
-			.division-result-content {
-				background-color: #f8f9fa;
-				border: 1px solid #dee2e6;
-				padding: 20px 30px;
-				min-height: 200px;
+			.proverb-result-content {
+				background-color: #fdf8e4; /* Light parchment background */
+				border: 1px solid #fcefc7;
+				border-left: 5px solid #a0522d; /* Sienna accent */
+				padding: 25px 35px;
+				min-height: 150px;
 				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-				line-height: 1.8; /* More spacing for operations */
-				font-family:
-					'Consolas', 'Courier New', monospace; /* Monospace for alignment */
+				line-height: 1.7;
+				font-family: 'Times New Roman', Times, serif; /* Classic font */
 				font-size: 11pt;
 				margin-bottom: 20px;
 				max-width: 100%;
 				white-space: pre-wrap; /* Preserve formatting */
+			}
+			/* Style the meaning if possible (depends on AI format) */
+			.proverb-result-content span[style*='italic'] {
+				/* Example: Italic text */
+				display: block;
+				margin-top: 0.5em;
+				font-style: italic;
+				color: #555;
 			}
 			.result-actions {
 				display: flex;
@@ -362,38 +363,37 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	encapsulation: ViewEncapsulation.None,
 })
-export class DivisionGeneratorComponent implements OnInit, OnDestroy {
+export class ProverbGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
-	#sectionService = inject(ClassSectionService); // Use correct service name
+	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
+
+	#pretify = new PretifyPipe().transform;
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
 	isGenerating = signal(false);
 	showResult = signal(false);
-	generatedDivisions = signal<string>(''); // Stores the AI response string
+	generatedProverbs = signal<string>(''); // Stores the AI response string
 	sections = signal<ClassSection[]>([]);
-	// availableSubjects = signal<string[]>([]); // Subject not needed for this component
-	#pretify = new PretifyPipe().transform;
 
 	// --- Form Definition ---
-	divisionForm = this.#fb.group({
+	proverbForm = this.#fb.group({
 		section: ['', Validators.required],
-		difficulty: ['Intermedio', Validators.required], // Default value
-		numberType: ['Solo Naturales', Validators.required], // Default value
-		resultType: [{ value: 'Exacto', disabled: false }, Validators.required], // Default value, initially enabled
+		complexity: ['Menos Común / Figurado', Validators.required], // Default value, changed from length
+		vocabulary: ['Medio', Validators.required], // Default value
+		topic: [''], // Optional topic
 	});
 
 	// --- Fixed Select Options ---
-	readonly difficultyLevels = ['Básico', 'Intermedio', 'Avanzado'];
-	readonly numberTypes = [
-		'Solo Naturales',
-		'Naturales y Enteros',
-		NUMBER_TYPE_FRACTIONS,
-	];
-	readonly resultTypes = ['Exacto', 'Inexacto'];
+	readonly complexityLevels = [
+		'Común / Sencillo',
+		'Menos Común / Figurado',
+		'Complejo / Antiguo',
+	]; // Renamed from length
+	readonly vocabularyLevels = ['Reducido', 'Medio', 'Amplio'];
 
 	// --- Lifecycle Management ---
 	#destroy$ = new Subject<void>();
@@ -401,7 +401,6 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 	// --- OnInit ---
 	ngOnInit(): void {
 		this.#loadSections();
-		this.#listenForNumberTypeChanges(); // Setup listener for conditional logic
 	}
 
 	// --- OnDestroy ---
@@ -415,7 +414,6 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 	/** Loads sections */
 	#loadSections(): void {
 		this.isLoadingSections.set(true);
-		// Use findSections as requested by the user
 		this.#sectionService
 			.findSections()
 			.pipe(
@@ -429,43 +427,52 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
-	/** Enables/disables resultType based on numberType */
-	#listenForNumberTypeChanges(): void {
-		this.numberTypeCtrl?.valueChanges
-			.pipe(
-				takeUntil(this.#destroy$),
-				distinctUntilChanged(), // Only react on actual change
-			)
-			.subscribe((value) => {
-				if (value === NUMBER_TYPE_FRACTIONS) {
-					this.resultTypeCtrl?.disable();
-					this.resultTypeCtrl?.clearValidators(); // Remove required validator
-					this.resultTypeCtrl?.reset(); // Optionally clear the value
-				} else {
-					this.resultTypeCtrl?.enable();
-					this.resultTypeCtrl?.setValidators(Validators.required); // Add required validator back
-				}
-				this.resultTypeCtrl?.updateValueAndValidity(); // Apply changes
-			});
-	}
-
 	#handleError(error: any, defaultMessage: string): Observable<never> {
 		console.error(defaultMessage, error);
 		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 });
 		return EMPTY;
 	}
 
+	/** Maps user selection to prompt instructions for complexity */
+	#getComplexityInstruction(complexitySelection: string): string {
+		switch (complexitySelection) {
+			case 'Común / Sencillo':
+				return 'muy comunes y de significado bastante literal o fácil de deducir';
+			case 'Menos Común / Figurado':
+				return 'algo menos comunes o que usen lenguaje más figurado';
+			case 'Complejo / Antiguo':
+				return 'más complejos, quizás más antiguos o con un significado menos obvio';
+			default:
+				return 'de complejidad y familiaridad media';
+		}
+	}
+
+	/** Maps user selection to prompt instructions for vocabulary (reused) */
+	#getVocabularyInstruction(vocabularySelection: string): string {
+		// This applies mainly to the explanation of the meaning
+		switch (vocabularySelection) {
+			case 'Reducido':
+				return 'un vocabulario muy sencillo y directo en la explicación';
+			case 'Medio':
+				return 'un vocabulario estándar en la explicación, apropiado para la edad';
+			case 'Amplio':
+				return 'un vocabulario un poco más rico en la explicación';
+			default:
+				return 'un vocabulario estándar en la explicación';
+		}
+	}
+
 	// --- Public Methods ---
 
 	/** Formats section display name */
 	getSectionDisplay(section: ClassSection): string {
-		return `${this.#pretify(section.year) || ''} ${section.name || ''} (${this.#pretify(section.level) || 'Nivel no especificado'})`;
+		return `${this.#pretify(section.year || '')} ${section.name || ''} (${this.#pretify(section.level || 'Nivel no especificado')})`;
 	}
 
 	/** Handles form submission */
 	async onSubmit(): Promise<void> {
-		if (this.divisionForm.invalid) {
-			this.divisionForm.markAllAsTouched();
+		if (this.proverbForm.invalid) {
+			this.proverbForm.markAllAsTouched();
 			this.#snackBar.open(
 				'Por favor, completa todos los campos requeridos.',
 				'Cerrar',
@@ -475,47 +482,44 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 		}
 
 		this.isGenerating.set(true);
-		this.generatedDivisions.set('');
+		this.generatedProverbs.set('');
 		this.showResult.set(false);
 
-		const formValue = this.divisionForm.getRawValue(); // Use getRawValue to include disabled controls if needed later
+		const formValue = this.proverbForm.getRawValue();
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
 
-		// Construct the prompt for generating division problems
-		const prompt = `Eres un generador experto de ejercicios matemáticos para estudiantes.
-      Necesito una lista de operaciones de división adecuadas para una clase.
+		// Construct the prompt for generating proverbs
+		const prompt = `Eres un experto en el refranero popular y la sabiduría tradicional, capaz de explicar conceptos complejos de forma sencilla.
+      Necesito que generes algunos refranes (proverbios) adecuados para estudiantes.
 
-      Contexto:
-      - Nivel Educativo: ${this.#pretify(selectedSection?.level || 'No especificado')}
-      - Año/Grado: ${this.#pretify(selectedSection?.year || 'No especificado')}
-      - Nivel de Dificultad Solicitado: ${formValue.difficulty}
-      - Tipos de Números a Incluir: ${formValue.numberType}
-      ${formValue.numberType !== NUMBER_TYPE_FRACTIONS ? `- Tipo de Resultado Deseado: ${formValue.resultType}` : ''}
+      Contexto e Instrucciones:
+      - Audiencia: Estudiantes de ${this.#pretify(selectedSection?.level || 'Nivel no especificado')}, ${this.#pretify(selectedSection?.year || 'Grado no especificado')}. Los refranes y sus explicaciones deben ser apropiados para su edad y comprensión.
+      - Complejidad/Familiaridad Deseada: Selecciona refranes ${this.#getComplexityInstruction(formValue.complexity!)}.
+      - Nivel de Vocabulario (para la explicación): Explica el significado usando ${this.#getVocabularyInstruction(formValue.vocabulary!)}.
+      ${formValue.topic ? `- Tema Relacionado (Opcional): Si es posible, busca refranes relacionados con "${formValue.topic}".` : ''}
+      - Cantidad: Genera 2 o 3 refranes distintos.
+      - **Formato Obligatorio:** Para CADA refrán, presenta primero el refrán en sí y LUEGO, en una línea separada y claramente identificada, una breve explicación de su significado adaptada a la audiencia. Usa este formato EXACTO:
+          Refrán:
+          [Texto del refrán aquí]
 
-      Instrucciones para Generar las Divisiones:
-      1.  **Cantidad:** Genera una lista de aproximadamente 15 a 20 operaciones de división.
-      2.  **Formato:** Presenta cada operación claramente, por ejemplo: "Dividendo / Divisor = ?" o "A ÷ B = ?". Si el resultado es inexacto y se pidió, indica cómo mostrar el residuo (ej: "23 / 5 = ? R ?"). Para fracciones, usa el formato "(a/b) / (c/d) = ?".
-      3.  **Adecuación:** Las operaciones deben ser apropiadas para el nivel educativo (grado/año) y la dificultad seleccionada.
-          * **Básico:** Números pequeños, divisores comunes, resultados exactos (si se pidió).
-          * **Intermedio:** Números más grandes, variedad de divisores, puede incluir resultados inexactos (si se pidió). Para fracciones, denominadores comunes o simples.
-          * **Avanzado:** Números grandes, divisores menos obvios, resultados inexactos más frecuentes (si se pidió). Para fracciones, distintos denominadores, fracciones impropias.
-      4.  **Tipos de Números:** Asegúrate de usar solo los tipos de números especificados (Naturales, Enteros, Fracciones). Si son enteros, incluye números negativos en dividendo y/o divisor según la dificultad.
-      5.  **Tipo de Resultado:** Si no son fracciones, genera divisiones que resulten en respuestas exactas o inexactas según lo solicitado.
-      6.  **Salida:** Devuelve únicamente la lista de operaciones, una por línea, sin títulos, explicaciones, saludos o despedidas.`;
+          Significado: [Explicación breve y clara aquí]
+       (Deja una línea en blanco entre el refrán y el significado, y dos líneas en blanco entre refranes distintos si generas más de uno).
+
+      IMPORTANTE: Asegúrate de que la explicación sea correcta y fácil de entender para la edad indicada. No incluyas saludos ni despedidas.`;
 
 		try {
 			const result = await firstValueFrom(
 				this.#aiService.geminiAi(prompt),
 			);
-			this.generatedDivisions.set(
-				result?.response || 'No se pudieron generar las operaciones.',
+			this.generatedProverbs.set(
+				result?.response || 'No se pudieron generar los refranes.',
 			);
 			this.showResult.set(true);
 		} catch (error) {
-			this.generatedDivisions.set(
-				'Ocurrió un error al generar las operaciones. Por favor, inténtalo de nuevo.',
+			this.generatedProverbs.set(
+				'Ocurrió un error al generar los refranes. Por favor, inténtalo de nuevo.',
 			);
 			this.showResult.set(true); // Show error in result area
 			this.#handleError(error, 'Error al contactar el servicio de IA');
@@ -527,26 +531,23 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 	/** Resets the form and view */
 	goBack(): void {
 		this.showResult.set(false);
-		this.generatedDivisions.set('');
-		// Reset form to defaults, re-enabling resultType initially
-		this.divisionForm.reset({
+		this.generatedProverbs.set('');
+		// Reset form to defaults
+		this.proverbForm.reset({
 			section: '',
-			difficulty: 'Intermedio',
-			numberType: 'Solo Naturales',
-			resultType: 'Exacto',
+			complexity: 'Menos Común / Figurado',
+			vocabulary: 'Medio',
+			topic: '',
 		});
-		this.resultTypeCtrl?.enable(); // Ensure it's enabled on reset
-		this.resultTypeCtrl?.setValidators(Validators.required);
-		this.resultTypeCtrl?.updateValueAndValidity();
 	}
 
-	/** Downloads the generated divisions as DOCX */
+	/** Downloads the generated proverbs as DOCX */
 	downloadDocx(): void {
-		const divisionsText = this.generatedDivisions();
-		if (!divisionsText || divisionsText.startsWith('Ocurrió un error'))
+		const proverbsText = this.generatedProverbs();
+		if (!proverbsText || proverbsText.startsWith('Ocurrió un error'))
 			return;
 
-		const formValue = this.divisionForm.getRawValue();
+		const formValue = this.proverbForm.getRawValue();
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
@@ -556,27 +557,63 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 			/[^a-z0-9]/gi,
 			'_',
 		);
-		const difficultyName = (formValue.difficulty || 'Dificultad').replace(
-			/[^a-z0-9]/gi,
-			'_',
-		);
-		const numberTypeName = (formValue.numberType || 'Numeros')
+		const complexityName = (formValue.complexity || 'Complejidad')
+			.substring(0, 10)
+			.replace(/[^a-z0-9]/gi, '_');
+		const topicName = (formValue.topic || 'Refranes')
 			.substring(0, 15)
 			.replace(/[^a-z0-9]/gi, '_');
 
-		const filename = `Divisiones_${sectionName}_${difficultyName}_${numberTypeName}.docx`;
+		const filename = `Refranes_${sectionName}_${complexityName}_${topicName}.docx`;
 
-		// Create paragraphs, splitting by newline characters
-		const paragraphs = divisionsText
-			.split('\n')
-			.filter((line) => line.trim().length > 0) // Remove empty lines
-			.map(
-				(line) =>
+		// Create paragraphs, trying to format Proverb/Meaning
+		const paragraphs: Paragraph[] = [];
+		const proverbBlocks = proverbsText.split(/\n\s*\n\s*Refrán:/); // Split by "Refrán:" preceded by empty lines
+
+		proverbBlocks.forEach((block, index) => {
+			if (block.trim().length === 0 && index === 0) return; // Skip potential empty first block
+
+			const parts = block.split(/\n\s*Significado:/); // Split each block into proverb and meaning
+			const proverbPart = (
+				index === 0 && !block.trim().startsWith('Refrán:')
+					? block.split(/\n\s*Significado:/)[0]
+					: parts[0]
+			)
+				.replace(/^Refrán:/, '')
+				.trim();
+			const meaningPart = parts.length > 1 ? parts[1].trim() : null;
+
+			if (proverbPart) {
+				paragraphs.push(
 					new Paragraph({
-						children: [new TextRun(line.trim())], // Trim each line
-						spacing: { line: 360 }, // 1.5 line spacing (360 / 240)
+						children: [
+							new TextRun({
+								text: 'Refrán:',
+								bold: true,
+								break: 1,
+							}),
+							new TextRun({
+								text: ` "${proverbPart}"`,
+								italics: true,
+								break: 1,
+							}),
+						], // Quote the proverb
+						spacing: { after: 100, before: index > 0 ? 240 : 0 }, // Add space before new proverb
 					}),
-			);
+				);
+			}
+			if (meaningPart) {
+				paragraphs.push(
+					new Paragraph({
+						children: [
+							new TextRun({ text: 'Significado:', bold: true }),
+							new TextRun({ text: ` ${meaningPart}` }),
+						],
+						spacing: { after: 200 }, // More space after explanation
+					}),
+				);
+			}
+		});
 
 		// Create the document
 		const doc = new Document({
@@ -585,7 +622,7 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 					properties: {},
 					children: [
 						new Paragraph({
-							text: `Ejercicios de División`,
+							text: `Refranes Generados`,
 							heading: HeadingLevel.HEADING_1,
 							alignment: AlignmentType.CENTER,
 							spacing: { after: 300 },
@@ -596,50 +633,42 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 							style: 'SubtleEmphasis',
 						}),
 						new Paragraph({
-							text: `Dificultad: ${formValue.difficulty}`,
+							text: `Complejidad: ${formValue.complexity}`,
 							alignment: AlignmentType.CENTER,
 							style: 'SubtleEmphasis',
 						}),
 						new Paragraph({
-							text: `Tipo de Números: ${formValue.numberType}`,
+							text: `Vocabulario (Explicación): ${formValue.vocabulary}`,
 							alignment: AlignmentType.CENTER,
 							style: 'SubtleEmphasis',
 						}),
-						...(formValue.numberType !== NUMBER_TYPE_FRACTIONS
+						...(formValue.topic
 							? [
 									new Paragraph({
-										text: `Tipo de Resultado: ${formValue.resultType}`,
+										text: `Tema Guía: ${formValue.topic}`,
 										alignment: AlignmentType.CENTER,
 										style: 'SubtleEmphasis',
 									}),
 								]
 							: []),
 						new Paragraph({ text: '', spacing: { after: 400 } }), // Extra space
-						...paragraphs, // Add the generated content paragraphs
+						...paragraphs, // Add the generated proverb paragraphs
 					],
 				},
 			],
 			styles: {
-				// Use default styles for headings etc. but ensure paragraph font if needed
+				// Reusing styles
 				paragraphStyles: [
 					{
 						id: 'Normal',
 						name: 'Normal',
-						run: {
-							font: 'Calibri', // Or another suitable font
-							size: 22, // 11pt
-						},
+						run: { font: 'Times New Roman', size: 22 }, // 11pt
 					},
 					{
-						// Example style if needed
 						id: 'SubtleEmphasis',
 						name: 'Subtle Emphasis',
 						basedOn: 'Normal',
-						run: {
-							italics: true,
-							color: '5A5A5A',
-							size: 20, // 10pt
-						},
+						run: { italics: true, color: '5A5A5A', size: 20 }, // 10pt
 					},
 				],
 			},
@@ -662,15 +691,15 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.divisionForm.get('section');
+		return this.proverbForm.get('section');
 	}
-	get difficultyCtrl(): AbstractControl | null {
-		return this.divisionForm.get('difficulty');
+	get complexityCtrl(): AbstractControl | null {
+		return this.proverbForm.get('complexity');
 	}
-	get numberTypeCtrl(): AbstractControl | null {
-		return this.divisionForm.get('numberType');
+	get vocabularyCtrl(): AbstractControl | null {
+		return this.proverbForm.get('vocabulary');
 	}
-	get resultTypeCtrl(): AbstractControl | null {
-		return this.divisionForm.get('resultType');
+	get topicCtrl(): AbstractControl | null {
+		return this.proverbForm.get('topic');
 	}
 }

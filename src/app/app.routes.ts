@@ -7,15 +7,15 @@ import adminRoutes from './features/admin/admin.routes';
 import { authGuard } from './core/guards/auth.guard';
 import { adminGuard } from './core/guards/admin.guard';
 import resourcesRoutes from './features/resources/resources.routes';
-import todoRoutes from './features/todo/todo.routes';
+import supportRoutes from './features/support/support.routes';
 import publicRoutes from './features/public/public.routes';
 import { PrintLayoutComponent } from './layouts/print-layout.component';
 import { PublicLayoutComponent } from './layouts/public-layout.component';
 import schedulingRoutes from './features/scheduling/scheduling.routes';
 import classPlanningRoutes from './features/class-planning/class-planning.routes';
-import gradingRoutes from './features/grading/grading.routes';
 import usersRoutes from './features/users/users.routes';
 import activitiesRoutes from './features/activities/activities.routes';
+import registryRoutes from './features/registry/registry.routes';
 
 export const routes: Routes = [
 	// authentication
@@ -59,9 +59,9 @@ export const routes: Routes = [
 					),
 				title: 'Panel de Referidos',
 			},
-			{ path: 'todos', children: todoRoutes },
 			{ path: 'users', children: usersRoutes },
 			{ path: 'profile', redirectTo: '/users/me', },
+			{ path: 'support', children: supportRoutes },
 
 			// sections
 			{
@@ -80,41 +80,12 @@ export const routes: Routes = [
 					).then((mod) => mod.SectionDetailsComponent),
 				title: 'Detalles de la Sección',
 			},
-
-			// calculators
-			{
-				path: 'average-calculator',
-				loadComponent: () =>
-					import(
-						'./features/calculators/average-calculator/average-calculator.component'
-					).then((mod) => mod.AverageCalculatorComponent),
-				title: 'Calculadora de Promedios',
-			},
-			{
-				path: 'attendance-calculator',
-				loadComponent: () =>
-					import(
-						'./features/calculators/attendance-calculator/attendance-calculator.component'
-					).then((mod) => mod.AttendanceCalculatorComponent),
-				title: 'Calculadora de Asistencia',
-			},
+			
+			{ path: 'registry', children: registryRoutes },
 
 			// Activities
 			{ path: 'activities', children: activitiesRoutes },
 
-			// Grades/Grading
-			{
-				path: 'grading',
-				children: gradingRoutes,
-			},
-			{
-				path: 'grades-generator',
-				loadComponent: () =>
-					import(
-						'./features/grading/grades-generator/grades-generator.component'
-					).then((mod) => mod.GradesGeneratorComponent),
-				title: 'Generador de Calificaciones',
-			},
 			{
 				path: 'grading-systems',
 				loadComponent: () =>
@@ -150,24 +121,6 @@ export const routes: Routes = [
 				title: 'Generador de Reflexiones',
 			},
 
-			// class-management
-			{
-				path: 'icebreaker-generator',
-				loadComponent: () =>
-					import(
-						'./features/class-management/icebreaker-generator.component'
-					).then((m) => m.IcebreakerGeneratorComponent),
-				title: 'Generador de Rompehielos',
-			},
-			{
-				path: 'class-hook-generator',
-				loadComponent: () =>
-					import(
-						'./features/class-management/class-hook-generator.component'
-					).then((mod) => mod.ClassHookGeneratorComponent),
-				title: 'Generador de Ganchos',
-			},
-
 			// Generators
 			{
 				path: 'schedule-generator',
@@ -176,78 +129,6 @@ export const routes: Routes = [
 						'./features/generators/schedule-generator/schedule-generator.component'
 					).then((mod) => mod.ScheduleGeneratorComponent),
 				title: 'Generador de Horarios',
-			},
-			{
-				path: 'story-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/story-generator.component'
-					).then((mod) => mod.StoryGeneratorComponent),
-				title: 'Generador de Cuentos',
-			},
-			{
-				path: 'poem-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/poem-generator.component'
-					).then((mod) => mod.PoemGeneratorComponent),
-				title: 'Generador de Poesía',
-			},
-			{
-				path: 'joke-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/joke-generator.component'
-					).then((mod) => mod.JokeGeneratorComponent),
-				title: 'Generador de Chistes',
-			},
-			{
-				path: 'fable-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/fable-generator.component'
-					).then((mod) => mod.FableGeneratorComponent),
-				title: 'Generador de Fábulas',
-			},
-			{
-				path: 'riddle-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/riddle-generator.component'
-					).then((mod) => mod.RiddleGeneratorComponent),
-				title: 'Generador de Adivinanzas',
-			},
-			{
-				path: 'fun-fact-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/fun-fact-generator.component'
-					).then((mod) => mod.FunFactGeneratorComponent),
-				title: 'Generador de Curiosidades',
-			},
-			{
-				path: 'proverb-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/proverb-generator.component'
-					).then((mod) => mod.ProverbGeneratorComponent),
-				title: 'Generador de Refranes',
-			},
-			{
-				path: 'song-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/song-generator.component'
-					).then((mod) => mod.SongGeneratorComponent),
-				title: 'Generador de Canciones',
-			},
-			{
-				path: 'expository-article-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/expository-article-generator.component'
-					).then((mod) => mod.ExpositoryArticleGeneratorComponent),
-				title: 'Generador de Artículo Expositivo',
 			},
 			{
 				path: 'math-problem-generator',
@@ -266,22 +147,6 @@ export const routes: Routes = [
 				title: 'Generador de Rutas de Estudio',
 			},
 			{
-				path: 'aspects-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/aspects-generator/aspects-generator.component'
-					).then((mod) => mod.AspectsGeneratorComponent),
-				title: 'Generador de Aspectos Trabajados',
-			},
-			{
-				path: 'attendance-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/attendance-generator/attendance-generator.component'
-					).then((mod) => mod.AttendanceGeneratorComponent),
-				title: 'Generador de Asistencia',
-			},
-			{
 				path: 'english-dialog-generator',
 				loadComponent: () =>
 					import(
@@ -297,204 +162,8 @@ export const routes: Routes = [
 					).then((mod) => mod.LogRegistryGeneratorComponent),
 				title: 'Generador de Registros Anecdóticos',
 			},
-			{
-				path: 'planner-generator',
-				loadComponent: () =>
-					import(
-						'./features/generators/planner-generator/planner-generator.component'
-					).then((mod) => mod.PlannerGeneratorComponent),
-				title: 'Generador de Planificadores',
-			},
 
-			// assessments
-			{
-				path: 'diagnostic-evaluation-generator',
-				loadComponent: () =>
-					import(
-						'./features/assessments/diagnostic-evaluation/diagnostic-evaluation.component'
-					).then((mod) => mod.DiagnosticEvaluationGeneratorComponent),
-				title: 'Generador de Pruebas Diagnósticas',
-			},
-			{
-				path: 'diagnostic-evaluations',
-				loadComponent: () =>
-					import(
-						'./features/assessments/diagnostic-evaluations.component'
-					).then((mod) => mod.DiagnosticEvaluationsComponent),
-				title: 'Pruebas Diagnósticas',
-			},
-			{
-				path: 'diagnostic-evaluations/:id',
-				loadComponent: () =>
-					import(
-						'./features/assessments/diagnostic-evaluation-detail.component'
-					).then((mod) => mod.DiagnosticEvaluationDetailComponent),
-				title: 'Detalles de Prueba Diagnóstica',
-			},
-			{
-				path: 'checklist-generator',
-				loadComponent: () =>
-					import(
-						'./features/assessments/checklist-generator/checklist-generator.component'
-					).then((mod) => mod.ChecklistGeneratorComponent),
-				title: 'Generador de Listas de Cotejo',
-			},
-			{
-				path: 'checklists',
-				loadComponent: () =>
-					import(
-						'./features/assessments/checklists/checklists.component'
-					).then((mod) => mod.ChecklistsComponent),
-				title: 'Listas de Cotejo',
-			},
-			{
-				path: 'checklists/:id',
-				loadComponent: () =>
-					import(
-						'./features/assessments/checklist-detail/checklist-detail.component'
-					).then((mod) => mod.ChecklistDetailComponent),
-				title: 'Detalles de la Lista de Cotejo',
-			},
-			{
-				path: 'test-generator',
-				loadComponent: () =>
-					import(
-						'./features/assessments/test-generator/test-generator.component'
-					).then((mod) => mod.TestGeneratorComponent),
-				title: 'Generador de Exámenes',
-			},
-			{
-				path: 'tests',
-				loadComponent: () =>
-					import(
-						'./features/assessments/test-list/test-list.component'
-					).then((mod) => mod.TestListComponent),
-				title: 'Mis Exámenes',
-			},
-			{
-				path: 'tests/:id',
-				loadComponent: () =>
-					import(
-						'./features/assessments/test-detail/test-detail.component'
-					).then((mod) => mod.TestDetailComponent),
-				title: 'Detalles del Examen',
-			},
-			{
-				path: 'observation-sheet',
-				loadComponent: () =>
-					import(
-						'./features/assessments/observation-sheet/observation-sheet.component'
-					).then((mod) => mod.ObservationSheetComponent),
-				title: 'Generador de Hojas de Observación',
-			},
-			{
-				path: 'observation-sheets',
-				loadComponent: () =>
-					import(
-						'./features/assessments/observation-sheets/observation-sheets.component'
-					).then((mod) => mod.ObservationSheetsComponent),
-				title: 'Mis Hojas de Observación',
-			},
-			{
-				path: 'observation-sheets/:id',
-				loadComponent: () =>
-					import(
-						'./features/assessments/observation-sheet-detail/observation-sheet-detail.component'
-					).then((mod) => mod.ObservationSheetDetailComponent),
-				title: 'Detalles de la Hoja de Observación',
-			},
-			{
-				path: 'rubric-generator',
-				loadComponent: () =>
-					import(
-						'./features/assessments/rubric-generator/rubric-generator.component'
-					).then((mod) => mod.RubricGeneratorComponent),
-				title: 'Generador de Rúbricas',
-			},
-			{
-				path: 'rubric-lot-generator',
-				loadComponent: () =>
-					import(
-						'./features/assessments/rubric-lot-generator/rubric-lot-generator.component'
-					).then((mod) => mod.RubricLotGeneratorComponent),
-				title: 'Generador de Rúbricas por Lote',
-			},
-			{
-				path: 'rubrics',
-				loadComponent: () =>
-					import(
-						'./features/assessments/rubrics/rubrics.component'
-					).then((mod) => mod.RubricsComponent),
-				title: 'Rúbricas',
-			},
-			{
-				path: 'rubrics/:id',
-				loadComponent: () =>
-					import(
-						'./features/assessments/rubric-detail/rubric-detail.component'
-					).then((mod) => mod.RubricDetailComponent),
-				title: 'Detalles de la Rúbrica',
-			},
-			{
-				path: 'estimation-scale',
-				loadComponent: () =>
-					import(
-						'./features/assessments/estimation-scale/estimation-scale.component'
-					).then((mod) => mod.EstimationScaleComponent),
-				title: 'Generador de Escalas de Estimación',
-			},
-			{
-				path: 'estimation-scales',
-				loadComponent: () =>
-					import(
-						'./features/assessments/estimation-scales/estimation-scales.component'
-					).then((mod) => mod.EstimationScalesComponent),
-				title: 'Escalas de Estimación',
-			},
-			{
-				path: 'estimation-scales/:id',
-				loadComponent: () =>
-					import(
-						'./features/assessments/estimation-scale-detail/estimation-scale-detail.component'
-					).then((mod) => mod.EstimationScaleDetailComponent),
-				title: 'Detalles de la Escala de Estimación',
-			},
-			{
-				path: 'attendance',
-				loadComponent: () =>
-					import(
-						'./features/attendance-dashboard/attendance-dashboard.component'
-					).then((mod) => mod.AttendanceDashboardComponent),
-				title: 'Asistencia',
-			},
-			{
-				path: 'attendance/:id',
-				loadComponent: () =>
-					import(
-						'./features/class-sections/section-attendance/section-attendance.component'
-					).then((mod) => mod.SectionAttendanceComponent),
-				title: 'Detalles de la Asistencia',
-			},
-			{
-				path: 'resources',
-				children: resourcesRoutes,
-			},
-			{
-				path: 'diversity',
-				loadComponent: () =>
-					import(
-						'./features/diversity-dashboard/diversity-dashboard.component'
-					).then((mod) => mod.DiversityDashboardComponent),
-				title: 'Diversificador de Contenidos',
-			},
-			{
-				path: 'ideas',
-				loadComponent: () =>
-					import('./features/public/pages/idea-board.component').then(
-						(mod) => mod.IdeaBoardComponent,
-					),
-				title: 'Panel de Ideas',
-			},
+			{ path: 'resources', children: resourcesRoutes, },
 		],
 	},
 

@@ -16,20 +16,20 @@ import {
 import { CommonModule } from '@angular/common';
 import {
 	Subject,
+	Observable,
 	firstValueFrom,
 	takeUntil,
 	tap,
 	catchError,
 	EMPTY,
 	finalize,
-	distinctUntilChanged,
-	Observable,
 } from 'rxjs';
 
 // Angular Material Modules
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -52,11 +52,8 @@ import {
 } from 'docx';
 import { saveAs } from 'file-saver';
 
-// --- Constants ---
-const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
-
 @Component({
-	selector: 'app-division-generator', // Component selector
+	selector: 'app-joke-generator', // Component selector
 	standalone: true,
 	imports: [
 		CommonModule,
@@ -64,39 +61,36 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
-		// MatInputModule, // Not needed for this form
+		MatInputModule,
 		MatButtonModule,
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
-		PretifyPipe,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="division-generator-card">
+		<mat-card class="joke-generator-card">
 			<mat-card-header>
-				<mat-card-title
-					>Generador de Operaciones de División</mat-card-title
-				>
+				<mat-card-title>Generador de Chistes</mat-card-title>
 				<mat-card-subtitle
-					>Crea ejercicios de división
-					personalizados</mat-card-subtitle
+					>Crea chistes apropiados para tus
+					estudiantes</mat-card-subtitle
 				>
 			</mat-card-header>
 
 			<mat-card-content>
 				@if (!showResult()) {
 					<form
-						[formGroup]="divisionForm"
+						[formGroup]="jokeForm"
 						(ngSubmit)="onSubmit()"
-						class="division-form"
+						class="joke-form"
 					>
 						<div class="form-row">
 							<mat-form-field
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Curso/Sección</mat-label>
+								<mat-label>Curso/Sección (Grado)</mat-label>
 								<mat-select formControlName="section" required>
 									@if (isLoadingSections()) {
 										<mat-option disabled
@@ -111,11 +105,9 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 											section of sections();
 											track section._id
 										) {
-											<mat-option [value]="section._id"
-												>{{ section.name }} ({{
-													section.level | pretify
-												}})</mat-option
-											>
+											<mat-option [value]="section._id">{{
+												getSectionDisplay(section)
+											}}</mat-option>
 										}
 										@if (
 											!sections().length &&
@@ -141,26 +133,23 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Nivel de Dificultad</mat-label>
+								<mat-label>Tipo de Humor</mat-label>
 								<mat-select
-									formControlName="difficulty"
+									formControlName="humorType"
 									required
 								>
-									@for (
-										level of difficultyLevels;
-										track level
-									) {
-										<mat-option [value]="level">{{
-											level
+									@for (type of humorTypes; track type) {
+										<mat-option [value]="type">{{
+											type
 										}}</mat-option>
 									}
 								</mat-select>
 								@if (
-									difficultyCtrl?.invalid &&
-									difficultyCtrl?.touched
+									humorTypeCtrl?.invalid &&
+									humorTypeCtrl?.touched
 								) {
 									<mat-error
-										>Selecciona la dificultad.</mat-error
+										>Selecciona el tipo de humor.</mat-error
 									>
 								}
 							</mat-form-field>
@@ -171,24 +160,27 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Tipos de Números</mat-label>
+								<mat-label>Nivel de Vocabulario</mat-label>
 								<mat-select
-									formControlName="numberType"
+									formControlName="vocabulary"
 									required
 								>
-									@for (type of numberTypes; track type) {
-										<mat-option [value]="type">{{
-											type
+									@for (
+										level of vocabularyLevels;
+										track level
+									) {
+										<mat-option [value]="level">{{
+											level
 										}}</mat-option>
 									}
 								</mat-select>
 								@if (
-									numberTypeCtrl?.invalid &&
-									numberTypeCtrl?.touched
+									vocabularyCtrl?.invalid &&
+									vocabularyCtrl?.touched
 								) {
 									<mat-error
-										>Selecciona el tipo de
-										números.</mat-error
+										>Selecciona el nivel de
+										vocabulario.</mat-error
 									>
 								}
 							</mat-form-field>
@@ -197,28 +189,14 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Tipo de Resultado</mat-label>
-								<mat-select formControlName="resultType">
-									@for (type of resultTypes; track type) {
-										<mat-option [value]="type">{{
-											type
-										}}</mat-option>
-									}
-								</mat-select>
-								@if (
-									resultTypeCtrl?.hasError('required') &&
-									resultTypeCtrl?.touched
-								) {
-									<mat-error
-										>Selecciona el tipo de
-										resultado.</mat-error
-									>
-								}
-								@if (resultTypeCtrl?.disabled) {
-									<mat-hint
-										>No aplica para fracciones</mat-hint
-									>
-								}
+								<mat-label
+									>Tema del chiste (Opcional)</mat-label
+								>
+								<input
+									matInput
+									formControlName="topic"
+									placeholder="Ej: Animales, Colegio, Comida"
+								/>
 							</mat-form-field>
 						</div>
 
@@ -227,21 +205,26 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								mat-raised-button
 								color="primary"
 								type="submit"
-								[disabled]="
-									divisionForm.invalid || isGenerating()
-								"
+								[disabled]="jokeForm.invalid || isGenerating()"
 							>
 								@if (isGenerating()) {
-									<mat-spinner
-										diameter="20"
-										color="accent"
-										class="inline-spinner"
-									></mat-spinner>
-									Generando...
+									<div
+										[style]="{
+											display: 'flex',
+											alignItems: 'center',
+										}"
+									>
+										<mat-spinner
+											diameter="20"
+											color="accent"
+											class="inline-spinner"
+										></mat-spinner>
+										Generando...
+									</div>
 								} @else {
 									<ng-container>
-										<mat-icon>calculate</mat-icon> Generar
-										Divisiones
+										<mat-icon>mood</mat-icon> Generar
+										Chistes
 									</ng-container>
 								}
 							</button>
@@ -250,12 +233,12 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 				}
 
 				@if (showResult()) {
-					<div class="division-result">
-						<h3>Operaciones de División Generadas:</h3>
+					<div class="joke-result">
+						<h3>Chiste(s) Generado(s):</h3>
 						<div
-							class="division-result-content"
+							class="joke-result-content"
 							[innerHTML]="
-								generatedDivisions().replaceAll(
+								generatedJokes().replaceAll(
 									'
 ',
 									'<br>'
@@ -276,8 +259,8 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
-									!generatedDivisions() ||
-									generatedDivisions().startsWith(
+									!generatedJokes() ||
+									generatedJokes().startsWith(
 										'Ocurrió un error'
 									)
 								"
@@ -296,11 +279,11 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 			:host {
 				display: block;
 			}
-			.division-generator-card {
+			.joke-generator-card {
 				margin: 0 auto;
 				padding: 15px 25px 25px 25px;
 			}
-			.division-form {
+			.joke-form {
 				margin-top: 16px;
 				display: flex;
 				flex-direction: column;
@@ -330,21 +313,22 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 				margin-right: 8px;
 				vertical-align: middle;
 			}
-			.division-result {
+			.joke-result {
 				margin-top: 20px;
 			}
-			.division-result h3 {
+			.joke-result h3 {
 				margin-bottom: 15px;
 			}
-			.division-result-content {
-				background-color: #f8f9fa;
-				border: 1px solid #dee2e6;
-				padding: 20px 30px;
-				min-height: 200px;
+			.joke-result-content {
+				background-color: #fff8e1; /* Light yellow background */
+				border: 1px solid #ffecb3;
+				border-left: 5px solid #ffc107; /* Amber accent */
+				padding: 25px 35px;
+				min-height: 150px;
 				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-				line-height: 1.8; /* More spacing for operations */
+				line-height: 1.7;
 				font-family:
-					'Consolas', 'Courier New', monospace; /* Monospace for alignment */
+					'Comic Sans MS', cursive, sans-serif; /* Playful font */
 				font-size: 11pt;
 				margin-bottom: 20px;
 				max-width: 100%;
@@ -362,38 +346,37 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	encapsulation: ViewEncapsulation.None,
 })
-export class DivisionGeneratorComponent implements OnInit, OnDestroy {
+export class JokeGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
-	#sectionService = inject(ClassSectionService); // Use correct service name
+	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
+	#pretify = new PretifyPipe().transform;
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
 	isGenerating = signal(false);
 	showResult = signal(false);
-	generatedDivisions = signal<string>(''); // Stores the AI response string
+	generatedJokes = signal<string>(''); // Stores the AI response string
 	sections = signal<ClassSection[]>([]);
-	// availableSubjects = signal<string[]>([]); // Subject not needed for this component
-	#pretify = new PretifyPipe().transform;
 
 	// --- Form Definition ---
-	divisionForm = this.#fb.group({
+	jokeForm = this.#fb.group({
 		section: ['', Validators.required],
-		difficulty: ['Intermedio', Validators.required], // Default value
-		numberType: ['Solo Naturales', Validators.required], // Default value
-		resultType: [{ value: 'Exacto', disabled: false }, Validators.required], // Default value, initially enabled
+		humorType: ['Convencional / Blanco', Validators.required], // Default value
+		vocabulary: ['Medio', Validators.required], // Default value
+		topic: [''], // Optional topic
 	});
 
 	// --- Fixed Select Options ---
-	readonly difficultyLevels = ['Básico', 'Intermedio', 'Avanzado'];
-	readonly numberTypes = [
-		'Solo Naturales',
-		'Naturales y Enteros',
-		NUMBER_TYPE_FRACTIONS,
+	readonly humorTypes = [
+		'Convencional / Blanco', // Standard, inoffensive jokes
+		'Juego de Palabras', // Puns
+		'Irónico / Sarcástico (ligero)', // Mild irony/sarcasm
+		'Chiste Malo (tipo "Dad Joke")', // Corny/bad jokes
 	];
-	readonly resultTypes = ['Exacto', 'Inexacto'];
+	readonly vocabularyLevels = ['Reducido', 'Medio', 'Amplio'];
 
 	// --- Lifecycle Management ---
 	#destroy$ = new Subject<void>();
@@ -401,7 +384,6 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 	// --- OnInit ---
 	ngOnInit(): void {
 		this.#loadSections();
-		this.#listenForNumberTypeChanges(); // Setup listener for conditional logic
 	}
 
 	// --- OnDestroy ---
@@ -415,7 +397,6 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 	/** Loads sections */
 	#loadSections(): void {
 		this.isLoadingSections.set(true);
-		// Use findSections as requested by the user
 		this.#sectionService
 			.findSections()
 			.pipe(
@@ -429,43 +410,37 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
-	/** Enables/disables resultType based on numberType */
-	#listenForNumberTypeChanges(): void {
-		this.numberTypeCtrl?.valueChanges
-			.pipe(
-				takeUntil(this.#destroy$),
-				distinctUntilChanged(), // Only react on actual change
-			)
-			.subscribe((value) => {
-				if (value === NUMBER_TYPE_FRACTIONS) {
-					this.resultTypeCtrl?.disable();
-					this.resultTypeCtrl?.clearValidators(); // Remove required validator
-					this.resultTypeCtrl?.reset(); // Optionally clear the value
-				} else {
-					this.resultTypeCtrl?.enable();
-					this.resultTypeCtrl?.setValidators(Validators.required); // Add required validator back
-				}
-				this.resultTypeCtrl?.updateValueAndValidity(); // Apply changes
-			});
-	}
-
 	#handleError(error: any, defaultMessage: string): Observable<never> {
 		console.error(defaultMessage, error);
 		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 });
 		return EMPTY;
 	}
 
+	/** Maps user selection to prompt instructions for vocabulary (reused) */
+	#getVocabularyInstruction(vocabularySelection: string): string {
+		switch (vocabularySelection) {
+			case 'Reducido':
+				return 'un vocabulario sencillo y común, fácil de entender';
+			case 'Medio':
+				return 'un vocabulario estándar, apropiado para la edad/grado indicado';
+			case 'Amplio':
+				return 'un vocabulario un poco más variado o juguetón';
+			default:
+				return 'un vocabulario estándar, apropiado para la edad/grado indicado';
+		}
+	}
+
 	// --- Public Methods ---
 
 	/** Formats section display name */
 	getSectionDisplay(section: ClassSection): string {
-		return `${this.#pretify(section.year) || ''} ${section.name || ''} (${this.#pretify(section.level) || 'Nivel no especificado'})`;
+		return `${this.#pretify(section.year || '')} ${section.name} (${this.#pretify(section.level || 'Nivel no especificado')})`;
 	}
 
 	/** Handles form submission */
 	async onSubmit(): Promise<void> {
-		if (this.divisionForm.invalid) {
-			this.divisionForm.markAllAsTouched();
+		if (this.jokeForm.invalid) {
+			this.jokeForm.markAllAsTouched();
 			this.#snackBar.open(
 				'Por favor, completa todos los campos requeridos.',
 				'Cerrar',
@@ -475,47 +450,40 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 		}
 
 		this.isGenerating.set(true);
-		this.generatedDivisions.set('');
+		this.generatedJokes.set('');
 		this.showResult.set(false);
 
-		const formValue = this.divisionForm.getRawValue(); // Use getRawValue to include disabled controls if needed later
+		const formValue = this.jokeForm.getRawValue();
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
 
-		// Construct the prompt for generating division problems
-		const prompt = `Eres un generador experto de ejercicios matemáticos para estudiantes.
-      Necesito una lista de operaciones de división adecuadas para una clase.
+		// Construct the prompt for generating the jokes
+		const prompt = `Eres un comediante y escritor de chistes especializado en humor para niños y adolescentes.
+      Necesito que generes algunos chistes apropiados para una clase.
 
-      Contexto:
-      - Nivel Educativo: ${this.#pretify(selectedSection?.level || 'No especificado')}
-      - Año/Grado: ${this.#pretify(selectedSection?.year || 'No especificado')}
-      - Nivel de Dificultad Solicitado: ${formValue.difficulty}
-      - Tipos de Números a Incluir: ${formValue.numberType}
-      ${formValue.numberType !== NUMBER_TYPE_FRACTIONS ? `- Tipo de Resultado Deseado: ${formValue.resultType}` : ''}
+      Contexto e Instrucciones:
+      - Audiencia: Estudiantes de ${this.#pretify(selectedSection?.level || 'Nivel no especificado')}, ${this.#pretify(selectedSection?.year || 'Grado no especificado')}. Los chistes DEBEN ser apropiados para su edad y contexto escolar.
+      - Tipo de Humor Deseado: ${formValue.humorType}. Adapta el estilo a esta petición.
+      - Nivel de Vocabulario: Utiliza ${this.#getVocabularyInstruction(formValue.vocabulary!)}.
+      ${formValue.topic ? `- Tema Central (Opcional): Si es posible, relaciona los chistes con el tema "${formValue.topic}".` : ''}
+      - Cantidad: Genera 2 o 3 chistes distintos.
+      - Formato: Presenta cada chiste claramente, separando la pregunta/premisa de la respuesta/remate si aplica (ej. usando saltos de línea).
+      - REGLA IMPORTANTE: NO generes chistes de humor negro, ofensivos, discriminatorios, o que puedan ser inapropiados para un entorno escolar. Mantén un humor ligero y positivo.
 
-      Instrucciones para Generar las Divisiones:
-      1.  **Cantidad:** Genera una lista de aproximadamente 15 a 20 operaciones de división.
-      2.  **Formato:** Presenta cada operación claramente, por ejemplo: "Dividendo / Divisor = ?" o "A ÷ B = ?". Si el resultado es inexacto y se pidió, indica cómo mostrar el residuo (ej: "23 / 5 = ? R ?"). Para fracciones, usa el formato "(a/b) / (c/d) = ?".
-      3.  **Adecuación:** Las operaciones deben ser apropiadas para el nivel educativo (grado/año) y la dificultad seleccionada.
-          * **Básico:** Números pequeños, divisores comunes, resultados exactos (si se pidió).
-          * **Intermedio:** Números más grandes, variedad de divisores, puede incluir resultados inexactos (si se pidió). Para fracciones, denominadores comunes o simples.
-          * **Avanzado:** Números grandes, divisores menos obvios, resultados inexactos más frecuentes (si se pidió). Para fracciones, distintos denominadores, fracciones impropias.
-      4.  **Tipos de Números:** Asegúrate de usar solo los tipos de números especificados (Naturales, Enteros, Fracciones). Si son enteros, incluye números negativos en dividendo y/o divisor según la dificultad.
-      5.  **Tipo de Resultado:** Si no son fracciones, genera divisiones que resulten en respuestas exactas o inexactas según lo solicitado.
-      6.  **Salida:** Devuelve únicamente la lista de operaciones, una por línea, sin títulos, explicaciones, saludos o despedidas.`;
+      IMPORTANTE: Enfócate en crear chistes genuinamente divertidos (o intencionalmente malos si se pidió "Chiste Malo") y seguros para la audiencia especificada. Solo devuelve los chistes, sin saludos ni despedidas.`;
 
 		try {
 			const result = await firstValueFrom(
 				this.#aiService.geminiAi(prompt),
 			);
-			this.generatedDivisions.set(
-				result?.response || 'No se pudieron generar las operaciones.',
+			this.generatedJokes.set(
+				result?.response || 'No se pudieron generar los chistes.',
 			);
 			this.showResult.set(true);
 		} catch (error) {
-			this.generatedDivisions.set(
-				'Ocurrió un error al generar las operaciones. Por favor, inténtalo de nuevo.',
+			this.generatedJokes.set(
+				'Ocurrió un error al generar los chistes. Por favor, inténtalo de nuevo.',
 			);
 			this.showResult.set(true); // Show error in result area
 			this.#handleError(error, 'Error al contactar el servicio de IA');
@@ -527,26 +495,22 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 	/** Resets the form and view */
 	goBack(): void {
 		this.showResult.set(false);
-		this.generatedDivisions.set('');
-		// Reset form to defaults, re-enabling resultType initially
-		this.divisionForm.reset({
+		this.generatedJokes.set('');
+		// Reset form to defaults
+		this.jokeForm.reset({
 			section: '',
-			difficulty: 'Intermedio',
-			numberType: 'Solo Naturales',
-			resultType: 'Exacto',
+			humorType: 'Convencional / Blanco',
+			vocabulary: 'Medio',
+			topic: '',
 		});
-		this.resultTypeCtrl?.enable(); // Ensure it's enabled on reset
-		this.resultTypeCtrl?.setValidators(Validators.required);
-		this.resultTypeCtrl?.updateValueAndValidity();
 	}
 
-	/** Downloads the generated divisions as DOCX */
+	/** Downloads the generated jokes as DOCX */
 	downloadDocx(): void {
-		const divisionsText = this.generatedDivisions();
-		if (!divisionsText || divisionsText.startsWith('Ocurrió un error'))
-			return;
+		const jokesText = this.generatedJokes();
+		if (!jokesText || jokesText.startsWith('Ocurrió un error')) return;
 
-		const formValue = this.divisionForm.getRawValue();
+		const formValue = this.jokeForm.getRawValue();
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
@@ -556,25 +520,34 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 			/[^a-z0-9]/gi,
 			'_',
 		);
-		const difficultyName = (formValue.difficulty || 'Dificultad').replace(
-			/[^a-z0-9]/gi,
-			'_',
-		);
-		const numberTypeName = (formValue.numberType || 'Numeros')
+		const humorTypeName = (formValue.humorType || 'Humor')
+			.substring(0, 15)
+			.replace(/[^a-z0-9]/gi, '_');
+		const topicName = (formValue.topic || 'Chistes')
 			.substring(0, 15)
 			.replace(/[^a-z0-9]/gi, '_');
 
-		const filename = `Divisiones_${sectionName}_${difficultyName}_${numberTypeName}.docx`;
+		const filename = `Chistes_${sectionName}_${humorTypeName}_${topicName}.docx`;
 
-		// Create paragraphs, splitting by newline characters
-		const paragraphs = divisionsText
-			.split('\n')
-			.filter((line) => line.trim().length > 0) // Remove empty lines
+		// Create paragraphs, splitting by double newline (attempting to separate jokes)
+		const paragraphs = jokesText
+			.split(/\n\s*\n/) // Split by one or more empty lines
+			.filter((joke) => joke.trim().length > 0)
 			.map(
-				(line) =>
+				(joke) =>
 					new Paragraph({
-						children: [new TextRun(line.trim())], // Trim each line
-						spacing: { line: 360 }, // 1.5 line spacing (360 / 240)
+						// Attempt to format Question/Answer slightly differently if possible
+						children: joke
+							.trim()
+							.split('\n')
+							.map(
+								(line) =>
+									new TextRun({
+										text: line.trim(),
+										break: 1,
+									}),
+							),
+						spacing: { after: 240 }, // Spacing after each joke (12pt)
 					}),
 			);
 
@@ -585,7 +558,7 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 					properties: {},
 					children: [
 						new Paragraph({
-							text: `Ejercicios de División`,
+							text: `Chistes Generados`,
 							heading: HeadingLevel.HEADING_1,
 							alignment: AlignmentType.CENTER,
 							spacing: { after: 300 },
@@ -596,42 +569,41 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 							style: 'SubtleEmphasis',
 						}),
 						new Paragraph({
-							text: `Dificultad: ${formValue.difficulty}`,
+							text: `Tipo de Humor: ${formValue.humorType}`,
 							alignment: AlignmentType.CENTER,
 							style: 'SubtleEmphasis',
 						}),
 						new Paragraph({
-							text: `Tipo de Números: ${formValue.numberType}`,
+							text: `Vocabulario: ${formValue.vocabulary}`,
 							alignment: AlignmentType.CENTER,
 							style: 'SubtleEmphasis',
 						}),
-						...(formValue.numberType !== NUMBER_TYPE_FRACTIONS
+						...(formValue.topic
 							? [
 									new Paragraph({
-										text: `Tipo de Resultado: ${formValue.resultType}`,
+										text: `Tema: ${formValue.topic}`,
 										alignment: AlignmentType.CENTER,
 										style: 'SubtleEmphasis',
 									}),
 								]
 							: []),
 						new Paragraph({ text: '', spacing: { after: 400 } }), // Extra space
-						...paragraphs, // Add the generated content paragraphs
+						...paragraphs, // Add the generated jokes paragraphs
 					],
 				},
 			],
 			styles: {
-				// Use default styles for headings etc. but ensure paragraph font if needed
+				// Use default styles but define paragraph font/size
 				paragraphStyles: [
 					{
 						id: 'Normal',
 						name: 'Normal',
 						run: {
-							font: 'Calibri', // Or another suitable font
+							font: 'Comic Sans MS', // Match display font
 							size: 22, // 11pt
 						},
 					},
 					{
-						// Example style if needed
 						id: 'SubtleEmphasis',
 						name: 'Subtle Emphasis',
 						basedOn: 'Normal',
@@ -662,15 +634,15 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.divisionForm.get('section');
+		return this.jokeForm.get('section');
 	}
-	get difficultyCtrl(): AbstractControl | null {
-		return this.divisionForm.get('difficulty');
+	get humorTypeCtrl(): AbstractControl | null {
+		return this.jokeForm.get('humorType');
 	}
-	get numberTypeCtrl(): AbstractControl | null {
-		return this.divisionForm.get('numberType');
+	get vocabularyCtrl(): AbstractControl | null {
+		return this.jokeForm.get('vocabulary');
 	}
-	get resultTypeCtrl(): AbstractControl | null {
-		return this.divisionForm.get('resultType');
+	get topicCtrl(): AbstractControl | null {
+		return this.jokeForm.get('topic');
 	}
 }

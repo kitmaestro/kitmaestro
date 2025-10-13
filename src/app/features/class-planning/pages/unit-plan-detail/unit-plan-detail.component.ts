@@ -19,7 +19,7 @@ import { ClassPlansService } from '../../../../core/services/class-plans.service
 import { UserSubscriptionService } from '../../../../core/services/user-subscription.service';
 import { UnitPlanInstruments } from '../../../../core/interfaces/unit-plan-instruments';
 import { RubricService } from '../../../../core/services/rubric.service';
-import { RubricGeneratorComponent } from '../../../assessments/rubric-generator/rubric-generator.component';
+import { RubricGeneratorComponent } from '../../../assessments/pages/rubric-generator.component';
 
 @Component({
 	selector: 'app-unit-plan-detail',

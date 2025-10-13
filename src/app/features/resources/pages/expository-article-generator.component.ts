@@ -23,7 +23,6 @@ import {
 	catchError,
 	EMPTY,
 	finalize,
-	distinctUntilChanged,
 } from 'rxjs';
 
 // Angular Material Modules
@@ -40,7 +39,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { ClassSection } from '../../../core/interfaces/class-section';
-
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 // --- DOCX Generation ---
@@ -55,7 +53,7 @@ import {
 import { saveAs } from 'file-saver';
 
 @Component({
-	selector: 'app-antonyms-generator', // Component selector
+	selector: 'app-expository-article-generator', // Component selector
 	standalone: true,
 	imports: [
 		CommonModule,
@@ -68,25 +66,26 @@ import { saveAs } from 'file-saver';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
-		PretifyPipe,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="antonyms-generator-card">
+		<mat-card class="expository-article-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Antónimos</mat-card-title>
+				<mat-card-title
+					>Generador de Artículo Expositivo</mat-card-title
+				>
 				<mat-card-subtitle
-					>Crea listas de palabras y sus antónimos
-					contextualizados</mat-card-subtitle
+					>Crea ejemplos de artículos expositivos para tus
+					clases</mat-card-subtitle
 				>
 			</mat-card-header>
 
 			<mat-card-content>
 				@if (!showResult()) {
 					<form
-						[formGroup]="antonymsForm"
+						[formGroup]="articleForm"
 						(ngSubmit)="onSubmit()"
-						class="antonyms-form"
+						class="article-form"
 					>
 						<div class="form-row">
 							<mat-form-field
@@ -136,87 +135,13 @@ import { saveAs } from 'file-saver';
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Asignatura</mat-label>
-								<mat-select formControlName="subject" required>
-									@for (
-										subject of availableSubjects();
-										track subject
-									) {
-										<mat-option [value]="subject">{{
-											subject | pretify
-										}}</mat-option>
-									}
-									@if (
-										!availableSubjects().length &&
-										sectionCtrl?.valid
-									) {
-										<mat-option disabled
-											>No hay asignaturas para esta
-											sección.</mat-option
-										>
-									}
-									@if (!sectionCtrl?.valid) {
-										<mat-option disabled
-											>Selecciona una sección
-											primero.</mat-option
-										>
-									}
-								</mat-select>
-								@if (
-									subjectCtrl?.invalid && subjectCtrl?.touched
-								) {
-									<mat-error
-										>Selecciona una asignatura.</mat-error
-									>
-								}
-							</mat-form-field>
-						</div>
-
-						<div class="form-row">
-							<mat-form-field
-								appearance="outline"
-								class="form-field"
-							>
-								<mat-label>Cantidad de Palabras</mat-label>
-								<input
-									matInput
-									type="number"
-									formControlName="quantity"
-									required
-									min="1"
-									max="20"
-								/>
-								@if (
-									quantityCtrl?.invalid &&
-									quantityCtrl?.touched
-								) {
-									@if (quantityCtrl?.hasError('required')) {
-										<mat-error
-											>Indica la cantidad.</mat-error
-										>
-									}
-									@if (quantityCtrl?.hasError('min')) {
-										<mat-error>Mínimo 1 palabra.</mat-error>
-									}
-									@if (quantityCtrl?.hasError('max')) {
-										<mat-error
-											>Máximo 20 palabras.</mat-error
-										>
-									}
-								}
-							</mat-form-field>
-
-							<mat-form-field
-								appearance="outline"
-								class="form-field"
-							>
-								<mat-label>Dificultad</mat-label>
+								<mat-label>Complejidad del Artículo</mat-label>
 								<mat-select
-									formControlName="difficulty"
+									formControlName="complexity"
 									required
 								>
 									@for (
-										level of difficultyLevels;
+										level of complexityLevels;
 										track level
 									) {
 										<mat-option [value]="level">{{
@@ -225,11 +150,11 @@ import { saveAs } from 'file-saver';
 									}
 								</mat-select>
 								@if (
-									difficultyCtrl?.invalid &&
-									difficultyCtrl?.touched
+									complexityCtrl?.invalid &&
+									complexityCtrl?.touched
 								) {
 									<mat-error
-										>Selecciona la dificultad.</mat-error
+										>Selecciona la complejidad.</mat-error
 									>
 								}
 							</mat-form-field>
@@ -238,16 +163,47 @@ import { saveAs } from 'file-saver';
 						<div class="form-row">
 							<mat-form-field
 								appearance="outline"
-								class="form-field full-width-field"
+								class="form-field"
 							>
-								<mat-label
-									>Tema Específico (Opcional)</mat-label
+								<mat-label>Nivel de Vocabulario</mat-label>
+								<mat-select
+									formControlName="vocabulary"
+									required
 								>
+									@for (
+										level of vocabularyLevels;
+										track level
+									) {
+										<mat-option [value]="level">{{
+											level
+										}}</mat-option>
+									}
+								</mat-select>
+								@if (
+									vocabularyCtrl?.invalid &&
+									vocabularyCtrl?.touched
+								) {
+									<mat-error
+										>Selecciona el nivel de
+										vocabulario.</mat-error
+									>
+								}
+							</mat-form-field>
+
+							<mat-form-field
+								appearance="outline"
+								class="form-field"
+							>
+								<mat-label>Tema del Artículo</mat-label>
 								<input
 									matInput
 									formControlName="topic"
-									placeholder="Ej: Sentimientos, Tamaños, Acciones"
+									required
+									placeholder="Ej: El sistema solar, Los volcanes, La fotosíntesis"
 								/>
+								@if (topicCtrl?.invalid && topicCtrl?.touched) {
+									<mat-error>El tema es requerido.</mat-error>
+								}
 							</mat-form-field>
 						</div>
 
@@ -257,7 +213,7 @@ import { saveAs } from 'file-saver';
 								color="primary"
 								type="submit"
 								[disabled]="
-									antonymsForm.invalid || isGenerating()
+									articleForm.invalid || isGenerating()
 								"
 							>
 								@if (isGenerating()) {
@@ -276,8 +232,8 @@ import { saveAs } from 'file-saver';
 									</div>
 								} @else {
 									<ng-container>
-										<mat-icon>compare_arrows</mat-icon>
-										Generar Antónimos
+										<mat-icon>article</mat-icon> Generar
+										Artículo
 									</ng-container>
 								}
 							</button>
@@ -286,16 +242,23 @@ import { saveAs } from 'file-saver';
 				}
 
 				@if (showResult()) {
-					<div class="antonyms-result">
-						<h3>Antónimos Generados:</h3>
+					<div class="article-result">
+						<h3>Artículo Expositivo Generado:</h3>
 						<div
-							class="antonyms-result-content"
+							class="article-result-content"
 							[innerHTML]="
-								generatedAntonyms().replaceAll(
-									'
+								generatedArticle()
+									.replaceAll(
+										'
+
 ',
-									'<br>'
-								)
+										'<br><br>'
+									)
+									.replaceAll(
+										'
+',
+										'<br>'
+									)
 							"
 						></div>
 
@@ -312,8 +275,8 @@ import { saveAs } from 'file-saver';
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
-									!generatedAntonyms() ||
-									generatedAntonyms().startsWith(
+									!generatedArticle() ||
+									generatedArticle().startsWith(
 										'Ocurrió un error'
 									)
 								"
@@ -332,11 +295,11 @@ import { saveAs } from 'file-saver';
 			:host {
 				display: block;
 			}
-			.antonyms-generator-card {
+			.expository-article-card {
 				margin: 0 auto;
 				padding: 15px 25px 25px 25px;
 			}
-			.antonyms-form {
+			.article-form {
 				margin-top: 16px;
 				display: flex;
 				flex-direction: column;
@@ -351,9 +314,7 @@ import { saveAs } from 'file-saver';
 				flex: 1;
 				min-width: 250px;
 			}
-			.full-width-field {
-				flex-basis: 100%;
-			}
+			/* .full-width-field { flex-basis: 100%; } */ /* Topic field takes half width now */
 			.form-actions {
 				display: flex;
 				justify-content: flex-end;
@@ -369,38 +330,25 @@ import { saveAs } from 'file-saver';
 				margin-right: 8px;
 				vertical-align: middle;
 			}
-			.antonyms-result {
+			.article-result {
 				margin-top: 20px;
 			}
-			.antonyms-result h3 {
+			.article-result h3 {
 				margin-bottom: 15px;
 			}
-			.antonyms-result-content {
-				background-color: #fbe9e7; /* Light deep orange background */
-				border: 1px solid #ffccbc;
-				border-left: 5px solid #ff5722; /* Deep orange accent */
-				padding: 25px 35px;
-				min-height: 200px;
+			.article-result-content {
+				background-color: #f5f5f5; /* Neutral grey background */
+				border: 1px solid #e0e0e0;
+				border-left: 5px solid #757575; /* Grey accent */
+				padding: 30px 40px;
+				min-height: 300px;
 				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-				line-height: 1.8; /* More spacing for lists */
-				font-family:
-					'Verdana', Geneva, Tahoma, sans-serif; /* Clean sans-serif */
+				line-height: 1.7;
+				font-family: 'Arial', sans-serif; /* Standard sans-serif */
 				font-size: 11pt;
 				margin-bottom: 20px;
 				max-width: 100%;
-				white-space: pre-wrap; /* Preserve formatting */
-			}
-			/* Style potential word/antonym pairs */
-			.antonyms-result-content strong {
-				/* Example: Bold text for original word */
-				display: inline-block;
-				margin-right: 5px;
-				font-weight: bold;
-			}
-			.antonyms-result-content br + strong {
-				/* Add space before new word */
-				margin-top: 1em;
-				display: block;
+				white-space: pre-wrap; /* Preserve paragraphs */
 			}
 			.result-actions {
 				display: flex;
@@ -414,36 +362,33 @@ import { saveAs } from 'file-saver';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	encapsulation: ViewEncapsulation.None,
 })
-export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
+export class ExpositoryArticleGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
+
 	#pretify = new PretifyPipe().transform;
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
 	isGenerating = signal(false);
 	showResult = signal(false);
-	generatedAntonyms = signal<string>(''); // Stores the AI response string
+	generatedArticle = signal<string>(''); // Stores the AI response string
 	sections = signal<ClassSection[]>([]);
-	availableSubjects = signal<string[]>([]);
 
 	// --- Form Definition ---
-	antonymsForm = this.#fb.group({
+	articleForm = this.#fb.group({
 		section: ['', Validators.required],
-		subject: [{ value: '', disabled: true }, Validators.required],
-		quantity: [
-			5,
-			[Validators.required, Validators.min(1), Validators.max(20)],
-		], // Default 5
-		difficulty: ['Medio', Validators.required], // Default value
-		topic: [''], // Optional topic
+		complexity: ['Media', Validators.required], // Default value
+		vocabulary: ['Medio', Validators.required], // Default value
+		topic: ['', Validators.required], // Topic is required
 	});
 
 	// --- Fixed Select Options ---
-	readonly difficultyLevels = ['Fácil', 'Medio', 'Difícil'];
+	readonly complexityLevels = ['Básica', 'Media', 'Avanzada'];
+	readonly vocabularyLevels = ['Reducido', 'Medio', 'Amplio'];
 
 	// --- Lifecycle Management ---
 	#destroy$ = new Subject<void>();
@@ -451,7 +396,6 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 	// --- OnInit ---
 	ngOnInit(): void {
 		this.#loadSections();
-		this.#listenForSectionChanges();
 	}
 
 	// --- OnDestroy ---
@@ -478,50 +422,37 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
-	/** Updates subjects based on selected section */
-	#listenForSectionChanges(): void {
-		this.sectionCtrl?.valueChanges
-			.pipe(
-				takeUntil(this.#destroy$),
-				distinctUntilChanged(),
-				tap((sectionId) => {
-					this.subjectCtrl?.reset();
-					this.subjectCtrl?.disable();
-					this.availableSubjects.set([]);
-					if (sectionId) {
-						const selectedSection = this.sections().find(
-							(s) => s._id === sectionId,
-						);
-						if (selectedSection?.subjects?.length) {
-							this.availableSubjects.set(
-								selectedSection.subjects,
-							);
-							this.subjectCtrl?.enable();
-						}
-					}
-				}),
-			)
-			.subscribe();
-	}
-
 	#handleError(error: any, defaultMessage: string): Observable<never> {
 		console.error(defaultMessage, error);
 		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 });
-		this.isGenerating.set(false); // Ensure loading stops on error
 		return EMPTY;
 	}
 
-	/** Maps user selection to prompt instructions for difficulty */
-	#getDifficultyInstruction(difficultySelection: string): string {
-		switch (difficultySelection) {
-			case 'Fácil':
-				return 'palabras comunes con antónimos claros y directos';
-			case 'Medio':
-				return 'palabras de uso estándar con antónimos comunes, quizás algunos menos obvios';
-			case 'Difícil':
-				return 'palabras menos comunes o más abstractas, con antónimos que requieran mayor comprensión del matiz';
+	/** Maps user selection to prompt instructions for complexity */
+	#getComplexityInstruction(complexitySelection: string): string {
+		switch (complexitySelection) {
+			case 'Básica':
+				return 'con una estructura simple (introducción corta, 1-2 párrafos de desarrollo con ideas principales, conclusión breve), frases cortas y directas';
+			case 'Media':
+				return 'con una estructura estándar (introducción, varios párrafos de desarrollo con algunos detalles o ejemplos, conclusión), frases de longitud variada';
+			case 'Avanzada':
+				return 'bien estructurado (introducción, desarrollo detallado en varios párrafos con explicaciones más profundas, ejemplos o datos, conclusión sólida), usando quizás frases más complejas';
 			default:
-				return 'palabras de uso estándar con antónimos de dificultad media';
+				return 'con una estructura estándar (introducción, varios párrafos de desarrollo, conclusión)';
+		}
+	}
+
+	/** Maps user selection to prompt instructions for vocabulary (reused) */
+	#getVocabularyInstruction(vocabularySelection: string): string {
+		switch (vocabularySelection) {
+			case 'Reducido':
+				return 'un vocabulario básico y común, evitando tecnicismos';
+			case 'Medio':
+				return 'un vocabulario estándar para la edad, explicando términos clave si es necesario';
+			case 'Amplio':
+				return 'un vocabulario más preciso y variado, incluyendo términos específicos del tema (explicándolos si son complejos)';
+			default:
+				return 'un vocabulario estándar para la edad';
 		}
 	}
 
@@ -534,8 +465,8 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 
 	/** Handles form submission */
 	async onSubmit(): Promise<void> {
-		if (this.antonymsForm.invalid) {
-			this.antonymsForm.markAllAsTouched();
+		if (this.articleForm.invalid) {
+			this.articleForm.markAllAsTouched();
 			this.#snackBar.open(
 				'Por favor, completa todos los campos requeridos.',
 				'Cerrar',
@@ -545,42 +476,43 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 		}
 
 		this.isGenerating.set(true);
-		this.generatedAntonyms.set('');
+		this.generatedArticle.set('');
 		this.showResult.set(false);
 
-		const formValue = this.antonymsForm.getRawValue();
+		const formValue = this.articleForm.getRawValue();
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
 
-		// Construct the prompt for generating antonyms
-		const prompt = `Eres un lexicógrafo experto y profesor de lengua, especializado en el concepto de antonimia y en adaptar el vocabulario a diferentes niveles educativos.
-      Necesito que generes una lista de palabras con sus respectivos antónimos para una clase.
+		// Construct the prompt for generating the expository article
+		const prompt = `Eres un redactor experto en crear textos expositivos claros y educativos para diferentes edades.
+      Necesito que escribas un artículo expositivo ejemplar sobre un tema específico.
 
       Contexto e Instrucciones:
-      - Audiencia: Estudiantes de ${this.#pretify(selectedSection?.level || 'Nivel no especificado')}, ${this.#pretify(selectedSection?.year || 'Grado no especificado')}. Las palabras y los antónimos deben ser apropiados para su edad y nivel de comprensión.
-      - Asignatura: ${this.#pretify(formValue.subject || '')}. Las palabras seleccionadas deben estar preferentemente relacionadas con esta materia.
-      ${formValue.topic ? `- Tema Específico (Opcional): Si es posible, enfoca la selección de palabras en el tema "${formValue.topic}".` : ''}
-      - Cantidad de Palabras: Genera ${formValue.quantity} palabras distintas.
-      - Dificultad: Selecciona ${this.#getDifficultyInstruction(formValue.difficulty!)}. Tanto la palabra original como los antónimos deben ajustarse a esta dificultad.
-      - **Formato Obligatorio:** Para CADA palabra, presenta primero la palabra original y LUEGO, en una línea separada, una lista de 1 a 3 antónimos apropiados (a veces solo hay uno claro). Usa este formato EXACTO:
-          Palabra: [Palabra Original Aquí]
-          Antónimos: [Antónimo 1], [Antónimo 2], ...
-       (Deja dos líneas en blanco entre cada entrada de palabra/antónimos).
+      - Audiencia: Estudiantes de ${this.#pretify(selectedSection?.level || 'Nivel no especificado')}, ${this.#pretify(selectedSection?.year || 'Grado no especificado')}. El artículo debe ser comprensible y adecuado para su nivel.
+      - Tema (Requerido): El artículo debe tratar sobre "${formValue.topic}". Explica o informa sobre este tema de manera objetiva.
+      - Complejidad del Artículo: El artículo debe ser de complejidad ${this.#getComplexityInstruction(formValue.complexity!)}.
+      - Nivel de Vocabulario: Utiliza ${this.#getVocabularyInstruction(formValue.vocabulary!)}.
+      - Estructura Expositiva: Organiza el artículo claramente con:
+          1. Introducción: Presenta el tema y el propósito del artículo.
+          2. Desarrollo: Expón la información en varios párrafos lógicos, usando hechos, ejemplos o explicaciones claras.
+          3. Conclusión: Resume los puntos principales o cierra la idea general.
+      - Tono: Mantén un tono objetivo, informativo y neutral.
+      - Formato: Escribe el artículo en párrafos bien separados (usa doble salto de línea entre párrafos). Puedes usar un título simple relacionado con el tema. No incluyas saludos ni despedidas.
 
-      IMPORTANTE: Asegúrate de que los antónimos representen un significado opuesto o muy contrastante en el contexto probable. No incluyas saludos ni despedidas.`;
+      IMPORTANTE: Enfócate en la claridad, la precisión de la información (haz tu mejor esfuerzo por ser factual) y la estructura lógica del texto expositivo.`;
 
 		try {
 			const result = await firstValueFrom(
 				this.#aiService.geminiAi(prompt),
 			);
-			this.generatedAntonyms.set(
-				result?.response || 'No se pudieron generar los antónimos.',
+			this.generatedArticle.set(
+				result?.response || 'No se pudo generar el artículo.',
 			);
 			this.showResult.set(true);
 		} catch (error) {
-			this.generatedAntonyms.set(
-				'Ocurrió un error al generar los antónimos. Por favor, inténtalo de nuevo.',
+			this.generatedArticle.set(
+				'Ocurrió un error al generar el artículo. Por favor, inténtalo de nuevo.',
 			);
 			this.showResult.set(true); // Show error in result area
 			this.#handleError(error, 'Error al contactar el servicio de IA');
@@ -592,26 +524,22 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 	/** Resets the form and view */
 	goBack(): void {
 		this.showResult.set(false);
-		this.generatedAntonyms.set('');
+		this.generatedArticle.set('');
 		// Reset form to defaults
-		this.antonymsForm.reset({
+		this.articleForm.reset({
 			section: '',
-			subject: '',
-			quantity: 5,
-			difficulty: 'Medio',
+			complexity: 'Media',
+			vocabulary: 'Medio',
 			topic: '',
 		});
-		this.antonymsForm.get('subject')?.disable();
-		this.availableSubjects.set([]); // Clear available subjects
 	}
 
-	/** Downloads the generated antonyms as DOCX */
+	/** Downloads the generated article as DOCX */
 	downloadDocx(): void {
-		const antonymsText = this.generatedAntonyms();
-		if (!antonymsText || antonymsText.startsWith('Ocurrió un error'))
-			return;
+		const articleText = this.generatedArticle();
+		if (!articleText || articleText.startsWith('Ocurrió un error')) return;
 
-		const formValue = this.antonymsForm.getRawValue();
+		const formValue = this.articleForm.getRawValue();
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
@@ -621,54 +549,28 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 			/[^a-z0-9]/gi,
 			'_',
 		);
-		const subjectName = this.#pretify(
-			formValue.subject || 'Asignatura',
-		).replace(/[^a-z0-9]/gi, '_');
-		const topicName = (formValue.topic || 'Antonimos')
-			.substring(0, 15)
+		const topicName = (formValue.topic || 'Articulo')
+			.substring(0, 20)
 			.replace(/[^a-z0-9]/gi, '_');
+		const complexityName = (formValue.complexity || 'Media').replace(
+			/[^a-z0-9]/gi,
+			'_',
+		);
 
-		const filename = `Antonimos_${sectionName}_${subjectName}_${topicName}.docx`;
+		const filename = `Articulo_${sectionName}_${complexityName}_${topicName}.docx`;
 
-		// Create paragraphs, trying to format Word/Antonyms
-		const paragraphs: Paragraph[] = [];
-		// Split by the "Palabra:" marker, keeping the delimiter attached to the following block
-		const wordBlocks = antonymsText.split(/\n\s*\n\s*(?=Palabra:)/);
-
-		wordBlocks.forEach((block, index) => {
-			if (block.trim().length === 0) return;
-
-			const lines = block.trim().split('\n');
-			const wordLine = lines.find((l) => l.trim().startsWith('Palabra:'));
-			const antonymsLine = lines.find((l) =>
-				l.trim().startsWith('Antónimos:'),
-			); // Changed from Sinónimos
-
-			const word = wordLine?.replace('Palabra:', '').trim();
-			const antonyms = antonymsLine?.replace('Antónimos:', '').trim(); // Changed from Sinónimos
-
-			if (word) {
-				paragraphs.push(
+		// Create paragraphs, splitting by double newline
+		const paragraphs = articleText
+			.split(/\n\s*\n/) // Split by one or more empty lines
+			.filter((p) => p.trim().length > 0)
+			.map(
+				(paragraph) =>
 					new Paragraph({
-						children: [
-							new TextRun({ text: word, bold: true, size: 24 }),
-						], // Make word bold and slightly larger
-						spacing: { before: index > 0 ? 240 : 0, after: 60 }, // Add space before new word
+						children: [new TextRun(paragraph.trim())],
+						spacing: { after: 120 }, // Spacing after paragraph (6pt)
+						// indent: { firstLine: 720 }, // Optional: Indent first line
 					}),
-				);
-			}
-			if (antonyms) {
-				paragraphs.push(
-					new Paragraph({
-						children: [
-							new TextRun({ text: antonyms, italics: true }),
-						], // Italicize antonyms
-						spacing: { after: 200 }, // Space after antonyms list
-						indent: { left: 360 }, // Indent antonyms slightly
-					}),
-				);
-			}
-		});
+			);
 
 		// Create the document
 		const doc = new Document({
@@ -676,9 +578,17 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 				{
 					properties: {},
 					children: [
+						// Optional: Try to extract a title if the AI provided one on the first line
+						// new Paragraph({ text: `Artículo Expositivo: ${formValue.topic}`, heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER, spacing: { after: 300 } }),
 						new Paragraph({
-							text: `Lista de Antónimos`,
+							text: `Artículo Expositivo`,
 							heading: HeadingLevel.HEADING_1,
+							alignment: AlignmentType.CENTER,
+							spacing: { after: 100 },
+						}),
+						new Paragraph({
+							text: `Tema: ${formValue.topic}`,
+							heading: HeadingLevel.HEADING_2,
 							alignment: AlignmentType.CENTER,
 							spacing: { after: 300 },
 						}),
@@ -688,26 +598,17 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 							style: 'SubtleEmphasis',
 						}),
 						new Paragraph({
-							text: `Asignatura: ${formValue.subject}`,
+							text: `Complejidad: ${formValue.complexity}`,
 							alignment: AlignmentType.CENTER,
 							style: 'SubtleEmphasis',
 						}),
 						new Paragraph({
-							text: `Dificultad: ${formValue.difficulty}`,
+							text: `Vocabulario: ${formValue.vocabulary}`,
 							alignment: AlignmentType.CENTER,
 							style: 'SubtleEmphasis',
 						}),
-						...(formValue.topic
-							? [
-									new Paragraph({
-										text: `Tema Guía: ${formValue.topic}`,
-										alignment: AlignmentType.CENTER,
-										style: 'SubtleEmphasis',
-									}),
-								]
-							: []),
 						new Paragraph({ text: '', spacing: { after: 400 } }), // Extra space
-						...paragraphs, // Add the generated word/antonym paragraphs
+						...paragraphs, // Add the generated article paragraphs
 					],
 				},
 			],
@@ -717,7 +618,7 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 					{
 						id: 'Normal',
 						name: 'Normal',
-						run: { font: 'Verdana', size: 22 }, // 11pt
+						run: { font: 'Arial', size: 22 }, // 11pt
 					},
 					{
 						id: 'SubtleEmphasis',
@@ -746,18 +647,15 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.antonymsForm.get('section');
+		return this.articleForm.get('section');
 	}
-	get subjectCtrl(): AbstractControl | null {
-		return this.antonymsForm.get('subject');
+	get complexityCtrl(): AbstractControl | null {
+		return this.articleForm.get('complexity');
 	}
-	get quantityCtrl(): AbstractControl | null {
-		return this.antonymsForm.get('quantity');
-	}
-	get difficultyCtrl(): AbstractControl | null {
-		return this.antonymsForm.get('difficulty');
+	get vocabularyCtrl(): AbstractControl | null {
+		return this.articleForm.get('vocabulary');
 	}
 	get topicCtrl(): AbstractControl | null {
-		return this.antonymsForm.get('topic');
+		return this.articleForm.get('topic');
 	}
 }

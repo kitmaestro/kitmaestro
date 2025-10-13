@@ -13,6 +13,7 @@ import {
 	Validators,
 	AbstractControl,
 } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import {
 	Subject,
 	firstValueFrom,
@@ -21,6 +22,7 @@ import {
 	catchError,
 	EMPTY,
 	finalize,
+	Observable,
 } from 'rxjs';
 
 // Angular Material Modules
@@ -34,23 +36,23 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 
 // --- Services ---
-// Using the paths provided by the user
-import { AiService } from '../../../core/services/ai.service'; // Assuming standard AI service path
-import { ClassSectionService } from '../../../core/services/class-section.service';
+import { AiService } from '../../../core/services/ai.service';
+import { ClassSectionService } from '../../../core/services/class-section.service'; // Service for sections
 
 // --- Interfaces ---
 import { ClassSection } from '../../../core/interfaces/class-section';
 
 // --- DOCX Generation ---
-import { Document, Packer, Paragraph, TextRun } from 'docx';
+import { Document, Packer, Paragraph, TextRun, AlignmentType } from 'docx'; // Import HeadingLevel
 import { saveAs } from 'file-saver';
+import { MarkdownComponent } from 'ngx-markdown';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({
-	selector: 'app-tongue-twister-generator', // Component selector
+	selector: 'app-hook-generator', // Component selector
 	standalone: true,
 	imports: [
-		PretifyPipe,
+		CommonModule,
 		ReactiveFormsModule,
 		MatCardModule,
 		MatFormFieldModule,
@@ -60,24 +62,28 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
+		MarkdownComponent,
+		PretifyPipe,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="tongue-twister-card">
+		<mat-card class="hook-generator-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Trabalenguas</mat-card-title>
+				<mat-card-title
+					>Generador de Ganchos para Clases</mat-card-title
+				>
 				<mat-card-subtitle
-					>Crea trabalenguas divertidos para tus
-					clases</mat-card-subtitle
+					>Crea ideas atractivas para iniciar tus
+					lecciones</mat-card-subtitle
 				>
 			</mat-card-header>
 
 			<mat-card-content>
 				@if (!showResult()) {
 					<form
-						[formGroup]="tongueTwisterForm"
+						[formGroup]="hookForm"
 						(ngSubmit)="onSubmit()"
-						class="tongue-twister-form"
+						class="hook-form"
 					>
 						<div class="form-row">
 							<mat-form-field
@@ -87,20 +93,23 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								<mat-label>Curso/Sección</mat-label>
 								<mat-select formControlName="section" required>
 									@if (isLoadingSections()) {
-										<mat-option disabled>
-											<mat-spinner
+										<mat-option disabled
+											><mat-spinner
 												diameter="20"
-												style="display: inline-block; margin-right: 8px;"
+												class="inline-spinner"
 											></mat-spinner>
-											Cargando...
-										</mat-option>
+											Cargando...</mat-option
+										>
 									} @else {
 										@for (
 											section of sections();
 											track section._id
 										) {
 											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
+												section.name +
+													' (' +
+													(section.level | pretify) +
+													')'
 											}}</mat-option>
 										}
 										@if (
@@ -133,9 +142,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 										subject of availableSubjects();
 										track subject
 									) {
-										<mat-option [value]="subject">{{
-											subject | pretify
-										}}</mat-option>
+										<mat-option
+											[value]="subject | pretify"
+											>{{ subject | pretify }}</mat-option
+										>
 									}
 									@if (
 										!availableSubjects().length &&
@@ -169,13 +179,12 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								class="form-field full-width-field"
 							>
 								<mat-label
-									>Tema para el trabalenguas
-									(Opcional)</mat-label
+									>Tema de la clase (Opcional)</mat-label
 								>
 								<input
 									matInput
 									formControlName="topic"
-									placeholder="Ej: animales, frutas, números"
+									placeholder="Ej: El ciclo del agua, La Revolución Francesa"
 								/>
 							</mat-form-field>
 						</div>
@@ -185,21 +194,19 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								mat-raised-button
 								color="primary"
 								type="submit"
-								[disabled]="
-									tongueTwisterForm.invalid || isGenerating()
-								"
+								[disabled]="hookForm.invalid || isGenerating()"
 							>
 								@if (isGenerating()) {
 									<mat-spinner
 										diameter="20"
 										color="accent"
-										style="display: inline-block; margin-right: 8px;"
+										class="inline-spinner"
 									></mat-spinner>
 									Generando...
 								} @else {
 									<ng-container>
-										<mat-icon>record_voice_over</mat-icon>
-										Generar Trabalenguas
+										<mat-icon>flare</mat-icon> Generar
+										Ganchos
 									</ng-container>
 								}
 							</button>
@@ -208,18 +215,11 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 				}
 
 				@if (showResult()) {
-					<div class="tongue-twister-result">
-						<h3>Trabalenguas Generado:</h3>
-						<div
-							class="tongue-twister-result-page"
-							[innerHTML]="
-								generatedTongueTwister().replaceAll(
-									'
-',
-									'<br>'
-								)
-							"
-						></div>
+					<div class="hook-result">
+						<h3>Ganchos Sugeridos:</h3>
+						<div class="hook-result-content">
+							<markdown [data]="generatedHooks()" />
+						</div>
 
 						<div class="result-actions">
 							<button
@@ -234,8 +234,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
-									!generatedTongueTwister() ||
-									generatedTongueTwister().startsWith(
+									!generatedHooks() ||
+									generatedHooks().startsWith(
 										'Ocurrió un error'
 									)
 								"
@@ -252,71 +252,75 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 	styles: [
 		`
 			:host {
-				display: block;
-				/* No host padding/margin */
+				display: block; /* No host padding/margin */
 			}
-
-			.tongue-twister-card {
+			.hook-generator-card {
 				/* No max-width */
-				margin: 0 auto; /* Center if container allows */
+				margin: 0 auto;
 				padding: 15px 25px 25px 25px;
 			}
-
-			.tongue-twister-form {
+			.hook-form {
+				margin-top: 16px;
 				display: flex;
 				flex-direction: column;
 				gap: 15px;
 			}
-
 			.form-row {
 				display: flex;
 				gap: 15px;
 				flex-wrap: wrap;
 			}
-
 			.form-field {
 				flex: 1;
 				min-width: 250px;
 			}
-
-			/* Allow topic field to take full width if needed */
 			.full-width-field {
 				flex-basis: 100%;
 			}
-
 			.form-actions {
 				display: flex;
 				justify-content: flex-end;
 				margin-top: 20px;
 			}
-
 			.form-actions button mat-icon,
 			.result-actions button mat-icon {
 				margin-right: 5px;
 				vertical-align: middle;
 			}
-
-			.tongue-twister-result {
+			.inline-spinner {
+				display: inline-block;
+				margin-right: 8px;
+				vertical-align: middle;
+			}
+			.hook-result {
 				margin-top: 20px;
 			}
-
-			.tongue-twister-result h3 {
+			.hook-result h3 {
 				margin-bottom: 15px;
 			}
-
-			.tongue-twister-result-page {
-				background-color: #f9f9f9; /* Slightly different background */
-				border: 1px solid #e0e0e0;
-				padding: 30px 40px;
-				min-height: 150px; /* Can be shorter for tongue twisters */
-				box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-				line-height: 1.7; /* Slightly more spacing */
-				font-family:
-					'Comic Sans MS', cursive, sans-serif; /* More playful font */
-				font-size: 12pt; /* Slightly larger font */
+			.hook-result-content {
+				background-color: #f8f9fa; /* Light background */
+				border: 1px solid #dee2e6;
+				border-left: 5px solid #0d6efd; /* Accent border */
+				padding: 20px 30px;
+				min-height: 150px;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+				line-height: 1.7;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+				font-size: 11pt;
 				margin-bottom: 20px;
 				max-width: 100%;
-				white-space: pre-wrap; /* Preserve whitespace and line breaks from AI */
+				white-space: pre-wrap; /* Preserve formatting from AI */
+			}
+			/* Style potential list items if AI uses them */
+			.hook-result-content ul,
+			.hook-result-content ol {
+				padding-left: 25px;
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+			.hook-result-content li {
+				margin-bottom: 8px;
 			}
 
 			.result-actions {
@@ -326,35 +330,28 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 				flex-wrap: wrap;
 				gap: 10px;
 			}
-
-			button mat-spinner {
-				display: inline-block;
-				margin-right: 8px;
-				vertical-align: middle;
-			}
 		`,
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	encapsulation: ViewEncapsulation.None,
 })
-export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
+export class ClassHookGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
-	#sectionService = inject(ClassSectionService); // Use ClassSectionService
+	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
-	#pretify = new PretifyPipe();
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
 	isGenerating = signal(false);
 	showResult = signal(false);
-	generatedTongueTwister = signal<string>('');
+	generatedHooks = signal<string>(''); // Will store the AI response string
 	sections = signal<ClassSection[]>([]);
 	availableSubjects = signal<string[]>([]);
 
 	// --- Form Definition ---
-	tongueTwisterForm = this.#fb.group({
+	hookForm = this.#fb.group({
 		section: ['', Validators.required],
 		subject: [{ value: '', disabled: true }, Validators.required],
 		topic: [''], // Optional topic
@@ -383,18 +380,11 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 		this.#sectionService
 			.findSections()
 			.pipe(
-				// Assuming getSections exists
 				takeUntil(this.#destroy$),
 				tap((sections) => this.sections.set(sections || [])),
-				catchError((error) => {
-					console.error('Error loading sections:', error);
-					this.#snackBar.open(
-						'Error al cargar las secciones.',
-						'Cerrar',
-						{ duration: 5000 },
-					);
-					return EMPTY;
-				}),
+				catchError((error) =>
+					this.#handleError(error, 'Error al cargar las secciones.'),
+				),
 				finalize(() => this.isLoadingSections.set(false)),
 			)
 			.subscribe();
@@ -406,8 +396,11 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 			.pipe(
 				takeUntil(this.#destroy$),
 				tap((sectionId) => {
+					// Reset dependent fields
 					this.subjectCtrl?.reset();
+					this.subjectCtrl?.disable();
 					this.availableSubjects.set([]);
+
 					if (sectionId) {
 						const selectedSection = this.sections().find(
 							(s) => s._id === sectionId,
@@ -417,77 +410,81 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 								selectedSection.subjects,
 							);
 							this.subjectCtrl?.enable();
-						} else {
-							this.availableSubjects.set([]);
-							this.subjectCtrl?.disable();
 						}
-					} else {
-						this.subjectCtrl?.disable();
 					}
 				}),
 			)
 			.subscribe();
 	}
 
+	#handleError(error: any, defaultMessage: string): Observable<never> {
+		console.error(defaultMessage, error);
+		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 });
+		return EMPTY;
+	}
+
 	// --- Public Methods ---
 
 	/** Formats section display name */
 	getSectionDisplay(section: ClassSection): string {
-		return `${section.name} (${this.#pretify.transform(section.level)})`;
+		return `${section.year || ''} ${section.name || ''} (${section.level || 'Nivel no especificado'})`;
 	}
 
-	/** Handles form submission */
+	/** Handles form submission to generate hooks */
 	async onSubmit(): Promise<void> {
-		if (this.tongueTwisterForm.invalid) {
-			this.tongueTwisterForm.markAllAsTouched();
+		if (this.hookForm.invalid) {
+			this.hookForm.markAllAsTouched();
 			return;
 		}
 
 		this.isGenerating.set(true);
-		this.generatedTongueTwister.set('');
+		this.generatedHooks.set('');
 		this.showResult.set(false);
 
-		const formValue = this.tongueTwisterForm.getRawValue();
+		const formValue = this.hookForm.getRawValue();
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
 
-		// Construct the prompt for a tongue twister
-		const prompt = `Eres un generador experto de trabalenguas divertidos y educativos.
-      Necesito un trabalenguas original para una clase.
-      Contexto:
-      - Nivel Educativo: ${this.#pretify.transform(selectedSection?.level || '') || 'No especificado'}
-      - Año/Grado: ${this.#pretify.transform(selectedSection?.year || '') || 'No especificado'}
-      - Asignatura: ${this.#pretify.transform(formValue.subject || '')}
-      ${formValue.topic ? `- Tema Específico (opcional): ${formValue.topic}` : ''}
+		// Construct the prompt for generating hooks
+		const prompt = `Eres un experto en pedagogía creativa y estrategias de captación de atención en el aula.
+      Necesito generar ideas de "ganchos" (hooks) interesantes y variados para iniciar una clase y motivar a los estudiantes.
 
-      Instrucciones:
-      - Crea un trabalenguas corto o de longitud media.
-      - Debe ser divertido, pegadizo y un poco desafiante de pronunciar.
-      - Asegúrate de que sea apropiado para la edad/nivel educativo indicado.
-      - Si se proporcionó un tema, intenta incorporarlo sutilmente en el trabalenguas.
-      - Solo devuelve el texto del trabalenguas, sin explicaciones, títulos, saludos ni despedidas.`;
+      Contexto de la Clase:
+      - Nivel Educativo: ${selectedSection?.level || 'No especificado'}
+      - Año/Grado: ${selectedSection?.year || 'No especificado'}
+      - Asignatura: ${formValue.subject}
+      ${formValue.topic ? `- Tema Específico de la Clase (opcional): ${formValue.topic}` : ''}
+
+      Instrucciones para Generar Ganchos:
+      1.  **Cantidad y Variedad:** Genera entre 3 y 5 ideas de ganchos diferentes. Incluye distintos tipos, por ejemplo:
+          * Una pregunta intrigante o provocadora.
+          * Un dato curioso o sorprendente relacionado.
+          * Una mini-actividad rápida (ej: observación corta, predicción simple).
+          * Una conexión inesperada con la vida cotidiana de los estudiantes.
+          * Una afirmación controversial (para debatir brevemente).
+      2.  **Objetivo:** Cada gancho debe despertar la curiosidad, conectar con conocimientos previos (si aplica) y motivar a los estudiantes a prestar atención a la lección que sigue.
+      3.  **Relevancia:** Los ganchos deben ser relevantes para la asignatura y el tema (si se proporcionó), y apropiados para la edad/nivel del curso.
+      4.  **Claridad y Brevedad:** Deben ser fáciles de entender y rápidos de implementar (1-3 minutos máximo).
+      5.  **Formato:** Presenta las ideas claramente, quizás como una lista numerada o con viñetas.
+
+      IMPORTANTE: Solo devuelve las ideas de los ganchos, sin saludos, despedidas o explicaciones adicionales sobre cómo usarlos (el profesor sabrá).`;
 
 		try {
 			const result = await firstValueFrom(
 				this.#aiService.geminiAi(prompt),
 			);
-			// Use pre-wrap in CSS to handle newlines, so just set the raw response
-			this.generatedTongueTwister.set(
-				result?.response || 'No se pudo generar el trabalenguas.',
+			// Store the raw response, assuming AI formats it reasonably (like a list)
+			this.generatedHooks.set(
+				result?.response || 'No se pudieron generar los ganchos.',
 			);
 			this.showResult.set(true);
 		} catch (error) {
-			console.error('Error generating tongue twister:', error);
-			this.generatedTongueTwister.set(
-				'Ocurrió un error al generar el trabalenguas. Por favor, inténtalo de nuevo.',
+			this.generatedHooks.set(
+				'Ocurrió un error al generar los ganchos. Por favor, inténtalo de nuevo.',
 			);
-			this.showResult.set(true);
-			this.#snackBar.open(
-				'Error al contactar el servicio de IA',
-				'Cerrar',
-				{ duration: 5000 },
-			);
+			this.showResult.set(true); // Show error in result area
+			this.#handleError(error, 'Error al contactar el servicio de IA');
 		} finally {
 			this.isGenerating.set(false);
 		}
@@ -496,22 +493,18 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 	/** Resets the form and view */
 	goBack(): void {
 		this.showResult.set(false);
-		this.generatedTongueTwister.set('');
-		this.tongueTwisterForm.reset();
+		this.generatedHooks.set('');
+		this.hookForm.reset();
 		this.subjectCtrl?.disable();
 		this.availableSubjects.set([]);
 	}
 
-	/** Downloads the generated tongue twister as DOCX */
+	/** Downloads the generated hooks as DOCX */
 	downloadDocx(): void {
-		const tongueTwisterText = this.generatedTongueTwister();
-		if (
-			!tongueTwisterText ||
-			tongueTwisterText.startsWith('Ocurrió un error')
-		)
-			return;
+		const hooksText = this.generatedHooks();
+		if (!hooksText || hooksText.startsWith('Ocurrió un error')) return;
 
-		const formValue = this.tongueTwisterForm.getRawValue();
+		const formValue = this.hookForm.getRawValue();
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
@@ -529,17 +522,36 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 			.substring(0, 15)
 			.replace(/[^a-z0-9]/gi, '_');
 
-		const filename = `Trabalenguas_${sectionName}_${subjectName}_${topicName}.docx`;
+		const filename = `Ganchos_${sectionName}_${subjectName}_${topicName}.docx`;
 
-		// Create paragraphs
-		// Use the raw text as the AI might format it with its own line breaks
-		const paragraphs = tongueTwisterText.split('\n').map(
-			(line) =>
-				new Paragraph({
-					children: [new TextRun(line)],
-					spacing: { after: 150 }, // Less spacing for tongue twisters
-				}),
-		);
+		// Create paragraphs, splitting by newline characters
+		const paragraphs = hooksText.split('\n').map((line) => {
+			// Basic heuristic to make potential list items bold or add bullets
+			const trimmedLine = line.trim();
+			if (trimmedLine.match(/^(\d+\.|-|\*)\s+/)) {
+				// Looks like a list item
+				return new Paragraph({
+					children: [new TextRun(trimmedLine)],
+					bullet: { level: 0 }, // Add bullet point
+					spacing: { after: 150 },
+				});
+			} else if (
+				trimmedLine.length > 0 &&
+				trimmedLine.length < 80 &&
+				!trimmedLine.includes(':')
+			) {
+				// Potentially a sub-heading/hook title
+				return new Paragraph({
+					children: [new TextRun({ text: trimmedLine, bold: true })],
+					spacing: { after: 180 },
+				});
+			}
+			return new Paragraph({
+				// Regular text
+				children: [new TextRun(line)],
+				spacing: { after: 150 },
+			});
+		});
 
 		// Create the document
 		const doc = new Document({
@@ -550,13 +562,15 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 						new Paragraph({
 							children: [
 								new TextRun({
-									text: `Trabalenguas Generado`,
+									text: `Ganchos para la Clase`,
 									bold: true,
 									size: 28,
+									color: '336699',
 								}),
 							],
+							alignment: AlignmentType.CENTER,
 							spacing: { after: 300 },
-						}),
+						}), // Title
 						new Paragraph({
 							children: [
 								new TextRun({
@@ -592,7 +606,7 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 										text: '',
 										spacing: { after: 400 },
 									}),
-								]), // Add topic if present or just spacing
+								]),
 						...paragraphs, // Add the generated content paragraphs
 					],
 				},
@@ -616,9 +630,9 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.tongueTwisterForm.get('section');
+		return this.hookForm.get('section');
 	}
 	get subjectCtrl(): AbstractControl | null {
-		return this.tongueTwisterForm.get('subject');
+		return this.hookForm.get('subject');
 	}
 }

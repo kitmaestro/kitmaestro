@@ -13,14 +13,17 @@ import {
 	Validators,
 	AbstractControl,
 } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import {
 	Subject,
+	Observable,
 	firstValueFrom,
 	takeUntil,
 	tap,
 	catchError,
 	EMPTY,
 	finalize,
+	distinctUntilChanged,
 } from 'rxjs';
 
 // Angular Material Modules
@@ -33,24 +36,28 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 
-// --- Services ---
-// Using the paths provided by the user
-import { AiService } from '../../../core/services/ai.service'; // Assuming standard AI service path
+// --- Core Services & Interfaces (Using new structure paths) ---
+import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-
-// --- Interfaces ---
 import { ClassSection } from '../../../core/interfaces/class-section';
-
-// --- DOCX Generation ---
-import { Document, Packer, Paragraph, TextRun } from 'docx';
-import { saveAs } from 'file-saver';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
+// --- DOCX Generation ---
+import {
+	Document,
+	Packer,
+	Paragraph,
+	TextRun,
+	AlignmentType,
+	HeadingLevel,
+} from 'docx'; // Import Bullet
+import { saveAs } from 'file-saver';
+
 @Component({
-	selector: 'app-tongue-twister-generator', // Component selector
+	selector: 'app-fun-fact-generator', // Component selector
 	standalone: true,
 	imports: [
-		PretifyPipe,
+		CommonModule,
 		ReactiveFormsModule,
 		MatCardModule,
 		MatFormFieldModule,
@@ -60,40 +67,43 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
+		PretifyPipe,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="tongue-twister-card">
+		<mat-card class="fun-fact-generator-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Trabalenguas</mat-card-title>
+				<mat-card-title
+					>Generador de Curiosidades (Fun Facts)</mat-card-title
+				>
 				<mat-card-subtitle
-					>Crea trabalenguas divertidos para tus
-					clases</mat-card-subtitle
+					>Despierta el interés con datos
+					sorprendentes</mat-card-subtitle
 				>
 			</mat-card-header>
 
 			<mat-card-content>
 				@if (!showResult()) {
 					<form
-						[formGroup]="tongueTwisterForm"
+						[formGroup]="funFactForm"
 						(ngSubmit)="onSubmit()"
-						class="tongue-twister-form"
+						class="fun-fact-form"
 					>
 						<div class="form-row">
 							<mat-form-field
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Curso/Sección</mat-label>
+								<mat-label>Curso/Sección (Grado)</mat-label>
 								<mat-select formControlName="section" required>
 									@if (isLoadingSections()) {
-										<mat-option disabled>
-											<mat-spinner
+										<mat-option disabled
+											><mat-spinner
 												diameter="20"
-												style="display: inline-block; margin-right: 8px;"
+												class="inline-spinner"
 											></mat-spinner>
-											Cargando...
-										</mat-option>
+											Cargando...</mat-option
+										>
 									} @else {
 										@for (
 											section of sections();
@@ -133,9 +143,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 										subject of availableSubjects();
 										track subject
 									) {
-										<mat-option [value]="subject">{{
-											subject | pretify
-										}}</mat-option>
+										<mat-option
+											[value]="subject | pretify"
+											>{{ subject | pretify }}</mat-option
+										>
 									}
 									@if (
 										!availableSubjects().length &&
@@ -169,13 +180,12 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								class="form-field full-width-field"
 							>
 								<mat-label
-									>Tema para el trabalenguas
-									(Opcional)</mat-label
+									>Tema Específico (Opcional)</mat-label
 								>
 								<input
 									matInput
 									formControlName="topic"
-									placeholder="Ej: animales, frutas, números"
+									placeholder="Ej: Los planetas, El cuerpo humano, Figuras geométricas"
 								/>
 							</mat-form-field>
 						</div>
@@ -186,20 +196,27 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								color="primary"
 								type="submit"
 								[disabled]="
-									tongueTwisterForm.invalid || isGenerating()
+									funFactForm.invalid || isGenerating()
 								"
 							>
 								@if (isGenerating()) {
-									<mat-spinner
-										diameter="20"
-										color="accent"
-										style="display: inline-block; margin-right: 8px;"
-									></mat-spinner>
-									Generando...
+									<div
+										[style]="{
+											display: 'flex',
+											alignItems: 'center',
+										}"
+									>
+										<mat-spinner
+											diameter="20"
+											color="accent"
+											class="inline-spinner"
+										></mat-spinner>
+										Generando...
+									</div>
 								} @else {
 									<ng-container>
-										<mat-icon>record_voice_over</mat-icon>
-										Generar Trabalenguas
+										<mat-icon>lightbulb_outline</mat-icon>
+										Generar Curiosidades
 									</ng-container>
 								}
 							</button>
@@ -208,12 +225,12 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 				}
 
 				@if (showResult()) {
-					<div class="tongue-twister-result">
-						<h3>Trabalenguas Generado:</h3>
+					<div class="fun-fact-result">
+						<h3>Curiosidad(es) Generada(s):</h3>
 						<div
-							class="tongue-twister-result-page"
+							class="fun-fact-result-content"
 							[innerHTML]="
-								generatedTongueTwister().replaceAll(
+								generatedFunFacts().replaceAll(
 									'
 ',
 									'<br>'
@@ -234,8 +251,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
-									!generatedTongueTwister() ||
-									generatedTongueTwister().startsWith(
+									!generatedFunFacts() ||
+									generatedFunFacts().startsWith(
 										'Ocurrió un error'
 									)
 								"
@@ -253,72 +270,75 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 		`
 			:host {
 				display: block;
-				/* No host padding/margin */
 			}
-
-			.tongue-twister-card {
-				/* No max-width */
-				margin: 0 auto; /* Center if container allows */
+			.fun-fact-generator-card {
+				margin: 0 auto;
 				padding: 15px 25px 25px 25px;
 			}
-
-			.tongue-twister-form {
+			.fun-fact-form {
+				margin-top: 16px;
 				display: flex;
 				flex-direction: column;
 				gap: 15px;
 			}
-
 			.form-row {
 				display: flex;
 				gap: 15px;
 				flex-wrap: wrap;
 			}
-
 			.form-field {
 				flex: 1;
 				min-width: 250px;
 			}
-
-			/* Allow topic field to take full width if needed */
 			.full-width-field {
 				flex-basis: 100%;
 			}
-
 			.form-actions {
 				display: flex;
 				justify-content: flex-end;
 				margin-top: 20px;
 			}
-
 			.form-actions button mat-icon,
 			.result-actions button mat-icon {
 				margin-right: 5px;
 				vertical-align: middle;
 			}
-
-			.tongue-twister-result {
+			.inline-spinner {
+				display: inline-block;
+				margin-right: 8px;
+				vertical-align: middle;
+			}
+			.fun-fact-result {
 				margin-top: 20px;
 			}
-
-			.tongue-twister-result h3 {
+			.fun-fact-result h3 {
 				margin-bottom: 15px;
 			}
-
-			.tongue-twister-result-page {
-				background-color: #f9f9f9; /* Slightly different background */
-				border: 1px solid #e0e0e0;
-				padding: 30px 40px;
-				min-height: 150px; /* Can be shorter for tongue twisters */
-				box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-				line-height: 1.7; /* Slightly more spacing */
+			.fun-fact-result-content {
+				background-color: #e3f2fd; /* Light blue background */
+				border: 1px solid #bbdefb;
+				border-left: 5px solid #2196f3; /* Blue accent */
+				padding: 25px 35px;
+				min-height: 150px;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+				line-height: 1.7;
 				font-family:
-					'Comic Sans MS', cursive, sans-serif; /* More playful font */
-				font-size: 12pt; /* Slightly larger font */
+					'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Clean sans-serif */
+				font-size: 11pt;
 				margin-bottom: 20px;
 				max-width: 100%;
-				white-space: pre-wrap; /* Preserve whitespace and line breaks from AI */
+				white-space: pre-wrap; /* Preserve formatting */
 			}
-
+			/* Style potential list items if AI uses them */
+			.fun-fact-result-content ul,
+			.fun-fact-result-content ol {
+				padding-left: 25px;
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+			.fun-fact-result-content li {
+				margin-bottom: 8px;
+			}
 			.result-actions {
 				display: flex;
 				justify-content: space-between;
@@ -326,35 +346,30 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 				flex-wrap: wrap;
 				gap: 10px;
 			}
-
-			button mat-spinner {
-				display: inline-block;
-				margin-right: 8px;
-				vertical-align: middle;
-			}
 		`,
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	encapsulation: ViewEncapsulation.None,
 })
-export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
+export class FunFactGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
-	#sectionService = inject(ClassSectionService); // Use ClassSectionService
+	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
-	#pretify = new PretifyPipe();
+
+	#pretify = new PretifyPipe().transform;
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
 	isGenerating = signal(false);
 	showResult = signal(false);
-	generatedTongueTwister = signal<string>('');
+	generatedFunFacts = signal<string>(''); // Stores the AI response string
 	sections = signal<ClassSection[]>([]);
 	availableSubjects = signal<string[]>([]);
 
 	// --- Form Definition ---
-	tongueTwisterForm = this.#fb.group({
+	funFactForm = this.#fb.group({
 		section: ['', Validators.required],
 		subject: [{ value: '', disabled: true }, Validators.required],
 		topic: [''], // Optional topic
@@ -383,18 +398,11 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 		this.#sectionService
 			.findSections()
 			.pipe(
-				// Assuming getSections exists
 				takeUntil(this.#destroy$),
 				tap((sections) => this.sections.set(sections || [])),
-				catchError((error) => {
-					console.error('Error loading sections:', error);
-					this.#snackBar.open(
-						'Error al cargar las secciones.',
-						'Cerrar',
-						{ duration: 5000 },
-					);
-					return EMPTY;
-				}),
+				catchError((error) =>
+					this.#handleError(error, 'Error al cargar las secciones.'),
+				),
 				finalize(() => this.isLoadingSections.set(false)),
 			)
 			.subscribe();
@@ -405,9 +413,13 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 		this.sectionCtrl?.valueChanges
 			.pipe(
 				takeUntil(this.#destroy$),
+				distinctUntilChanged(),
 				tap((sectionId) => {
+					// Reset dependent fields
 					this.subjectCtrl?.reset();
+					this.subjectCtrl?.disable();
 					this.availableSubjects.set([]);
+
 					if (sectionId) {
 						const selectedSection = this.sections().find(
 							(s) => s._id === sectionId,
@@ -417,77 +429,76 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 								selectedSection.subjects,
 							);
 							this.subjectCtrl?.enable();
-						} else {
-							this.availableSubjects.set([]);
-							this.subjectCtrl?.disable();
 						}
-					} else {
-						this.subjectCtrl?.disable();
 					}
 				}),
 			)
 			.subscribe();
 	}
 
+	#handleError(error: any, defaultMessage: string): Observable<never> {
+		console.error(defaultMessage, error);
+		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 });
+		return EMPTY;
+	}
+
 	// --- Public Methods ---
 
 	/** Formats section display name */
 	getSectionDisplay(section: ClassSection): string {
-		return `${section.name} (${this.#pretify.transform(section.level)})`;
+		return `${this.#pretify(section.year || '')} ${section.name || ''} (${this.#pretify(section.level || 'Nivel no especificado')})`;
 	}
 
 	/** Handles form submission */
 	async onSubmit(): Promise<void> {
-		if (this.tongueTwisterForm.invalid) {
-			this.tongueTwisterForm.markAllAsTouched();
+		if (this.funFactForm.invalid) {
+			this.funFactForm.markAllAsTouched();
+			this.#snackBar.open(
+				'Por favor, completa todos los campos requeridos.',
+				'Cerrar',
+				{ duration: 3000 },
+			);
 			return;
 		}
 
 		this.isGenerating.set(true);
-		this.generatedTongueTwister.set('');
+		this.generatedFunFacts.set('');
 		this.showResult.set(false);
 
-		const formValue = this.tongueTwisterForm.getRawValue();
+		const formValue = this.funFactForm.getRawValue();
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
 
-		// Construct the prompt for a tongue twister
-		const prompt = `Eres un generador experto de trabalenguas divertidos y educativos.
-      Necesito un trabalenguas original para una clase.
-      Contexto:
-      - Nivel Educativo: ${this.#pretify.transform(selectedSection?.level || '') || 'No especificado'}
-      - Año/Grado: ${this.#pretify.transform(selectedSection?.year || '') || 'No especificado'}
-      - Asignatura: ${this.#pretify.transform(formValue.subject || '')}
-      ${formValue.topic ? `- Tema Específico (opcional): ${formValue.topic}` : ''}
+		// Construct the prompt for generating fun facts
+		const prompt = `Eres un experto encontrando datos curiosos (fun facts) fascinantes y educativos para niños y jóvenes.
+      Necesito generar algunas curiosidades para usar en una clase, ya sea como gancho inicial o para re-captar la atención.
 
-      Instrucciones:
-      - Crea un trabalenguas corto o de longitud media.
-      - Debe ser divertido, pegadizo y un poco desafiante de pronunciar.
-      - Asegúrate de que sea apropiado para la edad/nivel educativo indicado.
-      - Si se proporcionó un tema, intenta incorporarlo sutilmente en el trabalenguas.
-      - Solo devuelve el texto del trabalenguas, sin explicaciones, títulos, saludos ni despedidas.`;
+      Contexto e Instrucciones:
+      - Audiencia: Estudiantes de ${this.#pretify(selectedSection?.level || 'Nivel no especificado')}, ${this.#pretify(selectedSection?.year || 'Grado no especificado')}. Las curiosidades deben ser apropiadas para su edad, sorprendentes pero fáciles de entender.
+      - Asignatura: ${this.#pretify(formValue.subject || '')}. Las curiosidades deben estar relacionadas con esta materia.
+      ${formValue.topic ? `- Tema Específico (Opcional): Si es posible, relaciona las curiosidades directamente con el tema "${formValue.topic}".` : ''}
+      - Objetivo: Generar interés, despertar la curiosidad sobre la asignatura o el tema, y ser memorables.
+      - Cantidad: Genera 2 o 3 datos curiosos distintos.
+      - Formato: Presenta cada dato de forma concisa y clara. Puedes usar viñetas o una lista numerada. Evita explicaciones largas, enfócate en el dato sorprendente.
+      - Tono: Entusiasta, como si estuvieras compartiendo un secreto interesante.
+
+      IMPORTANTE: Verifica la veracidad de los datos (haz tu mejor esfuerzo por generar datos reales y contrastables). No incluyas saludos ni despedidas.`;
 
 		try {
 			const result = await firstValueFrom(
 				this.#aiService.geminiAi(prompt),
 			);
-			// Use pre-wrap in CSS to handle newlines, so just set the raw response
-			this.generatedTongueTwister.set(
-				result?.response || 'No se pudo generar el trabalenguas.',
+			this.generatedFunFacts.set(
+				result?.response || 'No se pudieron generar las curiosidades.',
 			);
 			this.showResult.set(true);
 		} catch (error) {
-			console.error('Error generating tongue twister:', error);
-			this.generatedTongueTwister.set(
-				'Ocurrió un error al generar el trabalenguas. Por favor, inténtalo de nuevo.',
+			this.generatedFunFacts.set(
+				'Ocurrió un error al generar las curiosidades. Por favor, inténtalo de nuevo.',
 			);
-			this.showResult.set(true);
-			this.#snackBar.open(
-				'Error al contactar el servicio de IA',
-				'Cerrar',
-				{ duration: 5000 },
-			);
+			this.showResult.set(true); // Show error in result area
+			this.#handleError(error, 'Error al contactar el servicio de IA');
 		} finally {
 			this.isGenerating.set(false);
 		}
@@ -496,22 +507,24 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 	/** Resets the form and view */
 	goBack(): void {
 		this.showResult.set(false);
-		this.generatedTongueTwister.set('');
-		this.tongueTwisterForm.reset();
-		this.subjectCtrl?.disable();
-		this.availableSubjects.set([]);
+		this.generatedFunFacts.set('');
+		// Reset form
+		this.funFactForm.reset({
+			section: '',
+			subject: '', //{ value: '', disabled: true }, // Reset subject to disabled state
+			topic: '',
+		});
+		this.funFactForm.get('subject')?.disable();
+		this.availableSubjects.set([]); // Clear available subjects
 	}
 
-	/** Downloads the generated tongue twister as DOCX */
+	/** Downloads the generated fun facts as DOCX */
 	downloadDocx(): void {
-		const tongueTwisterText = this.generatedTongueTwister();
-		if (
-			!tongueTwisterText ||
-			tongueTwisterText.startsWith('Ocurrió un error')
-		)
+		const funFactsText = this.generatedFunFacts();
+		if (!funFactsText || funFactsText.startsWith('Ocurrió un error'))
 			return;
 
-		const formValue = this.tongueTwisterForm.getRawValue();
+		const formValue = this.funFactForm.getRawValue();
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
@@ -525,21 +538,32 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 			/[^a-z0-9]/gi,
 			'_',
 		);
-		const topicName = (formValue.topic || 'General')
+		const topicName = (formValue.topic || 'Curiosidades')
 			.substring(0, 15)
 			.replace(/[^a-z0-9]/gi, '_');
 
-		const filename = `Trabalenguas_${sectionName}_${subjectName}_${topicName}.docx`;
+		const filename = `Curiosidades_${sectionName}_${subjectName}_${topicName}.docx`;
 
-		// Create paragraphs
-		// Use the raw text as the AI might format it with its own line breaks
-		const paragraphs = tongueTwisterText.split('\n').map(
-			(line) =>
-				new Paragraph({
-					children: [new TextRun(line)],
-					spacing: { after: 150 }, // Less spacing for tongue twisters
-				}),
-		);
+		// Create paragraphs, attempting to use bullets for list items
+		const paragraphs = funFactsText
+			.split('\n')
+			.filter((line) => line.trim().length > 0)
+			.map((line) => {
+				const trimmedLine = line.trim();
+				// Basic check if line starts like a list item
+				if (trimmedLine.match(/^(\*|-|\d+\.)\s+/)) {
+					return new Paragraph({
+						text: trimmedLine.replace(/^(\*|-|\d+\.)\s+/, ''), // Remove bullet marker
+						bullet: { level: 0 },
+						spacing: { after: 120 },
+					});
+				} else {
+					return new Paragraph({
+						text: trimmedLine,
+						spacing: { after: 120 },
+					});
+				}
+			});
 
 		// Create the document
 		const doc = new Document({
@@ -548,55 +572,51 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 					properties: {},
 					children: [
 						new Paragraph({
-							children: [
-								new TextRun({
-									text: `Trabalenguas Generado`,
-									bold: true,
-									size: 28,
-								}),
-							],
+							text: `Curiosidades Generadas`,
+							heading: HeadingLevel.HEADING_1,
+							alignment: AlignmentType.CENTER,
 							spacing: { after: 300 },
 						}),
 						new Paragraph({
-							children: [
-								new TextRun({
-									text: `Sección: ${this.getSectionDisplay(section!)}`,
-									size: 24,
-								}),
-							],
-							spacing: { after: 100 },
+							text: `Curso: ${this.getSectionDisplay(section!)}`,
+							alignment: AlignmentType.CENTER,
+							style: 'SubtleEmphasis',
 						}),
 						new Paragraph({
-							children: [
-								new TextRun({
-									text: `Asignatura: ${formValue.subject}`,
-									size: 24,
-								}),
-							],
-							spacing: { after: 100 },
+							text: `Asignatura: ${formValue.subject}`,
+							alignment: AlignmentType.CENTER,
+							style: 'SubtleEmphasis',
 						}),
 						...(formValue.topic
 							? [
 									new Paragraph({
-										children: [
-											new TextRun({
-												text: `Tema: ${formValue.topic}`,
-												size: 24,
-											}),
-										],
-										spacing: { after: 400 },
+										text: `Tema: ${formValue.topic}`,
+										alignment: AlignmentType.CENTER,
+										style: 'SubtleEmphasis',
 									}),
 								]
-							: [
-									new Paragraph({
-										text: '',
-										spacing: { after: 400 },
-									}),
-								]), // Add topic if present or just spacing
-						...paragraphs, // Add the generated content paragraphs
+							: []),
+						new Paragraph({ text: '', spacing: { after: 400 } }), // Extra space
+						...paragraphs, // Add the generated fun fact paragraphs
 					],
 				},
 			],
+			styles: {
+				// Reusing styles
+				paragraphStyles: [
+					{
+						id: 'Normal',
+						name: 'Normal',
+						run: { font: 'Segoe UI', size: 22 }, // 11pt
+					},
+					{
+						id: 'SubtleEmphasis',
+						name: 'Subtle Emphasis',
+						basedOn: 'Normal',
+						run: { italics: true, color: '5A5A5A', size: 20 }, // 10pt
+					},
+				],
+			},
 		});
 
 		// Generate blob and trigger download
@@ -607,7 +627,7 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 			.catch((error) => {
 				console.error('Error creating DOCX file:', error);
 				this.#snackBar.open(
-					'Error al generar el archivo DOCX',
+					'Error al generar el archivo DOCX.',
 					'Cerrar',
 					{ duration: 3000 },
 				);
@@ -616,9 +636,12 @@ export class TongueTwisterGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.tongueTwisterForm.get('section');
+		return this.funFactForm.get('section');
 	}
 	get subjectCtrl(): AbstractControl | null {
-		return this.tongueTwisterForm.get('subject');
+		return this.funFactForm.get('subject');
+	}
+	get topicCtrl(): AbstractControl | null {
+		return this.funFactForm.get('topic');
 	}
 }

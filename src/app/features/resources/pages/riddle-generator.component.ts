@@ -16,20 +16,20 @@ import {
 import { CommonModule } from '@angular/common';
 import {
 	Subject,
+	Observable,
 	firstValueFrom,
 	takeUntil,
 	tap,
 	catchError,
 	EMPTY,
 	finalize,
-	distinctUntilChanged,
-	Observable,
 } from 'rxjs';
 
 // Angular Material Modules
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -52,11 +52,8 @@ import {
 } from 'docx';
 import { saveAs } from 'file-saver';
 
-// --- Constants ---
-const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
-
 @Component({
-	selector: 'app-division-generator', // Component selector
+	selector: 'app-riddle-generator', // Component selector
 	standalone: true,
 	imports: [
 		CommonModule,
@@ -64,39 +61,36 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
-		// MatInputModule, // Not needed for this form
+		MatInputModule,
 		MatButtonModule,
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
-		PretifyPipe,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="division-generator-card">
+		<mat-card class="riddle-generator-card">
 			<mat-card-header>
-				<mat-card-title
-					>Generador de Operaciones de División</mat-card-title
-				>
+				<mat-card-title>Generador de Adivinanzas</mat-card-title>
 				<mat-card-subtitle
-					>Crea ejercicios de división
-					personalizados</mat-card-subtitle
+					>Crea adivinanzas ingeniosas para desafiar a tus
+					estudiantes</mat-card-subtitle
 				>
 			</mat-card-header>
 
 			<mat-card-content>
 				@if (!showResult()) {
 					<form
-						[formGroup]="divisionForm"
+						[formGroup]="riddleForm"
 						(ngSubmit)="onSubmit()"
-						class="division-form"
+						class="riddle-form"
 					>
 						<div class="form-row">
 							<mat-form-field
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Curso/Sección</mat-label>
+								<mat-label>Curso/Sección (Grado)</mat-label>
 								<mat-select formControlName="section" required>
 									@if (isLoadingSections()) {
 										<mat-option disabled
@@ -111,11 +105,9 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 											section of sections();
 											track section._id
 										) {
-											<mat-option [value]="section._id"
-												>{{ section.name }} ({{
-													section.level | pretify
-												}})</mat-option
-											>
+											<mat-option [value]="section._id">{{
+												getSectionDisplay(section)
+											}}</mat-option>
 										}
 										@if (
 											!sections().length &&
@@ -141,26 +133,19 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Nivel de Dificultad</mat-label>
-								<mat-select
-									formControlName="difficulty"
-									required
-								>
-									@for (
-										level of difficultyLevels;
-										track level
-									) {
-										<mat-option [value]="level">{{
-											level
+								<mat-label>Complejidad</mat-label>
+								<mat-select formControlName="length" required>
+									@for (len of riddleLengths; track len) {
+										<mat-option [value]="len">{{
+											len
 										}}</mat-option>
 									}
 								</mat-select>
 								@if (
-									difficultyCtrl?.invalid &&
-									difficultyCtrl?.touched
+									lengthCtrl?.invalid && lengthCtrl?.touched
 								) {
 									<mat-error
-										>Selecciona la dificultad.</mat-error
+										>Selecciona la complejidad.</mat-error
 									>
 								}
 							</mat-form-field>
@@ -171,24 +156,27 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Tipos de Números</mat-label>
+								<mat-label>Nivel de Vocabulario</mat-label>
 								<mat-select
-									formControlName="numberType"
+									formControlName="vocabulary"
 									required
 								>
-									@for (type of numberTypes; track type) {
-										<mat-option [value]="type">{{
-											type
+									@for (
+										level of vocabularyLevels;
+										track level
+									) {
+										<mat-option [value]="level">{{
+											level
 										}}</mat-option>
 									}
 								</mat-select>
 								@if (
-									numberTypeCtrl?.invalid &&
-									numberTypeCtrl?.touched
+									vocabularyCtrl?.invalid &&
+									vocabularyCtrl?.touched
 								) {
 									<mat-error
-										>Selecciona el tipo de
-										números.</mat-error
+										>Selecciona el nivel de
+										vocabulario.</mat-error
 									>
 								}
 							</mat-form-field>
@@ -197,28 +185,14 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								appearance="outline"
 								class="form-field"
 							>
-								<mat-label>Tipo de Resultado</mat-label>
-								<mat-select formControlName="resultType">
-									@for (type of resultTypes; track type) {
-										<mat-option [value]="type">{{
-											type
-										}}</mat-option>
-									}
-								</mat-select>
-								@if (
-									resultTypeCtrl?.hasError('required') &&
-									resultTypeCtrl?.touched
-								) {
-									<mat-error
-										>Selecciona el tipo de
-										resultado.</mat-error
-									>
-								}
-								@if (resultTypeCtrl?.disabled) {
-									<mat-hint
-										>No aplica para fracciones</mat-hint
-									>
-								}
+								<mat-label
+									>Tema o Respuesta (Opcional)</mat-label
+								>
+								<input
+									matInput
+									formControlName="topic"
+									placeholder="Ej: Frutas, Herramientas, El Sol"
+								/>
 							</mat-form-field>
 						</div>
 
@@ -228,20 +202,27 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								color="primary"
 								type="submit"
 								[disabled]="
-									divisionForm.invalid || isGenerating()
+									riddleForm.invalid || isGenerating()
 								"
 							>
 								@if (isGenerating()) {
-									<mat-spinner
-										diameter="20"
-										color="accent"
-										class="inline-spinner"
-									></mat-spinner>
-									Generando...
+									<div
+										[style]="{
+											display: 'flex',
+											alignItems: 'center',
+										}"
+									>
+										<mat-spinner
+											diameter="20"
+											color="accent"
+											class="inline-spinner"
+										></mat-spinner>
+										Generando...
+									</div>
 								} @else {
 									<ng-container>
-										<mat-icon>calculate</mat-icon> Generar
-										Divisiones
+										<mat-icon>help_outline</mat-icon>
+										Generar Adivinanzas
 									</ng-container>
 								}
 							</button>
@@ -250,12 +231,12 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 				}
 
 				@if (showResult()) {
-					<div class="division-result">
-						<h3>Operaciones de División Generadas:</h3>
+					<div class="riddle-result">
+						<h3>Adivinanza(s) Generada(s):</h3>
 						<div
-							class="division-result-content"
+							class="riddle-result-content"
 							[innerHTML]="
-								generatedDivisions().replaceAll(
+								generatedRiddles().replaceAll(
 									'
 ',
 									'<br>'
@@ -276,8 +257,8 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
-									!generatedDivisions() ||
-									generatedDivisions().startsWith(
+									!generatedRiddles() ||
+									generatedRiddles().startsWith(
 										'Ocurrió un error'
 									)
 								"
@@ -296,11 +277,11 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 			:host {
 				display: block;
 			}
-			.division-generator-card {
+			.riddle-generator-card {
 				margin: 0 auto;
 				padding: 15px 25px 25px 25px;
 			}
-			.division-form {
+			.riddle-form {
 				margin-top: 16px;
 				display: flex;
 				flex-direction: column;
@@ -330,25 +311,33 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 				margin-right: 8px;
 				vertical-align: middle;
 			}
-			.division-result {
+			.riddle-result {
 				margin-top: 20px;
 			}
-			.division-result h3 {
+			.riddle-result h3 {
 				margin-bottom: 15px;
 			}
-			.division-result-content {
-				background-color: #f8f9fa;
-				border: 1px solid #dee2e6;
-				padding: 20px 30px;
-				min-height: 200px;
+			.riddle-result-content {
+				background-color: #e8f5e9; /* Light green background */
+				border: 1px solid #c8e6c9;
+				border-left: 5px solid #4caf50; /* Green accent */
+				padding: 25px 35px;
+				min-height: 150px;
 				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-				line-height: 1.8; /* More spacing for operations */
+				line-height: 1.7;
 				font-family:
-					'Consolas', 'Courier New', monospace; /* Monospace for alignment */
+					'Verdana', Geneva, Tahoma, sans-serif; /* Clean sans-serif */
 				font-size: 11pt;
 				margin-bottom: 20px;
 				max-width: 100%;
 				white-space: pre-wrap; /* Preserve formatting */
+			}
+			/* Try to style Answer if AI uses a consistent format */
+			.riddle-result-content br + span[style*='bold'] {
+				/* Example: Bold text after a break */
+				display: block;
+				margin-top: 0.5em;
+				font-weight: bold;
 			}
 			.result-actions {
 				display: flex;
@@ -362,38 +351,34 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	encapsulation: ViewEncapsulation.None,
 })
-export class DivisionGeneratorComponent implements OnInit, OnDestroy {
+export class RiddleGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
-	#sectionService = inject(ClassSectionService); // Use correct service name
+	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
+
+	#pretify = new PretifyPipe().transform;
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
 	isGenerating = signal(false);
 	showResult = signal(false);
-	generatedDivisions = signal<string>(''); // Stores the AI response string
+	generatedRiddles = signal<string>(''); // Stores the AI response string
 	sections = signal<ClassSection[]>([]);
-	// availableSubjects = signal<string[]>([]); // Subject not needed for this component
-	#pretify = new PretifyPipe().transform;
 
 	// --- Form Definition ---
-	divisionForm = this.#fb.group({
+	riddleForm = this.#fb.group({
 		section: ['', Validators.required],
-		difficulty: ['Intermedio', Validators.required], // Default value
-		numberType: ['Solo Naturales', Validators.required], // Default value
-		resultType: [{ value: 'Exacto', disabled: false }, Validators.required], // Default value, initially enabled
+		length: ['Corta', Validators.required], // Renamed to complexity, using 'length' internally
+		vocabulary: ['Medio', Validators.required], // Default value
+		topic: [''], // Optional topic or answer
 	});
 
 	// --- Fixed Select Options ---
-	readonly difficultyLevels = ['Básico', 'Intermedio', 'Avanzado'];
-	readonly numberTypes = [
-		'Solo Naturales',
-		'Naturales y Enteros',
-		NUMBER_TYPE_FRACTIONS,
-	];
-	readonly resultTypes = ['Exacto', 'Inexacto'];
+	// Reusing 'length' options but label is 'Complejidad'
+	readonly riddleLengths = ['Muy Corta', 'Corta', 'Extensa'];
+	readonly vocabularyLevels = ['Reducido', 'Medio', 'Amplio'];
 
 	// --- Lifecycle Management ---
 	#destroy$ = new Subject<void>();
@@ -401,7 +386,6 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 	// --- OnInit ---
 	ngOnInit(): void {
 		this.#loadSections();
-		this.#listenForNumberTypeChanges(); // Setup listener for conditional logic
 	}
 
 	// --- OnDestroy ---
@@ -415,7 +399,6 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 	/** Loads sections */
 	#loadSections(): void {
 		this.isLoadingSections.set(true);
-		// Use findSections as requested by the user
 		this.#sectionService
 			.findSections()
 			.pipe(
@@ -429,43 +412,51 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
-	/** Enables/disables resultType based on numberType */
-	#listenForNumberTypeChanges(): void {
-		this.numberTypeCtrl?.valueChanges
-			.pipe(
-				takeUntil(this.#destroy$),
-				distinctUntilChanged(), // Only react on actual change
-			)
-			.subscribe((value) => {
-				if (value === NUMBER_TYPE_FRACTIONS) {
-					this.resultTypeCtrl?.disable();
-					this.resultTypeCtrl?.clearValidators(); // Remove required validator
-					this.resultTypeCtrl?.reset(); // Optionally clear the value
-				} else {
-					this.resultTypeCtrl?.enable();
-					this.resultTypeCtrl?.setValidators(Validators.required); // Add required validator back
-				}
-				this.resultTypeCtrl?.updateValueAndValidity(); // Apply changes
-			});
-	}
-
 	#handleError(error: any, defaultMessage: string): Observable<never> {
 		console.error(defaultMessage, error);
 		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 });
 		return EMPTY;
 	}
 
+	/** Maps user selection to prompt instructions for complexity */
+	#getComplexityInstruction(lengthSelection: string): string {
+		switch (lengthSelection) {
+			case 'Muy Corta':
+				return 'muy sencilla (pocas pistas, respuesta bastante obvia)';
+			case 'Corta':
+				return 'de complejidad media (algunas pistas, requiere pensar un poco)';
+			case 'Extensa':
+				return 'más compleja o elaborada (más pistas, requiere más ingenio, puede usar metáforas simples)';
+			default:
+				return 'de complejidad media';
+		}
+	}
+
+	/** Maps user selection to prompt instructions for vocabulary (reused) */
+	#getVocabularyInstruction(vocabularySelection: string): string {
+		switch (vocabularySelection) {
+			case 'Reducido':
+				return 'un vocabulario sencillo y común';
+			case 'Medio':
+				return 'un vocabulario estándar, apropiado para la edad';
+			case 'Amplio':
+				return 'un vocabulario un poco más variado o figurado';
+			default:
+				return 'un vocabulario estándar, apropiado para la edad';
+		}
+	}
+
 	// --- Public Methods ---
 
 	/** Formats section display name */
 	getSectionDisplay(section: ClassSection): string {
-		return `${this.#pretify(section.year) || ''} ${section.name || ''} (${this.#pretify(section.level) || 'Nivel no especificado'})`;
+		return `${this.#pretify(section.year || '')} ${section.name || ''} (${this.#pretify(section.level || 'Nivel no especificado')})`;
 	}
 
 	/** Handles form submission */
 	async onSubmit(): Promise<void> {
-		if (this.divisionForm.invalid) {
-			this.divisionForm.markAllAsTouched();
+		if (this.riddleForm.invalid) {
+			this.riddleForm.markAllAsTouched();
 			this.#snackBar.open(
 				'Por favor, completa todos los campos requeridos.',
 				'Cerrar',
@@ -475,47 +466,45 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 		}
 
 		this.isGenerating.set(true);
-		this.generatedDivisions.set('');
+		this.generatedRiddles.set('');
 		this.showResult.set(false);
 
-		const formValue = this.divisionForm.getRawValue(); // Use getRawValue to include disabled controls if needed later
+		const formValue = this.riddleForm.getRawValue();
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
 
-		// Construct the prompt for generating division problems
-		const prompt = `Eres un generador experto de ejercicios matemáticos para estudiantes.
-      Necesito una lista de operaciones de división adecuadas para una clase.
+		// Construct the prompt for generating the riddle
+		const prompt = `Eres un creador experto de adivinanzas ingeniosas para niños y jóvenes.
+      Necesito que generes algunas adivinanzas originales y divertidas para una clase.
 
-      Contexto:
-      - Nivel Educativo: ${this.#pretify(selectedSection?.level || 'No especificado')}
-      - Año/Grado: ${this.#pretify(selectedSection?.year || 'No especificado')}
-      - Nivel de Dificultad Solicitado: ${formValue.difficulty}
-      - Tipos de Números a Incluir: ${formValue.numberType}
-      ${formValue.numberType !== NUMBER_TYPE_FRACTIONS ? `- Tipo de Resultado Deseado: ${formValue.resultType}` : ''}
+      Contexto e Instrucciones:
+      - Audiencia: Estudiantes de ${selectedSection?.level || 'Nivel no especificado'}, ${selectedSection?.year || 'Grado no especificado'}. Las adivinanzas deben ser apropiadas para su edad y capacidad de razonamiento.
+      - Complejidad Deseada: ${this.#getComplexityInstruction(formValue.length!)}.
+      - Nivel de Vocabulario: Utiliza ${this.#getVocabularyInstruction(formValue.vocabulary!)}.
+      ${formValue.topic ? `- Tema o Respuesta Sugerida: La adivinanza (o al menos una de ellas) debe tratar sobre "${formValue.topic}" o tener esa palabra como respuesta.` : ''}
+      - Cantidad: Genera 2 o 3 adivinanzas distintas.
+      - **Formato Obligatorio:** Para CADA adivinanza, presenta primero el texto de la adivinanza y LUEGO, en una línea separada y claramente identificada, la respuesta. Usa este formato EXACTO:
+          Adivinanza:
+          [Texto de la adivinanza aquí, puede tener varias líneas]
 
-      Instrucciones para Generar las Divisiones:
-      1.  **Cantidad:** Genera una lista de aproximadamente 15 a 20 operaciones de división.
-      2.  **Formato:** Presenta cada operación claramente, por ejemplo: "Dividendo / Divisor = ?" o "A ÷ B = ?". Si el resultado es inexacto y se pidió, indica cómo mostrar el residuo (ej: "23 / 5 = ? R ?"). Para fracciones, usa el formato "(a/b) / (c/d) = ?".
-      3.  **Adecuación:** Las operaciones deben ser apropiadas para el nivel educativo (grado/año) y la dificultad seleccionada.
-          * **Básico:** Números pequeños, divisores comunes, resultados exactos (si se pidió).
-          * **Intermedio:** Números más grandes, variedad de divisores, puede incluir resultados inexactos (si se pidió). Para fracciones, denominadores comunes o simples.
-          * **Avanzado:** Números grandes, divisores menos obvios, resultados inexactos más frecuentes (si se pidió). Para fracciones, distintos denominadores, fracciones impropias.
-      4.  **Tipos de Números:** Asegúrate de usar solo los tipos de números especificados (Naturales, Enteros, Fracciones). Si son enteros, incluye números negativos en dividendo y/o divisor según la dificultad.
-      5.  **Tipo de Resultado:** Si no son fracciones, genera divisiones que resulten en respuestas exactas o inexactas según lo solicitado.
-      6.  **Salida:** Devuelve únicamente la lista de operaciones, una por línea, sin títulos, explicaciones, saludos o despedidas.`;
+          Respuesta: [Respuesta aquí]
+       (Deja una línea en blanco entre la adivinanza y la respuesta, y dos líneas en blanco entre adivinanzas distintas si generas más de una).
+      - Estilo: Pueden ser en verso o prosa corta. Deben ser intrigantes y hacer pensar.
+
+      IMPORTANTE: Asegúrate de que la respuesta sea coherente con las pistas de la adivinanza. No incluyas saludos ni despedidas.`;
 
 		try {
 			const result = await firstValueFrom(
 				this.#aiService.geminiAi(prompt),
 			);
-			this.generatedDivisions.set(
-				result?.response || 'No se pudieron generar las operaciones.',
+			this.generatedRiddles.set(
+				result?.response || 'No se pudieron generar las adivinanzas.',
 			);
 			this.showResult.set(true);
 		} catch (error) {
-			this.generatedDivisions.set(
-				'Ocurrió un error al generar las operaciones. Por favor, inténtalo de nuevo.',
+			this.generatedRiddles.set(
+				'Ocurrió un error al generar las adivinanzas. Por favor, inténtalo de nuevo.',
 			);
 			this.showResult.set(true); // Show error in result area
 			this.#handleError(error, 'Error al contactar el servicio de IA');
@@ -527,26 +516,22 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 	/** Resets the form and view */
 	goBack(): void {
 		this.showResult.set(false);
-		this.generatedDivisions.set('');
-		// Reset form to defaults, re-enabling resultType initially
-		this.divisionForm.reset({
+		this.generatedRiddles.set('');
+		// Reset form to defaults
+		this.riddleForm.reset({
 			section: '',
-			difficulty: 'Intermedio',
-			numberType: 'Solo Naturales',
-			resultType: 'Exacto',
+			length: 'Corta', // Corresponds to complexity
+			vocabulary: 'Medio',
+			topic: '',
 		});
-		this.resultTypeCtrl?.enable(); // Ensure it's enabled on reset
-		this.resultTypeCtrl?.setValidators(Validators.required);
-		this.resultTypeCtrl?.updateValueAndValidity();
 	}
 
-	/** Downloads the generated divisions as DOCX */
+	/** Downloads the generated riddles as DOCX */
 	downloadDocx(): void {
-		const divisionsText = this.generatedDivisions();
-		if (!divisionsText || divisionsText.startsWith('Ocurrió un error'))
-			return;
+		const riddlesText = this.generatedRiddles();
+		if (!riddlesText || riddlesText.startsWith('Ocurrió un error')) return;
 
-		const formValue = this.divisionForm.getRawValue();
+		const formValue = this.riddleForm.getRawValue();
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
@@ -556,27 +541,63 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 			/[^a-z0-9]/gi,
 			'_',
 		);
-		const difficultyName = (formValue.difficulty || 'Dificultad').replace(
+		const topicName = (formValue.topic || 'Adivinanzas')
+			.substring(0, 15)
+			.replace(/[^a-z0-9]/gi, '_');
+		const complexityName = (formValue.length || 'Media').replace(
 			/[^a-z0-9]/gi,
 			'_',
 		);
-		const numberTypeName = (formValue.numberType || 'Numeros')
-			.substring(0, 15)
-			.replace(/[^a-z0-9]/gi, '_');
 
-		const filename = `Divisiones_${sectionName}_${difficultyName}_${numberTypeName}.docx`;
+		const filename = `Adivinanzas_${sectionName}_${complexityName}_${topicName}.docx`;
 
-		// Create paragraphs, splitting by newline characters
-		const paragraphs = divisionsText
-			.split('\n')
-			.filter((line) => line.trim().length > 0) // Remove empty lines
-			.map(
-				(line) =>
+		// Create paragraphs, trying to format Riddle/Answer
+		const paragraphs: Paragraph[] = [];
+		const riddleBlocks = riddlesText.split(/\n\s*\n\s*Adivinanza:/); // Split by "Adivinanza:" preceded by empty lines
+
+		riddleBlocks.forEach((block, index) => {
+			if (block.trim().length === 0 && index === 0) return; // Skip potential empty first block
+
+			const parts = block.split(/\n\s*Respuesta:/); // Split each block into riddle and answer
+			const riddlePart = (
+				index === 0 && !block.trim().startsWith('Adivinanza:')
+					? block.split(/\n\s*Respuesta:/)[0]
+					: parts[0]
+			)
+				.replace(/^Adivinanza:/, '')
+				.trim();
+			const answerPart = parts.length > 1 ? parts[1].trim() : null;
+
+			if (riddlePart) {
+				paragraphs.push(
 					new Paragraph({
-						children: [new TextRun(line.trim())], // Trim each line
-						spacing: { line: 360 }, // 1.5 line spacing (360 / 240)
+						children: [
+							new TextRun({
+								text: 'Adivinanza:',
+								bold: true,
+								break: 1,
+							}),
+							new TextRun({ text: riddlePart, break: 1 }),
+						],
+						spacing: { after: 120, before: index > 0 ? 240 : 0 }, // Add space before new riddle
 					}),
-			);
+				);
+			}
+			if (answerPart) {
+				paragraphs.push(
+					new Paragraph({
+						children: [
+							new TextRun({ text: 'Respuesta:', bold: true }),
+							new TextRun({
+								text: ` ${answerPart}`,
+								italics: true,
+							}),
+						],
+						spacing: { after: 120 },
+					}),
+				);
+			}
+		});
 
 		// Create the document
 		const doc = new Document({
@@ -585,7 +606,7 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 					properties: {},
 					children: [
 						new Paragraph({
-							text: `Ejercicios de División`,
+							text: `Adivinanzas Generadas`,
 							heading: HeadingLevel.HEADING_1,
 							alignment: AlignmentType.CENTER,
 							spacing: { after: 300 },
@@ -596,50 +617,42 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 							style: 'SubtleEmphasis',
 						}),
 						new Paragraph({
-							text: `Dificultad: ${formValue.difficulty}`,
+							text: `Complejidad: ${formValue.length}`,
 							alignment: AlignmentType.CENTER,
 							style: 'SubtleEmphasis',
 						}),
 						new Paragraph({
-							text: `Tipo de Números: ${formValue.numberType}`,
+							text: `Vocabulario: ${formValue.vocabulary}`,
 							alignment: AlignmentType.CENTER,
 							style: 'SubtleEmphasis',
 						}),
-						...(formValue.numberType !== NUMBER_TYPE_FRACTIONS
+						...(formValue.topic
 							? [
 									new Paragraph({
-										text: `Tipo de Resultado: ${formValue.resultType}`,
+										text: `Tema/Respuesta Guía: ${formValue.topic}`,
 										alignment: AlignmentType.CENTER,
 										style: 'SubtleEmphasis',
 									}),
 								]
 							: []),
 						new Paragraph({ text: '', spacing: { after: 400 } }), // Extra space
-						...paragraphs, // Add the generated content paragraphs
+						...paragraphs, // Add the generated riddle paragraphs
 					],
 				},
 			],
 			styles: {
-				// Use default styles for headings etc. but ensure paragraph font if needed
+				// Reusing styles
 				paragraphStyles: [
 					{
 						id: 'Normal',
 						name: 'Normal',
-						run: {
-							font: 'Calibri', // Or another suitable font
-							size: 22, // 11pt
-						},
+						run: { font: 'Verdana', size: 22 }, // 11pt
 					},
 					{
-						// Example style if needed
 						id: 'SubtleEmphasis',
 						name: 'Subtle Emphasis',
 						basedOn: 'Normal',
-						run: {
-							italics: true,
-							color: '5A5A5A',
-							size: 20, // 10pt
-						},
+						run: { italics: true, color: '5A5A5A', size: 20 }, // 10pt
 					},
 				],
 			},
@@ -662,15 +675,15 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.divisionForm.get('section');
+		return this.riddleForm.get('section');
 	}
-	get difficultyCtrl(): AbstractControl | null {
-		return this.divisionForm.get('difficulty');
+	get lengthCtrl(): AbstractControl | null {
+		return this.riddleForm.get('length');
+	} // Maps to complexity
+	get vocabularyCtrl(): AbstractControl | null {
+		return this.riddleForm.get('vocabulary');
 	}
-	get numberTypeCtrl(): AbstractControl | null {
-		return this.divisionForm.get('numberType');
-	}
-	get resultTypeCtrl(): AbstractControl | null {
-		return this.divisionForm.get('resultType');
+	get topicCtrl(): AbstractControl | null {
+		return this.riddleForm.get('topic');
 	}
 }

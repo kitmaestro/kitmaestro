@@ -42,9 +42,9 @@ import { MatIconModule } from '@angular/material/icon';
 
 // --- Core Services & Interfaces (Using new structure paths) ---
 import { AiService } from '../../core/services/ai.service';
-import { ClassSectionService } from '../../core/services/class-section.service'; // Correct path
-import { SubjectConceptListService } from '../../core/services/subject-concept-list.service'; // Correct path
-import { ClassSection } from '../../core/interfaces/class-section'; // Correct path
+import { ClassSectionService } from '../../core/services/class-section.service';
+import { SubjectConceptListService } from '../../core/services/subject-concept-list.service';
+import { ClassSection } from '../../core/interfaces/class-section';
 import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
 
 // --- DOCX Generation ---
