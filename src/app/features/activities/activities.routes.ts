@@ -18,6 +18,14 @@ export default [
 		title: 'Generador de Actividad de Lectura',
 	},
 	{
+		path: 'reading-activities',
+		loadComponent: () =>
+			import(
+				'./pages/reading-activity-list.component'
+			).then((mod) => mod.ReadingActivityListComponent),
+		title: 'Actividad de Lectura',
+	},
+	{
 		path: 'reading-activities/:id',
 		loadComponent: () =>
 			import(
@@ -117,8 +125,8 @@ export default [
         path: 'word-scramble-generator',
         loadComponent: () =>
             import(
-                './pages/word-scramble-generator.component'
-            ).then((m) => m.WordScrambleGeneratorComponent),
+                './pages/scrambled-words-generator.component'
+            ).then((m) => m.ScrambledWordsGeneratorComponent),
         title: 'Generador de Palabras Revueltas',
     },
     {
@@ -154,5 +162,21 @@ export default [
                 (m) => m.SudokuGeneratorComponent,
             ),
         title: 'Generador de Sudoku',
+    },
+    {
+        path: 'english-dialog-generator',
+        loadComponent: () =>
+            import(
+                './pages/english-dialog-generator.component'
+            ).then((mod) => mod.EnglishDialogGeneratorComponent),
+        title: 'Generador de Dialogos en Inglés',
+    },
+    {
+        path: 'math-problem-generator',
+        loadComponent: () =>
+            import(
+                './pages/math-problem-generator.component'
+            ).then((mod) => mod.MathProblemGeneratorComponent),
+        title: 'Generador de Problemas Matemáticos',
     },
 ] as Route[];

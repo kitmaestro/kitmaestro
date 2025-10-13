@@ -41,8 +41,6 @@ import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { ClassSection } from '../../../core/interfaces/class-section';
 
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-
 // --- DOCX Generation ---
 import {
 	Document,
@@ -55,7 +53,7 @@ import {
 import { saveAs } from 'file-saver';
 
 @Component({
-	selector: 'app-synonyms-generator', // Component selector
+	selector: 'app-scrambled-words-generator', // Component selector
 	standalone: true,
 	imports: [
 		CommonModule,
@@ -68,25 +66,26 @@ import { saveAs } from 'file-saver';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
-		PretifyPipe,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="synonyms-generator-card">
+		<mat-card class="scrambled-words-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Sinónimos</mat-card-title>
+				<mat-card-title
+					>Generador de Palabras Desordenadas</mat-card-title
+				>
 				<mat-card-subtitle
-					>Crea listas de palabras y sus sinónimos
-					contextualizados</mat-card-subtitle
+					>Crea ejercicios de palabras desordenadas para tus
+					clases</mat-card-subtitle
 				>
 			</mat-card-header>
 
 			<mat-card-content>
 				@if (!showResult()) {
 					<form
-						[formGroup]="synonymsForm"
+						[formGroup]="scrambledWordsForm"
 						(ngSubmit)="onSubmit()"
-						class="synonyms-form"
+						class="scrambled-words-form"
 					>
 						<div class="form-row">
 							<mat-form-field
@@ -143,7 +142,7 @@ import { saveAs } from 'file-saver';
 										track subject
 									) {
 										<mat-option [value]="subject">{{
-											subject | pretify
+											subject
 										}}</mat-option>
 									}
 									@if (
@@ -184,7 +183,7 @@ import { saveAs } from 'file-saver';
 									formControlName="quantity"
 									required
 									min="1"
-									max="20"
+									max="25"
 								/>
 								@if (
 									quantityCtrl?.invalid &&
@@ -200,7 +199,7 @@ import { saveAs } from 'file-saver';
 									}
 									@if (quantityCtrl?.hasError('max')) {
 										<mat-error
-											>Máximo 20 palabras.</mat-error
+											>Máximo 25 palabras.</mat-error
 										>
 									}
 								}
@@ -246,7 +245,7 @@ import { saveAs } from 'file-saver';
 								<input
 									matInput
 									formControlName="topic"
-									placeholder="Ej: El clima, Emociones, Herramientas"
+									placeholder="Ej: Partes del cuerpo, Colores, Verbos comunes"
 								/>
 							</mat-form-field>
 						</div>
@@ -257,7 +256,7 @@ import { saveAs } from 'file-saver';
 								color="primary"
 								type="submit"
 								[disabled]="
-									synonymsForm.invalid || isGenerating()
+									scrambledWordsForm.invalid || isGenerating()
 								"
 							>
 								@if (isGenerating()) {
@@ -276,8 +275,8 @@ import { saveAs } from 'file-saver';
 									</div>
 								} @else {
 									<ng-container>
-										<mat-icon>find_replace</mat-icon>
-										Generar Sinónimos
+										<mat-icon>shuffle</mat-icon> Generar
+										Palabras Desordenadas
 									</ng-container>
 								}
 							</button>
@@ -286,17 +285,11 @@ import { saveAs } from 'file-saver';
 				}
 
 				@if (showResult()) {
-					<div class="synonyms-result">
-						<h3>Sinónimos Generados:</h3>
+					<div class="scrambled-words-result">
+						<h3>Palabras Desordenadas Generadas:</h3>
 						<div
-							class="synonyms-result-content"
-							[innerHTML]="
-								generatedSynonyms().replaceAll(
-									'
-',
-									'<br>'
-								)
-							"
+							class="scrambled-words-content"
+							[innerHTML]="generatedScrambledWords().replaceAll('\n', '<br>')"
 						></div>
 
 						<div class="result-actions">
@@ -312,8 +305,8 @@ import { saveAs } from 'file-saver';
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
-									!generatedSynonyms() ||
-									generatedSynonyms().startsWith(
+									!generatedScrambledWords() ||
+									generatedScrambledWords().startsWith(
 										'Ocurrió un error'
 									)
 								"
@@ -332,12 +325,11 @@ import { saveAs } from 'file-saver';
 			:host {
 				display: block;
 			}
-			.synonyms-generator-card {
+			.scrambled-words-card {
 				margin: 0 auto;
 				padding: 15px 25px 25px 25px;
 			}
-			.synonyms-form {
-				margin-top: 16px;
+			.scrambled-words-form {
 				display: flex;
 				flex-direction: column;
 				gap: 15px;
@@ -369,36 +361,36 @@ import { saveAs } from 'file-saver';
 				margin-right: 8px;
 				vertical-align: middle;
 			}
-			.synonyms-result {
+			.scrambled-words-result {
 				margin-top: 20px;
 			}
-			.synonyms-result h3 {
+			.scrambled-words-result h3 {
 				margin-bottom: 15px;
 			}
-			.synonyms-result-content {
-				background-color: #f9fbe7; /* Light lime background */
-				border: 1px solid #f0f4c3;
-				border-left: 5px solid #afb42b; /* Lime accent */
+			.scrambled-words-content {
+				background-color: #f3e5f5; /* Light purple background */
+				border: 1px solid #e1bee7;
+				border-left: 5px solid #9c27b0; /* Purple accent */
 				padding: 25px 35px;
 				min-height: 200px;
 				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 				line-height: 1.8; /* More spacing for lists */
 				font-family:
-					'Verdana', Geneva, Tahoma, sans-serif; /* Clean sans-serif */
+					'Courier New', Courier, monospace; /* Monospace for alignment */
 				font-size: 11pt;
 				margin-bottom: 20px;
 				max-width: 100%;
 				white-space: pre-wrap; /* Preserve formatting */
 			}
-			/* Style potential word/synonym pairs */
-			.synonyms-result-content strong {
-				/* Example: Bold text for original word */
-				display: inline-block; /* Or block if needed */
+			/* Style potential word/scrambled pairs */
+			.scrambled-words-content strong {
+				/* Example: Bold text for labels */
+				display: inline-block;
 				margin-right: 5px;
 				font-weight: bold;
 			}
-			.synonyms-result-content br + strong {
-				/* Add space before new word */
+			.scrambled-words-content br + strong {
+				/* Add space before new entry */
 				margin-top: 1em;
 				display: block;
 			}
@@ -414,31 +406,29 @@ import { saveAs } from 'file-saver';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	encapsulation: ViewEncapsulation.None,
 })
-export class SynonymsGeneratorComponent implements OnInit, OnDestroy {
+export class ScrambledWordsGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
 
-	#pretify = new PretifyPipe().transform;
-
 	// --- State Signals ---
 	isLoadingSections = signal(false);
 	isGenerating = signal(false);
 	showResult = signal(false);
-	generatedSynonyms = signal<string>(''); // Stores the AI response string
+	generatedScrambledWords = signal<string>(''); // Stores the AI response string
 	sections = signal<ClassSection[]>([]);
 	availableSubjects = signal<string[]>([]);
 
 	// --- Form Definition ---
-	synonymsForm = this.#fb.group({
+	scrambledWordsForm = this.#fb.group({
 		section: ['', Validators.required],
 		subject: [{ value: '', disabled: true }, Validators.required],
 		quantity: [
-			5,
-			[Validators.required, Validators.min(1), Validators.max(20)],
-		], // Default 5
+			10,
+			[Validators.required, Validators.min(1), Validators.max(25)],
+		], // Default 10
 		difficulty: ['Medio', Validators.required], // Default value
 		topic: [''], // Optional topic
 	});
@@ -516,13 +506,13 @@ export class SynonymsGeneratorComponent implements OnInit, OnDestroy {
 	#getDifficultyInstruction(difficultySelection: string): string {
 		switch (difficultySelection) {
 			case 'Fácil':
-				return 'palabras comunes y sinónimos muy directos y conocidos';
+				return 'palabras cortas (3-5 letras) y comunes';
 			case 'Medio':
-				return 'palabras de uso estándar con una mezcla de sinónimos comunes y algunos menos frecuentes';
+				return 'palabras de longitud media (5-8 letras) de uso estándar';
 			case 'Difícil':
-				return 'palabras menos comunes o más específicas, con sinónimos más variados y precisos, quizás incluyendo lenguaje figurado si aplica';
+				return 'palabras más largas (8+ letras) o menos comunes';
 			default:
-				return 'palabras de uso estándar con sinónimos de dificultad media';
+				return 'palabras de longitud y dificultad media';
 		}
 	}
 
@@ -530,13 +520,13 @@ export class SynonymsGeneratorComponent implements OnInit, OnDestroy {
 
 	/** Formats section display name */
 	getSectionDisplay(section: ClassSection): string {
-		return `${this.#pretify(section.year || '')} ${section.name || ''} (${this.#pretify(section.level || 'Nivel no especificado')})`;
+		return `${section.year || ''} ${section.name || ''} (${section.level || 'Nivel no especificado'})`;
 	}
 
 	/** Handles form submission */
 	async onSubmit(): Promise<void> {
-		if (this.synonymsForm.invalid) {
-			this.synonymsForm.markAllAsTouched();
+		if (this.scrambledWordsForm.invalid) {
+			this.scrambledWordsForm.markAllAsTouched();
 			this.#snackBar.open(
 				'Por favor, completa todos los campos requeridos.',
 				'Cerrar',
@@ -546,42 +536,44 @@ export class SynonymsGeneratorComponent implements OnInit, OnDestroy {
 		}
 
 		this.isGenerating.set(true);
-		this.generatedSynonyms.set('');
+		this.generatedScrambledWords.set('');
 		this.showResult.set(false);
 
-		const formValue = this.synonymsForm.getRawValue();
+		const formValue = this.scrambledWordsForm.getRawValue();
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
 
-		// Construct the prompt for generating synonyms
-		const prompt = `Eres un lexicógrafo experto y profesor de lengua, especializado en adaptar el vocabulario a diferentes niveles educativos.
-      Necesito que generes una lista de palabras con sus respectivos sinónimos para una clase.
+		// Construct the prompt for generating scrambled words
+		const prompt = `Eres un creador de juegos de palabras y actividades lingüísticas para estudiantes.
+      Necesito que generes una lista de palabras desordenadas (anagramas) para una clase.
 
       Contexto e Instrucciones:
-      - Audiencia: Estudiantes de ${this.#pretify(selectedSection?.level || 'Nivel no especificado')}, ${this.#pretify(selectedSection?.year || 'Grado no especificado')}. Las palabras y los sinónimos deben ser apropiados para su edad y nivel de comprensión.
-      - Asignatura: ${this.#pretify(formValue.subject || '')}. Las palabras seleccionadas deben estar preferentemente relacionadas con esta materia.
+      - Audiencia: Estudiantes de ${selectedSection?.level || 'Nivel no especificado'}, ${selectedSection?.year || 'Grado no especificado'}. Las palabras deben ser apropiadas para su edad.
+      - Asignatura: ${formValue.subject}. Las palabras seleccionadas deben estar preferentemente relacionadas con esta materia.
       ${formValue.topic ? `- Tema Específico (Opcional): Si es posible, enfoca la selección de palabras en el tema "${formValue.topic}".` : ''}
       - Cantidad de Palabras: Genera ${formValue.quantity} palabras distintas.
-      - Dificultad: Selecciona ${this.#getDifficultyInstruction(formValue.difficulty!)}. Tanto la palabra original como los sinónimos deben ajustarse a esta dificultad.
-      - **Formato Obligatorio:** Para CADA palabra, presenta primero la palabra original y LUEGO, en una línea separada, una lista de 3 a 5 sinónimos apropiados. Usa este formato EXACTO:
+      - Dificultad: Selecciona ${this.#getDifficultyInstruction(formValue.difficulty!)}.
+      - **Formato Obligatorio:** Para CADA palabra, presenta primero la versión desordenada y LUEGO, en una línea separada, la palabra original (la respuesta). Usa este formato EXACTO:
+          Desordenada: [Palabra con letras mezcladas aquí]
           Palabra: [Palabra Original Aquí]
-          Sinónimos: [Sinónimo 1], [Sinónimo 2], [Sinónimo 3], ...
-       (Deja dos líneas en blanco entre cada entrada de palabra/sinónimos).
+       (Deja dos líneas en blanco entre cada entrada de palabra desordenada/original).
+      - Mezcla: Asegúrate de que las letras estén bien mezcladas en la versión desordenada.
 
-      IMPORTANTE: Asegúrate de que los sinónimos sean realmente equivalentes en significado (o muy cercanos) en el contexto probable. No incluyas saludos ni despedidas.`;
+      IMPORTANTE: No incluyas saludos ni despedidas.`;
 
 		try {
 			const result = await firstValueFrom(
 				this.#aiService.geminiAi(prompt),
 			);
-			this.generatedSynonyms.set(
-				result?.response || 'No se pudieron generar los sinónimos.',
+			this.generatedScrambledWords.set(
+				result?.response ||
+					'No se pudieron generar las palabras desordenadas.',
 			);
 			this.showResult.set(true);
 		} catch (error) {
-			this.generatedSynonyms.set(
-				'Ocurrió un error al generar los sinónimos. Por favor, inténtalo de nuevo.',
+			this.generatedScrambledWords.set(
+				'Ocurrió un error al generar las palabras. Por favor, inténtalo de nuevo.',
 			);
 			this.showResult.set(true); // Show error in result area
 			this.#handleError(error, 'Error al contactar el servicio de IA');
@@ -593,26 +585,25 @@ export class SynonymsGeneratorComponent implements OnInit, OnDestroy {
 	/** Resets the form and view */
 	goBack(): void {
 		this.showResult.set(false);
-		this.generatedSynonyms.set('');
+		this.generatedScrambledWords.set('');
 		// Reset form to defaults
-		this.synonymsForm.reset({
+		this.scrambledWordsForm.reset({
 			section: '',
-			subject: '',
-			quantity: 5,
+			subject: { value: '', disabled: true },
+			quantity: 10,
 			difficulty: 'Medio',
 			topic: '',
 		});
-		this.synonymsForm.get('subject')?.disable();
 		this.availableSubjects.set([]); // Clear available subjects
 	}
 
-	/** Downloads the generated synonyms as DOCX */
+	/** Downloads the generated scrambled words as DOCX */
 	downloadDocx(): void {
-		const synonymsText = this.generatedSynonyms();
-		if (!synonymsText || synonymsText.startsWith('Ocurrió un error'))
+		const scrambledText = this.generatedScrambledWords();
+		if (!scrambledText || scrambledText.startsWith('Ocurrió un error'))
 			return;
 
-		const formValue = this.synonymsForm.getRawValue();
+		const formValue = this.scrambledWordsForm.getRawValue();
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
 		);
@@ -622,50 +613,55 @@ export class SynonymsGeneratorComponent implements OnInit, OnDestroy {
 			/[^a-z0-9]/gi,
 			'_',
 		);
-		const subjectName = this.#pretify(
-			formValue.subject || 'Asignatura',
-		).replace(/[^a-z0-9]/gi, '_');
-		const topicName = (formValue.topic || 'Sinonimos')
+		const subjectName = (formValue.subject || 'Asignatura').replace(
+			/[^a-z0-9]/gi,
+			'_',
+		);
+		const topicName = (formValue.topic || 'PalabrasDes')
 			.substring(0, 15)
 			.replace(/[^a-z0-9]/gi, '_');
 
-		const filename = `Sinonimos_${sectionName}_${subjectName}_${topicName}.docx`;
+		const filename = `PalabrasDes_${sectionName}_${subjectName}_${topicName}.docx`;
 
-		// Create paragraphs, trying to format Word/Synonyms
+		// Create paragraphs, trying to format Scrambled/Word
 		const paragraphs: Paragraph[] = [];
-		// Split by the "Palabra:" marker, keeping the delimiter attached to the following block
-		const wordBlocks = synonymsText.split(/\n\s*\n\s*(?=Palabra:)/);
+		// Split by the "Desordenada:" marker, keeping the delimiter attached
+		const wordBlocks = scrambledText.split(/\n\s*\n\s*(?=Desordenada:)/);
 
 		wordBlocks.forEach((block, index) => {
 			if (block.trim().length === 0) return;
 
 			const lines = block.trim().split('\n');
-			const wordLine = lines.find((l) => l.trim().startsWith('Palabra:'));
-			const synonymsLine = lines.find((l) =>
-				l.trim().startsWith('Sinónimos:'),
+			const scrambledLine = lines.find((l) =>
+				l.trim().startsWith('Desordenada:'),
 			);
+			const wordLine = lines.find((l) => l.trim().startsWith('Palabra:'));
 
+			const scrambled = scrambledLine?.replace('Desordenada:', '').trim();
 			const word = wordLine?.replace('Palabra:', '').trim();
-			const synonyms = synonymsLine?.replace('Sinónimos:', '').trim();
 
+			if (scrambled) {
+				paragraphs.push(
+					new Paragraph({
+						children: [
+							new TextRun({ text: 'Desordenada:', bold: true }),
+							new TextRun({
+								text: ` ${scrambled}`,
+								font: 'Courier New',
+							}),
+						], // Monospace for scrambled
+						spacing: { before: index > 0 ? 240 : 0, after: 60 },
+					}),
+				);
+			}
 			if (word) {
 				paragraphs.push(
 					new Paragraph({
 						children: [
-							new TextRun({ text: word, bold: true, size: 24 }),
-						], // Make word bold and slightly larger
-						spacing: { before: index > 0 ? 240 : 0, after: 60 }, // Add space before new word
-					}),
-				);
-			}
-			if (synonyms) {
-				paragraphs.push(
-					new Paragraph({
-						children: [
-							new TextRun({ text: synonyms, italics: true }),
-						], // Italicize synonyms
-						spacing: { after: 200 }, // Space after synonyms list
-						indent: { left: 360 }, // Indent synonyms slightly
+							new TextRun({ text: 'Palabra:', bold: true }),
+							new TextRun({ text: ` ${word}` }),
+						],
+						spacing: { after: 200 }, // Space after the answer
 					}),
 				);
 			}
@@ -678,7 +674,7 @@ export class SynonymsGeneratorComponent implements OnInit, OnDestroy {
 					properties: {},
 					children: [
 						new Paragraph({
-							text: `Lista de Sinónimos`,
+							text: `Palabras Desordenadas`,
 							heading: HeadingLevel.HEADING_1,
 							alignment: AlignmentType.CENTER,
 							spacing: { after: 300 },
@@ -708,7 +704,7 @@ export class SynonymsGeneratorComponent implements OnInit, OnDestroy {
 								]
 							: []),
 						new Paragraph({ text: '', spacing: { after: 400 } }), // Extra space
-						...paragraphs, // Add the generated word/synonym paragraphs
+						...paragraphs, // Add the generated word/scrambled paragraphs
 					],
 				},
 			],
@@ -747,18 +743,18 @@ export class SynonymsGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.synonymsForm.get('section');
+		return this.scrambledWordsForm.get('section');
 	}
 	get subjectCtrl(): AbstractControl | null {
-		return this.synonymsForm.get('subject');
+		return this.scrambledWordsForm.get('subject');
 	}
 	get quantityCtrl(): AbstractControl | null {
-		return this.synonymsForm.get('quantity');
+		return this.scrambledWordsForm.get('quantity');
 	}
 	get difficultyCtrl(): AbstractControl | null {
-		return this.synonymsForm.get('difficulty');
+		return this.scrambledWordsForm.get('difficulty');
 	}
 	get topicCtrl(): AbstractControl | null {
-		return this.synonymsForm.get('topic');
+		return this.scrambledWordsForm.get('topic');
 	}
 }

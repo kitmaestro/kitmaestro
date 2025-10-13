@@ -154,4 +154,36 @@ export default [
 			).then((mod) => mod.EstimationScaleDetailComponent),
 		title: 'Detalles de la Escala de Estimación',
 	},
+	{
+		path: 'grading-systems',
+		loadComponent: () =>
+			import(
+				'./pages/score-system-generator.component'
+			).then((mod) => mod.ScoreSystemGeneratorComponent),
+		title: 'Generador de Sistemas de Calificación',
+	},
+	{
+		path: 'grading-systems/list',
+		loadComponent: () =>
+			import(
+				'./pages/score-systems.component'
+			).then((mod) => mod.ScoreSystemsComponent),
+		title: 'Mis Sistemas de Calificación',
+	},
+	{
+		path: 'grading-systems/:id',
+		loadComponent: () =>
+			import(
+				'./pages/score-system-detail.component'
+			).then((mod) => mod.ScoreSystemDetailComponent),
+		title: 'Detalles del Sistema de Calificación',
+	},
+	{
+		path: 'log-registry-generator',
+		loadComponent: () =>
+			import(
+				'./pages/log-registry-generator.component'
+			).then((mod) => mod.LogRegistryGeneratorComponent),
+		title: 'Generador de Registros Anecdóticos',
+	},
 ] as Route[];

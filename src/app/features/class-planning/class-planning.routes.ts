@@ -113,4 +113,12 @@ export default [
 			),
 		title: 'Editar Plan de Unidad',
 	},
+	{
+		path: 'study-path-generator',
+		loadComponent: () =>
+			import(
+				'./pages/study-path-generator.component'
+			).then((mod) => mod.StudyPathGeneratorComponent),
+		title: 'Generador de Rutas de Estudio',
+	},
 ] as Routes;

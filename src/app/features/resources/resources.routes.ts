@@ -89,4 +89,13 @@ export default [
 			).then((mod) => mod.SongGeneratorComponent),
 		title: 'Generador de Canciones',
 	},
+
+	{
+		path: 'reflection-generator',
+		loadComponent: () =>
+			import(
+				'./pages/reflection-generator.component'
+			).then((m) => m.ReflectionGeneratorComponent),
+		title: 'Generador de Reflexiones',
+	},
 ] as Routes;

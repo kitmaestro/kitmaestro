@@ -9,4 +9,31 @@ export default [
     { path: 'ideas', loadComponent: () => import('./pages/idea-board.component').then((mod) => mod.IdeaBoardComponent), title: 'Panel de Ideas' },
     { path: 'diversity', loadComponent: () => import('./pages/diversifier.component').then((mod) => mod.DiversifierComponent), title: 'Diversificador de Contenidos' },
     { path: 'planner-generator', loadComponent: () => import('./pages/planner-generator.component').then((mod) => mod.PlannerGeneratorComponent), title: 'Generador de Plantillas de Planificación' },
+    { path: 'schedule-generator', loadComponent: () => import('./pages/schedule-generator.component').then((mod) => mod.ScheduleGeneratorComponent), title: 'Generador de Horarios' },
+    { path: 'schedules', children: [
+        {
+            path: '',
+            loadComponent: () =>
+                import('./pages/schedule-list.component').then(
+                    (mod) => mod.ScheduleListComponent,
+                ),
+            title: 'Administrador de Horarios',
+        },
+        {
+            path: 'create',
+            loadComponent: () =>
+                import('./pages/schedule-builder.component').then(
+                    (mod) => mod.ScheduleBuilderComponent,
+                ),
+            title: 'Registrar Horario',
+        },
+        {
+            path: ':id',
+            loadComponent: () =>
+                import('./pages/schedule-detail.component').then(
+                    (mod) => mod.ScheduleDetailComponent,
+                ),
+            title: 'Detalles del Horario',
+        },
+    ] },
 ] as Route[]
