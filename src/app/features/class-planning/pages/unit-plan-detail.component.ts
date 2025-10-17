@@ -1,25 +1,25 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { UnitPlanService } from '../../../../core/services/unit-plan.service';
+import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { map, Observable, tap } from 'rxjs';
-import { UnitPlan } from '../../../../core/interfaces/unit-plan';
+import { UnitPlan } from '../../../core/interfaces/unit-plan';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
-import { UserService } from '../../../../core/services/user.service';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { UserService } from '../../../core/services/user.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { PdfService } from '../../../../core/services/pdf.service';
-import { UnitPlanComponent } from '../unit-plan/unit-plan.component';
-import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
-import { DailyPlanBatchGeneratorComponent } from '../daily-plan-batch-generator/daily-plan-batch-generator.component';
-import { ClassPlan, Rubric } from '../../../../core/interfaces';
-import { ClassPlansService } from '../../../../core/services/class-plans.service';
-import { UserSubscriptionService } from '../../../../core/services/user-subscription.service';
-import { UnitPlanInstruments } from '../../../../core/interfaces/unit-plan-instruments';
-import { RubricService } from '../../../../core/services/rubric.service';
-import { RubricGeneratorComponent } from '../../../assessments/pages/rubric-generator.component';
+import { PdfService } from '../../../core/services/pdf.service';
+import { UnitPlanComponent } from '../components/unit-plan.component';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { DailyPlanBatchGeneratorComponent } from './daily-plan-batch-generator.component';
+import { ClassPlan, Rubric } from '../../../core/interfaces';
+import { ClassPlansService } from '../../../core/services/class-plans.service';
+import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
+import { UnitPlanInstruments } from '../../../core/interfaces/unit-plan-instruments';
+import { RubricService } from '../../../core/services/rubric.service';
+import { RubricGeneratorComponent } from '../../assessments/pages/rubric-generator.component';
 
 @Component({
 	selector: 'app-unit-plan-detail',
@@ -36,8 +36,177 @@ import { RubricGeneratorComponent } from '../../../assessments/pages/rubric-gene
 		DailyPlanBatchGeneratorComponent,
 		RubricGeneratorComponent,
 	],
-	templateUrl: './unit-plan-detail.component.html',
-	styleUrl: './unit-plan-detail.component.scss',
+	template: `
+		<app-is-premium>
+			@if (!isPrintView) {
+				<mat-card>
+					<mat-card-header>
+						<h2 mat-card-title style="text-align: center">Opciones</h2>
+					</mat-card-header>
+					<mat-card-actions>
+						<div style="display: flex; gap: 12px; justify-content: center">
+							<button mat-raised-button color="link" (click)="goBack()">
+								Volver
+							</button>
+							<button
+								mat-raised-button
+								color="warn"
+								(click)="deletePlan()"
+							>
+								Eliminar
+							</button>
+							<button
+								mat-raised-button
+								color="accent"
+								[routerLink]="['/unit-plans', planId, 'edit']"
+							>
+								Editar
+							</button>
+							<a
+								mat-raised-button
+								color="primary"
+								href="/print-unit-plan/{{ planId }}"
+								target="_blank"
+								>Imprimir</a
+							>
+							<button
+								mat-raised-button
+								color="primary"
+								[disabled]="printing"
+								(click)="download()"
+							>
+								Descargar
+							</button>
+							<!-- <button mat-raised-button color="primary" (click)="printPlan()">Exportar PDF</button> -->
+						</div>
+					</mat-card-actions>
+				</mat-card>
+			}
+
+			<div
+				[id]="isPrintView ? 'print-view-sheet' : 'plan-sheet'"
+				*ngIf="plan$ | async as plan"
+			>
+				@if (isPrintView) {
+					<h1 style="text-align: center">{{ plan.title }}</h1>
+				}
+				<app-unit-plan [classPlans]="classPlans" [unitPlan]="plan" />
+				@if (!isPrintView) {
+					<div>
+						<h2>Planes Diarios</h2>
+						<ul style="list-style: none">
+							@for (dailyPlan of classPlans; track dailyPlan._id) {
+								<li>
+									<a [routerLink]="['/class-plans', dailyPlan._id]">
+										Plan diario para el
+										{{ dailyPlan.date | date: "dd/MM/yyyy" }}
+									</a>
+								</li>
+							} @empty {
+								<li>No hay planes diarios asociados</li>
+							}
+						</ul>
+					</div>
+					@if (activeSubscription$ | async) {
+						@if (classPlans.length === 0) {
+							<h2>Generar Planes Diarios</h2>
+							<app-daily-plan-batch-generator [plan]="plan" />
+						}
+					}
+					<div style="display: none">
+						<div>
+							@if (rubrics.length > 0) {
+								<h2>Instrumentos de Evaluaci&oacute;n</h2>
+								<ul style="list-style: none">
+									@for (rubric of rubrics; track rubric._id) {
+										<li>
+											<a
+												[routerLink]="['/rubrics', rubric._id]"
+												>{{ rubric.title }}</a
+											>
+										</li>
+									} @empty {
+										<li>
+											No hay instrumentos de evaluaci&oacute;n
+											asociados
+										</li>
+									}
+								</ul>
+							}
+						</div>
+						@if (activeSubscription$ | async) {
+							@if (rubrics.length == 0) {
+								<h2>Generar Instrumentos</h2>
+								<app-rubric-generator [unitPlan]="plan" />
+							}
+						}
+					</div>
+				}
+			</div>
+		</app-is-premium>
+	`,
+	styles: `
+		mat-form-field {
+			width: 100%;
+		}
+
+		td,
+		th {
+			border: 1px solid #ccc;
+			padding: 10px;
+			line-height: 1.5;
+			font-size: 12pt;
+		}
+
+		td {
+			vertical-align: top;
+		}
+
+		th {
+			font-weight: bold;
+			text-align: center;
+		}
+
+		.cols-2 {
+			display: grid;
+			row-gap: 6px;
+			column-gap: 16px;
+			margin-bottom: 8px;
+			grid-template-columns: 1fr;
+
+			@media screen and (min-width: 960px) {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+
+		.flex-on-md {
+			display: block;
+
+			@media screen and (min-width: 960px) {
+				display: flex;
+				gap: 16px;
+				margin-top: 16px;
+			}
+		}
+
+		#plan-sheet {
+			padding: 0.5in;
+			margin-top: 42px;
+			min-width: 8.5in;
+			background-color: white;
+			box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+			-webkit-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+			-moz-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+		}
+
+		#print-view-sheet {
+			display: block;
+			padding: 0;
+			width: 11in;
+			overflow-y: auto;
+			margin: 0 auto;
+		}
+	`,
 })
 export class UnitPlanDetailComponent implements OnInit {
 	private router = inject(Router);

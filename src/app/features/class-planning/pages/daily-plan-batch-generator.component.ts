@@ -10,19 +10,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
-import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
-import { UnitPlan } from '../../../../core/interfaces/unit-plan';
-import { UnitPlanService } from '../../../../core/services/unit-plan.service';
-import { ClassPlansService } from '../../../../core/services/class-plans.service';
-import { AiService } from '../../../../core/services/ai.service';
-import { UserService } from '../../../../core/services/user.service';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { UnitPlan } from '../../../core/interfaces/unit-plan';
+import { UnitPlanService } from '../../../core/services/unit-plan.service';
+import { ClassPlansService } from '../../../core/services/class-plans.service';
+import { AiService } from '../../../core/services/ai.service';
+import { UserService } from '../../../core/services/user.service';
 import {
 	ClassPlan,
 	ClassSection,
 	User,
-} from '../../../../core/interfaces';
-import { classroomResources } from '../../../../config/constants';
-import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
+} from '../../../core/interfaces';
+import { classroomResources } from '../../../config/constants';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 const classPlanPrompt = `
 Eres un docente experto diseñando planes de clase diarios.

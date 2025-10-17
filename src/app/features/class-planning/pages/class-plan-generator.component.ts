@@ -8,25 +8,25 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ClassSectionService } from '../../../../core/services/class-section.service';
-import { AiService } from '../../../../core/services/ai.service';
-import { UserService } from '../../../../core/services/user.service';
-import { User } from '../../../../core/interfaces';
-import { PdfService } from '../../../../core/services/pdf.service';
+import { ClassSectionService } from '../../../core/services/class-section.service';
+import { AiService } from '../../../core/services/ai.service';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '../../../core/interfaces';
+import { PdfService } from '../../../core/services/pdf.service';
 import { MatChipsModule } from '@angular/material/chips';
-import { ClassPlan } from '../../../../core/interfaces/class-plan';
-import { ClassPlansService } from '../../../../core/services/class-plans.service';
+import { ClassPlan } from '../../../core/interfaces/class-plan';
+import { ClassPlansService } from '../../../core/services/class-plans.service';
 import { Router, RouterModule } from '@angular/router';
-import { CompetenceService } from '../../../../core/services/competence.service';
-import { ClassSection } from '../../../../core/interfaces/class-section';
+import { CompetenceService } from '../../../core/services/competence.service';
+import { ClassSection } from '../../../core/interfaces/class-section';
 import {
 	classPlanPrompt,
 	classroomResources,
-} from '../../../../config/constants';
-import { CompetenceEntry } from '../../../../core/interfaces/competence-entry';
-import { ClassPlanComponent } from '../class-plan/class-plan.component';
-import { UserSubscriptionService } from '../../../../core/services/user-subscription.service';
-import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
+} from '../../../config/constants';
+import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
+import { ClassPlanComponent } from '../components/class-plan.component';
+import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({
 	selector: 'app-class-plan-generator',
@@ -43,8 +43,196 @@ import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
 		RouterModule,
 		ClassPlanComponent,
 	],
-	templateUrl: './class-plan-generator.component.html',
-	styleUrl: './class-plan-generator.component.scss',
+	template: `
+		<mat-card>
+			<mat-card-header class="header">
+				<h2 class="title" mat-card-tittle>
+					Generador de Plan de Clase (Plan Diario)
+				</h2>
+				<button
+					class="title-button"
+					mat-flat-button
+					[routerLink]="['/class-plans', 'list']"
+					color="accent"
+				>
+					Ver mis Planes
+				</button>
+			</mat-card-header>
+			<mat-card-content>
+				<form (ngSubmit)="onSubmit()" [formGroup]="planForm">
+					<div class="controls-container-6">
+						<mat-form-field appearance="outline">
+							<mat-label>Curso</mat-label>
+							<mat-select
+								formControlName="classSection"
+								(selectionChange)="onSectionSelect()"
+							>
+								@for (section of classSections; track section) {
+									<mat-option [value]="section._id">{{
+										section.name
+									}}</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+						<mat-form-field appearance="outline">
+							<mat-label>Asignatura</mat-label>
+							<mat-select
+								formControlName="subject"
+								(selectionChange)="onSubjectSelect()"
+							>
+								@for (subject of sectionSubjects; track subject) {
+									<mat-option [value]="subject">{{
+										pretify(subject)
+									}}</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+						<mat-form-field appearance="outline">
+							<mat-label>Fecha</mat-label>
+							<input type="date" formControlName="date" matInput />
+						</mat-form-field>
+						<mat-form-field appearance="outline">
+							<mat-label>Proceso Cognitivo</mat-label>
+							<mat-select formControlName="bloomLevel">
+								@for (level of bloomLevels; track level) {
+									<mat-option [value]="level.id">{{
+										level.label
+									}}</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+						<mat-form-field appearance="outline">
+							<mat-label>Estilo de Enseñanza</mat-label>
+							<mat-select formControlName="teachingStyle">
+								@for (style of teachingStyles; track style) {
+									<mat-option [value]="style.id">{{
+										style.label
+									}}</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+						<mat-form-field appearance="outline">
+							<mat-label>Tiempo</mat-label>
+							<mat-select formControlName="duration">
+								@for (minutes of [45, 50, 90]; track minutes) {
+									<mat-option [value]="minutes"
+										>{{ minutes }} Minutos</mat-option
+									>
+								}
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div>
+						<mat-form-field appearance="outline">
+							<mat-label>Temas (Un tema por l&iacute;nea)</mat-label>
+							<textarea formControlName="topics" matInput></textarea>
+						</mat-form-field>
+					</div>
+					<div style="margin-bottom: 16px">
+						<mat-label>Recursos Disponibles</mat-label>
+						<mat-chip-listbox
+							formControlName="resources"
+							multiple
+							(change)="onResourceChange($event)"
+						>
+							@for (resource of resources; track resource) {
+								<mat-chip-option>{{ resource }}</mat-chip-option>
+							}
+						</mat-chip-listbox>
+					</div>
+					<div style="margin-top: 12px; text-align: end">
+						<!-- <button [disabled]="!plan" type="button" style="margin-right: 12px;" (click)="printPlan()" mat-fab extended color="accent">Descargar <mat-icon>picture_as_pdf</mat-icon></button> -->
+						<!-- <button [disabled]="!plan" type="button" style="margin-right: 12px;" (click)="downloadPlan()" mat-fab extended color="accent"><mat-icon>description</mat-icon>Descargar</button> -->
+						<button
+							[disabled]="!plan"
+							type="button"
+							style="margin-right: 12px"
+							(click)="savePlan()"
+							mat-fab
+							extended
+							color="primary"
+						>
+							<mat-icon>save</mat-icon> Guardar
+						</button>
+						<button
+							type="submit"
+							[disabled]="generating || planForm.invalid"
+							mat-fab
+							extended
+						>
+							<mat-icon>bolt</mat-icon>
+							{{ plan ? "Regenerar" : "Generar" }}
+						</button>
+					</div>
+				</form>
+			</mat-card-content>
+		</mat-card>
+
+		@if (plan) {
+			<app-class-plan [classPlan]="plan" [section]="section" />
+			<div style="height: 24px"></div>
+		}
+	`,
+	styles: `
+		mat-form-field {
+			width: 100%;
+		}
+
+		.page {
+			padding: 0.5in;
+			margin: 42px auto;
+			background-color: white;
+			min-width: 1400px;
+		}
+
+		.shadow {
+			box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+			-webkit-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+			-moz-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+		}
+
+		td,
+		th {
+			border: 1px solid #ccc;
+			padding: 8px;
+		}
+
+		.controls-container-6 {
+			display: grid;
+			gap: 12px;
+			grid-template-columns: 1fr;
+
+			@media screen and (min-width: 960px) {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			@media screen and (min-width: 1200px) {
+				grid-template-columns: repeat(3, 1fr);
+			}
+		}
+
+		@media screen and (max-width: 959px) {
+			h2.title {
+				display: block;
+				width: 100%;
+				margin-bottom: 12px;
+			}
+
+			.title-button {
+				display: block;
+				width: 100%;
+				margin-bottom: 24px;
+			}
+
+			.header {
+				display: block;
+			}
+		}
+
+		.title-button {
+			margin-left: auto;
+		}
+	`,
 })
 export class ClassPlanGeneratorComponent implements OnInit {
 	sb = inject(MatSnackBar);

@@ -7,16 +7,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
-import { AiService } from '../../../../core/services/ai.service';
-import { ClassSectionService } from '../../../../core/services/class-section.service';
-import { UserService } from '../../../../core/services/user.service';
-import { User } from '../../../../core/interfaces';
-import { UnitPlan } from '../../../../core/interfaces/unit-plan';
-import { UnitPlanService } from '../../../../core/services/unit-plan.service';
+import { AiService } from '../../../core/services/ai.service';
+import { ClassSectionService } from '../../../core/services/class-section.service';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '../../../core/interfaces';
+import { UnitPlan } from '../../../core/interfaces/unit-plan';
+import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
-import { ClassSection } from '../../../../core/interfaces/class-section';
-import { CompetenceService } from '../../../../core/services/competence.service';
-import { CompetenceEntry } from '../../../../core/interfaces/competence-entry';
+import { ClassSection } from '../../../core/interfaces/class-section';
+import { CompetenceService } from '../../../core/services/competence.service';
+import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
 import {
 	classroomProblems,
 	classroomResources,
@@ -24,14 +24,14 @@ import {
 	generateLearningSituationPrompt,
 	mainThemeCategories,
 	schoolEnvironments,
-} from '../../../../config/constants';
-import { ContentBlockService } from '../../../../core/services/content-block.service';
-import { ContentBlock } from '../../../../core/interfaces/content-block';
-import { PretifyPipe } from '../../../../shared/pipes/pretify.pipe';
-import { UserSubscriptionService } from '../../../../core/services/user-subscription.service';
-import { MainTheme } from '../../../../core/interfaces';
-import { MainThemeService } from '../../../../core/services/main-theme.service';
-import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
+} from '../../../config/constants';
+import { ContentBlockService } from '../../../core/services/content-block.service';
+import { ContentBlock } from '../../../core/interfaces/content-block';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
+import { MainTheme } from '../../../core/interfaces';
+import { MainThemeService } from '../../../core/services/main-theme.service';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -49,8 +49,211 @@ import { forkJoin } from 'rxjs';
 		RouterModule,
 		IsPremiumComponent,
 	],
-	templateUrl: './annual-plan-generator.component.html',
-	styleUrl: './annual-plan-generator.component.scss',
+	template: `
+		<app-is-premium minSubscriptionType="Plan Plus">
+			<div class="content">
+				<div style="display: flex; justify-content: space-between;">
+					<h2 class="title" mat-card-title>Generador de Planificación Anual</h2>
+					<button
+						class="title-button"
+						mat-flat-button
+						[routerLink]="['/unit-plans', 'list']"
+						color="accent"
+					>
+						Ver mis Planes
+					</button>
+				</div>
+				<form
+					[formGroup]="yearlyPlanForm"
+					(ngSubmit)="generateYearlyPlan()"
+					style="padding-top: 16px"
+				>
+					<div class="cols-2">
+						<!-- Selector de Grado -->
+						<mat-form-field appearance="outline">
+							<mat-label>Grado</mat-label>
+							<mat-select
+								formControlName="classSection"
+								(selectionChange)="onSectionOrSubjectChange()"
+							>
+								@for (section of classSections; track section._id) {
+									<mat-option [value]="section._id">{{
+										section.name
+									}}</mat-option>
+								}
+							</mat-select>
+							@if (
+								yearlyPlanForm.get("classSection")?.hasError("required")
+							) {
+								<mat-error>El grado es requerido.</mat-error>
+							}
+						</mat-form-field>
+
+						<!-- Selector de Asignatura -->
+						<mat-form-field appearance="outline">
+							<mat-label>Asignatura</mat-label>
+							<mat-select
+								formControlName="subject"
+								(selectionChange)="onSectionOrSubjectChange()"
+							>
+								@for (
+									subject of subjectsForSelectedSection;
+									track subject.id
+								) {
+									<mat-option [value]="subject.id">{{
+										subject.label
+									}}</mat-option>
+								}
+							</mat-select>
+							@if (yearlyPlanForm.get("subject")?.hasError("required")) {
+								<mat-error>La asignatura es requerida.</mat-error>
+							}
+						</mat-form-field>
+
+						<!-- Selector de Ambiente Operativo -->
+						<mat-form-field appearance="outline">
+							<mat-label>Ambiente Operativo</mat-label>
+							<mat-select formControlName="environment">
+								@for (env of environments; track env) {
+									<mat-option [value]="env">{{ env }}</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+
+						<!-- Tipo de Situación y Realidad -->
+						<mat-form-field appearance="outline">
+							<mat-label>Tipo de Situación</mat-label>
+							<mat-select formControlName="situationType">
+								@for (type of situationTypes; track type.id) {
+									<mat-option [value]="type.id">{{
+										type.label
+									}}</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+
+						@if (
+							yearlyPlanForm.value.situationType === "realityProblem"
+						) {
+							<mat-form-field appearance="outline">
+								<mat-label>Problema a Abordar</mat-label>
+								<mat-select formControlName="reality">
+									@for (problem of problems; track problem) {
+										<mat-option [value]="problem">{{
+											problem
+										}}</mat-option>
+									}
+								</mat-select>
+							</mat-form-field>
+						}
+						@if (yearlyPlanForm.value.situationType === "reality") {
+							<mat-form-field appearance="outline">
+								<mat-label>Realidad del Curso</mat-label>
+								<input
+									matInput
+									type="text"
+									formControlName="reality"
+								/>
+							</mat-form-field>
+						}
+					</div>
+					<!-- Recursos Disponibles -->
+					<div class="resource-section">
+						<mat-label>Recursos Disponibles</mat-label>
+						<mat-chip-listbox formControlName="resources" multiple>
+							@for (resource of resources; track resource) {
+								<mat-chip-option [value]="resource">{{
+									resource
+								}}</mat-chip-option>
+							}
+						</mat-chip-listbox>
+					</div>
+
+					<div style="text-align: end; margin-top: 24px">
+						<button
+							mat-raised-button
+							color="primary"
+							type="submit"
+							[disabled]="generating || yearlyPlanForm.invalid"
+						>
+							@if (generating) {
+								<span
+									>Generando... ({{ plansGenerated }} /
+									{{ totalPlansToGenerate }})</span
+								>
+							} @else {
+								<span>Generar Planificación Anual</span>
+							}
+						</button>
+					</div>
+				</form>
+			</div>
+		</app-is-premium>
+	`,
+	styles: `
+		mat-form-field {
+			width: 100%;
+		}
+
+		td,
+		th {
+			border: 1px solid #ccc;
+			padding: 8px;
+		}
+
+		td {
+			vertical-align: top;
+		}
+
+		th {
+			font-weight: bold;
+			text-align: center;
+		}
+
+		.cols-2 {
+			display: grid;
+			row-gap: 6px;
+			column-gap: 16px;
+			margin-bottom: 8px;
+			grid-template-columns: 1fr;
+
+			@media screen and (min-width: 960px) {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+
+		.flex-on-md {
+			display: block;
+
+			@media screen and (min-width: 960px) {
+				display: flex;
+				gap: 16px;
+				margin-top: 16px;
+			}
+		}
+
+		@media screen and (max-width: 959px) {
+			h2.title {
+				display: block;
+				width: 100%;
+				margin-bottom: 12px;
+			}
+
+			.title-button {
+				display: block;
+				width: 100%;
+				margin-bottom: 24px;
+			}
+
+			.header {
+				display: block;
+			}
+		}
+
+		.title-button {
+			margin-left: auto;
+		}
+	`,
 })
 export class AnnualPlanGeneratorComponent implements OnInit {
 	private aiService = inject(AiService);

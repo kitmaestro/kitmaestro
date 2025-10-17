@@ -83,7 +83,7 @@ export const routes: Routes = [
 				path: 'print-unit-plan/:id',
 				loadComponent: () =>
 					import(
-						'./features/class-planning/pages/unit-plan-detail/unit-plan-detail.component'
+						'./features/class-planning/pages/unit-plan-detail.component'
 					).then((mod) => mod.UnitPlanDetailComponent),
 				title: 'Plan de Unidad',
 			},

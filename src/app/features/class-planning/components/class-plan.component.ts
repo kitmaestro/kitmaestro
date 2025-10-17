@@ -1,9 +1,9 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { ClassPlan } from '../../../../core/interfaces/class-plan';
+import { ClassPlan } from '../../../core/interfaces/class-plan';
 import { DatePipe } from '@angular/common';
-import { User } from '../../../../core/interfaces';
-import { AuthService } from '../../../../core/services/auth.service';
-import { ClassSection } from '../../../../core/interfaces/class-section';
+import { User } from '../../../core/interfaces';
+import { AuthService } from '../../../core/services/auth.service';
+import { ClassSection } from '../../../core/interfaces/class-section';
 
 @Component({
 	selector: 'app-class-plan',

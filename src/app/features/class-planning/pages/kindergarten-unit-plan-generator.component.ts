@@ -17,11 +17,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { Router, RouterModule } from '@angular/router';
 import { CdkStepperModule } from '@angular/cdk/stepper';
-import { AiService } from '../../../../core/services/ai.service';
-import { UnitPlanService } from '../../../../core/services/unit-plan.service';
-import { UserService } from '../../../../core/services/user.service';
-import { School, User } from '../../../../core/interfaces';
-import { KINDER_CONTENT_BLOCKS } from '../../../../core/data/kinder-content-blocks';
+import { AiService } from '../../../core/services/ai.service';
+import { UnitPlanService } from '../../../core/services/unit-plan.service';
+import { UserService } from '../../../core/services/user.service';
+import { School, User } from '../../../core/interfaces';
+import { KINDER_CONTENT_BLOCKS } from '../../../core/data/kinder-content-blocks';
 
 import {
   Document,
@@ -37,8 +37,8 @@ import {
   BorderStyle,
 } from 'docx';
 import { saveAs } from 'file-saver';
-import { SchoolService } from '../../../../core/services/school.service';
-import { IsPremiumComponent } from '../../../../shared/ui/is-premium.component';
+import { SchoolService } from '../../../core/services/school.service';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 interface UnitPlanInicial {
 	user: string;
