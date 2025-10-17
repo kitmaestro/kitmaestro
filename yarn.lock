@@ -419,10 +419,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/youtube-player@20.2.0":
-  version "20.2.0"
-  resolved "https://registry.yarnpkg.com/@angular/youtube-player/-/youtube-player-20.2.0.tgz#5e292201369f665d237190a34d17d942bbe1db66"
-  integrity sha512-ebQkoSb6XzemMEoFphcmR2ieer8tZP7GPYhc+LOvAJjVkA70J3P5H60fevdAPWG6SKy6WSU+FV2/6Jpn94y4kA==
+"@angular/youtube-player@20.2.9":
+  version "20.2.9"
+  resolved "https://registry.yarnpkg.com/@angular/youtube-player/-/youtube-player-20.2.9.tgz#6b43ac89b394621d6bf5e072a75123db9e1a32d6"
+  integrity sha512-6LCRigZGs6y7gGhkdU/PdDiZzr/gydoL3LxwBGBayA7jfuVR82VcFAk7bIcFpRFDe/eB9Ey6Ly8+DjnED9W2Eg==
   dependencies:
     "@types/youtube" "0.1.2"
     safevalues "^1.2.0"
