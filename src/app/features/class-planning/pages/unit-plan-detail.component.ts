@@ -1,11 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { map, Observable, tap } from 'rxjs';
 import { UnitPlan } from '../../../core/interfaces/unit-plan';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { UserService } from '../../../core/services/user.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,64 +28,55 @@ import { RubricGeneratorComponent } from '../../assessments/pages/rubric-generat
 		MatButtonModule,
 		MatIconModule,
 		MatCardModule,
-		IsPremiumComponent,
-		CommonModule,
 		MatSnackBarModule,
 		UnitPlanComponent,
 		DailyPlanBatchGeneratorComponent,
 		RubricGeneratorComponent,
+		DatePipe,
 	],
 	template: `
-		<app-is-premium>
-			@if (!isPrintView) {
-				<mat-card>
-					<mat-card-header>
-						<h2 mat-card-title style="text-align: center">Opciones</h2>
-					</mat-card-header>
-					<mat-card-actions>
-						<div style="display: flex; gap: 12px; justify-content: center">
-							<button mat-raised-button color="link" (click)="goBack()">
-								Volver
-							</button>
-							<button
-								mat-raised-button
-								color="warn"
-								(click)="deletePlan()"
-							>
-								Eliminar
-							</button>
-							<button
-								mat-raised-button
-								color="accent"
-								[routerLink]="['/unit-plans', planId, 'edit']"
-							>
-								Editar
-							</button>
-							<a
-								mat-raised-button
-								color="primary"
-								href="/print-unit-plan/{{ planId }}"
-								target="_blank"
-								>Imprimir</a
-							>
-							<button
-								mat-raised-button
-								color="primary"
-								[disabled]="printing"
-								(click)="download()"
-							>
-								Descargar
-							</button>
-							<!-- <button mat-raised-button color="primary" (click)="printPlan()">Exportar PDF</button> -->
-						</div>
-					</mat-card-actions>
-				</mat-card>
-			}
+		@if (!isPrintView) {
+			<div style="display: flex; gap: 12px; justify-content: center">
+				<button mat-button color="link" (click)="goBack()">
+					Volver
+				</button>
+				<button
+					mat-button
+					color="warn"
+					(click)="deletePlan()"
+				>
+					Eliminar
+				</button>
+				<button
+					mat-button
+					style="display: none"
+					color="accent"
+					[routerLink]="['/planning', 'unit-plans', planId, 'edit']"
+				>
+					Editar
+				</button>
+				<a
+					mat-button
+					color="primary"
+					href="/print-unit-plan/{{ planId }}"
+					target="_blank"
+					>Imprimir</a
+				>
+				<button
+					mat-button
+					color="primary"
+					[attr.title]="!isPremium() ? 'Necesitas una suscripcion para descargar los planes' : undefined"
+					[disabled]="printing || !isPremium()"
+					(click)="download()"
+				>
+					Descargar
+				</button>
+				<!-- <button mat-raised-button color="primary" (click)="printPlan()">Exportar PDF</button> -->
+			</div>
+		}
 
-			<div
-				[id]="isPrintView ? 'print-view-sheet' : 'plan-sheet'"
-				*ngIf="plan$ | async as plan"
-			>
+		@if(plan$ | async; as plan) {
+			<div [id]="isPrintView ? 'print-view-sheet' : 'plan-sheet'">
 				@if (isPrintView) {
 					<h1 style="text-align: center">{{ plan.title }}</h1>
 				}
@@ -97,7 +87,7 @@ import { RubricGeneratorComponent } from '../../assessments/pages/rubric-generat
 						<ul style="list-style: none">
 							@for (dailyPlan of classPlans; track dailyPlan._id) {
 								<li>
-									<a [routerLink]="['/class-plans', dailyPlan._id]">
+									<a [routerLink]="['/planning', 'class-plans', dailyPlan._id]">
 										Plan diario para el
 										{{ dailyPlan.date | date: "dd/MM/yyyy" }}
 									</a>
@@ -143,7 +133,7 @@ import { RubricGeneratorComponent } from '../../assessments/pages/rubric-generat
 					</div>
 				}
 			</div>
-		</app-is-premium>
+		}
 	`,
 	styles: `
 		mat-form-field {
@@ -224,6 +214,7 @@ export class UnitPlanDetailComponent implements OnInit {
 	instruments: UnitPlanInstruments | null = null;
 
 	rubrics: Rubric[] = [];
+	isPremium = signal(false);
 
 	activeSubscription$: Observable<boolean> = this.userSubscriptionService
 		.checkSubscription()
@@ -234,6 +225,7 @@ export class UnitPlanDetailComponent implements OnInit {
 					: sub.status.toLowerCase() == 'active' &&
 						+new Date(sub.endDate) > Date.now(),
 			),
+			tap(status => this.isPremium.set(status)),
 		);
 
 	plan$: Observable<UnitPlan> = this.unitPlanService

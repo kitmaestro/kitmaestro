@@ -27,20 +27,16 @@ import { ClassPlan } from '../../../core/interfaces';
 		PretifyPipe,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header class="header">
-				<h2 mat-card-title class="title">Mis Unidades de Aprendizaje</h2>
-				<button
-					mat-raised-button
-					class="title-button"
-					color="accent"
-					[routerLink]="['/unit-plans']"
-				>
-					Crear Nueva Unidad
-				</button>
-			</mat-card-header>
-			<mat-card-content></mat-card-content>
-		</mat-card>
+		<div class="header">
+			<h2 mat-card-title class="title">Mis Unidades de Aprendizaje</h2>
+			<button
+				mat-flat-button
+				class="title-button"
+				[routerLink]="['/planning', 'unit-plans']"
+			>
+				Crear Nueva Unidad
+			</button>
+		</div>
 
 		<table
 			mat-table
@@ -50,7 +46,7 @@ import { ClassPlan } from '../../../core/interfaces';
 		>
 			<ng-container matColumnDef="title">
 				<th mat-header-cell *matHeaderCellDef>T&iacute;tulo</th>
-				<td mat-cell *matCellDef="let plan">{{ plan.title }}</td>
+				<td mat-cell *matCellDef="let plan"><a [routerLink]="['/planning', 'unit-plans', plan._id]">{{ plan.title }}</a></td>
 			</ng-container>
 
 			<ng-container matColumnDef="section">
@@ -104,7 +100,7 @@ import { ClassPlan } from '../../../core/interfaces';
 							<mat-icon>download</mat-icon>
 						</button>
 						<button
-							[routerLink]="['/unit-plans', plan._id]"
+							[routerLink]="['/planning', 'unit-plans', plan._id]"
 							mat-icon-button
 						>
 							<mat-icon>open_in_new</mat-icon>
@@ -122,6 +118,11 @@ import { ClassPlan } from '../../../core/interfaces';
 			justify-content: space-between;
 			align-items: center;
 			display: flex;
+			margin-bottom: 24px;
+		}
+
+		a {
+			text-decoration: none;
 		}
 
 		@media screen and (max-width: 959px) {

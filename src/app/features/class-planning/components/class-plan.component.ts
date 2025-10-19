@@ -4,22 +4,19 @@ import { DatePipe } from '@angular/common';
 import { User } from '../../../core/interfaces';
 import { AuthService } from '../../../core/services/auth.service';
 import { ClassSection } from '../../../core/interfaces/class-section';
+import { PretifyPipe } from '../../../shared/pipes';
 
 @Component({
 	selector: 'app-class-plan',
-	imports: [DatePipe],
+	imports: [
+		DatePipe,
+		PretifyPipe,
+	],
 	template: `
 		@if (classPlan) {
 			<div class="shadow">
 				<div class="page" id="class-plan">
-					<table
-						style="
-							border-collapse: collapse;
-							border: 1px solid gray;
-							background-color: white;
-							width: 100%;
-						"
-					>
+					<table>
 						<thead>
 							<tr>
 								<td style="width: 160px">
@@ -41,7 +38,7 @@ import { ClassSection } from '../../../core/interfaces/class-section';
 								</td>
 								<td colspan="2">
 									<b>Área Curricular</b>:
-									{{ pretify(classPlan.subject || '') }}
+									{{ (classPlan.subject || '') | pretify }}
 								</td>
 							</tr>
 							<tr>
@@ -239,6 +236,13 @@ import { ClassSection } from '../../../core/interfaces/class-section';
 		}
 	`,
 	styles: `
+		table {
+			border-collapse: collapse;
+			border: 1px solid gray;
+			background-color: white;
+			width: 100%;
+		}
+
 		mat-form-field {
 			width: 100%;
 		}
@@ -304,31 +308,6 @@ export class ClassPlanComponent implements OnInit {
 	@Input() section: ClassSection | null = null;
 	userService = inject(AuthService);
 	user: User | null = null;
-
-	pretify(str: string) {
-		switch (str) {
-			case 'LENGUA_ESPANOLA':
-				return 'Lengua Española';
-			case 'MATEMATICA':
-				return 'Matemática';
-			case 'CIENCIAS_SOCIALES':
-				return 'Ciencias Sociales';
-			case 'CIENCIAS_NATURALES':
-				return 'Ciencias de la Naturaleza';
-			case 'INGLES':
-				return 'Inglés';
-			case 'FRANCES':
-				return 'Francés';
-			case 'FORMACION_HUMANA':
-				return 'Formación Integral Humana y Religiosa';
-			case 'EDUCACION_FISICA':
-				return 'Educación Física';
-			case 'EDUCACION_ARTISTICA':
-				return 'Educación Artística';
-			default:
-				return 'Talleres Optativos';
-		}
-	}
 
 	ngOnInit() {
 		this.userService.profile().subscribe((user) => {

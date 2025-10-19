@@ -59,7 +59,7 @@ import { UserSubscriptionService } from '../../../core/services/user-subscriptio
 			<button
 				class="title-button"
 				mat-flat-button
-				[routerLink]="['/unit-plans', 'list']"
+				[routerLink]="['/planning', 'unit-plans', 'list']"
 				color="accent"
 			>
 				Ver mis Planes
@@ -953,7 +953,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 					}).length;
 					if (sub == 'free' && createdThisMonth > 0) {
 						this.router
-							.navigateByUrl('/unit-plans/list')
+							.navigateByUrl('/planning/unit-plans/list')
 							.then(() => {
 								this.sb.open(
 									'Ya has agotado tu limite de planes para este mes. Para continuar planificando, contrata un plan de pago.',
@@ -1224,7 +1224,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 				next: (plan) => {
 					if (plan) {
 						this.router
-							.navigate(['/unit-plans', plan._id])
+							.navigate(['/planning', 'unit-plans', plan._id])
 							.then(() => {
 								this.sb.open(
 									'Tu unidad de aprendizaje ha sido guardada!',

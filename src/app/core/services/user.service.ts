@@ -1,77 +1,46 @@
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from '../interfaces';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { environment } from '../../../environments/environment';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { ApiService } from './api.service';
+import { Injectable, inject } from '@angular/core'
+import { Observable } from 'rxjs'
+import { User } from '../interfaces'
+import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiService } from './api.service'
+import { UserDto } from '../../store/users/users.models'
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UserService {
-	#apiService = inject(ApiService);
-	private http = inject(HttpClient);
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-		}),
-	};
-
-	private apiBaseUrl = environment.apiUrl + 'users/';
+	#apiService = inject(ApiService)
+	private endpoint = 'users/'
 
 	countUsers(): Observable<{ users: number }> {
-		return this.#apiService.get<{ users: number }>('users/count');
+		return this.#apiService.get<{ users: number }>('users/count')
 	}
 
 	findAll(): Observable<User[]> {
-		return this.http.get<User[]>(this.apiBaseUrl, this.config);
+		return this.#apiService.get<User[]>(this.endpoint)
 	}
 
 	find(id: string): Observable<User> {
-		return this.http.get<User>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<User>(this.endpoint + id)
 	}
 
-	create(data: any): Observable<User> {
-		return this.http.post<User>(this.apiBaseUrl, data, this.config);
+	create(data: Partial<UserDto>): Observable<User> {
+		return this.#apiService.post<User>(this.endpoint, data)
 	}
 
 	getSettings(userId?: string): Observable<User> {
-		if (userId) {
-			return this.http.get<User>(
-				this.apiBaseUrl + userId,
-				this.config,
-			);
-		}
-		return this.http.get<User>(
-			environment.apiUrl + 'auth/profile',
-			this.config,
-		);
+		return userId ? this.#apiService.get<User>(this.endpoint + userId) : this.#apiService.get<User>('auth/profile')
 	}
 
-	update(id: string, user: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			user,
-			this.config,
-		);
+	update(id: string, user: Partial<UserDto>): Observable<{ success: boolean, data: User }> {
+		return this.#apiService.patch<{ success: boolean, data: User }>(this.endpoint + id, user)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.endpoint + id)
 	}
 
 	setPhotoUrl(photoURL: string): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + 'auth/profile',
-			{ photoURL },
-			this.config,
-		);
+		return this.#apiService.patch<ApiUpdateResponse>(this.endpoint + 'auth/profile', { photoURL })
 	}
 }

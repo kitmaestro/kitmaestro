@@ -20,7 +20,7 @@ import { UserSubscriptionService } from '../../core/services/user-subscription.s
 import { forkJoin } from 'rxjs';
 import { ClassSectionService } from '../../core/services/class-section.service';
 import { ClassSection } from '../../core/interfaces/class-section';
-import { activitiesTools, assessmentTools, planningTools, registryTools, resourcesTools, supportTools } from '../../config/constants';
+import { activitiesTools, assessmentTools, planningTools, registryTools, resourcesTools, supportTools } from '../../config';
 
 @Component({
 	selector: 'app-home',

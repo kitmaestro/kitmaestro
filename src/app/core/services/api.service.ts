@@ -13,7 +13,7 @@ import { catchError, Observable, retry, throwError } from 'rxjs';
 })
 export class ApiService {
 	#http = inject(HttpClient);
-	#baseUrl = environment.apiUrl.slice(0, -1); // TODO: remove the slice and the slash on apiUrl
+	#baseUrl = environment.apiUrl
 
 	#createHeaders(customHeaders?: { [header: string]: string }): HttpHeaders {
 		let headers = new HttpHeaders({
@@ -36,7 +36,7 @@ export class ApiService {
 		customHeaders?: { [header: string]: string },
 		retryCount: number = 1,
 	): Observable<T> {
-		const url = `${this.#baseUrl}/${endpoint}`;
+		const url = `${this.#baseUrl}${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
 		const params = new HttpParams({ fromObject: paramsObj || {} });
 		return this.#http
@@ -50,7 +50,7 @@ export class ApiService {
 		customHeaders?: { [header: string]: string },
 		retryCount: number = 1,
 	): Observable<T> {
-		const url = `${this.#baseUrl}/${endpoint}`;
+		const url = `${this.#baseUrl}${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
 		return this.#http
 			.post<T>(url, body, { headers, withCredentials: true })
@@ -63,7 +63,7 @@ export class ApiService {
 		customHeaders?: { [header: string]: string },
 		retryCount: number = 1,
 	): Observable<T> {
-		const url = `${this.#baseUrl}/${endpoint}`;
+		const url = `${this.#baseUrl}${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
 		return this.#http
 			.patch<T>(url, body, { headers, withCredentials: true })
@@ -76,7 +76,7 @@ export class ApiService {
 		customHeaders?: { [header: string]: string },
 		retryCount: number = 1,
 	): Observable<T> {
-		const url = `${this.#baseUrl}/${endpoint}`;
+		const url = `${this.#baseUrl}${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
 		return this.#http
 			.patch<T>(url, body, { headers, withCredentials: true })
@@ -88,7 +88,7 @@ export class ApiService {
 		customHeaders?: { [header: string]: string },
 		retryCount: number = 1,
 	): Observable<T> {
-		const url = `${this.#baseUrl}/${endpoint}`;
+		const url = `${this.#baseUrl}${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
 		return this.#http
 			.delete<T>(url, { headers, withCredentials: true })

@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ClassPlansService } from '../../../core/services/class-plans.service';
 import { UserService } from '../../../core/services/user.service';
@@ -10,94 +9,89 @@ import { MatButtonModule } from '@angular/material/button';
 import { tap } from 'rxjs';
 import { ClassPlan } from '../../../core/interfaces/class-plan';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { UserSubscriptionService } from '../../../core/services';
+import { AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-class-plan-detail',
 	imports: [
 		RouterModule,
-		CommonModule,
 		MatSnackBarModule,
 		MatCardModule,
 		MatButtonModule,
+		DatePipe,
 		PretifyPipe,
+		AsyncPipe,
 	],
 	template: `
-		<mat-card>
-			<mat-card-content>
-				<h2 style="text-align: center">Opciones</h2>
-				<div style="display: flex; gap: 12px">
-					<button
-						type="button"
-						mat-raised-button
-						color="link"
-						(click)="goBack()"
-					>
-						Volver
-					</button>
-					<button
-						type="button"
-						mat-raised-button
-						color="warn"
-						(click)="deletePlan()"
-					>
-						Eliminar
-					</button>
-					<button
-						type="button"
-						mat-raised-button
-						color="accent"
-						[routerLink]="['/class-plans', planId, 'edit']"
-					>
-						Editar
-					</button>
-					<button
-						type="button"
-						mat-raised-button
-						color="primary"
-						(click)="printPlan()"
-					>
-						Descargar PDF
-					</button>
-					<button
-						type="button"
-						mat-raised-button
-						color="primary"
-						(click)="downloadPlan()"
-						[disabled]="printing"
-					>
-						Descargar DOCX
-					</button>
-				</div>
-			</mat-card-content>
-		</mat-card>
-		<div class="shadow" *ngIf="plan$ | async as plan">
-			<div class="page" id="class-plan">
-				<table
-					style="
-						border-collapse: collapse;
-						border: 1px solid gray;
-						background-color: white;
-						width: 100%;
-					"
+		<div class="content-container">
+			<div style="display: flex; gap: 12px; margin: 24px 0; justify-content: center;">
+				<button
+					type="button"
+					mat-button
+					color="link"
+					(click)="goBack()"
 				>
+					Volver
+				</button>
+				<button
+					type="button"
+					mat-button
+					color="warn"
+					(click)="deletePlan()"
+				>
+					Eliminar
+				</button>
+				<button
+					type="button"
+					style="display: none"
+					mat-button
+					color="accent"
+					[routerLink]="['/planning', 'class-plans', planId, 'edit']"
+				>
+					Editar
+				</button>
+				<button
+					type="button"
+					mat-button
+					color="primary"
+					(click)="printPlan()"
+				>
+					Descargar PDF
+				</button>
+				<button
+					type="button"
+					mat-button
+					color="primary"
+					[attr.title]="!isPremium() ? 'Necesitas una suscripcion para descargar los planes' : undefined"
+					(click)="downloadPlan()"
+					[disabled]="printing || !isPremium()"
+				>
+					Descargar DOCX
+				</button>
+			</div>
+			@if (plan$ | async; as plan) {
+				<table>
 					<thead>
-						<tr *ngIf="settings$ | async as user">
-							<td style="width: 160px">
-								<b>Fecha</b>:
-								{{ plan.date | date: "dd/MM/yyyy" : "UTC+4" }}
-							</td>
-							<td style="width: 280px">
-								<b>Grado y Sección</b>: {{ plan.section.name }}
-							</td>
-							<td>
-								<b>Docente</b>: {{ plan.user.title }}.
-								{{ plan.user.firstname }} {{ plan.user.lastname }}
-							</td>
-							<td colspan="2">
-								<b>Área Curricular</b>:
-								{{ plan.subject || "" | pretify }}
-							</td>
-						</tr>
+						@if (settings$ | async; as user) {
+							<tr>
+								<td style="width: 160px">
+									<b>Fecha</b>:
+									{{ plan.date | date: "dd/MM/yyyy" : "UTC+4" }}
+								</td>
+								<td style="width: 280px">
+									<b>Grado y Sección</b>: {{ plan.section.name }}
+								</td>
+								<td>
+									<b>Docente</b>: {{ plan.user.title }}.
+									{{ plan.user.firstname }} {{ plan.user.lastname }}
+								</td>
+								<td colspan="2">
+									<b>Área Curricular</b>:
+									{{ plan.subject || "" | pretify }}
+								</td>
+							</tr>
+						}
 						<tr>
 							<td colspan="5">
 								<b>Estrategias y técnicas de enseñanza-aprendizaje</b>:
@@ -235,7 +229,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 						</tr>
 						<tr>
 							<td colspan="5">
-								<b>Lecturas recomendadas/ o libro de la semana</b>:
+								<b>Lecturas recomendadas o libro de la semana</b>:
 								{{ plan.readings }}
 							</td>
 						</tr>
@@ -244,21 +238,34 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 						</tr>
 					</tbody>
 				</table>
-			</div>
+			}
 		</div>
 	`,
 	styles: `
+		:host {
+			display: block;
+			margin-bottom: 42px;
+		}
 		.page {
 			padding: 0.5in;
 			margin: 42px auto 0;
 			background-color: white;
 			min-width: 1400px;
 		}
-
+		.content-container {
+			padding-bottom: 42px;
+		}
 		.shadow {
 			box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
 			-webkit-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
 			-moz-box-shadow: 10px 10px 14px 0px rgba(0, 0, 0, 0.75);
+		}
+		table {
+			border-collapse: collapse;
+			border: 1px solid gray;
+			background-color: white;
+			width: 100%;
+			min-width: 10in;
 		}
 
 		td,
@@ -280,12 +287,29 @@ export class ClassPlanDetailComponent {
 	);
 	UserService = inject(UserService);
 	settings$ = this.UserService.getSettings();
+	userSubscriptionService = inject(UserSubscriptionService);
 	sb = inject(MatSnackBar);
 	pdfService = inject(PdfService);
 	plan: ClassPlan | null = null;
 	printing = false;
 
+	isPremium = signal(false);
+
 	pretify = new PretifyPipe().transform;
+
+	ngOnInit() {
+		this.userSubscriptionService.checkSubscription().subscribe(sub => {
+			let status = false;
+			if (sub && sub.subscriptionType.toLowerCase() !== 'free') {
+				if (new Date(sub.endDate) > new Date()) {
+					if (sub.status == 'active') {
+						status = true;
+					}
+				}
+			}
+			this.isPremium.set(status)
+		})
+	}
 
 	printPlan() {
 		this.sb.open(
@@ -321,7 +345,7 @@ export class ClassPlanDetailComponent {
 	deletePlan() {
 		this.classPlanService.deletePlan(this.planId).subscribe((res) => {
 			if (res.deletedCount === 1) {
-				this.router.navigate(['/class-plans']).then(() => {
+				this.router.navigateByUrl('/planning/class-plans').then(() => {
 					this.sb.open('Se ha eliminado el plan', 'Ok', {
 						duration: 2500,
 					});

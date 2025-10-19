@@ -1,18 +1,20 @@
-import { inject } from '@angular/core';
-import { CanActivateFn, Router, UrlTree } from '@angular/router';
-import { AuthService } from '../services';
-import { lastValueFrom } from 'rxjs';
+import { inject } from '@angular/core'
+import { CanActivateFn, Router, UrlTree } from '@angular/router'
+import { filter, firstValueFrom, map } from 'rxjs'
+import { Store } from '@ngrx/store'
+import { selectAuthState } from '../../store/auth'
 
 export const authGuard: CanActivateFn = async (route, state) => {
-	const authService = inject(AuthService);
-	const router = inject(Router);
-	const authRoute: UrlTree = router.parseUrl('/auth/login');
+	const router = inject(Router)
+	const store = inject(Store)
+	const authRoute: UrlTree = router.parseUrl('/auth/login')
+
 	try {
-		const profile = await lastValueFrom(authService.profile());
-		if (profile && profile._id) return true;
-		else return authRoute;
+		const profile = await firstValueFrom(store.select(selectAuthState).pipe(filter(state => !!state && state.initialized), map(state => state.initialized && !!state.user)))
+		if (profile) return true
+		else return authRoute
 	} catch (error) {
-		console.log(error);
-		return authRoute;
+		console.log(error)
+		return authRoute
 	}
-};
+}

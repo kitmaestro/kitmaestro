@@ -57,7 +57,7 @@ import { forkJoin } from 'rxjs';
 					<button
 						class="title-button"
 						mat-flat-button
-						[routerLink]="['/unit-plans', 'list']"
+						routerLink="/planning/unit-plans/list"
 						color="accent"
 					>
 						Ver mis Planes
@@ -334,7 +334,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 						return planDate < new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 					}).length;
 					if (userPlansThisMonth >= unitPlanLimits) {
-						this.router.navigateByUrl('/unit-plans/list').then(() => {
+						this.router.navigateByUrl('/planning/unit-plans/list').then(() => {
 							this.sb.open(`Has alcanzado el límite de ${unitPlanLimits} unidades para este mes según tu plan actual.`, 'Ok', { duration: 7000 });
 						});
 						return;
@@ -436,7 +436,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			'Ok',
 			{ duration: 5000 },
 		);
-		this.router.navigate(['/unit-plans', 'list']);
+		this.router.navigateByUrl('/planning/unit-plans/list');
 	}
 
 	private divideContentIntoUnits(): ContentBlock[][] {

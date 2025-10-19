@@ -27,6 +27,10 @@ import {
 	MatDialogModule,
 } from '@angular/material/dialog';
 import { SCHOOL_SUBJECT } from '../../../core/enums/school-subject.enum';
+import { Store } from '@ngrx/store';
+import { loadUser, updateUser } from '../../../store/users/users.actions';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { selectUsersCurrentUser } from '../../../store/users/users.selectors';
 
 @Component({
 	selector: 'app-section-creator',
@@ -150,43 +154,38 @@ class SectionCreatorComponent {
 	],
 	template: `
 		@if (user) {
-			<mat-card>
-				<mat-card-header>
-					<div
-						mat-card-avatar
-						class="example-header-image"
-						style="width: 72px; height: 72px"
-					>
-						<a [href]="gravatarUrl" target="_blank">
-							<img
-								[src]="gravatarUrl"
-								alt=""
-								style="width: 72px; height: auto; border-radius: 50%"
-							/>
-						</a>
-					</div>
-					<mat-card-title
-						>{{ user.title }}. {{ user.firstname }}
-						{{ user.lastname }}</mat-card-title
-					>
-					<mat-card-subtitle
-						>Miembro desde
-						{{
-							user.createdAt | date: 'dd/MM/yyyy'
-						}}</mat-card-subtitle
-					>
-				</mat-card-header>
-				<mat-card-content>
-					<h3>Información Personal</h3>
-					<p><b>Sexo</b>: {{ user.gender }}</p>
-					<p><b>Nombre(s)</b>: {{ user.firstname }}</p>
-					<p><b>Apellido(s)</b>: {{ user.lastname }}</p>
-					<p><b>Título Alcanzado</b>: {{ user.title }}</p>
-					<!-- TODO: Fix up this shit -->
-					@if (
-						activeUser &&
-						activeUser.email === 'orgalay.dev@gmail.com'
-					) {
+			<div>
+				<div
+					mat-card-avatar
+					class="example-header-image"
+					style="width: 72px; height: 72px"
+				>
+					<a [href]="gravatarUrl" target="_blank">
+						<img
+							[src]="gravatarUrl"
+							alt=""
+							style="width: 72px; height: auto; border-radius: 50%"
+						/>
+					</a>
+				</div>
+				<mat-card-title
+					>{{ user.title }}. {{ user.firstname }}
+					{{ user.lastname }}</mat-card-title
+				>
+				<mat-card-subtitle
+					>Miembro desde
+					{{
+						user.createdAt | date: 'dd/MM/yyyy'
+					}}</mat-card-subtitle
+				>
+			<div>
+				<h3>Información Personal</h3>
+				<p><b>Sexo</b>: {{ user.gender }}</p>
+				<p><b>Nombre(s)</b>: {{ user.firstname }}</p>
+				<p><b>Apellido(s)</b>: {{ user.lastname }}</p>
+				<p><b>Título Alcanzado</b>: {{ user.title }}</p>
+				@if (activeUser(); as activeUser) {
+					@if (activeUser.email === 'orgalay.dev@gmail.com') {
 						<p><b>Email</b>: {{ user.email }}</p>
 						@if (user.phone) {
 							<p>
@@ -217,50 +216,24 @@ class SectionCreatorComponent {
 							</div>
 						</div>
 					}
-					<p><b>Codigo de Referencia</b>: {{ user.refCode }}</p>
-					<div style="margin-top: 20px; margin-bottom: 20px;">
-						<button
-							mat-raised-button
-							color="accent"
-							(click)="exportContact()"
-						>
-							<mat-icon>save_alt</mat-icon>
-							Exportar Contacto
-						</button>
-					</div>
+				}
+				<p><b>Codigo de Referencia</b>: {{ user.refCode }}</p>
+				<div style="margin-top: 20px; margin-bottom: 20px;">
+					<button
+						mat-raised-button
+						color="accent"
+						(click)="exportContact()"
+					>
+						<mat-icon>save_alt</mat-icon>
+						Exportar Contacto
+					</button>
+				</div>
 
-					@if (
-						activeUser &&
-						activeUser.email === 'orgalay.dev@gmail.com'
-					) {
-						<h3>Escuelas</h3>
-						@for (school of schools; track $index) {
-							@if (school) {
-								<div
-									style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px"
-								>
-									<p>
-										{{ $index + 1 }}. {{ school.name }} ({{
-											school.level | pretify
-										}}) Distrito {{ school.regional }}-{{
-											school.district
-										}}
-									</p>
-									<button
-										mat-icon-button
-										(click)="addSection(school._id)"
-									>
-										<mat-icon>add</mat-icon>
-									</button>
-									<button
-										mat-icon-button
-										(click)="deleteSchool(school._id)"
-									>
-										<mat-icon>delete</mat-icon>
-									</button>
-								</div>
-							}
-						}
+				@if (activeUser(); as activeUser) {
+					@if (activeUser.email === 'orgalay.dev@gmail.com') {
+						<p><b>Escuela</b>: {{ user.schoolName }} - Distrito {{ user.regional }}-{{ user.district }}</p>
+						<p><b>Regional</b>: {{ user.regional }}</p>
+						<p><b>Distrito</b>: {{ user.district }}</p>
 
 						<h3>Secciones</h3>
 						@for (section of classSections; track $index) {
@@ -272,8 +245,7 @@ class SectionCreatorComponent {
 										{{ $index + 1 }}. {{ section.name }} ({{
 											section.year | pretify
 										}}
-										de {{ section.level | pretify }}) -
-										{{ section.school.name }}
+										de {{ section.level | pretify }})
 									</p>
 									<button
 										mat-icon-button
@@ -398,8 +370,9 @@ class SectionCreatorComponent {
 							</button>
 						</form>
 					}
-				</mat-card-content>
-			</mat-card>
+				}
+			</div>
+			</div>
 		} @else {
 			<mat-card>
 				<mat-card-content>
@@ -423,12 +396,11 @@ export class UserDetailsComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private fb = inject(FormBuilder);
 	private route = inject(ActivatedRoute);
-	private userService = inject(UserService);
+	private store = inject(Store);
 	private userId = this.route.snapshot.paramMap.get('id') || '';
 	private subscriptionService = inject(UserSubscriptionService);
 	private schoolService = inject(SchoolService);
 	private sectionService = inject(ClassSectionService);
-	private authService = inject(AuthService);
 	private dialog = inject(MatDialog);
 
 	user: User | null = null;
@@ -436,7 +408,7 @@ export class UserDetailsComponent implements OnInit {
 	schools: School[] = [];
 	classSections: ClassSection[] = [];
 	gravatarUrl = '';
-	activeUser: User | null = null;
+	activeUser = this.store.selectSignal(selectAuthUser)
 
 	newPassword = this.fb.control('');
 
@@ -522,35 +494,22 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	}
 
 	loadUser() {
-		this.userService.find(this.userId).subscribe({
-			next: (user) => {
-				this.user = user;
-				this.subscriptionForm.get('user')?.setValue(user._id);
-				this.gravatarUrl =
-					'https://gravatar.com/avatar/' +
-					sha512_256(user.email.toLowerCase().trim());
-				this.loadSubscription();
-				this.loadSchools();
-				this.loadSections();
-			},
-			error: (err) => {
-				this.router.navigateByUrl('/').then(() => {
-					this.sb.open(
-						'Error al cargar el perfil del usuario',
-						'Ok',
-						{ duration: 2500 },
-					);
-					console.log(err.message);
-				});
-			},
-		});
+		const userId = this.userId
+		this.store.dispatch(loadUser({ userId }))
+		this.store.select(selectUsersCurrentUser).subscribe(user => {
+			if (user) {
+				this.user = user
+				this.subscriptionForm.get('user')?.setValue(userId)
+				this.gravatarUrl = 'https://gravatar.com/avatar/' + sha512_256(user.email.toLowerCase().trim())
+				this.loadSubscription()
+				this.loadSchools()
+				this.loadSections()
+			}
+		})
 	}
 
 	ngOnInit() {
 		this.loadUser();
-		this.authService.profile().subscribe((user) => {
-			this.activeUser = user;
-		});
 	}
 
 	onSubmit() {
@@ -697,17 +656,6 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	updatePassword() {
 		const password: string = this.newPassword.getRawValue() || '';
 		if (password && this.user)
-			this.userService.update(this.user._id, { password }).subscribe({
-				next: () => {
-					this.sb.open('Contrasena actualizada!', 'Ok', {
-						duration: 2500,
-					});
-				},
-				error: () => {
-					this.sb.open('Error al actualizar contrasena', 'Ok', {
-						duration: 2500,
-					});
-				},
-			});
+			this.store.dispatch(updateUser({ userId: this.user._id, data: { password } }))
 	}
 }

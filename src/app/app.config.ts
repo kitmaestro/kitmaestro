@@ -8,30 +8,38 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideMarkdown } from 'ngx-markdown';
 import { appInterceptor } from './core/interceptors/app.interceptor';
+import { provideStore } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { provideEffects } from '@ngrx/effects';
+import { AppEffects } from './app.effects';
+import { AuthEffects } from './store/auth';
+import { UsersEffects } from './store/users';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
-		provideRouter(routes),
-		provideHttpClient(withInterceptors([appInterceptor])),
-		provideAnimationsAsync(),
-		provideServiceWorker('ngsw-worker.js', {
-			enabled: !isDevMode(),
-			registrationStrategy: 'registerWhenStable:30000',
-		}),
-		provideAnimationsAsync(),
-		provideFirebaseApp(() =>
-			initializeApp({
-				projectId: 'kit-maestro',
-				appId: '1:604854508995:web:589737edbf2038209c7176',
-				storageBucket: 'kit-maestro.appspot.com',
-				locationId: 'us-central',
-				apiKey: 'AIzaSyAStMcbRBeZa5VEBbCRNQUPfd1zO1Y3Kws',
-				authDomain: 'kit-maestro.firebaseapp.com',
-				messagingSenderId: '604854508995',
-			} as any),
-		),
-		provideStorage(() => getStorage()),
-		provideMarkdown(),
-		// importProvidersFrom(AdsenseModule.forRoot({ adClient: 'ca-pub-3940117372405832' })),
-	],
+        provideRouter(routes),
+        provideHttpClient(withInterceptors([appInterceptor])),
+        provideAnimationsAsync(),
+        provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000',
+        }),
+        provideFirebaseApp(() => initializeApp({
+            projectId: 'kit-maestro',
+            appId: '1:604854508995:web:589737edbf2038209c7176',
+            storageBucket: 'kit-maestro.appspot.com',
+            locationId: 'us-central',
+            apiKey: 'AIzaSyAStMcbRBeZa5VEBbCRNQUPfd1zO1Y3Kws',
+            authDomain: 'kit-maestro.firebaseapp.com',
+            messagingSenderId: '604854508995',
+        } as any)),
+        provideStorage(() => getStorage()),
+        provideMarkdown(),
+        provideStore(reducers, { metaReducers }),
+        provideEffects(
+            AppEffects,
+            AuthEffects,
+            UsersEffects,
+        )
+    ],
 };

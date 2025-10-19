@@ -24,20 +24,17 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 		PretifyPipe,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header class="header">
-				<h2 mat-card-title class="title">Mis Planes Diarios</h2>
-				<button
-					class="title-button"
-					mat-raised-button
-					color="accent"
-					[routerLink]="['/class-plans']"
-				>
-					Crear Nuevo Plan
-				</button>
-			</mat-card-header>
-			<mat-card-content></mat-card-content>
-		</mat-card>
+		<div class="header">
+			<h2 mat-card-title class="title">Mis Planes Diarios</h2>
+			<button
+				class="title-button"
+				mat-flat-button
+				color="accent"
+				routerLink="/planning/class-plans"
+			>
+				Crear Nuevo Plan
+			</button>
+		</div>
 
 		<table
 			mat-table
@@ -77,7 +74,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 							<mat-icon>download</mat-icon>
 						</button>
 						<button
-							[routerLink]="['/class-plans', plan._id]"
+							[routerLink]="['/planning', 'class-plans', plan._id]"
 							mat-icon-button
 						>
 							<mat-icon>open_in_new</mat-icon>

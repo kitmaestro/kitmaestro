@@ -9,13 +9,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';
-import { map, shareReplay } from 'rxjs/operators';
+import { filter, map, shareReplay, tap } from 'rxjs/operators';
 import { Router, RouterModule } from '@angular/router';
 import { QuoteDialogComponent } from '../../shared/ui/quote-dialog.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { AuthService } from '../../core/services/auth.service';
 import { UserSubscriptionService } from '../../core/services/user-subscription.service';
 import { UserSubscription } from '../../core/interfaces/user-subscription';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../store/auth/auth.selectors';
+import { signOut, signOutSuccess } from '../../store/auth/auth.actions';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
 	selector: 'app-navigation',
@@ -160,14 +163,14 @@ import { UserSubscription } from '../../core/interfaces/user-subscription';
 	],
 })
 export class NavigationComponent {
-	private authService = inject(AuthService);
-	private userSubscriptionService = inject(UserSubscriptionService);
-	private breakpointObserver = inject(BreakpointObserver);
-	private dialog = inject(MatDialog);
-	private sb = inject(MatSnackBar);
-	private router = inject(Router);
+	private store = inject(Store)
+	private userSubscriptionService = inject(UserSubscriptionService)
+	private breakpointObserver = inject(BreakpointObserver)
+	private dialog = inject(MatDialog)
+	private router = inject(Router)
+	private actions$ = inject(Actions);
 
-	public isPrintView = window.location.href.includes('print');
+	public isPrintView = window.location.href.includes('print')
 
 	@Output() signOut = new EventEmitter<boolean>();
 
@@ -177,8 +180,8 @@ export class NavigationComponent {
 			map((result) => result.matches),
 			shareReplay(),
 		);
-	User$ = this.authService.profile();
-	subscription = signal<UserSubscription | null>(null);
+	User$ = this.store.select(selectAuthUser)
+	subscription = signal<UserSubscription | null>(null)
 	subscription$ = this.userSubscriptionService.checkSubscription().pipe(
 		map((sub) => {
 			if (sub.subscriptionType.toLowerCase() == 'free') {
@@ -196,11 +199,17 @@ export class NavigationComponent {
 
 	ngOnInit() {
 		this.User$
-			.pipe(map((user) => ['orgalay.dev@gmail.com'].includes(user.email)))
+			.pipe(filter(user => !!user),map((user) => ['orgalay.dev@gmail.com'].includes(user.email)))
 			.subscribe((res) => this.userIsAdmin.set(res));
 		this.userSubscriptionService.checkSubscription().subscribe((sub) => {
 			this.subscription.set(sub);
 		});
+		this.actions$.pipe(
+			ofType(signOutSuccess),
+			tap(() => {
+				this.router.navigate(['/auth', 'login'])
+			})
+		).subscribe()
 	}
 
 	toggleNames() {
@@ -212,18 +221,7 @@ export class NavigationComponent {
 	}
 
 	logout() {
-		this.authService.logout().subscribe((result) => {
-			if (result.message === 'Logout successful') {
-				this.signOut.emit(true);
-				this.router.navigate(['/auth', 'login']).then(() => {
-					this.sb.open(
-						'Se ha cerrado la sesion, nos vemos pronto!',
-						'Ok',
-						{ duration: 2500 },
-					);
-				});
-			}
-		});
+		this.store.dispatch(signOut())
 	}
 
 	get activatedRoute() {

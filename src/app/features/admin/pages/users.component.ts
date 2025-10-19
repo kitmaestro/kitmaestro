@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { UserService } from '../../../core/services/user.service';
+import { Store } from '@ngrx/store'
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { ClassPlansService } from '../../../core/services/class-plans.service';
@@ -16,6 +16,9 @@ import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { User } from '../../../core/interfaces';
 import { map } from 'rxjs';
+import { selectUsersUsers } from '../../../store/users/users.selectors';
+import { createUser, deleteUser, loadUsers } from '../../../store/users/users.actions';
+import { UserDto } from '../../../store/users/users.models';
 
 @Component({
 	selector: 'app-users',
@@ -156,7 +159,7 @@ import { map } from 'rxjs';
 			<ng-container matColumnDef="actions">
 				<th mat-header-cell *matHeaderCellDef>Acciones</th>
 				<td mat-cell *matCellDef="let user">
-					<button (click)="deleteUser(user._id)" mat-mini-fab>
+					<button (click)="removeUser(user._id)" mat-mini-fab>
 						<mat-icon>delete</mat-icon>
 					</button>
 					<a
@@ -200,12 +203,11 @@ import { map } from 'rxjs';
 	`,
 })
 export class UsersComponent {
-	private userService = inject(UserService);
+	private store = inject(Store)
 	private subscriptionService = inject(UserSubscriptionService);
 	private unitPlanService = inject(UnitPlanService);
 	private classPlanService = inject(ClassPlansService);
 	private fb = inject(FormBuilder);
-	private sb = inject(MatSnackBar);
 
 	columnsToDisplay = [
 		'name',
@@ -216,17 +218,7 @@ export class UsersComponent {
 		'actions',
 	];
 
-	users$ = this.userService
-		.findAll()
-		.pipe(
-			map((users) =>
-				users.sort(
-					(a, b) =>
-						+new Date(b.createdAt || Date.now()) -
-						+new Date(a.createdAt || Date.now()),
-				),
-			),
-		);
+	users$ = this.store.select(selectUsersUsers)
 	subscriptions$ = this.subscriptionService.findAll();
 	unitPlans$ = this.unitPlanService.findAll();
 	classPlans$ = this.classPlanService.findAll();
@@ -239,6 +231,10 @@ export class UsersComponent {
 		password: ['', [Validators.required]],
 		phone: [''],
 	});
+
+	ngOnInit() {
+		this.store.dispatch(loadUsers())
+	}
 
 	waLink(user: User): string {
 		if (!user.phone || !user.firstname) return '#';
@@ -263,29 +259,13 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 		return `https://wa.me/${phone.startsWith('809') || phone.startsWith('809') || phone.startsWith('849') ? '+1' + phone : phone}?text=${encoded}`;
 	}
 
-	deleteUser(id: string) {
-		this.userService.delete(id).subscribe({
-			next: (res) => {
-				if (res.deletedCount > 0) {
-					this.users$ = this.userService.findAll();
-				}
-			},
-		});
+	removeUser(userId: string) {
+		this.store.dispatch(deleteUser({ userId }))
 	}
 
 	createUser() {
-		const user: User = this.userForm
-			.value as unknown as User;
-		this.userService.create(user).subscribe({
-			next: (res) => {
-				if (res._id) {
-					this.users$ = this.userService.findAll();
-				}
-			},
-			error: (err) => {
-				this.sb.open('Usuario no guardado.', 'Ok', { duration: 2500 });
-				console.log(err.message);
-			},
-		});
+		const user: UserDto = this.userForm.getRawValue() as any
+
+		this.store.dispatch(createUser({ user }))
 	}
 }

@@ -18,7 +18,6 @@ import registryRoutes from './features/registry/registry.routes';
 import sectionsRoutes from './features/class-sections/sections.routes';
 
 export const routes: Routes = [
-	// authentication
 	{
 		path: 'auth',
 		component: AuthLayoutComponent,
@@ -53,6 +52,7 @@ export const routes: Routes = [
 			},
 			{ path: 'users', children: usersRoutes },
 			{ path: 'profile', redirectTo: '/users/me', },
+			{ path: 'planning', children: classPlanningRoutes },
 			{ path: 'support', children: supportRoutes },
 			{ path: 'sections', children: sectionsRoutes },
 			{ path: 'registry', children: registryRoutes },

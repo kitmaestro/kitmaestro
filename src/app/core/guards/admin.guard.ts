@@ -1,15 +1,17 @@
-import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
-import { AuthService } from '../services';
-import { lastValueFrom } from 'rxjs';
+import { inject } from '@angular/core'
+import { CanActivateFn, Router } from '@angular/router'
+import { filter, firstValueFrom, map } from 'rxjs'
+import { Store } from '@ngrx/store'
+import { selectAuthState } from '../../store/auth/auth.selectors'
 
 export const adminGuard: CanActivateFn = async (route, state) => {
-	const authService = inject(AuthService);
+	const store = inject(Store)
+	const router = inject(Router)
 	try {
-		const profile = await lastValueFrom(authService.profile());
-		return ['orgalay.dev@gmail.com'].includes(profile.email);
+		const user = await firstValueFrom(store.select(selectAuthState).pipe(filter(state => !!state && state.initialized), map(state => state.user)))
+		return (!!user && ['orgalay.dev@gmail.com'].includes(user.email)) || router.parseUrl('/')
 	} catch (e) {
-		console.log(e);
-		return false;
+		console.log(e)
+		return false
 	}
-};
+}

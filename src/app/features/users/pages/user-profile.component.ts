@@ -282,11 +282,9 @@ export class UserProfileComponent implements OnInit {
         const profile: any = this.userForm.value;
         this.authService.update(profile).subscribe({
             next: (res) => {
-                if (res.modifiedCount === 1) {
-                    this.sb.open('Perfil actualizado con exito', 'Ok', {
-                        duration: 2500,
-                    });
-                }
+				this.sb.open('Perfil actualizado con exito', 'Ok', {
+					duration: 2500,
+				});
             },
             error: (err) => {
                 console.log(err);

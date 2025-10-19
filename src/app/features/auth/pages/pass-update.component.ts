@@ -125,7 +125,7 @@ export class PassUpdateComponent implements OnInit {
 
 		this.loading = true;
 
-		this.authService.resetPassword(email, token, password).subscribe({
+		this.authService.resetPassword({ email, token, password }).subscribe({
 			next: (res: any) => {
 				if (res.message === 'Invalid token') {
 					this.router.navigate(['/auth', 'login']).then(() => {
