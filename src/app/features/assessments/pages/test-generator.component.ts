@@ -267,7 +267,7 @@ ${formData.topics}
 
 Asigna un puntaje a cada item del examen. El puntaje maximo del examen es de ${formData.maxScore}.
 Tu respuesta debe ser en formato markdown, sin recomendaciones solo el examen y sin campos que yo deba agregar, necesito que este listo para imprimir, asi que si tienes que inventar un nombre, o una situacion imaginaria, por mi esta excelente.
-Me gustaria qu el encabezado sea, el nombre de el centro en el que trabajo: ${section.school.name}
+Me gustaria qu el encabezado sea, el nombre de el centro en el que trabajo: ${this.user.schoolName}
 Luego mi nombre: ${this.user.title}. ${this.user.firstname} ${this.user.lastname}.
 En la tercera linea, el grado en cuestion y el año escolar: ${this.pretify(section.name)} ${schoolYear}
 Y finalmente un espacio para que el alumno coloque su nombre y uno para la fecha.

@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { map, Observable, tap } from 'rxjs';
-import { UnitPlan } from '../../../core/interfaces/unit-plan';
+import { UnitPlan } from '../../../core/models';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { UserService } from '../../../core/services/user.service';
@@ -16,9 +16,11 @@ import { DailyPlanBatchGeneratorComponent } from './daily-plan-batch-generator.c
 import { ClassPlan, Rubric } from '../../../core/interfaces';
 import { ClassPlansService } from '../../../core/services/class-plans.service';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
-import { UnitPlanInstruments } from '../../../core/interfaces/unit-plan-instruments';
+import { UnitPlanInstruments } from '../../../core/interfaces';
 import { RubricService } from '../../../core/services/rubric.service';
 import { RubricGeneratorComponent } from '../../assessments/pages/rubric-generator.component';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
 
 @Component({
 	selector: 'app-unit-plan-detail',
@@ -199,6 +201,7 @@ import { RubricGeneratorComponent } from '../../assessments/pages/rubric-generat
 	`,
 })
 export class UnitPlanDetailComponent implements OnInit {
+	#store = inject(Store)
 	private router = inject(Router);
 	private route = inject(ActivatedRoute);
 	private unitPlanService = inject(UnitPlanService);
@@ -212,6 +215,7 @@ export class UnitPlanDetailComponent implements OnInit {
 	planId = this.route.snapshot.paramMap.get('id') || '';
 	plan: UnitPlan | null = null;
 	instruments: UnitPlanInstruments | null = null;
+	user = this.#store.selectSignal(selectAuthUser)
 
 	rubrics: Rubric[] = [];
 	isPremium = signal(false);
@@ -305,7 +309,8 @@ export class UnitPlanDetailComponent implements OnInit {
 	}
 
 	async download() {
-		if (!this.plan) return;
+		const user = this.user()
+		if (!this.plan || !user) return
 		this.printing = true;
 		this.sb.open(
 			'Tu descarga empezara en breve, espera un momento...',
@@ -316,7 +321,7 @@ export class UnitPlanDetailComponent implements OnInit {
 		//   "https://api.algobook.info/v1/randomimage?category=education"
 		// );
 		// const img = await response.arrayBuffer();
-		await this.unitPlanService.download(this.plan, this.classPlans);
+		await this.unitPlanService.download(this.plan, this.classPlans, user);
 		this.printing = false;
 	}
 

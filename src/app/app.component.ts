@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { loadUser } from './store/auth';
+import { loadAuthUser } from './store/auth';
 
 @Component({
 	selector: 'app-root',
@@ -12,6 +12,6 @@ export class AppComponent {
 	#store = inject(Store)
 
 	ngOnInit() {
-		this.#store.dispatch(loadUser())
+		this.#store.dispatch(loadAuthUser())
 	}
 }

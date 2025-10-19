@@ -1,5 +1,5 @@
 import { ClassSection } from './class-section';
-import { UnitPlan } from './unit-plan';
+import { UnitPlan } from '../models/unit-plan';
 
 export interface Rubric {
 	_id: string;

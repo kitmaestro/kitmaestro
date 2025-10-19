@@ -271,7 +271,7 @@ export class ScoreSystemService {
 							children: [
 								new TextRun({
 									color: '#000000',
-									text: scoreSystem.section.school.name,
+									text: scoreSystem.user.schoolName,
 								}),
 							],
 							heading: HeadingLevel.HEADING_1,

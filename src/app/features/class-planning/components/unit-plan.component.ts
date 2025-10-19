@@ -1,6 +1,5 @@
 import { Component, computed, input, Input, OnInit } from '@angular/core';
 import {
-	UnitPlan,
 	CompetenceEntry,
 	ContentBlock,
 	ClassSection,
@@ -8,6 +7,7 @@ import {
 	MainTheme,
 	ClassPlan,
 } from '../../../core/interfaces';
+import { UnitPlan } from '../../../core/models'
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({
@@ -37,20 +37,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 							</td>
 							<td colspan="5">
 								@if (section) {
-									<span>{{ section.school.name }}</span>
-								} @else if (unitPlan.section) {
-									<span>{{ unitPlan.section.school.name }}</span>
-								} @else if (
-									unitPlan.sections && unitPlan.sections.length
-								) {
-									@for (section of unitPlan.sections; track $index) {
-										<span
-											>{{ $index > 0 ? ", " : ""
-											}}{{ section.school.name }}</span
-										>
-									}
+									<span>{{ user?.schoolName }}</span>
 								} @else {
-									<span>Indeterminado</span>
+									<span>{{ unitPlan.user.schoolName }}</span>
 								}
 							</td>
 						</tr>

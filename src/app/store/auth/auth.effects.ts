@@ -13,11 +13,11 @@ export class AuthEffects {
 
     loadUser$ = createEffect(() =>
         this.#actions$.pipe(
-            ofType(AuthActions.loadUser),
+            ofType(AuthActions.loadAuthUser),
             switchMap(() =>
                 this.#authService.profile().pipe(
-                    map((user) => AuthActions.loadUserSuccess({ user })),
-                    catchError((error) => of(AuthActions.loadUserFailure({ error: error.message })))
+                    map((user) => AuthActions.loadAuthUserSuccess({ user })),
+                    catchError((error) => of(AuthActions.loadAuthUserFailure({ error: error.message })))
                 )
             )
         )

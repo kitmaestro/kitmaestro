@@ -1,19 +1,19 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { ClassPlan } from '../../../core/interfaces/class-plan';
-import { DatePipe } from '@angular/common';
-import { User } from '../../../core/interfaces';
-import { AuthService } from '../../../core/services/auth.service';
-import { ClassSection } from '../../../core/interfaces/class-section';
-import { PretifyPipe } from '../../../shared/pipes';
+import { Component, inject, input } from '@angular/core'
+import { DatePipe } from '@angular/common'
+import { PretifyPipe } from '../../../shared/pipes'
+import { selectSelectedClassPlan, selectAuthUser } from '../../../store'
+import { Store } from '@ngrx/store'
+import { SimpleList } from '../../../shared/ui'
 
 @Component({
 	selector: 'app-class-plan',
 	imports: [
 		DatePipe,
 		PretifyPipe,
+		SimpleList,
 	],
 	template: `
-		@if (classPlan) {
+		@if (classPlan(); as plan) {
 			<div class="shadow">
 				<div class="page" id="class-plan">
 					<table>
@@ -21,24 +21,19 @@ import { PretifyPipe } from '../../../shared/pipes';
 							<tr>
 								<td style="width: 160px">
 									<b>Fecha</b>:
-									{{
-										classPlan.date
-											| date: 'dd/MM/yyyy' : 'UTC+4'
-									}}
+									{{ plan.date | date: 'dd/MM/yyyy' : 'UTC+4' }}
 								</td>
 								<td style="width: 280px">
 									<b>Grado y Sección</b>:
-									{{
-										section?.name || classPlan.section.name
-									}}
+									{{ plan.section.name }}
 								</td>
 								<td>
-									<b>Docente</b>: {{ user?.title }}.
-									{{ user?.firstname }} {{ user?.lastname }}
+									<b>Docente</b>: {{ user()?.title }}.
+									{{ user()?.firstname }} {{ user()?.lastname }}
 								</td>
 								<td colspan="2">
 									<b>Área Curricular</b>:
-									{{ (classPlan.subject || '') | pretify }}
+									{{ (plan.subject || '') | pretify }}
 								</td>
 							</tr>
 							<tr>
@@ -46,13 +41,13 @@ import { PretifyPipe } from '../../../shared/pipes';
 									<b
 										>Estrategias y técnicas de
 										enseñanza-aprendizaje</b
-									>: {{ classPlan.strategies.join(', ') }}
+									>: {{ plan.strategies.join(', ') }}
 								</td>
 							</tr>
 							<tr>
 								<td colspan="5">
 									<b>Intencion Pedag&oacute;gica</b>:
-									{{ classPlan.objective }}
+									{{ plan.objective }}
 								</td>
 							</tr>
 							<tr>
@@ -71,17 +66,17 @@ import { PretifyPipe } from '../../../shared/pipes';
 							<tr>
 								<td>
 									<b>Inicio</b> ({{
-										classPlan.introduction.duration
+										plan.introduction.duration
 									}}
 									Minutos)
 								</td>
-								<td rowspan="4">{{ classPlan.competence }}</td>
+								<td rowspan="4">{{ plan.competence }}</td>
 								<td>
 									<ul
 										style="margin: 0; padding: 0; list-style: none"
 									>
 										@for (
-											actividad of classPlan.introduction
+											actividad of plan.introduction
 												.activities;
 											track actividad
 										) {
@@ -90,14 +85,14 @@ import { PretifyPipe } from '../../../shared/pipes';
 									</ul>
 								</td>
 								<td>
-									{{ classPlan.introduction.layout }}
+									{{ plan.introduction.layout }}
 								</td>
 								<td>
 									<ul
 										style="margin: 0; padding: 0; list-style: none"
 									>
 										@for (
-											recurso of classPlan.introduction
+											recurso of plan.introduction
 												.resources;
 											track recurso
 										) {
@@ -109,7 +104,7 @@ import { PretifyPipe } from '../../../shared/pipes';
 							<tr>
 								<td>
 									<b>Desarrollo</b> ({{
-										classPlan.main.duration
+										plan.main.duration
 									}}
 									Minutos)
 								</td>
@@ -118,7 +113,7 @@ import { PretifyPipe } from '../../../shared/pipes';
 										style="margin: 0; padding: 0; list-style: none"
 									>
 										@for (
-											actividad of classPlan.main
+											actividad of plan.main
 												.activities;
 											track actividad
 										) {
@@ -127,14 +122,14 @@ import { PretifyPipe } from '../../../shared/pipes';
 									</ul>
 								</td>
 								<td>
-									{{ classPlan.main.layout }}
+									{{ plan.main.layout }}
 								</td>
 								<td>
 									<ul
 										style="margin: 0; padding: 0; list-style: none"
 									>
 										@for (
-											recurso of classPlan.main.resources;
+											recurso of plan.main.resources;
 											track recurso
 										) {
 											<li>- {{ recurso }}</li>
@@ -145,64 +140,34 @@ import { PretifyPipe } from '../../../shared/pipes';
 							<tr>
 								<td>
 									<b>Cierre</b> ({{
-										classPlan.closing.duration
+										plan.closing.duration
 									}}
 									Minutos)
 								</td>
 								<td>
-									<ul
-										style="margin: 0; padding: 0; list-style: none"
-									>
-										@for (
-											actividad of classPlan.closing
-												.activities;
-											track actividad
-										) {
-											<li>{{ actividad }}</li>
-										}
-									</ul>
+									<app-simple-list [items]="plan.closing.activities" />
 								</td>
 								<td>
-									{{ classPlan.closing.layout }}
+									{{ plan.closing.layout }}
 								</td>
 								<td>
-									<ul
-										style="margin: 0; padding: 0; list-style: none"
-									>
-										@for (
-											recurso of classPlan.closing
-												.resources;
-											track recurso
-										) {
-											<li>- {{ recurso }}</li>
-										}
-									</ul>
+									<app-simple-list [items]="plan.closing.resources" />
 								</td>
 							</tr>
 							<tr>
 								<td><b>Actividades Complementarias</b></td>
 								<td>
-									<ul
-										style="margin: 0; padding: 0; list-style: none"
-									>
-										@for (
-											actividad of classPlan.supplementary
-												.activities;
-											track actividad
-										) {
-											<li>{{ actividad }}</li>
-										}
-									</ul>
+									<app-simple-list [items]="plan.supplementary.activities" />
 								</td>
 								<td>
-									{{ classPlan.supplementary.layout }}
+									{{ plan.supplementary.layout }}
 								</td>
 								<td>
 									<ul
 										style="margin: 0; padding: 0; list-style: none"
 									>
 										@for (
-											recurso of classPlan.supplementary
+											recurso of plan.supplementary
 												.resources;
 											track recurso
 										) {
@@ -214,7 +179,7 @@ import { PretifyPipe } from '../../../shared/pipes';
 							<tr>
 								<td colspan="5">
 									<b>Vocabulario del día/de la semana</b>:
-									{{ classPlan.vocabulary.join(', ') }}
+									{{ plan.vocabulary.join(', ') }}
 								</td>
 							</tr>
 							<tr>
@@ -223,7 +188,7 @@ import { PretifyPipe } from '../../../shared/pipes';
 										>Lecturas recomendadas/ o libro de la
 										semana</b
 									>:
-									{{ classPlan.readings }}
+									{{ plan.readings }}
 								</td>
 							</tr>
 							<tr>
@@ -303,17 +268,8 @@ import { PretifyPipe } from '../../../shared/pipes';
 		}
 	`,
 })
-export class ClassPlanComponent implements OnInit {
-	@Input() classPlan: ClassPlan | null = null;
-	@Input() section: ClassSection | null = null;
-	userService = inject(AuthService);
-	user: User | null = null;
-
-	ngOnInit() {
-		this.userService.profile().subscribe((user) => {
-			if (user._id) {
-				this.user = user;
-			}
-		});
-	}
+export class ClassPlanComponent {
+	#store = inject(Store)
+	user = this.#store.selectSignal(selectAuthUser)
+	classPlan = this.#store.selectSignal(selectSelectedClassPlan)
 }

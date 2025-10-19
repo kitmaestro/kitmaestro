@@ -137,7 +137,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							@if (user) {
 								<div style="text-align: center">
 									<h2 style="margin-bottom: 2px; line-height: 1">
-										{{ section?.school?.name }}
+										{{ user.schoolName }}
 									</h2>
 									<h4 style="margin-bottom: 2px; line-height: 1">
 										A&ntilde;o Escolar {{ schoolYear }}
@@ -245,7 +245,7 @@ export class ReadingActivityGeneratorComponent implements OnInit {
 	private acitivtyService = inject(ReadingActivityService);
 	private classSectionService = inject(ClassSectionService);
 
-	public User$ = this.UserService.getSettings();
+	public user$ = this.UserService.getSettings();
 	public user: User | null = null;
 	public sections: ClassSection[] = [];
 	public section: ClassSection | null = null;

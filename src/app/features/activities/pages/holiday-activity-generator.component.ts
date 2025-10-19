@@ -183,7 +183,7 @@ export class HolidayActivityGeneratorComponent implements OnInit {
 		const query = `Eres un profesor innovador, dinamico y creativo. Tu tarea es planificar una actividad para commemorar una fecha especial con tus alumnos en tu escuela.
 El resultado ideal es una guia practica con las instrucciones a seguir para asegurar el exito de la actividad en forma de checklist y un guion para la actividad que sera compartido con los estudiantes que participaran.
 Aqui los datos que necesitas para llevar a cabo tu tarea:
-Mi nombre es ${user.firstname} ${user.lastname}, soy un${user.gender === 'Hombre' ? '' : 'a'} docente de Republica Dominicana, trabajo en el centro educativo "${section.school.name}" y tengo a mi cargo la seccion ${section.name} que es un ${this.pretify(section.year)} de ${this.pretify(section.level)} en el que imparto estas asignaturas:
+Mi nombre es ${user.firstname} ${user.lastname}, soy un${user.gender === 'Hombre' ? '' : 'a'} docente de Republica Dominicana, trabajo en el centro educativo "${user.schoolName}" y tengo a mi cargo la seccion ${section.name} que es un ${this.pretify(section.year)} de ${this.pretify(section.level)} en el que imparto estas asignaturas:
 - ${section.subjects.map((s) => this.pretify(s)).join('\n- ')}
 La efemeride que vamos a celebrar es ${data.holiday} y la vamos a celebrar ${data.place}.
 El publico objetivo de la actividad es ${data.place.includes('salon') ? 'mi curso' : 'toda la escuela'}.

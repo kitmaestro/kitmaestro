@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { UnitPlan } from '../../../core/interfaces/unit-plan';
+import { UnitPlan } from '../../../core/models';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { ClassPlansService } from '../../../core/services/class-plans.service';
 import { AiService } from '../../../core/services/ai.service';
@@ -23,6 +23,9 @@ import {
 } from '../../../core/interfaces';
 import { classroomResources } from '../../../config/constants';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { loadPlans, selectAllUnitPlans } from '../../../store/unit-plans';
 
 const classPlanPrompt = `
 Eres un docente experto diseñando planes de clase diarios.
@@ -221,10 +224,10 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 	private unitPlanService = inject(UnitPlanService);
 	private classPlanService = inject(ClassPlansService);
 	private aiService = inject(AiService);
-	private UserService = inject(UserService);
 	private pretifyPipe = new PretifyPipe().transform;
+	#store = inject(Store)
 
-	User: User | null = null;
+	user = this.#store.selectSignal(selectAuthUser)
 	allUnitPlans: UnitPlan[] = [];
 
 	isLoadingUnits = true;
@@ -255,10 +258,6 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 		if (resources && Array.isArray(resources) && resources.length > 0) {
 			this.generatorForm.get('resources')?.setValue(resources);
 		}
-		this.UserService
-			.getSettings()
-			.subscribe((settings) => (this.User = settings));
-
 		if (this.unitPlanInput) {
 			this.allUnitPlans = [this.unitPlanInput];
 			this.generatorForm
@@ -266,7 +265,8 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 				?.setValue(this.unitPlanInput._id);
 			this.isLoadingUnits = false;
 		} else {
-			this.unitPlanService.findAll().subscribe({
+			this.#store.dispatch(loadPlans())
+			this.#store.select(selectAllUnitPlans).subscribe({
 				next: (plans) => {
 					this.allUnitPlans = plans;
 					this.isLoadingUnits = false;
@@ -402,7 +402,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 		const { teachingStyle, resources } = this.generatorForm.value;
 		if (
 			!unitPlan.section ||
-			!this.User ||
+			!this.user() ||
 			!teachingStyle ||
 			!resources
 		)
@@ -445,7 +445,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 
 		const newPlan: Partial<ClassPlan> = {
 			...planJson,
-			user: this.User._id,
+			user: this.user()?._id,
 			section: unitPlan.section._id,
 			date: date,
 			subject: planInfo.subject,

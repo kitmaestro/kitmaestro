@@ -10,9 +10,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { tap } from 'rxjs';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { UnitPlan } from '../../../core/interfaces/unit-plan';
+import { UnitPlan } from '../../../core/models';
 import { ClassPlansService } from '../../../core/services/class-plans.service';
 import { ClassPlan } from '../../../core/interfaces';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { selectClassPlans } from '../../../store/class-plans/class-plans.selectors';
+import { selectAllUnitPlans } from '../../../store/unit-plans/unit-plans.selectors';
+import { loadClassPlans } from '../../../store/class-plans/class-plans.actions';
+import { deletePlan, loadPlans } from '../../../store/unit-plans';
 
 @Component({
 	selector: 'app-unit-plan-list',
@@ -149,37 +155,32 @@ import { ClassPlan } from '../../../core/interfaces';
 	`,
 })
 export class UnitPlanListComponent {
-	unitPlansService = inject(UnitPlanService);
-	classPlanService = inject(ClassPlansService);
-	unitPlans$ = this.unitPlansService
-		.findAll()
-		.pipe(tap(() => (this.loading = false)));
-	sb = inject(MatSnackBar);
-	classPlans: ClassPlan[] = [];
+	#store = inject(Store)
+	#unitPlanService = inject(UnitPlanService)
+	user = this.#store.selectSignal(selectAuthUser)
+	unitPlans$ = this.#store.select(selectAllUnitPlans)
+	classPlans = this.#store.selectSignal(selectClassPlans)
+	sb = inject(MatSnackBar)
 
 	displayedColumns = ['title', 'section', 'subject', 'date', 'actions'];
 
 	loading = true;
 
 	ngOnInit() {
-		this.classPlanService.findAll().subscribe((plans) => {
-			this.classPlans = plans;
-		});
+		this.#store.dispatch(loadClassPlans())
+		this.#store.dispatch(loadPlans())
 	}
 
 	deletePlan(id: string) {
-		this.unitPlansService.delete(id).subscribe((result) => {
-			if (result.deletedCount === 1) {
-				this.sb.open('El Plan fue eliminado!', 'Ok', {
-					duration: 2500,
-				});
-				this.unitPlans$ = this.unitPlansService.findAll();
-			}
-		});
+		this.#store.dispatch(deletePlan({ id }))
 	}
 
 	async download(plan: UnitPlan) {
-		await this.unitPlansService.download(plan, this.classPlans.filter(cp => cp.unitPlan === plan._id));
+		const user = this.user()
+		const classPlans = this.classPlans()
+		if (!user)
+			return
+		await this.#unitPlanService.download(plan, classPlans.filter(cp => cp.unitPlan === plan._id), user);
 		this.sb.open('Se ha descargado tu plan', 'Ok', { duration: 2500 });
 	}
 }

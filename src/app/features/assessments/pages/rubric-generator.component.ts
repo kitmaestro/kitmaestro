@@ -28,7 +28,7 @@ import { ContentBlock } from '../../../core/interfaces/content-block';
 import { SubjectConceptList } from '../../../core/interfaces/subject-concept-list';
 import { CompetenceService } from '../../../core/services/competence.service';
 import { RubricComponent } from '../components/rubric.component';
-import { UnitPlan } from '../../../core/interfaces';
+import { UnitPlan } from '../../../core/models';
 import { forkJoin, map } from 'rxjs';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 

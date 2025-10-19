@@ -1,66 +1,37 @@
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { ClassSection } from '../interfaces/class-section';
-import { environment } from '../../../environments/environment';
+import { Injectable, inject } from '@angular/core'
+import { Observable } from 'rxjs'
+import { ApiDeleteResponse, ClassSection } from '../interfaces'
+import { ApiService } from './api.service'
+import { ClassSectionDto } from '../../store/class-sections/class-sections.models'
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ClassSectionService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'class-sections/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService)
+	#endpoint = 'class-sections/'
 
 	findAll(filters?: any): Observable<ClassSection[]> {
-		let params = new HttpParams();
-		if (filters) {
-			Object.keys(filters).forEach((key) => {
-				params = params.set(key, filters[key]);
-			});
-		}
-		return this.http.get<ClassSection[]>(this.apiBaseUrl + 'all', {
-			params,
-			...this.config,
-		});
+		return this.#apiService.get<ClassSection[]>(this.#endpoint + 'all', filters)
 	}
 
 	findSections(): Observable<ClassSection[]> {
-		return this.http.get<ClassSection[]>(this.apiBaseUrl, this.config);
+		return this.#apiService.get<ClassSection[]>(this.#endpoint)
 	}
 
 	findSection(id: string): Observable<ClassSection> {
-		return this.http.get<ClassSection>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<ClassSection>(this.#endpoint + id)
 	}
 
-	addSection(section: ClassSection): Observable<ClassSection> {
-		return this.http.post<ClassSection>(
-			this.apiBaseUrl,
-			section,
-			this.config,
-		);
+	addSection(section: Partial<ClassSectionDto>): Observable<ClassSection> {
+		return this.#apiService.post<ClassSection>(this.#endpoint, section)
 	}
 
-	updateSection(id: string, section: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			section,
-			this.config,
-		);
+	updateSection(id: string, section: Partial<ClassSectionDto>): Observable<ClassSection> {
+		return this.#apiService.patch<ClassSection>(this.#endpoint + id, section)
 	}
 
 	deleteSection(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
 	}
 }

@@ -1,10 +1,9 @@
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ClassPlan } from '../interfaces/class-plan';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { environment } from '../../../environments/environment';
+import { inject, Injectable } from '@angular/core'
+import { Observable } from 'rxjs'
+import { ClassPlan } from '../interfaces/class-plan'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
+import { ApiDeleteResponse } from '../interfaces/api-delete-response'
+import { environment } from '../../../environments/environment'
 import {
 	Document,
 	Packer,
@@ -19,6 +18,7 @@ import {
 import { saveAs } from 'file-saver';
 import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
 import { ApiService } from './api.service';
+import { ClassPlanDto } from '../../store/class-plans/class-plans.models';
 
 @Injectable({
 	providedIn: 'root',
@@ -57,12 +57,12 @@ export class ClassPlansService {
 		return this.http.get<ClassPlan>(this.apiBaseUrl + id, this.config);
 	}
 
-	addPlan(plan: ClassPlan): Observable<ClassPlan> {
+	addPlan(plan: Partial<ClassPlanDto>): Observable<ClassPlan> {
 		return this.http.post<ClassPlan>(this.apiBaseUrl, plan, this.config);
 	}
 
-	updatePlan(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
+	updatePlan(id: string, plan: any): Observable<ClassPlan> {
+		return this.http.patch<ClassPlan>(
 			this.apiBaseUrl + id,
 			plan,
 			this.config,
@@ -108,7 +108,7 @@ export class ClassPlansService {
 							columnSpan: 4,
 							children: [
 								new Paragraph({
-									text: plan.section.school.name,
+									text: plan.user.schoolName,
 								}),
 							],
 						}),

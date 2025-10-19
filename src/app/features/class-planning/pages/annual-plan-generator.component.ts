@@ -11,7 +11,6 @@ import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { UserService } from '../../../core/services/user.service';
 import { User } from '../../../core/interfaces';
-import { UnitPlan } from '../../../core/interfaces/unit-plan';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
 import { ClassSection } from '../../../core/interfaces/class-section';
@@ -33,6 +32,9 @@ import { MainTheme } from '../../../core/interfaces';
 import { MainThemeService } from '../../../core/services/main-theme.service';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { forkJoin } from 'rxjs';
+import { UnitPlanDto } from '../../../store/unit-plans';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { Store } from '@ngrx/store';
 
 @Component({
 	selector: 'app-annual-plan-generator',
@@ -259,8 +261,8 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	private aiService = inject(AiService);
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
+	#store = inject(Store)
 	private classSectionService = inject(ClassSectionService);
-	private UserService = inject(UserService);
 	public userSubscriptionService = inject(UserSubscriptionService);
 	private contentBlockService = inject(ContentBlockService);
 	private unitPlanService = inject(UnitPlanService);
@@ -269,7 +271,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	private router = inject(Router);
 	private pretifyPipe = new PretifyPipe();
 
-	User: User | null = null;
+	user: User | null = null;
 	classSections: ClassSection[] = [];
 	contentBlocks: ContentBlock[] = [];
 	competence: CompetenceEntry[] = [];
@@ -308,14 +310,14 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			this.yearlyPlanForm.get('resources')?.setValue(resources);
 		}
 		forkJoin([
-			this.UserService.getSettings(),
+			this.#store.select(selectAuthUser),
 			this.classSectionService.findSections(),
 			this.unitPlanService.findAll(),
 			this.userSubscriptionService.checkSubscription(),
 		])
 			.subscribe({
 				next: ([settings, sections, unitPlans, subscription]) => {
-					this.User = settings;
+					this.user = settings;
 					if (sections.length) {
 						this.classSections = sections;
 					} else {
@@ -531,8 +533,8 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 
 		const competence = this.competence.map((c) => c._id);
 		// 3. Construir y Guardar el Plan
-		const plan: Partial<UnitPlan> = {
-			user: this.User?._id,
+		const plan: Partial<UnitPlanDto> = {
+			user: this.user?._id,
 			section: classSection._id,
 			duration: 6, // Duración por defecto
 			learningSituation: learningSituationContent,
@@ -552,7 +554,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			evaluationActivities: activitiesJson.evaluation_activities || [],
 		} as any;
 
-		await this.unitPlanService.create(plan as UnitPlan).toPromise();
+		await this.unitPlanService.create(plan).toPromise();
 	}
 
 	private getLearningSituationPrompt(
@@ -564,12 +566,13 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 		mainTheme: string,
 	): string {
 		const contentStr = this.formatContentsForPrompt(contents);
+		const user = this.user
 		return generateLearningSituationPrompt
 			.replace(
 				'nivel_y_grado',
 				`${classSection.year.toLowerCase()} de ${classSection.level.toLowerCase()}`,
 			)
-			.replace('centro_educativo', classSection.school.name || '')
+			.replace('centro_educativo', user?.schoolName || '')
 			.replace('section_name', classSection.name)
 			.replace('ambiente_operativo', environment)
 			.replace('theme_axis', mainTheme.toLowerCase())

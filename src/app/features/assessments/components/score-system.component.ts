@@ -23,8 +23,8 @@ import { StudentsService } from '../../../core/services/students.service';
 						<div style="text-align: center">
 							<h2 style="margin-bottom: 0">
 								{{
-									section?.school?.name ||
-										scoreSystem.section.school.name
+									section?.user?.schoolName ||
+										scoreSystem.user.schoolName
 								}}
 							</h2>
 							<h2 style="margin-bottom: 0">

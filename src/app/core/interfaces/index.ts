@@ -45,7 +45,7 @@ export * from './test';
 export * from './todo-list';
 export * from './todo';
 export * from './topic-entry';
-export * from './unit-plan';
+export * from './unit-plan-instruments';
 export * from './universal-activity';
 export * from './universal-activity-requirement';
 export * from './update';

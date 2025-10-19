@@ -6,49 +6,53 @@ import {
 	signal,
 	ChangeDetectionStrategy,
 	computed,
-} from '@angular/core';
+} from '@angular/core'
 import {
 	FormControl,
 	FormGroup,
 	ReactiveFormsModule,
 	Validators,
-} from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { of, forkJoin, Subscription } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
+} from '@angular/forms'
+import { CommonModule } from '@angular/common'
+import { of, forkJoin, Subscription } from 'rxjs'
+import { catchError, finalize } from 'rxjs/operators'
 
 // Angular Material Modules
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatSelectModule } from '@angular/material/select'
+import { MatInputModule } from '@angular/material/input'
+import { MatButtonModule } from '@angular/material/button'
+import { MatTableModule } from '@angular/material/table'
+import { MatIconModule } from '@angular/material/icon'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
 import {
 	MatDialog,
 	MatDialogModule,
 	MatDialogRef,
 	MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { ClassSection, Student, UnitPlan, User } from '../../../core/interfaces';
-import { ClassSectionService, StudentsService, UnitPlanService, UserService } from '../../../core/services';
-import { AssignmentService } from '../../../core/services/assignent.service';
-import { GradeService } from '../../../core/services/grade.service';
-import { Assignment } from '../../../core/interfaces/assignment';
-import { Grade } from '../../../core/interfaces/grade';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+} from '@angular/material/dialog'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core'
+import { MatCardModule } from '@angular/material/card'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { ClassSection, Student, User } from '../../../core/interfaces'
+import { ClassSectionService, StudentsService, UnitPlanService, UserService } from '../../../core/services'
+import { AssignmentService } from '../../../core/services/assignent.service'
+import { GradeService } from '../../../core/services/grade.service'
+import { Assignment } from '../../../core/interfaces/assignment'
+import { Grade } from '../../../core/interfaces/grade'
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
+import { UnitPlan } from '../../../core/models'
+import { Store } from '@ngrx/store'
+import { selectAllClassSections } from '../../../store/class-sections/class-sections.selectors'
+import { selectAuthUser } from '../../../store/auth/auth.selectors'
+import { selectAllUnitPlans } from '../../../store/unit-plans/unit-plans.selectors'
 
 @Component({
 	selector: 'app-add-student-dialog',
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
 		MatDialogModule,
 		MatFormFieldModule,
@@ -64,20 +68,18 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 			<mat-form-field appearance="outline" class="w-full" style="margin-top: 24px;">
 				<mat-label>Nombre</mat-label>
 				<input matInput formControlName="firstname" required />
-				<mat-error
-					*ngIf="studentForm.get('firstname')?.hasError('required')"
-				>
-					El nombre es requerido.
-				</mat-error>
+				@if (studentForm.get('firstname')?.hasError('required')) {
+					<mat-error>El nombre es requerido.</mat-error>
+				}
 			</mat-form-field>
 			<mat-form-field appearance="outline" class="w-full">
 				<mat-label>Apellido</mat-label>
 				<input matInput formControlName="lastname" required />
-				<mat-error
-					*ngIf="studentForm.get('lastname')?.hasError('required')"
-				>
-					El apellido es requerido.
-				</mat-error>
+				@if (studentForm.get('lastname')?.hasError('required')) {
+					<mat-error>
+						El apellido es requerido.
+					</mat-error>
+				}
 			</mat-form-field>
 			<mat-form-field appearance="outline" class="w-full">
 				<mat-label>Sexo</mat-label>
@@ -120,8 +122,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 	`
 })
 export class AddStudentDialogComponent {
-	private dialogRef = inject(MatDialogRef<AddStudentDialogComponent>);
-	public studentForm: FormGroup;
+	private dialogRef = inject(MatDialogRef<AddStudentDialogComponent>)
+	public studentForm: FormGroup
 
 	constructor() {
 		this.studentForm = new FormGroup({
@@ -129,16 +131,16 @@ export class AddStudentDialogComponent {
 			lastname: new FormControl('', [Validators.required]),
 			gender: new FormControl('Femenino'),
 			birthdate: new FormControl(null),
-		});
+		})
 	}
 
 	onNoClick(): void {
-		this.dialogRef.close();
+		this.dialogRef.close()
 	}
 
 	onSave(): void {
 		if (this.studentForm.valid) {
-			this.dialogRef.close(this.studentForm.value);
+			this.dialogRef.close(this.studentForm.value)
 		}
 	}
 }
@@ -489,37 +491,32 @@ export class AddAssignmentDialogComponent {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GradesRegistryComponent implements OnInit, OnDestroy {
-	// --- Dependency Injection ---
-	private userService = inject(UserService);
-	private sectionService = inject(ClassSectionService);
-	private studentService = inject(StudentsService);
-	private unitPlanService = inject(UnitPlanService);
-	private assignmentService = inject(AssignmentService);
-	private gradeService = inject(GradeService);
-	private snackBar = inject(MatSnackBar);
-	private dialog = inject(MatDialog);
-	private subscriptions = new Subscription();
+	#store = inject(Store)
+	private studentService = inject(StudentsService)
+	private assignmentService = inject(AssignmentService)
+	private gradeService = inject(GradeService)
+	private snackBar = inject(MatSnackBar)
+	private dialog = inject(MatDialog)
+	private subscriptions = new Subscription()
 
-	// --- State Signals ---
-	isLoading = signal<boolean>(true);
-	error = signal<string | null>(null);
-	userProfile = signal<User | null>(null);
-	sections = signal<ClassSection[]>([]);
-	students = signal<Student[]>([]);
-	unitPlans = signal<UnitPlan[]>([]);
-	assignments = signal<Assignment[]>([]);
-	selectedSection = signal<ClassSection | null>(null);
-	selectedSubject = signal<string | null>(null);
-	selectedUnitPlan = signal<string | null>(null);
+	isLoading = signal<boolean>(true)
+	error = signal<string | null>(null)
+	userProfile = signal<User | null>(null)
+	sections = this.#store.selectSignal(selectAllClassSections)
+	students = signal<Student[]>([])
+	unitPlans = signal<UnitPlan[]>([])
+	assignments = signal<Assignment[]>([])
+	selectedSection = signal<ClassSection | null>(null)
+	selectedSubject = signal<string | null>(null)
+	selectedUnitPlan = signal<string | null>(null)
 
-	// --- Form Controls ---
-	sectionControl = new FormControl<string | null>(null);
+	sectionControl = new FormControl<string | null>(null)
 	subjectControl = new FormControl<string | null>({
 		value: null,
 		disabled: true,
-	});
-	unitPlanControl = new FormControl<string | null>({ value: null, disabled: true });
-	gradesForm = new FormGroup({});
+	})
+	unitPlanControl = new FormControl<string | null>({ value: null, disabled: true })
+	gradesForm = new FormGroup({})
 
 	// --- Computed Signals for UI Logic ---
 	isTableVisible = computed(
@@ -528,26 +525,26 @@ export class GradesRegistryComponent implements OnInit, OnDestroy {
 			!!this.selectedSubject() &&
 			!!this.selectedUnitPlan() &&
 			this.students().length > 0,
-	);
+	)
 	displayedColumns = computed(() => [
 		'studentName',
 		...this.assignments().map((a) => a._id),
-	]);
+	])
 
 	ngOnInit(): void {
-		this.loadInitialData();
-		this.listenToControlChanges();
+		this.loadInitialData()
+		this.listenToControlChanges()
 	}
 
 	ngOnDestroy(): void {
-		this.subscriptions.unsubscribe();
+		this.subscriptions.unsubscribe()
 	}
 
 	private loadInitialData(): void {
-		this.isLoading.set(true);
+		this.isLoading.set(true)
 		forkJoin({
-			user: this.userService.getSettings(),
-			sections: this.sectionService.findSections(),
+			user: this.#store.select(selectAuthUser),
+			sections: this.#store.select(selectAllClassSections),
 		})
 			.pipe(
 				catchError(() => {
@@ -560,8 +557,6 @@ export class GradesRegistryComponent implements OnInit, OnDestroy {
 			)
 			.subscribe((response) => {
 				if (response) {
-					this.userProfile.set(response.user);
-					this.sections.set(response.sections);
 					if (response.sections.length === 0) {
 						this.error.set(
 							'No se han encontrado secciones. Por favor, cree una sección antes de continuar.',
@@ -621,7 +616,7 @@ export class GradesRegistryComponent implements OnInit, OnDestroy {
 
 		if (sectionId && subject) {
 			forkJoin({
-				unitPlans: this.unitPlanService.findAll(), // improve this method to get filtered plans
+				unitPlans: this.#store.select(selectAllUnitPlans),
 				assignments: this.assignmentService.getAssignments(
 					sectionId,
 					subject,

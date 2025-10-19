@@ -65,7 +65,7 @@ import { MatButtonModule } from '@angular/material/button';
 					>
 						<div style="text-align: center">
 							<h2 style="margin: 0px">
-								{{ estimationScale.section.school.name }}
+								{{ estimationScale.user.schoolName }}
 							</h2>
 							<h3 style="margin: 0px">
 								A&ntilde;o Escolar {{ schoolYear }}

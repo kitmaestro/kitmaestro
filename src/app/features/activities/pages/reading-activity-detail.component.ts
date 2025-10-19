@@ -19,7 +19,7 @@ import { ReadingActivityService } from '../../../core/services';
 			<div id="reading-activity" style="padding: 0.5in">
 				<div style="text-align: center;">
 					<h2 style="margin-bottom: 2px; line-height: 1;">
-						{{ activity.section.school.name }}
+						{{ activity.user.schoolName }}
 					</h2>
 					<h4 style="margin-bottom: 2px; line-height: 1;">
 						A&ntilde;o Escolar {{ schoolYear }}

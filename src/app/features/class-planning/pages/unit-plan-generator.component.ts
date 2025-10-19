@@ -12,7 +12,7 @@ import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { UserService } from '../../../core/services/user.service';
 import { User } from '../../../core/interfaces';
-import { UnitPlan } from '../../../core/interfaces/unit-plan';
+import { UnitPlan } from '../../../core/models';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
 import { ClassSection } from '../../../core/interfaces/class-section';
@@ -29,12 +29,19 @@ import {
 	mainThemeCategories,
 	schoolEnvironments,
 } from '../../../config/constants';
-import { filter, forkJoin, Subject, switchMap, takeUntil } from 'rxjs';
+import { filter, forkJoin, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { ContentBlockService } from '../../../core/services/content-block.service';
 import { ContentBlock } from '../../../core/interfaces/content-block';
 import { TEACHING_METHODS } from '../../../core/data/teaching-methods';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { selectClassPlans } from '../../../store/class-plans/class-plans.selectors';
+import { selectAllClassSections } from '../../../store/class-sections/class-sections.selectors';
+import { loadSections } from '../../../store/class-sections/class-sections.actions';
+import { createPlan, createPlanSuccess, selectAllUnitPlans } from '../../../store/unit-plans';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
 	selector: 'app-unit-plan-generator',
@@ -107,7 +114,7 @@ import { UserSubscriptionService } from '../../../core/services/user-subscriptio
 									(selectionChange)="onSectionSelect()"
 								>
 									@for (
-										section of classSections;
+										section of classSections();
 										track section._id
 									) {
 										<mat-option [value]="section._id">{{
@@ -788,15 +795,14 @@ import { UserSubscriptionService } from '../../../core/services/user-subscriptio
 	`,
 })
 export class UnitPlanGeneratorComponent implements OnInit {
+	#store = inject(Store)
+	#actions$ = inject(Actions)
 	private aiService = inject(AiService);
 	private mainThemeService = inject(MainThemeService);
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
-	private classSectionService = inject(ClassSectionService);
-	private UserService = inject(UserService);
 	userSubscriptionService = inject(UserSubscriptionService);
 	private contentBlockService = inject(ContentBlockService);
-	private unitPlanService = inject(UnitPlanService);
 	private competenceService = inject(CompetenceService);
 	private router = inject(Router);
 	private _evaluationCriteria: CompetenceEntry[] = [];
@@ -804,14 +810,14 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	pretify = new PretifyPipe().transform;
 	working = true;
 
-	User: User | null = null;
+	user = this.#store.selectSignal(selectAuthUser)
 
 	public mainThemeCategories = mainThemeCategories;
 	public environments = schoolEnvironments;
 	public problems = classroomProblems;
 	public resources = classroomResources;
 
-	classSections: ClassSection[] = [];
+	classSections = this.#store.selectSignal(selectAllClassSections)
 
 	generating = false;
 
@@ -898,86 +904,77 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.UserService
-			.getSettings()
-			.pipe(
-				filter((user) => user !== null),
-				takeUntil(this.destroy$),
-				switchMap((user) => {
-					this.User = user;
-					return forkJoin([
-						this.classSectionService.findSections(),
-						this.userSubscriptionService.checkSubscription(),
-						this.unitPlanService.findAll(),
-					]);
-				}),
-			)
-			.subscribe({
-				next: ([sections, subscription, plans]) => {
-					let maxPlans = 0;
-					if (sections.length) {
-						this.classSections = sections;
-						maxPlans = sections.flatMap((s) =>
-							s.subjects.filter(
-								(s) => s !== 'TALLERES_OPTATIVOS',
-							),
-						).length;
+		this.#store.dispatch(loadSections())
+		forkJoin({
+			sections: this.#store.select(selectAllClassSections),
+			subscription: this.userSubscriptionService.checkSubscription(),
+			plans: this.#store.select(selectAllUnitPlans),
+		})
+		.subscribe({
+			next: ({ sections, subscription, plans }) => {
+				let maxPlans = 0;
+				if (sections.length) {
+					maxPlans = sections.flatMap((s) =>
+						s.subjects.filter(
+							(s) => s !== 'TALLERES_OPTATIVOS',
+						),
+					).length;
+					this.learningSituationForm
+						.get('classSection')
+						?.setValue(sections[0]._id || '');
+					if (sections[0].subjects.length === 1) {
 						this.learningSituationForm
-							.get('classSection')
-							?.setValue(sections[0]._id || '');
-						if (sections[0].subjects.length === 1) {
-							this.learningSituationForm
-								.get('subjects')
-								?.setValue([sections[0].subjects[0]]);
-							this.onSubjectSelect();
-						}
-					} else {
-						this.router.navigateByUrl('/sections').then(() => {
-							this.sb.open(
-								'Para poder planificar, primero tienes que crear una seccion',
-								'Ok',
-								{ duration: 5000 },
-							);
-						});
-						return;
+							.get('subjects')
+							?.setValue([sections[0].subjects[0]]);
+						this.onSubjectSelect();
 					}
-					const sub = subscription.subscriptionType.toLowerCase();
-					if (sub == 'plan premium') return;
-
-					const createdThisMonth = plans.filter((plan: any) => {
-						const created = new Date(plan.createdAt);
-						const thirtyDaysAgo = new Date(
-							Date.now() - 1000 * 60 * 60 * 24 * 30,
+				} else {
+					this.router.navigateByUrl('/sections').then(() => {
+						this.sb.open(
+							'Para poder planificar, primero tienes que crear una seccion',
+							'Ok',
+							{ duration: 5000 },
 						);
-						return +created > +thirtyDaysAgo;
-					}).length;
-					if (sub == 'free' && createdThisMonth > 0) {
-						this.router
-							.navigateByUrl('/planning/unit-plans/list')
-							.then(() => {
-								this.sb.open(
-									'Ya has agotado tu limite de planes para este mes. Para continuar planificando, contrata un plan de pago.',
-									'Ok',
-									{ duration: 10000 },
-								);
-							});
-						return;
-					}
-					if (sub == 'plan plus') maxPlans = maxPlans * 2;
-					if (createdThisMonth >= maxPlans) {
-						this.router.navigateByUrl('/').then(() => {
+					});
+					return;
+				}
+				const sub = subscription.subscriptionType.toLowerCase();
+				if (sub == 'plan premium') return;
+
+				const createdThisMonth = plans.filter((plan: any) => {
+					const created = new Date(plan.createdAt);
+					const thirtyDaysAgo = new Date(
+						Date.now() - 1000 * 60 * 60 * 24 * 30,
+					);
+					return +created > +thirtyDaysAgo;
+				}).length;
+				if (sub == 'free' && createdThisMonth > 0) {
+					this.router
+						.navigateByUrl('/planning/unit-plans/list')
+						.then(() => {
 							this.sb.open(
-								'Haz alcanzado el limite de planes de este mes. Mejora tu suscripcion para eliminar las restricciones o vuelve la proxima semana.',
+								'Ya has agotado tu limite de planes para este mes. Para continuar planificando, contrata un plan de pago.',
 								'Ok',
-								{ duration: 5000 },
+								{ duration: 10000 },
 							);
 						});
-					}
-				},
-				error: (err) => {
-					console.log(err);
-				},
-			});
+					return;
+				}
+				if (sub == 'plan plus') maxPlans = maxPlans * 2;
+				if (createdThisMonth >= maxPlans) {
+					this.router.navigateByUrl('/').then(() => {
+						this.sb.open(
+							'Haz alcanzado el limite de planes de este mes. Mejora tu suscripcion para eliminar las restricciones o vuelve la proxima semana.',
+							'Ok',
+							{ duration: 5000 },
+						);
+					});
+				}
+			},
+			error: (err) => {
+				console.log(err);
+			},
+		});
 		const availableResourcesStr = localStorage.getItem(
 			'available-resources',
 		);
@@ -985,6 +982,20 @@ export class UnitPlanGeneratorComponent implements OnInit {
 			const resources = JSON.parse(availableResourcesStr) as string[];
 			this.unitPlanForm.get('resources')?.setValue(resources);
 		}
+		this.#actions$.pipe(
+			ofType(createPlanSuccess),
+			tap(({ plan }) => {
+				this.router
+					.navigate(['/unit-plans', plan._id])
+					.then(() => {
+						this.sb.open(
+							'Tu unidad multigrado ha sido guardada!',
+							'Ok',
+							{ duration: 2500 },
+						);
+					});
+			})
+		).subscribe()
 	}
 
 	onSectionSelect() {
@@ -1195,8 +1206,9 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	}
 
 	fillFinalForm() {
+		const user = this.user()
 		const plan: any = {
-			user: this.User?._id,
+			user: user?._id,
 			section: this.classSection?._id,
 			sections: [],
 			duration: this.unitPlanForm.value.duration || 4,
@@ -1219,22 +1231,9 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	}
 
 	savePlan() {
-		if (this.plan) {
-			this.unitPlanService.create(this.plan).subscribe({
-				next: (plan) => {
-					if (plan) {
-						this.router
-							.navigate(['/planning', 'unit-plans', plan._id])
-							.then(() => {
-								this.sb.open(
-									'Tu unidad de aprendizaje ha sido guardada!',
-									'Ok',
-									{ duration: 2500 },
-								);
-							});
-					}
-				},
-			});
+		const plan: any = this.plan
+		if (plan) {
+			this.#store.dispatch(createPlan({ plan }))
 		}
 	}
 
@@ -1255,7 +1254,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 				'nivel_y_grado',
 				`${this.classSectionYear.toLowerCase()} de ${this.classSectionLevel.toLowerCase()}`,
 			)
-			.replace('centro_educativo', this.classSection?.school.name || '')
+			.replace('centro_educativo', this.user()?.schoolName || '')
 			.replace(
 				'nivel_y_grado',
 				`${this.classSectionYear.toLowerCase()} de ${this.classSectionLevel.toLowerCase()}`,
@@ -1378,15 +1377,13 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	}
 
 	get classSection() {
-		const { classSection } = this.learningSituationForm.value;
-		return this.classSections.find((s) => s._id === classSection) || null;
+		const { classSection: sectionId } = this.learningSituationForm.value
+		const section = this.classSections().find(cs => cs._id == sectionId)
+		return section || null
 	}
 
 	get classSectionSchoolName() {
-		if (this.classSection) {
-			return this.classSection.school.name;
-		}
-		return '';
+		return this.user()?.schoolName || ''
 	}
 
 	get classSectionName() {

@@ -44,10 +44,7 @@ import { ClassSection } from '../../../core/interfaces/class-section';
 						<div style="min-width: 25%">
 							<mat-form-field appearance="outline">
 								<mat-label>Curso</mat-label>
-								<mat-select
-									formControlName="section"
-									(selectionChange)="onSectionSelect($event)"
-								>
+								<mat-select formControlName="section">
 									@for (option of sections; track option._id) {
 										<mat-option [value]="option._id">{{
 											option.name
@@ -287,9 +284,6 @@ export class WordsearchGeneratorComponent implements OnInit {
 		this.sectionService.findSections().subscribe({
 			next: (sections) => {
 				this.sections = sections;
-				if (sections.length) {
-					this.onSectionSelect({ value: sections[0]?._id });
-				}
 			},
 		});
 	}
@@ -297,13 +291,9 @@ export class WordsearchGeneratorComponent implements OnInit {
 	ngOnInit() {
 		this.UserService.getSettings().subscribe((settings) => {
 			this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
+			this.schoolName = settings.schoolName
 			this.loadSections();
 		});
-	}
-
-	onSectionSelect(event: any) {
-		this.schoolName =
-			this.sections.find((s) => s._id === event.value)?.school.name || '';
 	}
 
 	generateWordSearch() {

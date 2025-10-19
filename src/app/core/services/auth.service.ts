@@ -16,34 +16,34 @@ import {
 	providedIn: 'root',
 })
 export class AuthService {
-	private api = inject(ApiService)
-	private endpoint = 'auth/'
+	#api = inject(ApiService)
+	#endpoint = 'auth/'
 
 	login({ email, password, remember }: LoginDto): Observable<LoginOrSignupResponse> {
-		return this.api.post<LoginOrSignupResponse>(this.endpoint + 'login', { email, password, remember })
+		return this.#api.post<LoginOrSignupResponse>(this.#endpoint + 'login', { email, password, remember })
 	}
 
 	signup({ email, password }: SignupDto): Observable<LoginOrSignupResponse> {
-		return this.api.post<LoginOrSignupResponse>(this.endpoint + 'signup', { email, password })
+		return this.#api.post<LoginOrSignupResponse>(this.#endpoint + 'signup', { email, password })
 	}
 
 	logout(): Observable<LogoutResponse> {
-		return this.api.post<LogoutResponse>(this.endpoint + 'logout', {})
+		return this.#api.post<LogoutResponse>(this.#endpoint + 'logout', {})
 	}
 
 	profile(): Observable<User> {
-		return this.api.get<User>(this.endpoint + 'profile')
+		return this.#api.get<User>(this.#endpoint + 'profile')
 	}
 
 	update(data: Partial<User>): Observable<User> {
-		return this.api.patch<User>(this.endpoint + 'profile', data)
+		return this.#api.patch<User>(this.#endpoint + 'profile', data)
 	}
 
 	recover(email: string): Observable<PasswordRecoverResponse> {
-		return this.api.post<PasswordRecoverResponse>(this.endpoint + 'recover', { email })
+		return this.#api.post<PasswordRecoverResponse>(this.#endpoint + 'recover', { email })
 	}
 
 	resetPassword(payload: PasswordResetDto): Observable<PasswordResetResponse> {
-		return this.api.post<PasswordRecoverResponse>(this.endpoint + 'reset-password', payload)
+		return this.#api.post<PasswordRecoverResponse>(this.#endpoint + 'reset-password', payload)
 	}
 }

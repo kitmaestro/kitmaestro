@@ -96,9 +96,9 @@ import { selectUsersCurrentUser } from '../../../store/users/users.selectors';
 	],
 })
 class SectionCreatorComponent {
-	private dialogRef = inject(MatDialogRef<SectionCreatorComponent>);
+	private dialogRef = inject(MatDialogRef<SectionCreatorComponent>)
+	private data = inject<ClassSection>(MAT_DIALOG_DATA)
 
-	school = signal('');
 	user = signal('');
 	level = signal('');
 	year = signal('');
@@ -115,9 +115,7 @@ class SectionCreatorComponent {
 	];
 	subjectOptions = Object.values(SCHOOL_SUBJECT);
 
-	constructor(@Inject(MAT_DIALOG_DATA) private data: ClassSection) {
-		if (this.data.school)
-			this.school.set(this.data.school as any as string);
+	ngOnInit() {
 		if (this.data.user) this.user.set(this.data.user);
 		if (this.data.level) this.level.set(this.data.level);
 		if (this.data.year) this.year.set(this.data.year);
@@ -237,30 +235,28 @@ class SectionCreatorComponent {
 
 						<h3>Secciones</h3>
 						@for (section of classSections; track $index) {
-							@if (section.school) {
-								<div
-									style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px"
+							<div
+								style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px"
+							>
+								<p>
+									{{ $index + 1 }}. {{ section.name }} ({{
+										section.year | pretify
+									}}
+									de {{ section.level | pretify }})
+								</p>
+								<button
+									mat-icon-button
+									(click)="editSection(section)"
 								>
-									<p>
-										{{ $index + 1 }}. {{ section.name }} ({{
-											section.year | pretify
-										}}
-										de {{ section.level | pretify }})
-									</p>
-									<button
-										mat-icon-button
-										(click)="editSection(section)"
-									>
-										<mat-icon>edit</mat-icon>
-									</button>
-									<button
-										mat-icon-button
-										(click)="deleteSection(section._id)"
-									>
-										<mat-icon>delete</mat-icon>
-									</button>
-								</div>
-							}
+									<mat-icon>edit</mat-icon>
+								</button>
+								<button
+									mat-icon-button
+									(click)="deleteSection(section._id)"
+								>
+									<mat-icon>delete</mat-icon>
+								</button>
+							</div>
 						}
 
 						<h3>Suscripción</h3>

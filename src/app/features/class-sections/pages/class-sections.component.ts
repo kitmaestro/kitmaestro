@@ -10,9 +10,8 @@ import { ClassSectionFormComponent } from '../../../shared/ui/class-section-form
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
-import { ClassSectionService } from '../../../core/services/class-section.service';
-import { Observable } from 'rxjs';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { Store } from '@ngrx/store';
+import { selectAllClassSections } from '../../../store';
 
 @Component({
 	selector: 'app-class-sections',
@@ -62,7 +61,6 @@ import { ClassSection } from '../../../core/interfaces/class-section';
 				>
 					<mat-card-header>
 						<h2 mat-card-title>{{ section.name }}</h2>
-						<h3 mat-card-subtitle>{{ section.school.name }}</h3>
 						<h3 mat-card-subtitle>
 							{{ formatValue(section.year) }} de
 							{{ formatValue(section.level) }}
@@ -106,33 +104,6 @@ import { ClassSection } from '../../../core/interfaces/class-section';
 				empezar.
 			</div>
 		}
-
-		<!-- <table mat-table [dataSource]="sections" class="mat-elevation-z8" style="width: 100%; margin-top: 20px;">
-
-			<ng-container matColumnDef="name">
-				<th mat-header-cell *matHeaderCellDef>Secci&oacute;n</th>
-				<td mat-cell *matCellDef="let element">{{ element.name }}</td>
-			</ng-container>
-
-			<ng-container matColumnDef="level">
-				<th mat-header-cell *matHeaderCellDef>Nivel</th>
-				<td mat-cell *matCellDef="let element">{{ element.level }}</td>
-			</ng-container>
-
-			<ng-container matColumnDef="grade">
-				<th mat-header-cell *matHeaderCellDef>Grado</th>
-				<td mat-cell *matCellDef="let element">{{ element.grade }}</td>
-			</ng-container>
-
-			<ng-container matColumnDef="subjects">
-				<th mat-header-cell *matHeaderCellDef>Asignaturas</th>
-				<td mat-cell *matCellDef="let element">{{ element.subjects.join(', ') }}</td>
-			</ng-container>
-
-			<tr mat-header-row *matHeaderRowDef="sectionsColumns"></tr>
-			<tr mat-row *matRowDef="let row; columns: sectionsColumns;"></tr>
-
-		</table> -->
 	`,
 	styles: `
 		p {
@@ -160,10 +131,9 @@ import { ClassSection } from '../../../core/interfaces/class-section';
 	`,
 })
 export class ClassSectionsComponent implements OnInit {
-	private dialog = inject(MatDialog);
-	private classSectionService = inject(ClassSectionService);
-	sections$: Observable<ClassSection[]> =
-		this.classSectionService.findSections();
+	private dialog = inject(MatDialog)
+	#store = inject(Store)
+	sections$ = this.#store.select(selectAllClassSections)
 
 	ngOnInit() {}
 
@@ -171,16 +141,13 @@ export class ClassSectionsComponent implements OnInit {
 		this.dialog.open(ClassSectionFormComponent, {
 			width: '75%',
 			maxWidth: '640px',
-		});
-		this.dialog.afterAllClosed.subscribe(() => {
-			this.sections$ = this.classSectionService.findSections();
-		});
+		})
 	}
 
 	formatValue(value: string) {
 		return value
 			.split('_')
 			.map((s) => s[0] + s.slice(1).toLowerCase().split('').join(''))
-			.join(' ');
+			.join(' ')
 	}
 }

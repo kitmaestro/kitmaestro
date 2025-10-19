@@ -13,7 +13,7 @@ import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { UserService } from '../../../core/services/user.service';
 import { User } from '../../../core/interfaces';
-import { UnitPlan } from '../../../core/interfaces/unit-plan';
+import { UnitPlan } from '../../../core/models';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
 import { ClassSection } from '../../../core/interfaces/class-section';
@@ -29,13 +29,16 @@ import {
 	mainThemeCategories,
 	schoolEnvironments,
 } from '../../../config/constants';
-import { forkJoin } from 'rxjs';
+import { forkJoin, takeUntil, tap } from 'rxjs';
 import { ContentBlockService } from '../../../core/services/content-block.service';
 import { ContentBlock } from '../../../core/interfaces/content-block';
 import { TEACHING_METHODS } from '../../../core/data/teaching-methods';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { CommonModule } from '@angular/common';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { createPlan, createPlanSuccess } from '../../../store/unit-plans';
+import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
 	selector: 'app-multigrade-unit-plan-generator',
@@ -551,6 +554,8 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 })
 export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 	private aiService = inject(AiService);
+	#store = inject(Store)
+	#actions$ = inject(Actions)
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
 	private classSectionService = inject(ClassSectionService);
@@ -633,6 +638,20 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 				}
 			},
 		});
+		this.#actions$.pipe(
+			ofType(createPlanSuccess),
+			tap(({ plan }) => {
+				this.router
+					.navigate(['/unit-plans', plan._id])
+					.then(() => {
+						this.sb.open(
+							'Tu unidad multigrado ha sido guardada!',
+							'Ok',
+							{ duration: 2500 },
+						);
+					});
+			})
+		).subscribe()
 	}
 
 	onSectionSelect(): void {
@@ -955,23 +974,9 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 	}
 
 	savePlan(): void {
+		const plan: any = this.plan
 		if (this.plan) {
-			this.unitPlanService.create(this.plan).subscribe({
-				next: (plan) => {
-					if (plan) {
-						console.log('Saved by api: ', plan);
-						this.router
-							.navigate(['/unit-plans', plan._id])
-							.then(() => {
-								this.sb.open(
-									'Tu unidad multigrado ha sido guardada!',
-									'Ok',
-									{ duration: 2500 },
-								);
-							});
-					}
-				},
-			});
+			this.#store.dispatch(createPlan({ plan }))
 		}
 	}
 }

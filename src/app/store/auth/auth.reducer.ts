@@ -5,12 +5,12 @@ import * as AuthActions from './auth.actions'
 export const authReducer = createReducer(
     initialAuthState,
 
-    on(AuthActions.loadUser, (state) => ({
+    on(AuthActions.loadAuthUser, (state) => ({
         ...state,
         loading: true,
         status: { ...state.status, checkingAuth: true }
     })),
-    on(AuthActions.loadUserSuccess, (state, { user }) => ({
+    on(AuthActions.loadAuthUserSuccess, (state, { user }) => ({
         ...state,
         user,
         loading: false,
@@ -18,7 +18,7 @@ export const authReducer = createReducer(
         initialized: true,
         status: { ...state.status, checkingAuth: false }
     })),
-    on(AuthActions.loadUserFailure, (state, { error }) => ({
+    on(AuthActions.loadAuthUserFailure, (state, { error }) => ({
         ...state,
         loading: false,
         error,

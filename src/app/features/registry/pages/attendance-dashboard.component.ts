@@ -618,10 +618,6 @@ export class AttendanceDashboardComponent implements OnInit {
 	}
 
 	onSectionSelect(event: any) {
-		const section = this.sections.find((s) => s._id === event.value);
-		if (section) {
-			this.mode === section.school.journey;
-		}
 		this.fetchAttendance(this.year.value, this.month.value);
 		this.makeCalendar();
 		this.studentService.findBySection(event.value).subscribe({

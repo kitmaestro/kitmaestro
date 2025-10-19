@@ -14,6 +14,8 @@ import { provideEffects } from '@ngrx/effects';
 import { AppEffects } from './app.effects';
 import { AuthEffects } from './store/auth';
 import { UsersEffects } from './store/users';
+import { ClassPlansEffects } from './store/class-plans/class-plans.effects';
+import { ClassSectionsEffects } from './store';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -40,6 +42,8 @@ export const appConfig: ApplicationConfig = {
             AppEffects,
             AuthEffects,
             UsersEffects,
+            ClassPlansEffects,
+            ClassSectionsEffects,
         )
     ],
 };

@@ -20,6 +20,9 @@ import { AuthService } from '../../../core/services/auth.service';
 import { ClassSection } from '../../../core/interfaces/class-section';
 import * as XLSX from 'xlsx';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { loadSection, selectCurrentSection } from '../../../store/class-sections';
 
 @Component({
 	selector: 'app-section-details',
@@ -42,17 +45,19 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 				<h2 mat-card-title>Detalles de la Secci&oacute;n</h2>
 			</mat-card-header>
 			<mat-card-content>
-				<p><b>Centro Educativo</b>: {{ section.school.name }}</p>
+				<p><b>Centro Educativo</b>: {{ user()?.schoolName }}</p>
 				<div style="display: grid; grid-template-columns: 1fr 1fr 1fr">
-					<p><b>Nombre</b>: {{ section.name }}</p>
-					<p><b>Grado</b>: {{ section.year | pretify }}</p>
-					<p><b>Nivel</b>: {{ section.level | pretify }}</p>
+					<p><b>Nombre</b>: {{ section()?.name }}</p>
+					<p><b>Grado</b>: {{ (section()?.year || '') | pretify }}</p>
+					<p><b>Nivel</b>: {{ (section()?.level || '') | pretify }}</p>
 				</div>
 				<h3>Asignaturas</h3>
 				<mat-chip-set>
-					<mat-chip *ngFor="let subject of section.subjects">{{
-						subject | pretify
-					}}</mat-chip>
+					@for (subject of section()?.subjects; track subject) {
+						<mat-chip>{{
+							subject | pretify
+						}}</mat-chip>
+					}
 				</mat-chip-set>
 			</mat-card-content>
 			<mat-card-actions>
@@ -60,7 +65,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 					mat-raised-button
 					style="display: block; margin-left: auto"
 					routerLink="/attendance"
-					[queryParams]="{ section: section._id }"
+					[queryParams]="{ section: section()?._id }"
 				>
 					Asistencia
 				</button>
@@ -192,11 +197,13 @@ export class SectionDetailsComponent implements OnInit {
 	private dialog = inject(MatDialog);
 	private classSectionService = inject(ClassSectionService);
 	private studentService = inject(StudentsService);
-	private authService = inject(AuthService);
+	#store = inject(Store)
+	user$ = this.#store.select(selectAuthUser)
+	user = this.#store.selectSignal(selectAuthUser)
 
 	id = this.route.snapshot.paramMap.get('id') || '';
 	uid = '';
-	section: ClassSection | null = null;
+	section = this.#store.selectSignal(selectCurrentSection)
 	students$: Observable<Student[]> = this.studentService.findBySection(
 		this.id,
 	);
@@ -218,17 +225,15 @@ export class SectionDetailsComponent implements OnInit {
 	}
 
 	loadSection() {
-		this.classSectionService
-			.findSection(this.id)
-			.subscribe((section) => (this.section = section));
-		4;
+		this.#store.dispatch(loadSection({ id: this.id }))
 	}
 
 	ngOnInit(): void {
-		this.authService.profile().subscribe((user) => {
-			this.uid = user._id;
-		});
-		this.loadSection();
+		this.user$.subscribe((user) => {
+			if (user)
+				this.uid = user._id
+		})
+		this.loadSection()
 	}
 
 	updateSectionDetails() {

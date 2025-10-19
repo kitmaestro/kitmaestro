@@ -98,7 +98,7 @@ export class ReadingActivityService {
 							children: [
 								new TextRun({
 									color: '#000000',
-									text: activity.section.school.name,
+									text: activity.user.schoolName,
 								}),
 							],
 							heading: HeadingLevel.HEADING_1,
