@@ -11,7 +11,9 @@ import {
   ClassPlanState,
   classPlansReducer,
   classSectionsReducer,
-  ClassSectionsState
+  ClassSectionsState,
+  ChecklistsState,
+  checklistsReducer,
 } from '../store';
 
 export interface State {
@@ -19,6 +21,7 @@ export interface State {
   users: UsersState,
   classPlans: ClassPlanState,
   classSections: ClassSectionsState,
+  checklists: ChecklistsState,
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -26,6 +29,7 @@ export const reducers: ActionReducerMap<State> = {
   users: usersReducer,
   classPlans: classPlansReducer,
   classSections: classSectionsReducer,
+  checklists: checklistsReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : [];

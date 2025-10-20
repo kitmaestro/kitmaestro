@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { ApiDeleteResponse } from '../interfaces'
-import { ApiUpdateResponse } from '../interfaces'
 import { Checklist } from '../models'
 import { ApiService } from './api.service'
 import {
@@ -19,6 +18,7 @@ import {
 } from 'docx'
 import { saveAs } from 'file-saver'
 import { PretifyPipe } from '../../shared/pipes/pretify.pipe'
+import { ChecklistDto } from '../../store/checklists/checklists.models'
 
 @Injectable({
 	providedIn: 'root',
@@ -35,12 +35,12 @@ export class ChecklistService {
 		return this.#apiService.get<Checklist>(this.#endpoint + id)
 	}
 
-	create(idea: Checklist): Observable<Checklist> {
+	create(idea: Partial<ChecklistDto>): Observable<Checklist> {
 		return this.#apiService.post<Checklist>(this.#endpoint, idea)
 	}
 
-	update(id: string, idea: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, idea)
+	update(id: string, idea: Partial<ChecklistDto>): Observable<Checklist> {
+		return this.#apiService.patch<Checklist>(this.#endpoint + id, idea)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
