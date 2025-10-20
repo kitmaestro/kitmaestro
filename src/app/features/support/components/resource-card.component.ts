@@ -212,15 +212,13 @@ export class ResourceCardComponent {
 			const sus = this.didacticResourceService
 				.bookmark(this.resource._id)
 				.subscribe({
-					next: (res) => {
+					next: () => {
 						sus.unsubscribe();
-						if (res.modifiedCount > 0) {
-							this.sb.open(
-								'El recurso ha sido guardado en tu biblioteca!',
-								'Ok',
-								{ duration: 2500 },
-							);
-						}
+						this.sb.open(
+							'El recurso ha sido guardado en tu biblioteca!',
+							'Ok',
+							{ duration: 2500 },
+						);
 						this.load();
 					},
 				});

@@ -284,13 +284,11 @@ export class LogRegistryEntryEditFormComponent implements OnInit {
 			description: data.description,
 			comments: data.comments,
 		};
-		this.logService.update(this.id, entry).subscribe((res) => {
-			if (res.modifiedCount === 1) {
-				this.sb.open('Entrada modificada exitosamente.', 'Ok', {
-					duration: 2500,
-				});
-				this.close();
-			}
+		this.logService.update(this.id, entry).subscribe(() => {
+			this.sb.open('Entrada modificada exitosamente.', 'Ok', {
+				duration: 2500,
+			});
+			this.close();
 		});
 	}
 

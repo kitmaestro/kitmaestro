@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { ClassSchedule } from '../models'
-import { ApiDeleteResponse, ApiUpdateResponse } from '../interfaces'
+import { ApiDeleteResponse, Schedule } from '../interfaces'
 import { ApiService } from './api.service'
 
 @Injectable({
@@ -23,8 +23,8 @@ export class ClassScheduleService {
 		return this.#apiService.post<ClassSchedule>(this.#endpoint, schedule)
 	}
 
-	update(id: string, schedule: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, schedule)
+	update(id: string, schedule: any): Observable<Schedule> {
+		return this.#apiService.patch<Schedule>(this.#endpoint + id, schedule)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {

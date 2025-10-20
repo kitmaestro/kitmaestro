@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Update } from '../models'
-import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
 
 @Injectable({
@@ -25,8 +25,8 @@ export class UpdateService {
 		return this.#apiService.post<Update>(this.#endpoint, update)
 	}
 
-	update(id: string, update: Update): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, update)
+	update(id: string, update: Update): Observable<Update> {
+		return this.#apiService.patch<Update>(this.#endpoint + id, update)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {

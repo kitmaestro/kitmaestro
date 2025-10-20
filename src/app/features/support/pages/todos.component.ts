@@ -351,17 +351,15 @@ export class TodosComponent implements OnInit {
 		const completed = todo;
 		completed.completed = !completed.completed;
 		this.todoService.update(todo._id, completed).subscribe({
-			next: (result) => {
-				if (result.upsertedCount === 1) {
-					this.sb.open(
-						'Pendiente ' + completed.completed
-							? 'completado!'
-							: 'pendiente',
-						undefined,
-						{ duration: 2500 },
-					);
-					this.loadTodos();
-				}
+			next: () => {
+				this.sb.open(
+					'Pendiente ' + completed.completed
+						? 'completado!'
+						: 'pendiente',
+					undefined,
+					{ duration: 2500 },
+				);
+				this.loadTodos();
 			},
 		});
 	}
@@ -391,15 +389,13 @@ export class TodosComponent implements OnInit {
 	editList() {
 		const list: any = this.listForm.value;
 		this.todoService.update(list._id, list).subscribe({
-			next: (result) => {
-				if (result.upsertedCount === 1) {
-					this.sb.open(
-						'Los detalles de la lista han sido actualizados.',
-						undefined,
-						{ duration: 2500 },
-					);
-					this.loadList();
-				}
+			next: () => {
+				this.sb.open(
+					'Los detalles de la lista han sido actualizados.',
+					undefined,
+					{ duration: 2500 },
+				);
+				this.loadList();
 			},
 		});
 	}

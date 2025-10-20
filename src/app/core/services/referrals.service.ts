@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Referral } from '../models'
-import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
 
 @Injectable({
@@ -27,8 +27,8 @@ export class ReferralsService {
 		return this.#apiService.post<Referral>(this.#endpoint, referral)
 	}
 
-	updateReferral(id: string, referral: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, referral)
+	updateReferral(id: string, referral: any): Observable<Referral> {
+		return this.#apiService.patch<Referral>(this.#endpoint + id, referral)
 	}
 
 	deleteReferral(id: string): Observable<ApiDeleteResponse> {

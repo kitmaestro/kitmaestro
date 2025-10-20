@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core'
 import { SubjectConceptList } from '../models'
 import { Observable } from 'rxjs'
 import { ApiService } from './api.service'
-import { ApiDeleteResponse, ApiUpdateResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 
 @Injectable({
 	providedIn: 'root',
@@ -23,8 +23,8 @@ export class SubjectConceptListService {
 		return this.#apiService.post<SubjectConceptList>(this.#endpoint, list)
 	}
 
-	update(id: string, list: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, list)
+	update(id: string, list: any): Observable<SubjectConceptList> {
+		return this.#apiService.patch<SubjectConceptList>(this.#endpoint + id, list)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {

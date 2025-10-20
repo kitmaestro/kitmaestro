@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-// import { SliderComponent } from '../../../shared/ui/slider.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DidacticResource } from '../../../core';
 import { CommonModule } from '@angular/common';
@@ -316,16 +315,15 @@ export class ResourceDetailsComponent implements OnInit {
 	}
 
 	bookmark() {
-		if (!this.id) return;
+		if (!this.id) return
 
-		this.didacticResourceService.bookmark(this.id).subscribe((res) => {
-			this.load();
-			if (res.modifiedCount > 0)
-				this.sb.open(
-					'El recurso ha sido guardado en tu biblioteca!',
-					'Ok',
-					{ duration: 2500 },
-				);
-		});
+		this.didacticResourceService.bookmark(this.id).subscribe(() => {
+			this.load()
+			this.sb.open(
+				'El recurso ha sido guardado en tu biblioteca!',
+				'Ok',
+				{ duration: 2500 },
+			)
+		})
 	}
 }

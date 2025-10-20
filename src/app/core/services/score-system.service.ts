@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { ScoreSystem, Student } from '../models'
-import { GradingActivity, GroupedGradingActivity, ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { GradingActivity, GroupedGradingActivity, ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
 import { PretifyPipe } from '../../shared/pipes/pretify.pipe'
 import {
@@ -39,8 +39,8 @@ export class ScoreSystemService {
 		return this.#apiService.post<ScoreSystem>(this.#endpoint, plan)
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, plan)
+	update(id: string, plan: any): Observable<ScoreSystem> {
+		return this.#apiService.patch<ScoreSystem>(this.#endpoint + id, plan)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {

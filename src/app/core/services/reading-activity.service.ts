@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { ReadingActivity } from '../models'
-import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
 import {
 	AlignmentType,
@@ -34,8 +34,8 @@ export class ReadingActivityService {
 		return this.#apiService.post<ReadingActivity>(this.#endpoint, plan)
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, plan)
+	update(id: string, plan: any): Observable<ReadingActivity> {
+		return this.#apiService.patch<ReadingActivity>(this.#endpoint + id, plan)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {

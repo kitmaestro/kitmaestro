@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Attendance, AttendanceCalendar } from '../models'
-import { ApiUpdateResponse } from '../interfaces'
 import { ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
 import * as XLSX from 'xlsx'
@@ -26,8 +25,8 @@ export class AttendanceService {
 		return this.#apiService.post<Attendance>(this.#endpoint, block)
 	}
 
-	update(id: string, block: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, block)
+	update(id: string, block: any): Observable<Attendance> {
+		return this.#apiService.patch<Attendance>(this.#endpoint + id, block)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
@@ -41,23 +40,20 @@ export class AttendanceService {
 		const workbook: XLSX.WorkBook = XLSX.utils.book_new()
 		const sheetData: any[][] = []
 
-		// Encabezados
 		const headers = ['#', 'Estudiante']
 		calendar.weeks.forEach((week) => {
 			week.days.forEach((day) => {
 				headers.push(`${day.dayOfTheWeek} ${day.date}`)
 			})
 		})
-		headers.push('P', 'T', 'A', 'E') // Resumen
+		headers.push('P', 'T', 'A', 'E') 
 		sheetData.push(headers)
-
-		// Rellenar las filas
+		
 		attendance.forEach((att, index) => {
 			const row: any[] = []
-			row.push(index + 1) // Índice
-			row.push(`${att.student.firstname} ${att.student.lastname}`) // Nombre del estudiante
+			row.push(index + 1) 
+			row.push(`${att.student.firstname} ${att.student.lastname}`) 
 
-			// Agregar datos de asistencia por día
 			calendar.weeks.forEach((week) => {
 				week.days.forEach((day) => {
 					const attendanceData = att.data.find(
@@ -86,7 +82,6 @@ export class AttendanceService {
 				})
 			})
 
-			// Resumen (P, T, A, E)
 			const summary = { P: 0, T: 0, A: 0, E: 0 }
 			att.data.forEach((d) => {
 				summary[d.attendance[0] as keyof typeof summary]++
@@ -96,11 +91,9 @@ export class AttendanceService {
 			sheetData.push(row)
 		})
 
-		// Crear hoja de cálculo
 		const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData)
 		XLSX.utils.book_append_sheet(workbook, worksheet, 'Asistencia')
-
-		// Exportar a archivo
+		
 		const excelBuffer: any = XLSX.write(workbook, {
 			bookType: 'xlsx',
 			type: 'array',

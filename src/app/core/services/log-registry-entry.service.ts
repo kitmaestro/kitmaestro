@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core'
 import { Observable } from 'rxjs'
 import { LogRegistryEntry } from '../interfaces/log-registry-entry'
-import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
 
 @Injectable({
@@ -23,8 +23,8 @@ export class LogRegistryEntryService {
 		return this.#apiService.post<LogRegistryEntry>(this.#endpoint, plan)
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, plan)
+	update(id: string, plan: any): Observable<LogRegistryEntry> {
+		return this.#apiService.patch<LogRegistryEntry>(this.#endpoint + id, plan)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {

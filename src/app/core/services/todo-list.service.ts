@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { ApiDeleteResponse, ApiUpdateResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { TodoList } from '../models'
 import { ApiService } from './api.service'
 
@@ -23,8 +23,8 @@ export class TodoListService {
 		return this.#apiService.post<TodoList>(this.#endpoint, plan)
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, plan)
+	update(id: string, plan: any): Observable<TodoList> {
+		return this.#apiService.patch<TodoList>(this.#endpoint + id, plan)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {

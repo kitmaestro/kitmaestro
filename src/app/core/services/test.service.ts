@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { ApiDeleteResponse, ApiUpdateResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { Test } from '../models/test'
 import {
 	Document,
@@ -37,8 +37,8 @@ export class TestService {
 		return this.#apiService.post<Test>(this.#enpoint, plan)
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#enpoint + id, plan)
+	update(id: string, plan: any): Observable<Test> {
+		return this.#apiService.patch<Test>(this.#enpoint + id, plan)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {

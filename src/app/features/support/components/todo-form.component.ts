@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -93,12 +93,10 @@ export class TodoFormComponent {
 		console.log('updating');
 		this.todoService.update(todo._id, todo).subscribe({
 			next: (res) => {
-				if (res.modifiedCount === 1) {
-					this.dialogRef.close(res);
-					this.sb.open('La tarea ha sido actualizada.', 'Ok', {
-						duration: 2500,
-					});
-				}
+				this.dialogRef.close(res);
+				this.sb.open('La tarea ha sido actualizada.', 'Ok', {
+					duration: 2500,
+				});
 			},
 			error: (err) => {
 				this.sb.open('Error al guardar: ' + err.message, 'Ok', {

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core'
 import { BehaviorSubject, Observable, tap } from 'rxjs'
 import { UserSubscription } from '../models/user-subscription'
-import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
 
 @Injectable({
@@ -80,8 +80,8 @@ export class UserSubscriptionService {
 		return this.#apiService.post<UserSubscription>(this.#endpoint, referral)
 	}
 
-	updateReferral(id: string, referral: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, referral)
+	updateReferral(id: string, referral: any): Observable<UserSubscription> {
+		return this.#apiService.patch<UserSubscription>(this.#endpoint + id, referral)
 	}
 
 	deleteReferral(id: string): Observable<ApiDeleteResponse> {

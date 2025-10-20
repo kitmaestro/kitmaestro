@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core'
 import { Observable } from 'rxjs'
 import { User } from '../models'
-import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
 import { UserDto } from '../../store/users/users.models'
 
@@ -40,7 +40,7 @@ export class UserService {
 		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
 	}
 
-	setPhotoUrl(photoURL: string): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + 'auth/profile', { photoURL })
+	setPhotoUrl(photoURL: string): Observable<User> {
+		return this.#apiService.patch<User>(this.#endpoint + 'auth/profile', { photoURL })
 	}
 }

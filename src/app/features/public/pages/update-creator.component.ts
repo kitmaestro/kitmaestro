@@ -306,15 +306,13 @@ export class UpdateCreatorComponent implements OnInit {
 		const data: any = this.form.value;
 		if (this.updateId) {
 			this.updateService.update(this.updateId, data).subscribe((res) => {
-				if (res.modifiedCount > 0) {
-					this.router.navigateByUrl('/updates').then(() => {
-						this.sb.open(
-							'Se ha publicado la actualizacion!',
-							'Ok',
-							{ duration: 2500 },
-						);
-					});
-				}
+				this.router.navigateByUrl('/updates').then(() => {
+					this.sb.open(
+						'Se ha publicado la actualizacion!',
+						'Ok',
+						{ duration: 2500 },
+					);
+				});
 			});
 		} else {
 			this.updateService.create(data).subscribe((res) => {

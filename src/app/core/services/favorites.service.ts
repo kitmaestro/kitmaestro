@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 import { AppEntry } from '../interfaces'
 import { Observable } from 'rxjs'
-import { ApiUpdateResponse } from '../interfaces'
 import { ApiService } from './api.service'
 
 @Injectable({
@@ -19,7 +18,7 @@ export class FavoritesService {
 		return this.#apiService.post<{ user: string, tools: AppEntry[] }>(this.#endpoint, data)
 	}
 
-	update(data: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint, data)
+	update(data: any): Observable<{ user: string, tools: AppEntry }> {
+		return this.#apiService.patch<{ user: string, tools: AppEntry }>(this.#endpoint, data)
 	}
 }

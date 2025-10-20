@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Todo } from '../models'
 import { ApiService } from './api.service'
-import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 
 @Injectable({
 	providedIn: 'root',
@@ -27,8 +27,8 @@ export class TodoService {
 		return this.#apiService.post<Todo>(this.#endpoint, todo)
 	}
 
-	update(id: string, todo: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, todo)
+	update(id: string, todo: any): Observable<Todo> {
+		return this.#apiService.patch<Todo>(this.#endpoint + id, todo)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {

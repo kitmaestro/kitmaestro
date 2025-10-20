@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core'
 import { lastValueFrom, Observable } from 'rxjs'
 import { Rubric, Student } from '../models'
-import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
 import { StudentsService } from './students.service'
 import {
@@ -39,8 +39,8 @@ export class RubricService {
 		return this.#apiService.post<Rubric>(this.#endpoint, plan)
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, plan)
+	update(id: string, plan: any): Observable<Rubric> {
+		return this.#apiService.patch<Rubric>(this.#endpoint + id, plan)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
