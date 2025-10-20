@@ -18,6 +18,8 @@ import {
   contentBlocksReducer,
   DiagnosticEvaluationsState,
   diagnosticEvaluationsReducer,
+  estimationScalesReducer,
+  EstimationScalesState,
 } from '../store';
 
 export interface State {
@@ -28,6 +30,7 @@ export interface State {
   checklists: ChecklistsState,
   contentBlocks: ContentBlocksState,
   diagnosticEvaluations: DiagnosticEvaluationsState,
+  estimationScales: EstimationScalesState,
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -38,6 +41,7 @@ export const reducers: ActionReducerMap<State> = {
   checklists: checklistsReducer,
   contentBlocks: contentBlocksReducer,
   diagnosticEvaluations: diagnosticEvaluationsReducer,
+  estimationScales: estimationScalesReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : [];

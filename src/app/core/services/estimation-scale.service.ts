@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { EstimationScale } from '../models'
-import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
+import { EstimationScaleDto } from '../../store/estimation-scales/estimation-scales.models'
 
 @Injectable({
 	providedIn: 'root',
@@ -19,12 +20,12 @@ export class EstimationScaleService {
 		return this.#apiService.get<EstimationScale>(this.#endpoint + id)
 	}
 
-	create(plan: EstimationScale): Observable<EstimationScale> {
+	create(plan: Partial<EstimationScaleDto>): Observable<EstimationScale> {
 		return this.#apiService.post<EstimationScale>(this.#endpoint, plan)
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, plan)
+	update(id: string, plan: Partial<EstimationScaleDto>): Observable<EstimationScale> {
+		return this.#apiService.patch<EstimationScale>(this.#endpoint + id, plan)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
