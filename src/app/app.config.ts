@@ -17,39 +17,30 @@ import { UsersEffects } from './store/users';
 import { ClassPlansEffects } from './store/class-plans/class-plans.effects';
 import { ClassSectionsEffects, ContentBlocksEffects, DiagnosticEvaluationsEffects, EstimationScalesEffects, UnitPlansEffects } from './store';
 import { ChecklistsEffects } from './store/checklists/checklists.effects';
+import { provideRouterStore } from '@ngrx/router-store';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
-        provideRouter(routes),
-        provideHttpClient(withInterceptors([appInterceptor])),
-        provideAnimationsAsync(),
-        provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000',
-        }),
-        provideFirebaseApp(() => initializeApp({
-            projectId: 'kit-maestro',
-            appId: '1:604854508995:web:589737edbf2038209c7176',
-            storageBucket: 'kit-maestro.appspot.com',
-            locationId: 'us-central',
-            apiKey: 'AIzaSyAStMcbRBeZa5VEBbCRNQUPfd1zO1Y3Kws',
-            authDomain: 'kit-maestro.firebaseapp.com',
-            messagingSenderId: '604854508995',
-        } as any)),
-        provideStorage(() => getStorage()),
-        provideMarkdown(),
-        provideStore(reducers, { metaReducers }),
-        provideEffects(
-            AppEffects,
-            AuthEffects,
-            UsersEffects,
-            ClassPlansEffects,
-            ClassSectionsEffects,
-            ChecklistsEffects,
-            ContentBlocksEffects,
-            DiagnosticEvaluationsEffects,
-            EstimationScalesEffects,
-			UnitPlansEffects,
-        )
-    ],
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([appInterceptor])),
+    provideAnimationsAsync(),
+    provideServiceWorker('ngsw-worker.js', {
+        enabled: !isDevMode(),
+        registrationStrategy: 'registerWhenStable:30000',
+    }),
+    provideFirebaseApp(() => initializeApp({
+        projectId: 'kit-maestro',
+        appId: '1:604854508995:web:589737edbf2038209c7176',
+        storageBucket: 'kit-maestro.appspot.com',
+        locationId: 'us-central',
+        apiKey: 'AIzaSyAStMcbRBeZa5VEBbCRNQUPfd1zO1Y3Kws',
+        authDomain: 'kit-maestro.firebaseapp.com',
+        messagingSenderId: '604854508995',
+    } as any)),
+    provideStorage(() => getStorage()),
+    provideMarkdown(),
+    provideStore(reducers, { metaReducers }),
+    provideEffects(AppEffects, AuthEffects, UsersEffects, ClassPlansEffects, ClassSectionsEffects, ChecklistsEffects, ContentBlocksEffects, DiagnosticEvaluationsEffects, EstimationScalesEffects, UnitPlansEffects),
+    provideRouterStore()
+],
 };

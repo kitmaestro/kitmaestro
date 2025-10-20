@@ -2237,6 +2237,20 @@
   dependencies:
     tslib "^2.0.0"
 
+"@ngrx/entity@^20.0.1":
+  version "20.0.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/entity/-/entity-20.0.1.tgz#56c8781f7670b60c80912c70f55cd96fc883971f"
+  integrity sha512-NYzWkN1skfdI3MJNpaFPNcYSnwnXvKm7+DX7b1CeKzRxFKn5LNZaetETezDoF6VK9gSzxAnA1zwB+EtS0IzOFQ==
+  dependencies:
+    tslib "^2.0.0"
+
+"@ngrx/router-store@^20.0.1":
+  version "20.0.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-20.0.1.tgz#f897cd34f9179f8005b918e43298e26db3159d4e"
+  integrity sha512-sjl2n2LxBkK7+ShuictIoRSVj+N8QgGEL7btznR8rK0oGfUr5iMC/k23oENje4N4a80Gd2i+jEXsX1pBz8//vA==
+  dependencies:
+    tslib "^2.0.0"
+
 "@ngrx/store@^20.0.1":
   version "20.0.1"
   resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-20.0.1.tgz#614a7dcc357f18fc2ed05e0cec91d7d4cffded29"

@@ -8,7 +8,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ClassSectionService } from '../../../core/services/class-section.service';
 import { AiService } from '../../../core/services/ai.service';
 import { PdfService } from '../../../core/services/pdf.service';
 import { MatChipsModule } from '@angular/material/chips';
@@ -25,7 +24,7 @@ import { ClassPlanComponent } from '../components/class-plan.component';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { Store } from '@ngrx/store';
-import { createClassPlan, createClassPlanSuccess, loadClassPlans, loadSections, selectAllClassSections, selectAuthUser, selectClassPlans } from '../../../store';
+import { ClassSectionStateStatus, createClassPlan, createClassPlanSuccess, loadClassPlans, loadSections, selectAllClassSections, selectAuthUser, selectClassPlans, selectClassSectionsStatus } from '../../../store';
 import { filter, forkJoin, Subject, take, takeUntil, tap } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
 
@@ -256,6 +255,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 		.split('T')[0]
 	classSections: ClassSection[] = []
 	user = this.#store.selectSignal(selectAuthUser)
+	status = this.#store.selectSignal(selectClassSectionsStatus)
 	subjects = computed<string[]>(() => {
 		const section = this.section()
 		return section ? section.subjects : []
@@ -388,7 +388,10 @@ export class ClassPlanGeneratorComponent implements OnInit {
 			const resources = JSON.parse(availableResourcesStr) as string[];
 			this.planForm.get('resources')?.setValue(resources);
 		}
-		this.#store.select(selectAllClassSections).subscribe((sections) => {
+		this.#store.select(selectAllClassSections).pipe(
+			filter(s => !!s && this.status() == ClassSectionStateStatus.IDLING),
+			takeUntil(this.destroy$),
+		).subscribe((sections) => {
 			this.classSections = sections;
 			if (sections.length) {
 				this.planForm

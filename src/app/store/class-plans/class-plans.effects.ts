@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
-import { of, switchMap, catchError, map } from 'rxjs'
+import { of, switchMap, catchError, map, from } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ClassPlansService } from "../../core/services"
 import * as ClassPlansActions from './class-plans.actions'
@@ -53,6 +53,21 @@ export class ClassPlansEffects {
             catchError(error => {
                 this.#sb.open('Error al eliminar el plan', 'Cerrar', { duration: 3000 })
                 return of(ClassPlansActions.deleteClassPlanFailure({ error }))
+            })
+        ))
+    ))
+
+    downloadClassPlan$ = createEffect(() => this.#actions$.pipe(
+        ofType(ClassPlansActions.downloadClassPlan),
+        switchMap(({ plan }) => from(this.#classPlansService.download(plan)).pipe(
+            map(() => {
+                this.#sb.open('El plan esta siendo descargado', 'Ok', { duration: 2500 })
+                return ClassPlansActions.downloadClassPlanSuccess()
+            }),
+            catchError(error => {
+                this.#sb.open('Error al descargar el archivo', 'Ok', { duration: 2500 })
+                console.log(error)
+                return of(ClassPlansActions.downloadClassPlanFailure)
             })
         ))
     ))

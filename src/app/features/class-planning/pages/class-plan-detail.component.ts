@@ -1,16 +1,20 @@
-import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ClassPlansService } from '../../../core/services/class-plans.service';
-import { UserService } from '../../../core/services/user.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { PdfService } from '../../../core/services/pdf.service';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { tap } from 'rxjs';
-import { ClassPlan } from '../../../core';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { UserSubscriptionService } from '../../../core/services';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { Component, inject, signal } from '@angular/core'
+import { ActivatedRoute, Router, RouterModule } from '@angular/router'
+import { ClassPlansService } from '../../../core/services/class-plans.service'
+import { UserService } from '../../../core/services/user.service'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { PdfService } from '../../../core/services/pdf.service'
+import { MatCardModule } from '@angular/material/card'
+import { MatButtonModule } from '@angular/material/button'
+import { Subject, tap } from 'rxjs'
+import { ClassPlan } from '../../../core'
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
+import { UserSubscriptionService } from '../../../core/services'
+import { AsyncPipe, DatePipe } from '@angular/common'
+import { Store } from '@ngrx/store'
+import { selectSelectedClassPlan } from '../../../store/class-plans/class-plans.selectors'
+import { selectAuthUser } from '../../../store/auth/auth.selectors'
+import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../store/class-plans/class-plans.actions'
 
 @Component({
 	selector: 'app-class-plan-detail',
@@ -276,34 +280,36 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 	`,
 })
 export class ClassPlanDetailComponent {
-	route = inject(ActivatedRoute);
-	router = inject(Router);
-	planId = this.route.snapshot.paramMap.get('id') || '';
-	classPlanService = inject(ClassPlansService);
-	plan$ = this.classPlanService.find(this.planId).pipe(
+	route = inject(ActivatedRoute)
+	router = inject(Router)
+	#store = inject(Store)
+	planId = this.route.snapshot.paramMap.get('id') || ''
+	plan$ = this.#store.select(selectSelectedClassPlan).pipe(
 		tap((plan) => {
-			this.plan = plan;
+			this.plan = plan
 		}),
-	);
-	UserService = inject(UserService);
-	settings$ = this.UserService.getSettings();
-	userSubscriptionService = inject(UserSubscriptionService);
-	sb = inject(MatSnackBar);
-	pdfService = inject(PdfService);
-	plan: ClassPlan | null = null;
-	printing = false;
+	)
+	settings$ = this.#store.select(selectAuthUser)
+	userSubscriptionService = inject(UserSubscriptionService)
+	sb = inject(MatSnackBar)
+	pdfService = inject(PdfService)
+	plan: ClassPlan | null = null
+	printing = false
 
-	isPremium = signal(false);
+	isPremium = signal(false)
 
-	pretify = new PretifyPipe().transform;
+	pretify = new PretifyPipe().transform
+
+	destroy$ = new Subject<void>()
 
 	ngOnInit() {
+		this.#store.dispatch(loadClassPlan({ planId: this.planId }))
 		this.userSubscriptionService.checkSubscription().subscribe(sub => {
-			let status = false;
+			let status = false
 			if (sub && sub.subscriptionType.toLowerCase() !== 'free') {
 				if (new Date(sub.endDate) > new Date()) {
 					if (sub.status == 'active') {
-						status = true;
+						status = true
 					}
 				}
 			}
@@ -316,16 +322,16 @@ export class ClassPlanDetailComponent {
 			'La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.',
 			'Ok',
 			{ duration: 3000 },
-		);
+		)
 		this.plan$.subscribe((plan) => {
 			if (plan) {
 				this.pdfService.createAndDownloadFromHTML(
 					'class-plan',
 					`Plan de Clases ${plan.section.name} de ${plan.section.level.toLowerCase()} - ${this.pretify(plan.subject || '')}`,
 					false,
-				);
+				)
 			}
-		});
+		})
 	}
 
 	async downloadPlan() {
@@ -334,27 +340,20 @@ export class ClassPlanDetailComponent {
 				'El plan no ha sido encontrado o cargado todavia',
 				'Ok',
 				{ duration: 2500 },
-			);
-			return;
+			)
+			return
 		}
-		this.printing = true;
-		await this.classPlanService.download(this.plan);
-		this.printing = false;
+		this.printing = true
+		await this.#store.dispatch(downloadClassPlan({ plan: this.plan }))
+		this.printing = false
 	}
 
 	deletePlan() {
-		this.classPlanService.deletePlan(this.planId).subscribe((res) => {
-			if (res.deletedCount === 1) {
-				this.router.navigateByUrl('/planning/class-plans').then(() => {
-					this.sb.open('Se ha eliminado el plan', 'Ok', {
-						duration: 2500,
-					});
-				});
-			}
-		});
+		this.#store.dispatch(deleteClassPlan({ planId: this.planId }))
+		this.router.navigateByUrl('/planning/class-plans')
 	}
 
 	goBack() {
-		window.history.back();
+		window.history.back()
 	}
 }

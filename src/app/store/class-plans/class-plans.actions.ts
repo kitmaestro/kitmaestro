@@ -21,3 +21,7 @@ export const updateClassPlanFailure = createAction('[Class Plans] Update Class P
 export const deleteClassPlan = createAction('[Class Plans] Delete Class Plan', props<{ planId: string }>())
 export const deleteClassPlanSuccess = createAction('[Class Plans] Delete Class Plan Success', props<{ planId: string }>())
 export const deleteClassPlanFailure = createAction('[Class Plans] Delete Class Plan Failure', props<{ error: string }>())
+
+export const downloadClassPlan = createAction('[Class Plans] Download Class Plan', props<{ plan: ClassPlan }>())
+export const downloadClassPlanSuccess = createAction('[Class Plans] Download Class Plan Success')
+export const downloadClassPlanFailure = createAction('[Class Plans] Download Class Plan Failure', props<{ error: string }>())
