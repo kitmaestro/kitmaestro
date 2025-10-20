@@ -1,8 +1,9 @@
 import { EvaluationSection } from "../interfaces"
 import { BaseModel } from "./base-model"
+import { User } from "./user"
 
 export interface GeneratedEvaluation extends BaseModel {
-	user: string
+	user: User
 	title: string
 	subject: string
 	year: string
