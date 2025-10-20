@@ -162,16 +162,8 @@ class SectionCreatorComponent {
 						/>
 					</a>
 				</div>
-				<mat-card-title
-					>{{ user.title }}. {{ user.firstname }}
-					{{ user.lastname }}</mat-card-title
-				>
-				<mat-card-subtitle
-					>Miembro desde
-					{{
-						user.createdAt | date: 'dd/MM/yyyy'
-					}}</mat-card-subtitle
-				>
+				<h2>{{ user.title }}. {{ user.firstname }} {{ user.lastname }}</h2>
+				<div>Miembro desde el {{ user.createdAt | date: 'dd/MM/yyyy' }}</div>
 			<div>
 				<h3>Información Personal</h3>
 				<p><b>Sexo</b>: {{ user.gender }}</p>

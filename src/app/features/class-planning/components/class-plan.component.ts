@@ -1,9 +1,10 @@
 import { Component, inject, input } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { PretifyPipe } from '../../../shared/pipes'
-import { selectSelectedClassPlan, selectAuthUser } from '../../../store'
+import { selectAuthUser } from '../../../store'
 import { Store } from '@ngrx/store'
 import { SimpleList } from '../../../shared/ui'
+import { ClassPlan } from '../../../core'
 
 @Component({
 	selector: 'app-class-plan',
@@ -13,7 +14,7 @@ import { SimpleList } from '../../../shared/ui'
 		SimpleList,
 	],
 	template: `
-		@if (classPlan(); as plan) {
+		@if (plan(); as plan) {
 			<div class="shadow">
 				<div class="page" id="class-plan">
 					<table>
@@ -271,5 +272,5 @@ import { SimpleList } from '../../../shared/ui'
 export class ClassPlanComponent {
 	#store = inject(Store)
 	user = this.#store.selectSignal(selectAuthUser)
-	classPlan = this.#store.selectSignal(selectSelectedClassPlan)
+	plan = input<ClassPlan | null>(null)
 }

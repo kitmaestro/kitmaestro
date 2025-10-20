@@ -1,25 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatChipsModule } from '@angular/material/chips';
-import { AiService } from '../../../core/services/ai.service';
-import { ClassSectionService } from '../../../core/services/class-section.service';
-import { UserService } from '../../../core/services/user.service';
-import { User } from '../../../core';
-import { UnitPlan } from '../../../core/models';
-import { UnitPlanService } from '../../../core/services/unit-plan.service';
-import { Router, RouterModule } from '@angular/router';
-import { ClassSection } from '../../../core';
-import { CompetenceService } from '../../../core/services/competence.service';
-import { CompetenceEntry } from '../../../core';
-import { MainTheme } from '../../../core';
-import { MainThemeService } from '../../../core/services/main-theme.service';
+import { Component, inject, OnInit } from '@angular/core'
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar'
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
+import { MatStepperModule } from '@angular/material/stepper'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatSelectModule } from '@angular/material/select'
+import { MatInputModule } from '@angular/material/input'
+import { MatChipsModule } from '@angular/material/chips'
+import { AiService } from '../../../core/services/ai.service'
+import { UnitPlan } from '../../../core/models'
+import { Router, RouterModule } from '@angular/router'
+import { CompetenceService } from '../../../core/services/competence.service'
+import { CompetenceEntry } from '../../../core'
+import { MainTheme } from '../../../core'
+import { MainThemeService } from '../../../core/services/main-theme.service'
 import {
 	classroomProblems,
 	classroomResources,
@@ -28,20 +23,19 @@ import {
 	generateStrategiesPrompt,
 	mainThemeCategories,
 	schoolEnvironments,
-} from '../../../config/constants';
-import { filter, forkJoin, Subject, switchMap, takeUntil, tap } from 'rxjs';
-import { ContentBlockService } from '../../../core/services/content-block.service';
-import { ContentBlock } from '../../../core';
-import { TEACHING_METHODS } from '../../../core/data/teaching-methods';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
-import { Store } from '@ngrx/store';
-import { selectAuthUser } from '../../../store/auth/auth.selectors';
-import { selectClassPlans } from '../../../store/class-plans/class-plans.selectors';
-import { selectAllClassSections } from '../../../store/class-sections/class-sections.selectors';
-import { loadSections } from '../../../store/class-sections/class-sections.actions';
-import { createPlan, createPlanSuccess, selectAllUnitPlans } from '../../../store/unit-plans';
-import { Actions, ofType } from '@ngrx/effects';
+} from '../../../config/constants'
+import { forkJoin, Subject, tap } from 'rxjs'
+import { ContentBlockService } from '../../../core/services/content-block.service'
+import { ContentBlock } from '../../../core'
+import { TEACHING_METHODS } from '../../../core/data/teaching-methods'
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
+import { UserSubscriptionService } from '../../../core/services/user-subscription.service'
+import { Store } from '@ngrx/store'
+import { selectAuthUser } from '../../../store/auth/auth.selectors'
+import { selectAllClassSections } from '../../../store/class-sections/class-sections.selectors'
+import { loadSections } from '../../../store/class-sections/class-sections.actions'
+import { createPlan, createPlanSuccess, selectAllUnitPlans } from '../../../store/unit-plans'
+import { Actions, ofType } from '@ngrx/effects'
 
 @Component({
 	selector: 'app-unit-plan-generator',
@@ -60,17 +54,18 @@ import { Actions, ofType } from '@ngrx/effects';
 	],
 	template: `
 		<div style="display: flex; align-items: center; margin-bottom: 16px; margin-top: 16px; justify-content: space-between;">
-			<h2 class="title" mat-card-ittle>
+			<h2>
 				Generador de Unidades de Aprendizaje
 			</h2>
-			<button
-				class="title-button"
-				mat-flat-button
-				[routerLink]="['/planning', 'unit-plans', 'list']"
-				color="accent"
-			>
-				Ver mis Planes
-			</button>
+			<div>
+				<button
+					mat-button
+					[routerLink]="['/planning', 'unit-plans', 'list']"
+					color="accent"
+				>
+					Ver mis Planes
+				</button>
+			</div>
 		</div>
 		<div>
 			<mat-stepper linear #stepper>
@@ -474,7 +469,7 @@ import { Actions, ofType } from '@ngrx/effects';
 						<div style="text-align: end">
 							<button
 								[disabled]="generating"
-								mat-raised-button
+								mat-button
 								type="button"
 								color="accent"
 								(click)="generateLearningSituation()"
@@ -492,7 +487,7 @@ import { Actions, ofType } from '@ngrx/effects';
 							@if (learningSituation.value) {
 								<button
 									style="margin-left: 8px"
-									mat-raised-button
+									mat-flat-button
 									matStepperNext
 								>
 									Siguiente
@@ -558,12 +553,12 @@ import { Actions, ofType } from '@ngrx/effects';
 							</div>
 						</div>
 						<div style="text-align: end">
-							<button mat-raised-button matStepperPrevious>
+							<button mat-button matStepperPrevious>
 								Anterior
 							</button>
 							<button
 								style="margin-left: 8px"
-								mat-raised-button
+								mat-flat-button
 								(click)="generateActivities()"
 								matStepperNext
 							>
@@ -691,13 +686,13 @@ import { Actions, ofType } from '@ngrx/effects';
 						}
 					</div>
 					<div style="text-align: end">
-						<button mat-raised-button matStepperPrevious>
+						<button mat-button matStepperPrevious>
 							Anterior
 						</button>
 						<button
 							[disabled]="generating"
 							style="margin-left: 8px"
-							mat-raised-button
+							mat-button
 							type="button"
 							color="accent"
 							(click)="generateActivities()"
@@ -717,7 +712,7 @@ import { Actions, ofType } from '@ngrx/effects';
 							<button
 								style="margin-left: 8px"
 								color="primary"
-								mat-raised-button
+								mat-flat-button
 								(click)="fillFinalForm()"
 								type="button"
 							>

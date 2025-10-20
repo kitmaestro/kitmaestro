@@ -6,7 +6,7 @@ export const loadClassPlan = createAction('[Class Plans] Load Class Plan', props
 export const loadClassPlanSuccess = createAction('[Class Plans] Load Class Plan Success', props<{ classPlan: ClassPlan }>())
 export const loadClassPlanFailure = createAction('[Class Plans] Load Class Plan Failure', props<{ error: string }>())
 
-export const loadClassPlans = createAction('[Class Plans] Load Class Plans')
+export const loadClassPlans = createAction('[Class Plans] Load Class Plans', props<{ filters?: any }>())
 export const loadClassPlansSuccess = createAction('[Class Plans] Load Class Plans Success', props<{ classPlans: ClassPlan[] }>())
 export const loadClassPlansFailure = createAction('[Class Plans] Load Class Plans Failure', props<{ error: string }>())
 

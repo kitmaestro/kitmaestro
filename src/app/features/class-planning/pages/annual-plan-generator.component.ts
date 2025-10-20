@@ -8,10 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { AiService } from '../../../core/services/ai.service';
-import { ClassSectionService } from '../../../core/services/class-section.service';
-import { UserService } from '../../../core/services/user.service';
 import { User } from '../../../core';
-import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
 import { ClassSection } from '../../../core';
 import { CompetenceService } from '../../../core/services/competence.service';
@@ -32,9 +29,10 @@ import { MainTheme } from '../../../core';
 import { MainThemeService } from '../../../core/services/main-theme.service';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { forkJoin } from 'rxjs';
-import { UnitPlanDto } from '../../../store/unit-plans';
+import { createPlan, loadPlans, selectAllUnitPlans, UnitPlanDto } from '../../../store/unit-plans';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
 import { Store } from '@ngrx/store';
+import { loadSections, selectAllClassSections } from '../../../store/class-sections';
 
 @Component({
 	selector: 'app-annual-plan-generator',
@@ -54,11 +52,11 @@ import { Store } from '@ngrx/store';
 	template: `
 		<app-is-premium minSubscriptionType="Plan Plus">
 			<div class="content">
-				<div style="display: flex; justify-content: space-between;">
+				<div style="display: flex; justify-content: space-between; align-items: center;">
 					<h2 class="title" mat-card-title>Generador de Planificación Anual</h2>
 					<button
 						class="title-button"
-						mat-flat-button
+						mat-button
 						routerLink="/planning/unit-plans/list"
 						color="accent"
 					>
@@ -78,7 +76,7 @@ import { Store } from '@ngrx/store';
 								formControlName="classSection"
 								(selectionChange)="onSectionOrSubjectChange()"
 							>
-								@for (section of classSections; track section._id) {
+								@for (section of classSections(); track section._id) {
 									<mat-option [value]="section._id">{{
 										section.name
 									}}</mat-option>
@@ -173,11 +171,12 @@ import { Store } from '@ngrx/store';
 
 					<div style="text-align: end; margin-top: 24px">
 						<button
-							mat-raised-button
+							mat-flat-button
 							color="primary"
 							type="submit"
 							[disabled]="generating || yearlyPlanForm.invalid"
 						>
+							<mat-icon>bolt</mat-icon>
 							@if (generating) {
 								<span
 									>Generando... ({{ plansGenerated }} /
@@ -262,17 +261,15 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
 	#store = inject(Store)
-	private classSectionService = inject(ClassSectionService);
 	public userSubscriptionService = inject(UserSubscriptionService);
 	private contentBlockService = inject(ContentBlockService);
-	private unitPlanService = inject(UnitPlanService);
 	private competenceService = inject(CompetenceService);
 	private mainThemeService = inject(MainThemeService);
 	private router = inject(Router);
 	private pretifyPipe = new PretifyPipe();
 
 	user: User | null = null;
-	classSections: ClassSection[] = [];
+	classSections = this.#store.selectSignal(selectAllClassSections);
 	contentBlocks: ContentBlock[] = [];
 	competence: CompetenceEntry[] = [];
 	mainThemes: MainTheme[] = [];
@@ -304,23 +301,23 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit(): void {
+		this.#store.dispatch(loadPlans())
+		this.#store.dispatch(loadSections())
 		const res = localStorage.getItem('available-resources') as string;
 		const resources = res ? JSON.parse(res) : null;
 		if (resources && Array.isArray(resources) && resources.length > 0) {
 			this.yearlyPlanForm.get('resources')?.setValue(resources);
 		}
-		forkJoin([
-			this.#store.select(selectAuthUser),
-			this.classSectionService.findSections(),
-			this.unitPlanService.findAll(),
-			this.userSubscriptionService.checkSubscription(),
-		])
+		forkJoin({
+			settings: this.#store.select(selectAuthUser),
+			sections: this.#store.select(selectAllClassSections),
+			unitPlans: this.#store.select(selectAllUnitPlans),
+			subscription: this.userSubscriptionService.checkSubscription(),
+		})
 			.subscribe({
-				next: ([settings, sections, unitPlans, subscription]) => {
+				next: ({settings, sections, unitPlans, subscription}) => {
 					this.user = settings;
-					if (sections.length) {
-						this.classSections = sections;
-					} else {
+					if (!sections.length) {
 						this.router.navigateByUrl('/sections').then(() => {
 							this.sb.open(
 								'Para usar esta herramienta, necesitas crear al menos una sección.',
@@ -355,7 +352,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			return;
 		}
 
-		const selectedSection = this.classSections.find(
+		const selectedSection = this.classSections().find(
 			(s) => s._id === sectionId,
 		);
 		if (selectedSection) {
@@ -486,7 +483,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 				JSON.stringify(resources),
 			);
 		}
-		const classSection = this.classSections.find(
+		const classSection = this.classSections().find(
 			(s) => s._id === this.yearlyPlanForm.value.classSection,
 		);
 
@@ -553,8 +550,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			studentActivities: activitiesJson.student_activities || [],
 			evaluationActivities: activitiesJson.evaluation_activities || [],
 		} as any;
-
-		await this.unitPlanService.create(plan).toPromise();
+		this.#store.dispatch(createPlan({ plan }))
 	}
 
 	private getLearningSituationPrompt(
@@ -645,7 +641,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 
 	get classSection(): ClassSection | null {
 		const { classSection } = this.yearlyPlanForm.value;
-		return this.classSections.find((s) => s._id === classSection) || null;
+		return this.classSections().find((s) => s._id === classSection) || null;
 	}
 
 	get subjectsForSelectedSection(): { id: string; label: string }[] {

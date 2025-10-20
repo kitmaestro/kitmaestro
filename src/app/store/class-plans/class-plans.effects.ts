@@ -13,7 +13,7 @@ export class ClassPlansEffects {
 
     loadClassPlans$ = createEffect(() => this.#actions$.pipe(
         ofType(ClassPlansActions.loadClassPlans),
-        switchMap(() => this.#classPlansService.findAll().pipe(
+        switchMap(({ filters }) => this.#classPlansService.findAll(filters).pipe(
             map(classPlans => ClassPlansActions.loadClassPlansSuccess({ classPlans })),
             catchError(error => of(ClassPlansActions.loadClassPlansFailure({ error })))
         ))

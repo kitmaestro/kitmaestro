@@ -13,7 +13,7 @@ export const classPlansReducer = createReducer(
 
     on(ClassPlansActions.loadClassPlanSuccess, (state, { classPlan }) => ({ ...state, status: ClassPlanStateStatus.IDLING, selectedClassPlan: classPlan })),
     on(ClassPlansActions.loadClassPlansSuccess, (state, { classPlans }) => ({ ...state, status: ClassPlanStateStatus.IDLING, classPlans })),
-    on(ClassPlansActions.createClassPlanSuccess, (state, { classPlan }) => ({ ...state, status: ClassPlanStateStatus.IDLING, classPlans: [...state.classPlans, classPlan] })),
+    on(ClassPlansActions.createClassPlanSuccess, (state, { classPlan }) => ({ ...state, status: ClassPlanStateStatus.IDLING, classPlans: [...state.classPlans, classPlan], selectedClassPlan: classPlan })),
     on(ClassPlansActions.updateClassPlanSuccess, (state, { classPlan }) => ({ ...state, status: ClassPlanStateStatus.IDLING, classPlans: state.classPlans.map(plan => plan._id === classPlan._id ? classPlan : plan) })),
     on(ClassPlansActions.deleteClassPlanSuccess, (state, { planId }) => ({ ...state, status: ClassPlanStateStatus.IDLING, classPlans: state.classPlans.filter(plan => plan._id !== planId) })),
 

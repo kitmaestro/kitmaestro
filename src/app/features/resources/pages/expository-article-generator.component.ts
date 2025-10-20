@@ -13,7 +13,6 @@ import {
 	Validators,
 	AbstractControl,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import {
 	Subject,
 	Observable,
@@ -22,11 +21,9 @@ import {
 	tap,
 	catchError,
 	EMPTY,
-	finalize,
 } from 'rxjs';
 
 // Angular Material Modules
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -37,11 +34,11 @@ import { MatIconModule } from '@angular/material/icon';
 
 // --- Core Services & Interfaces (Using new structure paths) ---
 import { AiService } from '../../../core/services/ai.service';
-import { ClassSectionService } from '../../../core/services/class-section.service';
 import { ClassSection } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 // --- DOCX Generation ---
+import { MarkdownComponent } from 'ngx-markdown'
 import {
 	Document,
 	Packer,
@@ -51,14 +48,14 @@ import {
 	HeadingLevel,
 } from 'docx';
 import { saveAs } from 'file-saver';
+import { Store } from '@ngrx/store';
+import { loadSections, selectAllClassSections } from '../../../store';
 
 @Component({
 	selector: 'app-expository-article-generator', // Component selector
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
-		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
 		MatInputModule,
@@ -66,21 +63,16 @@ import { saveAs } from 'file-saver';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
+		MarkdownComponent,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="expository-article-card">
-			<mat-card-header>
-				<mat-card-title
-					>Generador de Artículo Expositivo</mat-card-title
-				>
-				<mat-card-subtitle
-					>Crea ejemplos de artículos expositivos para tus
-					clases</mat-card-subtitle
-				>
-			</mat-card-header>
+		<div class="expository-article-card">
+			<div>
+				<h2>Generador de Artículo Expositivo</h2>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="articleForm"
@@ -244,34 +236,20 @@ import { saveAs } from 'file-saver';
 				@if (showResult()) {
 					<div class="article-result">
 						<h3>Artículo Expositivo Generado:</h3>
-						<div
-							class="article-result-content"
-							[innerHTML]="
-								generatedArticle()
-									.replaceAll(
-										'
-
-',
-										'<br><br>'
-									)
-									.replaceAll(
-										'
-',
-										'<br>'
-									)
-							"
-						></div>
+						<div class="article-result-content">
+							<markdown [data]="generatedArticle()" />
+						</div>
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
@@ -286,8 +264,8 @@ import { saveAs } from 'file-saver';
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [
@@ -363,20 +341,19 @@ import { saveAs } from 'file-saver';
 	encapsulation: ViewEncapsulation.None,
 })
 export class ExpositoryArticleGeneratorComponent implements OnInit, OnDestroy {
-	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
-	#sectionService = inject(ClassSectionService);
+	#store = inject(Store)
 	#snackBar = inject(MatSnackBar);
 
 	#pretify = new PretifyPipe().transform;
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
-	isGenerating = signal(false);
-	showResult = signal(false);
-	generatedArticle = signal<string>(''); // Stores the AI response string
-	sections = signal<ClassSection[]>([]);
+	isGenerating = signal(false)
+	showResult = signal(false)
+	generatedArticle = signal<string>('')
+	sections = this.#store.selectSignal(selectAllClassSections)
 
 	// --- Form Definition ---
 	articleForm = this.#fb.group({
@@ -408,16 +385,15 @@ export class ExpositoryArticleGeneratorComponent implements OnInit, OnDestroy {
 
 	/** Loads sections */
 	#loadSections(): void {
-		this.isLoadingSections.set(true);
-		this.#sectionService
-			.findSections()
+		this.isLoadingSections.set(true)
+		this.#store.dispatch(loadSections())
+		this.#store.select(selectAllClassSections)
 			.pipe(
 				takeUntil(this.#destroy$),
-				tap((sections) => this.sections.set(sections || [])),
 				catchError((error) =>
 					this.#handleError(error, 'Error al cargar las secciones.'),
 				),
-				finalize(() => this.isLoadingSections.set(false)),
+				tap(() => this.isLoadingSections.set(false)),
 			)
 			.subscribe();
 	}

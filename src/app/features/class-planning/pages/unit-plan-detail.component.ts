@@ -21,6 +21,9 @@ import { RubricService } from '../../../core/services/rubric.service';
 import { RubricGeneratorComponent } from '../../assessments/pages/rubric-generator.component';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { loadPlan, loadPlans, selectCurrentPlan } from '../../../store/unit-plans';
+import { loadClassPlans } from '../../../store/class-plans/class-plans.actions';
+import { selectClassPlans } from '../../../store/class-plans/class-plans.selectors';
 
 @Component({
 	selector: 'app-unit-plan-detail',
@@ -206,7 +209,6 @@ export class UnitPlanDetailComponent implements OnInit {
 	private route = inject(ActivatedRoute);
 	private unitPlanService = inject(UnitPlanService);
 	private classPlanService = inject(ClassPlansService);
-	private UserService = inject(UserService);
 	private userSubscriptionService = inject(UserSubscriptionService);
 	private rubricService = inject(RubricService);
 	private sb = inject(MatSnackBar);
@@ -232,8 +234,7 @@ export class UnitPlanDetailComponent implements OnInit {
 			tap(status => this.isPremium.set(status)),
 		);
 
-	plan$: Observable<UnitPlan> = this.unitPlanService
-		.findOne(this.planId)
+	plan$ = this.#store.select(selectCurrentPlan)
 		.pipe(
 			tap((_) => {
 				if (!_) {
@@ -247,23 +248,22 @@ export class UnitPlanDetailComponent implements OnInit {
 				}
 			}),
 		);
-	User$ = this.UserService.getSettings();
+	user$ = this.#store.select(selectAuthUser)
 	classPlans: ClassPlan[] = [];
 
 	isPrintView = window.location.href.includes('print');
 
 	ngOnInit() {
 		const unitPlan = this.planId;
-		this.classPlanService.findAll({ unitPlan }).subscribe((res) => {
+		this.#store.dispatch(loadPlan({ id: unitPlan }))
+		this.#store.dispatch(loadClassPlans({ filters: { unitPlan }}))
+		this.#store.select(selectClassPlans).subscribe((res) => {
 			this.classPlans = res;
 			if (this.isPrintView) {
 				setTimeout(() => {
 					window.print();
 				}, 2000);
 			}
-		});
-		this.rubricService.findAll({ unitPlan }).subscribe((res) => {
-			this.rubrics = res;
 		});
 	}
 

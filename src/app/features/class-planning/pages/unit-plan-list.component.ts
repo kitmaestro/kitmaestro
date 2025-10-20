@@ -7,12 +7,9 @@ import { MatTableModule } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { tap } from 'rxjs';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { UnitPlan } from '../../../core/models';
-import { ClassPlansService } from '../../../core/services/class-plans.service';
-import { ClassPlan } from '../../../core';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
 import { selectClassPlans } from '../../../store/class-plans/class-plans.selectors';
@@ -167,7 +164,7 @@ export class UnitPlanListComponent {
 	loading = true;
 
 	ngOnInit() {
-		this.#store.dispatch(loadClassPlans())
+		this.#store.dispatch(loadClassPlans({}))
 		this.#store.dispatch(loadPlans())
 	}
 

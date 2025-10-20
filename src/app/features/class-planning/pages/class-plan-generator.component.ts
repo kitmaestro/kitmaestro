@@ -25,7 +25,7 @@ import { ClassPlanComponent } from '../components/class-plan.component';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { Store } from '@ngrx/store';
-import { createClassPlan, createClassPlanSuccess, loadClassPlans, selectAuthUser, selectClassPlans } from '../../../store';
+import { createClassPlan, createClassPlanSuccess, loadClassPlans, loadSections, selectAllClassSections, selectAuthUser, selectClassPlans } from '../../../store';
 import { filter, forkJoin, Subject, take, takeUntil, tap } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
 
@@ -148,8 +148,7 @@ import { Actions, ofType } from '@ngrx/effects';
 						type="button"
 						style="margin-right: 12px"
 						(click)="savePlan()"
-						mat-fab
-						extended
+						mat-flat-button
 						color="primary"
 					>
 						<mat-icon>save</mat-icon> Guardar
@@ -157,8 +156,7 @@ import { Actions, ofType } from '@ngrx/effects';
 					<button
 						type="submit"
 						[disabled]="generating || planForm.invalid"
-						mat-fab
-						extended
+						mat-button
 					>
 						<mat-icon>bolt</mat-icon>
 						{{ plan ? "Regenerar" : "Generar" }}
@@ -168,7 +166,7 @@ import { Actions, ofType } from '@ngrx/effects';
 		</div>
 
 		@if (plan) {
-			<app-class-plan />
+			<app-class-plan [plan]="plan" />
 			<div style="height: 24px"></div>
 		}
 	`,
@@ -249,7 +247,6 @@ export class ClassPlanGeneratorComponent implements OnInit {
 	aiService = inject(AiService)
 	private userSubscriptionService = inject(UserSubscriptionService)
 	pdfService = inject(PdfService)
-	classSectionService = inject(ClassSectionService)
 	router = inject(Router)
 	datePipe = new DatePipe('en')
 
@@ -328,7 +325,8 @@ export class ClassPlanGeneratorComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadClassPlans())
+		this.#store.dispatch(loadClassPlans({ }))
+		this.#store.dispatch(loadSections())
 		forkJoin([
 			this.userSubscriptionService.checkSubscription(),
 			this.classPlans,
@@ -390,7 +388,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 			const resources = JSON.parse(availableResourcesStr) as string[];
 			this.planForm.get('resources')?.setValue(resources);
 		}
-		this.classSectionService.findSections().subscribe((sections) => {
+		this.#store.select(selectAllClassSections).subscribe((sections) => {
 			this.classSections = sections;
 			if (sections.length) {
 				this.planForm
@@ -524,16 +522,6 @@ export class ClassPlanGeneratorComponent implements OnInit {
 						plan.date = new Date(date ? date : this.todayDate);
 						plan.subject = this.planForm.value.subject;
 						this.plan = plan;
-						if (sectionLevel === 'PRIMARIA') {
-							if (sectionYear === 'PRIMERO') {
-							} else if (sectionYear === 'SEGUNDO') {
-							} else if (sectionYear === 'TERCERO') {
-							} else if (sectionYear === 'CUARTO') {
-							} else if (sectionYear === 'QUINTO') {
-							} else {
-							}
-						} else {
-						}
 					},
 					error: (error) => {
 						this.sb.open(
@@ -585,17 +573,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 	}
 
 	yearIndex(year: string): number {
-		return year === 'PRIMERO'
-			? 0
-			: year === 'SEGUNDO'
-				? 1
-				: year === 'TERCERO'
-					? 2
-					: year === 'CUARTO'
-						? 3
-						: year === 'QUINTO'
-							? 4
-							: 5;
+		return ['PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'].indexOf(year)
 	}
 
 	randomCompetence(categorized: any): string {
