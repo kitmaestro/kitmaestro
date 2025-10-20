@@ -6,6 +6,7 @@ import {
 	OnInit,
 	OnDestroy,
 	ViewEncapsulation,
+	computed,
 } from '@angular/core';
 import {
 	FormBuilder,
@@ -53,12 +54,13 @@ import {
 	HeadingLevel,
 } from 'docx';
 import { saveAs } from 'file-saver';
+import { Store } from '@ngrx/store';
+import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectClassSectionsStatus } from '../../../store/class-sections';
 
 @Component({
 	selector: 'app-antonyms-generator', // Component selector
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
 		MatCardModule,
 		MatFormFieldModule,
@@ -72,16 +74,10 @@ import { saveAs } from 'file-saver';
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="antonyms-generator-card">
-			<mat-card-header>
-				<mat-card-title>Generador de Antónimos</mat-card-title>
-				<mat-card-subtitle
-					>Crea listas de palabras y sus antónimos
-					contextualizados</mat-card-subtitle
-				>
-			</mat-card-header>
+		<div class="antonyms-generator-card">
+			<h2>Generador de Antónimos</h2>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="antonymsForm"
@@ -253,7 +249,7 @@ import { saveAs } from 'file-saver';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="
@@ -301,14 +297,14 @@ import { saveAs } from 'file-saver';
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
@@ -323,8 +319,8 @@ import { saveAs } from 'file-saver';
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [
@@ -415,31 +411,31 @@ import { saveAs } from 'file-saver';
 	encapsulation: ViewEncapsulation.None,
 })
 export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
-	// --- Dependencies ---
-	#fb = inject(FormBuilder);
-	#aiService = inject(AiService);
-	#sectionService = inject(ClassSectionService);
-	#snackBar = inject(MatSnackBar);
-	#pretify = new PretifyPipe().transform;
+	#store = inject(Store)
+	#fb = inject(FormBuilder)
+	#aiService = inject(AiService)
+	#snackBar = inject(MatSnackBar)
+	#pretify = new PretifyPipe().transform
 
-	// --- State Signals ---
-	isLoadingSections = signal(false);
-	isGenerating = signal(false);
-	showResult = signal(false);
-	generatedAntonyms = signal<string>(''); // Stores the AI response string
-	sections = signal<ClassSection[]>([]);
-	availableSubjects = signal<string[]>([]);
+	isLoadingSections = computed(() => {
+		const statusSignal = this.#store.selectSignal(selectClassSectionsStatus)
+		return statusSignal() === ClassSectionStateStatus.LOADING_SECTIONS
+	})
+	isGenerating = signal(false)
+	showResult = signal(false)
+	generatedAntonyms = signal<string>('')
+	sections = this.#store.selectSignal(selectAllClassSections)
+	availableSubjects = signal<string[]>([])
 
-	// --- Form Definition ---
 	antonymsForm = this.#fb.group({
 		section: ['', Validators.required],
 		subject: [{ value: '', disabled: true }, Validators.required],
 		quantity: [
 			5,
 			[Validators.required, Validators.min(1), Validators.max(20)],
-		], // Default 5
-		difficulty: ['Medio', Validators.required], // Default value
-		topic: [''], // Optional topic
+		],
+		difficulty: ['Medio', Validators.required],
+		topic: [''],
 	});
 
 	// --- Fixed Select Options ---
@@ -454,49 +450,28 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 		this.#listenForSectionChanges();
 	}
 
-	// --- OnDestroy ---
 	ngOnDestroy(): void {
 		this.#destroy$.next();
 		this.#destroy$.complete();
 	}
 
-	// --- Private Methods ---
-
-	/** Loads sections */
 	#loadSections(): void {
-		this.isLoadingSections.set(true);
-		this.#sectionService
-			.findSections()
-			.pipe(
-				takeUntil(this.#destroy$),
-				tap((sections) => this.sections.set(sections || [])),
-				catchError((error) =>
-					this.#handleError(error, 'Error al cargar las secciones.'),
-				),
-				finalize(() => this.isLoadingSections.set(false)),
-			)
-			.subscribe();
+		this.#store.dispatch(loadSections())
 	}
 
-	/** Updates subjects based on selected section */
 	#listenForSectionChanges(): void {
 		this.sectionCtrl?.valueChanges
 			.pipe(
 				takeUntil(this.#destroy$),
 				distinctUntilChanged(),
 				tap((sectionId) => {
-					this.subjectCtrl?.reset();
-					this.subjectCtrl?.disable();
-					this.availableSubjects.set([]);
+					this.subjectCtrl?.reset()
+					this.subjectCtrl?.disable()
 					if (sectionId) {
-						const selectedSection = this.sections().find(
-							(s) => s._id === sectionId,
-						);
-						if (selectedSection?.subjects?.length) {
-							this.availableSubjects.set(
-								selectedSection.subjects,
-							);
-							this.subjectCtrl?.enable();
+						const section = this.sections()?.find(cs => cs._id == sectionId)
+						if (section) {
+							this.availableSubjects.set(section.subjects)
+							this.subjectCtrl?.enable()
 						}
 					}
 				}),
@@ -589,11 +564,9 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	/** Resets the form and view */
 	goBack(): void {
 		this.showResult.set(false);
 		this.generatedAntonyms.set('');
-		// Reset form to defaults
 		this.antonymsForm.reset({
 			section: '',
 			subject: '',
@@ -602,10 +575,8 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 			topic: '',
 		});
 		this.antonymsForm.get('subject')?.disable();
-		this.availableSubjects.set([]); // Clear available subjects
 	}
 
-	/** Downloads the generated antonyms as DOCX */
 	downloadDocx(): void {
 		const antonymsText = this.generatedAntonyms();
 		if (!antonymsText || antonymsText.startsWith('Ocurrió un error'))

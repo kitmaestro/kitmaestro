@@ -12,6 +12,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../core/services/user.service';
 import { PdfService } from '../../../core/services/pdf.service';
 import { shuffle } from 'lodash';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
 
 @Component({
 	selector: 'app-addition',
@@ -27,14 +29,12 @@ import { shuffle } from 'lodash';
 		MatSnackBarModule,
 	],
 	template: `
-				<mat-card style="margin-bottom: 24px">
-			<mat-card-header>
-				<h2 mat-card-title>Generador de Ejercicios de Suma</h2>
-			</mat-card-header>
-			<mat-card-content>
+		<div style="margin-bottom: 24px">
+			<h2>Generador de Ejercicios de Suma</h2>
+			<div>
 				<form [formGroup]="additionsForm" (ngSubmit)="generateAdditions()">
 					<div style="display: flex; gap: 16px">
-						<div style="min-width: 20%">
+						<div style="min-width: 20%; flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
 								<mat-label>Cantidad de Sumandos</mat-label>
 								<input
@@ -44,7 +44,7 @@ import { shuffle } from 'lodash';
 								/>
 							</mat-form-field>
 						</div>
-						<div style="min-width: 20%">
+						<div style="min-width: 20%; flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
 								<mat-label
 									>Cantidad de D&iacute;gitos
@@ -58,7 +58,7 @@ import { shuffle } from 'lodash';
 								/>
 							</mat-form-field>
 						</div>
-						<div style="min-width: 20%">
+						<div style="min-width: 20%; flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
 								<mat-label
 									>Cantidad de D&iacute;gitos
@@ -72,7 +72,7 @@ import { shuffle } from 'lodash';
 								/>
 							</mat-form-field>
 						</div>
-						<div style="min-width: 20%">
+						<div style="min-width: 20%; flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
 								<mat-label>Cantidad de Ejercicios</mat-label>
 								<input
@@ -84,26 +84,26 @@ import { shuffle } from 'lodash';
 								/>
 							</mat-form-field>
 						</div>
-						<div style="min-width: 20%">
-							<mat-label>Campos a Incluir:</mat-label>
-							<mat-chip-set>
-								<mat-chip-option
-									[selected]="true"
-									(selectionChange)="toggleName()"
-									>Nombre</mat-chip-option
-								>
-								<mat-chip-option
-									[selected]="true"
-									(selectionChange)="toggleGrade()"
-									>Grado</mat-chip-option
-								>
-								<mat-chip-option
-									[selected]="true"
-									(selectionChange)="toggleDate()"
-									>Fecha</mat-chip-option
-								>
-							</mat-chip-set>
-						</div>
+					</div>
+					<div style="width: 100%; margin-bottom: 24px;">
+						<mat-label>Campos a Incluir:</mat-label>
+						<mat-chip-set>
+							<mat-chip-option
+								[selected]="true"
+								(selectionChange)="toggleName()"
+								>Nombre</mat-chip-option
+							>
+							<mat-chip-option
+								[selected]="true"
+								(selectionChange)="toggleGrade()"
+								>Grado</mat-chip-option
+							>
+							<mat-chip-option
+								[selected]="true"
+								(selectionChange)="toggleDate()"
+								>Fecha</mat-chip-option
+							>
+						</mat-chip-set>
 					</div>
 					@if (additions.length) {
 						<div
@@ -118,23 +118,24 @@ import { shuffle } from 'lodash';
 							click sobre &eacute;l.
 						</div>
 					}
-					@if (additions.length) {
-						<button
-							type="button"
-							(click)="print()"
-							style="margin-right: 12px"
-							mat-raised-button
-							color="accent"
-						>
-							Imprimir
+					<div style="display: flex; justify-content: flex-end;">
+						@if (additions.length) {
+							<button
+								type="button"
+								(click)="print()"
+								style="margin-right: 12px"
+								mat-button
+							>
+								Descargar PDF
+							</button>
+						}
+						<button type="submit" mat-flat-button color="primary">
+							{{ additions.length ? "Regenerar" : "Generar" }}
 						</button>
-					}
-					<button type="submit" mat-raised-button color="primary">
-						{{ additions.length ? "Regenerar" : "Generar" }}
-					</button>
+					</div>
 				</form>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		@if (additions.length) {
 			<div
@@ -143,6 +144,7 @@ import { shuffle } from 'lodash';
 					grid-template-columns: 1fr 1fr;
 					gap: 24px;
 					margin-top: 24px;
+					padding-bottom: 42px;
 				"
 			>
 				<mat-card>
@@ -330,10 +332,10 @@ import { shuffle } from 'lodash';
 	`,
 })
 export class AdditionGeneratorComponent implements OnInit {
-	fb = inject(FormBuilder);
-	UserService = inject(UserService);
-	pdfService = inject(PdfService);
-	sb = inject(MatSnackBar);
+	fb = inject(FormBuilder)
+	#store = inject(Store)
+	pdfService = inject(PdfService)
+	sb = inject(MatSnackBar)
 
 	teacherName = '';
 	schoolName = '';
@@ -350,9 +352,10 @@ export class AdditionGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit() {
-		this.UserService.getSettings().subscribe((settings) => {
+		this.#store.select(selectAuthUser).subscribe((settings) => {
+			if (!settings) return
 			this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
-			// this.schoolName = settings.schoolName;
+			this.schoolName = settings.schoolName;
 		});
 	}
 

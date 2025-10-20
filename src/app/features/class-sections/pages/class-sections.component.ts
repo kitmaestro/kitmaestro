@@ -2,7 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
@@ -12,6 +11,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loadSections, selectAllClassSections } from '../../../store';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
 	selector: 'app-class-sections',
@@ -20,71 +20,64 @@ import { loadSections, selectAllClassSections } from '../../../store';
 		MatButtonModule,
 		MatSnackBarModule,
 		MatIconModule,
-		CommonModule,
 		MatDialogModule,
 		MatTableModule,
 		MatListModule,
 		MatExpansionModule,
 		RouterModule,
+		AsyncPipe,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
-				<div
-					style="
-						display: flex;
-						width: 100%;
-						align-items: center;
-						justify-content: space-between;
-					"
-				>
-					<h2 style="margin-top: auto; margin-bottom: auto" mat-card-title>
-						Secciones
-					</h2>
-					<button (click)="openSectionFormDialog()" mat-fab>
-						<mat-icon>add</mat-icon>
-					</button>
-				</div>
-			</mat-card-header>
-			<mat-card-content>
-				<p style="color: gray">
-					Aqui puedes administrar las secciones con las que trabajas.
-				</p>
-			</mat-card-content>
-		</mat-card>
+		<div>
+			<div
+				style="
+					display: flex;
+					width: 100%;
+					align-items: center;
+					justify-content: space-between;
+					margin: 24px 0 12px;
+				"
+			>
+				<h2 style="margin-top: auto; margin-bottom: auto" mat-card-title>
+					Secciones
+				</h2>
+				<button (click)="openSectionFormDialog()" mat-flat-button>
+					<mat-icon>add</mat-icon> Agregar Sección
+				</button>
+			</div>
+		</div>
 
 		@if ((sections$ | async)?.length) {
 			<div class="grid">
-				<mat-card
-					*ngFor="let section of sections$ | async"
-					style="margin-top: 20px"
-				>
-					<mat-card-header>
-						<h2 mat-card-title>{{ section.name }}</h2>
-						<h3 mat-card-subtitle>
-							{{ formatValue(section.year) }} de
-							{{ formatValue(section.level) }}
-						</h3>
-					</mat-card-header>
-					<mat-card-actions
-						style="
-							display: grid;
-							grid-template-columns: 1fr 1fr 1fr;
-							gap: 8px;
-						"
-					>
-						<!-- <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/attendance', section._id]" mat-raised-button color="accent" style="width: 100%; display: block;">Asistencia</button> -->
-						<!-- <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/tracking', 'section', section._id]" mat-raised-button color="primary" style="width: 100%; display: block;">Notas</button> -->
-						<button
-							[routerLink]="['/sections', section._id]"
-							mat-button
-							color="primary"
-							style="width: 100%; display: block"
+				@for (section of sections$ | async; track section._id) {
+					<mat-card style="margin-top: 20px">
+						<mat-card-header>
+							<h2 mat-card-title>{{ section.name }}</h2>
+							<h3 mat-card-subtitle>
+								{{ formatValue(section.year) }} de
+								{{ formatValue(section.level) }}
+							</h3>
+						</mat-card-header>
+						<mat-card-actions
+							style="
+								display: grid;
+								grid-template-columns: 1fr 1fr 1fr;
+								gap: 8px;
+							"
 						>
-							Detalles
-						</button>
-					</mat-card-actions>
-				</mat-card>
+							<!-- <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/attendance', section._id]" mat-raised-button color="accent" style="width: 100%; display: block;">Asistencia</button> -->
+							<!-- <button title="Esta herramienta aun no esta lista" disabled [routerLink]="['/tracking', 'section', section._id]" mat-raised-button color="primary" style="width: 100%; display: block;">Notas</button> -->
+							<button
+								[routerLink]="['/sections', section._id]"
+								mat-button
+								color="primary"
+								style="width: 100%; display: block"
+							>
+								Detalles
+							</button>
+						</mat-card-actions>
+					</mat-card>
+				}
 			</div>
 		} @else {
 			<img

@@ -47,7 +47,7 @@ export const activitiesTools: AppEntry[] = [
         name: 'Generador de Antónimos',
         description:
             'Crea listas de palabras y sus antónimos contextualizados.',
-        link: ['/activities', 'antonyms'],
+        link: ['/activities', 'antonyms-generator'],
         categories: ['Hojas de Trabajo'],
         icon: '/assets/undraw_file_searching_re_3evy.svg',
         tier: 1,
@@ -71,7 +71,7 @@ export const activitiesTools: AppEntry[] = [
     {
         name: 'Suma',
         description: 'Genera Hojas de suma con hoja de respuestas.',
-        link: ['/activities', 'addition'],
+        link: ['/activities', 'addition-generator'],
         categories: ['Hojas de Trabajo'],
         icon: '/assets/undraw_new_entries_re_cffr.svg',
         tier: 1,
