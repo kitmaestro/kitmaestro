@@ -15,7 +15,7 @@ import { AppEffects } from './app.effects';
 import { AuthEffects } from './store/auth';
 import { UsersEffects } from './store/users';
 import { ClassPlansEffects } from './store/class-plans/class-plans.effects';
-import { ClassSectionsEffects } from './store';
+import { ClassSectionsEffects, ContentBlocksEffects } from './store';
 import { ChecklistsEffects } from './store/checklists/checklists.effects';
 
 export const appConfig: ApplicationConfig = {
@@ -46,6 +46,7 @@ export const appConfig: ApplicationConfig = {
             ClassPlansEffects,
             ClassSectionsEffects,
             ChecklistsEffects,
+            ContentBlocksEffects,
         )
     ],
 };

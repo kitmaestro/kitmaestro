@@ -11,24 +11,12 @@ export class CompetenceService {
 	#apiService = inject(ApiService)
 	#endpoint = 'competence/'
 
-	createCompetence(data: CompetenceEntry): Observable<CompetenceEntry> {
+	create(data: CompetenceEntry): Observable<CompetenceEntry> {
 		return this.#apiService.post<CompetenceEntry>(this.#endpoint, data)
 	}
 
 	findAll(filters?: any): Observable<CompetenceEntry[]> {
 		return this.#apiService.get<CompetenceEntry[]>(this.#endpoint, filters)
-	}
-
-	findByLevel(level: string): Observable<CompetenceEntry[]> {
-		return this.#apiService.get<CompetenceEntry[]>(this.#endpoint + 'by-level/' + level)
-	}
-
-	findByGrade(grade: string): Observable<CompetenceEntry[]> {
-		return this.#apiService.get<CompetenceEntry[]>(this.#endpoint + 'by-grade/' + grade)
-	}
-
-	findBySubject(subject: string): Observable<CompetenceEntry[]> {
-		return this.#apiService.get<CompetenceEntry[]>(this.#endpoint + 'by-subject/' + subject)
 	}
 
 	findOne(id: string): Observable<CompetenceEntry> {

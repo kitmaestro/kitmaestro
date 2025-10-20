@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { ContentBlock } from '../models'
-import { ApiDeleteResponse, ApiUpdateResponse } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
+import { ContentBlockDto } from '../../store/content-blocks/content-blocks.models'
 
 @Injectable({
 	providedIn: 'root',
@@ -19,12 +20,12 @@ export class ContentBlockService {
 		return this.#apiService.get<ContentBlock>(this.#endpoint + id)
 	}
 
-	create(block: ContentBlock): Observable<ContentBlock> {
+	create(block: Partial<ContentBlockDto>): Observable<ContentBlock> {
 		return this.#apiService.post<ContentBlock>(this.#endpoint, block)
 	}
 
-	update(id: string, block: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, block)
+	update(id: string, block: Partial<ContentBlockDto>): Observable<ContentBlock> {
+		return this.#apiService.patch<ContentBlock>(this.#endpoint + id, block)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {

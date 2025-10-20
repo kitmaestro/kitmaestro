@@ -786,7 +786,7 @@ export class CompetenceEntriesManagementComponent implements OnInit, OnDestroy {
 				competenceData,
 			);
 		} else {
-			operation$ = this.#competenceService.createCompetence(
+			operation$ = this.#competenceService.create(
 				competenceData as CompetenceEntry,
 			);
 		}

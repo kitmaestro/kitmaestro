@@ -14,6 +14,8 @@ import {
   ClassSectionsState,
   ChecklistsState,
   checklistsReducer,
+  ContentBlocksState,
+  contentBlocksReducer,
 } from '../store';
 
 export interface State {
@@ -22,6 +24,7 @@ export interface State {
   classPlans: ClassPlanState,
   classSections: ClassSectionsState,
   checklists: ChecklistsState,
+  contentBlocks: ContentBlocksState,
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -30,6 +33,7 @@ export const reducers: ActionReducerMap<State> = {
   classPlans: classPlansReducer,
   classSections: classSectionsReducer,
   checklists: checklistsReducer,
+  contentBlocks: contentBlocksReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : [];
