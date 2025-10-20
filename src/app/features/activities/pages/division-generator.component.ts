@@ -240,10 +240,11 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones';
 				@if (showResult()) {
 					<div class="division-result">
 						<h3>Operaciones de División Generadas:</h3>
-						<markdown
-							class="division-result-content"
-							[data]="generatedDivisions()"
-						/>
+						<div class="division-result-content">
+							<markdown
+								[data]="generatedDivisions()"
+							/>
+						</div>
 
 						<div class="result-actions">
 							<button
@@ -476,7 +477,7 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
       ${formValue.numberType !== NUMBER_TYPE_FRACTIONS ? `- Tipo de Resultado Deseado: ${formValue.resultType}` : ''}
 
       Instrucciones para Generar las Divisiones:
-      1.  **Cantidad:** Genera una lista enumerada de 15 a 20 operaciones de división.
+      1.  **Cantidad:** Genera una lista enumerada de 15 a 20 operaciones de división con un mandato h2 (##) indicando el titulo y un pequeno texto explicativo.
       2.  **Formato:** Presenta cada operación claramente, por ejemplo: "Dividendo / Divisor = ?" o "A ÷ B = ?". Si el resultado es inexacto y se pidió, indica cómo mostrar el residuo (ej: "23 / 5 = ? R ?"). Para fracciones, usa el formato "(a/b) / (c/d) = ?".
       3.  **Adecuación:** Las operaciones deben ser apropiadas para el nivel educativo (grado/año) y la dificultad seleccionada.
           * **Básico:** Números pequeños, divisores comunes, resultados exactos (si se pidió).
