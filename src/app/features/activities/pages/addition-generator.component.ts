@@ -9,7 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../../core/services/user.service';
 import { PdfService } from '../../../core/services/pdf.service';
 import { shuffle } from 'lodash';
 import { Store } from '@ngrx/store';

@@ -5,7 +5,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -14,7 +13,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 		MatCardModule,
 		MatButtonModule,
 		MatIconModule,
-		MatSnackBarModule,
 		MatInputModule,
 		MatSelectModule,
 		MatFormFieldModule,

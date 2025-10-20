@@ -13,7 +13,6 @@ import {
 	Validators,
 	AbstractControl,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import {
 	Subject,
 	firstValueFrom,
@@ -21,13 +20,10 @@ import {
 	tap,
 	catchError,
 	EMPTY,
-	finalize,
 	distinctUntilChanged,
 	Observable,
 } from 'rxjs';
 
-// Angular Material Modules
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
@@ -37,7 +33,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 // --- Core Services & Interfaces (Using new structure paths) ---
 import { AiService } from '../../../core/services/ai.service';
-import { ClassSectionService } from '../../../core/services/class-section.service';
 import { ClassSection } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
@@ -51,40 +46,33 @@ import {
 	HeadingLevel,
 } from 'docx';
 import { saveAs } from 'file-saver';
+import { Store } from '@ngrx/store';
+import { loadSections, selectAllClassSections } from '../../../store/class-sections';
+import { MarkdownComponent } from 'ngx-markdown';
 
-// --- Constants ---
-const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
+const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones';
 
 @Component({
-	selector: 'app-division-generator', // Component selector
+	selector: 'app-division-generator',
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
-		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
-		// MatInputModule, // Not needed for this form
 		MatButtonModule,
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
 		PretifyPipe,
+		MarkdownComponent,
 	],
-	// --- Inline Template ---
 	template: `
-		<mat-card class="division-generator-card">
-			<mat-card-header>
-				<mat-card-title
-					>Generador de Operaciones de División</mat-card-title
-				>
-				<mat-card-subtitle
-					>Crea ejercicios de división
-					personalizados</mat-card-subtitle
-				>
-			</mat-card-header>
+		<div class="division-generator-card">
+			<div>
+				<h2>Generador de Operaciones de División</h2>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="divisionForm"
@@ -252,27 +240,21 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 				@if (showResult()) {
 					<div class="division-result">
 						<h3>Operaciones de División Generadas:</h3>
-						<div
+						<markdown
 							class="division-result-content"
-							[innerHTML]="
-								generatedDivisions().replaceAll(
-									'
-',
-									'<br>'
-								)
-							"
-						></div>
+							[data]="generatedDivisions()"
+						/>
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
@@ -287,10 +269,9 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
-	// --- Inline Styles ---
 	styles: [
 		`
 			:host {
@@ -364,19 +345,19 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones'; // Value for fraction type
 })
 export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
-	#fb = inject(FormBuilder);
-	#aiService = inject(AiService);
-	#sectionService = inject(ClassSectionService); // Use correct service name
-	#snackBar = inject(MatSnackBar);
+	#fb = inject(FormBuilder)
+	#aiService = inject(AiService)
+	#store = inject(Store)
+	#snackBar = inject(MatSnackBar)
 
 	// --- State Signals ---
-	isLoadingSections = signal(false);
-	isGenerating = signal(false);
-	showResult = signal(false);
-	generatedDivisions = signal<string>(''); // Stores the AI response string
-	sections = signal<ClassSection[]>([]);
-	// availableSubjects = signal<string[]>([]); // Subject not needed for this component
-	#pretify = new PretifyPipe().transform;
+	isLoadingSections = signal(false)
+	isGenerating = signal(false)
+	showResult = signal(false)
+	generatedDivisions = signal<string>('') // Stores the AI response string
+	sections = this.#store.selectSignal(selectAllClassSections)
+	// availableSubjects = signal<string[]>([]) // Subject not needed for this component
+	#pretify = new PretifyPipe().transform
 
 	// --- Form Definition ---
 	divisionForm = this.#fb.group({
@@ -384,49 +365,49 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 		difficulty: ['Intermedio', Validators.required], // Default value
 		numberType: ['Solo Naturales', Validators.required], // Default value
 		resultType: [{ value: 'Exacto', disabled: false }, Validators.required], // Default value, initially enabled
-	});
+	})
 
 	// --- Fixed Select Options ---
-	readonly difficultyLevels = ['Básico', 'Intermedio', 'Avanzado'];
+	readonly difficultyLevels = ['Básico', 'Intermedio', 'Avanzado']
 	readonly numberTypes = [
 		'Solo Naturales',
 		'Naturales y Enteros',
 		NUMBER_TYPE_FRACTIONS,
-	];
-	readonly resultTypes = ['Exacto', 'Inexacto'];
+	]
+	readonly resultTypes = ['Exacto', 'Inexacto']
 
 	// --- Lifecycle Management ---
-	#destroy$ = new Subject<void>();
+	#destroy$ = new Subject<void>()
 
 	// --- OnInit ---
 	ngOnInit(): void {
-		this.#loadSections();
-		this.#listenForNumberTypeChanges(); // Setup listener for conditional logic
+		this.#store.dispatch(loadSections())
+		this.#loadSections()
+		this.#listenForNumberTypeChanges() // Setup listener for conditional logic
 	}
 
 	// --- OnDestroy ---
 	ngOnDestroy(): void {
-		this.#destroy$.next();
-		this.#destroy$.complete();
+		this.#destroy$.next()
+		this.#destroy$.complete()
 	}
 
 	// --- Private Methods ---
 
 	/** Loads sections */
 	#loadSections(): void {
-		this.isLoadingSections.set(true);
+		this.isLoadingSections.set(true)
 		// Use findSections as requested by the user
-		this.#sectionService
-			.findSections()
+		this.#store
+			.select(selectAllClassSections)
 			.pipe(
 				takeUntil(this.#destroy$),
-				tap((sections) => this.sections.set(sections || [])),
 				catchError((error) =>
 					this.#handleError(error, 'Error al cargar las secciones.'),
 				),
-				finalize(() => this.isLoadingSections.set(false)),
+				tap(() => this.isLoadingSections.set(false)),
 			)
-			.subscribe();
+			.subscribe()
 	}
 
 	/** Enables/disables resultType based on numberType */
@@ -438,50 +419,50 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 			)
 			.subscribe((value) => {
 				if (value === NUMBER_TYPE_FRACTIONS) {
-					this.resultTypeCtrl?.disable();
-					this.resultTypeCtrl?.clearValidators(); // Remove required validator
-					this.resultTypeCtrl?.reset(); // Optionally clear the value
+					this.resultTypeCtrl?.disable()
+					this.resultTypeCtrl?.clearValidators() // Remove required validator
+					this.resultTypeCtrl?.reset() // Optionally clear the value
 				} else {
-					this.resultTypeCtrl?.enable();
-					this.resultTypeCtrl?.setValidators(Validators.required); // Add required validator back
+					this.resultTypeCtrl?.enable()
+					this.resultTypeCtrl?.setValidators(Validators.required) // Add required validator back
 				}
-				this.resultTypeCtrl?.updateValueAndValidity(); // Apply changes
-			});
+				this.resultTypeCtrl?.updateValueAndValidity() // Apply changes
+			})
 	}
 
 	#handleError(error: any, defaultMessage: string): Observable<never> {
-		console.error(defaultMessage, error);
-		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 });
-		return EMPTY;
+		console.error(defaultMessage, error)
+		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 })
+		return EMPTY
 	}
 
 	// --- Public Methods ---
 
 	/** Formats section display name */
 	getSectionDisplay(section: ClassSection): string {
-		return `${this.#pretify(section.year) || ''} ${section.name || ''} (${this.#pretify(section.level) || 'Nivel no especificado'})`;
+		return `${this.#pretify(section.year) || ''} ${section.name || ''} (${this.#pretify(section.level) || 'Nivel no especificado'})`
 	}
 
 	/** Handles form submission */
 	async onSubmit(): Promise<void> {
 		if (this.divisionForm.invalid) {
-			this.divisionForm.markAllAsTouched();
+			this.divisionForm.markAllAsTouched()
 			this.#snackBar.open(
 				'Por favor, completa todos los campos requeridos.',
 				'Cerrar',
 				{ duration: 3000 },
-			);
-			return;
+			)
+			return
 		}
 
-		this.isGenerating.set(true);
-		this.generatedDivisions.set('');
-		this.showResult.set(false);
+		this.isGenerating.set(true)
+		this.generatedDivisions.set('')
+		this.showResult.set(false)
 
-		const formValue = this.divisionForm.getRawValue(); // Use getRawValue to include disabled controls if needed later
+		const formValue = this.divisionForm.getRawValue() // Use getRawValue to include disabled controls if needed later
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
-		);
+		)
 
 		// Construct the prompt for generating division problems
 		const prompt = `Eres un generador experto de ejercicios matemáticos para estudiantes.
@@ -495,7 +476,7 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
       ${formValue.numberType !== NUMBER_TYPE_FRACTIONS ? `- Tipo de Resultado Deseado: ${formValue.resultType}` : ''}
 
       Instrucciones para Generar las Divisiones:
-      1.  **Cantidad:** Genera una lista de aproximadamente 15 a 20 operaciones de división.
+      1.  **Cantidad:** Genera una lista enumerada de 15 a 20 operaciones de división.
       2.  **Formato:** Presenta cada operación claramente, por ejemplo: "Dividendo / Divisor = ?" o "A ÷ B = ?". Si el resultado es inexacto y se pidió, indica cómo mostrar el residuo (ej: "23 / 5 = ? R ?"). Para fracciones, usa el formato "(a/b) / (c/d) = ?".
       3.  **Adecuación:** Las operaciones deben ser apropiadas para el nivel educativo (grado/año) y la dificultad seleccionada.
           * **Básico:** Números pequeños, divisores comunes, resultados exactos (si se pidió).
@@ -503,82 +484,76 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
           * **Avanzado:** Números grandes, divisores menos obvios, resultados inexactos más frecuentes (si se pidió). Para fracciones, distintos denominadores, fracciones impropias.
       4.  **Tipos de Números:** Asegúrate de usar solo los tipos de números especificados (Naturales, Enteros, Fracciones). Si son enteros, incluye números negativos en dividendo y/o divisor según la dificultad.
       5.  **Tipo de Resultado:** Si no son fracciones, genera divisiones que resulten en respuestas exactas o inexactas según lo solicitado.
-      6.  **Salida:** Devuelve únicamente la lista de operaciones, una por línea, sin títulos, explicaciones, saludos o despedidas.`;
+      6.  **Salida:** Devuelve únicamente la lista de operaciones, una por línea, sin títulos, explicaciones, saludos o despedidas.`
 
 		try {
 			const result = await firstValueFrom(
 				this.#aiService.geminiAi(prompt),
-			);
+			)
 			this.generatedDivisions.set(
 				result?.response || 'No se pudieron generar las operaciones.',
-			);
-			this.showResult.set(true);
+			)
+			this.showResult.set(true)
 		} catch (error) {
 			this.generatedDivisions.set(
 				'Ocurrió un error al generar las operaciones. Por favor, inténtalo de nuevo.',
-			);
-			this.showResult.set(true); // Show error in result area
-			this.#handleError(error, 'Error al contactar el servicio de IA');
+			)
+			this.showResult.set(true) // Show error in result area
+			this.#handleError(error, 'Error al contactar el servicio de IA')
 		} finally {
-			this.isGenerating.set(false);
+			this.isGenerating.set(false)
 		}
 	}
 
-	/** Resets the form and view */
 	goBack(): void {
-		this.showResult.set(false);
-		this.generatedDivisions.set('');
-		// Reset form to defaults, re-enabling resultType initially
+		this.showResult.set(false)
+		this.generatedDivisions.set('')
 		this.divisionForm.reset({
 			section: '',
 			difficulty: 'Intermedio',
 			numberType: 'Solo Naturales',
 			resultType: 'Exacto',
-		});
-		this.resultTypeCtrl?.enable(); // Ensure it's enabled on reset
-		this.resultTypeCtrl?.setValidators(Validators.required);
-		this.resultTypeCtrl?.updateValueAndValidity();
+		})
+		this.resultTypeCtrl?.enable()
+		this.resultTypeCtrl?.setValidators(Validators.required)
+		this.resultTypeCtrl?.updateValueAndValidity()
 	}
 
-	/** Downloads the generated divisions as DOCX */
 	downloadDocx(): void {
-		const divisionsText = this.generatedDivisions();
+		const divisionsText = this.generatedDivisions()
 		if (!divisionsText || divisionsText.startsWith('Ocurrió un error'))
-			return;
+			return
 
-		const formValue = this.divisionForm.getRawValue();
+		const formValue = this.divisionForm.getRawValue()
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
-		);
+		)
 
-		// Sanitize filename parts
 		const sectionName = (section?.name || 'Seccion').replace(
 			/[^a-z0-9]/gi,
 			'_',
-		);
+		)
 		const difficultyName = (formValue.difficulty || 'Dificultad').replace(
 			/[^a-z0-9]/gi,
 			'_',
-		);
+		)
 		const numberTypeName = (formValue.numberType || 'Numeros')
 			.substring(0, 15)
-			.replace(/[^a-z0-9]/gi, '_');
+			.replace(/[^a-z0-9]/gi, '_')
 
-		const filename = `Divisiones_${sectionName}_${difficultyName}_${numberTypeName}.docx`;
+		const filename = `Divisiones_${sectionName}_${difficultyName}_${numberTypeName}.docx`
 
-		// Create paragraphs, splitting by newline characters
 		const paragraphs = divisionsText
 			.split('\n')
-			.filter((line) => line.trim().length > 0) // Remove empty lines
+			.filter((line) => line.trim().length > 0)
 			.map(
 				(line) =>
 					new Paragraph({
-						children: [new TextRun(line.trim())], // Trim each line
-						spacing: { line: 360 }, // 1.5 line spacing (360 / 240)
+						children: [new TextRun(line.trim())],
+						spacing: { line: 360 },
 					}),
-			);
+			)
 
-		// Create the document
 		const doc = new Document({
 			sections: [
 				{
@@ -614,63 +589,59 @@ export class DivisionGeneratorComponent implements OnInit, OnDestroy {
 									}),
 								]
 							: []),
-						new Paragraph({ text: '', spacing: { after: 400 } }), // Extra space
-						...paragraphs, // Add the generated content paragraphs
+						new Paragraph({ text: '', spacing: { after: 400 } }),
+						...paragraphs,
 					],
 				},
 			],
 			styles: {
-				// Use default styles for headings etc. but ensure paragraph font if needed
 				paragraphStyles: [
 					{
 						id: 'Normal',
 						name: 'Normal',
 						run: {
-							font: 'Calibri', // Or another suitable font
-							size: 22, // 11pt
+							font: 'Calibri',
+							size: 22,
 						},
 					},
 					{
-						// Example style if needed
 						id: 'SubtleEmphasis',
 						name: 'Subtle Emphasis',
 						basedOn: 'Normal',
 						run: {
 							italics: true,
 							color: '5A5A5A',
-							size: 20, // 10pt
+							size: 20,
 						},
 					},
 				],
 			},
-		});
+		})
 
-		// Generate blob and trigger download
 		Packer.toBlob(doc)
 			.then((blob) => {
-				saveAs(blob, filename);
+				saveAs(blob, filename)
 			})
 			.catch((error) => {
-				console.error('Error creating DOCX file:', error);
+				console.error('Error creating DOCX file:', error)
 				this.#snackBar.open(
 					'Error al generar el archivo DOCX.',
 					'Cerrar',
 					{ duration: 3000 },
-				);
-			});
+				)
+			})
 	}
 
-	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.divisionForm.get('section');
+		return this.divisionForm.get('section')
 	}
 	get difficultyCtrl(): AbstractControl | null {
-		return this.divisionForm.get('difficulty');
+		return this.divisionForm.get('difficulty')
 	}
 	get numberTypeCtrl(): AbstractControl | null {
-		return this.divisionForm.get('numberType');
+		return this.divisionForm.get('numberType')
 	}
 	get resultTypeCtrl(): AbstractControl | null {
-		return this.divisionForm.get('resultType');
+		return this.divisionForm.get('resultType')
 	}
 }

@@ -14,21 +14,17 @@ import {
 	Validators,
 	AbstractControl,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import {
 	Subject,
 	Observable,
 	firstValueFrom,
 	takeUntil,
 	tap,
-	catchError,
 	EMPTY,
-	finalize,
 	distinctUntilChanged,
 } from 'rxjs';
 
 // Angular Material Modules
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -39,7 +35,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 // --- Core Services & Interfaces (Using new structure paths) ---
 import { AiService } from '../../../core/services/ai.service';
-import { ClassSectionService } from '../../../core/services/class-section.service';
 import { ClassSection } from '../../../core';
 
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
@@ -62,7 +57,6 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 	standalone: true,
 	imports: [
 		ReactiveFormsModule,
-		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
 		MatInputModule,

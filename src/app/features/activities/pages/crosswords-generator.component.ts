@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { GamesService } from '../../../core/services/games.service';
 import { CrossWordLayout } from '../../../core/lib';
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
@@ -10,7 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { UserService } from '../../../core/services/user.service';
 import { PdfService } from '../../../core/services/pdf.service';
 import { shuffle } from 'lodash';
 import { LevelEntry } from '../../../core';
@@ -19,11 +17,13 @@ import { VocabularyEntry } from '../../../core';
 import { WORD_LISTS } from '../../../core/data/word-lists';
 import { TOPICS } from '../../../core/data/topics';
 import { WORD_CLUES } from '../../../core/data/word-clues';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { filter, Subject, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'app-crosswords',
 	imports: [
-		MatCardModule,
 		MatButtonModule,
 		MatListModule,
 		MatSelectModule,
@@ -34,14 +34,14 @@ import { WORD_CLUES } from '../../../core/data/word-clues';
 		MatSnackBarModule,
 	],
 	template: `
-				<mat-card style="margin-bottom: 24px">
-			<mat-card-header>
-				<h2 mat-card-title>Generador de Crucigramas</h2>
-			</mat-card-header>
-			<mat-card-content>
+		<div style="margin-bottom: 24px">
+			<div>
+				<h2>Generador de Crucigramas</h2>
+			</div>
+			<div>
 				<form [formGroup]="crossWordForm" (ngSubmit)="generateCrossWord()">
-					<div style="display: flex; gap: 16px">
-						<div style="min-width: 25%">
+					<div style="display: flex; gap: 16px;">
+						<div style="min-width: 25%; flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
 								<mat-label>Nivel</mat-label>
 								<mat-select formControlName="level">
@@ -53,7 +53,7 @@ import { WORD_CLUES } from '../../../core/data/word-clues';
 								</mat-select>
 							</mat-form-field>
 						</div>
-						<div style="min-width: 25%">
+						<div style="min-width: 25%; flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
 								<mat-label>Tema</mat-label>
 								<mat-select formControlName="topic">
@@ -65,7 +65,7 @@ import { WORD_CLUES } from '../../../core/data/word-clues';
 								</mat-select>
 							</mat-form-field>
 						</div>
-						<div style="min-width: 25%">
+						<div style="min-width: 25%; flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
 								<mat-label>Cantidad de Palabras</mat-label>
 								<input
@@ -77,6 +77,8 @@ import { WORD_CLUES } from '../../../core/data/word-clues';
 								/>
 							</mat-form-field>
 						</div>
+					</div>
+					<div style="margin-bottom: 12px;">
 						<div style="min-width: 25%">
 							<mat-label>Campos a Incluir:</mat-label>
 							<mat-chip-set>
@@ -103,18 +105,18 @@ import { WORD_CLUES } from '../../../core/data/word-clues';
 							type="button"
 							(click)="print()"
 							style="margin-right: 12px"
-							mat-raised-button
+							mat-flat-button
 							color="accent"
 						>
-							Exportar
+							Descargar PDF
 						</button>
 					}
-					<button type="submit" mat-raised-button color="primary">
+					<button type="submit" mat-button color="primary">
 						{{ crossword ? "Regenerar" : "Generar" }}
 					</button>
 				</form>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		@if (crossword) {
 			<div
@@ -125,267 +127,259 @@ import { WORD_CLUES } from '../../../core/data/word-clues';
 					margin-top: 24px;
 				"
 			>
-				<mat-card>
-					<mat-card-content>
-						<div class="page" id="crossword" style="padding: 12px">
-							<div style="text-align: center">
-								<h3
-									style="
-										margin-bottom: 0;
-										font-weight: bold;
-										font-size: large;
-									"
-								>
-									{{ schoolName }}
-								</h3>
-								<h4 style="margin-bottom: 0">{{ teacherName }}</h4>
-								<h5 style="font-size: medium; margin-bottom: 24px">
-									Crucigrama de {{ topicName() }}
-								</h5>
-							</div>
-							<div style="margin-bottom: 42px; display: flex">
-								@if (crossWordForm.get("name")?.value === true) {
-									<div><b>Nombre</b>:</div>
-									<div class="blank"></div>
-								}
-								@if (crossWordForm.get("grade")?.value === true) {
-									<div style="margin-left: 12px"><b>Grado</b>:</div>
-									<div class="blank"></div>
-								}
-								@if (crossWordForm.get("date")?.value === true) {
-									<div style="margin-left: 12px"><b>Fecha</b>:</div>
-									<div style="max-width: 20%" class="blank"></div>
-								}
-							</div>
-							<div
-								style="
-									display: grid;
-									grid-template-columns: 1fr;
-									gap: 16px;
-								"
-							>
-								<div class="board">
+				<div class="page" id="crossword" style="padding: 12px">
+					<div style="text-align: center">
+						<h3
+							style="
+								margin-bottom: 0;
+								font-weight: bold;
+								font-size: large;
+							"
+						>
+							{{ schoolName }}
+						</h3>
+						<h4 style="margin-bottom: 0">{{ teacherName }}</h4>
+						<h5 style="font-size: medium; margin-bottom: 24px">
+							Crucigrama de {{ topicName() }}
+						</h5>
+					</div>
+					<div style="margin-bottom: 42px; display: flex">
+						@if (crossWordForm.get("name")?.value === true) {
+							<div><b>Nombre</b>:</div>
+							<div class="blank"></div>
+						}
+						@if (crossWordForm.get("grade")?.value === true) {
+							<div style="margin-left: 12px"><b>Grado</b>:</div>
+							<div class="blank"></div>
+						}
+						@if (crossWordForm.get("date")?.value === true) {
+							<div style="margin-left: 12px"><b>Fecha</b>:</div>
+							<div style="max-width: 20%" class="blank"></div>
+						}
+					</div>
+					<div
+						style="
+							display: grid;
+							grid-template-columns: 1fr;
+							gap: 16px;
+						"
+					>
+						<div class="board">
+							@for (
+								line of crossword.table;
+								track line;
+								let y = $index
+							) {
+								<div class="line">
 									@for (
-										line of crossword.table;
-										track line;
-										let y = $index
+										tile of line;
+										track tile;
+										let x = $index
 									) {
-										<div class="line">
-											@for (
-												tile of line;
-												track tile;
-												let x = $index
-											) {
-												<div
-													class="tile"
-													[class.empty]="tile === '-'"
-													[style]="
-														'width:' +
-														(100 / crossword.cols).toFixed(
-															2
-														) +
-														'%'
-													"
-												>
-													<span class="text">{{
-														tile === "-"
-															? ""
-															: markIfAble(x, y)
-													}}</span>
-												</div>
-											}
+										<div
+											class="tile"
+											[class.empty]="tile === '-'"
+											[style]="
+												'width:' +
+												(100 / crossword.cols).toFixed(
+													2
+												) +
+												'%'
+											"
+										>
+											<span class="text">{{
+												tile === "-"
+													? ""
+													: markIfAble(x, y)
+											}}</span>
 										</div>
 									}
 								</div>
-								<div>
-									<h4 style="font-weight: bold">Pistas</h4>
-									<div
-										style="
-											display: grid;
-											grid-template-columns: 1fr 1fr;
-										"
-									>
-										<div>
-											<h5>Horizontal</h5>
-											<ul
-												style="
-													margin: 0;
-													padding: 0;
-													list-style: none;
-												"
-											>
-												@for (
-													word of crossword.result;
-													track $index
-												) {
-													@if (
-														word.orientation === "across"
-													) {
-														<li
-															style="
-																padding: 6px 12px 6px
-																	0px;
-																font-size: 14px;
-															"
-														>
-															{{ word.position }}-
-															{{ word.clue }}
-														</li>
-													}
-												}
-											</ul>
-										</div>
-										<div>
-											<h5>Vertical</h5>
-											<ul
-												style="
-													margin: 0;
-													padding: 0;
-													list-style: none;
-												"
-											>
-												@for (
-													word of crossword.result;
-													track $index
-												) {
-													@if (word.orientation === "down") {
-														<li
-															style="
-																padding: 6px 12px 6px
-																	0px;
-																font-size: 14px;
-															"
-														>
-															{{ word.position }}-
-															{{ word.clue }}
-														</li>
-													}
-												}
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
+							}
 						</div>
-					</mat-card-content>
-				</mat-card>
-				<mat-card>
-					<mat-card-content>
-						<div class="page" id="crossword-solution" style="padding: 12px">
-							<div style="text-align: center; margin-bottom: 24px">
-								<h2>
-									Crucigrama de {{ topicName() }} - Soluci&oacute;n
-								</h2>
-							</div>
+						<div>
+							<h4 style="font-weight: bold">Pistas</h4>
 							<div
 								style="
 									display: grid;
-									grid-template-columns: 1fr;
-									gap: 16px;
+									grid-template-columns: 1fr 1fr;
 								"
 							>
-								<div class="board">
-									@for (line of crossword.table; track $index) {
-										<div class="line">
-											@for (tile of line; track $index) {
-												<div
-													class="tile"
-													[class.empty]="tile === '-'"
-													[style]="
-														'width:' +
-														(100 / crossword.cols).toFixed(
-															2
-														) +
-														'%'
-													"
-												>
-													{{ tile !== "-" ? tile : "" }}
-												</div>
-											}
-										</div>
-									}
-								</div>
 								<div>
-									<h4 style="font-weight: bold">Palabras a Buscar</h4>
-									<div
+									<h5>Horizontal</h5>
+									<ul
 										style="
-											display: grid;
-											grid-template-columns: 1fr 1fr;
+											margin: 0;
+											padding: 0;
+											list-style: none;
 										"
 									>
-										<div>
-											<h5>Horizontal</h5>
-											<ul
-												style="
-													margin: 0;
-													padding: 0;
-													list-style: none;
-												"
-											>
-												@for (
-													word of crossword.result;
-													track $index
-												) {
-													@if (
-														word.orientation === "across"
-													) {
-														<li
-															style="
-																padding: 6px 12px 6px
-																	0px;
-																font-size: 14px;
-															"
-														>
-															{{ word.position }}-
-															{{
-																word.answer.toUpperCase()
-															}}
-														</li>
-													}
-												}
-											</ul>
-										</div>
-										<div>
-											<h5>Vertical</h5>
-											<ul
-												style="
-													margin: 0;
-													padding: 0;
-													list-style: none;
-												"
-											>
-												@for (
-													word of crossword.result;
-													track $index
-												) {
-													@if (word.orientation === "down") {
-														<li
-															style="
-																padding: 6px 12px 6px
-																	0px;
-																font-size: 14px;
-															"
-														>
-															{{ word.position }}-
-															{{
-																word.answer.toUpperCase()
-															}}
-														</li>
-													}
-												}
-											</ul>
-										</div>
-									</div>
+										@for (
+											word of crossword.result;
+											track $index
+										) {
+											@if (
+												word.orientation === "across"
+											) {
+												<li
+													style="
+														padding: 6px 12px 6px
+															0px;
+														font-size: 14px;
+													"
+												>
+													{{ word.position }}-
+													{{ word.clue }}
+												</li>
+											}
+										}
+									</ul>
+								</div>
+								<div>
+									<h5>Vertical</h5>
+									<ul
+										style="
+											margin: 0;
+											padding: 0;
+											list-style: none;
+										"
+									>
+										@for (
+											word of crossword.result;
+											track $index
+										) {
+											@if (word.orientation === "down") {
+												<li
+													style="
+														padding: 6px 12px 6px
+															0px;
+														font-size: 14px;
+													"
+												>
+													{{ word.position }}-
+													{{ word.clue }}
+												</li>
+											}
+										}
+									</ul>
 								</div>
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
+				<div class="page" id="crossword-solution" style="padding: 12px">
+					<div style="text-align: center; margin-bottom: 24px">
+						<h2>
+							Crucigrama de {{ topicName() }} - Soluci&oacute;n
+						</h2>
+					</div>
+					<div
+						style="
+							display: grid;
+							grid-template-columns: 1fr;
+							gap: 16px;
+						"
+					>
+						<div class="board">
+							@for (line of crossword.table; track $index) {
+								<div class="line">
+									@for (tile of line; track $index) {
+										<div
+											class="tile"
+											[class.empty]="tile === '-'"
+											[style]="
+												'width:' +
+												(100 / crossword.cols).toFixed(
+													2
+												) +
+												'%'
+											"
+										>
+											{{ tile !== "-" ? tile : "" }}
+										</div>
+									}
+								</div>
+							}
+						</div>
+						<div>
+							<h4 style="font-weight: bold">Palabras a Buscar</h4>
+							<div
+								style="
+									display: grid;
+									grid-template-columns: 1fr 1fr;
+								"
+							>
+								<div>
+									<h5>Horizontal</h5>
+									<ul
+										style="
+											margin: 0;
+											padding: 0;
+											list-style: none;
+										"
+									>
+										@for (
+											word of crossword.result;
+											track $index
+										) {
+											@if (
+												word.orientation === "across"
+											) {
+												<li
+													style="
+														padding: 6px 12px 6px
+															0px;
+														font-size: 14px;
+													"
+												>
+													{{ word.position }}-
+													{{
+														word.answer.toUpperCase()
+													}}
+												</li>
+											}
+										}
+									</ul>
+								</div>
+								<div>
+									<h5>Vertical</h5>
+									<ul
+										style="
+											margin: 0;
+											padding: 0;
+											list-style: none;
+										"
+									>
+										@for (
+											word of crossword.result;
+											track $index
+										) {
+											@if (word.orientation === "down") {
+												<li
+													style="
+														padding: 6px 12px 6px
+															0px;
+														font-size: 14px;
+													"
+												>
+													{{ word.position }}-
+													{{
+														word.answer.toUpperCase()
+													}}
+												</li>
+											}
+										}
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		}
 	`,
 	styles: `
-				.board {
+		.board {
 			display: flex;
 			flex-direction: column;
 			width: fit-content;
@@ -437,6 +431,8 @@ import { WORD_CLUES } from '../../../core/data/word-clues';
 		.page {
 			width: 8in;
 			margin: 0 auto;
+			background: #fff;
+			border: 1px solid #ddd;
 		}
 
 		mat-form-field {
@@ -444,7 +440,6 @@ import { WORD_CLUES } from '../../../core/data/word-clues';
 		}
 
 		.empty {
-			// border: 1px solid black;
 			background-color: black;
 		}
 	`,
@@ -452,9 +447,9 @@ import { WORD_CLUES } from '../../../core/data/word-clues';
 export class CrosswordsGeneratorComponent implements OnInit {
 	gamesService = inject(GamesService);
 	fb = inject(FormBuilder);
-	UserService = inject(UserService);
 	pdfService = inject(PdfService);
 	sb = inject(MatSnackBar);
+	#store = inject(Store)
 
 	teacherName = '';
 	schoolName = '';
@@ -481,10 +476,17 @@ export class CrosswordsGeneratorComponent implements OnInit {
 		date: [false],
 	});
 
+	destroy$ = new Subject<void>()
+
+	ngOnDestroy() {
+		this.destroy$.next()
+		this.destroy$.complete()
+	}
+
 	ngOnInit() {
-		this.UserService.getSettings().subscribe((settings) => {
-			this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
-			// this.schoolName = settings.schoolName;
+		this.#store.select(selectAuthUser).pipe(filter(user => !!user), takeUntil(this.destroy$)).subscribe((settings) => {
+			this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`
+			this.schoolName = settings.schoolName
 		});
 	}
 
