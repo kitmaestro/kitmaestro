@@ -3,7 +3,7 @@ export interface AppEntry {
 	description: string
 	link: string[]
 	icon: string
-	categories: string[]
+	categories?: string[]
 	premium?: boolean
 	isNew?: boolean
 	isWorking?: boolean

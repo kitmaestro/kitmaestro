@@ -1,22 +1,23 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { ReadingActivity } from '../../../core';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, inject, OnInit } from '@angular/core'
+import { MatButtonModule } from '@angular/material/button'
+import { MatCardModule } from '@angular/material/card'
+import { ReadingActivity } from '../../../core'
+import { MatIconModule } from '@angular/material/icon'
 import {
 	MAT_DIALOG_DATA,
 	MatDialogModule,
 	MatDialogRef,
-} from '@angular/material/dialog';
-import { ReadingActivityService } from '../../../core/services';
+} from '@angular/material/dialog'
+import { ReadingActivityService } from '../../../core/services'
+import { MarkdownComponent } from 'ngx-markdown'
 
 @Component({
 	selector: 'app-reading-activity-detail',
-	imports: [MatCardModule, MatButtonModule, MatIconModule, MatDialogModule],
+	imports: [MatCardModule, MatButtonModule, MatIconModule, MatDialogModule, MarkdownComponent],
 	template: `@if (activity) {
 		<h2 mat-dialog-title>{{ activity.title }}</h2>
 		<mat-dialog-content>
-			<div id="reading-activity" style="padding: 0.5in">
+			<div id="reading-activity" style="padding: 0.5in;">
 				<div style="text-align: center;">
 					<h2 style="margin-bottom: 2px; line-height: 1;">
 						{{ activity.user.schoolName }}
@@ -55,7 +56,7 @@ import { ReadingActivityService } from '../../../core/services';
 				<p
 					style="font-size: 12pt; margin-top: 12px; margin-bottom: 12px;"
 				>
-					{{ activity.text }}
+					<markdown [data]="activity.text" />
 				</p>
 				<h3 style="font-weight: bold;">Responde</h3>
 				@for (question of activity.questions; track $index) {
@@ -68,9 +69,9 @@ import { ReadingActivityService } from '../../../core/services';
 			</div>
 		</mat-dialog-content>
 		<mat-dialog-actions>
-			<button mat-button mat-dialog-close>Cancelar</button>
+			<button mat-button mat-dialog-close>Cerrar</button>
 			<!-- <button mat-button (click)="delete()">Eliminar</button> -->
-			<button [disabled]="printing" mat-button (click)="download()">
+			<button [disabled]="printing" mat-flat-button (click)="download()">
 				Descargar
 			</button>
 		</mat-dialog-actions>

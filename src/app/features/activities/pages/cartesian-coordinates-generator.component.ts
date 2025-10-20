@@ -21,114 +21,112 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 		ReactiveFormsModule,
 	],
 	template: `
-				<mat-card>
-			<mat-card-header>
-				<h2 mat-card-title>Generador de Planos Cartesianos y Ejercicios</h2>
-			</mat-card-header>
-			<mat-card-content>
-				<div style="margin-top: 24px">
-					<form [formGroup]="generatorForm" (ngSubmit)="onSubmit()">
-						<div class="grid">
-							<div>
-								<mat-form-field appearance="outline">
-									<mat-label>Valor m&aacute;ximo</mat-label>
-									<input
-										type="number"
-										matInput
-										min="1"
-										formControlName="max"
-									/>
-								</mat-form-field>
-							</div>
-							<div>
-								<mat-form-field appearance="outline">
-									<mat-label>Valor de cada punto</mat-label>
-									<input
-										type="number"
-										matInput
-										min="1"
-										formControlName="steps"
-									/>
-								</mat-form-field>
-							</div>
-							<div>
-								<mat-form-field appearance="outline">
-									<mat-label>Ejercicios</mat-label>
-									<mat-select formControlName="exercises">
-										<mat-option value="none"
-											>Sin ejercicios</mat-option
-										>
-										<mat-option value="integers"
-											>Ejercicios con enteros</mat-option
-										>
-										<mat-option value="decimals"
-											>Ejercicios con decimales</mat-option
-										>
-										<mat-option value="fractions"
-											>Ejercicios con fracciones</mat-option
-										>
-										<mat-option value="functions"
-											>Ejercicios de funciones</mat-option
-										>
-										<mat-option disabled value="irrationals"
-											>Ejercicios con irracionales</mat-option
-										>
-									</mat-select>
-								</mat-form-field>
-							</div>
-							<div>
-								<mat-form-field appearance="outline">
-									<mat-label>Color</mat-label>
-									<mat-select formControlName="color">
-										@for (color of colors; track color) {
-											<mat-option [value]="color.hex">
-												<div
-													style="
-														display: flex;
-														gap: 12px;
-														align-items: center;
+		<div>
+			<h2>Generador de Planos Cartesianos y Ejercicios</h2>
+			<div style="margin-top: 24px">
+				<form [formGroup]="generatorForm" (ngSubmit)="onSubmit()">
+					<div class="grid">
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label>Valor m&aacute;ximo</mat-label>
+								<input
+									type="number"
+									matInput
+									min="1"
+									formControlName="max"
+								/>
+							</mat-form-field>
+						</div>
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label>Valor de cada punto</mat-label>
+								<input
+									type="number"
+									matInput
+									min="1"
+									formControlName="steps"
+								/>
+							</mat-form-field>
+						</div>
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label>Ejercicios</mat-label>
+								<mat-select formControlName="exercises">
+									<mat-option value="none"
+										>Sin ejercicios</mat-option
+									>
+									<mat-option value="integers"
+										>Ejercicios con enteros</mat-option
+									>
+									<mat-option value="decimals"
+										>Ejercicios con decimales</mat-option
+									>
+									<mat-option value="fractions"
+										>Ejercicios con fracciones</mat-option
+									>
+									<mat-option value="functions"
+										>Ejercicios de funciones</mat-option
+									>
+									<mat-option disabled value="irrationals"
+										>Ejercicios con irracionales</mat-option
+									>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label>Color</mat-label>
+								<mat-select formControlName="color">
+									@for (color of colors; track color) {
+										<mat-option [value]="color.hex">
+											<div
+												style="
+													display: flex;
+													gap: 12px;
+													align-items: center;
+												"
+											>
+												<span
+													[style]="
+														'display: inline-block; padding: 12px; background-color: ' +
+														color.hex +
+														';'
 													"
-												>
-													<span
-														[style]="
-															'display: inline-block; padding: 12px; background-color: ' +
-															color.hex +
-															';'
-														"
-													></span>
-													<span>{{ color.spanish }}</span>
-												</div>
-											</mat-option>
-										}
-									</mat-select>
-								</mat-form-field>
-							</div>
+												></span>
+												<span>{{ color.spanish }}</span>
+											</div>
+										</mat-option>
+									}
+								</mat-select>
+							</mat-form-field>
 						</div>
-						<div
-							style="
-								display: flex;
-								flex-direction: row-reverse;
-								gap: 12px;
-							"
+					</div>
+					@if (source) {
+						<div style="background-color: #f44336; padding: 24px; text-align: center; color: #ffffff; margin-bottom: 12px;">Para guardar el plano generado, puedes hacer click derecho y luego a copiar imagen o a guardar como</div>
+					}
+					<div
+						style="
+							display: flex;
+							flex-direction: row-reverse;
+							gap: 12px;
+						"
+					>
+						<button mat-flat-button type="submit">
+							<mat-icon>bolt</mat-icon>
+							{{ source ? "Regenerar" : "Generar" }}
+						</button>
+						<button
+							mat-button
+							disabled
+							title="Lo sentimos, esta funcion no esta disponible todavia."
+							type="button"
 						>
-							<button mat-fab extended type="submit">
-								<mat-icon>bolt</mat-icon>
-								{{ source ? "Regenerar" : "Generar" }}
-							</button>
-							<button
-								mat-fab
-								extended
-								disabled
-								title="Lo sentimos, esta funcion no esta disponible todavia."
-								type="button"
-							>
-								<mat-icon>download</mat-icon> Descargar
-							</button>
-						</div>
-					</form>
-				</div>
-			</mat-card-content>
-		</mat-card>
+							<mat-icon>download</mat-icon> Descargar
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
 
 		@if (source) {
 			<mat-card style="margin-top: 24px; min-width: 8.5in">
@@ -178,7 +176,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 })
 export class CartesianCoordinatesGeneratorComponent implements OnInit {
 	private fb = inject(FormBuilder);
-	private sb = inject(MatSnackBar);
 
 	private svg = '';
 	source = '';

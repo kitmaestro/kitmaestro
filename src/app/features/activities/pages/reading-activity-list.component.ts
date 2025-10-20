@@ -26,26 +26,17 @@ import { DatePipe } from '@angular/common';
 		MatDialogModule,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
-				<mat-card-title>Actividades de Lectura Guiada</mat-card-title>
-				<span style="flex: 1 1 auto"></span>
-				<a
-					routerLink="/guided-reading-generator"
-					mat-mini-fab
-					color="primary"
-				>
-					<mat-icon>add</mat-icon>
-				</a>
-			</mat-card-header>
-			<mat-card-content>
-				Las actividades de lectura guiada incluyen un texto para leer y
-				preguntas abiertas que fomentan la reflexión. Este método es
-				efectivo para desarrollar y evaluar la comprensión lectora de
-				los estudiantes, permitiendo una interacción crítica con el
-				contenido.
-			</mat-card-content>
-		</mat-card>
+		<div style="display: flex; gap: 24px; justify-content: space-between; align-items: center;">
+			<h2>Actividades de Lectura Guiada</h2>
+			<span style="flex: 1 1 auto"></span>
+			<a
+				routerLink="/activities/guided-reading-generator"
+				mat-flat-button
+				color="primary"
+			>
+				<mat-icon>add</mat-icon> Generar Lectura
+			</a>
+		</div>
 		<table
 			mat-table
 			[dataSource]="activities"
@@ -55,7 +46,7 @@ import { DatePipe } from '@angular/common';
 			<ng-container matColumnDef="creationDate">
 				<th mat-header-cell *matHeaderCellDef>Fecha de Creación</th>
 				<td mat-cell *matCellDef="let element">
-					{{ element.createdAt | date: 'dd/MM/yyyy' }}
+					{{ element.createdAt | date: 'dd/MM/yyyy'  }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="title">
