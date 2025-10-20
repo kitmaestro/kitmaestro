@@ -7,7 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService, UserSubscriptionService } from '../../../core/services';
-import { UserSubscription, User } from '../../../core/interfaces';
+import { UserSubscription, User } from '../../../core/models';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';

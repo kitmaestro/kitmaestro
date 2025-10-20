@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Test } from '../../../core/interfaces/test';
+import { Test } from '../../../core';
 import { TestService } from '../../../core/services/test.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';

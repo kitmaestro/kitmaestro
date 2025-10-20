@@ -6,13 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { AuthService } from '../../../core/services/auth.service';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core/models';
 import { CurrencyPipe } from '@angular/common';
 import { ReferralsService } from '../../../core/services/referrals.service';
-import { Referral } from '../../../core/interfaces/referral';
+import { Referral } from '../../../core/models';
 import { RouterLink } from '@angular/router';
 import { concatMap, forkJoin, map, Observable } from 'rxjs';
-import { UserSubscription } from '../../../core/interfaces/user-subscription';
+import { UserSubscription } from '../../../core/models';
 
 @Component({
 	selector: 'app-referrals',

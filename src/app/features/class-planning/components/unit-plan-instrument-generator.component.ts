@@ -17,7 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MarkdownComponent } from 'ngx-markdown';
-import { UnitPlan } from '../../../core/interfaces';
+import { UnitPlan } from '../../../core';
 import { AiService } from '../../../core/services/ai.service';
 import { RubricService } from '../../../core/services/rubric.service';
 import { ChecklistService } from '../../../core/services/checklist.service';

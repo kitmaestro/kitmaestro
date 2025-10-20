@@ -1,34 +1,19 @@
 import { Observable, of } from "rxjs"
-import { Assignment } from "../interfaces/assignment"
+import { Assignment } from "../models"
 import { inject, Injectable } from "@angular/core"
 import { ApiService } from "./api.service"
+import { AssignmentDto } from "../../store/assignments/assignments.models"
 
 @Injectable({ providedIn: 'root' })
 export class AssignmentService {
 	#apiService = inject(ApiService)
-	#assignments: Assignment[] = []
+	#endpoint = 'assignments'
 
-	getAssignments(
-		sectionId: string,
-		subject: string,
-	): Observable<Assignment[]> {
-		console.log(
-			`AssignmentService: Getting assignments for ${sectionId} - ${subject}`,
-		)
-		return of(
-			this.#assignments.filter(
-				(a) => a.sectionId === sectionId && a.subject === subject,
-			),
-		)
+	getAssignments(): Observable<Assignment[]> {
+		return this.#apiService.get(this.#endpoint)
 	}
 
-	addAssignment(assignment: Omit<Assignment, '_id'>): Observable<Assignment> {
-		console.log('AssignmentService: Adding assignment...', assignment)
-		const newAssignment: Assignment = {
-			_id: `as_${Date.now()}`,
-			...assignment,
-		}
-		this.#assignments.push(newAssignment)
-		return of(newAssignment)
+	addAssignment(assignment: Partial<AssignmentDto>): Observable<Assignment> {
+		return this.#apiService.post(this.#endpoint, assignment)
 	}
 }

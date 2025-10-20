@@ -46,8 +46,8 @@ import { MatChipsModule } from '@angular/material/chips';
 // --- Core Services & Interfaces ---
 // NOTA: Se asume la existencia de un 'MainThemeService' con una estructura similar a 'ContentBlockService'
 import { MainThemeService } from '../../../core/services/main-theme.service';
-import { MainTheme } from '../../../core/interfaces/main-theme'; // Asumiendo que la interfaz está en esta ruta
-import { ApiUpdateResponse } from '../../../core/interfaces/api-update-response';
+import { MainTheme } from '../../../core'; // Asumiendo que la interfaz está en esta ruta
+import { ApiUpdateResponse } from '../../../core';
 
 @Component({
 	selector: 'app-main-themes-management',

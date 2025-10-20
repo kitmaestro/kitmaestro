@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ClassPlan } from '../../../core/interfaces/class-plan';
+import { ClassPlan } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({

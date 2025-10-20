@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
-import { AppEntry } from '../../core/interfaces/app-entry';
+import { AppEntry } from '../../core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 

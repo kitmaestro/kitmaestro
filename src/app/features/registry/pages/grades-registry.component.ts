@@ -36,12 +36,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core'
 import { MatCardModule } from '@angular/material/card'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { ClassSection, Student, User } from '../../../core/interfaces'
-import { ClassSectionService, StudentsService, UnitPlanService, UserService } from '../../../core/services'
+import { ClassSection, Student, User } from '../../../core'
+import { StudentsService } from '../../../core/services'
 import { AssignmentService } from '../../../core/services/assignent.service'
 import { GradeService } from '../../../core/services/grade.service'
-import { Assignment } from '../../../core/interfaces/assignment'
-import { Grade } from '../../../core/interfaces/grade'
+import { Assignment } from '../../../core'
+import { Grade } from '../../../core'
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
 import { UnitPlan } from '../../../core/models'
 import { Store } from '@ngrx/store'
@@ -65,7 +65,7 @@ import { selectAllUnitPlans } from '../../../store/unit-plans/unit-plans.selecto
 	template: `
 		<h2 mat-dialog-title>Agregar Estudiante</h2>
 		<mat-dialog-content [formGroup]="studentForm">
-			<mat-form-field appearance="outline" class="w-full" style="margin-top: 24px;">
+			<mat-form-field appearance="outline" class="w-full" style="margin-top: 24px">
 				<mat-label>Nombre</mat-label>
 				<input matInput formControlName="firstname" required />
 				@if (studentForm.get('firstname')?.hasError('required')) {
@@ -617,13 +617,8 @@ export class GradesRegistryComponent implements OnInit, OnDestroy {
 		if (sectionId && subject) {
 			forkJoin({
 				unitPlans: this.#store.select(selectAllUnitPlans),
-				assignments: this.assignmentService.getAssignments(
-					sectionId,
-					subject,
-				),
-			}).subscribe(({ unitPlans, assignments }) => {
+			}).subscribe(({ unitPlans }) => {
 				this.unitPlans.set(unitPlans);
-				this.assignments.set(assignments);
 				this.loadGradesForTable();
 			});
 		}
@@ -759,17 +754,12 @@ export class GradesRegistryComponent implements OnInit, OnDestroy {
 			const [studentId, assignmentId] = key.split('_');
 			const score = formValue[key];
 			if (score !== null && score !== '') {
-				gradesToSave.push({
-					studentId,
-					assignmentId,
-					score: Number(score),
-				});
 			}
-		});
+		})
 
 		this.gradeService.saveGrades(gradesToSave).subscribe((response) => {
-			this.snackBar.open(response.message, 'Cerrar', { duration: 3000 });
-			this.gradesForm.markAsPristine();
-		});
+			this.snackBar.open(response.message, 'Cerrar', { duration: 3000 })
+			this.gradesForm.markAsPristine()
+		})
 	}
 }

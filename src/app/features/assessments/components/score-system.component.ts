@@ -3,11 +3,11 @@ import {
 	GradingActivity,
 	GroupedGradingActivity,
 	ScoreSystem,
-} from '../../../core/interfaces/score-system';
-import { User } from '../../../core/interfaces';
-import { ClassSection } from '../../../core/interfaces/class-section';
-import { ContentBlock } from '../../../core/interfaces/content-block';
-import { Student } from '../../../core/interfaces/student';
+} from '../../../core';
+import { User } from '../../../core';
+import { ClassSection } from '../../../core';
+import { ContentBlock } from '../../../core';
+import { Student } from '../../../core';
 import { MatCardModule } from '@angular/material/card';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { StudentsService } from '../../../core/services/students.service';

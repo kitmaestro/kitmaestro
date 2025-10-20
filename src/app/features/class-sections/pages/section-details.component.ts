@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Student } from '../../../core/interfaces/student';
+import { Student } from '../../../core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -17,7 +17,7 @@ import { StudentFormComponent } from '../../../shared/ui/student-form.component'
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { StudentsService } from '../../../core/services/students.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import * as XLSX from 'xlsx';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { Store } from '@ngrx/store';

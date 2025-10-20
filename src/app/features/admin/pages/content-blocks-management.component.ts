@@ -51,8 +51,8 @@ import {
 	SchoolLevel,
 	SchoolSubject,
 	SchoolYear,
-} from '../../../core/interfaces/content-block';
-import { ApiUpdateResponse } from '../../../core/interfaces/api-update-response';
+} from '../../../core';
+import { ApiUpdateResponse } from '../../../core';
 
 @Component({
 	selector: 'app-content-blocks-management',

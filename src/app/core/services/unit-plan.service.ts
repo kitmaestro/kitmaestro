@@ -16,11 +16,9 @@ import {
 } from 'docx'
 import saveAs from 'file-saver'
 import { PretifyPipe } from '../../shared/pipes'
-import { environment } from '../../../environments/environment'
-import { ApiUpdateResponse, ApiDeleteResponse, User } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
-import { ClassPlan } from '../interfaces'
-import { UnitPlan } from '../models'
+import { User, ClassPlan, UnitPlan } from '../models'
 import { UnitPlanDto } from '../../store/unit-plans/unit-plans.models'
 
 @Injectable({
@@ -93,7 +91,7 @@ export class UnitPlanService {
 	}
 
 	async download(plan: UnitPlan, classPlans: ClassPlan[] = [], user: User) {
-		const logo = await fetch(environment.apiUrl + 'logo-minerd')
+		const logo = await fetch(this.#apiService.getApiUrl() + 'logo-minerd')
 		const { data } = await logo.json()
 
 		const logoMinerd = new ImageRun({

@@ -7,7 +7,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { tap } from 'rxjs';
-import { ClassPlan } from '../../../core/interfaces/class-plan';
+import { ClassPlan } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { UserSubscriptionService } from '../../../core/services';
 import { AsyncPipe, DatePipe } from '@angular/common';

@@ -12,7 +12,7 @@ import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { UnitPlan } from '../../../core/models';
 import { ClassPlansService } from '../../../core/services/class-plans.service';
-import { ClassPlan } from '../../../core/interfaces';
+import { ClassPlan } from '../../../core';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
 import { selectClassPlans } from '../../../store/class-plans/class-plans.selectors';

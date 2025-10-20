@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ObservationGuide } from '../../../core/interfaces/observation-guide';
+import { ObservationGuide } from '../../../core';
 import { ObservationGuideService } from '../../../core/services/observation-guide.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';

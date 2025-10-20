@@ -11,10 +11,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { LogRegistryEntryService } from '../../core/services/log-registry-entry.service';
-import { LogRegistryEntry } from '../../core/interfaces/log-registry-entry';
-import { Student } from '../../core/interfaces/student';
+import { LogRegistryEntry } from '../../core';
+import { Student } from '../../core/models';
 import { StudentsService } from '../../core/services/students.service';
-import { ClassSection } from '../../core/interfaces/class-section';
+import { ClassSection } from '../../core/models';
 import { ClassSectionService } from '../../core/services/class-section.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -190,6 +190,8 @@ export class LogRegistryEntryEditFormComponent implements OnInit {
 	private studentService = inject(StudentsService);
 	private sb = inject(MatSnackBar);
 	private fb = inject(FormBuilder);
+	private data = inject<LogRegistryEntry>(MAT_DIALOG_DATA)
+
 	public entry: LogRegistryEntry | null = null;
 	public sections: ClassSection[] = [];
 	public students: Student[] = [];
@@ -229,11 +231,6 @@ export class LogRegistryEntryEditFormComponent implements OnInit {
 		description: [''],
 		comments: [''],
 	});
-
-	constructor(
-		@Inject(MAT_DIALOG_DATA)
-		private data: LogRegistryEntry,
-	) {}
 
 	loadStudents() {
 		const sectionId = this.entryForm.get('section')?.value;

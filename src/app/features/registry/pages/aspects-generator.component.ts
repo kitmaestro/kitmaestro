@@ -12,11 +12,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { ClassSection } from '../../../core/interfaces/class-section';
-import { ContentBlock } from '../../../core/interfaces/content-block';
+import { ClassSection } from '../../../core';
+import { ContentBlock } from '../../../core';
 import { ContentBlockService } from '../../../core/services/content-block.service';
 import { CompetenceService } from '../../../core/services/competence.service';
-import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
+import { CompetenceEntry } from '../../../core';
 
 @Component({
 	selector: 'app-aspects-generator',

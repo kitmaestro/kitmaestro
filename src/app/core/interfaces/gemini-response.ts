@@ -2,20 +2,20 @@ export interface GeminiResponse {
 	candidates: {
 		content: {
 			parts: {
-				text: string;
-			}[];
-			role: string;
-		};
-		finishReason: string;
-		index: number;
+				text: string
+			}[]
+			role: string
+		}
+		finishReason: string
+		index: number
 		safetyRatings: {
-			category: string;
-			probability: string;
-		}[];
-	}[];
+			category: string
+			probability: string
+		}[]
+	}[]
 	usageMetadata: {
-		promptTokenCount: number;
-		candidatesTokenCount: number;
-		totalTokenCount: number;
-	};
+		promptTokenCount: number
+		candidatesTokenCount: number
+		totalTokenCount: number
+	}
 }

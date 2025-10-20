@@ -1,4 +1,4 @@
 export interface GradingResult {
-	grade: string;
-	feedback: string;
+	grade: string
+	feedback: string
 }

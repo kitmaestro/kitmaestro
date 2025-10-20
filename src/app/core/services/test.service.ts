@@ -1,10 +1,7 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { Test } from '../interfaces/test';
+import { inject, Injectable } from '@angular/core'
+import { Observable } from 'rxjs'
+import { ApiDeleteResponse, ApiUpdateResponse } from '../interfaces'
+import { Test } from '../models/test'
 import {
 	Document,
 	HeadingLevel,
@@ -16,58 +13,36 @@ import {
 	TableRow,
 	TextRun,
 	WidthType,
-} from 'docx';
-import { saveAs } from 'file-saver';
-import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
+} from 'docx'
+import { saveAs } from 'file-saver'
+import { PretifyPipe } from '../../shared'
+import { ApiService } from './api.service'
 
 @Injectable({
 	providedIn: 'root',
 })
 export class TestService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'tests/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService)
+	#enpoint = 'tests/'
 
 	findAll(filters?: any): Observable<Test[]> {
-		let params = new HttpParams();
-		if (filters) {
-			Object.keys(filters).forEach((key) => {
-				params = params.set(key, filters[key]);
-			});
-		}
-		return this.http.get<Test[]>(this.apiBaseUrl, {
-			params,
-			...this.config,
-		});
+		return this.#apiService.get<Test[]>(this.#enpoint, filters)
 	}
 
 	find(id: string): Observable<Test> {
-		return this.http.get<Test>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<Test>(this.#enpoint + id)
 	}
 
 	create(plan: any): Observable<Test> {
-		return this.http.post<Test>(this.apiBaseUrl, plan, this.config);
+		return this.#apiService.post<Test>(this.#enpoint, plan)
 	}
 
 	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			plan,
-			this.config,
-		);
+		return this.#apiService.patch<ApiUpdateResponse>(this.#enpoint + id, plan)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#enpoint + id)
 	}
 
 	async download(test: Test) {
@@ -84,54 +59,54 @@ export class TestService {
 						},
 					},
 					children: test.body.split('\n').map((text) => {
-						if (!text || text.startsWith('__')) return this.p('');
+						if (!text || text.startsWith('__')) return this.p('')
 
 						if (text.startsWith('# '))
-							return this.heading(text.slice(2));
+							return this.heading(text.slice(2))
 
 						if (text.startsWith('## '))
 							return this.heading(
 								text.slice(3),
 								HeadingLevel.HEADING_2,
-							);
+							)
 
 						if (text.startsWith('### '))
 							return this.heading(
 								text.slice(4),
 								HeadingLevel.HEADING_3,
-							);
+							)
 
 						if (text.startsWith('#### '))
 							return this.heading(
 								text.slice(5),
 								HeadingLevel.HEADING_4,
-							);
+							)
 
 						if (text.includes('**'))
-							return this.p(text.slice(2), true);
+							return this.p(text.slice(2), true)
 
 						if (text.startsWith('|-'))
 							return this.table(
 								text.slice(1).replaceAll('-', ''),
-							);
+							)
 
 						if (text.startsWith('| '))
-							return this.table(text.slice(1));
+							return this.table(text.slice(1))
 
-						return this.p(text);
+						return this.p(text)
 					}),
 				},
 			],
-		});
-		const blob = await Packer.toBlob(doc);
+		})
+		const blob = await Packer.toBlob(doc)
 		saveAs(
 			blob,
 			`Examen de ${this.pretify(test.subject)} de ${this.pretify(test.section.year)} de ${this.pretify(test.section.level)}.docx`,
-		);
+		)
 	}
 
 	private pretify(str: string) {
-		return new PretifyPipe().transform(str);
+		return new PretifyPipe().transform(str)
 	}
 
 	private heading(
@@ -146,7 +121,7 @@ export class TestService {
 				}),
 			],
 			heading: level,
-		});
+		})
 	}
 
 	private table(text: string): Table {
@@ -158,21 +133,21 @@ export class TestService {
 			rows: text.split('|').map((s) => {
 				return new TableRow({
 					children: [new TableCell({ children: [this.p(s)] })],
-				});
+				})
 			}),
-		});
+		})
 	}
 
 	private p(text: string, bold = false): Paragraph {
 		if (bold) {
-			const sections = text.split('**');
+			const sections = text.split('**')
 			return new Paragraph({
 				children: sections.map((s, i) => {
-					if (i === 0) return new TextRun({ text: s, bold: true });
-					else return new TextRun({ text: s });
+					if (i === 0) return new TextRun({ text: s, bold: true })
+					else return new TextRun({ text: s })
 				}),
-			});
+			})
 		}
-		return new Paragraph({ text });
+		return new Paragraph({ text })
 	}
 }

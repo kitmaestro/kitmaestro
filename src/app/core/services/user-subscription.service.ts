@@ -1,59 +1,57 @@
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { UserSubscription } from '../interfaces/user-subscription';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { ApiService } from './api.service';
+import { Injectable, inject } from '@angular/core'
+import { BehaviorSubject, Observable, tap } from 'rxjs'
+import { UserSubscription } from '../models/user-subscription'
+import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiService } from './api.service'
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UserSubscriptionService {
-	#apiService = inject(ApiService);
-	private apiBaseUrl = 'user-subscriptions/';
+	#apiService = inject(ApiService)
+	#endpoint = 'user-subscriptions/'
+	#subscriptionSubject = new BehaviorSubject<UserSubscription | null>(null)
 
-	private subscriptionSubject = new BehaviorSubject<UserSubscription | null>(null);
-	public subscription$ = this.subscriptionSubject.asObservable();
+	public subscription$ = this.#subscriptionSubject.asObservable()
 
-	private setSubscription(subscription: UserSubscription | null) {
-		this.subscriptionSubject.next(subscription);
+	constructor() {
+		this.checkSubscription().subscribe()
 	}
 
 	get subscription(): UserSubscription | null {
-		return this.subscriptionSubject.value;
+		return this.#subscriptionSubject.value
 	}
 
-	constructor() {
-		this.checkSubscription().subscribe();
+	private setSubscription(subscription: UserSubscription | null) {
+		this.#subscriptionSubject.next(subscription)
 	}
 
 	countSubscriptions(): Observable<{ subscriptions: number }> {
 		return this.#apiService.get<{ subscriptions: number }>(
 			'user-subscriptions/count',
-		);
+		)
 	}
 
 	findAll(): Observable<UserSubscription[]> {
-		return this.#apiService.get<UserSubscription[]>(this.apiBaseUrl);
+		return this.#apiService.get<UserSubscription[]>(this.#endpoint)
 	}
 
 	find(id: string): Observable<UserSubscription> {
-		return this.#apiService.get<UserSubscription>(this.apiBaseUrl + id);
+		return this.#apiService.get<UserSubscription>(this.#endpoint + id)
 	}
 
 	findByUser(id: string): Observable<UserSubscription> {
-		return this.#apiService.get<UserSubscription>(this.apiBaseUrl + 'by-user/' + id);
+		return this.#apiService.get<UserSubscription>(this.#endpoint + 'by-user/' + id)
 	}
 
 	checkSubscription(): Observable<UserSubscription> {
-		return this.#apiService.get<UserSubscription>(this.apiBaseUrl + 'me').pipe(
-			// Update the current subscription when fetched
+		return this.#apiService.get<UserSubscription>(this.#endpoint + 'me').pipe(
 			tap((subscription) => this.setSubscription(subscription)),
-		);
+		)
 	}
 
 	create(data: any) {
-		return this.#apiService.post<UserSubscription>(this.apiBaseUrl, data);
+		return this.#apiService.post<UserSubscription>(this.#endpoint, data)
 	}
 
 	subscribe(
@@ -73,20 +71,20 @@ export class UserSubscriptionService {
 			),
 			method,
 			amount,
-		};
+		}
 
-		return this.#apiService.post<UserSubscription>(this.apiBaseUrl, subscription);
+		return this.#apiService.post<UserSubscription>(this.#endpoint, subscription)
 	}
 
 	addReferral(referral: UserSubscription): Observable<UserSubscription> {
-		return this.#apiService.post<UserSubscription>(this.apiBaseUrl, referral);
+		return this.#apiService.post<UserSubscription>(this.#endpoint, referral)
 	}
 
 	updateReferral(id: string, referral: any): Observable<ApiUpdateResponse> {
-		return this.#apiService.patch<ApiUpdateResponse>(this.apiBaseUrl + id, referral);
+		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, referral)
 	}
 
 	deleteReferral(id: string): Observable<ApiDeleteResponse> {
-		return this.#apiService.delete<ApiDeleteResponse>(this.apiBaseUrl + id);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
 	}
 }

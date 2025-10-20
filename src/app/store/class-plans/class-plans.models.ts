@@ -1,4 +1,4 @@
-import { ClassPlan } from '../../core/interfaces'
+import { ClassPlan } from '../../core/models'
 
 export enum ClassPlanStateStatus {
     IDLING,

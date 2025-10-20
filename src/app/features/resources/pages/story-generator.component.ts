@@ -36,7 +36,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 
 // --- Core Services & Interfaces (Using new structure paths) ---
-import { ClassSection } from '../../../core/interfaces';
+import { ClassSection } from '../../../core';
 import { ClassSectionService, AiService } from '../../../core/services';
 
 // --- DOCX Generation ---

@@ -1,4 +1,4 @@
 export interface SubjectTopics {
-	primary: string[];
-	highSchool: string[];
+	primary: string[]
+	highSchool: string[]
 }

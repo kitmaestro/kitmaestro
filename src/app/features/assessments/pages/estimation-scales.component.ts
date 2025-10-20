@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EstimationScaleService } from '../../../core/services/estimation-scale.service';
-import { EstimationScale } from '../../../core/interfaces/estimation-scale';
+import { EstimationScale } from '../../../core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';

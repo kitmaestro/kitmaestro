@@ -12,10 +12,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { IsEmptyComponent } from '../../../shared/ui/is-empty.component';
-import { Todo } from '../../../core/interfaces/todo';
+import { Todo } from '../../../core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { TodoList } from '../../../core/interfaces/todo-list';
+import { TodoList } from '../../../core';
 import { TodoFormComponent } from '../components/todo-form.component';
 
 @Component({

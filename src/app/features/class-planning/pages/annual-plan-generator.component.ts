@@ -10,12 +10,12 @@ import { MatChipsModule } from '@angular/material/chips';
 import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { UserService } from '../../../core/services/user.service';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import { CompetenceService } from '../../../core/services/competence.service';
-import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
+import { CompetenceEntry } from '../../../core';
 import {
 	classroomProblems,
 	classroomResources,
@@ -25,10 +25,10 @@ import {
 	schoolEnvironments,
 } from '../../../config/constants';
 import { ContentBlockService } from '../../../core/services/content-block.service';
-import { ContentBlock } from '../../../core/interfaces/content-block';
+import { ContentBlock } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
-import { MainTheme } from '../../../core/interfaces';
+import { MainTheme } from '../../../core';
 import { MainThemeService } from '../../../core/services/main-theme.service';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { forkJoin } from 'rxjs';

@@ -1,9 +1,7 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { ClassPlan } from '../interfaces/class-plan'
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
-import { ApiDeleteResponse } from '../interfaces/api-delete-response'
-import { environment } from '../../../environments/environment'
+import { ClassPlan } from '../models'
+import { ApiDeleteResponse } from '../interfaces'
 import {
 	Document,
 	Packer,
@@ -14,66 +12,42 @@ import {
 	TableRow,
 	TextRun,
 	WidthType,
-} from 'docx';
-import { saveAs } from 'file-saver';
-import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
-import { ApiService } from './api.service';
-import { ClassPlanDto } from '../../store/class-plans/class-plans.models';
+} from 'docx'
+import { saveAs } from 'file-saver'
+import { PretifyPipe } from '../../shared/pipes/pretify.pipe'
+import { ApiService } from './api.service'
+import { ClassPlanDto } from '../../store/class-plans/class-plans.models'
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ClassPlansService {
-	#apiService = inject(ApiService);
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'class-plans/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
-	private pretify = new PretifyPipe().transform;
+	#apiService = inject(ApiService)
+	#endpoint = 'class-plans/'
+	#pretify = new PretifyPipe().transform
 
 	countPlans(): Observable<{ plans: number }> {
-		return this.#apiService.get<{ plans: number }>('class-plans/count');
+		return this.#apiService.get<{ plans: number }>('class-plans/count')
 	}
 
 	findAll(filters?: any): Observable<ClassPlan[]> {
-		let params = new HttpParams();
-		if (filters) {
-			Object.keys(filters).forEach((key) => {
-				params = params.set(key, filters[key]);
-			});
-		}
-		return this.http.get<ClassPlan[]>(this.apiBaseUrl, {
-			...this.config,
-			params,
-		});
+		return this.#apiService.get<ClassPlan[]>(this.#endpoint, filters)
 	}
 
 	find(id: string): Observable<ClassPlan> {
-		return this.http.get<ClassPlan>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<ClassPlan>(this.#endpoint + id)
 	}
 
 	addPlan(plan: Partial<ClassPlanDto>): Observable<ClassPlan> {
-		return this.http.post<ClassPlan>(this.apiBaseUrl, plan, this.config);
+		return this.#apiService.post<ClassPlan>(this.#endpoint, plan)
 	}
 
 	updatePlan(id: string, plan: any): Observable<ClassPlan> {
-		return this.http.patch<ClassPlan>(
-			this.apiBaseUrl + id,
-			plan,
-			this.config,
-		);
+		return this.#apiService.patch<ClassPlan>(this.#endpoint + id, plan)
 	}
 
 	deletePlan(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
 	}
 
 	async download(plan: ClassPlan) {
@@ -82,7 +56,7 @@ export class ClassPlansService {
 			.split('T')[0]
 			.split('-')
 			.reverse()
-			.join('-');
+			.join('-')
 		const planTable = new Table({
 			width: {
 				size: 100,
@@ -133,9 +107,9 @@ export class ClassPlansService {
 							children: [
 								new Paragraph({
 									text:
-										this.pretify(plan.section.year) +
+										this.#pretify(plan.section.year) +
 										' de ' +
-										this.pretify(plan.section.level),
+										this.#pretify(plan.section.level),
 								}),
 							],
 						}),
@@ -155,7 +129,7 @@ export class ClassPlansService {
 							columnSpan: 2,
 							children: [
 								new Paragraph({
-									text: this.pretify(plan.subject),
+									text: this.#pretify(plan.subject),
 								}),
 							],
 						}),
@@ -539,7 +513,7 @@ export class ClassPlansService {
 					],
 				}),
 			],
-		});
+		})
 
 		const doc = new Document({
 			sections: [
@@ -556,11 +530,11 @@ export class ClassPlansService {
 					children: [planTable],
 				},
 			],
-		});
-		const blob = await Packer.toBlob(doc);
+		})
+		const blob = await Packer.toBlob(doc)
 		saveAs(
 			blob,
-			`Plan diario - ${this.pretify(plan.subject)} - ${date}.docx`,
-		);
+			`Plan diario - ${this.#pretify(plan.subject)} - ${date}.docx`,
+		)
 	}
 }

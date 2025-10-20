@@ -8,7 +8,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AiService } from '../../../core/services/ai.service';
 import { MatButtonModule } from '@angular/material/button';
 import { kindergartenDialogs } from '../../../core/data/kindergarten-conversations';
-import { EnglishConversation } from '../../../core/interfaces/english-conversation';
+import { EnglishConversation } from '../../../core';
 import { easySpeakConversations } from '../../../core/data/easyspeak-conversations';
 import { easyDialogsConversations } from '../../../core/data/easydialogs-conversations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';

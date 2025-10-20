@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store'
-import { User } from '../../core/interfaces'
+import { User } from '../../core/models'
 import { LoginDto, LoginOrSignupResponse, PasswordRecoverResponse, PasswordResetResponse, SignupDto } from './auth.models'
 
 export const loadAuthUser = createAction('[Auth] Load User')

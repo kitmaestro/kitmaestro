@@ -14,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 import { map } from 'rxjs';
 import { selectUsersUsers } from '../../../store/users/users.selectors';
 import { createUser, deleteUser, loadUsers } from '../../../store/users/users.actions';

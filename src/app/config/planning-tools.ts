@@ -1,4 +1,4 @@
-import { AppEntry } from "../core/interfaces";
+import { AppEntry } from "../core";
 
 export const planningTools: AppEntry[] = [
     {

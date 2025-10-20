@@ -40,7 +40,7 @@ import { MatListModule } from '@angular/material/list'; // For displaying select
 // --- Core Services & Interfaces (Using new structure paths) ---
 import { AiService } from '../../../core/services/ai.service'; // Assuming AI service path
 // Interfaces for AI response (assuming structure)
-import { GradingResult } from '../../../core/interfaces/grading-result'; // Example: export interface GradingResult { grade: string; feedback: string; }
+import { GradingResult } from '../../../core'; // Example: export interface GradingResult { grade: string; feedback: string; }
 
 // --- DOCX Generation (Not strictly needed here, but kept for consistency if needed later) ---
 // import { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel } from 'docx';

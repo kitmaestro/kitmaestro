@@ -8,7 +8,7 @@ import {
 import { ClassScheduleService } from '../../../core/services/class-schedule.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ClassPeriod } from '../../../core/interfaces/class-schedule';
+import { ClassPeriod } from '../../../core';
 
 @Component({
 	selector: 'app-schedule-builder',

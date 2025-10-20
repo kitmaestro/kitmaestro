@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RubricService } from '../../../core/services/rubric.service';
-import { Rubric } from '../../../core/interfaces/rubric';
+import { Rubric } from '../../../core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';

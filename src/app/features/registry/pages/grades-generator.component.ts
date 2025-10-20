@@ -19,13 +19,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { GradeDataSet, GradesData } from '../../../core/interfaces/grades-data';
+import { GradeDataSet, GradesData } from '../../../core';
 import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { StudentsService } from '../../../core/services/students.service';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import * as XLSX from 'xlsx';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 
 @Component({
 	selector: 'app-grades-generator',

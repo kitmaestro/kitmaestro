@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { User } from '../interfaces'
+import { User } from '../models'
 import { ApiService } from './api.service'
 import {
 	LoginDto,

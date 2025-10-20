@@ -7,7 +7,7 @@ import { AiService } from '../../../core/services/ai.service';
 import { UserService } from '../../../core/services/user.service';
 import { SubjectConceptListService } from '../../../core/services/subject-concept-list.service';
 import { ContentBlockService } from '../../../core/services/content-block.service';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
@@ -16,17 +16,17 @@ import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterLink } from '@angular/router';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { TEACHING_METHODS } from '../../../core/data/teaching-methods';
-import { ContentBlock } from '../../../core/interfaces/content-block';
+import { ContentBlock } from '../../../core';
 import { CompetenceService } from '../../../core/services/competence.service';
 import { zip } from 'rxjs';
-import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
+import { CompetenceEntry } from '../../../core';
 import {
 	GradingActivity,
 	GroupedGradingActivity,
 	ScoreSystem,
-} from '../../../core/interfaces/score-system';
+} from '../../../core';
 import { ScoreSystemComponent } from '../components/score-system.component';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 @Component({

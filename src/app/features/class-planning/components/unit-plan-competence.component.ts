@@ -3,7 +3,7 @@ import {
 	ClassSection,
 	CompetenceEntry,
 	UnitPlan,
-} from '../../../core/interfaces';
+} from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({

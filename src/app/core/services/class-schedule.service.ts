@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { ClassSchedule } from '../interfaces/class-schedule'
-import { ApiUpdateResponse } from '../interfaces/api-update-response'
-import { ApiDeleteResponse } from '../interfaces/api-delete-response'
+import { ClassSchedule } from '../models'
+import { ApiDeleteResponse, ApiUpdateResponse } from '../interfaces'
 import { ApiService } from './api.service'
 
 @Injectable({

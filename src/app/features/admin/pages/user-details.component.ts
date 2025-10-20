@@ -1,24 +1,20 @@
-import { Component, Inject, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { UserService } from '../../../core/services/user.service';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
-import { SchoolService } from '../../../core/services/school.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { UserSubscription } from '../../../core/interfaces/user-subscription';
+import { UserSubscription } from '../../../core';
 import { MatCardModule } from '@angular/material/card';
 import { sha512_256 } from 'js-sha512';
 import { DatePipe } from '@angular/common';
-import { School } from '../../../core/interfaces/school';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../../core/services/auth.service';
 import { MatIconModule } from '@angular/material/icon';
 import {
 	MatDialogRef,
@@ -116,7 +112,7 @@ class SectionCreatorComponent {
 	subjectOptions = Object.values(SCHOOL_SUBJECT);
 
 	ngOnInit() {
-		if (this.data.user) this.user.set(this.data.user);
+		if (this.data.user) this.user.set(this.data.user._id);
 		if (this.data.level) this.level.set(this.data.level);
 		if (this.data.year) this.year.set(this.data.year);
 		if (this.data.name) this.name.set(this.data.name);
@@ -395,13 +391,11 @@ export class UserDetailsComponent implements OnInit {
 	private store = inject(Store);
 	private userId = this.route.snapshot.paramMap.get('id') || '';
 	private subscriptionService = inject(UserSubscriptionService);
-	private schoolService = inject(SchoolService);
 	private sectionService = inject(ClassSectionService);
 	private dialog = inject(MatDialog);
 
 	user: User | null = null;
 	subscription: UserSubscription | null = null;
-	schools: School[] = [];
 	classSections: ClassSection[] = [];
 	gravatarUrl = '';
 	activeUser = this.store.selectSignal(selectAuthUser)
@@ -473,14 +467,6 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 		});
 	}
 
-	loadSchools() {
-		this.schoolService.findAll({ user: this.userId }).subscribe({
-			next: (schools) => {
-				this.schools = schools;
-			},
-		});
-	}
-
 	loadSections() {
 		this.sectionService.findAll({ user: this.userId }).subscribe({
 			next: (classSections) => {
@@ -498,7 +484,6 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 				this.subscriptionForm.get('user')?.setValue(userId)
 				this.gravatarUrl = 'https://gravatar.com/avatar/' + sha512_256(user.email.toLowerCase().trim())
 				this.loadSubscription()
-				this.loadSchools()
 				this.loadSections()
 			}
 		})
@@ -563,12 +548,6 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 			this.sb.open('Sección eliminada exitosamente', 'Ok', {
 				duration: 2500,
 			});
-		});
-	}
-
-	deleteSchool(id: string) {
-		this.schoolService.delete(id).subscribe(() => {
-			this.loadSchools();
 		});
 	}
 

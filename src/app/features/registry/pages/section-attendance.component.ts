@@ -8,9 +8,9 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
-import { Attendance } from '../../../core/interfaces/attendance';
-import { Student } from '../../../core/interfaces/student';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { Attendance } from '../../../core';
+import { Student } from '../../../core';
+import { ClassSection } from '../../../core';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 
 @Component({

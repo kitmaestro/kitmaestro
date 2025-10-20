@@ -13,8 +13,8 @@ import { IsEmptyComponent } from '../../../shared/ui/is-empty.component';
 import { ResourceCardComponent } from '../components/resource-card.component';
 import { ResourceFormComponent } from '../../../shared/ui/resource-form.component';
 import { MatIconModule } from '@angular/material/icon';
-import { User } from '../../../core/interfaces';
-import { DidacticResource } from '../../../core/interfaces/didactic-resource';
+import { User } from '../../../core';
+import { DidacticResource } from '../../../core';
 import { AuthService } from '../../../core/services/auth.service';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 

@@ -1,37 +1,35 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Update } from '../interfaces/update';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { environment } from '../../../environments/environment';
+import { inject, Injectable } from '@angular/core'
+import { Observable } from 'rxjs'
+import { Update } from '../models'
+import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiService } from './api.service'
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UpdateService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'updates/';
+	#apiService = inject(ApiService)
+	#endpoint = 'updates/'
 
 	constructor() {}
 
 	findAll(): Observable<Update[]> {
-		return this.http.get<Update[]>(this.apiBaseUrl);
+		return this.#apiService.get<Update[]>(this.#endpoint)
 	}
 
 	find(id: string): Observable<Update> {
-		return this.http.get<Update>(this.apiBaseUrl + id);
+		return this.#apiService.get<Update>(this.#endpoint + id)
 	}
 
-	create(update: Update): Observable<Update> {
-		return this.http.post<Update>(this.apiBaseUrl, update);
+	create(update: Partial<Update>): Observable<Update> {
+		return this.#apiService.post<Update>(this.#endpoint, update)
 	}
 
 	update(id: string, update: Update): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(this.apiBaseUrl + id, update);
+		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, update)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(this.apiBaseUrl + id);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
 	}
 }

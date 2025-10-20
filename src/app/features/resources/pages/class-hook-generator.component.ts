@@ -40,7 +40,7 @@ import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service'; // Service for sections
 
 // --- Interfaces ---
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 
 // --- DOCX Generation ---
 import { Document, Packer, Paragraph, TextRun, AlignmentType } from 'docx'; // Import HeadingLevel

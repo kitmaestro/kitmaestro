@@ -6,7 +6,7 @@ import {
 	User,
 	MainTheme,
 	ClassPlan,
-} from '../../../core/interfaces';
+} from '../../../core';
 import { UnitPlan } from '../../../core/models'
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 

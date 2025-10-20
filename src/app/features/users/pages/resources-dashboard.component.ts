@@ -7,7 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { IsEmptyComponent } from '../../../shared/ui/is-empty.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ResourceFormComponent } from '../../../shared/ui/resource-form.component';
-import { DidacticResource } from '../../../core/interfaces/didactic-resource';
+import { DidacticResource } from '../../../core/models';
 import { DidacticResourceService } from '../../../core/services/didactic-resource.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 

@@ -7,13 +7,13 @@ import {
 	GradingActivity,
 	GroupedGradingActivity,
 	ScoreSystem,
-} from '../../../core/interfaces/score-system';
+} from '../../../core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { ScoreSystemComponent } from '../components/score-system.component';
 import { MatIconModule } from '@angular/material/icon';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { Student } from '../../../core/interfaces/student';
+import { Student } from '../../../core';
 import { StudentsService } from '../../../core/services/students.service';
 
 @Component({

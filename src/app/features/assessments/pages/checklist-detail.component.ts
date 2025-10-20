@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ChecklistComponent } from '../components/checklist.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChecklistService } from '../../../core/services/checklist.service';
-import { Checklist } from '../../../core/interfaces/checklist';
+import { Checklist } from '../../../core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';

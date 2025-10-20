@@ -7,7 +7,7 @@ import {
 	MatDialogRef,
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { Todo } from '../../../core/interfaces/todo';
+import { Todo } from '../../../core';
 import { TodoService } from '../../../core/services/todo.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -61,9 +61,11 @@ import { MatInputModule } from '@angular/material/input';
 	`,
 })
 export class TodoFormComponent {
-	private todoService = inject(TodoService);
-	private sb = inject(MatSnackBar);
-	private fb = inject(FormBuilder);
+	private todoService = inject(TodoService)
+	private sb = inject(MatSnackBar)
+	private fb = inject(FormBuilder)
+	private data = inject<Todo>(MAT_DIALOG_DATA)
+	public dialogRef = inject(MatDialogRef<TodoFormComponent>)
 
 	todoEditForm = this.fb.group({
 		_id: [''],
@@ -73,10 +75,7 @@ export class TodoFormComponent {
 		list: [''],
 	});
 
-	constructor(
-		@Inject(MAT_DIALOG_DATA) private data: Todo,
-		public dialogRef: MatDialogRef<TodoFormComponent>,
-	) {
+	ngOnInit() {
 		if (this.data) {
 			const { _id, title, description, completed, list } = this.data;
 			this.todoEditForm.setValue({
@@ -84,7 +83,7 @@ export class TodoFormComponent {
 				title,
 				description,
 				completed,
-				list,
+				list: list._id,
 			});
 		}
 	}

@@ -4,7 +4,7 @@ import { ScoreSystemService } from '../../../core/services/score-system.service'
 import {
 	GradingActivity,
 	ScoreSystem,
-} from '../../../core/interfaces/score-system';
+} from '../../../core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';

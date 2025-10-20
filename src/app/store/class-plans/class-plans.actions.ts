@@ -1,4 +1,4 @@
-import { ClassPlan } from '../../core/interfaces'
+import { ClassPlan } from '../../core/models'
 import { ClassPlanDto } from './class-plans.models'
 import { createAction, props } from '@ngrx/store'
 

@@ -1,5 +1,5 @@
-import { ClassSection } from './class-section';
-import { Student } from './student';
+import { ClassSection } from '../models';
+import { Student } from '../models/student';
 
 export interface LogRegistryEntry {
 	_id: string;

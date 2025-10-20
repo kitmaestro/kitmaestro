@@ -38,7 +38,7 @@ import { MatIconModule } from '@angular/material/icon';
 // --- Core Services & Interfaces (Using new structure paths) ---
 import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 // --- DOCX Generation ---

@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ObservationGuideService } from '../../../core/services/observation-guide.service';
 import { StudentsService } from '../../../core/services/students.service';
-import { ObservationGuide } from '../../../core/interfaces/observation-guide';
-import { Student } from '../../../core/interfaces/student';
+import { ObservationGuide } from '../../../core';
+import { Student } from '../../../core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';

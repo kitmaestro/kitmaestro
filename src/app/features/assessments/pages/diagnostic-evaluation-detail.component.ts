@@ -7,7 +7,7 @@ import {
 	ClassSection,
 	GeneratedEvaluation,
 	User,
-} from '../../../core/interfaces';
+} from '../../../core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';

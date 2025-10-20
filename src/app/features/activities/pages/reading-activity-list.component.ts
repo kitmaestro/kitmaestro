@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ReadingActivityService } from '../../../core/services';
-import { ReadingActivity } from '../../../core/interfaces';
+import { ReadingActivity } from '../../../core';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';

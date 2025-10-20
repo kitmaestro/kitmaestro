@@ -10,7 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select'
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { ClassSection } from '../../core/interfaces'
+import { ClassSection } from '../../core/models'
 import { Store } from '@ngrx/store'
 import { ClassSectionDto, ClassSectionStateStatus, createSection, selectClassSectionsStatus, updateSection } from '../../store/class-sections'
 import { Actions } from '@ngrx/effects'
@@ -75,7 +75,7 @@ import { Subject } from 'rxjs'
 				</mat-form-field>
 				<div style="text-align: end margin-top: 32px">
 					<button
-						[disabled]="saving || sectionForm.invalid"
+						[disabled]="saving() || sectionForm.invalid"
 						type="submit"
 						mat-raised-button
 						color="primary"
@@ -96,7 +96,7 @@ export class ClassSectionFormComponent {
 	sb = inject(MatSnackBar)
 	data = inject<ClassSection | null>(MAT_DIALOG_DATA)
 	#status = this.#store.selectSignal(selectClassSectionsStatus)
-	saving = computed(() => this.#status() !== ClassSectionStateStatus.IDLING)
+	saving = computed(() => this.#status() === ClassSectionStateStatus.CREATING_SECTION || this.#status() === ClassSectionStateStatus.UPDATING_SECTION)
 	id = ''
 
 	sectionForm = this.fb.group({
@@ -161,6 +161,7 @@ export class ClassSectionFormComponent {
 				const section: any = { name, level, year, subjects }
 				this.#store.dispatch(createSection({ section }))
 			}
+			this.dialogRef.close()
 		}
 	}
 }

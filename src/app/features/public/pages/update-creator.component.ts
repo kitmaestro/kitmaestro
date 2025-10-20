@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 import { UpdateService } from '../../../core/services/update.service';
 
 @Component({

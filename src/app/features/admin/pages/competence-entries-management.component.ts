@@ -44,9 +44,8 @@ import { MatChipsModule } from '@angular/material/chips';
 
 // --- Core Services & Interfaces ---
 import { CompetenceService } from '../../../core/services/competence.service';
-import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
-import { ApiUpdateResponse } from '../../../core/interfaces/api-update-response';
-import { ApiDeleteResponse } from '../../../core/interfaces/api-delete-response';
+import { CompetenceEntry } from '../../../core';
+import { ApiUpdateResponse } from '../../../core';
 import { LevelName } from '../../../core/types/level-name';
 import { GradeName } from '../../../core/types/grade-name';
 import { SubjectName } from '../../../core/types/subject-name';

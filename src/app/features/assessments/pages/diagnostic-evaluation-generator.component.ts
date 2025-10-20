@@ -17,8 +17,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { UserService } from '../../../core/services/user.service';
-import { ClassSection } from '../../../core/interfaces/class-section';
-import { User } from '../../../core/interfaces';
+import { ClassSection } from '../../../core';
+import { User } from '../../../core';
 
 // Librería para generar DOCX
 import {
@@ -34,7 +34,7 @@ import {
 	ContentBlockService,
 	DiagnosticEvaluationService,
 } from '../../../core/services';
-import { ContentBlock, GeneratedEvaluation } from '../../../core/interfaces';
+import { ContentBlock, GeneratedEvaluation } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { DiagnosticEvaluationDetailComponent } from './diagnostic-evaluation-detail.component';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';

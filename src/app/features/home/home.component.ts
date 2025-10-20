@@ -12,14 +12,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppTileComponent } from '../../shared/ui/app-tile.component';
 import { UserService } from '../../core/services/user.service';
-import { User } from '../../core/interfaces';
+import { User } from '../../core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
-import { UserSubscription } from '../../core/interfaces/user-subscription';
+import { UserSubscription } from '../../core';
 import { UserSubscriptionService } from '../../core/services/user-subscription.service';
 import { forkJoin } from 'rxjs';
 import { ClassSectionService } from '../../core/services/class-section.service';
-import { ClassSection } from '../../core/interfaces/class-section';
+import { ClassSection } from '../../core';
 import { activitiesTools, assessmentTools, planningTools, registryTools, resourcesTools, supportTools } from '../../config';
 
 @Component({

@@ -1,20 +1,22 @@
-export interface ApiCreationResponse {}
+export interface ApiCreationResponse<T> {
+	data: T
+}
 
 export interface ApiDeleteResponse {
-	acknowledged: boolean;
-	deletedCount: number;
+	acknowledged: boolean
+	deletedCount: number
 }
 
 export interface ApiErrorResponse {
-	message: string;
-	error?: string;
-	statusCode?: number;
+	message: string
+	error?: string
+	statusCode?: number
 }
 
 export interface ApiUpdateResponse {
-	acknowledged: boolean;
-	modifiedCount: number;
-	upsertedId: string | null;
-	upsertedCount: number;
-	matchedCount: number;
+	acknowledged: boolean
+	modifiedCount: number
+	upsertedId: string | null
+	upsertedCount: number
+	matchedCount: number
 }

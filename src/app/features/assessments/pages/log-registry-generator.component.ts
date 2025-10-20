@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { LogRegistryEntry } from '../../../core/interfaces/log-registry-entry';
+import { LogRegistryEntry } from '../../../core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,7 @@ import { LogRegistryEntryDetailsComponent } from '../components/log-registry-ent
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { Student } from '../../../core/interfaces/student';
+import { Student } from '../../../core';
 import { LogRegistryEntryService } from '../../../core/services/log-registry-entry.service';
 import { LogRegistryEntryEditFormComponent } from '../../../shared/ui/log-registry-entry-edit-form.component';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';

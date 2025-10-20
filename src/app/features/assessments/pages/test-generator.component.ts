@@ -7,15 +7,15 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Router, RouterLink } from '@angular/router';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { AiService } from '../../../core/services/ai.service';
 import { MarkdownComponent, MarkdownService } from 'ngx-markdown';
 import { UserService } from '../../../core/services/user.service';
-import { User } from '../../../core/interfaces';
-import { Test } from '../../../core/interfaces/test';
+import { User } from '../../../core';
+import { Test } from '../../../core';
 import { TestService } from '../../../core/services/test.service';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 

@@ -1,5 +1,5 @@
 import { Component, input, OnInit } from '@angular/core';
-import { Checklist } from '../../../core/interfaces/checklist';
+import { Checklist } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({

@@ -37,7 +37,7 @@ import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule
 // Adjust paths if necessary
 import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { ClassSection } from '../../../core/interfaces/class-section'; // Assuming interfaces are exported here
+import { ClassSection } from '../../../core'; // Assuming interfaces are exported here
 
 // --- DOCX Generation ---
 import { Document, Packer, Paragraph, TextRun } from 'docx';

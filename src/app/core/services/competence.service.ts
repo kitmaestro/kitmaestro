@@ -1,87 +1,45 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { CompetenceEntry } from '../interfaces/competence-entry';
-import { Observable } from 'rxjs';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { environment } from '../../../environments/environment';
+import { Injectable, inject } from '@angular/core'
+import { Observable } from 'rxjs'
+import { CompetenceEntry } from '../models'
+import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiService } from './api.service'
 
 @Injectable({
 	providedIn: 'root',
 })
 export class CompetenceService {
-	private http = inject(HttpClient);
-
-	private apiBaseUrl = environment.apiUrl + 'competence/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService)
+	#endpoint = 'competence/'
 
 	createCompetence(data: CompetenceEntry): Observable<CompetenceEntry> {
-		return this.http.post<CompetenceEntry>(
-			this.apiBaseUrl,
-			data,
-			this.config,
-		);
+		return this.#apiService.post<CompetenceEntry>(this.#endpoint, data)
 	}
 
 	findAll(filters?: any): Observable<CompetenceEntry[]> {
-		let params = new HttpParams();
-		if (filters) {
-			Object.keys(filters).forEach((key) => {
-				params = params.set(key, filters[key]);
-			});
-		}
-		return this.http.get<CompetenceEntry[]>(this.apiBaseUrl, {
-			params,
-			...this.config,
-		});
+		return this.#apiService.get<CompetenceEntry[]>(this.#endpoint, filters)
 	}
 
 	findByLevel(level: string): Observable<CompetenceEntry[]> {
-		return this.http.get<CompetenceEntry[]>(
-			this.apiBaseUrl + 'by-level/' + level,
-			this.config,
-		);
+		return this.#apiService.get<CompetenceEntry[]>(this.#endpoint + 'by-level/' + level)
 	}
 
 	findByGrade(grade: string): Observable<CompetenceEntry[]> {
-		return this.http.get<CompetenceEntry[]>(
-			this.apiBaseUrl + 'by-grade/' + grade,
-			this.config,
-		);
+		return this.#apiService.get<CompetenceEntry[]>(this.#endpoint + 'by-grade/' + grade)
 	}
 
 	findBySubject(subject: string): Observable<CompetenceEntry[]> {
-		return this.http.get<CompetenceEntry[]>(
-			this.apiBaseUrl + 'by-subject/' + subject,
-			this.config,
-		);
+		return this.#apiService.get<CompetenceEntry[]>(this.#endpoint + 'by-subject/' + subject)
 	}
 
 	findOne(id: string): Observable<CompetenceEntry> {
-		return this.http.get<CompetenceEntry>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.get<CompetenceEntry>(this.#endpoint + id)
 	}
 
 	update(id: string, competence: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			competence,
-			this.config,
-		);
+		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, competence)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
 	}
 }

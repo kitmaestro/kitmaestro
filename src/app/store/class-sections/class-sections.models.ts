@@ -1,4 +1,4 @@
-import { ClassSection } from '../../core/interfaces'
+import { ClassSection } from '../../core/models'
 
 export interface ClassSectionDto {
     user?: string;

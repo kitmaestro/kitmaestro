@@ -1,15 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
-import {
-	GradingActivity,
-	GroupedGradingActivity,
-	ScoreSystem,
-} from '../interfaces/score-system';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
+import { inject, Injectable } from '@angular/core'
+import { Observable } from 'rxjs'
+import { ScoreSystem, Student } from '../models'
+import { GradingActivity, GroupedGradingActivity, ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
+import { ApiService } from './api.service'
+import { PretifyPipe } from '../../shared/pipes/pretify.pipe'
 import {
 	Table,
 	WidthType,
@@ -22,84 +16,68 @@ import {
 	AlignmentType,
 	Packer,
 	Document,
-} from 'docx';
-import saveAs from 'file-saver';
-import { Student } from '../interfaces/student';
+} from 'docx'
+import saveAs from 'file-saver'
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ScoreSystemService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'score-systems/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService)
+	#endpoint = 'score-systems/'
+	#pretifyPipe = new PretifyPipe()
 
 	findAll(): Observable<ScoreSystem[]> {
-		return this.http.get<ScoreSystem[]>(this.apiBaseUrl, this.config);
+		return this.#apiService.get<ScoreSystem[]>(this.#endpoint)
 	}
 
 	find(id: string): Observable<ScoreSystem> {
-		return this.http.get<ScoreSystem>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<ScoreSystem>(this.#endpoint + id)
 	}
 
 	create(plan: any): Observable<ScoreSystem> {
-		return this.http.post<ScoreSystem>(this.apiBaseUrl, plan, this.config);
+		return this.#apiService.post<ScoreSystem>(this.#endpoint, plan)
 	}
 
 	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			plan,
-			this.config,
-		);
+		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, plan)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
 	}
 
 	pretify(str: string) {
-		return new PretifyPipe().transform(str);
+		return this.#pretifyPipe.transform(str)
 	}
 
 	groupByCompetence(
 		gradingActivities: GradingActivity[],
 	): GroupedGradingActivity[] {
 		const grouped = gradingActivities.reduce((acc, activity) => {
-			// Si ya existe un grupo con la misma competencia, añade la actividad al grupo
 			const existingGroup = acc.find(
 				(group) => group.competence === activity.competence,
-			);
+			)
 
 			if (existingGroup) {
-				existingGroup.grading.push(activity);
-				existingGroup.total += activity.points;
+				existingGroup.grading.push(activity)
+				existingGroup.total += activity.points
 			} else {
-				// Si no existe, crea un nuevo grupo para esta competencia
 				acc.push({
 					competence: activity.competence,
 					grading: [activity],
 					total: activity.points,
-				});
+				})
 			}
 
-			return acc;
-		}, [] as GroupedGradingActivity[]);
+			return acc
+		}, [] as GroupedGradingActivity[])
 
-		return grouped;
+		return grouped
 	}
 
 	async download(scoreSystem: ScoreSystem, students: Student[]) {
-		const grouped = this.groupByCompetence(scoreSystem.activities);
+		const grouped = this.groupByCompetence(scoreSystem.activities)
 		const gradingTable = new Table({
 			width: {
 				size: 100,
@@ -169,7 +147,7 @@ export class ScoreSystemService {
 										children: [
 											new Paragraph(
 												'Competencia ' +
-													group.competence,
+												group.competence,
 											),
 										],
 									}),
@@ -196,7 +174,7 @@ export class ScoreSystemService {
 										],
 									}),
 								],
-							});
+							})
 						} else {
 							return new TableRow({
 								children: [
@@ -223,9 +201,9 @@ export class ScoreSystemService {
 										],
 									}),
 								],
-							});
+							})
 						}
-					});
+					})
 					rows.push(
 						new TableRow({
 							children: [
@@ -249,11 +227,11 @@ export class ScoreSystemService {
 								}),
 							],
 						}),
-					);
-					return rows;
+					)
+					return rows
 				}),
 			],
-		});
+		})
 		const doc = new Document({
 			sections: [
 				{
@@ -473,16 +451,16 @@ export class ScoreSystemService {
 										),
 									],
 								}),
-							];
+							]
 						}),
 					],
 				},
 			],
-		});
-		const blob = await Packer.toBlob(doc);
+		})
+		const blob = await Packer.toBlob(doc)
 		saveAs(
 			blob,
 			`${scoreSystem.content.flatMap((c) => c.title)[0]} - Sistema de Calificacion.docx`,
-		);
+		)
 	}
 }

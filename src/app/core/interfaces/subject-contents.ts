@@ -1,4 +1,4 @@
 export interface SubjectContents {
-	primary: string[][];
-	highSchool: string[][];
+	primary: string[][]
+	highSchool: string[][]
 }

@@ -11,7 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { selectAllClassSections } from '../../../store';
+import { loadSections, selectAllClassSections } from '../../../store';
 
 @Component({
 	selector: 'app-class-sections',
@@ -135,7 +135,9 @@ export class ClassSectionsComponent implements OnInit {
 	#store = inject(Store)
 	sections$ = this.#store.select(selectAllClassSections)
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.#store.dispatch(loadSections())
+	}
 
 	openSectionFormDialog() {
 		this.dialog.open(ClassSectionFormComponent, {

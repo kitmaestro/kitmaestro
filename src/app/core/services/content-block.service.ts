@@ -1,62 +1,33 @@
-import { inject, Injectable } from '@angular/core';
-import { ContentBlock } from '../interfaces/content-block';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
+import { inject, Injectable } from '@angular/core'
+import { Observable } from 'rxjs'
+import { ContentBlock } from '../models'
+import { ApiDeleteResponse, ApiUpdateResponse } from '../interfaces'
+import { ApiService } from './api.service'
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ContentBlockService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'content-blocks/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService)
+	#endpoint = 'content-blocks/'
 
 	findAll(filters?: any): Observable<ContentBlock[]> {
-		let params = new HttpParams();
-		if (filters) {
-			Object.keys(filters).forEach((key) => {
-				params = params.set(key, filters[key]);
-			});
-		}
-		return this.http.get<ContentBlock[]>(this.apiBaseUrl, {
-			...this.config,
-			params,
-		});
+		return this.#apiService.get<ContentBlock[]>(this.#endpoint, filters)
 	}
 
 	find(id: string): Observable<ContentBlock> {
-		return this.http.get<ContentBlock>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<ContentBlock>(this.#endpoint + id)
 	}
 
 	create(block: ContentBlock): Observable<ContentBlock> {
-		return this.http.post<ContentBlock>(
-			this.apiBaseUrl,
-			block,
-			this.config,
-		);
+		return this.#apiService.post<ContentBlock>(this.#endpoint, block)
 	}
 
 	update(id: string, block: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			block,
-			this.config,
-		);
+		return this.#apiService.patch<ApiUpdateResponse>(this.#endpoint + id, block)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
 	}
 }

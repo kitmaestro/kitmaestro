@@ -1,13 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RubricService } from '../../../core/services/rubric.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Rubric } from '../../../core/interfaces/rubric';
+import { Rubric } from '../../../core';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { PdfService } from '../../../core/services/pdf.service';
-import { Student } from '../../../core/interfaces/student';
+import { Student } from '../../../core';
 import { StudentsService } from '../../../core/services/students.service';
 import { RubricComponent } from '../components/rubric.component';
 

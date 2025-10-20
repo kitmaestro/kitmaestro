@@ -12,15 +12,15 @@ import { ClassSectionService } from '../../../core/services/class-section.servic
 import { AiService } from '../../../core/services/ai.service';
 import { PdfService } from '../../../core/services/pdf.service';
 import { MatChipsModule } from '@angular/material/chips';
-import { ClassPlan } from '../../../core/interfaces/class-plan';
+import { ClassPlan } from '../../../core';
 import { Router, RouterModule } from '@angular/router';
 import { CompetenceService } from '../../../core/services/competence.service';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import {
 	classPlanPrompt,
 	classroomResources,
 } from '../../../config/constants';
-import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
+import { CompetenceEntry } from '../../../core';
 import { ClassPlanComponent } from '../components/class-plan.component';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';

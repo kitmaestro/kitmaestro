@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { AiService } from '../../../core/services/ai.service';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 import { EstimationScaleService } from '../../../core/services/estimation-scale.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { CompetenceService } from '../../../core/services/competence.service';
@@ -19,10 +19,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ClassSection } from '../../../core/interfaces/class-section';
-import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
+import { ClassSection } from '../../../core';
+import { CompetenceEntry } from '../../../core';
 import { ContentBlockService } from '../../../core/services/content-block.service';
-import { EstimationScale } from '../../../core/interfaces/estimation-scale';
+import { EstimationScale } from '../../../core';
 import { PdfService } from '../../../core/services/pdf.service';
 
 @Component({

@@ -1,11 +1,9 @@
-import {
-	ClassSection,
-	CompetenceEntry,
-	ContentBlock,
-	MainTheme,
-	User,
-} from '../interfaces'
 import { BaseModel } from './base-model'
+import { ClassSection } from './class-section'
+import { CompetenceEntry } from './competence-entry'
+import { ContentBlock } from './content-block'
+import { MainTheme } from './main-theme'
+import { User } from './user'
 
 export interface UnitPlan extends BaseModel {
 	user: User

@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
-import { Checklist } from '../../../core/interfaces/checklist';
+import { Checklist } from '../../../core';
 import { ChecklistService } from '../../../core/services/checklist.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';

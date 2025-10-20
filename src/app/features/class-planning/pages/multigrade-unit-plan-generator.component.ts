@@ -12,14 +12,14 @@ import { MatChipsModule } from '@angular/material/chips';
 import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { UserService } from '../../../core/services/user.service';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 import { UnitPlan } from '../../../core/models';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { Router, RouterModule } from '@angular/router';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import { CompetenceService } from '../../../core/services/competence.service';
-import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
-import { MainTheme } from '../../../core/interfaces/main-theme';
+import { CompetenceEntry } from '../../../core';
+import { MainTheme } from '../../../core';
 import { MainThemeService } from '../../../core/services/main-theme.service';
 import {
 	classroomProblems,
@@ -31,7 +31,7 @@ import {
 } from '../../../config/constants';
 import { forkJoin, takeUntil, tap } from 'rxjs';
 import { ContentBlockService } from '../../../core/services/content-block.service';
-import { ContentBlock } from '../../../core/interfaces/content-block';
+import { ContentBlock } from '../../../core';
 import { TEACHING_METHODS } from '../../../core/data/teaching-methods';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { CommonModule } from '@angular/common';

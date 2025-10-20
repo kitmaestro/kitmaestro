@@ -45,7 +45,7 @@ import { ClassSectionService } from '../../../core/services/class-section.servic
 import { SubjectConceptListService } from '../../../core/services/subject-concept-list.service'; // Service for concepts
 
 // --- Interfaces ---
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 
 // --- DOCX Generation ---
 import { Document, Packer, Paragraph, TextRun } from 'docx';

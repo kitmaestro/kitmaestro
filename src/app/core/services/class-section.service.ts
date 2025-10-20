@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core'
 import { Observable } from 'rxjs'
-import { ApiDeleteResponse, ClassSection } from '../interfaces'
+import { ApiDeleteResponse } from '../interfaces'
+import { ClassSection } from '../models'
 import { ApiService } from './api.service'
 import { ClassSectionDto } from '../../store/class-sections/class-sections.models'
 

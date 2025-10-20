@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 // import { SliderComponent } from '../../../shared/ui/slider.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DidacticResource } from '../../../core/interfaces/didactic-resource';
+import { DidacticResource } from '../../../core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +11,7 @@ import { UserService } from '../../../core/services/user.service';
 import { MatIconModule } from '@angular/material/icon';
 import { GravatarPipe } from '../../../shared/pipes/gravatar.pipe';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 
 @Component({
 	selector: 'app-resource-details',

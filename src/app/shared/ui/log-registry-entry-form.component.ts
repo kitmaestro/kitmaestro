@@ -9,18 +9,16 @@ import {
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { LogRegistryEntry } from '../../core/interfaces/log-registry-entry';
+import { LogRegistryEntry } from '../../core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Student } from '../../core/interfaces/student';
+import { Student, ClassSection, User } from '../../core/models';
 import { LogRegistryEntryService } from '../../core/services/log-registry-entry.service';
 import { ClassSectionService } from '../../core/services/class-section.service';
 import { AuthService } from '../../core/services/auth.service';
 import { StudentsService } from '../../core/services/students.service';
 import { AiService } from '../../core/services/ai.service';
-import { ClassSection } from '../../core/interfaces/class-section';
-import { User } from '../../core/interfaces';
 
 @Component({
 	selector: 'app-log-registry-entry-form',
@@ -232,6 +230,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
 	private classSectionService = inject(ClassSectionService);
 	private authService = inject(AuthService);
 	private studentService = inject(StudentsService);
+	private data = inject<LogRegistryEntry>(MAT_DIALOG_DATA)
 	user: User | null = null;
 	sections: ClassSection[] = [];
 	students: Student[] = [];
@@ -278,12 +277,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
 	logRegistryEntry: LogRegistryEntry | null = null;
 
 	description = this.fb.control('');
-	comments = this.fb.control('');
-
-	constructor(
-		@Inject(MAT_DIALOG_DATA)
-		private data: LogRegistryEntry,
-	) {}
+	comments = this.fb.control('')
 
 	loadStudents() {
 		const sectionId = this.generatorForm.get('section')?.value;

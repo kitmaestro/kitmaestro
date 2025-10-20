@@ -1,27 +1,27 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { Component, inject, OnInit } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { MatCardModule } from '@angular/material/card'
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar'
 import {
 	FormBuilder,
 	FormControl,
 	ReactiveFormsModule,
 	Validators,
-} from '@angular/forms';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatChipsModule } from '@angular/material/chips';
-import { Router, RouterModule } from '@angular/router';
-import { CdkStepperModule } from '@angular/cdk/stepper';
-import { AiService } from '../../../core/services/ai.service';
-import { UnitPlanService } from '../../../core/services/unit-plan.service';
-import { UserService } from '../../../core/services/user.service';
-import { School, User } from '../../../core/interfaces';
-import { KINDER_CONTENT_BLOCKS } from '../../../core/data/kinder-content-blocks';
+} from '@angular/forms'
+import { MatStepperModule } from '@angular/material/stepper'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatSelectModule } from '@angular/material/select'
+import { MatInputModule } from '@angular/material/input'
+import { MatChipsModule } from '@angular/material/chips'
+import { Router, RouterModule } from '@angular/router'
+import { CdkStepperModule } from '@angular/cdk/stepper'
+import { AiService } from '../../../core/services/ai.service'
+import { UnitPlanService } from '../../../core/services/unit-plan.service'
+import { UserService } from '../../../core/services/user.service'
+import { User } from '../../../core'
+import { KINDER_CONTENT_BLOCKS } from '../../../core/data/kinder-content-blocks'
 
 import {
   Document,
@@ -35,25 +35,13 @@ import {
   WidthType,
   AlignmentType,
   BorderStyle,
-} from 'docx';
-import { saveAs } from 'file-saver';
-import { SchoolService } from '../../../core/services/school.service';
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
-
-interface UnitPlanInicial {
-	user: string;
-	grado: string;
-	duracion: number;
-	temaUnidad: string;
-	situacionAprendizaje: string;
-	cuadroAnticipacion: any;
-	dominios: string[];
-	planDetalladoPorDominio: any[];
-	secuenciaActividades: any[];
-	recursos: string[];
-	metodologia: string;
-	// ...otros campos que necesites
-}
+} from 'docx'
+import { saveAs } from 'file-saver'
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
+import { UnitPlanInicial } from '../../../core/interfaces'
+import { Store } from '@ngrx/store'
+import { selectAuthUser } from '../../../store/auth/auth.selectors'
+import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 
 @Component({
 	selector: 'app-unit-plan-generator-inicial',
@@ -617,12 +605,9 @@ export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private router = inject(Router);
 	private aiService = inject(AiService);
-	private unitPlanService = inject(UnitPlanService);
-  private schoolService = inject(SchoolService);
-	private UserService = inject(UserService);
+	#store = inject(Store)
 
-	User: User | null = null;
-  userSchool: School | null = null;
+	user = this.#store.selectSignal(selectAuthUser)
 	generating = false;
 	saving = false;
 	planGenerado: any = null;
@@ -635,9 +620,9 @@ export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 
 	blocks = KINDER_CONTENT_BLOCKS;
 
-  get dominios(): { id: string, label: string }[] {
-    return KINDER_CONTENT_BLOCKS.filter(block => block.year == this.infoForm.value.grado).map((block, i) => ({ id: block.concepts[0], label: `${i + 1}. ` + block.concepts.map(c => c.endsWith(':') ? c : c.endsWith('.') ? c.replace(/.$/, ',') : c + ',').join(' ').replace(/.$/, '.') }) )
-  }
+	get dominios(): { id: string, label: string }[] {
+		return KINDER_CONTENT_BLOCKS.filter(block => block.year == this.infoForm.value.grado).map((block, i) => ({ id: block.concepts[0], label: `${i + 1}. ` + block.concepts.map(c => c.endsWith(':') ? c : c.endsWith('.') ? c.replace(/.$/, ',') : c + ',').join(' ').replace(/.$/, '.') }) )
+	}
 
 	metodologiasInicial = [
 		'Aprendizaje Basado en Proyectos',
@@ -678,12 +663,6 @@ export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit(): void {
-		this.UserService.getSettings().subscribe((settings) => {
-			this.User = settings;
-      this.schoolService.findAll({ user: settings._id }).subscribe(schools => {
-        this.userSchool = schools[0]
-      });
-		});
 	}
 
 	getDominioLabel(id: string): string {
@@ -831,7 +810,8 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
 	}
 
 	savePlanInicial() {
-		if (!this.planGenerado || !this.User) {
+		const user = this.user()
+		if (!this.planGenerado || !user) {
 			this.sb.open(
 				'No hay un plan generado para guardar o falta información del usuario.',
 				'Error',
@@ -843,7 +823,7 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
 		this.saving = true;
 
 		const plan: UnitPlanInicial = {
-			user: this.User._id,
+			user: user._id,
 			grado: this.infoForm.value.grado || '',
 			temaUnidad: this.planGenerado.temaUnidad || '',
 			duracion: this.delimitacionForm.value.duracion || 2,
@@ -856,30 +836,12 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
 			secuenciaActividades: this.planGenerado.secuenciaActividades,
 		};
 
-		this.unitPlanService.create(plan).subscribe({
-			next: (savedPlan) => {
-				this.sb.open('¡Plan de unidad guardado con éxito!', 'Ok', {
-					duration: 3000,
-				});
-				this.router.navigate(['/unit-plans', savedPlan._id]); // Navegar al plan guardado
-			},
-			error: (err) => {
-				console.error('Error al guardar el plan:', err);
-				this.sb.open(
-					'No se pudo guardar el plan. Intenta de nuevo.',
-					'Error',
-					{ duration: 5000 },
-				);
-				this.saving = false;
-			},
-			complete: () => {
-				this.saving = false;
-			},
-		});
+		this.#store.dispatch(createPlan({ plan }))
 	}
 
   public async saveDocx(): Promise<void> {
-    if (!this.planGenerado || !this.User || !this.userSchool) {
+	const user = this.user()
+    if (!this.planGenerado || !user) {
       console.error('Faltan datos para generar el documento.');
       return;
     }
@@ -889,7 +851,7 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
         {
           children: [
             ...this.createHeader(),
-            new Paragraph({ text: '' }), // Espacio
+            new Paragraph({ text: '' }),
             ...this.createSituacionAprendizaje(),
             new Paragraph({ text: '' }),
             ...this.createCuadroAnticipacion(),
@@ -902,7 +864,6 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
       ],
     });
 
-    // Usa Packer para generar el blob y file-saver para descargarlo
     Packer.toBlob(doc).then((blob) => {
       saveAs(blob, `Planificación - ${this.planGenerado.temaUnidad}.docx`);
       console.log('Documento creado y descargado exitosamente.');
@@ -913,9 +874,9 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
    * Calcula el año escolar actual.
    */
   private getAnoEscolar(): string {
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth() + 1; // getMonth() es 0-indexado
+    const now = new Date()
+    const currentYear = now.getFullYear()
+    const currentMonth = now.getMonth() + 1
 
     if (currentMonth > 7) { // Después de Julio
       return `${currentYear} - ${currentYear + 1}`;
@@ -930,20 +891,22 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
   private createHeader(): (Paragraph | Table)[] {
     const gradoLabel = this.gradosInicial.find((g) => g.id === this.infoForm.value.grado)?.label || 'No especificado';
     const anoEscolar = this.getAnoEscolar();
+	const user = this.user()
+	if (!user) return []
 
     const table = new Table({
       width: { size: 100, type: WidthType.PERCENTAGE },
       rows: [
         new TableRow({
           children: [
-            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Centro Educativo:", bold: true }), new TextRun(` ${this.userSchool?.name}`)] })], width: { size: 50, type: WidthType.PERCENTAGE }, borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
-            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Docente:", bold: true }), new TextRun(` ${this.User?.firstname} ${this.User?.lastname}`)] })], width: { size: 50, type: WidthType.PERCENTAGE }, borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Centro Educativo:", bold: true }), new TextRun(` ${user.schoolName}`)] })], width: { size: 50, type: WidthType.PERCENTAGE }, borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Docente:", bold: true }), new TextRun(` ${user.firstname} ${user.lastname}`)] })], width: { size: 50, type: WidthType.PERCENTAGE }, borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
           ],
         }),
         new TableRow({
           children: [
             new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Grado:", bold: true }), new TextRun(` ${gradoLabel}`)] })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
-            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Tanda:", bold: true }), new TextRun(` ${this.userSchool?.journey}`)] })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Tanda:", bold: true }), new TextRun(` JEE`)] })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
           ],
         }),
         new TableRow({
@@ -957,7 +920,7 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
 
     return [
       new Paragraph({ text: 'ESQUEMA DE PLANIFICACIÓN DE UNIDAD DE APRENDIZAJE', heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER }),
-      new Paragraph({ text: `Distrito Educativo ${this.userSchool?.district}`, alignment: AlignmentType.CENTER }),
+      new Paragraph({ text: `Distrito Educativo ${user.regional}-${user.district}`, alignment: AlignmentType.CENTER }),
       new Paragraph({ text: '' }),
       table
     ];

@@ -1,5 +1,5 @@
 import { Component, inject, Input } from '@angular/core'
-import { ClassSchedule } from '../../../core/interfaces/class-schedule'
+import { ClassSchedule } from '../../../core'
 import { MatCardModule } from '@angular/material/card'
 import { DatePipe } from '@angular/common'
 import { Store } from '@ngrx/store'

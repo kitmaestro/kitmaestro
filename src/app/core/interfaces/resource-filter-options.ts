@@ -7,8 +7,8 @@ export enum OrderByOption {
 }
 
 export interface ResourceFilterOptions {
-	topics?: string[]; // Array of topics
-	subjects?: string[]; // Array of subjects
-	grades?: string[]; // Array of grades
-	orderBy?: OrderByOption; // OrderByOption enum
+	topics?: string[]
+	subjects?: string[]
+	grades?: string[]
+	orderBy?: OrderByOption
 }

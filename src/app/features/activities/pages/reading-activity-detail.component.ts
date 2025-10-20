@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { ReadingActivity } from '../../../core/interfaces';
+import { ReadingActivity } from '../../../core';
 import { MatIconModule } from '@angular/material/icon';
 import {
 	MAT_DIALOG_DATA,

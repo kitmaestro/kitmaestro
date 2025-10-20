@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core'
 import { Observable } from 'rxjs'
-import { User } from '../interfaces'
+import { User } from '../models'
 import { ApiUpdateResponse, ApiDeleteResponse } from '../interfaces'
 import { ApiService } from './api.service'
 import { UserDto } from '../../store/users/users.models'

@@ -11,14 +11,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { AiService } from '../../../core/services/ai.service';
 import { UserService } from '../../../core/services/user.service';
 import { ClassPlansService } from '../../../core/services/class-plans.service';
-import { User } from '../../../core/interfaces';
-import { ClassPlan } from '../../../core/interfaces/class-plan';
+import { User } from '../../../core';
+import { ClassPlan } from '../../../core';
 import { classroomResources } from '../../../config/constants';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 

@@ -12,7 +12,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { UserService } from '../../../core/services/user.service';
 import { MatIconModule } from '@angular/material/icon';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { uniq } from 'lodash';
 import {

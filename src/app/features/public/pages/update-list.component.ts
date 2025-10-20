@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Update } from '../../../core/interfaces/update';
+import { Update } from '../../../core';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';

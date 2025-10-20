@@ -20,7 +20,7 @@ import {
 	ClassPlan,
 	ClassSection,
 	User,
-} from '../../../core/interfaces';
+} from '../../../core';
 import { classroomResources } from '../../../config/constants';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { Store } from '@ngrx/store';

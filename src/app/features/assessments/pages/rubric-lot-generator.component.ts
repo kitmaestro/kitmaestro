@@ -28,8 +28,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
 
 // Interfaces y Servicios del Core
-import { ClassSection } from '../../../core/interfaces/class-section';
-import { Rubric } from '../../../core/interfaces/rubric';
+import { ClassSection } from '../../../core';
+import { Rubric } from '../../../core';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { SubjectConceptListService } from '../../../core/services/subject-concept-list.service';
 import { ContentBlockService } from '../../../core/services/content-block.service';

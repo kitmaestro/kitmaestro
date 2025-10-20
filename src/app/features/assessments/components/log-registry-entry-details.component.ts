@@ -6,9 +6,9 @@ import {
 	MatDialogRef,
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { LogRegistryEntry } from '../../core/interfaces/log-registry-entry';
+import { LogRegistryEntry } from '../../core';
 import { CommonModule } from '@angular/common';
-import { Student } from '../../core/interfaces/student';
+import { Student } from '../../core';
 
 @Component({
 	styles: '',

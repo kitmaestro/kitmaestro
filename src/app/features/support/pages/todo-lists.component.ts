@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../core/services/user.service';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 import { AsyncPipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { tap } from 'rxjs';

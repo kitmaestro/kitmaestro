@@ -4,8 +4,8 @@ import { EstimationScaleService } from '../../../core/services/estimation-scale.
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PdfService } from '../../../core/services/pdf.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { User } from '../../../core/interfaces';
-import { EstimationScale } from '../../../core/interfaces/estimation-scale';
+import { User } from '../../../core';
+import { EstimationScale } from '../../../core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';

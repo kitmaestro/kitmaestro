@@ -11,16 +11,16 @@ import { AuthService } from '../../../core/services/auth.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { CompetenceService } from '../../../core/services/competence.service';
 import { ObservationGuideComponent } from '../../../shared/ui/observation-guide.component';
-import { ObservationGuide } from '../../../core/interfaces/observation-guide';
+import { ObservationGuide } from '../../../core';
 import { StudentsService } from '../../../core/services/students.service';
-import { Student } from '../../../core/interfaces/student';
+import { Student } from '../../../core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { PdfService } from '../../../core/services/pdf.service';
-import { CompetenceEntry } from '../../../core/interfaces/competence-entry';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { CompetenceEntry } from '../../../core';
+import { ClassSection } from '../../../core';
 import { ObservationGuideService } from '../../../core/services/observation-guide.service';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 
 @Component({
 	selector: 'app-observation-sheet',

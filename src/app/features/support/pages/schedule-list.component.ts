@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ClassScheduleService } from '../../../core/services/class-schedule.service';
-import { ClassSchedule } from '../../../core/interfaces/class-schedule';
+import { ClassSchedule } from '../../../core';
 import { ScheduleComponent } from '../components/schedule.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';

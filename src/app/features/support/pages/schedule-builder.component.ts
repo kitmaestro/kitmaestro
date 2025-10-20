@@ -11,12 +11,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import { ClassScheduleService } from '../../../core/services/class-schedule.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { Schedule } from '../../../core/interfaces/schedule';
+import { Schedule } from '../../../core';
 import { GRADE, JOURNEY, LEVEL } from '../../../core/enums';
-import { ClassBlock } from '../../../core/interfaces/class-block';
+import { ClassBlock } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({

@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store'
 import { ClassSectionDto } from './class-sections.models'
-import { ClassSection, ApiUpdateResponse } from '../../core/interfaces'
+import { ClassSection } from '../../core/models'
 
 // Load a single section
 export const loadSection = createAction(

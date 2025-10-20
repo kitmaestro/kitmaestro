@@ -1,5 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
-import { DidacticResource } from '../../../core/interfaces/didactic-resource';
+import { DidacticResource } from '../../../core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -10,7 +10,7 @@ import { DidacticResourceService } from '../../../core/services/didactic-resourc
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserService } from '../../../core/services/user.service';
 import { sha512_256 } from 'js-sha512';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({

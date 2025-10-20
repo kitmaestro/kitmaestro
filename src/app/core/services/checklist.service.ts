@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { ApiDeleteResponse } from '../interfaces/api-delete-response'
-import { ApiUpdateResponse } from '../interfaces/api-update-response'
-import { Checklist } from '../interfaces/checklist'
+import { ApiDeleteResponse } from '../interfaces'
+import { ApiUpdateResponse } from '../interfaces'
+import { Checklist } from '../models'
 import { ApiService } from './api.service'
 import {
 	AlignmentType,

@@ -14,11 +14,11 @@ import { UserService } from '../../../core/services/user.service';
 import { PdfService } from '../../../core/services/pdf.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { shuffle } from 'lodash';
-import { TopicEntry } from '../../../core/interfaces/topic-entry';
-import { VocabularyEntry } from '../../../core/interfaces/vocabulary-entry';
+import { TopicEntry } from '../../../core';
+import { VocabularyEntry } from '../../../core';
 import { WORD_LISTS } from '../../../core/data/word-lists';
 import { TOPICS } from '../../../core/data/topics';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 
 @Component({
 	selector: 'app-wordsearch',

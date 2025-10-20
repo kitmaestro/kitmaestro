@@ -1,9 +1,9 @@
 import { Component, inject, input, signal, OnInit } from '@angular/core';
-import { Rubric } from '../../../core/interfaces/rubric';
-import { Student } from '../../../core/interfaces/student';
+import { Rubric } from '../../../core';
+import { Student } from '../../../core';
 import { StudentsService } from '../../../core/services/students.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 
 @Component({
 	selector: 'app-rubric',

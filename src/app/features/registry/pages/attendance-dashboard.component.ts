@@ -5,17 +5,17 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ClassSectionService } from '../../../core/services/class-section.service';
-import { ClassSection } from '../../../core/interfaces/class-section';
+import { ClassSection } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { StudentsService } from '../../../core/services/students.service';
-import { Student } from '../../../core/interfaces/student';
+import { Student } from '../../../core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
 	Attendance,
 	AttendanceCalendar,
 	AttendanceWeek,
-} from '../../../core/interfaces/attendance';
+} from '../../../core';
 import { AttendanceService } from '../../../core/services/attendance.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';

@@ -5,9 +5,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Idea } from '../../../core/interfaces/idea';
+import { Idea } from '../../../core';
 import { IdeaService } from '../../../core/services/idea.service';
-import { User } from '../../../core/interfaces';
+import { User } from '../../../core';
 import { UserService } from '../../../core/services/user.service';
 
 @Component({
