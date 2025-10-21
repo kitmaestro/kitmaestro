@@ -47,14 +47,19 @@ import { ChecklistComponent } from '../components/checklist.component';
 				</mat-card-header>
 				<mat-card-content>
 					<div style="margin-top: 24px">
-						<form [formGroup]="checklistForm" (ngSubmit)="onSubmit()">
+						<form
+							[formGroup]="checklistForm"
+							(ngSubmit)="onSubmit()"
+						>
 							<div class="form-grid">
 								<div>
 									<mat-form-field>
 										<mat-label>Curso</mat-label>
 										<mat-select
 											appearance="outline"
-											(selectionChange)="onSectionSelect($event)"
+											(selectionChange)="
+												onSectionSelect($event)
+											"
 											formControlName="section"
 											required
 										>
@@ -62,9 +67,12 @@ import { ChecklistComponent } from '../components/checklist.component';
 												section of sections;
 												track section._id
 											) {
-												<mat-option [value]="section._id">{{
-													section.name
-												}}</mat-option>
+												<mat-option
+													[value]="section._id"
+													>{{
+														section.name
+													}}</mat-option
+												>
 											}
 										</mat-select>
 									</mat-form-field>
@@ -74,11 +82,16 @@ import { ChecklistComponent } from '../components/checklist.component';
 										<mat-label>Asignatura</mat-label>
 										<mat-select
 											appearance="outline"
-											(selectionChange)="onSubjectSelect($event)"
+											(selectionChange)="
+												onSubjectSelect($event)
+											"
 											formControlName="subject"
 											required
 										>
-											@for (subject of subjects; track subject) {
+											@for (
+												subject of subjects;
+												track subject
+											) {
 												<mat-option [value]="subject">{{
 													subject | pretify
 												}}</mat-option>
@@ -91,7 +104,9 @@ import { ChecklistComponent } from '../components/checklist.component';
 										<mat-label>Unidad</mat-label>
 										<mat-select
 											appearance="outline"
-											(selectionChange)="onConceptSelect($event)"
+											(selectionChange)="
+												onConceptSelect($event)
+											"
 											formControlName="concept"
 											required
 										>
@@ -103,9 +118,12 @@ import { ChecklistComponent } from '../components/checklist.component';
 													concept of list.concepts;
 													track concept
 												) {
-													<mat-option [value]="concept">{{
-														concept
-													}}</mat-option>
+													<mat-option
+														[value]="concept"
+														>{{
+															concept
+														}}</mat-option
+													>
 												}
 											}
 										</mat-select>
@@ -126,7 +144,9 @@ import { ChecklistComponent } from '../components/checklist.component';
 								</div>
 								<div>
 									<mat-form-field>
-										<mat-label>Actividad o Evidencia</mat-label>
+										<mat-label
+											>Actividad o Evidencia</mat-label
+										>
 										<input
 											(change)="onActivityEdit($event)"
 											placeholder="Redacción de cartas de agradecimiento"
@@ -174,9 +194,11 @@ import { ChecklistComponent } from '../components/checklist.component';
 									mat-raised-button
 									color="primary"
 									type="submit"
-									[disabled]="checklistForm.invalid || generating"
+									[disabled]="
+										checklistForm.invalid || generating
+									"
 								>
-									{{ checklist ? "Regenerar" : "Generar" }}
+									{{ checklist ? 'Regenerar' : 'Generar' }}
 								</button>
 							</div>
 						</form>

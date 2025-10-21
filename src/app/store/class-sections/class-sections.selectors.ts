@@ -1,25 +1,25 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { ClassSectionsState } from './class-sections.models'
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { ClassSectionsState } from './class-sections.models';
 
 export const selectClassSectionsState =
-    createFeatureSelector<ClassSectionsState>('classSections')
+	createFeatureSelector<ClassSectionsState>('classSections');
 
 export const selectAllClassSections = createSelector(
-    selectClassSectionsState,
-    state => state.classSections,
-)
+	selectClassSectionsState,
+	(state) => state.classSections,
+);
 
 export const selectCurrentSection = createSelector(
-    selectClassSectionsState,
-    state => state.selectedSection,
-)
+	selectClassSectionsState,
+	(state) => state.selectedSection,
+);
 
 export const selectClassSectionsStatus = createSelector(
-    selectClassSectionsState,
-    state => state.status,
-)
+	selectClassSectionsState,
+	(state) => state.status,
+);
 
 export const selectClassSectionsError = createSelector(
-    selectClassSectionsState,
-    state => state.error,
-)
+	selectClassSectionsState,
+	(state) => state.error,
+);

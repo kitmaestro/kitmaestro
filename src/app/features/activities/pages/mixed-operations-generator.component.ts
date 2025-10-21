@@ -40,7 +40,7 @@ export interface MathExercise {
 		MathExerciseComponent,
 	],
 	template: `
-				<mat-card>
+		<mat-card>
 			<mat-card-header>
 				<h2 mat-card-title>Generador de Operaciones Mixtas</h2>
 			</mat-card-header>
@@ -50,7 +50,11 @@ export interface MathExercise {
 						<div>
 							<mat-form-field>
 								<mat-label>Cant. de Ejercicios</mat-label>
-								<input formControlName="size" type="text" matInput />
+								<input
+									formControlName="size"
+									type="text"
+									matInput
+								/>
 							</mat-form-field>
 						</div>
 						<div style="margin-bottom: 12px">
@@ -86,7 +90,11 @@ export interface MathExercise {
 								</button>
 							}
 							<button mat-flat-button type="submit">
-								{{ exercises.length > 0 ? "Regenerar" : "Generar" }}
+								{{
+									exercises.length > 0
+										? 'Regenerar'
+										: 'Generar'
+								}}
 							</button>
 						</div>
 					</form>
@@ -116,24 +124,41 @@ export interface MathExercise {
 								>
 									{{ schoolName }}
 								</h3>
-								<h4 style="margin-bottom: 0">{{ teacherName }}</h4>
-								<h5 style="font-size: medium; margin-bottom: 24px">
+								<h4 style="margin-bottom: 0">
+									{{ teacherName }}
+								</h4>
+								<h5
+									style="font-size: medium; margin-bottom: 24px"
+								>
 									Calcula las Siguientes Divisiones
 								</h5>
 							</div>
 							<br />
 							<div style="margin-bottom: 42px; display: flex">
-								@if (generatorForm.get("name")?.value === true) {
+								@if (
+									generatorForm.get('name')?.value === true
+								) {
 									<div><b>Nombre</b>:</div>
 									<div class="blank"></div>
 								}
-								@if (generatorForm.get("grade")?.value === true) {
-									<div style="margin-left: 12px"><b>Grado</b>:</div>
+								@if (
+									generatorForm.get('grade')?.value === true
+								) {
+									<div style="margin-left: 12px">
+										<b>Grado</b>:
+									</div>
 									<div class="blank"></div>
 								}
-								@if (generatorForm.get("date")?.value === true) {
-									<div style="margin-left: 12px"><b>Fecha</b>:</div>
-									<div style="max-width: 20%" class="blank"></div>
+								@if (
+									generatorForm.get('date')?.value === true
+								) {
+									<div style="margin-left: 12px">
+										<b>Fecha</b>:
+									</div>
+									<div
+										style="max-width: 20%"
+										class="blank"
+									></div>
 								}
 							</div>
 							<div
@@ -151,7 +176,7 @@ export interface MathExercise {
 												>{{
 													($index + 1)
 														.toString()
-														.padStart(2, "0")
+														.padStart(2, '0')
 												}})
 												<app-math-exercise
 													[exercise]="exercise"
@@ -170,12 +195,20 @@ export interface MathExercise {
 				</mat-card>
 				<mat-card style="display: none">
 					<mat-card-content>
-						<div class="page" id="exercises-solution" style="padding: 12px">
-							<div style="text-align: center; margin-bottom: 24px">
+						<div
+							class="page"
+							id="exercises-solution"
+							style="padding: 12px"
+						>
+							<div
+								style="text-align: center; margin-bottom: 24px"
+							>
 								<h4 style="margin-bottom: 0">
 									Calcula las Siguientes Sumas
 								</h4>
-								<h5 style="font-size: medium; margin-bottom: 24px">
+								<h5
+									style="font-size: medium; margin-bottom: 24px"
+								>
 									Hoja de Respuestas
 								</h5>
 							</div>
@@ -194,7 +227,7 @@ export interface MathExercise {
 												>{{
 													($index + 1)
 														.toString()
-														.padStart(2, "0")
+														.padStart(2, '0')
 												}})
 												<app-math-exercise
 													[exercise]="line" /></b
@@ -220,7 +253,7 @@ export interface MathExercise {
 		}
 	`,
 	styles: `
-				mat-form-field {
+		mat-form-field {
 			width: 100%;
 		}
 

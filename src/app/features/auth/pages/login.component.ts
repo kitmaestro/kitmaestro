@@ -1,21 +1,21 @@
-import { Component, inject, isDevMode, OnInit } from '@angular/core'
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
-import { MatButtonModule } from '@angular/material/button'
-import { MatCardModule } from '@angular/material/card'
-import { MatIconModule } from '@angular/material/icon'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatInputModule } from '@angular/material/input'
-import { MatCheckboxModule } from '@angular/material/checkbox'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { ActivatedRoute, Router, RouterModule } from '@angular/router'
-import { BiIconComponent } from '../../../shared/ui/bi-icon.component'
-import { MatDialog, MatDialogModule } from '@angular/material/dialog'
-import { RecoverComponent } from './recover.component'
-import { environment } from '../../../../environments/environment'
-import { Store } from '@ngrx/store'
-import { signIn } from '../../../store/auth/auth.actions'
-import { LoginDto } from '../../../store/auth/auth.models'
-import { selectSigningIn } from '../../../store/auth/auth.selectors'
+import { Component, inject, isDevMode, OnInit } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { BiIconComponent } from '../../../shared/ui/bi-icon.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { RecoverComponent } from './recover.component';
+import { environment } from '../../../../environments/environment';
+import { Store } from '@ngrx/store';
+import { signIn } from '../../../store/auth/auth.actions';
+import { LoginDto } from '../../../store/auth/auth.models';
+import { selectSigningIn } from '../../../store/auth/auth.selectors';
 
 @Component({
 	selector: 'app-login',
@@ -177,16 +177,16 @@ import { selectSigningIn } from '../../../store/auth/auth.selectors'
 	`,
 })
 export class LoginComponent implements OnInit {
-	private store = inject(Store)
-	sb = inject(MatSnackBar)
-	fb = inject(FormBuilder)
-	modal = inject(MatDialog)
-	router = inject(Router)
-	route = inject(ActivatedRoute)
-	apiUrl = environment.apiUrl + 'auth/google'
+	private store = inject(Store);
+	sb = inject(MatSnackBar);
+	fb = inject(FormBuilder);
+	modal = inject(MatDialog);
+	router = inject(Router);
+	route = inject(ActivatedRoute);
+	apiUrl = environment.apiUrl + 'auth/google';
 
-	loading = this.store.selectSignal(selectSigningIn)
-	referrer = ''
+	loading = this.store.selectSignal(selectSigningIn);
+	referrer = '';
 
 	loginForm = this.fb.group({
 		email: ['', [Validators.required, Validators.email]],
@@ -195,9 +195,9 @@ export class LoginComponent implements OnInit {
 	});
 
 	ngOnInit() {
-		const jwt = this.route.snapshot.paramMap.get('jwt')
+		const jwt = this.route.snapshot.paramMap.get('jwt');
 		if (jwt) {
-			localStorage.setItem('access_token', jwt)
+			localStorage.setItem('access_token', jwt);
 			// const next = this.route.snapshot.queryParamMap.get('next')
 			// this.router.navigate([...next?.split('/') || '/'], { queryParamsHandling: 'preserve' }).then(() => {
 			// this.sb.open('Bienvenid@ a KitMaestro', 'Ok', { duration: 2500 })
@@ -205,15 +205,15 @@ export class LoginComponent implements OnInit {
 		}
 		const referrer =
 			localStorage.getItem('ref') ||
-			this.route.snapshot.queryParamMap.get('ref')
+			this.route.snapshot.queryParamMap.get('ref');
 		if (referrer) {
-			this.referrer = referrer
-			localStorage.setItem('ref', referrer)
+			this.referrer = referrer;
+			localStorage.setItem('ref', referrer);
 		}
 	}
 
 	recoverPassword() {
-		this.modal.open(RecoverComponent, { width: '100%', maxWidth: '480px' })
+		this.modal.open(RecoverComponent, { width: '100%', maxWidth: '480px' });
 	}
 
 	loginWithGoogle() {
@@ -222,15 +222,19 @@ export class LoginComponent implements OnInit {
 				? 'http://localhost:3000/auth/google'
 				: 'https://api.kitmaestro.com/auth/google') + this.referrer
 				? `?ref=${this.referrer}`
-				: ''
+				: '';
 	}
 
 	onSubmit() {
 		if (this.loginForm.valid) {
-			const { email, password, remember } = this.loginForm.value
+			const { email, password, remember } = this.loginForm.value;
 			if (email && password) {
-				const credentials: LoginDto = { email: email.trim().toLowerCase(), password, remember: remember || false }
-				this.store.dispatch(signIn({ credentials }))
+				const credentials: LoginDto = {
+					email: email.trim().toLowerCase(),
+					password,
+					remember: remember || false,
+				};
+				this.store.dispatch(signIn({ credentials }));
 			}
 		}
 	}

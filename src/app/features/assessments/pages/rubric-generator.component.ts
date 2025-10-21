@@ -80,9 +80,14 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									<mat-label>Curso</mat-label>
 									<mat-select
 										formControlName="section"
-										(selectionChange)="onSelectSection($event)"
+										(selectionChange)="
+											onSelectSection($event)
+										"
 									>
-										@for (section of sections; track section._id) {
+										@for (
+											section of sections;
+											track section._id
+										) {
 											<mat-option [value]="section._id">{{
 												section.name
 											}}</mat-option>
@@ -93,8 +98,8 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 								@if (!loading) {
 									<div>
 										<div>
-											Para usar esta herramienta, primero tienes que
-											crear una secci&oacute;n.
+											Para usar esta herramienta, primero
+											tienes que crear una secci&oacute;n.
 										</div>
 										<div>
 											<button
@@ -128,8 +133,14 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									formControlName="content"
 									(selectionChange)="onConceptSelect($event)"
 								>
-									@for (list of subjectConceptLists; track list) {
-										@for (concept of list.concepts; track concept) {
+									@for (
+										list of subjectConceptLists;
+										track list
+									) {
+										@for (
+											concept of list.concepts;
+											track concept
+										) {
 											<mat-option [value]="concept">{{
 												concept
 											}}</mat-option>
@@ -150,17 +161,26 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							<div>
 								<mat-form-field appearance="outline">
 									<mat-label>Evidencia o Actividad</mat-label>
-									<input formControlName="activity" matInput />
+									<input
+										formControlName="activity"
+										matInput
+									/>
 								</mat-form-field>
 							</div>
 							<div style="display: flex; gap: 12px">
 								<mat-form-field appearance="outline">
 									<mat-label>Calificación Mínima</mat-label>
-									<input formControlName="minScore" matInput />
+									<input
+										formControlName="minScore"
+										matInput
+									/>
 								</mat-form-field>
 								<mat-form-field appearance="outline">
 									<mat-label>Calificación Máxima</mat-label>
-									<input formControlName="maxScore" matInput />
+									<input
+										formControlName="maxScore"
+										matInput
+									/>
 								</mat-form-field>
 							</div>
 						</div>
@@ -201,7 +221,10 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							</button>
 						</div>
 						<div formArrayName="levels">
-							@for (level of rubricLevels.controls; track $index) {
+							@for (
+								level of rubricLevels.controls;
+								track $index
+							) {
 								<div
 									style="
 										display: grid;
@@ -210,8 +233,13 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									"
 								>
 									<mat-form-field appearance="outline">
-										<mat-label>Nivel #{{ $index + 1 }}</mat-label>
-										<input [formControlName]="$index" matInput />
+										<mat-label
+											>Nivel #{{ $index + 1 }}</mat-label
+										>
+										<input
+											[formControlName]="$index"
+											matInput
+										/>
 									</mat-form-field>
 									<button
 										(click)="deleteLevel($index)"
@@ -227,7 +255,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 						</div>
 						@if (
 							rubric &&
-							rubric.rubricType === "Analítica (Global)" &&
+							rubric.rubricType === 'Analítica (Global)' &&
 							students.length === 0
 						) {
 							<div
@@ -239,9 +267,10 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									margin-bottom: 15px;
 								"
 							>
-								Ya que no tienes alumnos registrados en esta secci&oacute;n,
-								te hemos dejado espacios en blanco. Para mejores resultados,
-								ve a la secci&oacute;n y registra tus estudiantes.
+								Ya que no tienes alumnos registrados en esta
+								secci&oacute;n, te hemos dejado espacios en
+								blanco. Para mejores resultados, ve a la
+								secci&oacute;n y registra tus estudiantes.
 								<br />
 								<br />
 								<button
@@ -274,10 +303,10 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							>
 								{{
 									generating
-										? "Generando..."
+										? 'Generando...'
 										: rubric
-											? "Regenerar"
-											: "Generar"
+											? 'Regenerar'
+											: 'Generar'
 								}}
 							</button>
 						</div>

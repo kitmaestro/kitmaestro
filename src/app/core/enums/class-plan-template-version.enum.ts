@@ -1,2 +1,1 @@
-export enum ClassPlanTemplateVersion {
-}
+export enum ClassPlanTemplateVersion {}

@@ -1,10 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ScoreSystemService } from '../../../core/services/score-system.service';
-import {
-	GradingActivity,
-	ScoreSystem,
-} from '../../../core';
+import { GradingActivity, ScoreSystem } from '../../../core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -50,14 +47,15 @@ import { StudentsService } from '../../../core/services/students.service';
 			<ng-container matColumnDef="section">
 				<th mat-header-cell *matHeaderCellDef>Seccion</th>
 				<td mat-cell *matCellDef="let element">
-					{{ element.section ? element.section.name : "Sin seccion" }}
+					{{ element.section ? element.section.name : 'Sin seccion' }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="subject">
 				<th mat-header-cell *matHeaderCellDef>Asignatura</th>
 				<td mat-cell *matCellDef="let element">
 					{{
-						element.content.subject || element.content[0].subject | pretify
+						element.content.subject || element.content[0].subject
+							| pretify
 					}}
 				</td>
 			</ng-container>

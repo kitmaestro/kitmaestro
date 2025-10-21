@@ -34,7 +34,7 @@ import { ClassSection } from '../../../core';
 		MatSnackBarModule,
 	],
 	template: `
-				<mat-card style="margin-bottom: 24px">
+		<mat-card style="margin-bottom: 24px">
 			<mat-card-header>
 				<h2 mat-card-title>Generador de Sopas de Letras</h2>
 			</mat-card-header>
@@ -45,7 +45,10 @@ import { ClassSection } from '../../../core';
 							<mat-form-field appearance="outline">
 								<mat-label>Curso</mat-label>
 								<mat-select formControlName="section">
-									@for (option of sections; track option._id) {
+									@for (
+										option of sections;
+										track option._id
+									) {
 										<mat-option [value]="option._id">{{
 											option.name
 										}}</mat-option>
@@ -110,7 +113,7 @@ import { ClassSection } from '../../../core';
 						</button>
 					}
 					<button type="submit" mat-raised-button color="primary">
-						{{ wordsearch ? "Regenerar" : "Generar" }}
+						{{ wordsearch ? 'Regenerar' : 'Generar' }}
 					</button>
 				</form>
 			</mat-card-content>
@@ -136,16 +139,20 @@ import { ClassSection } from '../../../core';
 							</h5>
 						</div>
 						<div style="margin-bottom: 42px; display: flex">
-							@if (wsForm.get("name")?.value === true) {
+							@if (wsForm.get('name')?.value === true) {
 								<div><b>Nombre</b>:</div>
 								<div class="blank"></div>
 							}
-							@if (wsForm.get("grade")?.value === true) {
-								<div style="margin-left: 12px"><b>Grado</b>:</div>
+							@if (wsForm.get('grade')?.value === true) {
+								<div style="margin-left: 12px">
+									<b>Grado</b>:
+								</div>
 								<div class="blank"></div>
 							}
-							@if (wsForm.get("date")?.value === true) {
-								<div style="margin-left: 12px"><b>Fecha</b>:</div>
+							@if (wsForm.get('date')?.value === true) {
+								<div style="margin-left: 12px">
+									<b>Fecha</b>:
+								</div>
 								<div style="max-width: 20%" class="blank"></div>
 							}
 						</div>
@@ -164,7 +171,9 @@ import { ClassSection } from '../../../core';
 												class="tile"
 												[style]="
 													'width:' +
-													(100 / line.length).toFixed(2) +
+													(100 / line.length).toFixed(
+														2
+													) +
 													'%'
 												"
 											>
@@ -175,8 +184,12 @@ import { ClassSection } from '../../../core';
 								}
 							</div>
 							<div>
-								<h4 style="font-weight: bold">Palabras a Buscar</h4>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<h4 style="font-weight: bold">
+									Palabras a Buscar
+								</h4>
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (word of includedWords; track $index) {
 										<li
 											style="
@@ -200,7 +213,6 @@ import { ClassSection } from '../../../core';
 				</mat-card-content>
 			</mat-card>
 		}
-
 	`,
 	styles: `
 		.board {
@@ -291,7 +303,7 @@ export class WordsearchGeneratorComponent implements OnInit {
 	ngOnInit() {
 		this.UserService.getSettings().subscribe((settings) => {
 			this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
-			this.schoolName = settings.schoolName
+			this.schoolName = settings.schoolName;
 			this.loadSections();
 		});
 	}

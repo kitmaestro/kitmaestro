@@ -58,7 +58,7 @@ import { ClassSection } from '../../../core';
 						<thead>
 							<tr>
 								<th scope="col">Estudiante</th>
-								@if (generated.level === "primary") {
+								@if (generated.level === 'primary') {
 									<th
 										colspan="8"
 										scope="col"
@@ -73,17 +73,27 @@ import { ClassSection } from '../../../core';
 									</th>
 									<th colspan="6" scope="col">Promedios</th>
 								} @else {
-									<th colspan="8" scope="col">Competencia 1</th>
-									<th colspan="8" scope="col">Competencias 2 y 3</th>
-									<th colspan="8" scope="col">Competencias 4 y 5</th>
-									<th colspan="8" scope="col">Competencias 6 y 7</th>
+									<th colspan="8" scope="col">
+										Competencia 1
+									</th>
+									<th colspan="8" scope="col">
+										Competencias 2 y 3
+									</th>
+									<th colspan="8" scope="col">
+										Competencias 4 y 5
+									</th>
+									<th colspan="8" scope="col">
+										Competencias 6 y 7
+									</th>
 									<th colspan="5" scope="col">Promedios</th>
 								}
 							</tr>
 							<tr>
 								<th></th>
 								@for (
-									indicator of [].constructor(generated.indicators);
+									indicator of [].constructor(
+										generated.indicators
+									);
 									track $index
 								) {
 									<th>P1</th>
@@ -95,7 +105,7 @@ import { ClassSection } from '../../../core';
 									<th>P4</th>
 									<th>RP4</th>
 								}
-								@if (generated.level === "primary") {
+								@if (generated.level === 'primary') {
 									<th>C1</th>
 									<th>C2</th>
 									<th>C3</th>
@@ -112,7 +122,12 @@ import { ClassSection } from '../../../core';
 							</tr>
 						</thead>
 						<tbody>
-							<tr *ngFor="let row of generated.dataSet; let i = index">
+							<tr
+								*ngFor="
+									let row of generated.dataSet;
+									let i = index
+								"
+							>
 								@if (imported) {
 									<td>{{ i + 1 }}. {{ studentsNames[i] }}</td>
 								} @else {
@@ -170,15 +185,26 @@ import { ClassSection } from '../../../core';
 								</div>
 								<div style="flex: 1 1 auto">
 									<div style="margin-bottom: 16px">
-										<label><b>Factor de Aleatoriedad</b>:</label>
-										<mat-chip-listbox formControlName="randomLevel">
-											<mat-chip-option color="accent" [value]="2"
+										<label
+											><b>Factor de Aleatoriedad</b
+											>:</label
+										>
+										<mat-chip-listbox
+											formControlName="randomLevel"
+										>
+											<mat-chip-option
+												color="accent"
+												[value]="2"
 												>Bajo</mat-chip-option
 											>
-											<mat-chip-option color="accent" [value]="4"
+											<mat-chip-option
+												color="accent"
+												[value]="4"
 												>Normal</mat-chip-option
 											>
-											<mat-chip-option color="accent" [value]="8"
+											<mat-chip-option
+												color="accent"
+												[value]="8"
 												>Alto</mat-chip-option
 											>
 										</mat-chip-listbox>
@@ -189,23 +215,34 @@ import { ClassSection } from '../../../core';
 											[multiple]="true"
 											formControlName="grades"
 										>
-											<mat-chip-option color="accent" value="P1"
+											<mat-chip-option
+												color="accent"
+												value="P1"
 												>P1</mat-chip-option
 											>
-											<mat-chip-option color="accent" value="P2"
+											<mat-chip-option
+												color="accent"
+												value="P2"
 												>P2</mat-chip-option
 											>
-											<mat-chip-option color="accent" value="P3"
+											<mat-chip-option
+												color="accent"
+												value="P3"
 												>P3</mat-chip-option
 											>
-											<mat-chip-option color="accent" value="P4"
+											<mat-chip-option
+												color="accent"
+												value="P4"
 												>P4</mat-chip-option
 											>
 										</mat-chip-listbox>
 									</div>
 								</div>
 							</div>
-							<div style="margin-bottom: 16px" formArrayName="students">
+							<div
+								style="margin-bottom: 16px"
+								formArrayName="students"
+							>
 								<div style="display: flex; gap: 16px">
 									<div style="flex: 1 1 auto">
 										@for (
@@ -228,7 +265,9 @@ import { ClassSection } from '../../../core';
 													<h3 style="display: flex">
 														@if (imported) {
 															<span>{{
-																studentsNames[$index]
+																studentsNames[
+																	$index
+																]
 															}}</span>
 														} @else {
 															<span
@@ -251,10 +290,11 @@ import { ClassSection } from '../../../core';
 														appearance="outline"
 													>
 														<mat-label>{{
-															configForm.get("precise")
-																?.value
-																? "Calificaci&oacute;n"
-																: "Nivel"
+															configForm.get(
+																'precise'
+															)?.value
+																? 'Calificaci&oacute;n'
+																: 'Nivel'
 														}}</mat-label>
 														<input
 															*ngIf="
@@ -276,39 +316,50 @@ import { ClassSection } from '../../../core';
 															"
 															formControlName="level"
 														>
-															<mat-option value="F"
-																>F (40 - 59)</mat-option
+															<mat-option
+																value="F"
+																>F (40 -
+																59)</mat-option
 															>
-															<mat-option value="D-"
+															<mat-option
+																value="D-"
 																>D- (60 -
 																64)</mat-option
 															>
-															<mat-option value="D+"
+															<mat-option
+																value="D+"
 																>D+ (65 -
 																69)</mat-option
 															>
-															<mat-option value="C-"
+															<mat-option
+																value="C-"
 																>C- (70 -
 																74)</mat-option
 															>
-															<mat-option value="C+"
+															<mat-option
+																value="C+"
 																>C+ (75 -
 																79)</mat-option
 															>
-															<mat-option value="B-"
+															<mat-option
+																value="B-"
 																>B- (80 -
 																84)</mat-option
 															>
-															<mat-option value="B+"
+															<mat-option
+																value="B+"
 																>B+ (85 -
 																89)</mat-option
 															>
-															<mat-option value="A-"
+															<mat-option
+																value="A-"
 																>A- (90 -
 																94)</mat-option
 															>
-															<mat-option value="S"
-																>S (95 - 99)</mat-option
+															<mat-option
+																value="S"
+																>S (95 -
+																99)</mat-option
 															>
 														</mat-select>
 													</mat-form-field>
@@ -321,14 +372,21 @@ import { ClassSection } from '../../../core';
 												>
 													<button
 														mat-fab
-														(click)="removeStudent($index)"
+														(click)="
+															removeStudent(
+																$index
+															)
+														"
 														color="warn"
 														type="button"
 														*ngIf="
-															students.value.length !== 1
+															students.value
+																.length !== 1
 														"
 													>
-														<mat-icon>delete</mat-icon>
+														<mat-icon
+															>delete</mat-icon
+														>
 													</button>
 												</div>
 											</div>
@@ -348,7 +406,8 @@ import { ClassSection } from '../../../core';
 										>
 											<mat-form-field>
 												<mat-label
-													>Importar Estudiantes</mat-label
+													>Importar
+													Estudiantes</mat-label
 												>
 												<mat-select
 													[formControl]="importFrom"
@@ -361,7 +420,9 @@ import { ClassSection } from '../../../core';
 														track section._id
 													) {
 														<mat-option
-															[value]="section._id"
+															[value]="
+																section._id
+															"
 															>{{
 																section.name
 															}}</mat-option
@@ -405,8 +466,9 @@ import { ClassSection } from '../../../core';
 												mat-raised-button
 												color="accent"
 											>
-												Agregar {{ qty.value }} Estudiante{{
-													qty.value === 1 ? "" : "s"
+												Agregar
+												{{ qty.value }} Estudiante{{
+													qty.value === 1 ? '' : 's'
 												}}
 											</button>
 										</div>
@@ -416,7 +478,9 @@ import { ClassSection } from '../../../core';
 							<div>
 								<button
 									style="display: block; margin-left: auto"
-									[disabled]="generating || configForm.invalid"
+									[disabled]="
+										generating || configForm.invalid
+									"
 									mat-raised-button
 									color="primary"
 									type="submit"
@@ -467,7 +531,6 @@ import { ClassSection } from '../../../core';
 		td {
 			min-width: fit-content;
 		}
-
 	`,
 })
 export class GradesGeneratorComponent implements OnInit {

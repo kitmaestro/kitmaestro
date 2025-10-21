@@ -92,8 +92,8 @@ import { selectUsersCurrentUser } from '../../../store/users/users.selectors';
 	],
 })
 class SectionCreatorComponent {
-	private dialogRef = inject(MatDialogRef<SectionCreatorComponent>)
-	private data = inject<ClassSection>(MAT_DIALOG_DATA)
+	private dialogRef = inject(MatDialogRef<SectionCreatorComponent>);
+	private data = inject<ClassSection>(MAT_DIALOG_DATA);
 
 	user = signal('');
 	level = signal('');
@@ -162,200 +162,217 @@ class SectionCreatorComponent {
 						/>
 					</a>
 				</div>
-				<h2>{{ user.title }}. {{ user.firstname }} {{ user.lastname }}</h2>
-				<div>Miembro desde el {{ user.createdAt | date: 'dd/MM/yyyy' }}</div>
-			<div>
-				<h3>Información Personal</h3>
-				<p><b>Sexo</b>: {{ user.gender }}</p>
-				<p><b>Nombre(s)</b>: {{ user.firstname }}</p>
-				<p><b>Apellido(s)</b>: {{ user.lastname }}</p>
-				<p><b>Título Alcanzado</b>: {{ user.title }}</p>
-				@if (activeUser(); as activeUser) {
-					@if (activeUser.email === 'orgalay.dev@gmail.com') {
-						<p><b>Email</b>: {{ user.email }}</p>
-						@if (user.phone) {
-							<p>
-								<b>Teléfono</b>:
-								<a [href]="waLink(user)" target="_blank">{{
-									user.phone
-								}}</a>
-							</p>
-						}
-						<div style="display: flex; gap: 12px;">
-							<div style="flex: 1 auto auto;">
-								<mat-form-field appearance="outline">
-									<mat-label>Contrase&ntilde;a</mat-label>
-									<input
-										matInput
-										[formControl]="newPassword"
-									/>
-								</mat-form-field>
-							</div>
-							<div style="">
-								<button
-									mat-flat-button
-									(click)="updatePassword()"
-									[disabled]="!newPassword.value"
-								>
-									Cambiar Contrase&ntilde;a
-								</button>
-							</div>
-						</div>
-					}
-				}
-				<p><b>Codigo de Referencia</b>: {{ user.refCode }}</p>
-				<div style="margin-top: 20px; margin-bottom: 20px;">
-					<button
-						mat-raised-button
-						color="accent"
-						(click)="exportContact()"
-					>
-						<mat-icon>save_alt</mat-icon>
-						Exportar Contacto
-					</button>
+				<h2>
+					{{ user.title }}. {{ user.firstname }} {{ user.lastname }}
+				</h2>
+				<div>
+					Miembro desde el {{ user.createdAt | date: 'dd/MM/yyyy' }}
 				</div>
-
-				@if (activeUser(); as activeUser) {
-					@if (activeUser.email === 'orgalay.dev@gmail.com') {
-						<p><b>Escuela</b>: {{ user.schoolName }} - Distrito {{ user.regional }}-{{ user.district }}</p>
-						<p><b>Regional</b>: {{ user.regional }}</p>
-						<p><b>Distrito</b>: {{ user.district }}</p>
-
-						<h3>Secciones</h3>
-						@for (section of classSections; track $index) {
-							<div
-								style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px"
-							>
+				<div>
+					<h3>Información Personal</h3>
+					<p><b>Sexo</b>: {{ user.gender }}</p>
+					<p><b>Nombre(s)</b>: {{ user.firstname }}</p>
+					<p><b>Apellido(s)</b>: {{ user.lastname }}</p>
+					<p><b>Título Alcanzado</b>: {{ user.title }}</p>
+					@if (activeUser(); as activeUser) {
+						@if (activeUser.email === 'orgalay.dev@gmail.com') {
+							<p><b>Email</b>: {{ user.email }}</p>
+							@if (user.phone) {
 								<p>
-									{{ $index + 1 }}. {{ section.name }} ({{
-										section.year | pretify
-									}}
-									de {{ section.level | pretify }})
-								</p>
-								<button
-									mat-icon-button
-									(click)="editSection(section)"
-								>
-									<mat-icon>edit</mat-icon>
-								</button>
-								<button
-									mat-icon-button
-									(click)="deleteSection(section._id)"
-								>
-									<mat-icon>delete</mat-icon>
-								</button>
-							</div>
-						}
-
-						<h3>Suscripción</h3>
-						@if (subscription) {
-							@if (subscription.subscriptionType === 'FREE') {
-								<p>Usuario Gratuito</p>
-							} @else {
-								<p>
-									{{ subscription.subscriptionType }} hasta
-									{{
-										subscription.endDate
-											| date: 'dd/MM/yyyy'
-									}}
+									<b>Teléfono</b>:
+									<a [href]="waLink(user)" target="_blank">{{
+										user.phone
+									}}</a>
 								</p>
 							}
+							<div style="display: flex; gap: 12px;">
+								<div style="flex: 1 auto auto;">
+									<mat-form-field appearance="outline">
+										<mat-label>Contrase&ntilde;a</mat-label>
+										<input
+											matInput
+											[formControl]="newPassword"
+										/>
+									</mat-form-field>
+								</div>
+								<div style="">
+									<button
+										mat-flat-button
+										(click)="updatePassword()"
+										[disabled]="!newPassword.value"
+									>
+										Cambiar Contrase&ntilde;a
+									</button>
+								</div>
+							</div>
 						}
-						<form
-							[formGroup]="subscriptionForm"
-							(ngSubmit)="onSubmit()"
+					}
+					<p><b>Codigo de Referencia</b>: {{ user.refCode }}</p>
+					<div style="margin-top: 20px; margin-bottom: 20px;">
+						<button
+							mat-raised-button
+							color="accent"
+							(click)="exportContact()"
 						>
-							<div
-								style="
+							<mat-icon>save_alt</mat-icon>
+							Exportar Contacto
+						</button>
+					</div>
+
+					@if (activeUser(); as activeUser) {
+						@if (activeUser.email === 'orgalay.dev@gmail.com') {
+							<p>
+								<b>Escuela</b>: {{ user.schoolName }} - Distrito
+								{{ user.regional }}-{{ user.district }}
+							</p>
+							<p><b>Regional</b>: {{ user.regional }}</p>
+							<p><b>Distrito</b>: {{ user.district }}</p>
+
+							<h3>Secciones</h3>
+							@for (section of classSections; track $index) {
+								<div
+									style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px"
+								>
+									<p>
+										{{ $index + 1 }}. {{ section.name }} ({{
+											section.year | pretify
+										}}
+										de {{ section.level | pretify }})
+									</p>
+									<button
+										mat-icon-button
+										(click)="editSection(section)"
+									>
+										<mat-icon>edit</mat-icon>
+									</button>
+									<button
+										mat-icon-button
+										(click)="deleteSection(section._id)"
+									>
+										<mat-icon>delete</mat-icon>
+									</button>
+								</div>
+							}
+
+							<h3>Suscripción</h3>
+							@if (subscription) {
+								@if (subscription.subscriptionType === 'FREE') {
+									<p>Usuario Gratuito</p>
+								} @else {
+									<p>
+										{{
+											subscription.subscriptionType
+										}}
+										hasta
+										{{
+											subscription.endDate
+												| date: 'dd/MM/yyyy'
+										}}
+									</p>
+								}
+							}
+							<form
+								[formGroup]="subscriptionForm"
+								(ngSubmit)="onSubmit()"
+							>
+								<div
+									style="
 									display: grid;
 									gap: 12px;
 									grid-template-columns: 1fr 1fr;
 								"
-							>
-								<div>
-									<mat-form-field appearance="outline">
-										<mat-label>Suscripción</mat-label>
-										<mat-select
-											formControlName="subscriptionType"
-										>
-											<mat-option value="Plan Basico"
-												>Plan Básico</mat-option
+								>
+									<div>
+										<mat-form-field appearance="outline">
+											<mat-label>Suscripción</mat-label>
+											<mat-select
+												formControlName="subscriptionType"
 											>
-											<mat-option value="Plan Plus"
-												>Plan Plus</mat-option
+												<mat-option value="Plan Basico"
+													>Plan Básico</mat-option
+												>
+												<mat-option value="Plan Plus"
+													>Plan Plus</mat-option
+												>
+												<mat-option value="Plan Premium"
+													>Plan Premium</mat-option
+												>
+												<mat-option value="FREE"
+													>Gratuito</mat-option
+												>
+											</mat-select>
+										</mat-form-field>
+									</div>
+									<div>
+										<mat-form-field appearance="outline">
+											<mat-label>Estado</mat-label>
+											<mat-select
+												formControlName="status"
 											>
-											<mat-option value="Plan Premium"
-												>Plan Premium</mat-option
+												<mat-option value="active"
+													>Activa</mat-option
+												>
+												<mat-option value="inactive"
+													>Inactiva</mat-option
+												>
+											</mat-select>
+										</mat-form-field>
+									</div>
+									<div>
+										<mat-form-field appearance="outline">
+											<mat-label
+												>Fecha de Inicio</mat-label
 											>
-											<mat-option value="FREE"
-												>Gratuito</mat-option
+											<input
+												type="date"
+												matInput
+												formControlName="startDate"
+											/>
+										</mat-form-field>
+									</div>
+									<div>
+										<mat-form-field appearance="outline">
+											<mat-label
+												>Fecha de
+												Finalización</mat-label
 											>
-										</mat-select>
-									</mat-form-field>
-								</div>
-								<div>
-									<mat-form-field appearance="outline">
-										<mat-label>Estado</mat-label>
-										<mat-select formControlName="status">
-											<mat-option value="active"
-												>Activa</mat-option
+											<input
+												type="date"
+												matInput
+												formControlName="endDate"
+											/>
+										</mat-form-field>
+									</div>
+									<div>
+										<mat-form-field appearance="outline">
+											<mat-label
+												>Método de Pago</mat-label
 											>
-											<mat-option value="inactive"
-												>Inactiva</mat-option
-											>
-										</mat-select>
-									</mat-form-field>
+											<input
+												type="text"
+												matInput
+												formControlName="method"
+											/>
+										</mat-form-field>
+									</div>
+									<div>
+										<mat-form-field appearance="outline">
+											<mat-label>Monto Pagado</mat-label>
+											<input
+												type="number"
+												matInput
+												formControlName="amount"
+											/>
+										</mat-form-field>
+									</div>
 								</div>
-								<div>
-									<mat-form-field appearance="outline">
-										<mat-label>Fecha de Inicio</mat-label>
-										<input
-											type="date"
-											matInput
-											formControlName="startDate"
-										/>
-									</mat-form-field>
-								</div>
-								<div>
-									<mat-form-field appearance="outline">
-										<mat-label
-											>Fecha de Finalización</mat-label
-										>
-										<input
-											type="date"
-											matInput
-											formControlName="endDate"
-										/>
-									</mat-form-field>
-								</div>
-								<div>
-									<mat-form-field appearance="outline">
-										<mat-label>Método de Pago</mat-label>
-										<input
-											type="text"
-											matInput
-											formControlName="method"
-										/>
-									</mat-form-field>
-								</div>
-								<div>
-									<mat-form-field appearance="outline">
-										<mat-label>Monto Pagado</mat-label>
-										<input
-											type="number"
-											matInput
-											formControlName="amount"
-										/>
-									</mat-form-field>
-								</div>
-							</div>
-							<button mat-flat-button type="submit">
-								Guardar
-							</button>
-						</form>
+								<button mat-flat-button type="submit">
+									Guardar
+								</button>
+							</form>
+						}
 					}
-				}
-			</div>
+				</div>
 			</div>
 		} @else {
 			<mat-card>
@@ -390,7 +407,7 @@ export class UserDetailsComponent implements OnInit {
 	subscription: UserSubscription | null = null;
 	classSections: ClassSection[] = [];
 	gravatarUrl = '';
-	activeUser = this.store.selectSignal(selectAuthUser)
+	activeUser = this.store.selectSignal(selectAuthUser);
 
 	newPassword = this.fb.control('');
 
@@ -468,17 +485,19 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	}
 
 	loadUser() {
-		const userId = this.userId
-		this.store.dispatch(loadUser({ userId }))
-		this.store.select(selectUsersCurrentUser).subscribe(user => {
+		const userId = this.userId;
+		this.store.dispatch(loadUser({ userId }));
+		this.store.select(selectUsersCurrentUser).subscribe((user) => {
 			if (user) {
-				this.user = user
-				this.subscriptionForm.get('user')?.setValue(userId)
-				this.gravatarUrl = 'https://gravatar.com/avatar/' + sha512_256(user.email.toLowerCase().trim())
-				this.loadSubscription()
-				this.loadSections()
+				this.user = user;
+				this.subscriptionForm.get('user')?.setValue(userId);
+				this.gravatarUrl =
+					'https://gravatar.com/avatar/' +
+					sha512_256(user.email.toLowerCase().trim());
+				this.loadSubscription();
+				this.loadSections();
 			}
-		})
+		});
 	}
 
 	ngOnInit() {
@@ -623,6 +642,8 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	updatePassword() {
 		const password: string = this.newPassword.getRawValue() || '';
 		if (password && this.user)
-			this.store.dispatch(updateUser({ userId: this.user._id, data: { password } }))
+			this.store.dispatch(
+				updateUser({ userId: this.user._id, data: { password } }),
+			);
 	}
 }

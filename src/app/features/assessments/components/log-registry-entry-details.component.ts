@@ -20,11 +20,19 @@ import { Student } from '../../core';
 				@if (entry) {
 					<div style="text-align: center">
 						<h2>Registro Anecd&oacute;tico</h2>
-						<p><b>Fecha</b>: {{ entry.date | date: "dd/MM/yyyy" }}</p>
-						<p><b>Hora</b>: {{ entry.date | date: "HH:mm a" }}</p>
-						<p><b>Estudiante(s)</b>: {{ studentNames(entry.students) }}</p>
 						<p>
-							<b>Descripción del incidente, del hecho o situación</b>: <br />
+							<b>Fecha</b>: {{ entry.date | date: 'dd/MM/yyyy' }}
+						</p>
+						<p><b>Hora</b>: {{ entry.date | date: 'HH:mm a' }}</p>
+						<p>
+							<b>Estudiante(s)</b>:
+							{{ studentNames(entry.students) }}
+						</p>
+						<p>
+							<b
+								>Descripción del incidente, del hecho o
+								situación</b
+							>: <br />
 							{{ entry.description }}
 						</p>
 						<p>

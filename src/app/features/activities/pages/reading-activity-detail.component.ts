@@ -1,19 +1,25 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { MatButtonModule } from '@angular/material/button'
-import { MatCardModule } from '@angular/material/card'
-import { ReadingActivity } from '../../../core'
-import { MatIconModule } from '@angular/material/icon'
+import { Component, inject, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { ReadingActivity } from '../../../core';
+import { MatIconModule } from '@angular/material/icon';
 import {
 	MAT_DIALOG_DATA,
 	MatDialogModule,
 	MatDialogRef,
-} from '@angular/material/dialog'
-import { ReadingActivityService } from '../../../core/services'
-import { MarkdownComponent } from 'ngx-markdown'
+} from '@angular/material/dialog';
+import { ReadingActivityService } from '../../../core/services';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
 	selector: 'app-reading-activity-detail',
-	imports: [MatCardModule, MatButtonModule, MatIconModule, MatDialogModule, MarkdownComponent],
+	imports: [
+		MatCardModule,
+		MatButtonModule,
+		MatIconModule,
+		MatDialogModule,
+		MarkdownComponent,
+	],
 	template: `@if (activity) {
 		<h2 mat-dialog-title>{{ activity.title }}</h2>
 		<mat-dialog-content>

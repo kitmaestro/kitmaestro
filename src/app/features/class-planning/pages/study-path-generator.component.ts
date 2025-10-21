@@ -14,12 +14,7 @@ import {
 	AbstractControl,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-	Subject,
-	Observable,
-	firstValueFrom,
-	EMPTY,
-} from 'rxjs';
+import { Subject, Observable, firstValueFrom, EMPTY } from 'rxjs';
 
 // Angular Material Modules
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -75,7 +70,8 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									class="form-field"
 								>
 									<mat-label
-										>Tema / Asignatura / Habilidad</mat-label
+										>Tema / Asignatura /
+										Habilidad</mat-label
 									>
 									<input
 										matInput
@@ -104,7 +100,10 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 										formControlName="masteryLevel"
 										required
 									>
-										@for (level of masteryLevels; track level) {
+										@for (
+											level of masteryLevels;
+											track level
+										) {
 											<mat-option [value]="level">{{
 												level
 											}}</mat-option>
@@ -115,7 +114,8 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 										masteryLevelCtrl?.touched
 									) {
 										<mat-error
-											>Selecciona el nivel deseado.</mat-error
+											>Selecciona el nivel
+											deseado.</mat-error
 										>
 									}
 								</mat-form-field>
@@ -146,8 +146,8 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 										</div>
 									} @else {
 										<ng-container>
-											<mat-icon>route</mat-icon> Generar Ruta
-											de Estudio
+											<mat-icon>route</mat-icon> Generar
+											Ruta de Estudio
 										</ng-container>
 									}
 								</button>
@@ -159,7 +159,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 						<div class="study-path-result">
 							<h3>Ruta de Estudio Sugerida:</h3>
 							<div class="study-path-result-content">
-								<markdown [data]="generatedStudyPath()"/>
+								<markdown [data]="generatedStudyPath()" />
 							</div>
 
 							<div class="result-actions">
@@ -181,7 +181,8 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 										)
 									"
 								>
-									<mat-icon>download</mat-icon> Descargar (.docx)
+									<mat-icon>download</mat-icon> Descargar
+									(.docx)
 								</button>
 							</div>
 						</div>

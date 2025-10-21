@@ -48,7 +48,9 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 		<app-is-premium>
 			<mat-card>
 				<mat-card-header>
-					<h2 mat-card-title>Generador de Sistemas de Calificaci&oacute;n</h2>
+					<h2 mat-card-title>
+						Generador de Sistemas de Calificaci&oacute;n
+					</h2>
 					<a
 						mat-raised-button
 						color="accent"
@@ -65,9 +67,14 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									<mat-label>Secci&oacute;n</mat-label>
 									<mat-select
 										formControlName="section"
-										(selectionChange)="onSectionChange($event)"
+										(selectionChange)="
+											onSectionChange($event)
+										"
 									>
-										@for (section of sections; track section._id) {
+										@for (
+											section of sections;
+											track section._id
+										) {
 											<mat-option [value]="section._id">{{
 												section.name
 											}}</mat-option>
@@ -80,10 +87,15 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									<mat-label>Asignatura</mat-label>
 									<mat-select
 										formControlName="subject"
-										(selectionChange)="onSubjectChange($event)"
+										(selectionChange)="
+											onSubjectChange($event)
+										"
 									>
-										@if (form.get("section")?.value) {
-											@for (subject of subjects; track subject) {
+										@if (form.get('section')?.value) {
+											@for (
+												subject of subjects;
+												track subject
+											) {
 												<mat-option [value]="subject">{{
 													subject | pretify
 												}}</mat-option>
@@ -98,13 +110,18 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									<mat-select
 										formControlName="content"
 										multiple
-										(selectionChange)="onConceptChange($event)"
+										(selectionChange)="
+											onConceptChange($event)
+										"
 									>
 										@if (
-											form.get("section")?.value &&
-											form.get("subject")?.value
+											form.get('section')?.value &&
+											form.get('subject')?.value
 										) {
-											@for (content of contents; track content) {
+											@for (
+												content of contents;
+												track content
+											) {
 												<mat-option [value]="content">{{
 													content
 												}}</mat-option>
@@ -115,9 +132,14 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							</div>
 							<div>
 								<mat-form-field appearance="outline">
-									<mat-label>Estilo de Ense&ntilde;anza</mat-label>
+									<mat-label
+										>Estilo de Ense&ntilde;anza</mat-label
+									>
 									<mat-select formControlName="style">
-										@for (style of styles; track style.name) {
+										@for (
+											style of styles;
+											track style.name
+										) {
 											<mat-option [value]="style.name">{{
 												style.name
 											}}</mat-option>
@@ -127,17 +149,21 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							</div>
 							<div style="text-align: end">
 								<button
-									[disabled]="form.invalid || generating || saving"
+									[disabled]="
+										form.invalid || generating || saving
+									"
 									mat-raised-button
-									color="{{ scoreSystem ? 'accent' : 'primary' }}"
+									color="{{
+										scoreSystem ? 'accent' : 'primary'
+									}}"
 									type="submit"
 								>
 									{{
 										generating
-											? "Generando..."
+											? 'Generando...'
 											: scoreSystem
-												? "Regenerar"
-												: "Generar"
+												? 'Regenerar'
+												: 'Generar'
 									}}
 								</button>
 								@if (scoreSystem) {

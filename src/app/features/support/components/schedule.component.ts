@@ -1,9 +1,9 @@
-import { Component, inject, Input } from '@angular/core'
-import { ClassSchedule } from '../../../core'
-import { MatCardModule } from '@angular/material/card'
-import { DatePipe } from '@angular/common'
-import { Store } from '@ngrx/store'
-import { selectAuthUser } from '../../../store/auth/auth.selectors'
+import { Component, inject, Input } from '@angular/core';
+import { ClassSchedule } from '../../../core';
+import { MatCardModule } from '@angular/material/card';
+import { DatePipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
 
 @Component({
 	selector: 'app-schedule',
@@ -13,8 +13,7 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors'
 			<mat-card>
 				<mat-card-header>
 					<mat-card-title>
-						{{ schedule.section.name }} -
-						{{ user()?.schoolName }} -
+						{{ schedule.section.name }} - {{ user()?.schoolName }} -
 						{{ pretifyFormat(schedule.format) }}
 					</mat-card-title>
 				</mat-card-header>
@@ -113,12 +112,12 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors'
 	`,
 })
 export class ScheduleComponent {
-	@Input() schedule: ClassSchedule | null = null
-	#store = inject(Store)
-	user = this.#store.selectSignal(selectAuthUser)
+	@Input() schedule: ClassSchedule | null = null;
+	#store = inject(Store);
+	user = this.#store.selectSignal(selectAuthUser);
 
-	classPeriods = [null, 0, 1, null, 2, 3, null, 4, 5, null, 6, 7]
-	daysOfWeek = [1, 2, 3, 4, 5]
+	classPeriods = [null, 0, 1, null, 2, 3, null, 4, 5, null, 6, 7];
+	daysOfWeek = [1, 2, 3, 4, 5];
 	hours = [
 		{
 			classSession: false,
@@ -184,63 +183,63 @@ export class ScheduleComponent {
 			startTime: '15:15',
 			endTime: '16:00',
 		},
-	]
+	];
 
 	stringToDate(str: string) {
-		const date = new Date()
-		const [hours, minutes] = str.split(':')
+		const date = new Date();
+		const [hours, minutes] = str.split(':');
 		if (hours && minutes) {
-			date.setHours(+hours)
-			date.setMinutes(+minutes)
+			date.setHours(+hours);
+			date.setMinutes(+minutes);
 		}
-		return date
+		return date;
 	}
 
 	findSubject(day: number, hour: string) {
 		if (this.schedule) {
 			const period = this.schedule.periods.find(
 				(p) => p.startTime === hour && p.dayOfWeek === day,
-			)
+			);
 			if (period) {
-				return this.pretify(period.subject)
+				return this.pretify(period.subject);
 			}
 		}
-		return ''
+		return '';
 	}
 
 	pretifyFormat(str: string) {
-		if (str === 'JEE') return 'Jornada Extendida'
-		if (str === 'MATUTINA') return 'Matutina'
-		if (str === 'VESPERTINA') return 'Vespertina'
-		if (str === 'NOCTURNA') return 'Nocturna'
-		if (str === 'SABATINA') return 'Sabatina'
-		return 'error'
+		if (str === 'JEE') return 'Jornada Extendida';
+		if (str === 'MATUTINA') return 'Matutina';
+		if (str === 'VESPERTINA') return 'Vespertina';
+		if (str === 'NOCTURNA') return 'Nocturna';
+		if (str === 'SABATINA') return 'Sabatina';
+		return 'error';
 	}
 
 	pretify(str: string) {
 		switch (str) {
 			case 'LENGUA_ESPANOLA':
-				return 'Lengua Española'
+				return 'Lengua Española';
 			case 'MATEMATICA':
-				return 'Matemática'
+				return 'Matemática';
 			case 'CIENCIAS_SOCIALES':
-				return 'Ciencias Sociales'
+				return 'Ciencias Sociales';
 			case 'CIENCIAS_NATURALES':
-				return 'Ciencias de la Naturaleza'
+				return 'Ciencias de la Naturaleza';
 			case 'INGLES':
-				return 'Inglés'
+				return 'Inglés';
 			case 'FRANCES':
-				return 'Francés'
+				return 'Francés';
 			case 'FORMACION_HUMANA':
-				return 'Formación Integral Humana y Religiosa'
+				return 'Formación Integral Humana y Religiosa';
 			case 'EDUCACION_FISICA':
-				return 'Educación Física'
+				return 'Educación Física';
 			case 'EDUCACION_ARTISTICA':
-				return 'Educación Artística'
+				return 'Educación Artística';
 			case 'TALLERES_OPTATIVOS':
-				return 'Talleres Optativos'
+				return 'Talleres Optativos';
 			default:
-				return str
+				return str;
 		}
 	}
 }

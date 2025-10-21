@@ -7,7 +7,7 @@ import {
 	MainTheme,
 	ClassPlan,
 } from '../../../core';
-import { UnitPlan } from '../../../core/models'
+import { UnitPlan } from '../../../core/models';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({
@@ -47,15 +47,29 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 							<td colspan="2" style="width: 33.33%">
 								<b>Docente</b>:
 								{{ user ? user.title : unitPlan.user.title }}.
-								{{ user ? user.firstname : unitPlan.user.firstname }}
-								{{ user ? user.lastname : unitPlan.user.lastname }}
+								{{
+									user
+										? user.firstname
+										: unitPlan.user.firstname
+								}}
+								{{
+									user
+										? user.lastname
+										: unitPlan.user.lastname
+								}}
 							</td>
 							<td colspan="2" style="width: 33.33%">
-								@if (unitPlan.sections && unitPlan.sections.length) {
+								@if (
+									unitPlan.sections &&
+									unitPlan.sections.length
+								) {
 									<b>Grados y Secciones</b>:
-									@for (section of unitPlan.sections; track $index) {
+									@for (
+										section of unitPlan.sections;
+										track $index
+									) {
 										<span
-											>{{ $index > 0 ? ", " : ""
+											>{{ $index > 0 ? ', ' : ''
 											}}{{ section.name }}</span
 										>
 									}
@@ -71,14 +85,17 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								}
 							</td>
 							<td colspan="2" style="width: 33.33%">
-								<b>Tiempo Asignado</b>: {{ unitPlan.duration }} Semana{{
-									unitPlan.duration > 1 ? "s" : ""
+								<b>Tiempo Asignado</b>:
+								{{ unitPlan.duration }} Semana{{
+									unitPlan.duration > 1 ? 's' : ''
 								}}
 							</td>
 						</tr>
 						<tr>
 							<td><b>Situaci&oacute;n de Aprendizaje</b></td>
-							<td colspan="5">{{ unitPlan.learningSituation }}</td>
+							<td colspan="5">
+								{{ unitPlan.learningSituation }}
+							</td>
 						</tr>
 						<!-- header competencias fundamentales -->
 						<tr>
@@ -89,14 +106,17 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 						<!-- competencias fundamentales -->
 						@if (planIsForPrimary()) {
 							<tr>
-								<td class="text-center" colspan="2">Comunicativa</td>
 								<td class="text-center" colspan="2">
-									Pensamiento Lógico, Creativo y Crítico; Resolución
-									de Problemas; Tecnológica y Científica
+									Comunicativa
 								</td>
 								<td class="text-center" colspan="2">
-									Ética y Ciudadana; Desarrollo Personal y Espiritual;
-									Ambiental y de la Salud
+									Pensamiento Lógico, Creativo y Crítico;
+									Resolución de Problemas; Tecnológica y
+									Científica
+								</td>
+								<td class="text-center" colspan="2">
+									Ética y Ciudadana; Desarrollo Personal y
+									Espiritual; Ambiental y de la Salud
 								</td>
 							</tr>
 						} @else {
@@ -121,7 +141,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 												flex: 1 1 auto;
 											"
 										>
-											Pensamiento Lógico, Creativo y Crítico
+											Pensamiento Lógico, Creativo y
+											Crítico
 										</div>
 										<div
 											style="
@@ -192,7 +213,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											: unitPlan.competence;
 										track comp._id
 									) {
-										@if (comp.name === "Comunicativa") {
+										@if (comp.name === 'Comunicativa') {
 											@if (unitPlan.subjects.length > 1) {
 												<p class="bold">
 													{{ comp.subject | pretify }}
@@ -205,7 +226,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 													list-style: none;
 												"
 											>
-												@for (el of comp.entries; track el) {
+												@for (
+													el of comp.entries;
+													track el
+												) {
 													<li>- {{ el }}</li>
 												}
 											</ul>
@@ -219,7 +243,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											: unitPlan.competence;
 										track comp._id
 									) {
-										@if (comp.name.includes("Pensamiento")) {
+										@if (
+											comp.name.includes('Pensamiento')
+										) {
 											@if (unitPlan.subjects.length > 1) {
 												<p class="bold">
 													{{ comp.subject | pretify }}
@@ -232,7 +258,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 													list-style: none;
 												"
 											>
-												@for (el of comp.entries; track el) {
+												@for (
+													el of comp.entries;
+													track el
+												) {
 													<li>- {{ el }}</li>
 												}
 											</ul>
@@ -246,7 +275,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											: unitPlan.competence;
 										track comp._id
 									) {
-										@if (comp.name.includes("Ciudadana")) {
+										@if (comp.name.includes('Ciudadana')) {
 											@if (unitPlan.subjects.length > 1) {
 												<p class="bold">
 													{{ comp.subject | pretify }}
@@ -259,7 +288,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 													list-style: none;
 												"
 											>
-												@for (el of comp.entries; track el) {
+												@for (
+													el of comp.entries;
+													track el
+												) {
 													<li>- {{ el }}</li>
 												}
 											</ul>
@@ -285,167 +317,18 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 													: unitPlan.competence;
 												track comp._id
 											) {
-												@if (comp.name === "Comunicativa") {
-													@if (unitPlan.subjects.length > 1) {
-														<p class="bold">
-															{{ comp.subject | pretify }}
-														</p>
-													}
-													<ul
-														style="
-															margin: 0 0 24px;
-															padding: 0;
-															list-style: none;
-														"
-													>
-														@for (
-															el of comp.entries;
-															track el
-														) {
-															<li>- {{ el }}</li>
-														}
-													</ul>
-												}
-											}
-										</div>
-										<div
-											style="
-												flex: 1 1 auto;
-												padding: 12px;
-												width: 100%;
-												border-right: 1px solid #ccc;
-											"
-										>
-											@for (
-												comp of competence.length
-													? competence
-													: unitPlan.competence;
-												track comp._id
-											) {
 												@if (
-													comp.name === "Pensamiento Logico"
+													comp.name === 'Comunicativa'
 												) {
-													@if (unitPlan.subjects.length > 1) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
 														<p class="bold">
-															{{ comp.subject | pretify }}
-														</p>
-													}
-													<ul
-														style="
-															margin: 0 0 24px;
-															padding: 0;
-															list-style: none;
-														"
-													>
-														@for (
-															el of comp.entries;
-															track el
-														) {
-															<li>- {{ el }}</li>
-														}
-													</ul>
-												}
-											}
-										</div>
-										<div
-											style="
-												flex: 1 1 auto;
-												padding: 12px;
-												width: 100%;
-												border-right: 1px solid #ccc;
-											"
-										>
-											@for (
-												comp of competence.length
-													? competence
-													: unitPlan.competence;
-												track comp._id
-											) {
-												@if (
-													comp.name ===
-													"Resolucion De Problemas"
-												) {
-													@if (unitPlan.subjects.length > 1) {
-														<p class="bold">
-															{{ comp.subject | pretify }}
-														</p>
-													}
-													<ul
-														style="
-															margin: 0 0 24px;
-															padding: 0;
-															list-style: none;
-														"
-													>
-														@for (
-															el of comp.entries;
-															track el
-														) {
-															<li>- {{ el }}</li>
-														}
-													</ul>
-												}
-											}
-										</div>
-										<div
-											style="
-												flex: 1 1 auto;
-												padding: 12px;
-												width: 100%;
-												border-right: 1px solid #ccc;
-											"
-										>
-											@for (
-												comp of competence.length
-													? competence
-													: unitPlan.competence;
-												track comp._id
-											) {
-												@if (
-													comp.name === "Ciencia Y Tecnologia"
-												) {
-													@if (unitPlan.subjects.length > 1) {
-														<p class="bold">
-															{{ comp.subject | pretify }}
-														</p>
-													}
-													<ul
-														style="
-															margin: 0 0 24px;
-															padding: 0;
-															list-style: none;
-														"
-													>
-														@for (
-															el of comp.entries;
-															track el
-														) {
-															<li>- {{ el }}</li>
-														}
-													</ul>
-												}
-											}
-										</div>
-										<div
-											style="
-												flex: 1 1 auto;
-												padding: 12px;
-												width: 100%;
-												border-right: 1px solid #ccc;
-											"
-										>
-											@for (
-												comp of competence.length
-													? competence
-													: unitPlan.competence;
-												track comp._id
-											) {
-												@if (
-													comp.name === "Etica Y Ciudadana"
-												) {
-													@if (unitPlan.subjects.length > 1) {
-														<p class="bold">
-															{{ comp.subject | pretify }}
+															{{
+																comp.subject
+																	| pretify
+															}}
 														</p>
 													}
 													<ul
@@ -481,11 +364,201 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											) {
 												@if (
 													comp.name ===
-													"Desarrollo Personal Y Espiritual"
+													'Pensamiento Logico'
 												) {
-													@if (unitPlan.subjects.length > 1) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
 														<p class="bold">
-															{{ comp.subject | pretify }}
+															{{
+																comp.subject
+																	| pretify
+															}}
+														</p>
+													}
+													<ul
+														style="
+															margin: 0 0 24px;
+															padding: 0;
+															list-style: none;
+														"
+													>
+														@for (
+															el of comp.entries;
+															track el
+														) {
+															<li>- {{ el }}</li>
+														}
+													</ul>
+												}
+											}
+										</div>
+										<div
+											style="
+												flex: 1 1 auto;
+												padding: 12px;
+												width: 100%;
+												border-right: 1px solid #ccc;
+											"
+										>
+											@for (
+												comp of competence.length
+													? competence
+													: unitPlan.competence;
+												track comp._id
+											) {
+												@if (
+													comp.name ===
+													'Resolucion De Problemas'
+												) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
+														<p class="bold">
+															{{
+																comp.subject
+																	| pretify
+															}}
+														</p>
+													}
+													<ul
+														style="
+															margin: 0 0 24px;
+															padding: 0;
+															list-style: none;
+														"
+													>
+														@for (
+															el of comp.entries;
+															track el
+														) {
+															<li>- {{ el }}</li>
+														}
+													</ul>
+												}
+											}
+										</div>
+										<div
+											style="
+												flex: 1 1 auto;
+												padding: 12px;
+												width: 100%;
+												border-right: 1px solid #ccc;
+											"
+										>
+											@for (
+												comp of competence.length
+													? competence
+													: unitPlan.competence;
+												track comp._id
+											) {
+												@if (
+													comp.name ===
+													'Ciencia Y Tecnologia'
+												) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
+														<p class="bold">
+															{{
+																comp.subject
+																	| pretify
+															}}
+														</p>
+													}
+													<ul
+														style="
+															margin: 0 0 24px;
+															padding: 0;
+															list-style: none;
+														"
+													>
+														@for (
+															el of comp.entries;
+															track el
+														) {
+															<li>- {{ el }}</li>
+														}
+													</ul>
+												}
+											}
+										</div>
+										<div
+											style="
+												flex: 1 1 auto;
+												padding: 12px;
+												width: 100%;
+												border-right: 1px solid #ccc;
+											"
+										>
+											@for (
+												comp of competence.length
+													? competence
+													: unitPlan.competence;
+												track comp._id
+											) {
+												@if (
+													comp.name ===
+													'Etica Y Ciudadana'
+												) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
+														<p class="bold">
+															{{
+																comp.subject
+																	| pretify
+															}}
+														</p>
+													}
+													<ul
+														style="
+															margin: 0 0 24px;
+															padding: 0;
+															list-style: none;
+														"
+													>
+														@for (
+															el of comp.entries;
+															track el
+														) {
+															<li>- {{ el }}</li>
+														}
+													</ul>
+												}
+											}
+										</div>
+										<div
+											style="
+												flex: 1 1 auto;
+												padding: 12px;
+												width: 100%;
+												border-right: 1px solid #ccc;
+											"
+										>
+											@for (
+												comp of competence.length
+													? competence
+													: unitPlan.competence;
+												track comp._id
+											) {
+												@if (
+													comp.name ===
+													'Desarrollo Personal Y Espiritual'
+												) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
+														<p class="bold">
+															{{
+																comp.subject
+																	| pretify
+															}}
 														</p>
 													}
 													<ul
@@ -520,11 +593,17 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											) {
 												@if (
 													comp.name ===
-													"Ambiental Y De La Salud"
+													'Ambiental Y De La Salud'
 												) {
-													@if (unitPlan.subjects.length > 1) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
 														<p class="bold">
-															{{ comp.subject | pretify }}
+															{{
+																comp.subject
+																	| pretify
+															}}
 														</p>
 													}
 													<ul
@@ -563,7 +642,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											: unitPlan.competence;
 										track $index
 									) {
-										@if (row.name === "Comunicativa") {
+										@if (row.name === 'Comunicativa') {
 											@if (unitPlan.subjects.length > 1) {
 												<h4 class="bold">
 													{{ row.subject | pretify }}
@@ -581,7 +660,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 													track criterion
 												) {
 													@if (criterion) {
-														<li>- {{ criterion }}</li>
+														<li>
+															- {{ criterion }}
+														</li>
 													}
 												}
 											</ul>
@@ -595,7 +676,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											: unitPlan.competence;
 										track $index
 									) {
-										@if (row.name.includes("Pensamiento")) {
+										@if (row.name.includes('Pensamiento')) {
 											@if (unitPlan.subjects.length > 1) {
 												<h4 class="bold">
 													{{ row.subject | pretify }}
@@ -613,7 +694,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 													track criterion
 												) {
 													@if (criterion) {
-														<li>- {{ criterion }}</li>
+														<li>
+															- {{ criterion }}
+														</li>
 													}
 												}
 											</ul>
@@ -627,7 +710,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											: unitPlan.competence;
 										track $index
 									) {
-										@if (row.name.includes("Ciudadana")) {
+										@if (row.name.includes('Ciudadana')) {
 											@if (unitPlan.subjects.length > 1) {
 												<h4 class="bold">
 													{{ row.subject | pretify }}
@@ -645,7 +728,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 													track criterion
 												) {
 													@if (criterion) {
-														<li>- {{ criterion }}</li>
+														<li>
+															- {{ criterion }}
+														</li>
 													}
 												}
 											</ul>
@@ -671,53 +756,18 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 													: unitPlan.competence;
 												track $index
 											) {
-												@if (row.name === "Comunicativa") {
-													@if (unitPlan.subjects.length > 1) {
-														<p class="bold">
-															{{ row.subject | pretify }}
-														</p>
-													}
-													<ul
-														style="
-															margin: 0;
-															padding: 0;
-															list-style: none;
-														"
-													>
-														@for (
-															criterion of row.criteria;
-															track criterion
-														) {
-															@if (criterion) {
-																<li>
-																	- {{ criterion }}
-																</li>
-															}
-														}
-													</ul>
-												}
-											}
-										</div>
-										<div
-											style="
-												flex: 1 1 auto;
-												padding: 12px;
-												width: 100%;
-												border-right: 1px solid #ccc;
-											"
-										>
-											@for (
-												row of competence.length
-													? competence
-													: unitPlan.competence;
-												track $index
-											) {
 												@if (
-													row.name === "Pensamiento Logico"
+													row.name === 'Comunicativa'
 												) {
-													@if (unitPlan.subjects.length > 1) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
 														<p class="bold">
-															{{ row.subject | pretify }}
+															{{
+																row.subject
+																	| pretify
+															}}
 														</p>
 													}
 													<ul
@@ -733,7 +783,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 														) {
 															@if (criterion) {
 																<li>
-																	- {{ criterion }}
+																	-
+																	{{
+																		criterion
+																	}}
 																</li>
 															}
 														}
@@ -757,11 +810,17 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											) {
 												@if (
 													row.name ===
-													"Resolucion De Problemas"
+													'Pensamiento Logico'
 												) {
-													@if (unitPlan.subjects.length > 1) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
 														<p class="bold">
-															{{ row.subject | pretify }}
+															{{
+																row.subject
+																	| pretify
+															}}
 														</p>
 													}
 													<ul
@@ -777,91 +836,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 														) {
 															@if (criterion) {
 																<li>
-																	- {{ criterion }}
-																</li>
-															}
-														}
-													</ul>
-												}
-											}
-										</div>
-										<div
-											style="
-												flex: 1 1 auto;
-												padding: 12px;
-												width: 100%;
-												border-right: 1px solid #ccc;
-											"
-										>
-											@for (
-												row of competence.length
-													? competence
-													: unitPlan.competence;
-												track $index
-											) {
-												@if (
-													row.name === "Ciencia Y Tecnologia"
-												) {
-													@if (unitPlan.subjects.length > 1) {
-														<p class="bold">
-															{{ row.subject | pretify }}
-														</p>
-													}
-													<ul
-														style="
-															margin: 0;
-															padding: 0;
-															list-style: none;
-														"
-													>
-														@for (
-															criterion of row.criteria;
-															track criterion
-														) {
-															@if (criterion) {
-																<li>
-																	- {{ criterion }}
-																</li>
-															}
-														}
-													</ul>
-												}
-											}
-										</div>
-										<div
-											style="
-												flex: 1 1 auto;
-												padding: 12px;
-												width: 100%;
-												border-right: 1px solid #ccc;
-											"
-										>
-											@for (
-												row of competence.length
-													? competence
-													: unitPlan.competence;
-												track $index
-											) {
-												@if (row.name === "Etica Y Ciudadana") {
-													@if (unitPlan.subjects.length > 1) {
-														<p class="bold">
-															{{ row.subject | pretify }}
-														</p>
-													}
-													<ul
-														style="
-															margin: 0;
-															padding: 0;
-															list-style: none;
-														"
-													>
-														@for (
-															criterion of row.criteria;
-															track criterion
-														) {
-															@if (criterion) {
-																<li>
-																	- {{ criterion }}
+																	-
+																	{{
+																		criterion
+																	}}
 																</li>
 															}
 														}
@@ -885,11 +863,17 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											) {
 												@if (
 													row.name ===
-													"Desarrollo Personal Y Espiritual"
+													'Resolucion De Problemas'
 												) {
-													@if (unitPlan.subjects.length > 1) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
 														<p class="bold">
-															{{ row.subject | pretify }}
+															{{
+																row.subject
+																	| pretify
+															}}
 														</p>
 													}
 													<ul
@@ -905,7 +889,169 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 														) {
 															@if (criterion) {
 																<li>
-																	- {{ criterion }}
+																	-
+																	{{
+																		criterion
+																	}}
+																</li>
+															}
+														}
+													</ul>
+												}
+											}
+										</div>
+										<div
+											style="
+												flex: 1 1 auto;
+												padding: 12px;
+												width: 100%;
+												border-right: 1px solid #ccc;
+											"
+										>
+											@for (
+												row of competence.length
+													? competence
+													: unitPlan.competence;
+												track $index
+											) {
+												@if (
+													row.name ===
+													'Ciencia Y Tecnologia'
+												) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
+														<p class="bold">
+															{{
+																row.subject
+																	| pretify
+															}}
+														</p>
+													}
+													<ul
+														style="
+															margin: 0;
+															padding: 0;
+															list-style: none;
+														"
+													>
+														@for (
+															criterion of row.criteria;
+															track criterion
+														) {
+															@if (criterion) {
+																<li>
+																	-
+																	{{
+																		criterion
+																	}}
+																</li>
+															}
+														}
+													</ul>
+												}
+											}
+										</div>
+										<div
+											style="
+												flex: 1 1 auto;
+												padding: 12px;
+												width: 100%;
+												border-right: 1px solid #ccc;
+											"
+										>
+											@for (
+												row of competence.length
+													? competence
+													: unitPlan.competence;
+												track $index
+											) {
+												@if (
+													row.name ===
+													'Etica Y Ciudadana'
+												) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
+														<p class="bold">
+															{{
+																row.subject
+																	| pretify
+															}}
+														</p>
+													}
+													<ul
+														style="
+															margin: 0;
+															padding: 0;
+															list-style: none;
+														"
+													>
+														@for (
+															criterion of row.criteria;
+															track criterion
+														) {
+															@if (criterion) {
+																<li>
+																	-
+																	{{
+																		criterion
+																	}}
+																</li>
+															}
+														}
+													</ul>
+												}
+											}
+										</div>
+										<div
+											style="
+												flex: 1 1 auto;
+												padding: 12px;
+												width: 100%;
+												border-right: 1px solid #ccc;
+											"
+										>
+											@for (
+												row of competence.length
+													? competence
+													: unitPlan.competence;
+												track $index
+											) {
+												@if (
+													row.name ===
+													'Desarrollo Personal Y Espiritual'
+												) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
+														<p class="bold">
+															{{
+																row.subject
+																	| pretify
+															}}
+														</p>
+													}
+													<ul
+														style="
+															margin: 0;
+															padding: 0;
+															list-style: none;
+														"
+													>
+														@for (
+															criterion of row.criteria;
+															track criterion
+														) {
+															@if (criterion) {
+																<li>
+																	-
+																	{{
+																		criterion
+																	}}
 																</li>
 															}
 														}
@@ -928,11 +1074,17 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											) {
 												@if (
 													row.name ===
-													"Ambiental Y De La Salud"
+													'Ambiental Y De La Salud'
 												) {
-													@if (unitPlan.subjects.length > 1) {
+													@if (
+														unitPlan.subjects
+															.length > 1
+													) {
 														<p class="bold">
-															{{ row.subject | pretify }}
+															{{
+																row.subject
+																	| pretify
+															}}
 														</p>
 													}
 													<ul
@@ -948,7 +1100,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 														) {
 															@if (criterion) {
 																<li>
-																	- {{ criterion }}
+																	-
+																	{{
+																		criterion
+																	}}
 																</li>
 															}
 														}
@@ -963,10 +1118,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 						<tr>
 							<td class="bold">
 								Eje{{
-									unitPlan.subjects.length === 1 ? "" : "s"
+									unitPlan.subjects.length === 1 ? '' : 's'
 								}}
 								Transversal{{
-									unitPlan.subjects.length === 1 ? "" : "es"
+									unitPlan.subjects.length === 1 ? '' : 'es'
 								}}
 							</td>
 							<td colspan="5">
@@ -981,8 +1136,13 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											{{ theme.subject | pretify }}:
 										</h4>
 									}
-									<ul style="margin: 0; padding: 0; list-style: none">
-										@for (topic of theme.topics; track topic) {
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
+										@for (
+											topic of theme.topics;
+											track topic
+										) {
 											<li>- {{ topic }}</li>
 										}
 									</ul>
@@ -992,15 +1152,20 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 						<tr>
 							<td class="bold">
 								&Aacute;rea{{
-									unitPlan.subjects.length === 1 ? "" : "s"
+									unitPlan.subjects.length === 1 ? '' : 's'
 								}}
 								Curricular{{
-									unitPlan.subjects.length === 1 ? "" : "es"
+									unitPlan.subjects.length === 1 ? '' : 'es'
 								}}
 							</td>
 							<td colspan="5">
-								<ul style="margin: 0; padding: 0; list-style: none">
-									@for (subject of unitPlan.subjects; track subject) {
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
+									@for (
+										subject of unitPlan.subjects;
+										track subject
+									) {
 										<li>{{ subject | pretify }}</li>
 									}
 								</ul>
@@ -1011,7 +1176,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								Estrategias de Ense&ntilde;anza y Aprendizaje
 							</td>
 							<td colspan="5">
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										strategy of removeDuplicates(
 											unitPlan.strategies
@@ -1034,10 +1201,14 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								) {
 									@if (unitPlan.subjects.length > 1) {
 										<p>
-											<b>{{ content.subject | pretify }}</b>
+											<b>{{
+												content.subject | pretify
+											}}</b>
 										</p>
 									}
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
 											indicator of content.achievement_indicators;
 											track $index
@@ -1049,18 +1220,26 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 							</td>
 						</tr>
 						<tr>
-							<td class="bold text-center" colspan="6">Contenidos</td>
+							<td class="bold text-center" colspan="6">
+								Contenidos
+							</td>
 						</tr>
 						<tr>
-							<td class="bold text-center" colspan="2">Conceptuales</td>
+							<td class="bold text-center" colspan="2">
+								Conceptuales
+							</td>
 							<td class="bold text-center" colspan="2">
 								Procedimentales
 							</td>
-							<td class="bold text-center" colspan="2">Actitudinales</td>
+							<td class="bold text-center" colspan="2">
+								Actitudinales
+							</td>
 						</tr>
 						<tr>
 							<td colspan="2">
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										block of contents.length
 											? contents
@@ -1076,7 +1255,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											}
 										} @else {
 											<li>
-												<b>{{ block.subject | pretify }}</b>
+												<b>{{
+													block.subject | pretify
+												}}</b>
 											</li>
 											<ul>
 												@for (
@@ -1091,7 +1272,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								</ul>
 							</td>
 							<td colspan="2">
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										block of contents.length
 											? contents
@@ -1107,7 +1290,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											}
 										} @else {
 											<li>
-												<b>{{ block.subject | pretify }}</b>
+												<b>{{
+													block.subject | pretify
+												}}</b>
 											</li>
 											<ul>
 												@for (
@@ -1122,7 +1307,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								</ul>
 							</td>
 							<td colspan="2">
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										block of contents.length
 											? contents
@@ -1138,7 +1325,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											}
 										} @else {
 											<li>
-												<b>{{ block.subject | pretify }}</b>
+												<b>{{
+													block.subject | pretify
+												}}</b>
 											</li>
 											<ul>
 												@for (
@@ -1154,7 +1343,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 							</td>
 						</tr>
 						<tr>
-							<td class="bold text-center" colspan="6">Actividades</td>
+							<td class="bold text-center" colspan="6">
+								Actividades
+							</td>
 						</tr>
 						@if (classPlans().length) {
 							<tr>
@@ -1162,7 +1353,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								<td><b>Actividades de Aprendizaje</b></td>
 								<td><b>Evidencia</b></td>
 								<td>
-									<b>Tecnicas e Instrumentos de Evaluaci&oacute;n</b>
+									<b
+										>Tecnicas e Instrumentos de
+										Evaluaci&oacute;n</b
+									>
 								</td>
 								<td><b>Metacognicion</b></td>
 								<td><b>Recursos</b></td>
@@ -1196,7 +1390,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 										>
 											<li><b>Desarrollo</b></li>
 											@for (
-												activity of plan.main.activities;
+												activity of plan.main
+													.activities;
 												track activity
 											) {
 												<li>- {{ activity }}</li>
@@ -1211,7 +1406,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 										>
 											<li><b>Cierre</b></li>
 											@for (
-												activity of plan.closing.activities;
+												activity of plan.closing
+													.activities;
 												track activity
 											) {
 												<li>- {{ activity }}</li>
@@ -1252,18 +1448,20 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											"
 										>
 											<li>
-												- ¿Qué te aprendiste de este tema hoy?
+												- ¿Qué te aprendiste de este
+												tema hoy?
 											</li>
 											<li>
-												- ¿Qué tan importante es este tema a lo
-												largo de sus vidas?
+												- ¿Qué tan importante es este
+												tema a lo largo de sus vidas?
 											</li>
 											<li>
-												- ¿Qué te pareció el tema del día de
-												hoy?
+												- ¿Qué te pareció el tema del
+												día de hoy?
 											</li>
 											<li>
-												- ¿Cómo aprendí estos conocimientos?
+												- ¿Cómo aprendí estos
+												conocimientos?
 											</li>
 											<li>
 												- ¿Cuál fue la parte que más te
@@ -1274,8 +1472,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 												conocimientos aprendido hoy?
 											</li>
 											<li>
-												- ¿En qué nos ayuda para convivir mejor
-												este tema?
+												- ¿En qué nos ayuda para
+												convivir mejor este tema?
 											</li>
 										</ul>
 									</td>
@@ -1288,7 +1486,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											"
 										>
 											@for (
-												resource of plan.introduction.resources;
+												resource of plan.introduction
+													.resources;
 												track resource
 											) {
 												<li>- {{ resource }}</li>
@@ -1300,7 +1499,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 												<li>- {{ resource }}</li>
 											}
 											@for (
-												resource of plan.closing.resources;
+												resource of plan.closing
+													.resources;
 												track resource
 											) {
 												<li>- {{ resource }}</li>
@@ -1323,12 +1523,16 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 							</tr>
 							<tr>
 								<td colspan="2">
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
 											activityList of unitPlan.teacherActivities;
 											track activityList
 										) {
-											@if (unitPlan.subjects.length === 1) {
+											@if (
+												unitPlan.subjects.length === 1
+											) {
 												@for (
 													activity of activityList.activities;
 													track $index
@@ -1337,7 +1541,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 												}
 											} @else {
 												<li class="bold">
-													{{ activityList.subject | pretify }}
+													{{
+														activityList.subject
+															| pretify
+													}}
 												</li>
 												<ul
 													style="
@@ -1350,7 +1557,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 														activity of activityList.activities;
 														track $index
 													) {
-														<li>- {{ activity }}</li>
+														<li>
+															- {{ activity }}
+														</li>
 													}
 												</ul>
 											}
@@ -1358,12 +1567,16 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 									</ul>
 								</td>
 								<td colspan="2">
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
 											activityList of unitPlan.studentActivities;
 											track activityList
 										) {
-											@if (unitPlan.subjects.length === 1) {
+											@if (
+												unitPlan.subjects.length === 1
+											) {
 												@for (
 													activity of activityList.activities;
 													track $index
@@ -1372,7 +1585,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 												}
 											} @else {
 												<li class="bold">
-													{{ activityList.subject | pretify }}
+													{{
+														activityList.subject
+															| pretify
+													}}
 												</li>
 												<ul
 													style="
@@ -1385,7 +1601,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 														activity of activityList.activities;
 														track $index
 													) {
-														<li>- {{ activity }}</li>
+														<li>
+															- {{ activity }}
+														</li>
 													}
 												</ul>
 											}
@@ -1393,12 +1611,16 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 									</ul>
 								</td>
 								<td colspan="2">
-									<ul style="margin: 0; padding: 0; list-style: none">
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
 										@for (
 											activityList of unitPlan.evaluationActivities;
 											track activityList
 										) {
-											@if (unitPlan.subjects.length === 1) {
+											@if (
+												unitPlan.subjects.length === 1
+											) {
 												@for (
 													activity of activityList.activities;
 													track $index
@@ -1407,7 +1629,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 												}
 											} @else {
 												<li class="bold">
-													{{ activityList.subject | pretify }}
+													{{
+														activityList.subject
+															| pretify
+													}}
 												</li>
 												<ul
 													style="
@@ -1420,7 +1645,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 														activity of activityList.activities;
 														track $index
 													) {
-														<li>- {{ activity }}</li>
+														<li>
+															- {{ activity }}
+														</li>
 													}
 												</ul>
 											}
@@ -1431,7 +1658,8 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 						}
 						<tr>
 							<td colspan="3" class="bold text-center">
-								T&eacute;cnicas e Instrumentos de Evaluaci&oacute;n
+								T&eacute;cnicas e Instrumentos de
+								Evaluaci&oacute;n
 							</td>
 							<td colspan="3" class="bold text-center">
 								Medios y Recursos
@@ -1439,7 +1667,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 						</tr>
 						<tr>
 							<td colspan="3">
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										instrument of unitPlan.instruments;
 										track instrument
@@ -1449,7 +1679,9 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								</ul>
 							</td>
 							<td colspan="3">
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										resource of unitPlan.resources;
 										track resource

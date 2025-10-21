@@ -33,7 +33,7 @@ interface Asignatura {
 				}
 			</tbody>
 		</table>
- 	`,
+	`,
 	styles: `
 		table {
 			border-collapse: collapse;

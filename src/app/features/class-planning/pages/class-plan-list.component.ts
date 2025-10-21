@@ -49,13 +49,19 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 			<ng-container matColumnDef="subject">
 				<th mat-header-cell *matHeaderCellDef>Asignatura</th>
-				<td mat-cell *matCellDef="let plan">{{ plan.subject | pretify }}</td>
+				<td mat-cell *matCellDef="let plan">
+					{{ plan.subject | pretify }}
+				</td>
 			</ng-container>
 
 			<ng-container matColumnDef="date">
 				<th mat-header-cell *matHeaderCellDef>Fecha</th>
 				<td mat-cell *matCellDef="let plan">
-					{{ plan.date ? (plan.date | date: "dd/MM/yyyy" : "+0400") : "N/A" }}
+					{{
+						plan.date
+							? (plan.date | date: 'dd/MM/yyyy' : '+0400')
+							: 'N/A'
+					}}
 				</td>
 			</ng-container>
 
@@ -74,7 +80,11 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 							<mat-icon>download</mat-icon>
 						</button>
 						<button
-							[routerLink]="['/planning', 'class-plans', plan._id]"
+							[routerLink]="[
+								'/planning',
+								'class-plans',
+								plan._id,
+							]"
 							mat-icon-button
 						>
 							<mat-icon>open_in_new</mat-icon>

@@ -9,9 +9,9 @@ import { loadAuthUser } from './store/auth';
 	template: '<router-outlet />',
 })
 export class AppComponent {
-	#store = inject(Store)
+	#store = inject(Store);
 
 	ngOnInit() {
-		this.#store.dispatch(loadAuthUser())
+		this.#store.dispatch(loadAuthUser());
 	}
 }

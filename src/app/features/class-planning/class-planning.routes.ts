@@ -1,7 +1,13 @@
 import { Routes } from '@angular/router';
 
 export default [
-	{ path: '', loadComponent: () => import('./pages/class-planning.component').then(mod => mod.ClassPlanningComponent) },
+	{
+		path: '',
+		loadComponent: () =>
+			import('./pages/class-planning.component').then(
+				(mod) => mod.ClassPlanningComponent,
+			),
+	},
 	{
 		path: 'sports-practice-generator',
 		loadComponent: () =>
@@ -13,17 +19,17 @@ export default [
 	{
 		path: 'emi-class-plans',
 		loadComponent: () =>
-			import(
-				'./pages/multigrade-class-plan-generator.component'
-			).then((mod) => mod.MultigradeClassPlanGeneratorComponent),
+			import('./pages/multigrade-class-plan-generator.component').then(
+				(mod) => mod.MultigradeClassPlanGeneratorComponent,
+			),
 		title: 'Generador de Planes de Clase Multigrado',
 	},
 	{
 		path: 'class-plans',
 		loadComponent: () =>
-			import(
-				'./pages/class-plan-generator.component'
-			).then((mod) => mod.ClassPlanGeneratorComponent),
+			import('./pages/class-plan-generator.component').then(
+				(mod) => mod.ClassPlanGeneratorComponent,
+			),
 		title: 'Generador de Planes de Clase',
 	},
 	{
@@ -37,17 +43,17 @@ export default [
 	{
 		path: 'class-plans/batch',
 		loadComponent: () =>
-			import(
-				'./pages/daily-plan-batch-generator.component'
-			).then((mod) => mod.DailyPlanBatchGeneratorComponent),
+			import('./pages/daily-plan-batch-generator.component').then(
+				(mod) => mod.DailyPlanBatchGeneratorComponent,
+			),
 		title: 'Mis Planes de Clase',
 	},
 	{
 		path: 'class-plans/:id',
 		loadComponent: () =>
-			import(
-				'./pages/class-plan-detail.component'
-			).then((mod) => mod.ClassPlanDetailComponent),
+			import('./pages/class-plan-detail.component').then(
+				(mod) => mod.ClassPlanDetailComponent,
+			),
 		title: 'Detalles del Plan de Clase',
 	},
 	{
@@ -61,17 +67,17 @@ export default [
 	{
 		path: 'annual-plans',
 		loadComponent: () =>
-			import(
-				'./pages/annual-plan-generator.component'
-			).then((mod) => mod.AnnualPlanGeneratorComponent),
+			import('./pages/annual-plan-generator.component').then(
+				(mod) => mod.AnnualPlanGeneratorComponent,
+			),
 		title: 'Generador de Planes de Unidad',
 	},
 	{
 		path: 'unit-plans',
 		loadComponent: () =>
-			import(
-				'./pages/unit-plan-generator.component'
-			).then((mod) => mod.UnitPlanGeneratorComponent),
+			import('./pages/unit-plan-generator.component').then(
+				(mod) => mod.UnitPlanGeneratorComponent,
+			),
 		title: 'Generador de Planes de Unidad',
 	},
 	{
@@ -85,9 +91,9 @@ export default [
 	{
 		path: 'kinder-unit-plans',
 		loadComponent: () =>
-			import(
-				'./pages/kindergarten-unit-plan-generator.component'
-			).then((mod) => mod.KindergartenUnitPlanGeneratorComponent),
+			import('./pages/kindergarten-unit-plan-generator.component').then(
+				(mod) => mod.KindergartenUnitPlanGeneratorComponent,
+			),
 		title: 'Generador de Planes de Unidad de Inicial',
 	},
 	{
@@ -117,17 +123,17 @@ export default [
 	{
 		path: 'study-path-generator',
 		loadComponent: () =>
-			import(
-				'./pages/study-path-generator.component'
-			).then((mod) => mod.StudyPathGeneratorComponent),
+			import('./pages/study-path-generator.component').then(
+				(mod) => mod.StudyPathGeneratorComponent,
+			),
 		title: 'Generador de Rutas de Estudio',
 	},
 	{
 		path: 'evaluation-plan-generator',
 		loadComponent: () =>
-			import(
-				'./pages/evaluation-plan-generator.component'
-			).then((mod) => mod.EvaluationPlanGeneratorComponent),
+			import('./pages/evaluation-plan-generator.component').then(
+				(mod) => mod.EvaluationPlanGeneratorComponent,
+			),
 		title: 'Generador de Planes de Evaluacion',
 	},
 ] as Routes;

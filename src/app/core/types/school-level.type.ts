@@ -1,1 +1,1 @@
-export type SchoolLevel = 'PRE_PRIMARIA' | 'PRIMARIA' | 'SECUNDARIA'
+export type SchoolLevel = 'PRE_PRIMARIA' | 'PRIMARIA' | 'SECUNDARIA';

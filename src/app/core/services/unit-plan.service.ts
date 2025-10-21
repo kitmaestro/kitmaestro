@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
 	ImageRun,
 	Table,
@@ -13,50 +13,52 @@ import {
 	HeadingLevel,
 	Packer,
 	Document,
-} from 'docx'
-import saveAs from 'file-saver'
-import { PretifyPipe } from '../../shared/pipes'
-import { ApiDeleteResponse } from '../interfaces'
-import { ApiService } from './api.service'
-import { User, ClassPlan, UnitPlan } from '../models'
-import { UnitPlanDto } from '../../store/unit-plans/unit-plans.models'
+} from 'docx';
+import saveAs from 'file-saver';
+import { PretifyPipe } from '../../shared/pipes';
+import { ApiDeleteResponse } from '../interfaces';
+import { ApiService } from './api.service';
+import { User, ClassPlan, UnitPlan } from '../models';
+import { UnitPlanDto } from '../../store/unit-plans/unit-plans.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UnitPlanService {
-	#apiService = inject(ApiService)
-	#endpoint = 'unit-plans/'
-	#pretify = (new PretifyPipe()).transform
+	#apiService = inject(ApiService);
+	#endpoint = 'unit-plans/';
+	#pretify = new PretifyPipe().transform;
 
 	countPlans(): Observable<{ plans: number }> {
-		return this.#apiService.get<{ plans: number }>(this.#endpoint + 'count')
+		return this.#apiService.get<{ plans: number }>(
+			this.#endpoint + 'count',
+		);
 	}
 
 	findAll(): Observable<UnitPlan[]> {
-		return this.#apiService.get<UnitPlan[]>(this.#endpoint)
+		return this.#apiService.get<UnitPlan[]>(this.#endpoint);
 	}
 
 	findOne(id: string): Observable<UnitPlan> {
-		return this.#apiService.get<UnitPlan>(this.#endpoint + id)
+		return this.#apiService.get<UnitPlan>(this.#endpoint + id);
 	}
 
 	create(plan: Partial<UnitPlanDto>): Observable<UnitPlan> {
-		return this.#apiService.post<UnitPlan>(this.#endpoint, plan)
+		return this.#apiService.post<UnitPlan>(this.#endpoint, plan);
 	}
 
 	update(id: string, plan: Partial<UnitPlanDto>): Observable<UnitPlan> {
-		return this.#apiService.patch<UnitPlan>(this.#endpoint + id, plan)
+		return this.#apiService.patch<UnitPlan>(this.#endpoint + id, plan);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
 	#pretifyCompetence(value: string, level: string) {
 		if (level === 'PRIMARIA') {
 			if (value === 'Comunicativa') {
-				return 'Comunicativa'
+				return 'Comunicativa';
 			}
 			if (value.includes('Pensamiento')) {
 				return 'Pensamiento Lógico Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica';
@@ -66,33 +68,33 @@ export class UnitPlanService {
 			}
 		} else {
 			if (value === 'Comunicativa') {
-				return 'Comunicativa'
+				return 'Comunicativa';
 			}
 			if (value === 'Pensamiento Logico') {
-				return 'Pensamiento Lógico, Creativo y Crítico'
+				return 'Pensamiento Lógico, Creativo y Crítico';
 			}
 			if (value === 'Resolucion De Problemas') {
-				return 'Resolución de Problemas'
+				return 'Resolución de Problemas';
 			}
 			if (value === 'Ciencia Y Tecnologia') {
-				return 'Tecnológica y Científica'
+				return 'Tecnológica y Científica';
 			}
 			if (value === 'Etica Y Ciudadana') {
-				return 'Ética y Ciudadana'
+				return 'Ética y Ciudadana';
 			}
 			if (value === 'Desarrollo Personal Y Espiritual') {
-				return 'Desarrollo Personal y Espiritual'
+				return 'Desarrollo Personal y Espiritual';
 			}
 			if (value === 'Ambiental Y De La Salud') {
-				return 'Ambiental y de la Salud'
+				return 'Ambiental y de la Salud';
 			}
 		}
-		return value
+		return value;
 	}
 
 	async download(plan: UnitPlan, classPlans: ClassPlan[] = [], user: User) {
-		const logo = await fetch(this.#apiService.getApiUrl() + 'logo-minerd')
-		const { data } = await logo.json()
+		const logo = await fetch(this.#apiService.getApiUrl() + 'logo-minerd');
+		const { data } = await logo.json();
 
 		const logoMinerd = new ImageRun({
 			type: 'png',
@@ -101,7 +103,7 @@ export class UnitPlanService {
 				width: 300,
 				height: 233,
 			},
-		})
+		});
 		const contentsTable = new Table({
 			width: {
 				size: 100,
@@ -192,8 +194,8 @@ export class UnitPlanService {
 					],
 				}),
 			],
-		})
-		const activityRows: TableRow[] = []
+		});
+		const activityRows: TableRow[] = [];
 		if (classPlans.length > 0) {
 			activityRows.push(
 				new TableRow({
@@ -278,7 +280,7 @@ export class UnitPlanService {
 						}),
 					],
 				}),
-			)
+			);
 			activityRows.push(
 				...classPlans.map((cp) => {
 					return new TableRow({
@@ -372,9 +374,9 @@ export class UnitPlanService {
 								],
 							}),
 						],
-					})
+					});
 				}),
-			)
+			);
 		} else {
 			activityRows.push(
 				new TableRow({
@@ -417,7 +419,7 @@ export class UnitPlanService {
 						}),
 					],
 				}),
-			)
+			);
 			activityRows.push(
 				new TableRow({
 					children: [
@@ -444,7 +446,7 @@ export class UnitPlanService {
 						}),
 					],
 				}),
-			)
+			);
 		}
 		const activitiesTable = new Table({
 			width: {
@@ -472,7 +474,7 @@ export class UnitPlanService {
 				}),
 				...activityRows,
 			],
-		})
+		});
 		const doc = new Document({
 			sections: [
 				// presentation
@@ -802,8 +804,8 @@ export class UnitPlanService {
 					],
 				},
 			],
-		})
-		const blob = await Packer.toBlob(doc)
-		saveAs(blob, `${plan.title}.docx`)
+		});
+		const blob = await Packer.toBlob(doc);
+		saveAs(blob, `${plan.title}.docx`);
 	}
 }

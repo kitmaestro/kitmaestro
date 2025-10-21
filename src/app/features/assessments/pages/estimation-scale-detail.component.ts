@@ -74,8 +74,12 @@ import { MatButtonModule } from '@angular/material/button';
 								{{ user?.title }}. {{ user?.firstname }}
 								{{ user?.lastname }}
 							</h3>
-							<h2 style="margin: 0px">Escala de Estimaci&oacute;n</h2>
-							<h3 style="margin: 0px">{{ estimationScale.title }}</h3>
+							<h2 style="margin: 0px">
+								Escala de Estimaci&oacute;n
+							</h2>
+							<h3 style="margin: 0px">
+								{{ estimationScale.title }}
+							</h3>
 						</div>
 						<h3 style="text-align: end">
 							{{ estimationScale.section.name }}
@@ -119,7 +123,10 @@ import { MatButtonModule } from '@angular/material/button';
 							Competencias Espec&iacute;ficas
 						</h3>
 						<ul style="list-style: none; margin: 0; padding: 0">
-							@for (item of estimationScale.competence; track item) {
+							@for (
+								item of estimationScale.competence;
+								track item
+							) {
 								<li>- {{ item }}</li>
 							}
 						</ul>
@@ -132,7 +139,9 @@ import { MatButtonModule } from '@angular/material/button';
 						>
 							Indicadores de Logro
 						</h3>
-						<ul style="list-style: none; margin: 0 0 12px; padding: 0">
+						<ul
+							style="list-style: none; margin: 0 0 12px; padding: 0"
+						>
 							@for (
 								item of estimationScale.achievementIndicators;
 								track item
@@ -141,7 +150,8 @@ import { MatButtonModule } from '@angular/material/button';
 							}
 						</ul>
 						<p>
-							<b>Evidencia o Actividad</b>: {{ estimationScale.activity }}
+							<b>Evidencia o Actividad</b>:
+							{{ estimationScale.activity }}
 						</p>
 						<table>
 							<thead>
@@ -157,7 +167,10 @@ import { MatButtonModule } from '@angular/material/button';
 								</tr>
 							</thead>
 							<tbody>
-								@for (row of estimationScale.criteria; track row) {
+								@for (
+									row of estimationScale.criteria;
+									track row
+								) {
 									<tr>
 										<td>{{ row }}</td>
 										<td></td>

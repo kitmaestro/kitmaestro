@@ -1,37 +1,39 @@
-import { Injectable, inject } from '@angular/core'
-import { Observable } from 'rxjs'
-import { Referral } from '../models'
-import { ApiDeleteResponse } from '../interfaces'
-import { ApiService } from './api.service'
+import { Injectable, inject } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Referral } from '../models';
+import { ApiDeleteResponse } from '../interfaces';
+import { ApiService } from './api.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ReferralsService {
-	#apiService = inject(ApiService)
-	#endpoint = 'referrals/'
+	#apiService = inject(ApiService);
+	#endpoint = 'referrals/';
 
 	findAll(): Observable<Referral[]> {
-		return this.#apiService.get<Referral[]>(this.#endpoint)
+		return this.#apiService.get<Referral[]>(this.#endpoint);
 	}
 
 	find(id: string): Observable<Referral> {
-		return this.#apiService.get<Referral>(this.#endpoint + id)
+		return this.#apiService.get<Referral>(this.#endpoint + id);
 	}
 
 	findReferred(id: string): Observable<Referral> {
-		return this.#apiService.get<Referral>(this.#endpoint + 'referred/' + id)
+		return this.#apiService.get<Referral>(
+			this.#endpoint + 'referred/' + id,
+		);
 	}
 
 	addReferral(referral: Referral): Observable<Referral> {
-		return this.#apiService.post<Referral>(this.#endpoint, referral)
+		return this.#apiService.post<Referral>(this.#endpoint, referral);
 	}
 
 	updateReferral(id: string, referral: any): Observable<Referral> {
-		return this.#apiService.patch<Referral>(this.#endpoint + id, referral)
+		return this.#apiService.patch<Referral>(this.#endpoint + id, referral);
 	}
 
 	deleteReferral(id: string): Observable<ApiDeleteResponse> {
-		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 }

@@ -57,8 +57,12 @@ interface PlannerTemplate {
 				<h2 mat-card-title>
 					Generador De Plantillas de Planificaciones Personalizadas
 				</h2>
-				<h3 mat-card-subtitle style="margin: 4px 0 24px; font-weight: normal">
-					Habr&aacute;n m&aacute;s tipos de plantillas diponibles muy pronto.
+				<h3
+					mat-card-subtitle
+					style="margin: 4px 0 24px; font-weight: normal"
+				>
+					Habr&aacute;n m&aacute;s tipos de plantillas diponibles muy
+					pronto.
 				</h3>
 			</mat-card-header>
 			<mat-card-content>
@@ -69,7 +73,10 @@ interface PlannerTemplate {
 							<mat-select formControlName="templateType">
 								<mat-option
 									[value]="i"
-									*ngFor="let type of templateTypes; let i = index"
+									*ngFor="
+										let type of templateTypes;
+										let i = index
+									"
 									>{{ type }}</mat-option
 								>
 							</mat-select>
@@ -81,7 +88,9 @@ interface PlannerTemplate {
 									[value]="month.id"
 									*ngFor="let month of months"
 									>{{ month.name }}
-									{{ month.id < 6 ? "2024" : "2023" }}</mat-option
+									{{
+										month.id < 6 ? '2024' : '2023'
+									}}</mat-option
 								>
 							</mat-select>
 						</mat-form-field>
@@ -89,7 +98,11 @@ interface PlannerTemplate {
 					<div style="display: flex; gap: 12px">
 						<mat-form-field appearance="outline">
 							<mat-label>Docente</mat-label>
-							<input type="text" matInput formControlName="fullName" />
+							<input
+								type="text"
+								matInput
+								formControlName="fullName"
+							/>
 						</mat-form-field>
 						<mat-form-field appearance="outline">
 							<mat-label>Grado(s)</mat-label>
@@ -152,7 +165,9 @@ interface PlannerTemplate {
 							</mat-select>
 						</mat-form-field>
 					</div>
-					<div style="display: flex; flex-direction: row-reverse; gap: 12px">
+					<div
+						style="display: flex; flex-direction: row-reverse; gap: 12px"
+					>
 						<button
 							[disabled]="generating || plannerForm.invalid"
 							type="submit"
@@ -161,7 +176,7 @@ interface PlannerTemplate {
 							extended
 						>
 							<mat-icon>bolt</mat-icon
-							>{{ generating ? "Generando..." : "Generar" }}
+							>{{ generating ? 'Generando...' : 'Generar' }}
 						</button>
 						@if (!generating && templates.length > 0) {
 							<button
@@ -170,7 +185,8 @@ interface PlannerTemplate {
 								color="accent"
 								(click)="printTemplates()"
 							>
-								<mat-icon>download</mat-icon><span> Exportar PDF</span>
+								<mat-icon>download</mat-icon
+								><span> Exportar PDF</span>
 							</button>
 							<button
 								mat-fab
@@ -178,7 +194,8 @@ interface PlannerTemplate {
 								color="accent"
 								(click)="downloadTemplates()"
 							>
-								<mat-icon>download</mat-icon><span> Exportar Word</span>
+								<mat-icon>download</mat-icon
+								><span> Exportar Word</span>
 							</button>
 						}
 					</div>
@@ -410,7 +427,9 @@ interface PlannerTemplate {
 								>
 									Cierre
 								</th>
-								<td><br /><br /><br /><br /><br /><br /><br /></td>
+								<td>
+									<br /><br /><br /><br /><br /><br /><br />
+								</td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -459,7 +478,10 @@ interface PlannerTemplate {
 									"
 									colspan="2"
 								>
-									<b>Lecturas recomendadas/ o libro de la semana</b>:
+									<b
+										>Lecturas recomendadas/ o libro de la
+										semana</b
+									>:
 								</td>
 								<td
 									[style]="

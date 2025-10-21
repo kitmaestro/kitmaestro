@@ -64,7 +64,9 @@ interface AttendanceRecord {
 										style="min-width: calc(50% - 8px)"
 										appearance="outline"
 									>
-										<mat-label>D&iacute;as de Clase</mat-label>
+										<mat-label
+											>D&iacute;as de Clase</mat-label
+										>
 										<input
 											type="number"
 											min="1"
@@ -74,8 +76,14 @@ interface AttendanceRecord {
 										/>
 									</mat-form-field>
 								</div>
-								@for (student of students.controls; track $index) {
-									<div class="student" [formGroupName]="$index">
+								@for (
+									student of students.controls;
+									track $index
+								) {
+									<div
+										class="student"
+										[formGroupName]="$index"
+									>
 										<mat-form-field appearance="outline">
 											<mat-label>Nombre</mat-label>
 											<input
@@ -86,7 +94,8 @@ interface AttendanceRecord {
 										</mat-form-field>
 										<mat-form-field appearance="outline">
 											<mat-label
-												>Probabilidad de Asistencia</mat-label
+												>Probabilidad de
+												Asistencia</mat-label
 											>
 											<input
 												type="number"
@@ -99,7 +108,8 @@ interface AttendanceRecord {
 										</mat-form-field>
 										<mat-form-field appearance="outline">
 											<mat-label
-												>Probabilidad de Excusa</mat-label
+												>Probabilidad de
+												Excusa</mat-label
 											>
 											<input
 												type="number"
@@ -187,7 +197,10 @@ interface AttendanceRecord {
 										<mat-label>Secci&oacute;n</mat-label>
 										<mat-select [formControl]="section">
 											<ng-container
-												*ngIf="sections$ | async as sections"
+												*ngIf="
+													sections$
+														| async as sections
+												"
 											>
 												<mat-option
 													[value]="sec._id"
@@ -232,17 +245,26 @@ interface AttendanceRecord {
 				>
 					<ng-container matColumnDef="id">
 						<th mat-header-cell *matHeaderCellDef>No.</th>
-						<td mat-cell *matCellDef="let element">{{ element.id }}</td>
+						<td mat-cell *matCellDef="let element">
+							{{ element.id }}
+						</td>
 					</ng-container>
 
 					<ng-container matColumnDef="name">
 						<th mat-header-cell *matHeaderCellDef>Nombre</th>
-						<td mat-cell *matCellDef="let element">{{ element.name }}</td>
+						<td mat-cell *matCellDef="let element">
+							{{ element.name }}
+						</td>
 					</ng-container>
 
-					@for (col of [].constructor(numberOfDays.value); track $index) {
+					@for (
+						col of [].constructor(numberOfDays.value);
+						track $index
+					) {
 						<ng-container [matColumnDef]="'day-' + $index">
-							<th mat-header-cell *matHeaderCellDef>{{ $index + 1 }}</th>
+							<th mat-header-cell *matHeaderCellDef>
+								{{ $index + 1 }}
+							</th>
 							<td mat-cell *matCellDef="let element">
 								{{ element.attendance[$index] }}
 							</td>
@@ -278,7 +300,10 @@ interface AttendanceRecord {
 					</ng-container>
 
 					<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-					<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+					<tr
+						mat-row
+						*matRowDef="let row; columns: displayedColumns"
+					></tr>
 				</table>
 			}
 		</app-is-premium>

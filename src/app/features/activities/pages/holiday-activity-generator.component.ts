@@ -13,7 +13,10 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
-import { loadSections, selectAllClassSections } from '../../../store/class-sections';
+import {
+	loadSections,
+	selectAllClassSections,
+} from '../../../store/class-sections';
 
 @Component({
 	selector: 'app-holiday-activity-generator',
@@ -45,9 +48,12 @@ import { loadSections, selectAllClassSections } from '../../../store/class-secti
 												section of sections();
 												track section._id
 											) {
-												<mat-option [value]="section._id">{{
-													section.name
-												}}</mat-option>
+												<mat-option
+													[value]="section._id"
+													>{{
+														section.name
+													}}</mat-option
+												>
 											}
 										</mat-select>
 									</mat-form-field>
@@ -55,7 +61,8 @@ import { loadSections, selectAllClassSections } from '../../../store/class-secti
 								<div style="width: 100%; flex: 1 1 auto;">
 									<mat-form-field appearance="outline">
 										<mat-label
-											>Lugar de la celebraci&oacute;n</mat-label
+											>Lugar de la
+											celebraci&oacute;n</mat-label
 										>
 										<mat-select formControlName="place">
 											<mat-option value="en el patio"
@@ -65,7 +72,8 @@ import { loadSections, selectAllClassSections } from '../../../store/class-secti
 												value="en el acto de subir la bandera, en la mañana (10 minutos maximo)"
 												>El acto cívico</mat-option
 											>
-											<mat-option value="en el salon de clases"
+											<mat-option
+												value="en el salon de clases"
 												>El salón de clases</mat-option
 											>
 										</mat-select>
@@ -85,7 +93,10 @@ import { loadSections, selectAllClassSections } from '../../../store/class-secti
 							<div>
 								<mat-form-field appearance="outline">
 									<mat-label>Detalles adicionales</mat-label>
-									<textarea matInput formControlName="question">
+									<textarea
+										matInput
+										formControlName="question"
+									>
 									</textarea>
 								</mat-form-field>
 							</div>
@@ -121,10 +132,10 @@ export class HolidayActivityGeneratorComponent implements OnInit {
 	private sb = inject(MatSnackBar);
 	private fb = inject(FormBuilder);
 	private aiService = inject(AiService);
-	#store = inject(Store)
+	#store = inject(Store);
 
-	user = this.#store.selectSignal(selectAuthUser)
-	sections = this.#store.selectSignal(selectAllClassSections)
+	user = this.#store.selectSignal(selectAuthUser);
+	sections = this.#store.selectSignal(selectAllClassSections);
 	response = '';
 	loading = true;
 
@@ -136,18 +147,26 @@ export class HolidayActivityGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit() {
-		this.#store.dispatch(loadSections())
+		this.#store.dispatch(loadSections());
 		this.loading = true;
 		this.#store.select(selectAllClassSections).subscribe({
 			next: (sections) => {
 				this.loading = false;
 				if (!sections.length) {
-					this.sb.open('No tienes secciones todavia, crea una primero.', 'Ok', { duration: 2500 });
+					this.sb.open(
+						'No tienes secciones todavia, crea una primero.',
+						'Ok',
+						{ duration: 2500 },
+					);
 				}
 			},
 			error: (err) => {
 				this.loading = false;
-				this.sb.open('Ha ocurrido un error al cargar tus secciones.', 'Ok', { duration: 2500 });
+				this.sb.open(
+					'Ha ocurrido un error al cargar tus secciones.',
+					'Ok',
+					{ duration: 2500 },
+				);
 				console.log(err.message);
 			},
 		});
@@ -181,7 +200,11 @@ IMPORTANTE: no me des palabras de introduccion ni de conclusion, solo necesito e
 			},
 			error: (err) => {
 				console.log(err);
-				this.sb.open('Ha ocurrido un error al generar tu actividad', 'Ok', { duration: 2500 });
+				this.sb.open(
+					'Ha ocurrido un error al generar tu actividad',
+					'Ok',
+					{ duration: 2500 },
+				);
 				this.loading = false;
 			},
 		});

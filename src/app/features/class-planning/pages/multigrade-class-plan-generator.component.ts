@@ -101,9 +101,11 @@ Genera un objeto JSON con la siguiente estructura exacta:
 		SimpleList,
 	],
 	template: `
-	<app-is-premium minSubscriptionType="Plan Basico">
-		<div class="container">
-				<div style="display: flex; align-items: center; margin-bottom: 16px; margin-top: 16px; justify-content: space-between;">
+		<app-is-premium minSubscriptionType="Plan Basico">
+			<div class="container">
+				<div
+					style="display: flex; align-items: center; margin-bottom: 16px; margin-top: 16px; justify-content: space-between;"
+				>
 					<h2>Generador de Plan Diario Multigrado</h2>
 				</div>
 				<div>
@@ -112,34 +114,38 @@ Genera un objeto JSON con la siguiente estructura exacta:
 						(ngSubmit)="onSubmit()"
 						*ngIf="!generatedPlan"
 					>
-					<div class="form-row">
-						<mat-form-field appearance="outline">
-							<mat-label>Grados (Selecciona Múltiples)</mat-label>
-							<mat-select
-								formControlName="classSections"
-								multiple
-							>
-								<mat-option
-									*ngFor="let section of allClassSections"
-									[value]="section._id"
+						<div class="form-row">
+							<mat-form-field appearance="outline">
+								<mat-label
+									>Grados (Selecciona Múltiples)</mat-label
 								>
-									{{ section.name }}
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
+								<mat-select
+									formControlName="classSections"
+									multiple
+								>
+									<mat-option
+										*ngFor="let section of allClassSections"
+										[value]="section._id"
+									>
+										{{ section.name }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
 
-						<mat-form-field appearance="outline">
-							<mat-label>Asignatura Común</mat-label>
-							<mat-select formControlName="subject">
-								<mat-option
-									*ngFor="let subject of availableSubjects"
-									[value]="subject"
-								>
-									{{ subject | pretify }}
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
-					</div>
+							<mat-form-field appearance="outline">
+								<mat-label>Asignatura Común</mat-label>
+								<mat-select formControlName="subject">
+									<mat-option
+										*ngFor="
+											let subject of availableSubjects
+										"
+										[value]="subject"
+									>
+										{{ subject | pretify }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
 
 						<div class="form-row">
 							<mat-form-field appearance="outline">
@@ -286,7 +292,15 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												{{ generatedPlan.competence }}
 											</td>
 											<td>
-												<markdown [data]="'- ' + generatedPlan.introduction.activities.join('\n- ')" />
+												<markdown
+													[data]="
+														'- ' +
+														generatedPlan.introduction.activities.join(
+															'
+- '
+														)
+													"
+												/>
 											</td>
 											<td>
 												{{
@@ -295,7 +309,13 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												}}
 											</td>
 											<td>
-												<app-simple-list [items]="generatedPlan.introduction.resources" />
+												<app-simple-list
+													[items]="
+														generatedPlan
+															.introduction
+															.resources
+													"
+												/>
 											</td>
 										</tr>
 										<tr>
@@ -306,13 +326,26 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												Minutos)
 											</td>
 											<td>
-												<markdown [data]="'- ' + generatedPlan.main.activities.join('\n- ')" />
+												<markdown
+													[data]="
+														'- ' +
+														generatedPlan.main.activities.join(
+															'
+- '
+														)
+													"
+												/>
 											</td>
 											<td>
 												{{ generatedPlan.main.layout }}
 											</td>
 											<td>
-												<app-simple-list [items]="generatedPlan.main.resources" />
+												<app-simple-list
+													[items]="
+														generatedPlan.main
+															.resources
+													"
+												/>
 											</td>
 										</tr>
 										<tr>
@@ -324,7 +357,15 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												Minutos)
 											</td>
 											<td>
-												<markdown [data]="'- ' + generatedPlan.closing.activities.join('\n- ')" />
+												<markdown
+													[data]="
+														'- ' +
+														generatedPlan.closing.activities.join(
+															'
+- '
+														)
+													"
+												/>
 											</td>
 											<td>
 												{{
@@ -332,7 +373,12 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												}}
 											</td>
 											<td>
-												<app-simple-list [items]="generatedPlan.closing.resources" />
+												<app-simple-list
+													[items]="
+														generatedPlan.closing
+															.resources
+													"
+												/>
 											</td>
 										</tr>
 										<tr>
@@ -343,7 +389,15 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												>
 											</td>
 											<td>
-												<markdown [data]="'- ' + generatedPlan.supplementary.activities.join('\n- ')" />
+												<markdown
+													[data]="
+														'- ' +
+														generatedPlan.supplementary.activities.join(
+															'
+- '
+														)
+													"
+												/>
 											</td>
 											<td>
 												{{
@@ -352,7 +406,13 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												}}
 											</td>
 											<td>
-												<app-simple-list [items]="generatedPlan.supplementary.resources" />
+												<app-simple-list
+													[items]="
+														generatedPlan
+															.supplementary
+															.resources
+													"
+												/>
 											</td>
 										</tr>
 										<tr>
@@ -402,8 +462,8 @@ Genera un objeto JSON con la siguiente estructura exacta:
 						</div>
 					</div>
 				</div>
-		</div>
-	</app-is-premium>
+			</div>
+		</app-is-premium>
 	`,
 	styles: [
 		`
@@ -460,10 +520,10 @@ export class MultigradeClassPlanGeneratorComponent implements OnInit {
 	sb = inject(MatSnackBar);
 	fb = inject(FormBuilder);
 	aiService = inject(AiService);
-	#store = inject(Store)
+	#store = inject(Store);
 
 	allClassSections: ClassSection[] = [];
-	user = this.#store.selectSignal(selectAuthUser)
+	user = this.#store.selectSignal(selectAuthUser);
 	generating = false;
 	generatedPlan: ClassPlan | null = null;
 	classroomResources = classroomResources;
@@ -479,15 +539,18 @@ export class MultigradeClassPlanGeneratorComponent implements OnInit {
 		resources: [['Pizarra', 'Libros de texto']],
 	});
 
-	destroy$ = new Subject<void>()
+	destroy$ = new Subject<void>();
 
 	ngOnInit(): void {
-		this.#store.select(selectAllClassSections).pipe(takeUntil(this.destroy$)).subscribe((sections) => (this.allClassSections = sections));
+		this.#store
+			.select(selectAllClassSections)
+			.pipe(takeUntil(this.destroy$))
+			.subscribe((sections) => (this.allClassSections = sections));
 	}
 
 	ngOnDestroy() {
-		this.destroy$.next()
-		this.destroy$.complete()
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 
 	get availableSubjects(): string[] {

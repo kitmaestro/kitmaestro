@@ -38,7 +38,10 @@ import { AsyncPipe } from '@angular/common';
 					margin: 24px 0 12px;
 				"
 			>
-				<h2 style="margin-top: auto; margin-bottom: auto" mat-card-title>
+				<h2
+					style="margin-top: auto; margin-bottom: auto"
+					mat-card-title
+				>
 					Secciones
 				</h2>
 				<button (click)="openSectionFormDialog()" mat-flat-button>
@@ -93,8 +96,8 @@ import { AsyncPipe } from '@angular/common';
 					align-items: center;
 				"
 			>
-				No hay datos todavia. Presiona el boton <mat-icon>add</mat-icon> para
-				empezar.
+				No hay datos todavia. Presiona el boton
+				<mat-icon>add</mat-icon> para empezar.
 			</div>
 		}
 	`,
@@ -124,25 +127,25 @@ import { AsyncPipe } from '@angular/common';
 	`,
 })
 export class ClassSectionsComponent implements OnInit {
-	private dialog = inject(MatDialog)
-	#store = inject(Store)
-	sections$ = this.#store.select(selectAllClassSections)
+	private dialog = inject(MatDialog);
+	#store = inject(Store);
+	sections$ = this.#store.select(selectAllClassSections);
 
 	ngOnInit() {
-		this.#store.dispatch(loadSections())
+		this.#store.dispatch(loadSections());
 	}
 
 	openSectionFormDialog() {
 		this.dialog.open(ClassSectionFormComponent, {
 			width: '75%',
 			maxWidth: '640px',
-		})
+		});
 	}
 
 	formatValue(value: string) {
 		return value
 			.split('_')
 			.map((s) => s[0] + s.slice(1).toLowerCase().split('').join(''))
-			.join(' ')
+			.join(' ');
 	}
 }

@@ -1,9 +1,5 @@
 import { Component, input } from '@angular/core';
-import {
-	ClassSection,
-	CompetenceEntry,
-	UnitPlan,
-} from '../../../core';
+import { ClassSection, CompetenceEntry, UnitPlan } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({

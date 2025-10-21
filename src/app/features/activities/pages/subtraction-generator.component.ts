@@ -29,7 +29,7 @@ import { formatNumber } from '@angular/common';
 		MatRadioModule,
 	],
 	template: `
-				<mat-card style="margin-bottom: 24px">
+		<mat-card style="margin-bottom: 24px">
 			<mat-card-header>
 				<h2 mat-card-title>Generador de Ejercicios de Resta</h2>
 			</mat-card-header>
@@ -42,7 +42,11 @@ import { formatNumber } from '@angular/common';
 						<div style="min-width: 20%; padding-right: 8px">
 							<mat-form-field appearance="outline">
 								<mat-label>T&iacute;tulo</mat-label>
-								<input type="text" formControlName="title" matInput />
+								<input
+									type="text"
+									formControlName="title"
+									matInput
+								/>
 							</mat-form-field>
 						</div>
 						<div
@@ -55,7 +59,9 @@ import { formatNumber } from '@angular/common';
 							<mat-form-field appearance="outline">
 								<mat-label>Orientaci&oacute;n</mat-label>
 								<mat-select formControlName="orientation">
-									<mat-option value="vertical">Vertical</mat-option>
+									<mat-option value="vertical"
+										>Vertical</mat-option
+									>
 									<mat-option value="horizontal"
 										>Horizontal</mat-option
 									>
@@ -200,8 +206,8 @@ import { formatNumber } from '@angular/common';
 								margin-bottom: 15px;
 							"
 						>
-							Para reemplazar cualquiera de los ejercicios generados, haz
-							click sobre &eacute;l.
+							Para reemplazar cualquiera de los ejercicios
+							generados, haz click sobre &eacute;l.
 						</div>
 					}
 					@if (subtractions.length) {
@@ -221,7 +227,7 @@ import { formatNumber } from '@angular/common';
 						mat-raised-button
 						color="primary"
 					>
-						{{ subtractions.length ? "Regenerar" : "Generar" }}
+						{{ subtractions.length ? 'Regenerar' : 'Generar' }}
 					</button>
 				</form>
 			</mat-card-content>
@@ -238,7 +244,11 @@ import { formatNumber } from '@angular/common';
 			>
 				<mat-card>
 					<mat-card-content>
-						<div class="page" id="subtractions" style="padding: 12px">
+						<div
+							class="page"
+							id="subtractions"
+							style="padding: 12px"
+						>
 							<div style="text-align: center">
 								<h3
 									style="
@@ -249,24 +259,42 @@ import { formatNumber } from '@angular/common';
 								>
 									{{ schoolName }}
 								</h3>
-								<h4 style="margin-bottom: 0">{{ teacherName }}</h4>
-								<h5 style="font-size: medium; margin-bottom: 24px">
+								<h4 style="margin-bottom: 0">
+									{{ teacherName }}
+								</h4>
+								<h5
+									style="font-size: medium; margin-bottom: 24px"
+								>
 									Calcula las Siguientes Sumas
 								</h5>
 							</div>
 							<br />
 							<div style="margin-bottom: 42px; display: flex">
-								@if (subtractionsForm.get("name")?.value === true) {
+								@if (
+									subtractionsForm.get('name')?.value === true
+								) {
 									<div><b>Nombre</b>:</div>
 									<div class="blank"></div>
 								}
-								@if (subtractionsForm.get("grade")?.value === true) {
-									<div style="margin-left: 12px"><b>Grado</b>:</div>
+								@if (
+									subtractionsForm.get('grade')?.value ===
+									true
+								) {
+									<div style="margin-left: 12px">
+										<b>Grado</b>:
+									</div>
 									<div class="blank"></div>
 								}
-								@if (subtractionsForm.get("date")?.value === true) {
-									<div style="margin-left: 12px"><b>Fecha</b>:</div>
-									<div style="max-width: 20%" class="blank"></div>
+								@if (
+									subtractionsForm.get('date')?.value === true
+								) {
+									<div style="margin-left: 12px">
+										<b>Fecha</b>:
+									</div>
+									<div
+										style="max-width: 20%"
+										class="blank"
+									></div>
 								}
 							</div>
 							<div
@@ -278,7 +306,7 @@ import { formatNumber } from '@angular/common';
 								"
 							>
 								@for (line of subtractions; track $index) {
-									@if (orientation === "horizontal") {
+									@if (orientation === 'horizontal') {
 										<div
 											(click)="changeSustrahend($index)"
 											style="
@@ -291,7 +319,7 @@ import { formatNumber } from '@angular/common';
 												{{
 													($index + 1)
 														.toString()
-														.padStart(2, "0")
+														.padStart(2, '0')
 												}})
 												<span
 													style="
@@ -299,7 +327,7 @@ import { formatNumber } from '@angular/common';
 														font-family: serif;
 													"
 												>
-													{{ line.join(" - ") }}
+													{{ line.join(' - ') }}
 												</span> </b
 											>=
 										</div>
@@ -313,7 +341,7 @@ import { formatNumber } from '@angular/common';
 													>{{
 														($index + 1)
 															.toString()
-															.padStart(2, "0")
+															.padStart(2, '0')
 													}})</b
 												>
 											</div>
@@ -326,9 +354,12 @@ import { formatNumber } from '@angular/common';
 												"
 											>
 												@for (n of line; track $index) {
-													<div style="text-align: right">
+													<div
+														style="text-align: right"
+													>
 														@if (
-															$index === line.length - 1
+															$index ===
+															line.length - 1
 														) {
 															<span
 																style="
@@ -356,11 +387,15 @@ import { formatNumber } from '@angular/common';
 							id="subtractions-solution"
 							style="padding: 12px"
 						>
-							<div style="text-align: center; margin-bottom: 24px">
+							<div
+								style="text-align: center; margin-bottom: 24px"
+							>
 								<h4 style="margin-bottom: 0">
 									Calcula las Siguientes Sumas
 								</h4>
-								<h5 style="font-size: medium; margin-bottom: 24px">
+								<h5
+									style="font-size: medium; margin-bottom: 24px"
+								>
 									Hoja de Respuestas
 								</h5>
 							</div>
@@ -379,14 +414,16 @@ import { formatNumber } from '@angular/common';
 												>{{
 													($index + 1)
 														.toString()
-														.padStart(2, "0")
+														.padStart(2, '0')
 												}})
 												<span
 													style="
 														letter-spacing: 3px;
 														font-family: serif;
 													"
-													>{{ line.join(" - ") }}</span
+													>{{
+														line.join(' - ')
+													}}</span
 												></b
 											>=
 										</div>
@@ -410,7 +447,7 @@ import { formatNumber } from '@angular/common';
 		}
 	`,
 	styles: `
-				.board {
+		.board {
 			display: flex;
 			flex-direction: column;
 			width: fit-content;

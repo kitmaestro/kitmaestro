@@ -23,7 +23,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 				<button mat-raised-button (click)="deleteList()" type="button">
 					Eliminar
 				</button>
-				<a mat-stroked-button routerLink="/checklists" type="button">Volver</a>
+				<a mat-stroked-button routerLink="/checklists" type="button"
+					>Volver</a
+				>
 				<button mat-flat-button (click)="download()" type="button">
 					Descargar
 				</button>

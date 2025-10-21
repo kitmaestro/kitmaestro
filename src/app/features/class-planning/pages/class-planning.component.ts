@@ -1,244 +1,259 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { RouterModule } from '@angular/router'
-import { MatCardModule } from '@angular/material/card'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { MatChipsModule } from '@angular/material/chips'
-import { MatTooltipModule } from '@angular/material/tooltip'
-import { planningTools } from '../../../config/planning-tools'
-import { Store } from '@ngrx/store'
-import { selectAuthUser } from '../../../store/auth/auth.selectors'
+import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { planningTools } from '../../../config/planning-tools';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
 
 @Component({
-    selector: 'app-class-planning',
-    standalone: true,
-    imports: [
-        RouterModule,
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        MatChipsModule,
-        MatTooltipModule
-    ],
-    template: `
-    <div class="planning-container">
-      <div class="header">
-        <h1>Herramientas de Planificación</h1>
-        <p>Selecciona una herramienta para comenzar a planificar tus clases</p>
-      </div>
+	selector: 'app-class-planning',
+	standalone: true,
+	imports: [
+		RouterModule,
+		MatCardModule,
+		MatButtonModule,
+		MatIconModule,
+		MatChipsModule,
+		MatTooltipModule,
+	],
+	template: `
+		<div class="planning-container">
+			<div class="header">
+				<h1>Herramientas de Planificación</h1>
+				<p>
+					Selecciona una herramienta para comenzar a planificar tus
+					clases
+				</p>
+			</div>
 
-      <div class="tools-grid">
-        @for (tool of filteredTools(); track tool.link) {
-          <mat-card class="tool-card">
-            <div class="card-header">
-              <img [src]="tool.icon" [alt]="tool.name" class="tool-icon">
-            </div>
-            
-            <mat-card-content>
-              <h3>{{ tool.name }}</h3>
-              <p>{{ tool.description }}</p>
-            </mat-card-content>
+			<div class="tools-grid">
+				@for (tool of filteredTools(); track tool.link) {
+					<mat-card class="tool-card">
+						<div class="card-header">
+							<img
+								[src]="tool.icon"
+								[alt]="tool.name"
+								class="tool-icon"
+							/>
+						</div>
 
-            <mat-card-actions>
-              <button 
-                mat-flat-button 
-                color="primary" 
-                [routerLink]="tool.link"
-                class="action-button">
-                <mat-icon>rocket_launch</mat-icon>
-                Lanzar
-              </button>
-            </mat-card-actions>
-          </mat-card>
-        }
-      </div>
-    </div>
-  `,
-    styles: `
-    .planning-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 24px 16px;
-    }
+						<mat-card-content>
+							<h3>{{ tool.name }}</h3>
+							<p>{{ tool.description }}</p>
+						</mat-card-content>
 
-    .header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
+						<mat-card-actions>
+							<button
+								mat-flat-button
+								color="primary"
+								[routerLink]="tool.link"
+								class="action-button"
+							>
+								<mat-icon>rocket_launch</mat-icon>
+								Lanzar
+							</button>
+						</mat-card-actions>
+					</mat-card>
+				}
+			</div>
+		</div>
+	`,
+	styles: `
+		.planning-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 24px 16px;
+		}
 
-    .header h1 {
-      color: #1976d2;
-      margin-bottom: 8px;
-      font-size: 2.5rem;
-      font-weight: 300;
-    }
+		.header {
+			text-align: center;
+			margin-bottom: 32px;
+		}
 
-    .header p {
-      color: #666;
-      font-size: 1.1rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+		.header h1 {
+			color: #1976d2;
+			margin-bottom: 8px;
+			font-size: 2.5rem;
+			font-weight: 300;
+		}
 
-    .filters {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 32px;
-    }
+		.header p {
+			color: #666;
+			font-size: 1.1rem;
+			max-width: 600px;
+			margin: 0 auto;
+		}
 
-    .tools-grid {
-      display: grid;
-      gap: 24px;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    }
+		.filters {
+			display: flex;
+			justify-content: center;
+			margin-bottom: 32px;
+		}
 
-    .tool-card {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      border: 1px solid #e0e0e0;
+		.tools-grid {
+			display: grid;
+			gap: 24px;
+			grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+		}
 
-      &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      }
+		.tool-card {
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			transition:
+				transform 0.2s ease,
+				box-shadow 0.2s ease;
+			border: 1px solid #e0e0e0;
 
-      &.premium {
-        border: 2px solid #ffd700;
-        background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
-      }
-    }
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+			}
 
-    .card-header {
-      position: relative;
-      padding: 16px;
-      text-align: center;
-      border-bottom: 1px solid #f0f0f0;
-    }
+			&.premium {
+				border: 2px solid #ffd700;
+				background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
+			}
+		}
 
-    .tool-icon {
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-      margin-bottom: 8px;
-    }
+		.card-header {
+			position: relative;
+			padding: 16px;
+			text-align: center;
+			border-bottom: 1px solid #f0f0f0;
+		}
 
-    .premium-chip, .advanced-chip {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-    }
+		.tool-icon {
+			width: 80px;
+			height: 80px;
+			object-fit: contain;
+			margin-bottom: 8px;
+		}
 
-    mat-card-content {
-      flex: 1;
-      padding: 16px;
-    }
+		.premium-chip,
+		.advanced-chip {
+			position: absolute;
+			top: 8px;
+			right: 8px;
+		}
 
-    mat-card-content h3 {
-      margin: 0 0 8px 0;
-      color: #333;
-      font-size: 1.25rem;
-      font-weight: 500;
-    }
+		mat-card-content {
+			flex: 1;
+			padding: 16px;
+		}
 
-    mat-card-content p {
-      color: #666;
-      line-height: 1.5;
-      margin: 0;
-    }
+		mat-card-content h3 {
+			margin: 0 0 8px 0;
+			color: #333;
+			font-size: 1.25rem;
+			font-weight: 500;
+		}
 
-    mat-card-actions {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+		mat-card-content p {
+			color: #666;
+			line-height: 1.5;
+			margin: 0;
+		}
 
-    .action-button {
-      width: 100%;
-    }
+		mat-card-actions {
+			padding: 16px;
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
 
-    .upgrade-button {
-      width: 100%;
-      border: 1px solid #ffd700;
-    }
+		.action-button {
+			width: 100%;
+		}
 
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: #666;
-    }
+		.upgrade-button {
+			width: 100%;
+			border: 1px solid #ffd700;
+		}
 
-    .empty-icon {
-      font-size: 64px;
-      width: 64px;
-      height: 64px;
-      margin-bottom: 16px;
-      color: #ccc;
-    }
+		.empty-state {
+			text-align: center;
+			padding: 60px 20px;
+			color: #666;
+		}
 
-    .empty-state h3 {
-      margin-bottom: 8px;
-      color: #333;
-    }
+		.empty-icon {
+			font-size: 64px;
+			width: 64px;
+			height: 64px;
+			margin-bottom: 16px;
+			color: #ccc;
+		}
 
-    @media (max-width: 768px) {
-      .planning-container {
-        padding: 16px 8px;
-      }
+		.empty-state h3 {
+			margin-bottom: 8px;
+			color: #333;
+		}
 
-      .tools-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
+		@media (max-width: 768px) {
+			.planning-container {
+				padding: 16px 8px;
+			}
 
-      .header h1 {
-        font-size: 2rem;
-      }
-    }
+			.tools-grid {
+				grid-template-columns: 1fr;
+				gap: 16px;
+			}
 
-    @media (max-width: 480px) {
-      .tools-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .tool-card {
-        margin: 0 8px;
-      }
-    }
-  `
+			.header h1 {
+				font-size: 2rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.tools-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.tool-card {
+				margin: 0 8px;
+			}
+		}
+	`,
 })
 export class ClassPlanningComponent implements OnInit {
-    private store = inject(Store)
+	private store = inject(Store);
 
-    tools = planningTools
-    selectedTier = signal(0)
-    user = this.store.selectSignal(selectAuthUser)
+	tools = planningTools;
+	selectedTier = signal(0);
+	user = this.store.selectSignal(selectAuthUser);
 
-    filteredTools = computed(() => {
-        const tier = this.selectedTier()
-        if (tier === 0) {
-            return this.tools
-        }
-        return this.tools.filter(tool => tool.tier === tier)
-    })
+	filteredTools = computed(() => {
+		const tier = this.selectedTier();
+		if (tier === 0) {
+			return this.tools;
+		}
+		return this.tools.filter((tool) => tool.tier === tier);
+	});
 
-    ngOnInit() {
-        console.log('Planning tools loaded:', this.tools.length)
-    }
+	ngOnInit() {
+		console.log('Planning tools loaded:', this.tools.length);
+	}
 
-    selectTier(tier: number) {
-        this.selectedTier.set(tier)
-    }
+	selectTier(tier: number) {
+		this.selectedTier.set(tier);
+	}
 
-    getTierName(tier: number): string {
-        switch (tier) {
-            case 1: return 'Básica'
-            case 2: return 'Avanzada'
-            case 3: return 'Premium'
-            default: return 'Todas'
-        }
-    }
+	getTierName(tier: number): string {
+		switch (tier) {
+			case 1:
+				return 'Básica';
+			case 2:
+				return 'Avanzada';
+			case 3:
+				return 'Premium';
+			default:
+				return 'Todas';
+		}
+	}
 }

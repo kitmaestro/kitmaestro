@@ -42,7 +42,9 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 					style="justify-content: space-between; align-items: center"
 				>
 					<mat-card-title>Generador de Exámenes</mat-card-title>
-					<button mat-flat-button routerLink="/tests">Mis Ex&aacute;menes</button>
+					<button mat-flat-button routerLink="/tests">
+						Mis Ex&aacute;menes
+					</button>
 				</mat-card-header>
 				<mat-card-content>
 					<div style="margin-top: 24px">
@@ -53,12 +55,20 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 										<mat-label>Grado</mat-label>
 										<mat-select
 											formControlName="section"
-											(selectionChange)="onSectionSelect($event)"
+											(selectionChange)="
+												onSectionSelect($event)
+											"
 										>
-											@for (section of sections; track section._id) {
-												<mat-option [value]="section._id">{{
-													section.name
-												}}</mat-option>
+											@for (
+												section of sections;
+												track section._id
+											) {
+												<mat-option
+													[value]="section._id"
+													>{{
+														section.name
+													}}</mat-option
+												>
 											}
 										</mat-select>
 									</mat-form-field>
@@ -67,7 +77,10 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									<mat-form-field>
 										<mat-label>Asignatura</mat-label>
 										<mat-select formControlName="subject">
-											@for (subject of subjects; track subject) {
+											@for (
+												subject of subjects;
+												track subject
+											) {
 												<mat-option [value]="subject">{{
 													subject | pretify
 												}}</mat-option>
@@ -79,8 +92,14 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							<div>
 								<mat-form-field>
 									<mat-label>Tipos de Ejercicios</mat-label>
-									<mat-select formControlName="items" multiple>
-										@for (itemType of itemTypes; track itemType) {
+									<mat-select
+										formControlName="items"
+										multiple
+									>
+										@for (
+											itemType of itemTypes;
+											track itemType
+										) {
 											<mat-option [value]="itemType">{{
 												itemType | pretify
 											}}</mat-option>
@@ -91,7 +110,10 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							<div class="grid-2">
 								<div>
 									<mat-form-field>
-										<mat-label>Cantidad de &Iacute;temes</mat-label>
+										<mat-label
+											>Cantidad de
+											&Iacute;temes</mat-label
+										>
 										<input
 											type="number"
 											matInput
@@ -101,7 +123,9 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 								</div>
 								<div>
 									<mat-form-field>
-										<mat-label>Puntaje M&aacute;ximo</mat-label>
+										<mat-label
+											>Puntaje M&aacute;ximo</mat-label
+										>
 										<input
 											type="number"
 											matInput
@@ -112,8 +136,14 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							</div>
 							<div>
 								<mat-form-field>
-									<mat-label>Temas (Un tema por l&iacute;nea)</mat-label>
-									<textarea matInput formControlName="topics"></textarea>
+									<mat-label
+										>Temas (Un tema por
+										l&iacute;nea)</mat-label
+									>
+									<textarea
+										matInput
+										formControlName="topics"
+									></textarea>
 								</mat-form-field>
 							</div>
 							<div
@@ -139,7 +169,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									type="submit"
 								>
 									<mat-icon>bolt</mat-icon>
-									{{ test ? "Regenerar" : "Generar" }}
+									{{ test ? 'Regenerar' : 'Generar' }}
 								</button>
 							</div>
 						</form>

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Store } from '@ngrx/store'
+import { Store } from '@ngrx/store';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { ClassPlansService } from '../../../core/services/class-plans.service';
@@ -17,7 +17,11 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { User } from '../../../core';
 import { map } from 'rxjs';
 import { selectUsersUsers } from '../../../store/users/users.selectors';
-import { createUser, deleteUser, loadUsers } from '../../../store/users/users.actions';
+import {
+	createUser,
+	deleteUser,
+	loadUsers,
+} from '../../../store/users/users.actions';
 import { UserDto } from '../../../store/users/users.models';
 
 @Component({
@@ -203,7 +207,7 @@ import { UserDto } from '../../../store/users/users.models';
 	`,
 })
 export class UsersComponent {
-	private store = inject(Store)
+	private store = inject(Store);
 	private subscriptionService = inject(UserSubscriptionService);
 	private unitPlanService = inject(UnitPlanService);
 	private classPlanService = inject(ClassPlansService);
@@ -218,7 +222,7 @@ export class UsersComponent {
 		'actions',
 	];
 
-	users$ = this.store.select(selectUsersUsers)
+	users$ = this.store.select(selectUsersUsers);
 	subscriptions$ = this.subscriptionService.findAll();
 	unitPlans$ = this.unitPlanService.findAll();
 	classPlans$ = this.classPlanService.findAll();
@@ -233,7 +237,7 @@ export class UsersComponent {
 	});
 
 	ngOnInit() {
-		this.store.dispatch(loadUsers())
+		this.store.dispatch(loadUsers());
 	}
 
 	waLink(user: User): string {
@@ -260,12 +264,12 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	}
 
 	removeUser(userId: string) {
-		this.store.dispatch(deleteUser({ userId }))
+		this.store.dispatch(deleteUser({ userId }));
 	}
 
 	createUser() {
-		const user: UserDto = this.userForm.getRawValue() as any
+		const user: UserDto = this.userForm.getRawValue() as any;
 
-		this.store.dispatch(createUser({ user }))
+		this.store.dispatch(createUser({ user }));
 	}
 }

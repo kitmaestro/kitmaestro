@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core'
-import { getSudoku } from 'sudoku-gen'
-import { wordsearch, generateLayout } from '../lib'
+import { Injectable } from '@angular/core';
+import { getSudoku } from 'sudoku-gen';
+import { wordsearch, generateLayout } from '../lib';
 
 @Injectable({
 	providedIn: 'root',
@@ -8,34 +8,34 @@ import { wordsearch, generateLayout } from '../lib'
 export class GamesService {
 	constructor() {}
 
-	generateCrossWord(input: { clue: string, answer: string }[]) {
-		return generateLayout(input)
+	generateCrossWord(input: { clue: string; answer: string }[]) {
+		return generateLayout(input);
 	}
 
 	generateWordSearch(
 		words: string[],
-		size: { w: number, h: number },
+		size: { w: number; h: number },
 		opt?: any,
 	) {
-		return wordsearch(words, size.w, size.h, opt)
+		return wordsearch(words, size.w, size.h, opt);
 	}
 
 	generateSudoku(level: 'easy' | 'medium' | 'hard' | 'expert') {
-		return getSudoku(level)
+		return getSudoku(level);
 	}
 
 	sudoku_string_to_board(board_string: string): (number | null)[][] {
-		const rows: (number | null)[][] = []
-		let cur_row: (number | null)[] = []
-		const board = board_string.split('')
+		const rows: (number | null)[][] = [];
+		let cur_row: (number | null)[] = [];
+		const board = board_string.split('');
 
 		board.forEach((el, i) => {
-			cur_row.push(el === '-' ? null : +el)
+			cur_row.push(el === '-' ? null : +el);
 			if (i % 9 === 8) {
-				rows.push(cur_row)
-				cur_row = []
+				rows.push(cur_row);
+				cur_row = [];
 			}
-		})
+		});
 		const boxes: (number | null)[][] = [
 			[
 				rows[0].slice(0, 3),
@@ -70,8 +70,8 @@ export class GamesService {
 				rows[8].slice(3, 6),
 			].flat(),
 			[rows[6].slice(6), rows[7].slice(6), rows[8].slice(6)].flat(),
-		]
+		];
 
-		return boxes
+		return boxes;
 	}
 }

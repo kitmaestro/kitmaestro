@@ -11,11 +11,7 @@ import { StudentsService } from '../../../core/services/students.service';
 import { Student } from '../../../core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import {
-	Attendance,
-	AttendanceCalendar,
-	AttendanceWeek,
-} from '../../../core';
+import { Attendance, AttendanceCalendar, AttendanceWeek } from '../../../core';
 import { AttendanceService } from '../../../core/services/attendance.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -60,7 +56,10 @@ import { MatIconModule } from '@angular/material/icon';
 										>{{ section.name }} ({{
 											section.year | pretify
 										}}
-										de {{ section.level | pretify }})</mat-option
+										de
+										{{
+											section.level | pretify
+										}})</mat-option
 									>
 								}
 							</mat-select>
@@ -131,7 +130,9 @@ import { MatIconModule } from '@angular/material/icon';
 					<tr>
 						@for (week of calendar.weeks; track week.week) {
 							@for (day of week.days; track $index) {
-								<td style="text-align: center">{{ day.date }}</td>
+								<td style="text-align: center">
+									{{ day.date }}
+								</td>
 							}
 						}
 						<td style="text-align: center">P</td>
@@ -141,22 +142,36 @@ import { MatIconModule } from '@angular/material/icon';
 					</tr>
 				</thead>
 				<tbody>
-					@for (student of students; track student._id; let i = $index) {
+					@for (
+						student of students;
+						track student._id;
+						let i = $index
+					) {
 						<tr>
 							<th style="text-align: start; padding: 4px 8px">
-								{{ (i + 1).toString().padStart(2, "0") }}.
+								{{ (i + 1).toString().padStart(2, '0') }}.
 								{{ student.firstname }} {{ student.lastname }}
 							</th>
 							@for (week of calendar.weeks; track week.week) {
 								@for (day of week.days; track $index) {
 									<td
 										style="text-align: center; cursor: pointer"
-										[class.holiday]="holidays.includes(day.date)"
+										[class.holiday]="
+											holidays.includes(day.date)
+										"
 										(click)="
-											toggleAttendance(student._id, day.date)
+											toggleAttendance(
+												student._id,
+												day.date
+											)
 										"
 									>
-										{{ getAttendanceDay(student._id, day.date)[0] }}
+										{{
+											getAttendanceDay(
+												student._id,
+												day.date
+											)[0]
+										}}
 									</td>
 								}
 							}
@@ -178,13 +193,18 @@ import { MatIconModule } from '@angular/material/icon';
 							<tr>
 								<td
 									[attr.colspan]="
-										calendar.weeks.length * calendar.daysPerWeek + 5
+										calendar.weeks.length *
+											calendar.daysPerWeek +
+										5
 									"
 									style="padding: 24px; text-align: center"
 								>
-									No has registrado ningun estudiante en esta seccion
-									todavia. Tienes que
-									<a routerLink="/sections/{{ section.value }}"
+									No has registrado ningun estudiante en esta
+									seccion todavia. Tienes que
+									<a
+										routerLink="/sections/{{
+											section.value
+										}}"
 										>registrar tus estudiantes</a
 									>
 									antes de usar esta herramienta.
@@ -222,7 +242,7 @@ import { MatIconModule } from '@angular/material/icon';
 				color="primary"
 				[disabled]="saving || downloading || removing"
 			>
-				<mat-icon>save</mat-icon>{{ saving ? "Guardando" : "Guardar" }}
+				<mat-icon>save</mat-icon>{{ saving ? 'Guardando' : 'Guardar' }}
 			</button>
 			<button
 				(click)="download()"
@@ -231,7 +251,8 @@ import { MatIconModule } from '@angular/material/icon';
 				color="primary"
 				[disabled]="saving || downloading || removing"
 			>
-				<mat-icon>download</mat-icon>{{ saving ? "Descargando" : "Descargar" }}
+				<mat-icon>download</mat-icon
+				>{{ saving ? 'Descargando' : 'Descargar' }}
 			</button>
 			<button
 				(click)="deleteEntries()"

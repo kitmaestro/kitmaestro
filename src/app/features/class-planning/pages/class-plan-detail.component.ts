@@ -1,20 +1,24 @@
-import { Component, inject, signal } from '@angular/core'
-import { ActivatedRoute, Router, RouterModule } from '@angular/router'
-import { ClassPlansService } from '../../../core/services/class-plans.service'
-import { UserService } from '../../../core/services/user.service'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { PdfService } from '../../../core/services/pdf.service'
-import { MatCardModule } from '@angular/material/card'
-import { MatButtonModule } from '@angular/material/button'
-import { Subject, tap } from 'rxjs'
-import { ClassPlan } from '../../../core'
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
-import { UserSubscriptionService } from '../../../core/services'
-import { AsyncPipe, DatePipe } from '@angular/common'
-import { Store } from '@ngrx/store'
-import { selectSelectedClassPlan } from '../../../store/class-plans/class-plans.selectors'
-import { selectAuthUser } from '../../../store/auth/auth.selectors'
-import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../store/class-plans/class-plans.actions'
+import { Component, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ClassPlansService } from '../../../core/services/class-plans.service';
+import { UserService } from '../../../core/services/user.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { PdfService } from '../../../core/services/pdf.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { Subject, tap } from 'rxjs';
+import { ClassPlan } from '../../../core';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { UserSubscriptionService } from '../../../core/services';
+import { AsyncPipe, DatePipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { selectSelectedClassPlan } from '../../../store/class-plans/class-plans.selectors';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import {
+	deleteClassPlan,
+	downloadClassPlan,
+	loadClassPlan,
+} from '../../../store/class-plans/class-plans.actions';
 
 @Component({
 	selector: 'app-class-plan-detail',
@@ -29,7 +33,9 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 	],
 	template: `
 		<div class="content-container">
-			<div style="display: flex; gap: 12px; margin: 24px 0; justify-content: center;">
+			<div
+				style="display: flex; gap: 12px; margin: 24px 0; justify-content: center;"
+			>
 				<button
 					type="button"
 					mat-button
@@ -67,7 +73,11 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 					type="button"
 					mat-button
 					color="primary"
-					[attr.title]="!isPremium() ? 'Necesitas una suscripcion para descargar los planes' : undefined"
+					[attr.title]="
+						!isPremium()
+							? 'Necesitas una suscripcion para descargar los planes'
+							: undefined
+					"
 					(click)="downloadPlan()"
 					[disabled]="printing || !isPremium()"
 				>
@@ -81,50 +91,66 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 							<tr>
 								<td style="width: 160px">
 									<b>Fecha</b>:
-									{{ plan.date | date: "dd/MM/yyyy" : "UTC+4" }}
+									{{
+										plan.date | date: 'dd/MM/yyyy' : 'UTC+4'
+									}}
 								</td>
 								<td style="width: 280px">
-									<b>Grado y Sección</b>: {{ plan.section.name }}
+									<b>Grado y Sección</b>:
+									{{ plan.section.name }}
 								</td>
 								<td>
 									<b>Docente</b>: {{ plan.user.title }}.
-									{{ plan.user.firstname }} {{ plan.user.lastname }}
+									{{ plan.user.firstname }}
+									{{ plan.user.lastname }}
 								</td>
 								<td colspan="2">
 									<b>Área Curricular</b>:
-									{{ plan.subject || "" | pretify }}
+									{{ plan.subject || '' | pretify }}
 								</td>
 							</tr>
 						}
 						<tr>
 							<td colspan="5">
-								<b>Estrategias y técnicas de enseñanza-aprendizaje</b>:
-								{{ plan.strategies.join(", ") }}
+								<b
+									>Estrategias y técnicas de
+									enseñanza-aprendizaje</b
+								>:
+								{{ plan.strategies.join(', ') }}
 							</td>
 						</tr>
 						<tr>
 							<td colspan="5">
-								<b>Intencion Pedag&oacute;gica</b>: {{ plan.objective }}
+								<b>Intencion Pedag&oacute;gica</b>:
+								{{ plan.objective }}
 							</td>
 						</tr>
 						<tr>
 							<th>Momento / Duración</th>
 							<th style="width: 18%">Competencias Especificas</th>
 							<th>Actividades</th>
-							<th style="width: 18%">Organización de los Estudiantes</th>
+							<th style="width: 18%">
+								Organización de los Estudiantes
+							</th>
 							<th style="width: 15%">Recursos</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td>
-								<b>Inicio</b> ({{ plan.introduction.duration }} Minutos)
+								<b>Inicio</b> ({{
+									plan.introduction.duration
+								}}
+								Minutos)
 							</td>
 							<td rowspan="4">{{ plan.competence }}</td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
-										actividad of plan.introduction.activities;
+										actividad of plan.introduction
+											.activities;
 										track actividad
 									) {
 										<li>{{ actividad }}</li>
@@ -135,7 +161,9 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 								{{ plan.introduction.layout }}
 							</td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										recurso of plan.introduction.resources;
 										track recurso
@@ -147,10 +175,15 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 						</tr>
 						<tr>
 							<td>
-								<b>Desarrollo</b> ({{ plan.main.duration }} Minutos)
+								<b>Desarrollo</b> ({{
+									plan.main.duration
+								}}
+								Minutos)
 							</td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										actividad of plan.main.activities;
 										track actividad
@@ -163,7 +196,9 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 								{{ plan.main.layout }}
 							</td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										recurso of plan.main.resources;
 										track recurso
@@ -174,9 +209,16 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 							</td>
 						</tr>
 						<tr>
-							<td><b>Cierre</b> ({{ plan.closing.duration }} Minutos)</td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<b>Cierre</b> ({{
+									plan.closing.duration
+								}}
+								Minutos)
+							</td>
+							<td>
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										actividad of plan.closing.activities;
 										track actividad
@@ -189,7 +231,9 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 								{{ plan.closing.layout }}
 							</td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										recurso of plan.closing.resources;
 										track recurso
@@ -202,9 +246,12 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 						<tr>
 							<td><b>Actividades Complementarias</b></td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
-										actividad of plan.supplementary.activities;
+										actividad of plan.supplementary
+											.activities;
 										track actividad
 									) {
 										<li>{{ actividad }}</li>
@@ -215,7 +262,9 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 								{{ plan.supplementary.layout }}
 							</td>
 							<td>
-								<ul style="margin: 0; padding: 0; list-style: none">
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
 									@for (
 										recurso of plan.supplementary.resources;
 										track recurso
@@ -228,12 +277,13 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 						<tr>
 							<td colspan="5">
 								<b>Vocabulario del día/de la semana</b>:
-								{{ plan.vocabulary.join(", ") }}
+								{{ plan.vocabulary.join(', ') }}
 							</td>
 						</tr>
 						<tr>
 							<td colspan="5">
-								<b>Lecturas recomendadas o libro de la semana</b>:
+								<b>Lecturas recomendadas o libro de la semana</b
+								>:
 								{{ plan.readings }}
 							</td>
 						</tr>
@@ -280,41 +330,41 @@ import { deleteClassPlan, downloadClassPlan, loadClassPlan } from '../../../stor
 	`,
 })
 export class ClassPlanDetailComponent {
-	route = inject(ActivatedRoute)
-	router = inject(Router)
-	#store = inject(Store)
-	planId = this.route.snapshot.paramMap.get('id') || ''
+	route = inject(ActivatedRoute);
+	router = inject(Router);
+	#store = inject(Store);
+	planId = this.route.snapshot.paramMap.get('id') || '';
 	plan$ = this.#store.select(selectSelectedClassPlan).pipe(
 		tap((plan) => {
-			this.plan = plan
+			this.plan = plan;
 		}),
-	)
-	settings$ = this.#store.select(selectAuthUser)
-	userSubscriptionService = inject(UserSubscriptionService)
-	sb = inject(MatSnackBar)
-	pdfService = inject(PdfService)
-	plan: ClassPlan | null = null
-	printing = false
+	);
+	settings$ = this.#store.select(selectAuthUser);
+	userSubscriptionService = inject(UserSubscriptionService);
+	sb = inject(MatSnackBar);
+	pdfService = inject(PdfService);
+	plan: ClassPlan | null = null;
+	printing = false;
 
-	isPremium = signal(false)
+	isPremium = signal(false);
 
-	pretify = new PretifyPipe().transform
+	pretify = new PretifyPipe().transform;
 
-	destroy$ = new Subject<void>()
+	destroy$ = new Subject<void>();
 
 	ngOnInit() {
-		this.#store.dispatch(loadClassPlan({ planId: this.planId }))
-		this.userSubscriptionService.checkSubscription().subscribe(sub => {
-			let status = false
+		this.#store.dispatch(loadClassPlan({ planId: this.planId }));
+		this.userSubscriptionService.checkSubscription().subscribe((sub) => {
+			let status = false;
 			if (sub && sub.subscriptionType.toLowerCase() !== 'free') {
 				if (new Date(sub.endDate) > new Date()) {
 					if (sub.status == 'active') {
-						status = true
+						status = true;
 					}
 				}
 			}
-			this.isPremium.set(status)
-		})
+			this.isPremium.set(status);
+		});
 	}
 
 	printPlan() {
@@ -322,16 +372,16 @@ export class ClassPlanDetailComponent {
 			'La descarga empezara en un instante. No quites esta pantalla hasta que finalicen las descargas.',
 			'Ok',
 			{ duration: 3000 },
-		)
+		);
 		this.plan$.subscribe((plan) => {
 			if (plan) {
 				this.pdfService.createAndDownloadFromHTML(
 					'class-plan',
 					`Plan de Clases ${plan.section.name} de ${plan.section.level.toLowerCase()} - ${this.pretify(plan.subject || '')}`,
 					false,
-				)
+				);
 			}
-		})
+		});
 	}
 
 	async downloadPlan() {
@@ -340,20 +390,20 @@ export class ClassPlanDetailComponent {
 				'El plan no ha sido encontrado o cargado todavia',
 				'Ok',
 				{ duration: 2500 },
-			)
-			return
+			);
+			return;
 		}
-		this.printing = true
-		await this.#store.dispatch(downloadClassPlan({ plan: this.plan }))
-		this.printing = false
+		this.printing = true;
+		await this.#store.dispatch(downloadClassPlan({ plan: this.plan }));
+		this.printing = false;
 	}
 
 	deletePlan() {
-		this.#store.dispatch(deleteClassPlan({ planId: this.planId }))
-		this.router.navigateByUrl('/planning/class-plans')
+		this.#store.dispatch(deleteClassPlan({ planId: this.planId }));
+		this.router.navigateByUrl('/planning/class-plans');
 	}
 
 	goBack() {
-		window.history.back()
+		window.history.back();
 	}
 }

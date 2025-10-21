@@ -1,20 +1,26 @@
-import { Component, computed, Inject, inject } from '@angular/core'
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
-import { MatButtonModule } from '@angular/material/button'
+import { Component, computed, Inject, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import {
 	MAT_DIALOG_DATA,
 	MatDialogModule,
 	MatDialogRef,
-} from '@angular/material/dialog'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatInputModule } from '@angular/material/input'
-import { MatSelectModule } from '@angular/material/select'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { ClassSection } from '../../core/models'
-import { Store } from '@ngrx/store'
-import { ClassSectionDto, ClassSectionStateStatus, createSection, selectClassSectionsStatus, updateSection } from '../../store/class-sections'
-import { Actions } from '@ngrx/effects'
-import { Subject } from 'rxjs'
+} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ClassSection } from '../../core/models';
+import { Store } from '@ngrx/store';
+import {
+	ClassSectionDto,
+	ClassSectionStateStatus,
+	createSection,
+	selectClassSectionsStatus,
+	updateSection,
+} from '../../store/class-sections';
+import { Actions } from '@ngrx/effects';
+import { Subject } from 'rxjs';
 
 @Component({
 	selector: 'app-class-section-form',
@@ -56,10 +62,9 @@ import { Subject } from 'rxjs'
 					<mat-label>Asignaturas</mat-label>
 					<mat-select multiple formControlName="subjects">
 						@for (subject of subjectOptions; track subject.value) {
-							<mat-option
-								[value]="subject.value"
-								>{{ subject.label }}</mat-option
-							>
+							<mat-option [value]="subject.value">{{
+								subject.label
+							}}</mat-option>
 						}
 					</mat-select>
 				</mat-form-field>
@@ -89,24 +94,28 @@ import { Subject } from 'rxjs'
 	styles: 'mat-form-field {width: 100%}',
 })
 export class ClassSectionFormComponent {
-	private fb = inject(FormBuilder)
-	private dialogRef = inject(MatDialogRef<ClassSectionFormComponent>)
-	#store = inject(Store)
-	#actions$ = inject(Actions)
-	sb = inject(MatSnackBar)
-	data = inject<ClassSection | null>(MAT_DIALOG_DATA)
-	#status = this.#store.selectSignal(selectClassSectionsStatus)
-	saving = computed(() => this.#status() === ClassSectionStateStatus.CREATING_SECTION || this.#status() === ClassSectionStateStatus.UPDATING_SECTION)
-	id = ''
+	private fb = inject(FormBuilder);
+	private dialogRef = inject(MatDialogRef<ClassSectionFormComponent>);
+	#store = inject(Store);
+	#actions$ = inject(Actions);
+	sb = inject(MatSnackBar);
+	data = inject<ClassSection | null>(MAT_DIALOG_DATA);
+	#status = this.#store.selectSignal(selectClassSectionsStatus);
+	saving = computed(
+		() =>
+			this.#status() === ClassSectionStateStatus.CREATING_SECTION ||
+			this.#status() === ClassSectionStateStatus.UPDATING_SECTION,
+	);
+	id = '';
 
 	sectionForm = this.fb.group({
 		name: ['', Validators.required],
 		level: ['', Validators.required],
 		year: ['', Validators.required],
 		subjects: [[] as string[], Validators.required],
-	})
+	});
 
-	subjectOptions: { label: string, value: string }[] = [
+	subjectOptions: { label: string; value: string }[] = [
 		{ value: 'LENGUA_ESPANOLA', label: 'Lengua Española' },
 		{ value: 'MATEMATICA', label: 'Matemática' },
 		{ value: 'CIENCIAS_SOCIALES', label: 'Ciencias Sociales' },
@@ -120,48 +129,48 @@ export class ClassSectionFormComponent {
 			label: 'Formación Integral Humana y Religiosa',
 		},
 		{ value: 'TALLERES_OPTATIVOS', label: 'Talleres Optativos' },
-	]
+	];
 
-	destroy$ = new Subject<void>()
+	destroy$ = new Subject<void>();
 
 	constructor() {
-		const data = this.data
+		const data = this.data;
 		if (data) {
-			const { name, level, year, subjects, _id: id } = data
+			const { name, level, year, subjects, _id: id } = data;
 
 			this.sectionForm.setValue({
 				name: name ? name : '',
 				level: level ? level : '',
 				year: year ? year : '',
 				subjects: subjects ? subjects : [],
-			})
+			});
 
-			this.id = id || ''
+			this.id = id || '';
 		}
 	}
 
 	ngOnDestroy() {
-		this.destroy$.next()
-		this.destroy$.complete()
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 
 	ngOnInit() {
-		this.#actions$.pipe().subscribe()
+		this.#actions$.pipe().subscribe();
 	}
 
 	onSubmit() {
 		if (this.sectionForm.valid) {
-			const { name, level, year, subjects } = this.sectionForm.value
-			if (!name || !level || !year || !subjects?.length) return
+			const { name, level, year, subjects } = this.sectionForm.value;
+			if (!name || !level || !year || !subjects?.length) return;
 			if (this.data) {
-				const id = this.data._id
-				const data: ClassSectionDto = { name, level, year, subjects }
-				this.#store.dispatch(updateSection({ id, data }))
+				const id = this.data._id;
+				const data: ClassSectionDto = { name, level, year, subjects };
+				this.#store.dispatch(updateSection({ id, data }));
 			} else {
-				const section: any = { name, level, year, subjects }
-				this.#store.dispatch(createSection({ section }))
+				const section: any = { name, level, year, subjects };
+				this.#store.dispatch(createSection({ section }));
 			}
-			this.dialogRef.close()
+			this.dialogRef.close();
 		}
 	}
 }

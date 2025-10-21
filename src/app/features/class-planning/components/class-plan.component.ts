@@ -1,18 +1,14 @@
-import { Component, inject, input } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { PretifyPipe } from '../../../shared/pipes'
-import { selectAuthUser } from '../../../store'
-import { Store } from '@ngrx/store'
-import { SimpleList } from '../../../shared/ui'
-import { ClassPlan } from '../../../core'
+import { Component, inject, input } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { PretifyPipe } from '../../../shared/pipes';
+import { selectAuthUser } from '../../../store';
+import { Store } from '@ngrx/store';
+import { SimpleList } from '../../../shared/ui';
+import { ClassPlan } from '../../../core';
 
 @Component({
 	selector: 'app-class-plan',
-	imports: [
-		DatePipe,
-		PretifyPipe,
-		SimpleList,
-	],
+	imports: [DatePipe, PretifyPipe, SimpleList],
 	template: `
 		@if (plan(); as plan) {
 			<div class="shadow">
@@ -22,7 +18,9 @@ import { ClassPlan } from '../../../core'
 							<tr>
 								<td style="width: 160px">
 									<b>Fecha</b>:
-									{{ plan.date | date: 'dd/MM/yyyy' : 'UTC+4' }}
+									{{
+										plan.date | date: 'dd/MM/yyyy' : 'UTC+4'
+									}}
 								</td>
 								<td style="width: 280px">
 									<b>Grado y Sección</b>:
@@ -30,11 +28,12 @@ import { ClassPlan } from '../../../core'
 								</td>
 								<td>
 									<b>Docente</b>: {{ user()?.title }}.
-									{{ user()?.firstname }} {{ user()?.lastname }}
+									{{ user()?.firstname }}
+									{{ user()?.lastname }}
 								</td>
 								<td colspan="2">
 									<b>Área Curricular</b>:
-									{{ (plan.subject || '') | pretify }}
+									{{ plan.subject || '' | pretify }}
 								</td>
 							</tr>
 							<tr>
@@ -104,9 +103,7 @@ import { ClassPlan } from '../../../core'
 							</tr>
 							<tr>
 								<td>
-									<b>Desarrollo</b> ({{
-										plan.main.duration
-									}}
+									<b>Desarrollo</b> ({{ plan.main.duration }}
 									Minutos)
 								</td>
 								<td>
@@ -114,8 +111,7 @@ import { ClassPlan } from '../../../core'
 										style="margin: 0; padding: 0; list-style: none"
 									>
 										@for (
-											actividad of plan.main
-												.activities;
+											actividad of plan.main.activities;
 											track actividad
 										) {
 											<li>{{ actividad }}</li>
@@ -140,25 +136,29 @@ import { ClassPlan } from '../../../core'
 							</tr>
 							<tr>
 								<td>
-									<b>Cierre</b> ({{
-										plan.closing.duration
-									}}
+									<b>Cierre</b> ({{ plan.closing.duration }}
 									Minutos)
 								</td>
 								<td>
-									<app-simple-list [items]="plan.closing.activities" />
+									<app-simple-list
+										[items]="plan.closing.activities"
+									/>
 								</td>
 								<td>
 									{{ plan.closing.layout }}
 								</td>
 								<td>
-									<app-simple-list [items]="plan.closing.resources" />
+									<app-simple-list
+										[items]="plan.closing.resources"
+									/>
 								</td>
 							</tr>
 							<tr>
 								<td><b>Actividades Complementarias</b></td>
 								<td>
-									<app-simple-list [items]="plan.supplementary.activities" />
+									<app-simple-list
+										[items]="plan.supplementary.activities"
+									/>
 								</td>
 								<td>
 									{{ plan.supplementary.layout }}
@@ -270,7 +270,7 @@ import { ClassPlan } from '../../../core'
 	`,
 })
 export class ClassPlanComponent {
-	#store = inject(Store)
-	user = this.#store.selectSignal(selectAuthUser)
-	plan = input<ClassPlan | null>(null)
+	#store = inject(Store);
+	user = this.#store.selectSignal(selectAuthUser);
+	plan = input<ClassPlan | null>(null);
 }

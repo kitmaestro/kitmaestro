@@ -1,20 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar'
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { MatStepperModule } from '@angular/material/stepper'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSelectModule } from '@angular/material/select'
-import { MatInputModule } from '@angular/material/input'
-import { MatChipsModule } from '@angular/material/chips'
-import { AiService } from '../../../core/services/ai.service'
-import { UnitPlan } from '../../../core/models'
-import { Router, RouterModule } from '@angular/router'
-import { CompetenceService } from '../../../core/services/competence.service'
-import { CompetenceEntry } from '../../../core'
-import { MainTheme } from '../../../core'
-import { MainThemeService } from '../../../core/services/main-theme.service'
+import { Component, inject, OnInit } from '@angular/core';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { AiService } from '../../../core/services/ai.service';
+import { UnitPlan } from '../../../core/models';
+import { Router, RouterModule } from '@angular/router';
+import { CompetenceService } from '../../../core/services/competence.service';
+import { CompetenceEntry } from '../../../core';
+import { MainTheme } from '../../../core';
+import { MainThemeService } from '../../../core/services/main-theme.service';
 import {
 	classroomProblems,
 	classroomResources,
@@ -23,19 +23,23 @@ import {
 	generateStrategiesPrompt,
 	mainThemeCategories,
 	schoolEnvironments,
-} from '../../../config/constants'
-import { forkJoin, Subject, tap } from 'rxjs'
-import { ContentBlockService } from '../../../core/services/content-block.service'
-import { ContentBlock } from '../../../core'
-import { TEACHING_METHODS } from '../../../core/data/teaching-methods'
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
-import { UserSubscriptionService } from '../../../core/services/user-subscription.service'
-import { Store } from '@ngrx/store'
-import { selectAuthUser } from '../../../store/auth/auth.selectors'
-import { selectAllClassSections } from '../../../store/class-sections/class-sections.selectors'
-import { loadSections } from '../../../store/class-sections/class-sections.actions'
-import { createPlan, createPlanSuccess, selectAllUnitPlans } from '../../../store/unit-plans'
-import { Actions, ofType } from '@ngrx/effects'
+} from '../../../config/constants';
+import { forkJoin, Subject, tap } from 'rxjs';
+import { ContentBlockService } from '../../../core/services/content-block.service';
+import { ContentBlock } from '../../../core';
+import { TEACHING_METHODS } from '../../../core/data/teaching-methods';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { selectAllClassSections } from '../../../store/class-sections/class-sections.selectors';
+import { loadSections } from '../../../store/class-sections/class-sections.actions';
+import {
+	createPlan,
+	createPlanSuccess,
+	selectAllUnitPlans,
+} from '../../../store/unit-plans';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
 	selector: 'app-unit-plan-generator',
@@ -53,10 +57,10 @@ import { Actions, ofType } from '@ngrx/effects'
 		PretifyPipe,
 	],
 	template: `
-		<div style="display: flex; align-items: center; margin-bottom: 16px; margin-top: 16px; justify-content: space-between;">
-			<h2>
-				Generador de Unidades de Aprendizaje
-			</h2>
+		<div
+			style="display: flex; align-items: center; margin-bottom: 16px; margin-top: 16px; justify-content: space-between;"
+		>
+			<h2>Generador de Unidades de Aprendizaje</h2>
 			<div>
 				<button
 					mat-button
@@ -93,7 +97,10 @@ import { Actions, ofType } from '@ngrx/effects'
 							</mat-form-field>
 							<mat-form-field appearance="outline">
 								<mat-label>Ambiente Operativo</mat-label>
-								<mat-select formControlName="environment" required>
+								<mat-select
+									formControlName="environment"
+									required
+								>
 									@for (env of environments; track $index) {
 										<mat-option [value]="env">{{
 											env
@@ -127,7 +134,9 @@ import { Actions, ofType } from '@ngrx/effects'
 									(selectionChange)="onSubjectSelect()"
 								>
 									@for (subject of subjects; track $index) {
-										@if (subject.id !== "TALLERES_OPTATIVOS") {
+										@if (
+											subject.id !== 'TALLERES_OPTATIVOS'
+										) {
 											<mat-option [value]="subject.id">{{
 												subject.label
 											}}</mat-option>
@@ -138,11 +147,13 @@ import { Actions, ofType } from '@ngrx/effects'
 						</div>
 						@if (
 							learningSituationForm.value.subjects?.includes(
-								"LENGUA_ESPANOLA"
+								'LENGUA_ESPANOLA'
 							)
 						) {
 							<mat-form-field appearance="outline">
-								<mat-label>Contenidos de Lengua Española</mat-label>
+								<mat-label
+									>Contenidos de Lengua Española</mat-label
+								>
 								<mat-select
 									formControlName="spanishContent"
 									required
@@ -152,7 +163,8 @@ import { Actions, ofType } from '@ngrx/effects'
 										track content._id
 									) {
 										@if (
-											content.subject === "LENGUA_ESPANOLA"
+											content.subject ===
+											'LENGUA_ESPANOLA'
 										) {
 											<mat-option [value]="content._id">{{
 												content.title
@@ -164,7 +176,7 @@ import { Actions, ofType } from '@ngrx/effects'
 						}
 						@if (
 							learningSituationForm.value.subjects?.includes(
-								"MATEMATICA"
+								'MATEMATICA'
 							)
 						) {
 							<mat-form-field appearance="outline">
@@ -178,7 +190,7 @@ import { Actions, ofType } from '@ngrx/effects'
 										content of contentBlocks;
 										track content._id
 									) {
-										@if (content.subject === "MATEMATICA") {
+										@if (content.subject === 'MATEMATICA') {
 											<mat-option [value]="content._id">{{
 												content.title
 											}}</mat-option>
@@ -189,7 +201,7 @@ import { Actions, ofType } from '@ngrx/effects'
 						}
 						@if (
 							learningSituationForm.value.subjects?.includes(
-								"CIENCIAS_SOCIALES"
+								'CIENCIAS_SOCIALES'
 							)
 						) {
 							<mat-form-field appearance="outline">
@@ -206,7 +218,8 @@ import { Actions, ofType } from '@ngrx/effects'
 										track content._id
 									) {
 										@if (
-											content.subject === "CIENCIAS_SOCIALES"
+											content.subject ===
+											'CIENCIAS_SOCIALES'
 										) {
 											<mat-option [value]="content._id">{{
 												content.title
@@ -218,7 +231,7 @@ import { Actions, ofType } from '@ngrx/effects'
 						}
 						@if (
 							learningSituationForm.value.subjects?.includes(
-								"CIENCIAS_NATURALES"
+								'CIENCIAS_NATURALES'
 							)
 						) {
 							<mat-form-field appearance="outline">
@@ -236,7 +249,8 @@ import { Actions, ofType } from '@ngrx/effects'
 										track content._id
 									) {
 										@if (
-											content.subject === "CIENCIAS_NATURALES"
+											content.subject ===
+											'CIENCIAS_NATURALES'
 										) {
 											<mat-option [value]="content._id">{{
 												content.title
@@ -247,7 +261,9 @@ import { Actions, ofType } from '@ngrx/effects'
 							</mat-form-field>
 						}
 						@if (
-							learningSituationForm.value.subjects?.includes("INGLES")
+							learningSituationForm.value.subjects?.includes(
+								'INGLES'
+							)
 						) {
 							<mat-form-field appearance="outline">
 								<mat-label>Contenidos de Inglés</mat-label>
@@ -259,7 +275,7 @@ import { Actions, ofType } from '@ngrx/effects'
 										content of contentBlocks;
 										track content._id
 									) {
-										@if (content.subject === "INGLES") {
+										@if (content.subject === 'INGLES') {
 											<mat-option [value]="content._id">{{
 												content.title
 											}}</mat-option>
@@ -270,7 +286,7 @@ import { Actions, ofType } from '@ngrx/effects'
 						}
 						@if (
 							learningSituationForm.value.subjects?.includes(
-								"FRANCES"
+								'FRANCES'
 							)
 						) {
 							<mat-form-field appearance="outline">
@@ -283,7 +299,7 @@ import { Actions, ofType } from '@ngrx/effects'
 										content of contentBlocks;
 										track content._id
 									) {
-										@if (content.subject === "FRANCES") {
+										@if (content.subject === 'FRANCES') {
 											<mat-option [value]="content._id">{{
 												content.title
 											}}</mat-option>
@@ -294,7 +310,7 @@ import { Actions, ofType } from '@ngrx/effects'
 						}
 						@if (
 							learningSituationForm.value.subjects?.includes(
-								"FORMACION_HUMANA"
+								'FORMACION_HUMANA'
 							)
 						) {
 							<mat-form-field appearance="outline">
@@ -312,7 +328,8 @@ import { Actions, ofType } from '@ngrx/effects'
 										track content._id
 									) {
 										@if (
-											content.subject === "FORMACION_HUMANA"
+											content.subject ===
+											'FORMACION_HUMANA'
 										) {
 											<mat-option [value]="content._id">{{
 												content.title
@@ -324,7 +341,7 @@ import { Actions, ofType } from '@ngrx/effects'
 						}
 						@if (
 							learningSituationForm.value.subjects?.includes(
-								"EDUCACION_FISICA"
+								'EDUCACION_FISICA'
 							)
 						) {
 							<mat-form-field appearance="outline">
@@ -341,7 +358,8 @@ import { Actions, ofType } from '@ngrx/effects'
 										track content._id
 									) {
 										@if (
-											content.subject === "EDUCACION_FISICA"
+											content.subject ===
+											'EDUCACION_FISICA'
 										) {
 											<mat-option [value]="content._id">{{
 												content.title
@@ -353,12 +371,13 @@ import { Actions, ofType } from '@ngrx/effects'
 						}
 						@if (
 							learningSituationForm.value.subjects?.includes(
-								"EDUCACION_ARTISTICA"
+								'EDUCACION_ARTISTICA'
 							)
 						) {
 							<mat-form-field appearance="outline">
 								<mat-label
-									>Contenidos de Educación Artística</mat-label
+									>Contenidos de Educación
+									Artística</mat-label
 								>
 								<mat-select
 									multiple
@@ -371,7 +390,7 @@ import { Actions, ofType } from '@ngrx/effects'
 									) {
 										@if (
 											content.subject ===
-											"EDUCACION_ARTISTICA"
+											'EDUCACION_ARTISTICA'
 										) {
 											<mat-option [value]="content._id">{{
 												content.title
@@ -384,7 +403,9 @@ import { Actions, ofType } from '@ngrx/effects'
 						<div class="flex-on-md">
 							<div style="flex: 1 1 auto">
 								<mat-form-field appearance="outline">
-									<mat-label>Tipo de Situaci&oacute;n</mat-label>
+									<mat-label
+										>Tipo de Situaci&oacute;n</mat-label
+									>
 									<mat-select
 										formControlName="situationType"
 										required
@@ -402,11 +423,13 @@ import { Actions, ofType } from '@ngrx/effects'
 							</div>
 							@if (
 								learningSituationForm.value.situationType ===
-								"realityProblem"
+								'realityProblem'
 							) {
 								<div style="flex: 1 1 auto">
 									<mat-form-field appearance="outline">
-										<mat-label>Problema a Abordar</mat-label>
+										<mat-label
+											>Problema a Abordar</mat-label
+										>
 										<mat-select
 											formControlName="reality"
 											required
@@ -425,11 +448,13 @@ import { Actions, ofType } from '@ngrx/effects'
 							}
 							@if (
 								learningSituationForm.value.situationType ===
-								"reality"
+								'reality'
 							) {
 								<div style="flex: 1 1 auto">
 									<mat-form-field appearance="outline">
-										<mat-label>Realidad del Curso</mat-label>
+										<mat-label
+											>Realidad del Curso</mat-label
+										>
 										<input
 											matInput
 											type="text"
@@ -456,7 +481,8 @@ import { Actions, ofType } from '@ngrx/effects'
 								</mat-form-field>
 								<mat-form-field appearance="outline">
 									<mat-label
-										>Situaci&oacute;n de Aprendizaje</mat-label
+										>Situaci&oacute;n de
+										Aprendizaje</mat-label
 									>
 									<textarea
 										rows="8"
@@ -498,19 +524,24 @@ import { Actions, ofType } from '@ngrx/effects'
 				</mat-step>
 				<mat-step [stepControl]="unitPlanForm">
 					<form [formGroup]="unitPlanForm">
-						<ng-template matStepLabel>Delimitaci&oacute;n</ng-template>
+						<ng-template matStepLabel
+							>Delimitaci&oacute;n</ng-template
+						>
 						<div style="padding-top: 16px">
 							<div>
 								<mat-form-field appearance="outline">
 									<mat-label>Duraci&oacute;n</mat-label>
-									<mat-select formControlName="duration" required>
+									<mat-select
+										formControlName="duration"
+										required
+									>
 										@for (
 											n of [].constructor(6);
 											track $index
 										) {
 											<mat-option [value]="$index + 1"
 												>{{ $index + 1 }} Semana{{
-													$index > 0 ? "s" : ""
+													$index > 0 ? 's' : ''
 												}}</mat-option
 											>
 										}
@@ -544,7 +575,10 @@ import { Actions, ofType } from '@ngrx/effects'
 									multiple
 									(selectionChange)="onResourceChange($event)"
 								>
-									@for (resource of resources; track resource) {
+									@for (
+										resource of resources;
+										track resource
+									) {
 										<mat-chip-option>{{
 											resource
 										}}</mat-chip-option>
@@ -587,7 +621,9 @@ import { Actions, ofType } from '@ngrx/effects'
 											list of teacher_activities;
 											track list.subject
 										) {
-											@if (student_activities.length === 1) {
+											@if (
+												student_activities.length === 1
+											) {
 												@for (
 													activity of list.activities;
 													track activity
@@ -623,7 +659,9 @@ import { Actions, ofType } from '@ngrx/effects'
 											list of student_activities;
 											track list.subject
 										) {
-											@if (student_activities.length === 1) {
+											@if (
+												student_activities.length === 1
+											) {
 												@for (
 													activity of list.activities;
 													track activity
@@ -659,7 +697,9 @@ import { Actions, ofType } from '@ngrx/effects'
 											list of evaluation_activities;
 											track list.subject
 										) {
-											@if (student_activities.length === 1) {
+											@if (
+												student_activities.length === 1
+											) {
 												@for (
 													activity of list.activities;
 													track activity
@@ -686,9 +726,7 @@ import { Actions, ofType } from '@ngrx/effects'
 						}
 					</div>
 					<div style="text-align: end">
-						<button mat-button matStepperPrevious>
-							Anterior
-						</button>
+						<button mat-button matStepperPrevious>Anterior</button>
 						<button
 							[disabled]="generating"
 							style="margin-left: 8px"
@@ -790,8 +828,8 @@ import { Actions, ofType } from '@ngrx/effects'
 	`,
 })
 export class UnitPlanGeneratorComponent implements OnInit {
-	#store = inject(Store)
-	#actions$ = inject(Actions)
+	#store = inject(Store);
+	#actions$ = inject(Actions);
 	private aiService = inject(AiService);
 	private mainThemeService = inject(MainThemeService);
 	private fb = inject(FormBuilder);
@@ -805,14 +843,14 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	pretify = new PretifyPipe().transform;
 	working = true;
 
-	user = this.#store.selectSignal(selectAuthUser)
+	user = this.#store.selectSignal(selectAuthUser);
 
 	public mainThemeCategories = mainThemeCategories;
 	public environments = schoolEnvironments;
 	public problems = classroomProblems;
 	public resources = classroomResources;
 
-	classSections = this.#store.selectSignal(selectAllClassSections)
+	classSections = this.#store.selectSignal(selectAllClassSections);
 
 	generating = false;
 
@@ -899,20 +937,17 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadSections())
+		this.#store.dispatch(loadSections());
 		forkJoin({
 			sections: this.#store.select(selectAllClassSections),
 			subscription: this.userSubscriptionService.checkSubscription(),
 			plans: this.#store.select(selectAllUnitPlans),
-		})
-		.subscribe({
+		}).subscribe({
 			next: ({ sections, subscription, plans }) => {
 				let maxPlans = 0;
 				if (sections.length) {
 					maxPlans = sections.flatMap((s) =>
-						s.subjects.filter(
-							(s) => s !== 'TALLERES_OPTATIVOS',
-						),
+						s.subjects.filter((s) => s !== 'TALLERES_OPTATIVOS'),
 					).length;
 					this.learningSituationForm
 						.get('classSection')
@@ -977,20 +1012,22 @@ export class UnitPlanGeneratorComponent implements OnInit {
 			const resources = JSON.parse(availableResourcesStr) as string[];
 			this.unitPlanForm.get('resources')?.setValue(resources);
 		}
-		this.#actions$.pipe(
-			ofType(createPlanSuccess),
-			tap(({ plan }) => {
-				this.router
-					.navigate(['/planning/unit-plans', plan._id])
-					.then(() => {
-						this.sb.open(
-							'Tu unidad multigrado ha sido guardada!',
-							'Ok',
-							{ duration: 2500 },
-						);
-					});
-			})
-		).subscribe()
+		this.#actions$
+			.pipe(
+				ofType(createPlanSuccess),
+				tap(({ plan }) => {
+					this.router
+						.navigate(['/planning/unit-plans', plan._id])
+						.then(() => {
+							this.sb.open(
+								'Tu unidad multigrado ha sido guardada!',
+								'Ok',
+								{ duration: 2500 },
+							);
+						});
+				}),
+			)
+			.subscribe();
 	}
 
 	onSectionSelect() {
@@ -1201,7 +1238,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	}
 
 	fillFinalForm() {
-		const user = this.user()
+		const user = this.user();
 		const plan: any = {
 			user: user?._id,
 			section: this.classSection?._id,
@@ -1226,9 +1263,9 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	}
 
 	savePlan() {
-		const plan: any = this.plan
+		const plan: any = this.plan;
 		if (plan) {
-			this.#store.dispatch(createPlan({ plan }))
+			this.#store.dispatch(createPlan({ plan }));
 		}
 	}
 
@@ -1372,13 +1409,13 @@ export class UnitPlanGeneratorComponent implements OnInit {
 	}
 
 	get classSection() {
-		const { classSection: sectionId } = this.learningSituationForm.value
-		const section = this.classSections().find(cs => cs._id == sectionId)
-		return section || null
+		const { classSection: sectionId } = this.learningSituationForm.value;
+		const section = this.classSections().find((cs) => cs._id == sectionId);
+		return section || null;
 	}
 
 	get classSectionSchoolName() {
-		return this.user()?.schoolName || ''
+		return this.user()?.schoolName || '';
 	}
 
 	get classSectionName() {

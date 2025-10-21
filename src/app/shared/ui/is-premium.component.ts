@@ -39,221 +39,232 @@ interface PricingPlan {
 	standalone: true, // Es buena práctica hacer los componentes standalone
 	changeDetection: ChangeDetectionStrategy.OnPush, // Mejora el rendimiento
 	template: `
-        <!-- Contenedor principal que se centra vertical y horizontalmente -->
-        <div class="main-container">
-            <!-- 1. Estado de Carga: Se muestra solo mientras se verifica la suscripción -->
-            @if (loading()) {
-            <div class="spinner-container">
-                <span class="spinner large"></span>
-            </div>
-            } @else {
-            <!-- 2. Estado de Acceso Permitido: Muestra el contenido protegido -->
-            @if (userCanAccess()) {
-            <ng-container>
-                <ng-content></ng-content>
-            </ng-container>
-            } @else {
-            <!-- 3. Estado de "Necesita Mejorar Plan": Muestra las opciones de suscripción -->
-            <div class="upgrade-prompt">
-                <header class="upgrade-header">
-                    <h2>Contenido Premium de KitMaestro</h2>
-                    <p>
-                        Para acceder a esta funcionalidad, necesitas un plan
-                        superior. Elige el que mejor se adapte a ti.
-                    </p>
-                </header>
+		<!-- Contenedor principal que se centra vertical y horizontalmente -->
+		<div class="main-container">
+			<!-- 1. Estado de Carga: Se muestra solo mientras se verifica la suscripción -->
+			@if (loading()) {
+				<div class="spinner-container">
+					<span class="spinner large"></span>
+				</div>
+			} @else {
+				<!-- 2. Estado de Acceso Permitido: Muestra el contenido protegido -->
+				@if (userCanAccess()) {
+					<ng-container>
+						<ng-content></ng-content>
+					</ng-container>
+				} @else {
+					<!-- 3. Estado de "Necesita Mejorar Plan": Muestra las opciones de suscripción -->
+					<div class="upgrade-prompt">
+						<header class="upgrade-header">
+							<h2>Contenido Premium de KitMaestro</h2>
+							<p>
+								Para acceder a esta funcionalidad, necesitas un
+								plan superior. Elige el que mejor se adapte a
+								ti.
+							</p>
+						</header>
 
-                <!-- Contenedor de las tarjetas de precios, responsive por defecto -->
-                <div class="plans-wrapper">
-                    @for (plan of filteredPlans(); track plan.id) {
-                    <div
-                        class="plan-card"
-                        [class.recommended]="plan.code === 'Plan Plus'"
-                    >
-                        @if (plan.code === 'Plan Plus') {
-                        <div class="recommended-badge">Recomendado</div>
-                        }
-                        <h3 class="plan-name">{{ plan.name }}</h3>
-                        <div class="plan-price">
-                            <span class="price-amount"
-                                >$\{{ plan.price }}</span
-                            >
-                            <span class="price-period">/mes</span>
-                        </div>
-                        <ul class="plan-features">
-                            @for (feature of plan.features; track feature) {
-                            <li>{{ feature }}</li>
-                            }
-                        </ul>
-                        <!-- El botón de PayPal se renderizará aquí -->
-                        <div
-                            class="paypal-button-container"
-                            [id]="plan.container"
-                        ></div>
-                    </div>
-                    }
-                </div>
-            </div>
-            } }
-        </div>
-    `,
+						<!-- Contenedor de las tarjetas de precios, responsive por defecto -->
+						<div class="plans-wrapper">
+							@for (plan of filteredPlans(); track plan.id) {
+								<div
+									class="plan-card"
+									[class.recommended]="
+										plan.code === 'Plan Plus'
+									"
+								>
+									@if (plan.code === 'Plan Plus') {
+										<div class="recommended-badge">
+											Recomendado
+										</div>
+									}
+									<h3 class="plan-name">{{ plan.name }}</h3>
+									<div class="plan-price">
+										<span class="price-amount"
+											>\${{ plan.price }}</span
+										>
+										<span class="price-period">/mes</span>
+									</div>
+									<ul class="plan-features">
+										@for (
+											feature of plan.features;
+											track feature
+										) {
+											<li>{{ feature }}</li>
+										}
+									</ul>
+									<!-- El botón de PayPal se renderizará aquí -->
+									<div
+										class="paypal-button-container"
+										[id]="plan.container"
+									></div>
+								</div>
+							}
+						</div>
+					</div>
+				}
+			}
+		</div>
+	`,
 	styles: `
-        :host {
-            display: block;
-            width: 100%;
-        }
+		:host {
+			display: block;
+			width: 100%;
+		}
 
-        .main-container {
-            padding: 1rem;
-            width: 100%;
-        }
+		.main-container {
+			padding: 1rem;
+			width: 100%;
+		}
 
-        .spinner-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-        }
+		.spinner-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 200px;
+		}
 
-        .upgrade-prompt {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-            animation: fadeIn 0.5s ease-in-out;
-        }
+		.upgrade-prompt {
+			width: 100%;
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 1rem;
+			animation: fadeIn 0.5s ease-in-out;
+		}
 
-        .upgrade-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
+		.upgrade-header {
+			text-align: center;
+			margin-bottom: 2.5rem;
+		}
 
-        .upgrade-header h2 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
+		.upgrade-header h2 {
+			font-size: 2rem;
+			font-weight: 600;
+			margin-bottom: 0.5rem;
+		}
 
-        .upgrade-header p {
-            font-size: 1.1rem;
-            color: #555;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+		.upgrade-header p {
+			font-size: 1.1rem;
+			color: #555;
+			max-width: 600px;
+			margin: 0 auto;
+		}
 
-        .plans-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2rem;
-        }
+		.plans-wrapper {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 2rem;
+		}
 
-        .plan-card {
-            flex: 1 1 300px;
-            max-width: 350px;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            background-color: #ffffff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden; /* Para el badge */
-        }
+		.plan-card {
+			flex: 1 1 300px;
+			max-width: 350px;
+			border: 1px solid #e0e0e0;
+			border-radius: 12px;
+			padding: 2rem;
+			text-align: center;
+			background-color: #ffffff;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+			transition:
+				transform 0.3s,
+				box-shadow 0.3s;
+			position: relative;
+			overflow: hidden; /* Para el badge */
+		}
 
-        .plan-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
+		.plan-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+		}
 
-        .plan-card.recommended {
-            border-color: #673ab7; /* Color primario de Angular Material */
-            border-width: 2px;
-        }
-        
-        .recommended-badge {
-            position: absolute;
-            top: 15px;
-            right: -45px;
-            background-color: #673ab7;
-            color: white;
-            padding: 6px 40px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            transform: rotate(45deg);
-        }
+		.plan-card.recommended {
+			border-color: #673ab7; /* Color primario de Angular Material */
+			border-width: 2px;
+		}
 
-        .plan-name {
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
+		.recommended-badge {
+			position: absolute;
+			top: 15px;
+			right: -45px;
+			background-color: #673ab7;
+			color: white;
+			padding: 6px 40px;
+			font-size: 0.8rem;
+			font-weight: bold;
+			transform: rotate(45deg);
+		}
 
-        .plan-price {
-            margin-bottom: 1.5rem;
-        }
+		.plan-name {
+			font-size: 1.5rem;
+			font-weight: 500;
+			margin-bottom: 1rem;
+		}
 
-        .price-amount {
-            font-size: 2.8rem;
-            font-weight: 700;
-        }
+		.plan-price {
+			margin-bottom: 1.5rem;
+		}
 
-        .price-period {
-            font-size: 1rem;
-            color: #777;
-            margin-left: 0.25rem;
-        }
+		.price-amount {
+			font-size: 2.8rem;
+			font-weight: 700;
+		}
 
-        .plan-features {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 2rem 0;
-            color: #444;
-            min-height: 100px;
-        }
+		.price-period {
+			font-size: 1rem;
+			color: #777;
+			margin-left: 0.25rem;
+		}
 
-        .plan-features li {
-            padding: 0.5rem 0;
-        }
-        
-        .paypal-button-container {
-            min-height: 50px; /* Espacio para el botón de PayPal */
-        }
+		.plan-features {
+			list-style: none;
+			padding: 0;
+			margin: 0 0 2rem 0;
+			color: #444;
+			min-height: 100px;
+		}
 
-        /* Animación de entrada */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+		.plan-features li {
+			padding: 0.5rem 0;
+		}
 
-        /* Spinner (sin cambios) */
-        .spinner {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 3px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top-color: #673ab7;
-            animation: spin 1s ease-in-out infinite;
-        }
-        .spinner.large {
-            width: 50px;
-            height: 50px;
-            border-width: 5px;
-        }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-    `,
+		.paypal-button-container {
+			min-height: 50px; /* Espacio para el botón de PayPal */
+		}
+
+		/* Animación de entrada */
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+				transform: translateY(10px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		/* Spinner (sin cambios) */
+		.spinner {
+			display: inline-block;
+			width: 18px;
+			height: 18px;
+			border: 3px solid rgba(0, 0, 0, 0.1);
+			border-radius: 50%;
+			border-top-color: #673ab7;
+			animation: spin 1s ease-in-out infinite;
+		}
+		.spinner.large {
+			width: 50px;
+			height: 50px;
+			border-width: 5px;
+		}
+		@keyframes spin {
+			to {
+				transform: rotate(360deg);
+			}
+		}
+	`,
 })
 export class IsPremiumComponent implements OnInit {
 	private userSubscriptionService = inject(UserSubscriptionService);
@@ -279,7 +290,11 @@ export class IsPremiumComponent implements OnInit {
 			code: 'Plan Basico',
 			price: 9.58,
 			level: 2,
-			features: ['500 Créditos/mes', '3 Asignaturas', 'Soporte por Email'],
+			features: [
+				'500 Créditos/mes',
+				'3 Asignaturas',
+				'Soporte por Email',
+			],
 			container: 'basic-plan-button-container',
 		},
 		{
@@ -290,7 +305,11 @@ export class IsPremiumComponent implements OnInit {
 			code: 'Plan Plus',
 			price: 15.97,
 			level: 3,
-			features: ['1,500 Créditos/mes', '5 Asignaturas', 'Soporte Prioritario'],
+			features: [
+				'1,500 Créditos/mes',
+				'5 Asignaturas',
+				'Soporte Prioritario',
+			],
 			container: 'plus-plan-button-container',
 		},
 		{
@@ -301,7 +320,11 @@ export class IsPremiumComponent implements OnInit {
 			code: 'Plan Premium',
 			price: 38.36,
 			level: 4,
-			features: ['Créditos Ilimitados', 'Integraciones', 'Funciones Colaborativas'],
+			features: [
+				'Créditos Ilimitados',
+				'Integraciones',
+				'Funciones Colaborativas',
+			],
 			container: 'premium-plan-button-container',
 		},
 	];
@@ -322,31 +345,45 @@ export class IsPremiumComponent implements OnInit {
 		const requiredLevel = this.getlevelForPlan(this.minSubscriptionType());
 
 		// 2. Filtra los planes para mostrar solo los que son viables para el usuario
-		const plansToShow = this.allPricingPlans.filter(p => p.level >= requiredLevel);
+		const plansToShow = this.allPricingPlans.filter(
+			(p) => p.level >= requiredLevel,
+		);
 		this.filteredPlans.set(plansToShow);
 
 		// 3. Se suscribe para verificar el estado de la suscripción del usuario
-		this.userSubscriptionService.subscription$.pipe(
-			map(sub => {
-				if (!sub || sub.status !== 'active' || new Date(sub.endDate) < new Date()) {
-					return false;
-				}
-				const userAccessLevel = this.getlevelForPlan(sub.subscriptionType as PlanType);
-				return userAccessLevel >= requiredLevel;
-			})
-		).subscribe(canAccess => {
-			// **FIX PARA EL PARPADEO**: Actualizamos ambos signals en el mismo ciclo
-			this.userCanAccess.set(canAccess);
-			this.loading.set(false);
-		});
+		this.userSubscriptionService.subscription$
+			.pipe(
+				map((sub) => {
+					if (
+						!sub ||
+						sub.status !== 'active' ||
+						new Date(sub.endDate) < new Date()
+					) {
+						return false;
+					}
+					const userAccessLevel = this.getlevelForPlan(
+						sub.subscriptionType as PlanType,
+					);
+					return userAccessLevel >= requiredLevel;
+				}),
+			)
+			.subscribe((canAccess) => {
+				// **FIX PARA EL PARPADEO**: Actualizamos ambos signals en el mismo ciclo
+				this.userCanAccess.set(canAccess);
+				this.loading.set(false);
+			});
 	}
 
 	private getlevelForPlan(plan: PlanType | 'FREE'): number {
 		switch (plan) {
-			case 'Plan Basico': return 2;
-			case 'Plan Plus': return 3;
-			case 'Plan Premium': return 4;
-			default: return 1; // Nivel para 'FREE' o cualquier otro caso
+			case 'Plan Basico':
+				return 2;
+			case 'Plan Plus':
+				return 3;
+			case 'Plan Premium':
+				return 4;
+			default:
+				return 1; // Nivel para 'FREE' o cualquier otro caso
 		}
 	}
 
@@ -361,27 +398,43 @@ export class IsPremiumComponent implements OnInit {
 			label: 'subscribe',
 		};
 
-		this.filteredPlans().forEach(({ id: plan_id, name, code, price, container }) => {
-			if (document.getElementById(container)) {
-				paypal.Buttons({
-					style,
-					createSubscription: (data: any, actions: any) => actions.subscription.create({ plan_id }),
-					onApprove: () => this.handleSubscriptionSuccess(code, price, name),
-				}).render(`#${container}`);
-			}
-		});
+		this.filteredPlans().forEach(
+			({ id: plan_id, name, code, price, container }) => {
+				if (document.getElementById(container)) {
+					paypal
+						.Buttons({
+							style,
+							createSubscription: (data: any, actions: any) =>
+								actions.subscription.create({ plan_id }),
+							onApprove: () =>
+								this.handleSubscriptionSuccess(
+									code,
+									price,
+									name,
+								),
+						})
+						.render(`#${container}`);
+				}
+			},
+		);
 	}
 
-	private handleSubscriptionSuccess(code: PlanType, price: number, planName: string) {
-		this.userSubscriptionService.subscribe(code, 'PayPal', 30, price).subscribe(() => {
-			this.sb.open(
-				`¡Felicidades! Tu suscripción al ${planName} ha sido activada.`,
-				'OK',
-				{ duration: 7000 }
-			);
-			// Refresca el estado para que el componente muestre el contenido
-			this.userSubscriptionService.subscription$.subscribe();
-			this.userCanAccess.set(true);
-		});
+	private handleSubscriptionSuccess(
+		code: PlanType,
+		price: number,
+		planName: string,
+	) {
+		this.userSubscriptionService
+			.subscribe(code, 'PayPal', 30, price)
+			.subscribe(() => {
+				this.sb.open(
+					`¡Felicidades! Tu suscripción al ${planName} ha sido activada.`,
+					'OK',
+					{ duration: 7000 },
+				);
+				// Refresca el estado para que el componente muestre el contenido
+				this.userSubscriptionService.subscription$.subscribe();
+				this.userCanAccess.set(true);
+			});
 	}
 }

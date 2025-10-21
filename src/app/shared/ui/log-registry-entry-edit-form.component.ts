@@ -190,7 +190,7 @@ export class LogRegistryEntryEditFormComponent implements OnInit {
 	private studentService = inject(StudentsService);
 	private sb = inject(MatSnackBar);
 	private fb = inject(FormBuilder);
-	private data = inject<LogRegistryEntry>(MAT_DIALOG_DATA)
+	private data = inject<LogRegistryEntry>(MAT_DIALOG_DATA);
 
 	public entry: LogRegistryEntry | null = null;
 	public sections: ClassSection[] = [];

@@ -50,7 +50,12 @@ import {
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { Store } from '@ngrx/store';
-import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectClassSectionsStatus } from '../../../store/class-sections';
+import {
+	ClassSectionStateStatus,
+	loadSections,
+	selectAllClassSections,
+	selectClassSectionsStatus,
+} from '../../../store/class-sections';
 
 @Component({
 	selector: 'app-antonyms-generator', // Component selector
@@ -405,21 +410,23 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 	encapsulation: ViewEncapsulation.None,
 })
 export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
-	#store = inject(Store)
-	#fb = inject(FormBuilder)
-	#aiService = inject(AiService)
-	#snackBar = inject(MatSnackBar)
-	#pretify = new PretifyPipe().transform
+	#store = inject(Store);
+	#fb = inject(FormBuilder);
+	#aiService = inject(AiService);
+	#snackBar = inject(MatSnackBar);
+	#pretify = new PretifyPipe().transform;
 
 	isLoadingSections = computed(() => {
-		const statusSignal = this.#store.selectSignal(selectClassSectionsStatus)
-		return statusSignal() === ClassSectionStateStatus.LOADING_SECTIONS
-	})
-	isGenerating = signal(false)
-	showResult = signal(false)
-	generatedAntonyms = signal<string>('')
-	sections = this.#store.selectSignal(selectAllClassSections)
-	availableSubjects = signal<string[]>([])
+		const statusSignal = this.#store.selectSignal(
+			selectClassSectionsStatus,
+		);
+		return statusSignal() === ClassSectionStateStatus.LOADING_SECTIONS;
+	});
+	isGenerating = signal(false);
+	showResult = signal(false);
+	generatedAntonyms = signal<string>('');
+	sections = this.#store.selectSignal(selectAllClassSections);
+	availableSubjects = signal<string[]>([]);
 
 	antonymsForm = this.#fb.group({
 		section: ['', Validators.required],
@@ -450,7 +457,7 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 	}
 
 	#loadSections(): void {
-		this.#store.dispatch(loadSections())
+		this.#store.dispatch(loadSections());
 	}
 
 	#listenForSectionChanges(): void {
@@ -459,13 +466,15 @@ export class AntonymsGeneratorComponent implements OnInit, OnDestroy {
 				takeUntil(this.#destroy$),
 				distinctUntilChanged(),
 				tap((sectionId) => {
-					this.subjectCtrl?.reset()
-					this.subjectCtrl?.disable()
+					this.subjectCtrl?.reset();
+					this.subjectCtrl?.disable();
 					if (sectionId) {
-						const section = this.sections()?.find(cs => cs._id == sectionId)
+						const section = this.sections()?.find(
+							(cs) => cs._id == sectionId,
+						);
 						if (section) {
-							this.availableSubjects.set(section.subjects)
-							this.subjectCtrl?.enable()
+							this.availableSubjects.set(section.subjects);
+							this.subjectCtrl?.enable();
 						}
 					}
 				}),

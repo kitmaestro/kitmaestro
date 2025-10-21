@@ -27,7 +27,7 @@ import { UserService } from '../../../core/services/user.service';
 		MatSnackBarModule,
 	],
 	template: `
-				<mat-card>
+		<mat-card>
 			<mat-card-header>
 				<h2 mat-card-title>Generador de Sudoku</h2>
 			</mat-card-header>
@@ -55,7 +55,11 @@ import { UserService } from '../../../core/services/user.service';
 					<div>
 						<mat-form-field>
 							<mat-label>T&iacute;tulo</mat-label>
-							<input type="text" matInput [formControl]="sudokuTitle" />
+							<input
+								type="text"
+								matInput
+								[formControl]="sudokuTitle"
+							/>
 						</mat-form-field>
 					</div>
 					<div>
@@ -96,7 +100,7 @@ import { UserService } from '../../../core/services/user.service';
 					type="button"
 					(click)="generate()"
 				>
-					{{ board.length ? "Regenerar" : "Generar" }}
+					{{ board.length ? 'Regenerar' : 'Generar' }}
 				</button>
 			</mat-card-content>
 		</mat-card>
@@ -123,23 +127,36 @@ import { UserService } from '../../../core/services/user.service';
 								>
 									{{ schoolName }}
 								</h3>
-								<h4 style="margin-bottom: 0">{{ teacherName }}</h4>
-								<h5 style="font-size: medium; margin-bottom: 32px">
+								<h4 style="margin-bottom: 0">
+									{{ teacherName }}
+								</h4>
+								<h5
+									style="font-size: medium; margin-bottom: 32px"
+								>
 									{{ sudokuTitle.value }}
 								</h5>
 							</div>
 							<div style="margin-bottom: 32px; display: flex">
-								@if (sudokuFields.get("name")?.value === true) {
+								@if (sudokuFields.get('name')?.value === true) {
 									<div><b>Nombre</b>:</div>
 									<div class="blank"></div>
 								}
-								@if (sudokuFields.get("grade")?.value === true) {
-									<div style="margin-left: 12px"><b>Grado</b>:</div>
+								@if (
+									sudokuFields.get('grade')?.value === true
+								) {
+									<div style="margin-left: 12px">
+										<b>Grado</b>:
+									</div>
 									<div class="blank"></div>
 								}
-								@if (sudokuFields.get("date")?.value === true) {
-									<div style="margin-left: 12px"><b>Fecha</b>:</div>
-									<div style="max-width: 20%" class="blank"></div>
+								@if (sudokuFields.get('date')?.value === true) {
+									<div style="margin-left: 12px">
+										<b>Fecha</b>:
+									</div>
+									<div
+										style="max-width: 20%"
+										class="blank"
+									></div>
 								}
 							</div>
 							<div
@@ -192,8 +209,13 @@ import { UserService } from '../../../core/services/user.service';
 								id="sudoku-solution"
 								style="padding: 12px"
 							>
-								<div style="text-align: center; margin-bottom: 24px">
-									<h2>{{ sudokuTitle.value }} - Soluci&oacute;n</h2>
+								<div
+									style="text-align: center; margin-bottom: 24px"
+								>
+									<h2>
+										{{ sudokuTitle.value }} -
+										Soluci&oacute;n
+									</h2>
 								</div>
 								<div
 									style="
@@ -220,7 +242,9 @@ import { UserService } from '../../../core/services/user.service';
 											"
 										>
 											@for (tile of box; track $index) {
-												@if (board[i][$index] === null) {
+												@if (
+													board[i][$index] === null
+												) {
 													<div
 														style="
 															font-size: 14pt;

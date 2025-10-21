@@ -50,20 +50,22 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 				<ng-container matColumnDef="date">
 					<th mat-header-cell *matHeaderCellDef>Fecha</th>
 					<td mat-cell *matCellDef="let element">
-						{{ element.date | date: "dd/MM/yyyy" }}
+						{{ element.date | date: 'dd/MM/yyyy' }}
 					</td>
 				</ng-container>
 
 				<ng-container matColumnDef="time">
 					<th mat-header-cell *matHeaderCellDef>Hora</th>
 					<td mat-cell *matCellDef="let element">
-						{{ element.date | date: "hh:mm a" }}
+						{{ element.date | date: 'hh:mm a' }}
 					</td>
 				</ng-container>
 
 				<ng-container matColumnDef="grade">
 					<th mat-header-cell *matHeaderCellDef>Grado</th>
-					<td mat-cell *matCellDef="let element">{{ element.section.name }}</td>
+					<td mat-cell *matCellDef="let element">
+						{{ element.section.name }}
+					</td>
 				</ng-container>
 
 				<ng-container matColumnDef="students">
@@ -75,12 +77,16 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 				<ng-container matColumnDef="place">
 					<th mat-header-cell *matHeaderCellDef>Lugar</th>
-					<td mat-cell *matCellDef="let element">{{ element.place }}</td>
+					<td mat-cell *matCellDef="let element">
+						{{ element.place }}
+					</td>
 				</ng-container>
 
 				<ng-container matColumnDef="event">
 					<th mat-header-cell *matHeaderCellDef>Evento</th>
-					<td mat-cell *matCellDef="let element">{{ element.type }}</td>
+					<td mat-cell *matCellDef="let element">
+						{{ element.type }}
+					</td>
 				</ng-container>
 
 				<ng-container matColumnDef="actions">

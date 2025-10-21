@@ -48,7 +48,10 @@ import { CompetenceEntry } from '../../../core';
 									formControlName="section"
 									(selectionChange)="onSectionSelect($event)"
 								>
-									@for (section of sections; track section._id) {
+									@for (
+										section of sections;
+										track section._id
+									) {
 										<mat-option [value]="section._id">{{
 											section.name
 										}}</mat-option>
@@ -61,7 +64,10 @@ import { CompetenceEntry } from '../../../core';
 									formControlName="subject"
 									(selectionChange)="onSubjectSelect($event)"
 								>
-									@for (subject of subjects; track subject.id) {
+									@for (
+										subject of subjects;
+										track subject.id
+									) {
 										<mat-option [value]="subject.id">{{
 											subject.label
 										}}</mat-option>
@@ -83,7 +89,10 @@ import { CompetenceEntry } from '../../../core';
 							<mat-form-field appearance="outline">
 								<mat-label>P1</mat-label>
 								<mat-select multiple formControlName="p1">
-									@for (content of contents; track content._id) {
+									@for (
+										content of contents;
+										track content._id
+									) {
 										<mat-option [value]="content.title">{{
 											content.title
 										}}</mat-option>
@@ -93,7 +102,10 @@ import { CompetenceEntry } from '../../../core';
 							<mat-form-field appearance="outline">
 								<mat-label>P2</mat-label>
 								<mat-select multiple formControlName="p2">
-									@for (content of contents; track content._id) {
+									@for (
+										content of contents;
+										track content._id
+									) {
 										<mat-option [value]="content.title">{{
 											content.title
 										}}</mat-option>
@@ -103,7 +115,10 @@ import { CompetenceEntry } from '../../../core';
 							<mat-form-field appearance="outline">
 								<mat-label>P3</mat-label>
 								<mat-select multiple formControlName="p3">
-									@for (content of contents; track content._id) {
+									@for (
+										content of contents;
+										track content._id
+									) {
 										<mat-option [value]="content.title">{{
 											content.title
 										}}</mat-option>
@@ -113,7 +128,10 @@ import { CompetenceEntry } from '../../../core';
 							<mat-form-field appearance="outline">
 								<mat-label>P4</mat-label>
 								<mat-select multiple formControlName="p4">
-									@for (content of contents; track content._id) {
+									@for (
+										content of contents;
+										track content._id
+									) {
 										<mat-option [value]="content.title">{{
 											content.title
 										}}</mat-option>
@@ -133,7 +151,9 @@ import { CompetenceEntry } from '../../../core';
 							</button>
 							<button
 								[disabled]="
-									generatorForm.invalid || loading || generating
+									generatorForm.invalid ||
+									loading ||
+									generating
 								"
 								mat-raised-button
 								color="primary"
@@ -141,8 +161,8 @@ import { CompetenceEntry } from '../../../core';
 							>
 								{{
 									generating
-										? "Generando..."
-										: (generated ? "Reg" : "G") + "enerar"
+										? 'Generando...'
+										: (generated ? 'Reg' : 'G') + 'enerar'
 								}}
 							</button>
 						</div>
@@ -159,22 +179,30 @@ import { CompetenceEntry } from '../../../core';
 				>
 					<ng-container matColumnDef="p1">
 						<th mat-header-cell *matHeaderCellDef>Periodo 1</th>
-						<td mat-cell *matCellDef="let element">{{ element.p1 }}</td>
+						<td mat-cell *matCellDef="let element">
+							{{ element.p1 }}
+						</td>
 					</ng-container>
 
 					<ng-container matColumnDef="p2">
 						<th mat-header-cell *matHeaderCellDef>Periodo 2</th>
-						<td mat-cell *matCellDef="let element">{{ element.p2 }}</td>
+						<td mat-cell *matCellDef="let element">
+							{{ element.p2 }}
+						</td>
 					</ng-container>
 
 					<ng-container matColumnDef="p3">
 						<th mat-header-cell *matHeaderCellDef>Periodo 3</th>
-						<td mat-cell *matCellDef="let element">{{ element.p3 }}</td>
+						<td mat-cell *matCellDef="let element">
+							{{ element.p3 }}
+						</td>
 					</ng-container>
 
 					<ng-container matColumnDef="p4">
 						<th mat-header-cell *matHeaderCellDef>Periodo 4</th>
-						<td mat-cell *matCellDef="let element">{{ element.p4 }}</td>
+						<td mat-cell *matCellDef="let element">
+							{{ element.p4 }}
+						</td>
 					</ng-container>
 
 					<tr mat-header-row *matHeaderRowDef="columns"></tr>

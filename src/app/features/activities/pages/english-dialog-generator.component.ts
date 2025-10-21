@@ -31,7 +31,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 		<app-is-premium>
 			<mat-card>
 				<mat-card-header>
-					<h2 mat-card-ittle>Generador de Conversaciones en Ingl&eacute;s</h2>
+					<h2 mat-card-ittle>
+						Generador de Conversaciones en Ingl&eacute;s
+					</h2>
 				</mat-card-header>
 				<mat-card-content>
 					<form [formGroup]="generatorForm" (ngSubmit)="onSubmit()">
@@ -68,8 +70,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 							formControlName="useAi"
 							>Utilizar Inteligencia Artificial
 							<small style="color: #888"
-								>*Esta es una opci&oacute;n que a&uacute;n est&aacute;
-								en desarrollo. Ten cuidado.*</small
+								>*Esta es una opci&oacute;n que a&uacute;n
+								est&aacute; en desarrollo. Ten cuidado.*</small
 							></mat-slide-toggle
 						>
 						<div>
@@ -81,10 +83,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 							>
 								{{
 									generating
-										? "Generando..."
+										? 'Generando...'
 										: conversation
-											? "Regenerar"
-											: "Generar"
+											? 'Regenerar'
+											: 'Generar'
 								}}
 							</button>
 						</div>
@@ -100,7 +102,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 						<div class="conversation">
 							@for (line of conversation.talk; track $index) {
 								<div [class.a]="line.a" [class.b]="line.b">
-									<b>{{ line.a ? "A" : "B" }}</b
+									<b>{{ line.a ? 'A' : 'B' }}</b
 									>: {{ line.a ? line.a : line.b }}
 								</div>
 							}

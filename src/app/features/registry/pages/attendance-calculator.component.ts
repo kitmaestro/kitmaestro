@@ -17,7 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 		CommonModule,
 	],
 	template: `
-				<mat-card class="card">
+		<mat-card class="card">
 			<mat-card-header>
 				<mat-card-title>
 					<h2>Calculadora de Porcentaje de Asistencia</h2>
@@ -31,7 +31,12 @@ import { MatCardModule } from '@angular/material/card';
 							<mat-icon>remove</mat-icon>
 						</button>
 					</div>
-					<input min="1" max="25" type="number" [formControl]="days" />
+					<input
+						min="1"
+						max="25"
+						type="number"
+						[formControl]="days"
+					/>
 					<div>
 						<button mat-mini-fab color="primary" (click)="plus()">
 							<mat-icon>add</mat-icon>
@@ -54,7 +59,9 @@ import { MatCardModule } from '@angular/material/card';
 
 			<ng-container matColumnDef="percentage">
 				<th mat-header-cell *matHeaderCellDef>Porcentaje</th>
-				<td mat-cell *matCellDef="let element">{{ element.percentage }}</td>
+				<td mat-cell *matCellDef="let element">
+					{{ element.percentage }}
+				</td>
 			</ng-container>
 
 			<ng-container matColumnDef="fixed">
@@ -69,13 +76,13 @@ import { MatCardModule } from '@angular/material/card';
 		</table>
 	`,
 	styles: `
-				input::-webkit-outer-spin-button,
+		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
 			-webkit-appearance: none;
 			margin: 0;
 		}
 
-		input[type="number"] {
+		input[type='number'] {
 			-moz-appearance: textfield;
 		}
 

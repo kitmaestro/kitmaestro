@@ -27,12 +27,15 @@ import { PdfService } from '../../../core/services/pdf.service';
 		MatChipsModule,
 	],
 	template: `
-				<mat-card>
+		<mat-card>
 			<mat-card-header>
 				<h2 mat-card-title>Generador de Ecuaciones</h2>
 			</mat-card-header>
 			<mat-card-content>
-				<form [formGroup]="exerciseForm" (ngSubmit)="generateExercises()">
+				<form
+					[formGroup]="exerciseForm"
+					(ngSubmit)="generateExercises()"
+				>
 					<div>
 						<mat-form-field appearance="outline">
 							<mat-label>T&iacute;tulo</mat-label>
@@ -45,18 +48,29 @@ import { PdfService } from '../../../core/services/pdf.service';
 							<mat-label>Tipo de ecuación</mat-label>
 							<mat-select formControlName="equationType">
 								<mat-option value="linear">Lineal</mat-option>
-								<mat-option value="quadratic">Cuadrática</mat-option>
+								<mat-option value="quadratic"
+									>Cuadrática</mat-option
+								>
 							</mat-select>
 						</mat-form-field>
 					</div>
 
 					<div>
 						<mat-form-field appearance="outline">
-							<mat-label for="difficulty">Nivel de dificultad</mat-label>
-							<mat-select id="difficulty" formControlName="difficulty">
+							<mat-label for="difficulty"
+								>Nivel de dificultad</mat-label
+							>
+							<mat-select
+								id="difficulty"
+								formControlName="difficulty"
+							>
 								<mat-option value="basic">Básico</mat-option>
-								<mat-option value="intermediate">Intermedio</mat-option>
-								<mat-option value="advanced">Avanzado</mat-option>
+								<mat-option value="intermediate"
+									>Intermedio</mat-option
+								>
+								<mat-option value="advanced"
+									>Avanzado</mat-option
+								>
 							</mat-select>
 						</mat-form-field>
 					</div>
@@ -122,8 +136,8 @@ import { PdfService } from '../../../core/services/pdf.service';
 								margin-bottom: 15px;
 							"
 						>
-							Para reemplazar cualquiera de los ejercicios generados, haz
-							click sobre &eacute;l.
+							Para reemplazar cualquiera de los ejercicios
+							generados, haz click sobre &eacute;l.
 						</div>
 						<button
 							mat-raised-button
@@ -170,24 +184,37 @@ import { PdfService } from '../../../core/services/pdf.service';
 								>
 									{{ schoolName }}
 								</h3>
-								<h4 style="margin-bottom: 0">{{ teacherName }}</h4>
-								<h5 style="font-size: medium; margin-bottom: 24px">
-									{{ exerciseForm.get("title")?.value }}
+								<h4 style="margin-bottom: 0">
+									{{ teacherName }}
+								</h4>
+								<h5
+									style="font-size: medium; margin-bottom: 24px"
+								>
+									{{ exerciseForm.get('title')?.value }}
 								</h5>
 							</div>
 							<br />
 							<div style="margin-bottom: 42px; display: flex">
-								@if (exerciseForm.get("name")?.value === true) {
+								@if (exerciseForm.get('name')?.value === true) {
 									<div><b>Nombre</b>:</div>
 									<div class="blank"></div>
 								}
-								@if (exerciseForm.get("grade")?.value === true) {
-									<div style="margin-left: 12px"><b>Grado</b>:</div>
+								@if (
+									exerciseForm.get('grade')?.value === true
+								) {
+									<div style="margin-left: 12px">
+										<b>Grado</b>:
+									</div>
 									<div class="blank"></div>
 								}
-								@if (exerciseForm.get("date")?.value === true) {
-									<div style="margin-left: 12px"><b>Fecha</b>:</div>
-									<div style="max-width: 25%" class="blank"></div>
+								@if (exerciseForm.get('date')?.value === true) {
+									<div style="margin-left: 12px">
+										<b>Fecha</b>:
+									</div>
+									<div
+										style="max-width: 25%"
+										class="blank"
+									></div>
 								}
 							</div>
 							<div
@@ -210,7 +237,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 											>{{
 												($index + 1)
 													.toString()
-													.padStart(2, "0")
+													.padStart(2, '0')
 											}})</b
 										>
 										<div [innerHTML]="line"></div>
@@ -222,12 +249,20 @@ import { PdfService } from '../../../core/services/pdf.service';
 				</mat-card>
 				<mat-card style="display: none">
 					<mat-card-content>
-						<div class="page" id="equations-solution" style="padding: 12px">
-							<div style="text-align: center; margin-bottom: 24px">
+						<div
+							class="page"
+							id="equations-solution"
+							style="padding: 12px"
+						>
+							<div
+								style="text-align: center; margin-bottom: 24px"
+							>
 								<h4 style="margin-bottom: 0">
-									{{ exerciseForm.get("title")?.value }}
+									{{ exerciseForm.get('title')?.value }}
 								</h4>
-								<h5 style="font-size: medium; margin-bottom: 24px">
+								<h5
+									style="font-size: medium; margin-bottom: 24px"
+								>
 									Hoja de Respuestas
 								</h5>
 							</div>
@@ -246,7 +281,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 												>{{
 													($index + 1)
 														.toString()
-														.padStart(2, "0")
+														.padStart(2, '0')
 												}})
 												<span
 													style="
@@ -277,7 +312,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 		}
 	`,
 	styles: `
-				mat-form-field,
+		mat-form-field,
 		mat-slider {
 			width: 100%;
 		}

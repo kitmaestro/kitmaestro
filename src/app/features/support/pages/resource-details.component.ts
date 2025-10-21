@@ -315,15 +315,15 @@ export class ResourceDetailsComponent implements OnInit {
 	}
 
 	bookmark() {
-		if (!this.id) return
+		if (!this.id) return;
 
 		this.didacticResourceService.bookmark(this.id).subscribe(() => {
-			this.load()
+			this.load();
 			this.sb.open(
 				'El recurso ha sido guardado en tu biblioteca!',
 				'Ok',
 				{ duration: 2500 },
-			)
-		})
+			);
+		});
 	}
 }

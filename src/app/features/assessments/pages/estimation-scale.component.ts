@@ -49,7 +49,11 @@ import { PdfService } from '../../../core/services/pdf.service';
 					<div>
 						<mat-form-field appearance="outline">
 							<mat-label>T&iacute;tulo</mat-label>
-							<input formControlName="title" matInput type="tex" />
+							<input
+								formControlName="title"
+								matInput
+								type="tex"
+							/>
 						</mat-form-field>
 					</div>
 					<div class="grid-2">
@@ -60,7 +64,10 @@ import { PdfService } from '../../../core/services/pdf.service';
 									formControlName="section"
 									(selectionChange)="onSectionSelect($event)"
 								>
-									@for (section of sections; track section._id) {
+									@for (
+										section of sections;
+										track section._id
+									) {
 										<mat-option [value]="section._id">{{
 											section.name
 										}}</mat-option>
@@ -88,7 +95,10 @@ import { PdfService } from '../../../core/services/pdf.service';
 						<mat-form-field appearance="outline">
 							<mat-label>Competencias Fundamentales</mat-label>
 							<mat-select multiple formControlName="competence">
-								@for (competence of competenceOptions; track $index) {
+								@for (
+									competence of competenceOptions;
+									track $index
+								) {
 									<mat-option [value]="competence">{{
 										competence
 									}}</mat-option>
@@ -140,7 +150,9 @@ import { PdfService } from '../../../core/services/pdf.service';
 							<div style="display: flex">
 								<div style="flex: 1 1 auto">
 									<mat-form-field appearance="outline">
-										<mat-label>Nivel {{ $index + 1 }}</mat-label>
+										<mat-label
+											>Nivel {{ $index + 1 }}</mat-label
+										>
 										<input
 											type="text"
 											matInput
@@ -175,7 +187,9 @@ import { PdfService } from '../../../core/services/pdf.service';
 							type="submit"
 							mat-flat-button
 							[color]="estimationScale ? 'link' : 'primary'"
-							[disabled]="scaleForm.invalid || generating || saving"
+							[disabled]="
+								scaleForm.invalid || generating || saving
+							"
 						>
 							@if (generating) {
 								Generando...
@@ -233,10 +247,16 @@ import { PdfService } from '../../../core/services/pdf.service';
 									{{ user?.title }}. {{ user?.firstname }}
 									{{ user?.lastname }}
 								</h3>
-								<h2 style="margin: 0px">Escala de Estimaci&oacute;n</h2>
-								<h3 style="margin: 0px">{{ estimationScale.title }}</h3>
+								<h2 style="margin: 0px">
+									Escala de Estimaci&oacute;n
+								</h2>
+								<h3 style="margin: 0px">
+									{{ estimationScale.title }}
+								</h3>
 							</div>
-							<h3 style="text-align: end">{{ selectedSection.name }}</h3>
+							<h3 style="text-align: end">
+								{{ selectedSection.name }}
+							</h3>
 						}
 						<div
 							style="
@@ -277,7 +297,10 @@ import { PdfService } from '../../../core/services/pdf.service';
 							Competencias Espec&iacute;ficas
 						</h3>
 						<ul style="list-style: none; margin: 0; padding: 0">
-							@for (item of estimationScale.competence; track item) {
+							@for (
+								item of estimationScale.competence;
+								track item
+							) {
 								<li>- {{ item }}</li>
 							}
 						</ul>
@@ -290,7 +313,9 @@ import { PdfService } from '../../../core/services/pdf.service';
 						>
 							Indicadores de Logro
 						</h3>
-						<ul style="list-style: none; margin: 0 0 12px; padding: 0">
+						<ul
+							style="list-style: none; margin: 0 0 12px; padding: 0"
+						>
 							@for (
 								item of estimationScale.achievementIndicators;
 								track item
@@ -299,7 +324,8 @@ import { PdfService } from '../../../core/services/pdf.service';
 							}
 						</ul>
 						<p>
-							<b>Evidencia o Actividad</b>: {{ estimationScale.activity }}
+							<b>Evidencia o Actividad</b>:
+							{{ estimationScale.activity }}
 						</p>
 						<table>
 							<thead>
@@ -315,7 +341,10 @@ import { PdfService } from '../../../core/services/pdf.service';
 								</tr>
 							</thead>
 							<tbody>
-								@for (row of estimationScale.criteria; track row) {
+								@for (
+									row of estimationScale.criteria;
+									track row
+								) {
 									<tr>
 										<td>{{ row }}</td>
 										<td></td>
@@ -330,7 +359,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 				</mat-card-content>
 			</mat-card>
 		}
-`,
+	`,
 	styles: `
 		mat-form-field {
 			min-width: 100%;
@@ -372,7 +401,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 		th {
 			padding: 12px;
 		}
-`,
+	`,
 })
 export class EstimationScaleComponent implements OnInit {
 	private estimationScaleService = inject(EstimationScaleService);

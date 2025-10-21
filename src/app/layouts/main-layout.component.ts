@@ -4,7 +4,10 @@ import { filter } from 'rxjs';
 import { NavigationComponent } from './components/navigation.component';
 import { LoadingComponent } from '../shared/ui/loading.component';
 import { Store } from '@ngrx/store';
-import { selectAuthLoading, selectAuthUser } from '../store/auth/auth.selectors';
+import {
+	selectAuthLoading,
+	selectAuthUser,
+} from '../store/auth/auth.selectors';
 
 @Component({
 	selector: 'app-main-layout',
@@ -66,26 +69,25 @@ import { selectAuthLoading, selectAuthUser } from '../store/auth/auth.selectors'
 	`,
 })
 export class MainLayoutComponent implements OnInit {
-	#store = inject(Store)
-	#router = inject(Router)
+	#store = inject(Store);
+	#router = inject(Router);
 
-	user = this.#store.selectSignal(selectAuthUser)
-	loading = this.#store.selectSignal(selectAuthLoading)
+	user = this.#store.selectSignal(selectAuthUser);
+	loading = this.#store.selectSignal(selectAuthLoading);
 
 	redirectToLogin() {
-		const next = location.pathname
+		const next = location.pathname;
 		if (!next.includes('auth')) {
 			this.#router.navigate(['/auth', 'login'], {
 				queryParams: { next },
-			})
+			});
 		}
 	}
 
 	ngOnInit() {
-		this.#store.select(selectAuthUser)
-			.pipe(
-				filter((event) => event instanceof NavigationEnd),
-			)
+		this.#store
+			.select(selectAuthUser)
+			.pipe(filter((event) => event instanceof NavigationEnd))
 			.subscribe({
 				next: (user) => {
 					if (!user) {

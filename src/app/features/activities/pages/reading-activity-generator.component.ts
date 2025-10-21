@@ -1,23 +1,26 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { MatCardModule } from '@angular/material/card'
-import { MatSelectModule } from '@angular/material/select'
-import { MatInputModule } from '@angular/material/input'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { AiService } from '../../../core/services/ai.service'
-import { ReadingActivityService } from '../../../core/services/reading-activity.service'
-import { User } from '../../../core'
-import { ClassSection } from '../../../core'
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
-import { Router, RouterModule } from '@angular/router'
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
-import { Store } from '@ngrx/store'
-import { selectAuthUser } from '../../../store/auth/auth.selectors'
-import { loadSections, selectAllClassSections } from '../../../store/class-sections'
-import { MarkdownComponent } from 'ngx-markdown'
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { AiService } from '../../../core/services/ai.service';
+import { ReadingActivityService } from '../../../core/services/reading-activity.service';
+import { User } from '../../../core';
+import { ClassSection } from '../../../core';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { Router, RouterModule } from '@angular/router';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import {
+	loadSections,
+	selectAllClassSections,
+} from '../../../store/class-sections';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
 	selector: 'app-reading-activity-generator',
@@ -37,10 +40,16 @@ import { MarkdownComponent } from 'ngx-markdown'
 	template: `
 		<app-is-premium>
 			<div>
-				<div style="display: flex; gap: 12px; justify-content: space-betweeen; align-items: center;">
+				<div
+					style="display: flex; gap: 12px; justify-content: space-betweeen; align-items: center;"
+				>
 					<h2>Actividad de Lectura Guiada</h2>
 					<span style="flex: 1 1 auto"></span>
-					<button mat-flat-button routerLink="/activities/reading-activities" color="primary">
+					<button
+						mat-flat-button
+						routerLink="/activities/reading-activities"
+						color="primary"
+					>
 						Mis Actividades
 					</button>
 				</div>
@@ -102,10 +111,10 @@ import { MarkdownComponent } from 'ngx-markdown'
 							<mat-icon>bolt</mat-icon>
 							{{
 								generating
-									? "Generando..."
+									? 'Generando...'
 									: text
-										? "Regenerar"
-										: "Generar"
+										? 'Regenerar'
+										: 'Generar'
 							}}
 						</button>
 						@if (text) {
@@ -138,13 +147,19 @@ import { MarkdownComponent } from 'ngx-markdown'
 						<div id="reading-activity" style="padding: 0.5in">
 							@if (user) {
 								<div style="text-align: center">
-									<h2 style="margin-bottom: 2px; line-height: 1">
+									<h2
+										style="margin-bottom: 2px; line-height: 1"
+									>
 										{{ user.schoolName }}
 									</h2>
-									<h4 style="margin-bottom: 2px; line-height: 1">
+									<h4
+										style="margin-bottom: 2px; line-height: 1"
+									>
 										A&ntilde;o Escolar {{ schoolYear }}
 									</h4>
-									<h3 style="margin-bottom: 2px; line-height: 1">
+									<h3
+										style="margin-bottom: 2px; line-height: 1"
+									>
 										{{ user.title }}. {{ user.firstname }}
 										{{ user.lastname }}
 									</h3>
@@ -164,14 +179,18 @@ import { MarkdownComponent } from 'ngx-markdown'
 							>
 								<div><b>Nombre</b>:</div>
 								<div class="blank"></div>
-								<div style="margin-left: 12px"><b>Grado</b>:</div>
+								<div style="margin-left: 12px">
+									<b>Grado</b>:
+								</div>
 								<div class="blank"></div>
-								<div style="margin-left: 12px"><b>Fecha</b>:</div>
+								<div style="margin-left: 12px">
+									<b>Fecha</b>:
+								</div>
 								<div style="max-width: 25%" class="blank"></div>
 							</div>
 							<p style="font-size: 14pt">
-								Lee detenidamente el siguiente texto y responde las
-								preguntas.
+								Lee detenidamente el siguiente texto y responde
+								las preguntas.
 							</p>
 							<h3 style="font-size: 14pt; font-style: italic">
 								{{ text.textTitle }}
@@ -239,28 +258,28 @@ import { MarkdownComponent } from 'ngx-markdown'
 	`,
 })
 export class ReadingActivityGeneratorComponent implements OnInit {
-	private fb = inject(FormBuilder)
-	private sb = inject(MatSnackBar)
-	private aiService = inject(AiService)
-	#store = inject(Store)
-	private router = inject(Router)
-	private acitivtyService = inject(ReadingActivityService)
+	private fb = inject(FormBuilder);
+	private sb = inject(MatSnackBar);
+	private aiService = inject(AiService);
+	#store = inject(Store);
+	private router = inject(Router);
+	private acitivtyService = inject(ReadingActivityService);
 
-	public user$ = this.#store.select(selectAuthUser)
-	public user: User | null = null
-	public sections = this.#store.selectSignal(selectAllClassSections)
-	public section: ClassSection | null = null
+	public user$ = this.#store.select(selectAuthUser);
+	public user: User | null = null;
+	public sections = this.#store.selectSignal(selectAllClassSections);
+	public section: ClassSection | null = null;
 
-	generating = false
+	generating = false;
 
-	saved = false
+	saved = false;
 
 	text: {
-		textTitle: string
-		textContent: string
-		questions: string[]
-		answers: string[]
-	} | null = null
+		textTitle: string;
+		textContent: string;
+		questions: string[];
+		answers: string[];
+	} | null = null;
 
 	bloomLevels = [
 		'Recordar',
@@ -269,48 +288,48 @@ export class ReadingActivityGeneratorComponent implements OnInit {
 		'Analizar',
 		'Evaluar',
 		'Crear',
-	]
+	];
 
 	activityForm = this.fb.group({
 		section: ['', Validators.required],
 		level: ['Recordar'],
 		questions: [5, [Validators.min(1), Validators.max(15)]],
-	})
+	});
 
 	ngOnInit() {
-		this.#store.dispatch(loadSections())
-		this.user$.subscribe(user => this.user = user)
+		this.#store.dispatch(loadSections());
+		this.user$.subscribe((user) => (this.user = user));
 	}
 
 	onSectionSelect(event: any) {
-		const id: string = event.value
-		const section = this.sections().find((s) => s._id === id)
+		const id: string = event.value;
+		const section = this.sections().find((s) => s._id === id);
 		if (section) {
-			this.section = section
+			this.section = section;
 		}
 	}
 
 	onSubmit() {
-		this.generateActivity(this.activityForm.value)
+		this.generateActivity(this.activityForm.value);
 	}
 
 	pretify(str: string) {
-		return new PretifyPipe().transform(str)
+		return new PretifyPipe().transform(str);
 	}
 
 	generateActivity(form: any) {
 		const section = this.sections().find(
 			(section) => section._id === form.section,
-		)
-		if (!section) return
+		);
+		if (!section) return;
 		const text = `Escribe un texto de un nivel adecuado para alumnos de ${this.pretify(section.year)} grado de ${this.pretify(section.level)} y ${form.questions} preguntas de comprensión lectora adecuadas para trabajar/evaluar el proceso cognitivo de ${form.level.toLowerCase()}. Responde con formato JSON valido con esta interfaz:
 {
     "textTitle": string;
     "textContent": string;
     "questions": string[];
     "answers": string[];
-}`
-		this.generating = true
+}`;
+		this.generating = true;
 		this.aiService.geminiAi(text).subscribe({
 			next: (response) => {
 				try {
@@ -319,33 +338,33 @@ export class ReadingActivityGeneratorComponent implements OnInit {
 							response.response.indexOf('{'),
 							response.response.lastIndexOf('}') + 1,
 						),
-					)
+					);
 					if (text) {
-						this.text = text
-						this.saved = false
+						this.text = text;
+						this.saved = false;
 					}
 				} catch (error) {
 					this.sb.open(
 						'Ocurrió un problema mientras se generaba la actividad. Inténtalo de nuevo.',
 						'Ok',
 						{ duration: 2500 },
-					)
+					);
 				}
-				this.generating = false
+				this.generating = false;
 			},
 			error: (error) => {
 				this.sb.open(
 					'Ocurrió un problema mientras se generaba la actividad. Inténtalo de nuevo.',
 					'Ok',
 					{ duration: 2500 },
-				)
-				this.generating = false
+				);
+				this.generating = false;
 			},
-		})
+		});
 	}
 
 	save() {
-		const { section, level } = this.activityForm.value
+		const { section, level } = this.activityForm.value;
 		const activity: any = {
 			user: this.user?._id,
 			section,
@@ -354,25 +373,27 @@ export class ReadingActivityGeneratorComponent implements OnInit {
 			text: this.text?.textContent,
 			questions: this.text?.questions,
 			answers: this.text?.answers,
-		}
+		};
 
 		this.acitivtyService.create(activity).subscribe((result) => {
 			if (result._id) {
-				this.router.navigateByUrl('/activities/reading-activities').then(() => {
-					this.sb.open('La actividad ha sido guardada.', 'Ok', {
-						duration: 2500,
-					})
-				})
+				this.router
+					.navigateByUrl('/activities/reading-activities')
+					.then(() => {
+						this.sb.open('La actividad ha sido guardada.', 'Ok', {
+							duration: 2500,
+						});
+					});
 			}
-		})
+		});
 	}
 
 	get schoolYear(): string {
-		const currentMonth = new Date().getMonth() + 1
-		const currentYear = new Date().getFullYear()
+		const currentMonth = new Date().getMonth() + 1;
+		const currentYear = new Date().getFullYear();
 		if (currentMonth > 7) {
-			return `${currentYear} - ${currentYear + 1}`
+			return `${currentYear} - ${currentYear + 1}`;
 		}
-		return `${currentYear - 1} - ${currentYear}`
+		return `${currentYear - 1} - ${currentYear}`;
 	}
 }

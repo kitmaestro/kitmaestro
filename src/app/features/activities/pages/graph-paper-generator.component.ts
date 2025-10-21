@@ -22,7 +22,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 		MatIconModule,
 	],
 	template: `
-				<mat-card>
+		<mat-card>
 			<mat-card-header>
 				<h2 mat-card-title>Generador de Papel Cuadriculado</h2>
 			</mat-card-header>
@@ -44,7 +44,10 @@ import { PdfService } from '../../../core/services/pdf.service';
 							<mat-form-field>
 								<mat-label>Estilo del Borde</mat-label>
 								<mat-select formControlName="border">
-									@for (border of borderOptions; track $index) {
+									@for (
+										border of borderOptions;
+										track $index
+									) {
 										<mat-option [value]="border.name">{{
 											border.label
 										}}</mat-option>
@@ -58,7 +61,10 @@ import { PdfService } from '../../../core/services/pdf.service';
 							<mat-form-field>
 								<mat-label>Grosor del Borde</mat-label>
 								<mat-select formControlName="thickness">
-									@for (thickness of borderThickness; track $index) {
+									@for (
+										thickness of borderThickness;
+										track $index
+									) {
 										<mat-option [value]="thickness.id">{{
 											thickness.label
 										}}</mat-option>
@@ -69,7 +75,11 @@ import { PdfService } from '../../../core/services/pdf.service';
 						<div>
 							<mat-form-field>
 								<mat-label>Color del Borde</mat-label>
-								<input type="color" matInput formControlName="color" />
+								<input
+									type="color"
+									matInput
+									formControlName="color"
+								/>
 							</mat-form-field>
 						</div>
 					</div>

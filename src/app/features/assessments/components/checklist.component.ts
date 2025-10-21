@@ -68,7 +68,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 		}
 	`,
 	styles: `
-				.form-grid {
+		.form-grid {
 			display: grid;
 			gap: 12px;
 			grid-template-columns: 1fr;

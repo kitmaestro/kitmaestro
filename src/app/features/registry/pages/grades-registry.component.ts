@@ -6,48 +6,48 @@ import {
 	signal,
 	ChangeDetectionStrategy,
 	computed,
-} from '@angular/core'
+} from '@angular/core';
 import {
 	FormControl,
 	FormGroup,
 	ReactiveFormsModule,
 	Validators,
-} from '@angular/forms'
-import { CommonModule } from '@angular/common'
-import { of, forkJoin, Subscription } from 'rxjs'
-import { catchError, finalize } from 'rxjs/operators'
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { of, forkJoin, Subscription } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 
 // Angular Material Modules
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSelectModule } from '@angular/material/select'
-import { MatInputModule } from '@angular/material/input'
-import { MatButtonModule } from '@angular/material/button'
-import { MatTableModule } from '@angular/material/table'
-import { MatIconModule } from '@angular/material/icon'
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
 	MatDialog,
 	MatDialogModule,
 	MatDialogRef,
 	MAT_DIALOG_DATA,
-} from '@angular/material/dialog'
-import { MatDatepickerModule } from '@angular/material/datepicker'
-import { MatNativeDateModule } from '@angular/material/core'
-import { MatCardModule } from '@angular/material/card'
-import { MatToolbarModule } from '@angular/material/toolbar'
-import { ClassSection, Student, User } from '../../../core'
-import { StudentsService } from '../../../core/services'
-import { AssignmentService } from '../../../core/services/assignent.service'
-import { GradeService } from '../../../core/services/grade.service'
-import { Assignment } from '../../../core'
-import { Grade } from '../../../core'
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
-import { UnitPlan } from '../../../core/models'
-import { Store } from '@ngrx/store'
-import { selectAllClassSections } from '../../../store/class-sections/class-sections.selectors'
-import { selectAuthUser } from '../../../store/auth/auth.selectors'
-import { selectAllUnitPlans } from '../../../store/unit-plans/unit-plans.selectors'
+} from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { ClassSection, Student, User } from '../../../core';
+import { StudentsService } from '../../../core/services';
+import { AssignmentService } from '../../../core/services/assignent.service';
+import { GradeService } from '../../../core/services/grade.service';
+import { Assignment } from '../../../core';
+import { Grade } from '../../../core';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { UnitPlan } from '../../../core/models';
+import { Store } from '@ngrx/store';
+import { selectAllClassSections } from '../../../store/class-sections/class-sections.selectors';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { selectAllUnitPlans } from '../../../store/unit-plans/unit-plans.selectors';
 
 @Component({
 	selector: 'app-add-student-dialog',
@@ -65,7 +65,11 @@ import { selectAllUnitPlans } from '../../../store/unit-plans/unit-plans.selecto
 	template: `
 		<h2 mat-dialog-title>Agregar Estudiante</h2>
 		<mat-dialog-content [formGroup]="studentForm">
-			<mat-form-field appearance="outline" class="w-full" style="margin-top: 24px">
+			<mat-form-field
+				appearance="outline"
+				class="w-full"
+				style="margin-top: 24px"
+			>
 				<mat-label>Nombre</mat-label>
 				<input matInput formControlName="firstname" required />
 				@if (studentForm.get('firstname')?.hasError('required')) {
@@ -76,9 +80,7 @@ import { selectAllUnitPlans } from '../../../store/unit-plans/unit-plans.selecto
 				<mat-label>Apellido</mat-label>
 				<input matInput formControlName="lastname" required />
 				@if (studentForm.get('lastname')?.hasError('required')) {
-					<mat-error>
-						El apellido es requerido.
-					</mat-error>
+					<mat-error> El apellido es requerido. </mat-error>
 				}
 			</mat-form-field>
 			<mat-form-field appearance="outline" class="w-full">
@@ -119,11 +121,11 @@ import { selectAllUnitPlans } from '../../../store/unit-plans/unit-plans.selecto
 		mat-form-field {
 			width: 100%;
 		}
-	`
+	`,
 })
 export class AddStudentDialogComponent {
-	private dialogRef = inject(MatDialogRef<AddStudentDialogComponent>)
-	public studentForm: FormGroup
+	private dialogRef = inject(MatDialogRef<AddStudentDialogComponent>);
+	public studentForm: FormGroup;
 
 	constructor() {
 		this.studentForm = new FormGroup({
@@ -131,16 +133,16 @@ export class AddStudentDialogComponent {
 			lastname: new FormControl('', [Validators.required]),
 			gender: new FormControl('Femenino'),
 			birthdate: new FormControl(null),
-		})
+		});
 	}
 
 	onNoClick(): void {
-		this.dialogRef.close()
+		this.dialogRef.close();
 	}
 
 	onSave(): void {
 		if (this.studentForm.valid) {
-			this.dialogRef.close(this.studentForm.value)
+			this.dialogRef.close(this.studentForm.value);
 		}
 	}
 }
@@ -273,205 +275,199 @@ export class AddAssignmentDialogComponent {
 	],
 	template: `
 		<div class="container mx-auto p-4">
-					<h2>Registro de Calificaciones</h2>
-				<div>
-					@if (isLoading()) {
-						<div class="flex justify-center items-center p-8">
-							<mat-spinner></mat-spinner>
-						</div>
-					} @else if (error()) {
-						<div class="text-red-500 p-4 bg-red-100 rounded-md">
-							{{ error() }}
-						</div>
-					} @else {
-						<!-- Selections -->
-						<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px">
-							<mat-form-field appearance="outline">
-								<mat-label>Seleccionar Sección</mat-label>
-								<mat-select [formControl]="sectionControl">
-									@for (
-										section of sections();
-										track section._id
-									) {
-										<mat-option [value]="section._id">{{ section.name }} ({{ section.level | pretify }})</mat-option>
-									}
-								</mat-select>
-							</mat-form-field>
-
-							<mat-form-field appearance="outline">
-								<mat-label>Seleccionar Asignatura</mat-label>
-								<mat-select [formControl]="subjectControl">
-									@for (
-										subject of selectedSection()?.subjects;
-										track subject
-									) {
-										<mat-option [value]="subject">{{ subject | pretify }}</mat-option>
-									}
-								</mat-select>
-							</mat-form-field>
-							<mat-form-field appearance="outline">
-								<mat-label>Seleccionar Unidad</mat-label>
-								<mat-select [formControl]="unitPlanControl">
-									@for (
-										unitPlan of unitPlans();
-										track unitPlan._id
-									) {
-										<mat-option [value]="unitPlan._id">{{ unitPlan.title }}</mat-option>
-									}
-								</mat-select>
-							</mat-form-field>
-						</div>
-
-						<!-- Actions -->
-						@if (selectedSection()) {
-							<mat-toolbar class="rounded-t-lg">
-								<span class="flex-auto"></span>
-								<button
-									mat-stroked-button
-									color="primary"
-									(click)="manageSection()"
-								>
-									<mat-icon>settings</mat-icon> Administrar
-									Sección
-								</button>
-								<button
-									mat-stroked-button
-									color="accent"
-									class="ml-2"
-									(click)="openAddStudentDialog()"
-								>
-									<mat-icon>person_add</mat-icon> Agregar
-									Estudiante
-								</button>
-							</mat-toolbar>
-						}
-
-						<!-- Grades Table -->
-						@if (isTableVisible()) {
-							<div class="overflow-x-auto">
-								<form
-									[formGroup]="gradesForm"
-									(ngSubmit)="saveGrades()"
-								>
-									<table
-										mat-table
-										[dataSource]="students()"
-										class="mat-elevation-z8 w-full"
+			<h2>Registro de Calificaciones</h2>
+			<div>
+				@if (isLoading()) {
+					<div class="flex justify-center items-center p-8">
+						<mat-spinner></mat-spinner>
+					</div>
+				} @else if (error()) {
+					<div class="text-red-500 p-4 bg-red-100 rounded-md">
+						{{ error() }}
+					</div>
+				} @else {
+					<!-- Selections -->
+					<div
+						style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px"
+					>
+						<mat-form-field appearance="outline">
+							<mat-label>Seleccionar Sección</mat-label>
+							<mat-select [formControl]="sectionControl">
+								@for (
+									section of sections();
+									track section._id
+								) {
+									<mat-option [value]="section._id"
+										>{{ section.name }} ({{
+											section.level | pretify
+										}})</mat-option
 									>
-										<!-- Student Name Column -->
+								}
+							</mat-select>
+						</mat-form-field>
+
+						<mat-form-field appearance="outline">
+							<mat-label>Seleccionar Asignatura</mat-label>
+							<mat-select [formControl]="subjectControl">
+								@for (
+									subject of selectedSection()?.subjects;
+									track subject
+								) {
+									<mat-option [value]="subject">{{
+										subject | pretify
+									}}</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+						<mat-form-field appearance="outline">
+							<mat-label>Seleccionar Unidad</mat-label>
+							<mat-select [formControl]="unitPlanControl">
+								@for (
+									unitPlan of unitPlans();
+									track unitPlan._id
+								) {
+									<mat-option [value]="unitPlan._id">{{
+										unitPlan.title
+									}}</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+					</div>
+
+					<!-- Actions -->
+					@if (selectedSection()) {
+						<mat-toolbar class="rounded-t-lg">
+							<span class="flex-auto"></span>
+							<button
+								mat-stroked-button
+								color="primary"
+								(click)="manageSection()"
+							>
+								<mat-icon>settings</mat-icon> Administrar
+								Sección
+							</button>
+							<button
+								mat-stroked-button
+								color="accent"
+								class="ml-2"
+								(click)="openAddStudentDialog()"
+							>
+								<mat-icon>person_add</mat-icon> Agregar
+								Estudiante
+							</button>
+						</mat-toolbar>
+					}
+
+					<!-- Grades Table -->
+					@if (isTableVisible()) {
+						<div class="overflow-x-auto">
+							<form
+								[formGroup]="gradesForm"
+								(ngSubmit)="saveGrades()"
+							>
+								<table
+									mat-table
+									[dataSource]="students()"
+									class="mat-elevation-z8 w-full"
+								>
+									<!-- Student Name Column -->
+									<ng-container matColumnDef="studentName">
+										<th mat-header-cell *matHeaderCellDef>
+											Estudiante
+										</th>
+										<td mat-cell *matCellDef="let student">
+											{{ student.lastname }},
+											{{ student.firstname }}
+										</td>
+									</ng-container>
+
+									<!-- Dynamic Assignment Columns -->
+									@for (
+										assignment of assignments();
+										track assignment._id
+									) {
 										<ng-container
-											matColumnDef="studentName"
+											[matColumnDef]="assignment._id"
 										>
 											<th
 												mat-header-cell
 												*matHeaderCellDef
+												class="text-center"
 											>
-												Estudiante
+												{{ assignment.name }} <br />
+												({{ assignment.value }} pts)
 											</th>
 											<td
 												mat-cell
 												*matCellDef="let student"
 											>
-												{{ student.lastname }},
-												{{ student.firstname }}
+												<mat-form-field class="w-20">
+													<input
+														matInput
+														type="number"
+														[formControlName]="
+															getFormControlName(
+																student._id,
+																assignment._id
+															)
+														"
+													/>
+												</mat-form-field>
 											</td>
 										</ng-container>
-
-										<!-- Dynamic Assignment Columns -->
-										@for (
-											assignment of assignments();
-											track assignment._id
-										) {
-											<ng-container
-												[matColumnDef]="assignment._id"
-											>
-												<th
-													mat-header-cell
-													*matHeaderCellDef
-													class="text-center"
-												>
-													{{ assignment.name }} <br />
-													({{ assignment.value }} pts)
-												</th>
-												<td
-													mat-cell
-													*matCellDef="let student"
-												>
-													<mat-form-field
-														class="w-20"
-													>
-														<input
-															matInput
-															type="number"
-															[formControlName]="
-																getFormControlName(
-																	student._id,
-																	assignment._id
-																)
-															"
-														/>
-													</mat-form-field>
-												</td>
-											</ng-container>
-										}
-
-										<tr
-											mat-header-row
-											*matHeaderRowDef="
-												displayedColumns()
-											"
-										></tr>
-										<tr
-											mat-row
-											*matRowDef="
-												let row;
-												columns: displayedColumns()
-											"
-										></tr>
-									</table>
-									@if (assignments().length === 0) {
-										<div class="text-center p-8 bg-gray-50">
-											<p>
-												No hay asignaciones creadas para
-												esta asignatura. ¡Crea la
-												primera!
-											</p>
-										</div>
 									}
-								</form>
-							</div>
-							<div class="flex justify-end mt-4 space-x-2">
-								<button
-									mat-raised-button
-									(click)="openAddAssignmentDialog()"
-								>
-									<mat-icon>add</mat-icon> Agregar Asignación
-								</button>
-								<button
-									mat-raised-button
-									color="primary"
-									(click)="saveGrades()"
-									[disabled]="
-										!gradesForm.dirty || gradesForm.invalid
-									"
-								>
-									<mat-icon>save</mat-icon> Guardar
-									Calificaciones
-								</button>
-							</div>
-						} @else if (selectedSection() && selectedSubject()) {
-							<div
-								class="text-center p-8 bg-gray-50 rounded-b-lg"
+
+									<tr
+										mat-header-row
+										*matHeaderRowDef="displayedColumns()"
+									></tr>
+									<tr
+										mat-row
+										*matRowDef="
+											let row;
+											columns: displayedColumns()
+										"
+									></tr>
+								</table>
+								@if (assignments().length === 0) {
+									<div class="text-center p-8 bg-gray-50">
+										<p>
+											No hay asignaciones creadas para
+											esta asignatura. ¡Crea la primera!
+										</p>
+									</div>
+								}
+							</form>
+						</div>
+						<div class="flex justify-end mt-4 space-x-2">
+							<button
+								mat-raised-button
+								(click)="openAddAssignmentDialog()"
 							>
-								<p>Cargando datos del registro...</p>
-								<mat-spinner
-									diameter="30"
-									class="mx-auto mt-2"
-								></mat-spinner>
-							</div>
-						}
+								<mat-icon>add</mat-icon> Agregar Asignación
+							</button>
+							<button
+								mat-raised-button
+								color="primary"
+								(click)="saveGrades()"
+								[disabled]="
+									!gradesForm.dirty || gradesForm.invalid
+								"
+							>
+								<mat-icon>save</mat-icon> Guardar Calificaciones
+							</button>
+						</div>
+					} @else if (selectedSection() && selectedSubject()) {
+						<div class="text-center p-8 bg-gray-50 rounded-b-lg">
+							<p>Cargando datos del registro...</p>
+							<mat-spinner
+								diameter="30"
+								class="mx-auto mt-2"
+							></mat-spinner>
+						</div>
 					}
-				</div>
+				}
+			</div>
 		</div>
 	`,
 	styles: [
@@ -491,32 +487,35 @@ export class AddAssignmentDialogComponent {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GradesRegistryComponent implements OnInit, OnDestroy {
-	#store = inject(Store)
-	private studentService = inject(StudentsService)
-	private assignmentService = inject(AssignmentService)
-	private gradeService = inject(GradeService)
-	private snackBar = inject(MatSnackBar)
-	private dialog = inject(MatDialog)
-	private subscriptions = new Subscription()
+	#store = inject(Store);
+	private studentService = inject(StudentsService);
+	private assignmentService = inject(AssignmentService);
+	private gradeService = inject(GradeService);
+	private snackBar = inject(MatSnackBar);
+	private dialog = inject(MatDialog);
+	private subscriptions = new Subscription();
 
-	isLoading = signal<boolean>(true)
-	error = signal<string | null>(null)
-	userProfile = signal<User | null>(null)
-	sections = this.#store.selectSignal(selectAllClassSections)
-	students = signal<Student[]>([])
-	unitPlans = signal<UnitPlan[]>([])
-	assignments = signal<Assignment[]>([])
-	selectedSection = signal<ClassSection | null>(null)
-	selectedSubject = signal<string | null>(null)
-	selectedUnitPlan = signal<string | null>(null)
+	isLoading = signal<boolean>(true);
+	error = signal<string | null>(null);
+	userProfile = signal<User | null>(null);
+	sections = this.#store.selectSignal(selectAllClassSections);
+	students = signal<Student[]>([]);
+	unitPlans = signal<UnitPlan[]>([]);
+	assignments = signal<Assignment[]>([]);
+	selectedSection = signal<ClassSection | null>(null);
+	selectedSubject = signal<string | null>(null);
+	selectedUnitPlan = signal<string | null>(null);
 
-	sectionControl = new FormControl<string | null>(null)
+	sectionControl = new FormControl<string | null>(null);
 	subjectControl = new FormControl<string | null>({
 		value: null,
 		disabled: true,
-	})
-	unitPlanControl = new FormControl<string | null>({ value: null, disabled: true })
-	gradesForm = new FormGroup({})
+	});
+	unitPlanControl = new FormControl<string | null>({
+		value: null,
+		disabled: true,
+	});
+	gradesForm = new FormGroup({});
 
 	// --- Computed Signals for UI Logic ---
 	isTableVisible = computed(
@@ -525,23 +524,23 @@ export class GradesRegistryComponent implements OnInit, OnDestroy {
 			!!this.selectedSubject() &&
 			!!this.selectedUnitPlan() &&
 			this.students().length > 0,
-	)
+	);
 	displayedColumns = computed(() => [
 		'studentName',
 		...this.assignments().map((a) => a._id),
-	])
+	]);
 
 	ngOnInit(): void {
-		this.loadInitialData()
-		this.listenToControlChanges()
+		this.loadInitialData();
+		this.listenToControlChanges();
 	}
 
 	ngOnDestroy(): void {
-		this.subscriptions.unsubscribe()
+		this.subscriptions.unsubscribe();
 	}
 
 	private loadInitialData(): void {
-		this.isLoading.set(true)
+		this.isLoading.set(true);
 		forkJoin({
 			user: this.#store.select(selectAuthUser),
 			sections: this.#store.select(selectAllClassSections),
@@ -627,7 +626,6 @@ export class GradesRegistryComponent implements OnInit, OnDestroy {
 	private loadGradesForTable(): void {
 		// const studentIds = this.students().map((s) => s._id);
 		// const assignmentIds = this.assignments().map((a) => a._id);
-
 		// if (studentIds.length > 0 && assignmentIds.length > 0) {
 		// 	this.gradeService
 		// 		.getGrades(assignmentId)
@@ -755,11 +753,11 @@ export class GradesRegistryComponent implements OnInit, OnDestroy {
 			const score = formValue[key];
 			if (score !== null && score !== '') {
 			}
-		})
+		});
 
 		this.gradeService.saveGrades(gradesToSave).subscribe((response) => {
-			this.snackBar.open(response.message, 'Cerrar', { duration: 3000 })
-			this.gradesForm.markAsPristine()
-		})
+			this.snackBar.open(response.message, 'Cerrar', { duration: 3000 });
+			this.gradesForm.markAsPristine();
+		});
 	}
 }

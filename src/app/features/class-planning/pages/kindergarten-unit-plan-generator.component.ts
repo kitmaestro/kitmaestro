@@ -1,42 +1,42 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar'
+import { Component, inject, OnInit } from '@angular/core';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import {
 	FormBuilder,
 	FormControl,
 	ReactiveFormsModule,
 	Validators,
-} from '@angular/forms'
-import { MatStepperModule } from '@angular/material/stepper'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSelectModule } from '@angular/material/select'
-import { MatInputModule } from '@angular/material/input'
-import { MatChipsModule } from '@angular/material/chips'
-import { RouterModule } from '@angular/router'
-import { CdkStepperModule } from '@angular/cdk/stepper'
-import { AiService } from '../../../core/services/ai.service'
-import { KINDER_CONTENT_BLOCKS } from '../../../core/data/kinder-content-blocks'
+} from '@angular/forms';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { RouterModule } from '@angular/router';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { AiService } from '../../../core/services/ai.service';
+import { KINDER_CONTENT_BLOCKS } from '../../../core/data/kinder-content-blocks';
 
 import {
-  Document,
-  Packer,
-  Paragraph,
-  TextRun,
-  HeadingLevel,
-  Table,
-  TableRow,
-  TableCell,
-  WidthType,
-  AlignmentType,
-  BorderStyle,
-} from 'docx'
-import { saveAs } from 'file-saver'
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
-import { UnitPlanInicial } from '../../../core/interfaces'
-import { Store } from '@ngrx/store'
-import { selectAuthUser } from '../../../store/auth/auth.selectors'
-import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
+	Document,
+	Packer,
+	Paragraph,
+	TextRun,
+	HeadingLevel,
+	Table,
+	TableRow,
+	TableCell,
+	WidthType,
+	AlignmentType,
+	BorderStyle,
+} from 'docx';
+import { saveAs } from 'file-saver';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { UnitPlanInicial } from '../../../core/interfaces';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { createPlan } from '../../../store/unit-plans/unit-plans.actions';
 
 @Component({
 	selector: 'app-unit-plan-generator-inicial',
@@ -94,9 +94,12 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 												grade of gradosInicial;
 												track grade
 											) {
-												<mat-option [value]="grade.id">{{
-													grade.label
-												}}</mat-option>
+												<mat-option
+													[value]="grade.id"
+													>{{
+														grade.label
+													}}</mat-option
+												>
 											}
 										</mat-select>
 									</mat-form-field>
@@ -111,9 +114,12 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 												domain of dominios;
 												track domain.id
 											) {
-												<mat-option [value]="domain.id">{{
-													domain.label
-												}}</mat-option>
+												<mat-option
+													[value]="domain.id"
+													>{{
+														domain.label
+													}}</mat-option
+												>
 											}
 										</mat-select>
 									</mat-form-field>
@@ -159,7 +165,9 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 									</mat-form-field>
 
 									<mat-form-field appearance="outline">
-										<mat-label>Metodología Principal</mat-label>
+										<mat-label
+											>Metodología Principal</mat-label
+										>
 										<mat-select
 											formControlName="metodologia"
 											required
@@ -186,9 +194,10 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 											resource of recursosDisponibles;
 											track resource
 										) {
-											<mat-chip-option [value]="resource">{{
-												resource
-											}}</mat-chip-option>
+											<mat-chip-option
+												[value]="resource"
+												>{{ resource }}</mat-chip-option
+											>
 										}
 									</mat-chip-listbox>
 								</div>
@@ -232,7 +241,8 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 										generado.
 									</p>
 									<p>
-										Vuelve al paso anterior y haz clic en "Generar Plan".
+										Vuelve al paso anterior y haz clic en
+										"Generar Plan".
 									</p>
 								</div>
 							}
@@ -241,8 +251,8 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 								<div class="placeholder">
 									<span class="spinner large"></span>
 									<p>
-										Estamos creando tu plan de unidad... Esto puede
-										tardar un momento.
+										Estamos creando tu plan de unidad...
+										Esto puede tardar un momento.
 									</p>
 								</div>
 							}
@@ -252,10 +262,16 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 									<!-- Situación de Aprendizaje -->
 									<section class="plan-section">
 										<h3>Situación de Aprendizaje</h3>
-										<h4>{{ planGenerado.tituloSituacion }}</h4>
-										<p>{{ planGenerado.situacionAprendizaje }}</p>
+										<h4>
+											{{ planGenerado.tituloSituacion }}
+										</h4>
+										<p>
+											{{
+												planGenerado.situacionAprendizaje
+											}}
+										</p>
 									</section>
-	
+
 									<!-- Cuadro de Anticipación -->
 									<section class="plan-section">
 										<h3>Cuadro de Anticipación</h3>
@@ -263,7 +279,12 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 											<div class="anticipacion-col">
 												<h4>¿Qué sabemos?</h4>
 												<ul>
-													@for (item of planGenerado.cuadroAnticipacion.queSabemos; track $index) {
+													@for (
+														item of planGenerado
+															.cuadroAnticipacion
+															.queSabemos;
+														track $index
+													) {
 														<li>{{ item }}</li>
 													}
 												</ul>
@@ -271,7 +292,12 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 											<div class="anticipacion-col">
 												<h4>¿Qué queremos saber?</h4>
 												<ul>
-													@for (item of planGenerado.cuadroAnticipacion.queQueremosSaber; track $index) {
+													@for (
+														item of planGenerado
+															.cuadroAnticipacion
+															.queQueremosSaber;
+														track $index
+													) {
 														<li>{{ item }}</li>
 													}
 												</ul>
@@ -279,36 +305,58 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 											<div class="anticipacion-col">
 												<h4>¿Cómo lo vamos a saber?</h4>
 												<ul>
-													@for (item of planGenerado.cuadroAnticipacion.comoLoSaberemos; track $index) {
+													@for (
+														item of planGenerado
+															.cuadroAnticipacion
+															.comoLoSaberemos;
+														track $index
+													) {
 														<li>{{ item }}</li>
 													}
 												</ul>
 											</div>
 										</div>
 									</section>
-	
+
 									<!-- Detalles por Dominio -->
-									@for (dominio of planGenerado.planDetalladoPorDominio; track $index) {
+									@for (
+										dominio of planGenerado.planDetalladoPorDominio;
+										track $index
+									) {
 										<section class="plan-section">
 											<h3>
 												Dominio:
-												{{ getDominioLabel(dominio.dominio) }}
+												{{
+													getDominioLabel(
+														dominio.dominio
+													)
+												}}
 											</h3>
 											<div class="dominio-details">
 												<p>
 													<strong
-														>Competencia Fundamental:</strong
+														>Competencia
+														Fundamental:</strong
 													>
-													{{ dominio.competenciaFundamental }}
+													{{
+														dominio.competenciaFundamental
+													}}
 												</p>
 												<p>
-													<strong>Competencia Específica:</strong>
-													{{ dominio.competenciaEspecifica }}
+													<strong
+														>Competencia
+														Específica:</strong
+													>
+													{{
+														dominio.competenciaEspecifica
+													}}
 												</p>
 												<h4>Contenidos:</h4>
 												<ul>
 													<li>
-														<strong>Conceptuales:</strong>
+														<strong
+															>Conceptuales:</strong
+														>
 														{{
 															dominio.contenidos.conceptos.join(
 																', '
@@ -316,7 +364,9 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 														}}
 													</li>
 													<li>
-														<strong>Procedimentales:</strong>
+														<strong
+															>Procedimentales:</strong
+														>
 														{{
 															dominio.contenidos.procedimientos.join(
 																', '
@@ -325,7 +375,8 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 													</li>
 													<li>
 														<strong
-															>Actitudes y Valores:</strong
+															>Actitudes y
+															Valores:</strong
 														>
 														{{
 															dominio.contenidos.actitudesValores.join(
@@ -335,7 +386,10 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 													</li>
 												</ul>
 												<p>
-													<strong>Indicadores de Logro:</strong>
+													<strong
+														>Indicadores de
+														Logro:</strong
+													>
 													{{
 														dominio.indicadoresDeLogro.join(
 															' | '
@@ -345,11 +399,14 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 											</div>
 										</section>
 									}
-	
+
 									<!-- Secuencia de Actividades -->
 									<section class="plan-section">
 										<h3>Secuencia Didáctica Sugerida</h3>
-										@for (act of planGenerado.secuenciaActividades; track $index) {
+										@for (
+											act of planGenerado.secuenciaActividades;
+											track $index
+										) {
 											<div class="actividad-card">
 												<h4>
 													Semana {{ act.semana }}:
@@ -370,15 +427,20 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 												<p>
 													<strong>Recursos:</strong>
 													<mat-chip-listbox>
-														@for (res of act.recursos; track $index) {
-															<mat-chip>{{ res }}</mat-chip>
+														@for (
+															res of act.recursos;
+															track $index
+														) {
+															<mat-chip>{{
+																res
+															}}</mat-chip>
 														}
 													</mat-chip-listbox>
 												</p>
 											</div>
 										}
 									</section>
-	
+
 									<div class="stepper-actions final-actions">
 										<button mat-button matStepperPrevious>
 											<mat-icon>arrow_back</mat-icon>
@@ -392,7 +454,9 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 										>
 											<mat-icon>download</mat-icon>
 											{{
-												saving ? 'Descargando...' : 'Descargar Plan'
+												saving
+													? 'Descargando...'
+													: 'Descargar Plan'
 											}}
 										</button>
 									</div>
@@ -577,9 +641,9 @@ export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
 	private aiService = inject(AiService);
-	#store = inject(Store)
+	#store = inject(Store);
 
-	user = this.#store.selectSignal(selectAuthUser)
+	user = this.#store.selectSignal(selectAuthUser);
 	generating = false;
 	saving = false;
 	planGenerado: any = null;
@@ -592,8 +656,24 @@ export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 
 	blocks = KINDER_CONTENT_BLOCKS;
 
-	get dominios(): { id: string, label: string }[] {
-		return KINDER_CONTENT_BLOCKS.filter(block => block.year == this.infoForm.value.grado).map((block, i) => ({ id: block.concepts[0], label: `${i + 1}. ` + block.concepts.map(c => c.endsWith(':') ? c : c.endsWith('.') ? c.replace(/.$/, ',') : c + ',').join(' ').replace(/.$/, '.') }) )
+	get dominios(): { id: string; label: string }[] {
+		return KINDER_CONTENT_BLOCKS.filter(
+			(block) => block.year == this.infoForm.value.grado,
+		).map((block, i) => ({
+			id: block.concepts[0],
+			label:
+				`${i + 1}. ` +
+				block.concepts
+					.map((c) =>
+						c.endsWith(':')
+							? c
+							: c.endsWith('.')
+								? c.replace(/.$/, ',')
+								: c + ',',
+					)
+					.join(' ')
+					.replace(/.$/, '.'),
+		}));
 	}
 
 	metodologiasInicial = [
@@ -618,7 +698,7 @@ export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 	];
 
 	infoForm = this.fb.group({
-    grado: ['PRE_KINDER', Validators.required],
+		grado: ['PRE_KINDER', Validators.required],
 		dominios: ['', Validators.required],
 		realidad: [''],
 	});
@@ -634,8 +714,7 @@ export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 		]),
 	});
 
-	ngOnInit(): void {
-	}
+	ngOnInit(): void {}
 
 	getDominioLabel(id: string): string {
 		return (
@@ -664,17 +743,25 @@ export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 		const gradoLabel =
 			this.gradosInicial.find((g) => g.id === info.grado)?.label ||
 			info.grado;
-    const domainName: string = {
-      socioemocional: 'Dominio Socioemocional',
-      artistico_creativo: 'Dominio Artístico y Creativo',
-      fisico_salud: 'Dominio Psicomotor y de Salud',
-      conocimiento_mundo: 'Dominio Descubrimiento del mundo',
-      cognitivo: 'Dominio Cognitivo',
-      comunicativo: 'Dominio Comunicativo',
-    }[info.dominios as string] as string;
+		const domainName: string = {
+			socioemocional: 'Dominio Socioemocional',
+			artistico_creativo: 'Dominio Artístico y Creativo',
+			fisico_salud: 'Dominio Psicomotor y de Salud',
+			conocimiento_mundo: 'Dominio Descubrimiento del mundo',
+			cognitivo: 'Dominio Cognitivo',
+			comunicativo: 'Dominio Comunicativo',
+		}[info.dominios as string] as string;
 		const dominiosLabels: string = this.blocks
-      .filter((block) => block.year === info.grado && block.concepts[0] === info.dominios)
-      .map(b => `\nDominio a Trabajar: ${domainName}\nCompetencias Especificas:\n- ${b.competence.comunicativa}\n- ${b.competence.etica_y_ciudadana}\n- ${b.competence.pensamiento_logico}.\nContenidos Conceptuales:\n- ${b.concepts.join('\n- ')}\nContenidos Procedimientales: \n- ${b.procedures.join('\n- ')}\nContenidos Actitudinales:\n- ${b.attitudes.join('\n- ')}\nIndicadores de Logro:\n- ${b.achievementIndicators.join('\n- ')}`).join('; ');
+			.filter(
+				(block) =>
+					block.year === info.grado &&
+					block.concepts[0] === info.dominios,
+			)
+			.map(
+				(b) =>
+					`\nDominio a Trabajar: ${domainName}\nCompetencias Especificas:\n- ${b.competence.comunicativa}\n- ${b.competence.etica_y_ciudadana}\n- ${b.competence.pensamiento_logico}.\nContenidos Conceptuales:\n- ${b.concepts.join('\n- ')}\nContenidos Procedimientales: \n- ${b.procedures.join('\n- ')}\nContenidos Actitudinales:\n- ${b.attitudes.join('\n- ')}\nIndicadores de Logro:\n- ${b.achievementIndicators.join('\n- ')}`,
+			)
+			.join('; ');
 		if (!gradoLabel) return;
 
 		const prompt = this.createGenerationPrompt(
@@ -782,7 +869,7 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
 	}
 
 	savePlanInicial() {
-		const user = this.user()
+		const user = this.user();
 		if (!this.planGenerado || !user) {
 			this.sb.open(
 				'No hay un plan generado para guardar o falta información del usuario.',
@@ -808,212 +895,486 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
 			secuenciaActividades: this.planGenerado.secuenciaActividades,
 		};
 
-		this.#store.dispatch(createPlan({ plan }))
+		this.#store.dispatch(createPlan({ plan }));
 	}
 
-  public async saveDocx(): Promise<void> {
-	const user = this.user()
-    if (!this.planGenerado || !user) {
-      console.error('Faltan datos para generar el documento.');
-      return;
-    }
+	public async saveDocx(): Promise<void> {
+		const user = this.user();
+		if (!this.planGenerado || !user) {
+			console.error('Faltan datos para generar el documento.');
+			return;
+		}
 
-    const doc = new Document({
-      sections: [
-        {
-          children: [
-            ...this.createHeader(),
-            new Paragraph({ text: '' }),
-            ...this.createSituacionAprendizaje(),
-            new Paragraph({ text: '' }),
-            ...this.createCuadroAnticipacion(),
-            new Paragraph({ text: '' }),
-            ...this.createPlanDetallado(),
-            new Paragraph({ text: '' }),
-            ...this.createSecuenciaActividades(),
-          ],
-        },
-      ],
-    });
+		const doc = new Document({
+			sections: [
+				{
+					children: [
+						...this.createHeader(),
+						new Paragraph({ text: '' }),
+						...this.createSituacionAprendizaje(),
+						new Paragraph({ text: '' }),
+						...this.createCuadroAnticipacion(),
+						new Paragraph({ text: '' }),
+						...this.createPlanDetallado(),
+						new Paragraph({ text: '' }),
+						...this.createSecuenciaActividades(),
+					],
+				},
+			],
+		});
 
-    Packer.toBlob(doc).then((blob) => {
-      saveAs(blob, `Planificación - ${this.planGenerado.temaUnidad}.docx`);
-      console.log('Documento creado y descargado exitosamente.');
-    });
-  }
+		Packer.toBlob(doc).then((blob) => {
+			saveAs(
+				blob,
+				`Planificación - ${this.planGenerado.temaUnidad}.docx`,
+			);
+			console.log('Documento creado y descargado exitosamente.');
+		});
+	}
 
-  /**
-   * Calcula el año escolar actual.
-   */
-  private getAnoEscolar(): string {
-    const now = new Date()
-    const currentYear = now.getFullYear()
-    const currentMonth = now.getMonth() + 1
+	/**
+	 * Calcula el año escolar actual.
+	 */
+	private getAnoEscolar(): string {
+		const now = new Date();
+		const currentYear = now.getFullYear();
+		const currentMonth = now.getMonth() + 1;
 
-    if (currentMonth > 7) { // Después de Julio
-      return `${currentYear} - ${currentYear + 1}`;
-    } else { // Antes o en Julio
-      return `${currentYear - 1} - ${currentYear}`;
-    }
-  }
+		if (currentMonth > 7) {
+			// Después de Julio
+			return `${currentYear} - ${currentYear + 1}`;
+		} else {
+			// Antes o en Julio
+			return `${currentYear - 1} - ${currentYear}`;
+		}
+	}
 
-  /**
-   * Crea el encabezado del documento con información del centro y docente.
-   */
-  private createHeader(): (Paragraph | Table)[] {
-    const gradoLabel = this.gradosInicial.find((g) => g.id === this.infoForm.value.grado)?.label || 'No especificado';
-    const anoEscolar = this.getAnoEscolar();
-	const user = this.user()
-	if (!user) return []
+	/**
+	 * Crea el encabezado del documento con información del centro y docente.
+	 */
+	private createHeader(): (Paragraph | Table)[] {
+		const gradoLabel =
+			this.gradosInicial.find((g) => g.id === this.infoForm.value.grado)
+				?.label || 'No especificado';
+		const anoEscolar = this.getAnoEscolar();
+		const user = this.user();
+		if (!user) return [];
 
-    const table = new Table({
-      width: { size: 100, type: WidthType.PERCENTAGE },
-      rows: [
-        new TableRow({
-          children: [
-            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Centro Educativo:", bold: true }), new TextRun(` ${user.schoolName}`)] })], width: { size: 50, type: WidthType.PERCENTAGE }, borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
-            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Docente:", bold: true }), new TextRun(` ${user.firstname} ${user.lastname}`)] })], width: { size: 50, type: WidthType.PERCENTAGE }, borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
-          ],
-        }),
-        new TableRow({
-          children: [
-            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Grado:", bold: true }), new TextRun(` ${gradoLabel}`)] })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
-            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Tanda:", bold: true }), new TextRun(` JEE`)] })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
-          ],
-        }),
-        new TableRow({
-          children: [
-            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Tema de la Unidad:", bold: true }), new TextRun(` ${this.planGenerado.temaUnidad}`)] })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
-            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Año Escolar:", bold: true }), new TextRun(` ${anoEscolar}`)] })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
-          ],
-        }),
-      ],
-    });
+		const table = new Table({
+			width: { size: 100, type: WidthType.PERCENTAGE },
+			rows: [
+				new TableRow({
+					children: [
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Centro Educativo:',
+											bold: true,
+										}),
+										new TextRun(` ${user.schoolName}`),
+									],
+								}),
+							],
+							width: { size: 50, type: WidthType.PERCENTAGE },
+							borders: {
+								top: { style: BorderStyle.NONE },
+								bottom: { style: BorderStyle.NONE },
+								left: { style: BorderStyle.NONE },
+								right: { style: BorderStyle.NONE },
+							},
+						}),
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Docente:',
+											bold: true,
+										}),
+										new TextRun(
+											` ${user.firstname} ${user.lastname}`,
+										),
+									],
+								}),
+							],
+							width: { size: 50, type: WidthType.PERCENTAGE },
+							borders: {
+								top: { style: BorderStyle.NONE },
+								bottom: { style: BorderStyle.NONE },
+								left: { style: BorderStyle.NONE },
+								right: { style: BorderStyle.NONE },
+							},
+						}),
+					],
+				}),
+				new TableRow({
+					children: [
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Grado:',
+											bold: true,
+										}),
+										new TextRun(` ${gradoLabel}`),
+									],
+								}),
+							],
+							borders: {
+								top: { style: BorderStyle.NONE },
+								bottom: { style: BorderStyle.NONE },
+								left: { style: BorderStyle.NONE },
+								right: { style: BorderStyle.NONE },
+							},
+						}),
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Tanda:',
+											bold: true,
+										}),
+										new TextRun(` JEE`),
+									],
+								}),
+							],
+							borders: {
+								top: { style: BorderStyle.NONE },
+								bottom: { style: BorderStyle.NONE },
+								left: { style: BorderStyle.NONE },
+								right: { style: BorderStyle.NONE },
+							},
+						}),
+					],
+				}),
+				new TableRow({
+					children: [
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Tema de la Unidad:',
+											bold: true,
+										}),
+										new TextRun(
+											` ${this.planGenerado.temaUnidad}`,
+										),
+									],
+								}),
+							],
+							borders: {
+								top: { style: BorderStyle.NONE },
+								bottom: { style: BorderStyle.NONE },
+								left: { style: BorderStyle.NONE },
+								right: { style: BorderStyle.NONE },
+							},
+						}),
+						new TableCell({
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Año Escolar:',
+											bold: true,
+										}),
+										new TextRun(` ${anoEscolar}`),
+									],
+								}),
+							],
+							borders: {
+								top: { style: BorderStyle.NONE },
+								bottom: { style: BorderStyle.NONE },
+								left: { style: BorderStyle.NONE },
+								right: { style: BorderStyle.NONE },
+							},
+						}),
+					],
+				}),
+			],
+		});
 
-    return [
-      new Paragraph({ text: 'ESQUEMA DE PLANIFICACIÓN DE UNIDAD DE APRENDIZAJE', heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER }),
-      new Paragraph({ text: `Distrito Educativo ${user.regional}-${user.district}`, alignment: AlignmentType.CENTER }),
-      new Paragraph({ text: '' }),
-      table
-    ];
-  }
+		return [
+			new Paragraph({
+				text: 'ESQUEMA DE PLANIFICACIÓN DE UNIDAD DE APRENDIZAJE',
+				heading: HeadingLevel.HEADING_1,
+				alignment: AlignmentType.CENTER,
+			}),
+			new Paragraph({
+				text: `Distrito Educativo ${user.regional}-${user.district}`,
+				alignment: AlignmentType.CENTER,
+			}),
+			new Paragraph({ text: '' }),
+			table,
+		];
+	}
 
-  /**
-   * Crea la sección "Situación de Aprendizaje".
-   */
-  private createSituacionAprendizaje(): Paragraph[] {
-    return [
-      new Paragraph({ text: 'I. Situación de Aprendizaje', heading: HeadingLevel.HEADING_2 }),
-      new Paragraph({
-        children: [new TextRun({ text: this.planGenerado.tituloSituacion, bold: true })],
-      }),
-      new Paragraph({
-        text: this.planGenerado.situacionAprendizaje,
-        alignment: AlignmentType.JUSTIFIED,
-      }),
-    ];
-  }
+	/**
+	 * Crea la sección "Situación de Aprendizaje".
+	 */
+	private createSituacionAprendizaje(): Paragraph[] {
+		return [
+			new Paragraph({
+				text: 'I. Situación de Aprendizaje',
+				heading: HeadingLevel.HEADING_2,
+			}),
+			new Paragraph({
+				children: [
+					new TextRun({
+						text: this.planGenerado.tituloSituacion,
+						bold: true,
+					}),
+				],
+			}),
+			new Paragraph({
+				text: this.planGenerado.situacionAprendizaje,
+				alignment: AlignmentType.JUSTIFIED,
+			}),
+		];
+	}
 
-  /**
-   * Crea la tabla del "Cuadro de Anticipación".
-   */
-  private createCuadroAnticipacion(): (Paragraph | Table)[] {
-    const { queSabemos, queQueremosSaber, comoLoSaberemos } = this.planGenerado.cuadroAnticipacion;
+	/**
+	 * Crea la tabla del "Cuadro de Anticipación".
+	 */
+	private createCuadroAnticipacion(): (Paragraph | Table)[] {
+		const { queSabemos, queQueremosSaber, comoLoSaberemos } =
+			this.planGenerado.cuadroAnticipacion;
 
-    const table = new Table({
-      width: { size: 100, type: WidthType.PERCENTAGE },
-      rows: [
-        // Fila de Encabezados
-        new TableRow({
-          children: [
-            new TableCell({ children: [new Paragraph({ text: '¿Qué sabemos?', alignment: AlignmentType.CENTER, children: [new TextRun({ bold: true })] })] }),
-            new TableCell({ children: [new Paragraph({ text: '¿Qué queremos saber?', alignment: AlignmentType.CENTER, children: [new TextRun({ bold: true })] })] }),
-            new TableCell({ children: [new Paragraph({ text: '¿Cómo lo saberemos?', alignment: AlignmentType.CENTER, children: [new TextRun({ bold: true })] })] }),
-          ],
-          tableHeader: true,
-        }),
-        // Fila de Contenido
-        new TableRow({
-          children: [
-            new TableCell({ children: queSabemos.map((item: string) => new Paragraph({ text: item, bullet: { level: 0 } })) }),
-            new TableCell({ children: queQueremosSaber.map((item: string) => new Paragraph({ text: item, bullet: { level: 0 } })) }),
-            new TableCell({ children: comoLoSaberemos.map((item: string) => new Paragraph({ text: item, bullet: { level: 0 } })) }),
-          ],
-        }),
-      ],
-    });
+		const table = new Table({
+			width: { size: 100, type: WidthType.PERCENTAGE },
+			rows: [
+				// Fila de Encabezados
+				new TableRow({
+					children: [
+						new TableCell({
+							children: [
+								new Paragraph({
+									text: '¿Qué sabemos?',
+									alignment: AlignmentType.CENTER,
+									children: [new TextRun({ bold: true })],
+								}),
+							],
+						}),
+						new TableCell({
+							children: [
+								new Paragraph({
+									text: '¿Qué queremos saber?',
+									alignment: AlignmentType.CENTER,
+									children: [new TextRun({ bold: true })],
+								}),
+							],
+						}),
+						new TableCell({
+							children: [
+								new Paragraph({
+									text: '¿Cómo lo saberemos?',
+									alignment: AlignmentType.CENTER,
+									children: [new TextRun({ bold: true })],
+								}),
+							],
+						}),
+					],
+					tableHeader: true,
+				}),
+				// Fila de Contenido
+				new TableRow({
+					children: [
+						new TableCell({
+							children: queSabemos.map(
+								(item: string) =>
+									new Paragraph({
+										text: item,
+										bullet: { level: 0 },
+									}),
+							),
+						}),
+						new TableCell({
+							children: queQueremosSaber.map(
+								(item: string) =>
+									new Paragraph({
+										text: item,
+										bullet: { level: 0 },
+									}),
+							),
+						}),
+						new TableCell({
+							children: comoLoSaberemos.map(
+								(item: string) =>
+									new Paragraph({
+										text: item,
+										bullet: { level: 0 },
+									}),
+							),
+						}),
+					],
+				}),
+			],
+		});
 
-    return [
-      new Paragraph({ text: 'II. Cuadro de Anticipación', heading: HeadingLevel.HEADING_2 }),
-      table
-    ];
-  }
+		return [
+			new Paragraph({
+				text: 'II. Cuadro de Anticipación',
+				heading: HeadingLevel.HEADING_2,
+			}),
+			table,
+		];
+	}
 
-  /**
-   * Crea la sección del plan detallado por dominio.
-   */
-  private createPlanDetallado(): Paragraph[] {
-    const children: Paragraph[] = [
-      new Paragraph({ text: 'III. Plan Detallado por Dominio', heading: HeadingLevel.HEADING_2 }),
-    ];
+	/**
+	 * Crea la sección del plan detallado por dominio.
+	 */
+	private createPlanDetallado(): Paragraph[] {
+		const children: Paragraph[] = [
+			new Paragraph({
+				text: 'III. Plan Detallado por Dominio',
+				heading: HeadingLevel.HEADING_2,
+			}),
+		];
 
-    this.planGenerado.planDetalladoPorDominio.forEach((plan: any) => {
-      children.push(new Paragraph({ text: `Dominio: ${plan.dominio}`, heading: HeadingLevel.HEADING_3 }));
-      children.push(this.createLabeledParagraph('Competencia Fundamental:', plan.competenciaFundamental));
-      children.push(this.createLabeledParagraph('Competencia Específica:', plan.competenciaEspecifica));
+		this.planGenerado.planDetalladoPorDominio.forEach((plan: any) => {
+			children.push(
+				new Paragraph({
+					text: `Dominio: ${plan.dominio}`,
+					heading: HeadingLevel.HEADING_3,
+				}),
+			);
+			children.push(
+				this.createLabeledParagraph(
+					'Competencia Fundamental:',
+					plan.competenciaFundamental,
+				),
+			);
+			children.push(
+				this.createLabeledParagraph(
+					'Competencia Específica:',
+					plan.competenciaEspecifica,
+				),
+			);
 
-      children.push(new Paragraph({ children: [new TextRun({ text: 'Indicadores de Logro:', bold: true })] }));
-      plan.indicadoresDeLogro.forEach((item: any) => children.push(new Paragraph({ text: item, bullet: { level: 0 } })));
+			children.push(
+				new Paragraph({
+					children: [
+						new TextRun({
+							text: 'Indicadores de Logro:',
+							bold: true,
+						}),
+					],
+				}),
+			);
+			plan.indicadoresDeLogro.forEach((item: any) =>
+				children.push(
+					new Paragraph({ text: item, bullet: { level: 0 } }),
+				),
+			);
 
-      children.push(new Paragraph({ children: [new TextRun({ text: 'Contenidos', bold: true })] }));
+			children.push(
+				new Paragraph({
+					children: [new TextRun({ text: 'Contenidos', bold: true })],
+				}),
+			);
 
-      children.push(new Paragraph({ children: [new TextRun({ text: 'Conceptos:', italics: true })], }));
-      plan.contenidos.conceptos.forEach((item: any) => children.push(new Paragraph({ text: item, bullet: { level: 1 } })));
+			children.push(
+				new Paragraph({
+					children: [
+						new TextRun({ text: 'Conceptos:', italics: true }),
+					],
+				}),
+			);
+			plan.contenidos.conceptos.forEach((item: any) =>
+				children.push(
+					new Paragraph({ text: item, bullet: { level: 1 } }),
+				),
+			);
 
-      children.push(new Paragraph({ children: [new TextRun({ text: 'Procedimientos:', italics: true })], }));
-      plan.contenidos.procedimientos.forEach((item: any) => children.push(new Paragraph({ text: item, bullet: { level: 1 } })));
+			children.push(
+				new Paragraph({
+					children: [
+						new TextRun({ text: 'Procedimientos:', italics: true }),
+					],
+				}),
+			);
+			plan.contenidos.procedimientos.forEach((item: any) =>
+				children.push(
+					new Paragraph({ text: item, bullet: { level: 1 } }),
+				),
+			);
 
-      children.push(new Paragraph({ children: [new TextRun({ text: 'Actitudes y Valores:', italics: true })], }));
-      plan.contenidos.actitudesValores.forEach((item: any) => children.push(new Paragraph({ text: item, bullet: { level: 1 } })));
+			children.push(
+				new Paragraph({
+					children: [
+						new TextRun({
+							text: 'Actitudes y Valores:',
+							italics: true,
+						}),
+					],
+				}),
+			);
+			plan.contenidos.actitudesValores.forEach((item: any) =>
+				children.push(
+					new Paragraph({ text: item, bullet: { level: 1 } }),
+				),
+			);
 
-      children.push(new Paragraph({ text: '' })); // Espacio entre dominios
-    });
+			children.push(new Paragraph({ text: '' })); // Espacio entre dominios
+		});
 
-    return children;
-  }
+		return children;
+	}
 
-  /**
-   * Crea la sección de la secuencia de actividades.
-   */
-  private createSecuenciaActividades(): Paragraph[] {
-    const children: Paragraph[] = [
-      new Paragraph({ text: 'IV. Secuencia de Actividades', heading: HeadingLevel.HEADING_2 }),
-    ];
+	/**
+	 * Crea la sección de la secuencia de actividades.
+	 */
+	private createSecuenciaActividades(): Paragraph[] {
+		const children: Paragraph[] = [
+			new Paragraph({
+				text: 'IV. Secuencia de Actividades',
+				heading: HeadingLevel.HEADING_2,
+			}),
+		];
 
-    this.planGenerado.secuenciaActividades.forEach((act: any) => {
-      children.push(new Paragraph({ text: `Semana ${act.semana}: ${act.titulo}`, heading: HeadingLevel.HEADING_3 }));
-      children.push(this.createLabeledParagraph('Inicio:', act.inicio));
-      children.push(this.createLabeledParagraph('Desarrollo:', act.desarrollo));
-      children.push(this.createLabeledParagraph('Cierre:', act.cierre));
+		this.planGenerado.secuenciaActividades.forEach((act: any) => {
+			children.push(
+				new Paragraph({
+					text: `Semana ${act.semana}: ${act.titulo}`,
+					heading: HeadingLevel.HEADING_3,
+				}),
+			);
+			children.push(this.createLabeledParagraph('Inicio:', act.inicio));
+			children.push(
+				this.createLabeledParagraph('Desarrollo:', act.desarrollo),
+			);
+			children.push(this.createLabeledParagraph('Cierre:', act.cierre));
 
-      children.push(new Paragraph({ children: [new TextRun({ text: 'Recursos:', bold: true })] }));
-      act.recursos.forEach((item: any) => children.push(new Paragraph({ text: item, bullet: { level: 0 } })));
+			children.push(
+				new Paragraph({
+					children: [new TextRun({ text: 'Recursos:', bold: true })],
+				}),
+			);
+			act.recursos.forEach((item: any) =>
+				children.push(
+					new Paragraph({ text: item, bullet: { level: 0 } }),
+				),
+			);
 
-      children.push(new Paragraph({ text: '' })); // Espacio entre semanas
-    });
+			children.push(new Paragraph({ text: '' })); // Espacio entre semanas
+		});
 
-    return children;
-  }
+		return children;
+	}
 
-  /**
-   * Helper para crear un párrafo con una etiqueta en negrita.
-   */
-  private createLabeledParagraph(label: string, text: string): Paragraph {
-    return new Paragraph({
-      children: [
-        new TextRun({ text: label, bold: true }),
-        new TextRun({ text: ` ${text}` }),
-      ],
-    });
-  }
+	/**
+	 * Helper para crear un párrafo con una etiqueta en negrita.
+	 */
+	private createLabeledParagraph(label: string, text: string): Paragraph {
+		return new Paragraph({
+			children: [
+				new TextRun({ text: label, bold: true }),
+				new TextRun({ text: ` ${text}` }),
+			],
+		});
+	}
 }

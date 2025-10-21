@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core'
-import { Student, ObservationGuide } from '../../core/models'
-import { MatCardModule } from '@angular/material/card'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { DatePipe } from '@angular/common'
+import { Component, Input } from '@angular/core';
+import { Student, ObservationGuide } from '../../core/models';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-observation-guide',
@@ -259,6 +259,6 @@ import { DatePipe } from '@angular/common'
 	`,
 })
 export class ObservationGuideComponent {
-	@Input() guide: ObservationGuide | null = null
-	@Input() students: Student[] = []
+	@Input() guide: ObservationGuide | null = null;
+	@Input() students: Student[] = [];
 }

@@ -230,7 +230,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
 	private classSectionService = inject(ClassSectionService);
 	private authService = inject(AuthService);
 	private studentService = inject(StudentsService);
-	private data = inject<LogRegistryEntry>(MAT_DIALOG_DATA)
+	private data = inject<LogRegistryEntry>(MAT_DIALOG_DATA);
 	user: User | null = null;
 	sections: ClassSection[] = [];
 	students: Student[] = [];
@@ -277,7 +277,7 @@ export class LogRegistryEntryFormComponent implements OnInit {
 	logRegistryEntry: LogRegistryEntry | null = null;
 
 	description = this.fb.control('');
-	comments = this.fb.control('')
+	comments = this.fb.control('');
 
 	loadStudents() {
 		const sectionId = this.generatorForm.get('section')?.value;

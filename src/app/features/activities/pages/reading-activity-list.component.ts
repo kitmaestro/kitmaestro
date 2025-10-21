@@ -26,7 +26,9 @@ import { DatePipe } from '@angular/common';
 		MatDialogModule,
 	],
 	template: `
-		<div style="display: flex; gap: 24px; justify-content: space-between; align-items: center;">
+		<div
+			style="display: flex; gap: 24px; justify-content: space-between; align-items: center;"
+		>
 			<h2>Actividades de Lectura Guiada</h2>
 			<span style="flex: 1 1 auto"></span>
 			<a
@@ -46,7 +48,7 @@ import { DatePipe } from '@angular/common';
 			<ng-container matColumnDef="creationDate">
 				<th mat-header-cell *matHeaderCellDef>Fecha de Creación</th>
 				<td mat-cell *matCellDef="let element">
-					{{ element.createdAt | date: 'dd/MM/yyyy'  }}
+					{{ element.createdAt | date: 'dd/MM/yyyy' }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="title">

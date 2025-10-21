@@ -51,7 +51,11 @@ import { ClassSectionService } from '../../../core/services/class-section.servic
 				</mat-card-content>
 			</mat-card>
 
-			<table mat-table class="mat-elevation-z8" [dataSource]="attendance$">
+			<table
+				mat-table
+				class="mat-elevation-z8"
+				[dataSource]="attendance$"
+			>
 				@for (col of cols; track $index) {
 					<ng-container [matColumnDef]="col">
 						<th mat-header-cell *matHeaderCellDef>{{ col }}</th>

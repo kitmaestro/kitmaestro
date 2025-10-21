@@ -30,7 +30,9 @@ import { UserSubscription } from '../../../core/models';
 		<app-is-premium>
 			<mat-card>
 				<mat-card-header>
-					<h2 mat-card-title style="margin-top: 8px">Panel de Comisiones</h2>
+					<h2 mat-card-title style="margin-top: 8px">
+						Panel de Comisiones
+					</h2>
 					<a
 						class="desktop"
 						target="_blank"
@@ -102,7 +104,9 @@ import { UserSubscription } from '../../../core/models';
 				</mat-card>
 				<mat-card>
 					<mat-card-header>
-						<h2 style="margin-left: auto; margin-right: auto">Pagados</h2>
+						<h2 style="margin-left: auto; margin-right: auto">
+							Pagados
+						</h2>
 					</mat-card-header>
 					<mat-card-content>
 						<div class="giant">{{ refs.paid }}</div>
@@ -117,7 +121,9 @@ import { UserSubscription } from '../../../core/models';
 						</h2>
 					</mat-card-header>
 					<mat-card-content>
-						<div class="giant">{{ refs.before + refs.thisMonth }}</div>
+						<div class="giant">
+							{{ refs.before + refs.thisMonth }}
+						</div>
 					</mat-card-content>
 				</mat-card>
 				<mat-card>
@@ -150,7 +156,7 @@ import { UserSubscription } from '../../../core/models';
 						{{
 							element.ref.referred.firstname
 								? element.ref.referred.firstname +
-									" " +
+									' ' +
 									element.ref.referred.lastname
 								: element.ref.referred.email
 						}}
@@ -168,9 +174,9 @@ import { UserSubscription } from '../../../core/models';
 					</th>
 					<td mat-cell *matCellDef="let element">
 						{{
-							element.subscription.status === "active"
-								? "Activa"
-								: "Inactiva"
+							element.subscription.status === 'active'
+								? 'Activa'
+								: 'Inactiva'
 						}}
 					</td>
 				</ng-container>
@@ -186,8 +192,8 @@ import { UserSubscription } from '../../../core/models';
 					</th>
 					<td mat-cell *matCellDef="let element">
 						{{
-							element.ref.status === "pending"
-								? "Pendiente"
+							element.ref.status === 'pending'
+								? 'Pendiente'
 								: element.status
 						}}
 					</td>
@@ -209,7 +215,10 @@ import { UserSubscription } from '../../../core/models';
 				</ng-container>
 
 				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+				<tr
+					mat-row
+					*matRowDef="let row; columns: displayedColumns"
+				></tr>
 			</table>
 			<div style="height: 32px"></div>
 		</app-is-premium>

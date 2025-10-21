@@ -38,7 +38,7 @@ import { ClassSection } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 // --- DOCX Generation ---
-import { MarkdownComponent } from 'ngx-markdown'
+import { MarkdownComponent } from 'ngx-markdown';
 import {
 	Document,
 	Packer,
@@ -343,17 +343,17 @@ import { loadSections, selectAllClassSections } from '../../../store';
 export class ExpositoryArticleGeneratorComponent implements OnInit, OnDestroy {
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
-	#store = inject(Store)
+	#store = inject(Store);
 	#snackBar = inject(MatSnackBar);
 
 	#pretify = new PretifyPipe().transform;
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
-	isGenerating = signal(false)
-	showResult = signal(false)
-	generatedArticle = signal<string>('')
-	sections = this.#store.selectSignal(selectAllClassSections)
+	isGenerating = signal(false);
+	showResult = signal(false);
+	generatedArticle = signal<string>('');
+	sections = this.#store.selectSignal(selectAllClassSections);
 
 	// --- Form Definition ---
 	articleForm = this.#fb.group({
@@ -385,9 +385,10 @@ export class ExpositoryArticleGeneratorComponent implements OnInit, OnDestroy {
 
 	/** Loads sections */
 	#loadSections(): void {
-		this.isLoadingSections.set(true)
-		this.#store.dispatch(loadSections())
-		this.#store.select(selectAllClassSections)
+		this.isLoadingSections.set(true);
+		this.#store.dispatch(loadSections());
+		this.#store
+			.select(selectAllClassSections)
 			.pipe(
 				takeUntil(this.#destroy$),
 				catchError((error) =>

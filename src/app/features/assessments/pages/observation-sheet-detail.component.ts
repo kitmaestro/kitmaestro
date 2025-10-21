@@ -25,7 +25,9 @@ import { PdfService } from '../../../core/services/pdf.service';
 		@if (observationGuide) {
 			<mat-card>
 				<mat-card-header>
-					<mat-card-title>{{ observationGuide.title }}</mat-card-title>
+					<mat-card-title>{{
+						observationGuide.title
+					}}</mat-card-title>
 					<span style="flex: 1 1 auto"></span>
 					<a
 						routerLink="/assessments/observation-sheets"
@@ -64,7 +66,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 				[guide]="observationGuide"
 			></app-observation-guide>
 		}
-`,
+	`,
 })
 export class ObservationSheetDetailComponent implements OnInit {
 	private guideService = inject(ObservationGuideService);

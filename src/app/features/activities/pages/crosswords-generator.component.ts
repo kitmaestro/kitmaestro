@@ -39,7 +39,10 @@ import { filter, Subject, takeUntil } from 'rxjs';
 				<h2>Generador de Crucigramas</h2>
 			</div>
 			<div>
-				<form [formGroup]="crossWordForm" (ngSubmit)="generateCrossWord()">
+				<form
+					[formGroup]="crossWordForm"
+					(ngSubmit)="generateCrossWord()"
+				>
 					<div style="display: flex; gap: 16px;">
 						<div style="min-width: 25%; flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
@@ -112,7 +115,7 @@ import { filter, Subject, takeUntil } from 'rxjs';
 						</button>
 					}
 					<button type="submit" mat-button color="primary">
-						{{ crossword ? "Regenerar" : "Generar" }}
+						{{ crossword ? 'Regenerar' : 'Generar' }}
 					</button>
 				</form>
 			</div>
@@ -144,15 +147,15 @@ import { filter, Subject, takeUntil } from 'rxjs';
 						</h5>
 					</div>
 					<div style="margin-bottom: 42px; display: flex">
-						@if (crossWordForm.get("name")?.value === true) {
+						@if (crossWordForm.get('name')?.value === true) {
 							<div><b>Nombre</b>:</div>
 							<div class="blank"></div>
 						}
-						@if (crossWordForm.get("grade")?.value === true) {
+						@if (crossWordForm.get('grade')?.value === true) {
 							<div style="margin-left: 12px"><b>Grado</b>:</div>
 							<div class="blank"></div>
 						}
-						@if (crossWordForm.get("date")?.value === true) {
+						@if (crossWordForm.get('date')?.value === true) {
 							<div style="margin-left: 12px"><b>Fecha</b>:</div>
 							<div style="max-width: 20%" class="blank"></div>
 						}
@@ -188,8 +191,8 @@ import { filter, Subject, takeUntil } from 'rxjs';
 											"
 										>
 											<span class="text">{{
-												tile === "-"
-													? ""
+												tile === '-'
+													? ''
 													: markIfAble(x, y)
 											}}</span>
 										</div>
@@ -219,7 +222,7 @@ import { filter, Subject, takeUntil } from 'rxjs';
 											track $index
 										) {
 											@if (
-												word.orientation === "across"
+												word.orientation === 'across'
 											) {
 												<li
 													style="
@@ -248,7 +251,7 @@ import { filter, Subject, takeUntil } from 'rxjs';
 											word of crossword.result;
 											track $index
 										) {
-											@if (word.orientation === "down") {
+											@if (word.orientation === 'down') {
 												<li
 													style="
 														padding: 6px 12px 6px
@@ -295,7 +298,7 @@ import { filter, Subject, takeUntil } from 'rxjs';
 												'%'
 											"
 										>
-											{{ tile !== "-" ? tile : "" }}
+											{{ tile !== '-' ? tile : '' }}
 										</div>
 									}
 								</div>
@@ -323,7 +326,7 @@ import { filter, Subject, takeUntil } from 'rxjs';
 											track $index
 										) {
 											@if (
-												word.orientation === "across"
+												word.orientation === 'across'
 											) {
 												<li
 													style="
@@ -354,7 +357,7 @@ import { filter, Subject, takeUntil } from 'rxjs';
 											word of crossword.result;
 											track $index
 										) {
-											@if (word.orientation === "down") {
+											@if (word.orientation === 'down') {
 												<li
 													style="
 														padding: 6px 12px 6px
@@ -449,7 +452,7 @@ export class CrosswordsGeneratorComponent implements OnInit {
 	fb = inject(FormBuilder);
 	pdfService = inject(PdfService);
 	sb = inject(MatSnackBar);
-	#store = inject(Store)
+	#store = inject(Store);
 
 	teacherName = '';
 	schoolName = '';
@@ -476,18 +479,24 @@ export class CrosswordsGeneratorComponent implements OnInit {
 		date: [false],
 	});
 
-	destroy$ = new Subject<void>()
+	destroy$ = new Subject<void>();
 
 	ngOnDestroy() {
-		this.destroy$.next()
-		this.destroy$.complete()
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 
 	ngOnInit() {
-		this.#store.select(selectAuthUser).pipe(filter(user => !!user), takeUntil(this.destroy$)).subscribe((settings) => {
-			this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`
-			this.schoolName = settings.schoolName
-		});
+		this.#store
+			.select(selectAuthUser)
+			.pipe(
+				filter((user) => !!user),
+				takeUntil(this.destroy$),
+			)
+			.subscribe((settings) => {
+				this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
+				this.schoolName = settings.schoolName;
+			});
 	}
 
 	generateCrossWord() {

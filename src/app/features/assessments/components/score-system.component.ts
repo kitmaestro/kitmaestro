@@ -38,21 +38,26 @@ import { StudentsService } from '../../../core/services/students.service';
 							</h2>
 							<h3 style="margin-bottom: 0">
 								{{ user?.title || scoreSystem.user.title }}.
-								{{ user?.firstname || scoreSystem.user.firstname }}
-								{{ user?.lastname || scoreSystem.user.lastname }}
+								{{
+									user?.firstname ||
+										scoreSystem.user.firstname
+								}}
+								{{
+									user?.lastname || scoreSystem.user.lastname
+								}}
 							</h3>
 							<h3 style="margin-bottom: 0">
 								{{
 									section?.name ||
 										scoreSystem.section.name ||
-										"-Sin seccion-"
+										'-Sin seccion-'
 								}}
 							</h3>
 							@if (contentBlock && contentBlock.length) {
 								<h3>
 									|
 									@for (c of contentBlock; track $index) {
-										{{ c.title + " | " }}
+										{{ c.title + ' | ' }}
 									}
 								</h3>
 							} @else {
@@ -76,7 +81,10 @@ import { StudentsService } from '../../../core/services/students.service';
 								</tr>
 							</thead>
 							<tbody>
-								@for (group of grouped; track group.competence) {
+								@for (
+									group of grouped;
+									track group.competence
+								) {
 									@for (row of group.grading; track $index) {
 										<tr>
 											@if ($index === 0) {
@@ -105,7 +113,9 @@ import { StudentsService } from '../../../core/services/students.service';
 														criterion of row.criteria;
 														track $index
 													) {
-														<li>- {{ criterion }}</li>
+														<li>
+															- {{ criterion }}
+														</li>
 													}
 												</ul>
 											</td>
@@ -130,16 +140,21 @@ import { StudentsService } from '../../../core/services/students.service';
 							let position = $index
 						) {
 							<h3 style="font-weight: bold">
-								{{ position + 2 }}. Matr&iacute;z de Ponderaci&oacute;n
-								{{ position + 1 }}: Competencia {{ group.competence }}
+								{{ position + 2 }}. Matr&iacute;z de
+								Ponderaci&oacute;n {{ position + 1 }}:
+								Competencia {{ group.competence }}
 							</h3>
-							<table style="table-layout: fixed; margin-bottom: 24px">
+							<table
+								style="table-layout: fixed; margin-bottom: 24px"
+							>
 								<tbody>
 									<tr>
 										<td></td>
 										<td></td>
 										<td
-											[attr.colspan]="group.grading.length"
+											[attr.colspan]="
+												group.grading.length
+											"
 											style="
 												text-align: center;
 												font-weight: bold;
@@ -152,7 +167,10 @@ import { StudentsService } from '../../../core/services/students.service';
 									<tr>
 										<td></td>
 										<td></td>
-										@for (row of group.grading; track $index) {
+										@for (
+											row of group.grading;
+											track $index
+										) {
 											<td
 												style="
 													line-height: 1.15;
@@ -161,7 +179,9 @@ import { StudentsService } from '../../../core/services/students.service';
 											>
 												{{ row.activity }} ({{
 													row.activityType
-												}})<br /><b>{{ row.points }} Puntos</b>
+												}})<br /><b
+													>{{ row.points }} Puntos</b
+												>
 											</td>
 										}
 										<td>{{ group.total }}</td>
@@ -173,7 +193,10 @@ import { StudentsService } from '../../../core/services/students.service';
 												{{ student.firstname }}
 												{{ student.lastname }}
 											</td>
-											@for (row of group.grading; track $index) {
+											@for (
+												row of group.grading;
+												track $index
+											) {
 												<td></td>
 											}
 											<td></td>

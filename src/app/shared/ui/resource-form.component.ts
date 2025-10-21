@@ -275,22 +275,22 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 	`,
 })
 export class ResourceFormComponent implements OnInit {
-	fb = inject(FormBuilder)
-	private readonly storage: Storage = inject(Storage)
-	private dialogRef = inject(DialogRef<ResourceFormComponent>)
-	private didacticResourceService = inject(DidacticResourceService)
-	private sb = inject(MatSnackBar)
-	private data: DidacticResource = inject(MAT_DIALOG_DATA)
-	private authService = inject(AuthService)
+	fb = inject(FormBuilder);
+	private readonly storage: Storage = inject(Storage);
+	private dialogRef = inject(DialogRef<ResourceFormComponent>);
+	private didacticResourceService = inject(DidacticResourceService);
+	private sb = inject(MatSnackBar);
+	private data: DidacticResource = inject(MAT_DIALOG_DATA);
+	private authService = inject(AuthService);
 
-	loading = true
-	uploading = false
+	loading = true;
+	uploading = false;
 
-	resource: DidacticResource | null = null
-	preview = ''
-	previewTemplate = '/assets/Plantilla Ejemplo KM.svg'
-	grades = ['PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO']
-	levels = ['PRE_PRIMARIA', 'PRIMARIA', 'SECUNDARIA']
+	resource: DidacticResource | null = null;
+	preview = '';
+	previewTemplate = '/assets/Plantilla Ejemplo KM.svg';
+	grades = ['PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'];
+	levels = ['PRE_PRIMARIA', 'PRIMARIA', 'SECUNDARIA'];
 	subjects = [
 		'LENGUA_ESPANOLA',
 		'MATEMATICA',
@@ -304,7 +304,7 @@ export class ResourceFormComponent implements OnInit {
 		'TALLERES_OPTATIVOS',
 		'MANUALES',
 		'FASCICULOS',
-	]
+	];
 
 	resourceForm = this.fb.group({
 		author: ['', Validators.required],
@@ -317,36 +317,36 @@ export class ResourceFormComponent implements OnInit {
 		status: ['draft'],
 		preview: ['', Validators.required],
 		price: [0],
-	})
+	});
 
-	concent = this.fb.control(false)
+	concent = this.fb.control(false);
 
 	ngOnInit(): void {
 		if (this.data) {
-			this.resource = this.data
+			this.resource = this.data;
 		}
 		this.authService.profile().subscribe((user) => {
-			this.resourceForm.get('author')?.setValue(user._id)
-			this.loading = false
-		})
+			this.resourceForm.get('author')?.setValue(user._id);
+			this.loading = false;
+		});
 	}
 
 	onSubmit() {
-		const resource: DidacticResource = this.resourceForm.value as any
+		const resource: DidacticResource = this.resourceForm.value as any;
 
 		resource.keywords = [
 			...resource.grade,
 			...resource.subject,
 			...resource.level,
-		]
+		];
 
 		this.didacticResourceService.create(resource).subscribe({
 			next: (res) => {
 				if (res && res.title) {
 					this.sb.open('El recurso ha sido publicado.', 'Ok', {
 						duration: 2500,
-					})
-					this.dialogRef.close()
+					});
+					this.dialogRef.close();
 				}
 			},
 			error: (error) => {
@@ -354,98 +354,98 @@ export class ResourceFormComponent implements OnInit {
 					'Ha ocurrido un error al guardar. Intentalo nuevamente, por favor.',
 					'Ok',
 					{ duration: 2500 },
-				)
-				console.log(error)
+				);
+				console.log(error);
 			},
-		})
+		});
 	}
 
 	close() {
-		this.dialogRef.close()
+		this.dialogRef.close();
 	}
 
 	processPreview(files: FileList | null) {
-		if (!files) return
+		if (!files) return;
 
-		const file = files.item(0)
-		if (!file) return
+		const file = files.item(0);
+		if (!file) return;
 
-		const docRef = ref(this.storage, Date.now().toString() + file.name)
-		this.uploading = true
+		const docRef = ref(this.storage, Date.now().toString() + file.name);
+		this.uploading = true;
 		uploadBytesResumable(docRef, file)
 			.then(() => {
 				getDownloadURL(docRef)
 					.then((preview) => {
-						this.preview = preview
-						this.resourceForm.get('preview')?.setValue(preview)
+						this.preview = preview;
+						this.resourceForm.get('preview')?.setValue(preview);
 						this.sb.open(
 							'El archivo ha sido cargado de manera exitosa.',
 							'Ok',
 							{ duration: 2500 },
-						)
-						this.uploading = false
+						);
+						this.uploading = false;
 					})
 					.catch((err) => {
-						this.uploading = false
-						console.log(err)
+						this.uploading = false;
+						console.log(err);
 						this.sb.open(
 							'Ha ocurrido un error al cargar el archivo. Intentalo de nuevo, por favor.',
 							'Ok',
 							{ duration: 2500 },
-						)
-					})
+						);
+					});
 			})
 			.catch((err) => {
-				this.uploading = false
-				console.log(err)
+				this.uploading = false;
+				console.log(err);
 				this.sb.open(
 					'Ha ocurrido un error al cargar el archivo. Intentalo de nuevo, por favor.',
 					'Ok',
 					{ duration: 2500 },
-				)
-			})
+				);
+			});
 	}
 
 	processFile(files: FileList | null) {
-		if (!files) return
+		if (!files) return;
 
-		const file = files.item(0)
-		if (!file) return
+		const file = files.item(0);
+		if (!file) return;
 
-		const docRef = ref(this.storage, Date.now().toString() + file.name)
-		this.uploading = true
+		const docRef = ref(this.storage, Date.now().toString() + file.name);
+		this.uploading = true;
 		uploadBytesResumable(docRef, file)
 			.then(() => {
 				getDownloadURL(docRef)
 					.then((downloadLink) => {
 						this.resourceForm
 							.get('downloadLink')
-							?.setValue(downloadLink)
+							?.setValue(downloadLink);
 						this.sb.open(
 							'El archivo ha sido cargado de manera exitosa.',
 							'Ok',
 							{ duration: 2500 },
-						)
-						this.uploading = false
+						);
+						this.uploading = false;
 					})
 					.catch((err) => {
-						this.uploading = false
-						console.log(err)
+						this.uploading = false;
+						console.log(err);
 						this.sb.open(
 							'Ha ocurrido un error al cargar el archivo. Intentalo de nuevo, por favor.',
 							'Ok',
 							{ duration: 2500 },
-						)
-					})
+						);
+					});
 			})
 			.catch((err) => {
-				this.uploading = false
-				console.log(err)
+				this.uploading = false;
+				console.log(err);
 				this.sb.open(
 					'Ha ocurrido un error al cargar el archivo. Intentalo de nuevo, por favor.',
 					'Ok',
 					{ duration: 2500 },
-				)
-			})
+				);
+			});
 	}
 }

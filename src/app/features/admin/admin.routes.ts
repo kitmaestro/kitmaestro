@@ -42,9 +42,9 @@ export default [
 	{
 		path: 'users/:id',
 		loadComponent: () =>
-			import(
-				'./pages/user-details.component'
-			).then((mod) => mod.UserDetailsComponent),
+			import('./pages/user-details.component').then(
+				(mod) => mod.UserDetailsComponent,
+			),
 		title: 'Detalles del Usuario',
 	},
 ] as Routes;

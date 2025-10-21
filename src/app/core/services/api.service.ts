@@ -3,35 +3,35 @@ import {
 	HttpErrorResponse,
 	HttpHeaders,
 	HttpParams,
-} from '@angular/common/http'
-import { inject, Injectable } from '@angular/core'
-import { environment } from '../../../environments/environment'
-import { catchError, Observable, retry, throwError } from 'rxjs'
+} from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { catchError, Observable, retry, throwError } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ApiService {
-	#http = inject(HttpClient)
-	#baseUrl = environment.apiUrl
+	#http = inject(HttpClient);
+	#baseUrl = environment.apiUrl;
 
 	getApiUrl() {
-		return this.#baseUrl
+		return this.#baseUrl;
 	}
 
 	#createHeaders(customHeaders?: { [header: string]: string }): HttpHeaders {
 		let headers = new HttpHeaders({
 			'Content-Type': 'application/json',
 			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		})
+		});
 		if (customHeaders) {
 			for (const header in customHeaders) {
 				if (customHeaders.hasOwnProperty(header)) {
-					headers = headers.set(header, customHeaders[header])
+					headers = headers.set(header, customHeaders[header]);
 				}
 			}
 		}
-		return headers
+		return headers;
 	}
 
 	get<T>(
@@ -40,12 +40,12 @@ export class ApiService {
 		customHeaders?: { [header: string]: string },
 		retryCount: number = 1,
 	): Observable<T> {
-		const url = `${this.#baseUrl}${endpoint}`
-		const headers = this.#createHeaders(customHeaders)
-		const params = new HttpParams({ fromObject: paramsObj || {} })
+		const url = `${this.#baseUrl}${endpoint}`;
+		const headers = this.#createHeaders(customHeaders);
+		const params = new HttpParams({ fromObject: paramsObj || {} });
 		return this.#http
 			.get<T>(url, { headers, params, withCredentials: true })
-			.pipe(retry(retryCount), catchError(this.handleError))
+			.pipe(retry(retryCount), catchError(this.handleError));
 	}
 
 	post<T>(
@@ -54,11 +54,11 @@ export class ApiService {
 		customHeaders?: { [header: string]: string },
 		retryCount: number = 1,
 	): Observable<T> {
-		const url = `${this.#baseUrl}${endpoint}`
-		const headers = this.#createHeaders(customHeaders)
+		const url = `${this.#baseUrl}${endpoint}`;
+		const headers = this.#createHeaders(customHeaders);
 		return this.#http
 			.post<T>(url, body, { headers, withCredentials: true })
-			.pipe(retry(retryCount), catchError(this.handleError))
+			.pipe(retry(retryCount), catchError(this.handleError));
 	}
 
 	put<T>(
@@ -67,11 +67,11 @@ export class ApiService {
 		customHeaders?: { [header: string]: string },
 		retryCount: number = 1,
 	): Observable<T> {
-		const url = `${this.#baseUrl}${endpoint}`
-		const headers = this.#createHeaders(customHeaders)
+		const url = `${this.#baseUrl}${endpoint}`;
+		const headers = this.#createHeaders(customHeaders);
 		return this.#http
 			.patch<T>(url, body, { headers, withCredentials: true })
-			.pipe(retry(retryCount), catchError(this.handleError))
+			.pipe(retry(retryCount), catchError(this.handleError));
 	}
 
 	patch<T>(
@@ -80,11 +80,11 @@ export class ApiService {
 		customHeaders?: { [header: string]: string },
 		retryCount: number = 1,
 	): Observable<T> {
-		const url = `${this.#baseUrl}${endpoint}`
-		const headers = this.#createHeaders(customHeaders)
+		const url = `${this.#baseUrl}${endpoint}`;
+		const headers = this.#createHeaders(customHeaders);
 		return this.#http
 			.patch<T>(url, body, { headers, withCredentials: true })
-			.pipe(retry(retryCount), catchError(this.handleError))
+			.pipe(retry(retryCount), catchError(this.handleError));
 	}
 
 	delete<T>(
@@ -92,21 +92,21 @@ export class ApiService {
 		customHeaders?: { [header: string]: string },
 		retryCount: number = 1,
 	): Observable<T> {
-		const url = `${this.#baseUrl}${endpoint}`
-		const headers = this.#createHeaders(customHeaders)
+		const url = `${this.#baseUrl}${endpoint}`;
+		const headers = this.#createHeaders(customHeaders);
 		return this.#http
 			.delete<T>(url, { headers, withCredentials: true })
-			.pipe(retry(retryCount), catchError(this.handleError))
+			.pipe(retry(retryCount), catchError(this.handleError));
 	}
 
 	private handleError(error: HttpErrorResponse) {
-		let errorMsg = ''
+		let errorMsg = '';
 		if (error.error instanceof ErrorEvent) {
-			errorMsg = `Error: ${error.error.message}`
+			errorMsg = `Error: ${error.error.message}`;
 		} else {
-			errorMsg = `Código: ${error.status}, Mensaje: ${error.message}`
+			errorMsg = `Código: ${error.status}, Mensaje: ${error.message}`;
 		}
-		console.error(errorMsg)
-		return throwError(() => new Error(errorMsg))
+		console.error(errorMsg);
+		return throwError(() => new Error(errorMsg));
 	}
 }

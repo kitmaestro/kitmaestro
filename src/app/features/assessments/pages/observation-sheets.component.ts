@@ -35,17 +35,19 @@ import { MatCardModule } from '@angular/material/card';
 			<ng-container matColumnDef="date">
 				<th mat-header-cell *matHeaderCellDef>Fecha</th>
 				<td mat-cell *matCellDef="let element">
-					{{ element.date | date: "dd/MM/yyyy" }}
+					{{ element.date | date: 'dd/MM/yyyy' }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="section">
 				<th mat-header-cell *matHeaderCellDef>Curso</th>
-				<td mat-cell *matCellDef="let element">{{ element.section.name }}</td>
+				<td mat-cell *matCellDef="let element">
+					{{ element.section.name }}
+				</td>
 			</ng-container>
 			<ng-container matColumnDef="individual">
 				<th mat-header-cell *matHeaderCellDef>Individual</th>
 				<td mat-cell *matCellDef="let element">
-					{{ element.individual ? "Si" : "No" }}
+					{{ element.individual ? 'Si' : 'No' }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="actions">
@@ -62,7 +64,10 @@ import { MatCardModule } from '@angular/material/card';
 							<mat-icon>edit</mat-icon>
 						</button> -->
 					<button
-						[routerLink]="['/assessments/observation-sheets', element._id]"
+						[routerLink]="[
+							'/assessments/observation-sheets',
+							element._id,
+						]"
 						color="primary"
 						mat-icon-button
 					>
@@ -74,7 +79,7 @@ import { MatCardModule } from '@angular/material/card';
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 		</table>
-`,
+	`,
 })
 export class ObservationSheetsComponent implements OnInit {
 	private guideService = inject(ObservationGuideService);

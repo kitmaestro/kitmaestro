@@ -29,10 +29,18 @@ import { MainTheme } from '../../../core';
 import { MainThemeService } from '../../../core/services/main-theme.service';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { forkJoin } from 'rxjs';
-import { createPlan, loadPlans, selectAllUnitPlans, UnitPlanDto } from '../../../store/unit-plans';
+import {
+	createPlan,
+	loadPlans,
+	selectAllUnitPlans,
+	UnitPlanDto,
+} from '../../../store/unit-plans';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
 import { Store } from '@ngrx/store';
-import { loadSections, selectAllClassSections } from '../../../store/class-sections';
+import {
+	loadSections,
+	selectAllClassSections,
+} from '../../../store/class-sections';
 
 @Component({
 	selector: 'app-annual-plan-generator',
@@ -52,8 +60,12 @@ import { loadSections, selectAllClassSections } from '../../../store/class-secti
 	template: `
 		<app-is-premium minSubscriptionType="Plan Plus">
 			<div class="content">
-				<div style="display: flex; justify-content: space-between; align-items: center;">
-					<h2 class="title" mat-card-title>Generador de Planificación Anual</h2>
+				<div
+					style="display: flex; justify-content: space-between; align-items: center;"
+				>
+					<h2 class="title" mat-card-title>
+						Generador de Planificación Anual
+					</h2>
 					<button
 						class="title-button"
 						mat-button
@@ -76,14 +88,19 @@ import { loadSections, selectAllClassSections } from '../../../store/class-secti
 								formControlName="classSection"
 								(selectionChange)="onSectionOrSubjectChange()"
 							>
-								@for (section of classSections(); track section._id) {
+								@for (
+									section of classSections();
+									track section._id
+								) {
 									<mat-option [value]="section._id">{{
 										section.name
 									}}</mat-option>
 								}
 							</mat-select>
 							@if (
-								yearlyPlanForm.get("classSection")?.hasError("required")
+								yearlyPlanForm
+									.get('classSection')
+									?.hasError('required')
 							) {
 								<mat-error>El grado es requerido.</mat-error>
 							}
@@ -105,8 +122,14 @@ import { loadSections, selectAllClassSections } from '../../../store/class-secti
 									}}</mat-option>
 								}
 							</mat-select>
-							@if (yearlyPlanForm.get("subject")?.hasError("required")) {
-								<mat-error>La asignatura es requerida.</mat-error>
+							@if (
+								yearlyPlanForm
+									.get('subject')
+									?.hasError('required')
+							) {
+								<mat-error
+									>La asignatura es requerida.</mat-error
+								>
 							}
 						</mat-form-field>
 
@@ -115,7 +138,9 @@ import { loadSections, selectAllClassSections } from '../../../store/class-secti
 							<mat-label>Ambiente Operativo</mat-label>
 							<mat-select formControlName="environment">
 								@for (env of environments; track env) {
-									<mat-option [value]="env">{{ env }}</mat-option>
+									<mat-option [value]="env">{{
+										env
+									}}</mat-option>
 								}
 							</mat-select>
 						</mat-form-field>
@@ -133,7 +158,8 @@ import { loadSections, selectAllClassSections } from '../../../store/class-secti
 						</mat-form-field>
 
 						@if (
-							yearlyPlanForm.value.situationType === "realityProblem"
+							yearlyPlanForm.value.situationType ===
+							'realityProblem'
 						) {
 							<mat-form-field appearance="outline">
 								<mat-label>Problema a Abordar</mat-label>
@@ -146,7 +172,7 @@ import { loadSections, selectAllClassSections } from '../../../store/class-secti
 								</mat-select>
 							</mat-form-field>
 						}
-						@if (yearlyPlanForm.value.situationType === "reality") {
+						@if (yearlyPlanForm.value.situationType === 'reality') {
 							<mat-form-field appearance="outline">
 								<mat-label>Realidad del Curso</mat-label>
 								<input
@@ -260,7 +286,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	private aiService = inject(AiService);
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
-	#store = inject(Store)
+	#store = inject(Store);
 	public userSubscriptionService = inject(UserSubscriptionService);
 	private contentBlockService = inject(ContentBlockService);
 	private competenceService = inject(CompetenceService);
@@ -301,8 +327,8 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadPlans())
-		this.#store.dispatch(loadSections())
+		this.#store.dispatch(loadPlans());
+		this.#store.dispatch(loadSections());
 		const res = localStorage.getItem('available-resources') as string;
 		const resources = res ? JSON.parse(res) : null;
 		if (resources && Array.isArray(resources) && resources.length > 0) {
@@ -313,36 +339,51 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			sections: this.#store.select(selectAllClassSections),
 			unitPlans: this.#store.select(selectAllUnitPlans),
 			subscription: this.userSubscriptionService.checkSubscription(),
-		})
-			.subscribe({
-				next: ({settings, sections, unitPlans, subscription}) => {
-					this.user = settings;
-					if (!sections.length) {
-						this.router.navigateByUrl('/sections').then(() => {
-							this.sb.open(
-								'Para usar esta herramienta, necesitas crear al menos una sección.',
-								'Ok',
-								{ duration: 5000 },
-							);
-						})
-						return;
-					}
-					const unitPlanLimits = subscription.subscriptionType == 'Plan Premium' ? sections.length * sections.flatMap(s => s.subjects).length * 12 : sections.length * sections.flatMap(s => s.subjects).length * 6;
-					const userPlansThisMonth = unitPlans.filter(plan => {
-						const planDate = new Date(plan.createdAt);
-						return planDate < new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-					}).length;
-					if (userPlansThisMonth >= unitPlanLimits) {
-						this.router.navigateByUrl('/planning/unit-plans/list').then(() => {
-							this.sb.open(`Has alcanzado el límite de ${unitPlanLimits} unidades para este mes según tu plan actual.`, 'Ok', { duration: 7000 });
-						});
-						return;
-					}
-				},
-				error: err => {
-					console.log(err)
+		}).subscribe({
+			next: ({ settings, sections, unitPlans, subscription }) => {
+				this.user = settings;
+				if (!sections.length) {
+					this.router.navigateByUrl('/sections').then(() => {
+						this.sb.open(
+							'Para usar esta herramienta, necesitas crear al menos una sección.',
+							'Ok',
+							{ duration: 5000 },
+						);
+					});
+					return;
 				}
-			});
+				const unitPlanLimits =
+					subscription.subscriptionType == 'Plan Premium'
+						? sections.length *
+							sections.flatMap((s) => s.subjects).length *
+							12
+						: sections.length *
+							sections.flatMap((s) => s.subjects).length *
+							6;
+				const userPlansThisMonth = unitPlans.filter((plan) => {
+					const planDate = new Date(plan.createdAt);
+					return (
+						planDate <
+						new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+					);
+				}).length;
+				if (userPlansThisMonth >= unitPlanLimits) {
+					this.router
+						.navigateByUrl('/planning/unit-plans/list')
+						.then(() => {
+							this.sb.open(
+								`Has alcanzado el límite de ${unitPlanLimits} unidades para este mes según tu plan actual.`,
+								'Ok',
+								{ duration: 7000 },
+							);
+						});
+					return;
+				}
+			},
+			error: (err) => {
+				console.log(err);
+			},
+		});
 	}
 
 	onSectionOrSubjectChange(): void {
@@ -550,7 +591,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			studentActivities: activitiesJson.student_activities || [],
 			evaluationActivities: activitiesJson.evaluation_activities || [],
 		} as any;
-		this.#store.dispatch(createPlan({ plan }))
+		this.#store.dispatch(createPlan({ plan }));
 	}
 
 	private getLearningSituationPrompt(
@@ -562,7 +603,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 		mainTheme: string,
 	): string {
 		const contentStr = this.formatContentsForPrompt(contents);
-		const user = this.user
+		const user = this.user;
 		return generateLearningSituationPrompt
 			.replace(
 				'nivel_y_grado',

@@ -1,8 +1,8 @@
-import { BaseModel } from "./base-model"
+import { BaseModel } from './base-model';
 
 export interface TodoList extends BaseModel {
-	user: string
-	name: string
-	description: string
-	active: boolean
+	user: string;
+	name: string;
+	description: string;
+	active: boolean;
 }

@@ -1,8 +1,8 @@
-import { inject, Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
-import { ApiDeleteResponse } from '../interfaces'
-import { Checklist } from '../models'
-import { ApiService } from './api.service'
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ApiDeleteResponse } from '../interfaces';
+import { Checklist } from '../models';
+import { ApiService } from './api.service';
 import {
 	AlignmentType,
 	Document,
@@ -15,40 +15,40 @@ import {
 	TableRow,
 	TextRun,
 	WidthType,
-} from 'docx'
-import { saveAs } from 'file-saver'
-import { PretifyPipe } from '../../shared/pipes/pretify.pipe'
-import { ChecklistDto } from '../../store/checklists/checklists.models'
+} from 'docx';
+import { saveAs } from 'file-saver';
+import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
+import { ChecklistDto } from '../../store/checklists/checklists.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ChecklistService {
-	#apiService = inject(ApiService)
-	#endpoint = 'checklists/'
+	#apiService = inject(ApiService);
+	#endpoint = 'checklists/';
 
 	findAll(filters?: any): Observable<Checklist[]> {
-		return this.#apiService.get<Checklist[]>(this.#endpoint, filters)
+		return this.#apiService.get<Checklist[]>(this.#endpoint, filters);
 	}
 
 	find(id: string): Observable<Checklist> {
-		return this.#apiService.get<Checklist>(this.#endpoint + id)
+		return this.#apiService.get<Checklist>(this.#endpoint + id);
 	}
 
 	create(idea: Partial<ChecklistDto>): Observable<Checklist> {
-		return this.#apiService.post<Checklist>(this.#endpoint, idea)
+		return this.#apiService.post<Checklist>(this.#endpoint, idea);
 	}
 
 	update(id: string, idea: Partial<ChecklistDto>): Observable<Checklist> {
-		return this.#apiService.patch<Checklist>(this.#endpoint + id, idea)
+		return this.#apiService.patch<Checklist>(this.#endpoint + id, idea);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
 	private pretify(str: string) {
-		return new PretifyPipe().transform(str)
+		return new PretifyPipe().transform(str);
 	}
 
 	async download(list: Checklist) {
@@ -259,8 +259,8 @@ export class ChecklistService {
 					],
 				},
 			],
-		})
-		const blob = await Packer.toBlob(doc)
-		saveAs(blob, 'Lista de cotejo ' + list.title + '.docx')
+		});
+		const blob = await Packer.toBlob(doc);
+		saveAs(blob, 'Lista de cotejo ' + list.title + '.docx');
 	}
 }

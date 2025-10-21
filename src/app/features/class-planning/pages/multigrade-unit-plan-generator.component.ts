@@ -38,7 +38,12 @@ import { createPlan, createPlanSuccess } from '../../../store/unit-plans';
 import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
-import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectClassSectionsStatus } from '../../../store/class-sections';
+import {
+	ClassSectionStateStatus,
+	loadSections,
+	selectAllClassSections,
+	selectClassSectionsStatus,
+} from '../../../store/class-sections';
 
 @Component({
 	selector: 'app-multigrade-unit-plan-generator',
@@ -80,7 +85,8 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 								style="padding-top: 16px"
 							>
 								<ng-template matStepLabel
-									>Situaci&oacute;n de Aprendizaje</ng-template
+									>Situaci&oacute;n de
+									Aprendizaje</ng-template
 								>
 								<div class="cols-2">
 									<mat-form-field appearance="outline">
@@ -100,7 +106,9 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 										</mat-select>
 									</mat-form-field>
 									<mat-form-field appearance="outline">
-										<mat-label>Ambiente Operativo</mat-label>
+										<mat-label
+											>Ambiente Operativo</mat-label
+										>
 										<mat-select
 											formControlName="environment"
 											required
@@ -121,15 +129,20 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 											formControlName="classSections"
 											required
 											multiple
-											(selectionChange)="onSectionSelect()"
+											(selectionChange)="
+												onSectionSelect()
+											"
 										>
 											@for (
 												section of allClassSections();
 												track section._id
 											) {
-												<mat-option [value]="section._id">{{
-													section.name
-												}}</mat-option>
+												<mat-option
+													[value]="section._id"
+													>{{
+														section.name
+													}}</mat-option
+												>
 											}
 										</mat-select>
 									</mat-form-field>
@@ -138,15 +151,20 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 										<mat-select
 											formControlName="subject"
 											required
-											(selectionChange)="onSubjectSelect()"
+											(selectionChange)="
+												onSubjectSelect()
+											"
 										>
 											@for (
 												subject of commonSubjects;
 												track subject.id
 											) {
-												<mat-option [value]="subject.id">{{
-													subject.label
-												}}</mat-option>
+												<mat-option
+													[value]="subject.id"
+													>{{
+														subject.label
+													}}</mat-option
+												>
 											}
 										</mat-select>
 									</mat-form-field>
@@ -163,7 +181,8 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 										</h4>
 										<mat-form-field appearance="outline">
 											<mat-label
-												>Seleccionar Contenidos</mat-label
+												>Seleccionar
+												Contenidos</mat-label
 											>
 											<mat-select
 												[formControlName]="
@@ -194,7 +213,8 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 									<div style="flex: 1 1 auto">
 										<mat-form-field appearance="outline">
 											<mat-label
-												>Tipo de Situaci&oacute;n</mat-label
+												>Tipo de
+												Situaci&oacute;n</mat-label
 											>
 											<mat-select
 												formControlName="situationType"
@@ -204,9 +224,12 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 													type of situationTypes;
 													track $index
 												) {
-													<mat-option [value]="type.id">{{
-														type.label
-													}}</mat-option>
+													<mat-option
+														[value]="type.id"
+														>{{
+															type.label
+														}}</mat-option
+													>
 												}
 											</mat-select>
 										</mat-form-field>
@@ -216,9 +239,12 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 											.situationType === 'realityProblem'
 									) {
 										<div style="flex: 1 1 auto">
-											<mat-form-field appearance="outline">
+											<mat-form-field
+												appearance="outline"
+											>
 												<mat-label
-													>Problema a Abordar</mat-label
+													>Problema a
+													Abordar</mat-label
 												>
 												<mat-select
 													formControlName="reality"
@@ -244,9 +270,12 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 											.situationType === 'reality'
 									) {
 										<div style="flex: 1 1 auto">
-											<mat-form-field appearance="outline">
+											<mat-form-field
+												appearance="outline"
+											>
 												<mat-label
-													>Realidad del Curso</mat-label
+													>Realidad del
+													Curso</mat-label
 												>
 												<input
 													matInput
@@ -283,7 +312,9 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 											>
 											<textarea
 												rows="8"
-												[formControl]="learningSituation"
+												[formControl]="
+													learningSituation
+												"
 												matInput
 											></textarea>
 										</mat-form-field>
@@ -299,12 +330,18 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 									>
 										<mat-icon>bolt</mat-icon>
 										@if (generating) {
-											<span>Generando Situación de Aprendizaje...</span>
+											<span
+												>Generando Situación de
+												Aprendizaje...</span
+											>
 										} @else {
 											@if (learningSituation.value) {
 												<span>Regenerar</span>
 											} @else {
-												<span>Generar Situación de Aprendizaje</span>
+												<span
+													>Generar Situación de
+													Aprendizaje</span
+												>
 											}
 										}
 									</button>
@@ -329,7 +366,9 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 								<div style="padding-top: 16px">
 									<div>
 										<mat-form-field appearance="outline">
-											<mat-label>Duraci&oacute;n</mat-label>
+											<mat-label
+												>Duraci&oacute;n</mat-label
+											>
 											<mat-select
 												formControlName="duration"
 												required
@@ -338,9 +377,15 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 													n of [].constructor(6);
 													track $index
 												) {
-													<mat-option [value]="$index + 1"
-														>{{ $index + 1 }} Semana{{
-															$index > 0 ? 's' : ''
+													<mat-option
+														[value]="$index + 1"
+														>{{
+															$index + 1
+														}}
+														Semana{{
+															$index > 0
+																? 's'
+																: ''
 														}}</mat-option
 													>
 												}
@@ -372,7 +417,9 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 										</mat-form-field>
 									</div>
 									<div style="margin-bottom: 16px">
-										<mat-label>Recursos Disponibles</mat-label>
+										<mat-label
+											>Recursos Disponibles</mat-label
+										>
 										<mat-chip-listbox
 											formControlName="resources"
 											multiple
@@ -421,7 +468,9 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 										<div class="grade-activities-container">
 											<h3>
 												Actividades para
-												{{ gradeActivities.grade_level }}
+												{{
+													gradeActivities.grade_level
+												}}
 											</h3>
 											<div class="flex-on-md">
 												<div
@@ -436,7 +485,9 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 															activity of gradeActivities.teacher_activities;
 															track activity
 														) {
-															<li>{{ activity }}</li>
+															<li>
+																{{ activity }}
+															</li>
 														}
 													</ul>
 												</div>
@@ -444,14 +495,17 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 													style="flex: 1 1 auto; width: 100%"
 												>
 													<h4>
-														Actividades de Aprendizaje
+														Actividades de
+														Aprendizaje
 													</h4>
 													<ul>
 														@for (
 															activity of gradeActivities.student_activities;
 															track activity
 														) {
-															<li>{{ activity }}</li>
+															<li>
+																{{ activity }}
+															</li>
 														}
 													</ul>
 												</div>
@@ -467,7 +521,9 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 															activity of gradeActivities.evaluation_activities;
 															track activity
 														) {
-															<li>{{ activity }}</li>
+															<li>
+																{{ activity }}
+															</li>
 														}
 													</ul>
 												</div>
@@ -559,8 +615,8 @@ import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectCl
 })
 export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 	private aiService = inject(AiService);
-	#store = inject(Store)
-	#actions$ = inject(Actions)
+	#store = inject(Store);
+	#actions$ = inject(Actions);
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
 	private contentBlockService = inject(ContentBlockService);
@@ -569,9 +625,9 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 	private router = inject(Router);
 
 	generating = false;
-	user = this.#store.selectSignal(selectAuthUser)
-	allClassSections = this.#store.selectSignal(selectAllClassSections)
-	status = this.#store.selectSignal(selectClassSectionsStatus)
+	user = this.#store.selectSignal(selectAuthUser);
+	allClassSections = this.#store.selectSignal(selectAllClassSections);
+	status = this.#store.selectSignal(selectClassSectionsStatus);
 	selectedClassSections: ClassSection[] = [];
 	commonSubjects: { id: string; label: string }[] = [];
 	contentBlocksBySection = new Map<string, ContentBlock[]>();
@@ -624,43 +680,53 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 
 	pretifyPipe = new PretifyPipe();
 
-	destroy$ = new Subject<void>()
+	destroy$ = new Subject<void>();
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadSections())
-		this.#store.select(selectAllClassSections).pipe(takeUntil(this.destroy$),filter((value) => !!value)).subscribe({
-			next: (value) => {
-				if (this.status() === ClassSectionStateStatus.LOADING_SECTIONS || this.status() !== ClassSectionStateStatus.IDLING)
-					return
-				if (!value.length) {
-					this.sb.open(
-						'Para usar esta herramienta, necesitas crear al menos una sección.',
-						'Ok',
-					);
-					this.router.navigate(['/']);
-				}
-			},
-		});
-		this.#actions$.pipe(
-			ofType(createPlanSuccess),
-			takeUntil(this.destroy$),
-			tap(({ plan }) => {
-				this.router
-					.navigate(['/unit-plans', plan._id])
-					.then(() => {
+		this.#store.dispatch(loadSections());
+		this.#store
+			.select(selectAllClassSections)
+			.pipe(
+				takeUntil(this.destroy$),
+				filter((value) => !!value),
+			)
+			.subscribe({
+				next: (value) => {
+					if (
+						this.status() ===
+							ClassSectionStateStatus.LOADING_SECTIONS ||
+						this.status() !== ClassSectionStateStatus.IDLING
+					)
+						return;
+					if (!value.length) {
+						this.sb.open(
+							'Para usar esta herramienta, necesitas crear al menos una sección.',
+							'Ok',
+						);
+						this.router.navigate(['/']);
+					}
+				},
+			});
+		this.#actions$
+			.pipe(
+				ofType(createPlanSuccess),
+				takeUntil(this.destroy$),
+				tap(({ plan }) => {
+					this.router.navigate(['/unit-plans', plan._id]).then(() => {
 						this.sb.open(
 							'Tu unidad multigrado ha sido guardada!',
 							'Ok',
 							{ duration: 2500 },
 						);
 					});
-			})
-		).subscribe()
+				}),
+			)
+			.subscribe();
 	}
 
 	ngOnDestroy() {
-		this.destroy$.next()
-		this.destroy$.complete()
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 
 	onSectionSelect(): void {
@@ -982,9 +1048,9 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 	}
 
 	savePlan(): void {
-		const plan: any = this.plan
+		const plan: any = this.plan;
 		if (this.plan) {
-			this.#store.dispatch(createPlan({ plan }))
+			this.#store.dispatch(createPlan({ plan }));
 		}
 	}
 }

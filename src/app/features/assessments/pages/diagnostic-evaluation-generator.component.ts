@@ -64,15 +64,19 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 					<h2 class="title" mat-card-title>
 						Generador de Evaluaciones Diagnósticas
 					</h2>
-					<button mat-flat-button routerLink="/diagnostic-evaluations">
+					<button
+						mat-flat-button
+						routerLink="/diagnostic-evaluations"
+					>
 						Mis Evaluaciones
 					</button>
 				</mat-card-header>
 				<mat-card-content>
 					<div class="no-print">
 						<p>
-							Configura los parámetros de tu evaluación y haz clic en
-							"Generar" para crear una prueba diagnóstica personalizada.
+							Configura los parámetros de tu evaluación y haz clic
+							en "Generar" para crear una prueba diagnóstica
+							personalizada.
 						</p>
 
 						<form
@@ -86,9 +90,14 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									<mat-select
 										formControlName="classSection"
 										required
-										(selectionChange)="onClassSectionChange()"
+										(selectionChange)="
+											onClassSectionChange()
+										"
 									>
-										@for (section of classSections; track section._id) {
+										@for (
+											section of classSections;
+											track section._id
+										) {
 											<mat-option [value]="section._id">{{
 												section.name
 											}}</mat-option>
@@ -103,8 +112,13 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 										required
 										(selectionChange)="onSubjectChange()"
 									>
-										@for (subject of subjects(); track subject) {
-											@if (subject !== "TALLERES_OPTATIVOS") {
+										@for (
+											subject of subjects();
+											track subject
+										) {
+											@if (
+												subject !== 'TALLERES_OPTATIVOS'
+											) {
 												<mat-option [value]="subject">{{
 													subject | pretify
 												}}</mat-option>
@@ -116,8 +130,15 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 							<mat-form-field appearance="outline">
 								<mat-label>Temas a Evaluar</mat-label>
-								<mat-select formControlName="topics" required multiple>
-									@for (block of contentBlocks(); track block._id) {
+								<mat-select
+									formControlName="topics"
+									required
+									multiple
+								>
+									@for (
+										block of contentBlocks();
+										track block._id
+									) {
 										<mat-option [value]="block._id">{{
 											block.title
 										}}</mat-option>
@@ -140,10 +161,10 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									<mat-icon>auto_awesome</mat-icon>
 									{{
 										generating
-											? "Generando..."
+											? 'Generando...'
 											: evaluation
-												? "Regenerar Evaluación"
-												: "Generar Evaluación"
+												? 'Regenerar Evaluación'
+												: 'Generar Evaluación'
 									}}
 								</button>
 							</div>
@@ -185,7 +206,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 				</mat-card-content>
 			</mat-card>
 		</app-is-premium>
-`,
+	`,
 	styles: `
 		:host {
 			display: block;
@@ -255,7 +276,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 			border: 1px solid #ccc;
 			border-radius: 8px;
 			background-color: #fff;
-			font-family: "Times New Roman", Times, serif;
+			font-family: 'Times New Roman', Times, serif;
 			color: #000;
 		}
 

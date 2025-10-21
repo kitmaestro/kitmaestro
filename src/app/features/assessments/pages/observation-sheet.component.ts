@@ -47,11 +47,19 @@ import { User } from '../../../core';
 						<div style="">
 							<mat-form-field appearance="outline">
 								<mat-label>T&iacute;tulo</mat-label>
-								<input type="text" matInput formControlName="title" />
+								<input
+									type="text"
+									matInput
+									formControlName="title"
+								/>
 							</mat-form-field>
 						</div>
-						<div style="display: flex; gap: 16px; margin-bottom: 16px">
-							<div style="flex: 1 1 auto; width: 100%; max-width: 25%">
+						<div
+							style="display: flex; gap: 16px; margin-bottom: 16px"
+						>
+							<div
+								style="flex: 1 1 auto; width: 100%; max-width: 25%"
+							>
 								<mat-checkbox
 									class="example-margin"
 									#blank
@@ -65,7 +73,9 @@ import { User } from '../../../core';
 									Dejar Fecha en Blanco
 								</mat-checkbox>
 							</div>
-							<div style="flex: 1 1 auto; width: 100%; max-width: 25%">
+							<div
+								style="flex: 1 1 auto; width: 100%; max-width: 25%"
+							>
 								<mat-form-field appearance="outline">
 									<mat-label>Fecha</mat-label>
 									<input
@@ -75,7 +85,9 @@ import { User } from '../../../core';
 									/>
 								</mat-form-field>
 							</div>
-							<div style="flex: 1 1 auto; width: 100%; max-width: 25%">
+							<div
+								style="flex: 1 1 auto; width: 100%; max-width: 25%"
+							>
 								<mat-checkbox
 									class="example-margin"
 									formControlName="individual"
@@ -83,14 +95,21 @@ import { User } from '../../../core';
 									Reporte Individual
 								</mat-checkbox>
 							</div>
-							<div style="flex: 1 1 auto; width: 100%; max-width: 25%">
+							<div
+								style="flex: 1 1 auto; width: 100%; max-width: 25%"
+							>
 								<mat-form-field appearance="outline">
 									<mat-label>Grupo</mat-label>
 									<mat-select
 										formControlName="group"
-										(selectionChange)="onGradeSelect($event)"
+										(selectionChange)="
+											onGradeSelect($event)
+										"
 									>
-										@for (group of groups; track group._id) {
+										@for (
+											group of groups;
+											track group._id
+										) {
 											<mat-option [value]="group._id">{{
 												group.name
 											}}</mat-option>
@@ -99,12 +118,19 @@ import { User } from '../../../core';
 								</mat-form-field>
 							</div>
 						</div>
-						<div style="display: flex; gap: 16px; margin-bottom: 16px">
-							<div style="flex: 1 1 auto; width: 100%; max-width: 25%">
+						<div
+							style="display: flex; gap: 16px; margin-bottom: 16px"
+						>
+							<div
+								style="flex: 1 1 auto; width: 100%; max-width: 25%"
+							>
 								<mat-form-field appearance="outline">
 									<mat-label>Asignatura(s)</mat-label>
 									<mat-select formControlName="subject">
-										@for (subject of gradeSubjects; track $index) {
+										@for (
+											subject of gradeSubjects;
+											track $index
+										) {
 											@if (subjectLabel(subject)) {
 												<mat-option [value]="subject">{{
 													subjectLabel(subject)
@@ -114,11 +140,16 @@ import { User } from '../../../core';
 									</mat-select>
 								</mat-form-field>
 							</div>
-							<div style="flex: 1 1 auto; width: 100%; max-width: 25%">
+							<div
+								style="flex: 1 1 auto; width: 100%; max-width: 25%"
+							>
 								<mat-form-field appearance="outline">
 									<mat-label>Duraci&oacute;n</mat-label>
 									<mat-select formControlName="duration">
-										@for (option of durationOptions; track $index) {
+										@for (
+											option of durationOptions;
+											track $index
+										) {
 											<mat-option [value]="option">{{
 												option
 											}}</mat-option>
@@ -126,10 +157,15 @@ import { User } from '../../../core';
 									</mat-select>
 								</mat-form-field>
 							</div>
-							<div style="flex: 1 1 auto; width: 100%; max-width: 25%">
+							<div
+								style="flex: 1 1 auto; width: 100%; max-width: 25%"
+							>
 								<mat-form-field appearance="outline">
 									<mat-label>Competencias</mat-label>
-									<mat-select formControlName="competence" multiple>
+									<mat-select
+										formControlName="competence"
+										multiple
+									>
 										@for (
 											option of compentenceOptions;
 											track $index
@@ -141,10 +177,15 @@ import { User } from '../../../core';
 									</mat-select>
 								</mat-form-field>
 							</div>
-							<div style="flex: 1 1 auto; width: 100%; max-width: 25%">
+							<div
+								style="flex: 1 1 auto; width: 100%; max-width: 25%"
+							>
 								<mat-form-field appearance="outline">
 									<mat-label>Aspectos a Observar</mat-label>
-									<mat-select formControlName="aspects" multiple>
+									<mat-select
+										formControlName="aspects"
+										multiple
+									>
 										@for (aspect of aspects; track $index) {
 											<mat-option [value]="aspect">{{
 												aspect
@@ -154,7 +195,9 @@ import { User } from '../../../core';
 								</mat-form-field>
 							</div>
 						</div>
-						<div style="display: flex; gap: 16px; margin-bottom: 16px">
+						<div
+							style="display: flex; gap: 16px; margin-bottom: 16px"
+						>
 							<div style="flex: 1 1 auto; width: 50%">
 								<mat-form-field appearance="outline">
 									<mat-label>Descripci&oacute;n</mat-label>
@@ -168,7 +211,8 @@ import { User } from '../../../core';
 							<div style="flex: 1 1 auto; width: 50%">
 								<mat-form-field appearance="outline">
 									<mat-label
-										>Otros Aspectos (separados por comas)</mat-label
+										>Otros Aspectos (separados por
+										comas)</mat-label
 									>
 									<textarea
 										rows="4"

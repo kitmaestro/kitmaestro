@@ -21,7 +21,11 @@ import { RubricService } from '../../../core/services/rubric.service';
 import { RubricGeneratorComponent } from '../../assessments/pages/rubric-generator.component';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
-import { loadPlan, loadPlans, selectCurrentPlan } from '../../../store/unit-plans';
+import {
+	loadPlan,
+	loadPlans,
+	selectCurrentPlan,
+} from '../../../store/unit-plans';
 import { loadClassPlans } from '../../../store/class-plans/class-plans.actions';
 import { selectClassPlans } from '../../../store/class-plans/class-plans.selectors';
 
@@ -45,11 +49,7 @@ import { selectClassPlans } from '../../../store/class-plans/class-plans.selecto
 				<button mat-button color="link" (click)="goBack()">
 					Volver
 				</button>
-				<button
-					mat-button
-					color="warn"
-					(click)="deletePlan()"
-				>
+				<button mat-button color="warn" (click)="deletePlan()">
 					Eliminar
 				</button>
 				<button
@@ -70,7 +70,11 @@ import { selectClassPlans } from '../../../store/class-plans/class-plans.selecto
 				<button
 					mat-button
 					color="primary"
-					[attr.title]="!isPremium() ? 'Necesitas una suscripcion para descargar los planes' : undefined"
+					[attr.title]="
+						!isPremium()
+							? 'Necesitas una suscripcion para descargar los planes'
+							: undefined
+					"
 					[disabled]="printing || !isPremium()"
 					(click)="download()"
 				>
@@ -80,7 +84,7 @@ import { selectClassPlans } from '../../../store/class-plans/class-plans.selecto
 			</div>
 		}
 
-		@if(plan$ | async; as plan) {
+		@if (plan$ | async; as plan) {
 			<div [id]="isPrintView ? 'print-view-sheet' : 'plan-sheet'">
 				@if (isPrintView) {
 					<h1 style="text-align: center">{{ plan.title }}</h1>
@@ -90,11 +94,22 @@ import { selectClassPlans } from '../../../store/class-plans/class-plans.selecto
 					<div>
 						<h2>Planes Diarios</h2>
 						<ul style="list-style: none">
-							@for (dailyPlan of classPlans; track dailyPlan._id) {
+							@for (
+								dailyPlan of classPlans;
+								track dailyPlan._id
+							) {
 								<li>
-									<a [routerLink]="['/planning', 'class-plans', dailyPlan._id]">
+									<a
+										[routerLink]="[
+											'/planning',
+											'class-plans',
+											dailyPlan._id,
+										]"
+									>
 										Plan diario para el
-										{{ dailyPlan.date | date: "dd/MM/yyyy" }}
+										{{
+											dailyPlan.date | date: 'dd/MM/yyyy'
+										}}
 									</a>
 								</li>
 							} @empty {
@@ -116,14 +131,17 @@ import { selectClassPlans } from '../../../store/class-plans/class-plans.selecto
 									@for (rubric of rubrics; track rubric._id) {
 										<li>
 											<a
-												[routerLink]="['/assessments/rubrics', rubric._id]"
+												[routerLink]="[
+													'/assessments/rubrics',
+													rubric._id,
+												]"
 												>{{ rubric.title }}</a
 											>
 										</li>
 									} @empty {
 										<li>
-											No hay instrumentos de evaluaci&oacute;n
-											asociados
+											No hay instrumentos de
+											evaluaci&oacute;n asociados
 										</li>
 									}
 								</ul>
@@ -204,7 +222,7 @@ import { selectClassPlans } from '../../../store/class-plans/class-plans.selecto
 	`,
 })
 export class UnitPlanDetailComponent implements OnInit {
-	#store = inject(Store)
+	#store = inject(Store);
 	private router = inject(Router);
 	private route = inject(ActivatedRoute);
 	private unitPlanService = inject(UnitPlanService);
@@ -217,7 +235,7 @@ export class UnitPlanDetailComponent implements OnInit {
 	planId = this.route.snapshot.paramMap.get('id') || '';
 	plan: UnitPlan | null = null;
 	instruments: UnitPlanInstruments | null = null;
-	user = this.#store.selectSignal(selectAuthUser)
+	user = this.#store.selectSignal(selectAuthUser);
 
 	rubrics: Rubric[] = [];
 	isPremium = signal(false);
@@ -231,32 +249,31 @@ export class UnitPlanDetailComponent implements OnInit {
 					: sub.status.toLowerCase() == 'active' &&
 						+new Date(sub.endDate) > Date.now(),
 			),
-			tap(status => this.isPremium.set(status)),
+			tap((status) => this.isPremium.set(status)),
 		);
 
-	plan$ = this.#store.select(selectCurrentPlan)
-		.pipe(
-			tap((_) => {
-				if (!_) {
-					this.router.navigate(['/planning/unit-plans/list']).then(() => {
-						this.sb.open('Este plan no ha sido encontrado', 'Ok', {
-							duration: 2500,
-						});
+	plan$ = this.#store.select(selectCurrentPlan).pipe(
+		tap((_) => {
+			if (!_) {
+				this.router.navigate(['/planning/unit-plans/list']).then(() => {
+					this.sb.open('Este plan no ha sido encontrado', 'Ok', {
+						duration: 2500,
 					});
-				} else {
-					this.plan = _;
-				}
-			}),
-		);
-	user$ = this.#store.select(selectAuthUser)
+				});
+			} else {
+				this.plan = _;
+			}
+		}),
+	);
+	user$ = this.#store.select(selectAuthUser);
 	classPlans: ClassPlan[] = [];
 
 	isPrintView = window.location.href.includes('print');
 
 	ngOnInit() {
 		const unitPlan = this.planId;
-		this.#store.dispatch(loadPlan({ id: unitPlan }))
-		this.#store.dispatch(loadClassPlans({ filters: { unitPlan }}))
+		this.#store.dispatch(loadPlan({ id: unitPlan }));
+		this.#store.dispatch(loadClassPlans({ filters: { unitPlan } }));
 		this.#store.select(selectClassPlans).subscribe((res) => {
 			this.classPlans = res;
 			if (this.isPrintView) {
@@ -309,8 +326,8 @@ export class UnitPlanDetailComponent implements OnInit {
 	}
 
 	async download() {
-		const user = this.user()
-		if (!this.plan || !user) return
+		const user = this.user();
+		if (!this.plan || !user) return;
 		this.printing = true;
 		this.sb.open(
 			'Tu descarga empezara en breve, espera un momento...',

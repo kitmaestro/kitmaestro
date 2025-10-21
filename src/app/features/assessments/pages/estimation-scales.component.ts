@@ -33,15 +33,21 @@ import { RouterLink } from '@angular/router';
 			</ng-container>
 			<ng-container matColumnDef="section">
 				<th mat-header-cell *matHeaderCellDef>Curso</th>
-				<td mat-cell *matCellDef="let element">{{ element.section.name }}</td>
+				<td mat-cell *matCellDef="let element">
+					{{ element.section.name }}
+				</td>
 			</ng-container>
 			<ng-container matColumnDef="subject">
 				<th mat-header-cell *matHeaderCellDef>Asignatura</th>
-				<td mat-cell *matCellDef="let element">{{ element.subject }}</td>
+				<td mat-cell *matCellDef="let element">
+					{{ element.subject }}
+				</td>
 			</ng-container>
 			<ng-container matColumnDef="activity">
 				<th mat-header-cell *matHeaderCellDef>Actividad</th>
-				<td mat-cell *matCellDef="let element">{{ element.activity }}</td>
+				<td mat-cell *matCellDef="let element">
+					{{ element.activity }}
+				</td>
 			</ng-container>
 			<ng-container matColumnDef="actions">
 				<th mat-header-cell *matHeaderCellDef>Acciones</th>
@@ -57,7 +63,10 @@ import { RouterLink } from '@angular/router';
 							<mat-icon>edit</mat-icon>
 						</button> -->
 					<button
-						[routerLink]="['/assessments/estimation-scales', element._id]"
+						[routerLink]="[
+							'/assessments/estimation-scales',
+							element._id,
+						]"
 						color="primary"
 						mat-icon-button
 					>
@@ -69,7 +78,7 @@ import { RouterLink } from '@angular/router';
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 		</table>
-		`,
+	`,
 })
 export class EstimationScalesComponent implements OnInit {
 	private scaleService = inject(EstimationScaleService);

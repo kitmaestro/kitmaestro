@@ -1,21 +1,21 @@
-import { Observable } from "rxjs"
-import { Grade } from "../models"
-import { inject, Injectable } from "@angular/core"
-import { ApiService } from "./api.service"
+import { Observable } from 'rxjs';
+import { Grade } from '../models';
+import { inject, Injectable } from '@angular/core';
+import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
 export class GradeService {
-	#apiService = inject(ApiService)
+	#apiService = inject(ApiService);
 
 	getGrades(assignment: string): Observable<Grade[]> {
-		return this.#apiService.get<Grade[]>('/grades', { assignment })
+		return this.#apiService.get<Grade[]>('/grades', { assignment });
 	}
 
 	saveGrades(grades: Grade[]): Observable<{ message: string }> {
-		return this.#apiService.post<{ message: string }>('/grades', grades)
+		return this.#apiService.post<{ message: string }>('/grades', grades);
 	}
 
 	updateGrades(grades: Grade[]): Observable<{ message: string }> {
-		return this.#apiService.put<{ message: string }>('/grades', grades)
+		return this.#apiService.put<{ message: string }>('/grades', grades);
 	}
 }

@@ -1,13 +1,15 @@
-import { Component, inject } from '@angular/core'
-import { Router, RouterOutlet } from '@angular/router'
-import { Store } from '@ngrx/store'
-import { selectIsAuthenticated } from '../store/auth/auth.selectors'
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectIsAuthenticated } from '../store/auth/auth.selectors';
 
 @Component({
 	selector: 'app-auth-layout',
 	imports: [RouterOutlet],
 	standalone: true,
-	template: `<div class="flex-wrapper"><div class="login-card"><router-outlet></router-outlet></div></div>`,
+	template: `<div class="flex-wrapper">
+		<div class="login-card"><router-outlet></router-outlet></div>
+	</div>`,
 	styles: `
 		.flex-wrapper {
 			display: flex;
@@ -64,16 +66,15 @@ import { selectIsAuthenticated } from '../store/auth/auth.selectors'
 	`,
 })
 export class AuthLayoutComponent {
-	#router = inject(Router)
-	#store = inject(Store)
-	#isAuthenticated = this.#store.select(selectIsAuthenticated)
+	#router = inject(Router);
+	#store = inject(Store);
+	#isAuthenticated = this.#store.select(selectIsAuthenticated);
 
 	ngOnInit() {
 		this.#isAuthenticated.subscribe({
 			next: (isAuthenticated) => {
-				if (isAuthenticated)
-					this.#router.navigateByUrl('/')
-			}
-		})
+				if (isAuthenticated) this.#router.navigateByUrl('/');
+			},
+		});
 	}
 }

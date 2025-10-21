@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core'
-import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx'
-import { saveAs } from 'file-saver'
+import { Injectable } from '@angular/core';
+import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx';
+import { saveAs } from 'file-saver';
 
 @Injectable({
 	providedIn: 'root',
@@ -14,7 +14,7 @@ export class MdService {
 	 */
 	public mdToDocx(mdString: string): void {
 		// 1. Parsear el markdown para obtener un array de elementos de `docx`
-		const docxElements = this.parseMd(mdString)
+		const docxElements = this.parseMd(mdString);
 
 		// 2. Crear el documento de Word con los elementos parseados
 		const doc = new Document({
@@ -24,13 +24,13 @@ export class MdService {
 					children: docxElements,
 				},
 			],
-		})
+		});
 
 		// 3. Usar Packer para generar el archivo y file-saver para descargarlo
 		Packer.toBlob(doc).then((blob) => {
-			saveAs(blob, 'documento-markdown.docx')
-			console.log('Documento creado y descargado exitosamente.')
-		})
+			saveAs(blob, 'documento-markdown.docx');
+			console.log('Documento creado y descargado exitosamente.');
+		});
 	}
 
 	/**
@@ -40,8 +40,8 @@ export class MdService {
 	 * @returns Un array de objetos Paragraph.
 	 */
 	private parseMd(mdString: string): Paragraph[] {
-		const lines = mdString.split('\n')
-		const docxElements: Paragraph[] = []
+		const lines = mdString.split('\n');
+		const docxElements: Paragraph[] = [];
 
 		for (const line of lines) {
 			// Manejar encabezados (H1, H2, H3)
@@ -51,8 +51,8 @@ export class MdService {
 						line.substring(2),
 						HeadingLevel.HEADING_1,
 					),
-				)
-				continue
+				);
+				continue;
 			}
 			if (line.startsWith('## ')) {
 				docxElements.push(
@@ -60,8 +60,8 @@ export class MdService {
 						line.substring(3),
 						HeadingLevel.HEADING_2,
 					),
-				)
-				continue
+				);
+				continue;
 			}
 			if (line.startsWith('### ')) {
 				docxElements.push(
@@ -69,27 +69,27 @@ export class MdService {
 						line.substring(4),
 						HeadingLevel.HEADING_3,
 					),
-				)
-				continue
+				);
+				continue;
 			}
 
 			// Manejar listas no ordenadas
 			if (line.startsWith('- ') || line.startsWith('* ')) {
-				docxElements.push(this.createListItem(line.substring(2)))
-				continue
+				docxElements.push(this.createListItem(line.substring(2)));
+				continue;
 			}
 
 			// Manejar líneas en blanco como un párrafo vacío para espaciado
 			if (line.trim() === '') {
-				docxElements.push(new Paragraph(''))
-				continue
+				docxElements.push(new Paragraph(''));
+				continue;
 			}
 
 			// Manejar párrafos normales con formato en línea (negrita, itálica)
-			docxElements.push(this.createParagraphWithInlineFormatting(line))
+			docxElements.push(this.createParagraphWithInlineFormatting(line));
 		}
 
-		return docxElements
+		return docxElements;
 	}
 
 	/**
@@ -102,7 +102,7 @@ export class MdService {
 		return new Paragraph({
 			children: this.parseInlineFormatting(text), // Permite formato dentro de encabezados
 			heading: level,
-		})
+		});
 	}
 
 	/**
@@ -116,7 +116,7 @@ export class MdService {
 			bullet: {
 				level: 0, // Nivel de indentación de la viñeta
 			},
-		})
+		});
 	}
 
 	/**
@@ -127,7 +127,7 @@ export class MdService {
 	private createParagraphWithInlineFormatting(line: string): Paragraph {
 		return new Paragraph({
 			children: this.parseInlineFormatting(line),
-		})
+		});
 	}
 
 	/**
@@ -136,12 +136,12 @@ export class MdService {
 	 * @returns Un array de objetos TextRun, cada uno con su propio estilo si aplica.
 	 */
 	private parseInlineFormatting(text: string): TextRun[] {
-		const runs: TextRun[] = []
+		const runs: TextRun[] = [];
 
 		// Regex para separar el texto por los marcadores de markdown (**, *, __, _), manteniéndolos.
 		const parts = text
 			.split(/(\*\*.*?\*\*|\*.*?\*|__.*?__|_.*?_)/g)
-			.filter(Boolean)
+			.filter(Boolean);
 
 		for (const part of parts) {
 			if (
@@ -149,7 +149,7 @@ export class MdService {
 				(part.startsWith('__') && part.endsWith('__'))
 			) {
 				// Es negrita
-				runs.push(new TextRun({ text: part.slice(2, -2), bold: true }))
+				runs.push(new TextRun({ text: part.slice(2, -2), bold: true }));
 			} else if (
 				(part.startsWith('*') && part.endsWith('*')) ||
 				(part.startsWith('_') && part.endsWith('_'))
@@ -157,12 +157,12 @@ export class MdService {
 				// Es itálica
 				runs.push(
 					new TextRun({ text: part.slice(1, -1), italics: true }),
-				)
+				);
 			} else {
 				// Es texto normal
-				runs.push(new TextRun(part))
+				runs.push(new TextRun(part));
 			}
 		}
-		return runs
+		return runs;
 	}
 }

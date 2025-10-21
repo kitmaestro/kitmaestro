@@ -19,7 +19,14 @@ import { UserSubscriptionService } from '../../core/services/user-subscription.s
 import { forkJoin } from 'rxjs';
 import { ClassSectionService } from '../../core/services/class-section.service';
 import { ClassSection } from '../../core';
-import { activitiesTools, assessmentTools, planningTools, registryTools, resourcesTools, supportTools } from '../../config';
+import {
+	activitiesTools,
+	assessmentTools,
+	planningTools,
+	registryTools,
+	resourcesTools,
+	supportTools,
+} from '../../config';
 import { ToolGalleryComponent } from './tool-gallery.component';
 
 @Component({
@@ -64,17 +71,16 @@ export class HomeComponent implements OnInit {
 		forkJoin([
 			this.classSectionsService.findSections(),
 			this.UserService.getSettings(),
-			this.userSubscriptionService.checkSubscription()
-		])
-			.subscribe({
-				next: ([sections, user, sub]) => {
-					this.sections.set(sections);
-					this.subscription.set(sub);
-					this.user = user;
-				},
-				error: error => {
-					console.log(error);
-				}
-			});
+			this.userSubscriptionService.checkSubscription(),
+		]).subscribe({
+			next: ([sections, user, sub]) => {
+				this.sections.set(sections);
+				this.subscription.set(sub);
+				this.user = user;
+			},
+			error: (error) => {
+				console.log(error);
+			},
+		});
 	}
 }

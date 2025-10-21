@@ -61,11 +61,11 @@ import { MatInputModule } from '@angular/material/input';
 	`,
 })
 export class TodoFormComponent {
-	private todoService = inject(TodoService)
-	private sb = inject(MatSnackBar)
-	private fb = inject(FormBuilder)
-	private data = inject<Todo>(MAT_DIALOG_DATA)
-	public dialogRef = inject(MatDialogRef<TodoFormComponent>)
+	private todoService = inject(TodoService);
+	private sb = inject(MatSnackBar);
+	private fb = inject(FormBuilder);
+	private data = inject<Todo>(MAT_DIALOG_DATA);
+	public dialogRef = inject(MatDialogRef<TodoFormComponent>);
 
 	todoEditForm = this.fb.group({
 		_id: [''],

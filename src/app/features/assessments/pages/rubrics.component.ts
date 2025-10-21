@@ -24,7 +24,11 @@ import { MatTableModule } from '@angular/material/table';
 				style="justify-content: space-between; align-items: center"
 			>
 				<mat-card-title>Mis R&uacute;bricas </mat-card-title>
-				<button mat-flat-button type="button" routerLink="/rubric-generator">
+				<button
+					mat-flat-button
+					type="button"
+					routerLink="/rubric-generator"
+				>
 					Generar R&uacute;brica
 				</button>
 			</mat-card-header>
@@ -42,19 +46,25 @@ import { MatTableModule } from '@angular/material/table';
 			</ng-container>
 			<ng-container matColumnDef="section">
 				<th mat-header-cell *matHeaderCellDef>Curso</th>
-				<td mat-cell *matCellDef="let element">{{ element.section.name }}</td>
+				<td mat-cell *matCellDef="let element">
+					{{ element.section.name }}
+				</td>
 			</ng-container>
 			<ng-container matColumnDef="activity">
 				<th mat-header-cell *matHeaderCellDef>Actividad</th>
-				<td mat-cell *matCellDef="let element">{{ element.activity }}</td>
+				<td mat-cell *matCellDef="let element">
+					{{ element.activity }}
+				</td>
 			</ng-container>
 			<ng-container matColumnDef="rubricType">
-				<th mat-header-cell *matHeaderCellDef>Tipo de R&uacute;brica</th>
+				<th mat-header-cell *matHeaderCellDef>
+					Tipo de R&uacute;brica
+				</th>
 				<td mat-cell *matCellDef="let element">
 					{{
-						element.rubricType === "SINTETICA"
-							? "Sintética (Holística)"
-							: "Analítica (Global)"
+						element.rubricType === 'SINTETICA'
+							? 'Sintética (Holística)'
+							: 'Analítica (Global)'
 					}}
 				</td>
 			</ng-container>
@@ -78,7 +88,11 @@ import { MatTableModule } from '@angular/material/table';
 					>
 						<mat-icon>open_in_new</mat-icon>
 					</button>
-					<button color="primary" mat-icon-button (click)="download(element)">
+					<button
+						color="primary"
+						mat-icon-button
+						(click)="download(element)"
+					>
 						<mat-icon>download</mat-icon>
 					</button>
 				</td>

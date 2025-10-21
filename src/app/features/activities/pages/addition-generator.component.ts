@@ -31,7 +31,10 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 		<div style="margin-bottom: 24px">
 			<h2>Generador de Ejercicios de Suma</h2>
 			<div>
-				<form [formGroup]="additionsForm" (ngSubmit)="generateAdditions()">
+				<form
+					[formGroup]="additionsForm"
+					(ngSubmit)="generateAdditions()"
+				>
 					<div style="display: flex; gap: 16px">
 						<div style="min-width: 20%; flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
@@ -113,8 +116,8 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 								margin-bottom: 15px;
 							"
 						>
-							Para reemplazar cualquiera de los ejercicios generados, haz
-							click sobre &eacute;l.
+							Para reemplazar cualquiera de los ejercicios
+							generados, haz click sobre &eacute;l.
 						</div>
 					}
 					<div style="display: flex; justify-content: flex-end;">
@@ -129,7 +132,7 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 							</button>
 						}
 						<button type="submit" mat-flat-button color="primary">
-							{{ additions.length ? "Regenerar" : "Generar" }}
+							{{ additions.length ? 'Regenerar' : 'Generar' }}
 						</button>
 					</div>
 				</form>
@@ -159,24 +162,41 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 								>
 									{{ schoolName }}
 								</h3>
-								<h4 style="margin-bottom: 0">{{ teacherName }}</h4>
-								<h5 style="font-size: medium; margin-bottom: 24px">
+								<h4 style="margin-bottom: 0">
+									{{ teacherName }}
+								</h4>
+								<h5
+									style="font-size: medium; margin-bottom: 24px"
+								>
 									Calcula las Siguientes Sumas
 								</h5>
 							</div>
 							<br />
 							<div style="margin-bottom: 42px; display: flex">
-								@if (additionsForm.get("name")?.value === true) {
+								@if (
+									additionsForm.get('name')?.value === true
+								) {
 									<div><b>Nombre</b>:</div>
 									<div class="blank"></div>
 								}
-								@if (additionsForm.get("grade")?.value === true) {
-									<div style="margin-left: 12px"><b>Grado</b>:</div>
+								@if (
+									additionsForm.get('grade')?.value === true
+								) {
+									<div style="margin-left: 12px">
+										<b>Grado</b>:
+									</div>
 									<div class="blank"></div>
 								}
-								@if (additionsForm.get("date")?.value === true) {
-									<div style="margin-left: 12px"><b>Fecha</b>:</div>
-									<div style="max-width: 20%" class="blank"></div>
+								@if (
+									additionsForm.get('date')?.value === true
+								) {
+									<div style="margin-left: 12px">
+										<b>Fecha</b>:
+									</div>
+									<div
+										style="max-width: 20%"
+										class="blank"
+									></div>
 								}
 							</div>
 							<div
@@ -197,14 +217,16 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 												>{{
 													($index + 1)
 														.toString()
-														.padStart(2, "0")
+														.padStart(2, '0')
 												}})
 												<span
 													style="
 														letter-spacing: 3px;
 														font-family: serif;
 													"
-													>{{ line.join(" + ") }}</span
+													>{{
+														line.join(' + ')
+													}}</span
 												></b
 											>=
 										</div>
@@ -220,12 +242,20 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 				</mat-card>
 				<mat-card>
 					<mat-card-content>
-						<div class="page" id="additions-solution" style="padding: 12px">
-							<div style="text-align: center; margin-bottom: 24px">
+						<div
+							class="page"
+							id="additions-solution"
+							style="padding: 12px"
+						>
+							<div
+								style="text-align: center; margin-bottom: 24px"
+							>
 								<h4 style="margin-bottom: 0">
 									Calcula las Siguientes Sumas
 								</h4>
-								<h5 style="font-size: medium; margin-bottom: 24px">
+								<h5
+									style="font-size: medium; margin-bottom: 24px"
+								>
 									Hoja de Respuestas
 								</h5>
 							</div>
@@ -244,14 +274,16 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 												>{{
 													($index + 1)
 														.toString()
-														.padStart(2, "0")
+														.padStart(2, '0')
 												}})
 												<span
 													style="
 														letter-spacing: 3px;
 														font-family: serif;
 													"
-													>{{ line.join(" + ") }}</span
+													>{{
+														line.join(' + ')
+													}}</span
 												></b
 											>=
 										</div>
@@ -273,7 +305,6 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 				</mat-card>
 			</div>
 		}
-
 	`,
 	styles: `
 		.board {
@@ -331,10 +362,10 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 	`,
 })
 export class AdditionGeneratorComponent implements OnInit {
-	fb = inject(FormBuilder)
-	#store = inject(Store)
-	pdfService = inject(PdfService)
-	sb = inject(MatSnackBar)
+	fb = inject(FormBuilder);
+	#store = inject(Store);
+	pdfService = inject(PdfService);
+	sb = inject(MatSnackBar);
 
 	teacherName = '';
 	schoolName = '';
@@ -352,7 +383,7 @@ export class AdditionGeneratorComponent implements OnInit {
 
 	ngOnInit() {
 		this.#store.select(selectAuthUser).subscribe((settings) => {
-			if (!settings) return
+			if (!settings) return;
 			this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
 			this.schoolName = settings.schoolName;
 		});

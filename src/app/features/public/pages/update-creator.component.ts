@@ -307,11 +307,9 @@ export class UpdateCreatorComponent implements OnInit {
 		if (this.updateId) {
 			this.updateService.update(this.updateId, data).subscribe((res) => {
 				this.router.navigateByUrl('/updates').then(() => {
-					this.sb.open(
-						'Se ha publicado la actualizacion!',
-						'Ok',
-						{ duration: 2500 },
-					);
+					this.sb.open('Se ha publicado la actualizacion!', 'Ok', {
+						duration: 2500,
+					});
 				});
 			});
 		} else {

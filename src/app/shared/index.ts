@@ -1,2 +1,2 @@
-export * from './pipes'
-export * from './ui'
+export * from './pipes';
+export * from './ui';

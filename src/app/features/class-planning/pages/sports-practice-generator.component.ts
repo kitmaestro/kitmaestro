@@ -51,7 +51,10 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { Store } from '@ngrx/store';
-import { loadSections, selectAllClassSections } from '../../../store/class-sections';
+import {
+	loadSections,
+	selectAllClassSections,
+} from '../../../store/class-sections';
 
 // --- Constants ---
 const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
@@ -75,267 +78,279 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
 	],
 	// --- Inline Template ---
 	template: `
-	<app-is-premium>
-		<div class="sports-practice-card">
-			<div>
-				<h2>Generador de Prácticas Deportivas</h2>
-			</div>
+		<app-is-premium>
+			<div class="sports-practice-card">
+				<div>
+					<h2>Generador de Prácticas Deportivas</h2>
+				</div>
 
-			<div>
-				@if (!showResult()) {
-					<form
-						[formGroup]="sportsPracticeForm"
-						(ngSubmit)="onSubmit()"
-						class="sports-practice-form"
-					>
-						<div class="form-row">
-							<mat-form-field
-								appearance="outline"
-								class="form-field"
-							>
-								<mat-label>Curso/Sección</mat-label>
-								<mat-select formControlName="section" required>
-									@if (isLoadingSections()) {
-										<mat-option disabled
-											><mat-spinner
-												diameter="20"
-												class="inline-spinner"
-											></mat-spinner>
-											Cargando...</mat-option
-										>
-									} @else {
-										@for (
-											section of sections();
-											track section._id
-										) {
-											<mat-option [value]="section._id"
-												>{{ section.name }} ({{
-													section.level | pretify
-												}})</mat-option
-											>
-										}
-										@if (
-											!sections().length &&
-											!isLoadingSections()
-										) {
-											<mat-option disabled
-												>No se encontraron
-												secciones.</mat-option
-											>
-										}
-									}
-								</mat-select>
-								@if (
-									sectionCtrl?.invalid && sectionCtrl?.touched
-								) {
-									<mat-error
-										>Selecciona una sección.</mat-error
+				<div>
+					@if (!showResult()) {
+						<form
+							[formGroup]="sportsPracticeForm"
+							(ngSubmit)="onSubmit()"
+							class="sports-practice-form"
+						>
+							<div class="form-row">
+								<mat-form-field
+									appearance="outline"
+									class="form-field"
+								>
+									<mat-label>Curso/Sección</mat-label>
+									<mat-select
+										formControlName="section"
+										required
 									>
-								}
-							</mat-form-field>
-
-							<mat-form-field
-								appearance="outline"
-								class="form-field"
-							>
-								<mat-label>Asignatura</mat-label>
-								<mat-select formControlName="subject" required>
-									@for (
-										subject of availableSubjects();
-										track subject
-									) {
-										<mat-option [value]="subject">{{
-											subject | pretify
-										}}</mat-option>
-									}
+										@if (isLoadingSections()) {
+											<mat-option disabled
+												><mat-spinner
+													diameter="20"
+													class="inline-spinner"
+												></mat-spinner>
+												Cargando...</mat-option
+											>
+										} @else {
+											@for (
+												section of sections();
+												track section._id
+											) {
+												<mat-option
+													[value]="section._id"
+													>{{ section.name }} ({{
+														section.level | pretify
+													}})</mat-option
+												>
+											}
+											@if (
+												!sections().length &&
+												!isLoadingSections()
+											) {
+												<mat-option disabled
+													>No se encontraron
+													secciones.</mat-option
+												>
+											}
+										}
+									</mat-select>
 									@if (
-										!availableSubjects().length &&
-										sectionCtrl?.valid
+										sectionCtrl?.invalid &&
+										sectionCtrl?.touched
 									) {
-										<mat-option disabled
-											>No hay asignaturas para esta
-											sección.</mat-option
+										<mat-error
+											>Selecciona una sección.</mat-error
 										>
 									}
-									@if (!sectionCtrl?.valid) {
-										<mat-option disabled
-											>Selecciona una sección
-											primero.</mat-option
-										>
-									}
-								</mat-select>
-								@if (
-									subjectCtrl?.invalid && subjectCtrl?.touched
-								) {
-									<mat-error
-										>Selecciona una asignatura.</mat-error
-									>
-								}
-							</mat-form-field>
-						</div>
+								</mat-form-field>
 
-						<div class="form-row">
-							<mat-form-field
-								appearance="outline"
-								class="form-field"
-							>
-								<mat-label
-									>Disciplina Deportiva / Concepto</mat-label
+								<mat-form-field
+									appearance="outline"
+									class="form-field"
 								>
-								<mat-select
-									formControlName="disciplineConcept"
-									required
-								>
-									@if (isLoadingConcepts()) {
-										<mat-option disabled
-											><mat-spinner
-												diameter="20"
-												class="inline-spinner"
-											></mat-spinner>
-											Cargando...</mat-option
-										>
-									} @else {
+									<mat-label>Asignatura</mat-label>
+									<mat-select
+										formControlName="subject"
+										required
+									>
 										@for (
-											concept of availableConcepts();
-											track concept
+											subject of availableSubjects();
+											track subject
 										) {
-											<mat-option [value]="concept">{{
-												concept
+											<mat-option [value]="subject">{{
+												subject | pretify
 											}}</mat-option>
 										}
 										@if (
-											!availableConcepts().length &&
-											subjectCtrl?.valid &&
-											!isLoadingConcepts()
+											!availableSubjects().length &&
+											sectionCtrl?.valid
 										) {
 											<mat-option disabled
-												>No hay conceptos/disciplinas
-												para esta
-												asignatura/grado.</mat-option
+												>No hay asignaturas para esta
+												sección.</mat-option
 											>
-											<mat-option [value]="'Otra'">{{
-												'Otra'
-											}}</mat-option>
-										} @else if (
-											availableConcepts().length > 1
-										) {
-											<mat-option [value]="'Otra'">{{
-												'Otra'
-											}}</mat-option>
 										}
-									}
-									@if (!subjectCtrl?.valid) {
-										<mat-option disabled
-											>Selecciona sección y asignatura
-											primero.</mat-option
+										@if (!sectionCtrl?.valid) {
+											<mat-option disabled
+												>Selecciona una sección
+												primero.</mat-option
+											>
+										}
+									</mat-select>
+									@if (
+										subjectCtrl?.invalid &&
+										subjectCtrl?.touched
+									) {
+										<mat-error
+											>Selecciona una
+											asignatura.</mat-error
 										>
 									}
-								</mat-select>
-								@if (
-									disciplineConceptCtrl?.invalid &&
-									disciplineConceptCtrl?.touched
-								) {
-									<mat-error
-										>Selecciona o escribe una
-										disciplina.</mat-error
-									>
-								}
-							</mat-form-field>
+								</mat-form-field>
+							</div>
 
-							@if (disciplineConceptCtrl?.value === 'Otra') {
+							<div class="form-row">
 								<mat-form-field
 									appearance="outline"
 									class="form-field"
 								>
 									<mat-label
-										>Escribe la disciplina
-										personalizada</mat-label
+										>Disciplina Deportiva /
+										Concepto</mat-label
 									>
-									<input
-										matInput
-										formControlName="customDiscipline"
+									<mat-select
+										formControlName="disciplineConcept"
 										required
-										placeholder="Ej: Ultimate Frisbee, Yoga Infantil"
-									/>
+									>
+										@if (isLoadingConcepts()) {
+											<mat-option disabled
+												><mat-spinner
+													diameter="20"
+													class="inline-spinner"
+												></mat-spinner>
+												Cargando...</mat-option
+											>
+										} @else {
+											@for (
+												concept of availableConcepts();
+												track concept
+											) {
+												<mat-option [value]="concept">{{
+													concept
+												}}</mat-option>
+											}
+											@if (
+												!availableConcepts().length &&
+												subjectCtrl?.valid &&
+												!isLoadingConcepts()
+											) {
+												<mat-option disabled
+													>No hay
+													conceptos/disciplinas para
+													esta
+													asignatura/grado.</mat-option
+												>
+												<mat-option [value]="'Otra'">{{
+													'Otra'
+												}}</mat-option>
+											} @else if (
+												availableConcepts().length > 1
+											) {
+												<mat-option [value]="'Otra'">{{
+													'Otra'
+												}}</mat-option>
+											}
+										}
+										@if (!subjectCtrl?.valid) {
+											<mat-option disabled
+												>Selecciona sección y asignatura
+												primero.</mat-option
+											>
+										}
+									</mat-select>
 									@if (
-										customDisciplineCtrl?.invalid &&
-										customDisciplineCtrl?.touched
+										disciplineConceptCtrl?.invalid &&
+										disciplineConceptCtrl?.touched
 									) {
 										<mat-error
-											>Ingresa la disciplina
-											personalizada.</mat-error
+											>Selecciona o escribe una
+											disciplina.</mat-error
 										>
 									}
 								</mat-form-field>
-							}
-						</div>
 
-						<div class="form-actions">
-							<button
-								mat-button
-								color="primary"
-								type="submit"
-								[disabled]="
-									sportsPracticeForm.invalid || isGenerating()
-								"
-							>
-							@if (isGenerating()) {
-								<div style="display: flex; gap: 8px;">
-									<mat-spinner
-										diameter="20"
-										color="accent"
-										class="inline-spinner"
-									></mat-spinner>
-									<span>
-										Generando...
-									</span>
-								</div>
-								} @else {
-									<ng-container>
-										<mat-icon>fitness_center</mat-icon>
-										Generar Plan de Práctica
-									</ng-container>
+								@if (disciplineConceptCtrl?.value === 'Otra') {
+									<mat-form-field
+										appearance="outline"
+										class="form-field"
+									>
+										<mat-label
+											>Escribe la disciplina
+											personalizada</mat-label
+										>
+										<input
+											matInput
+											formControlName="customDiscipline"
+											required
+											placeholder="Ej: Ultimate Frisbee, Yoga Infantil"
+										/>
+										@if (
+											customDisciplineCtrl?.invalid &&
+											customDisciplineCtrl?.touched
+										) {
+											<mat-error
+												>Ingresa la disciplina
+												personalizada.</mat-error
+											>
+										}
+									</mat-form-field>
 								}
-							</button>
-						</div>
-					</form>
-				}
+							</div>
 
-				@if (showResult()) {
-					<div class="sports-practice-result">
-						<h3>Plan de Práctica Generado:</h3>
-						<div class="sports-practice-result-page">
-							@if (generatedPlan()) {
-								<markdown [data]="generatedPlan()" />
-							}
-						</div>
+							<div class="form-actions">
+								<button
+									mat-button
+									color="primary"
+									type="submit"
+									[disabled]="
+										sportsPracticeForm.invalid ||
+										isGenerating()
+									"
+								>
+									@if (isGenerating()) {
+										<div style="display: flex; gap: 8px;">
+											<mat-spinner
+												diameter="20"
+												color="accent"
+												class="inline-spinner"
+											></mat-spinner>
+											<span> Generando... </span>
+										</div>
+									} @else {
+										<ng-container>
+											<mat-icon>fitness_center</mat-icon>
+											Generar Plan de Práctica
+										</ng-container>
+									}
+								</button>
+							</div>
+						</form>
+					}
 
-						<div class="result-actions">
-							<button
-								mat-button
-								color="primary"
-								(click)="goBack()"
-							>
-								<mat-icon>arrow_back</mat-icon> Volver
-							</button>
-							<button
-								mat-flat-button
-								color="primary"
-								(click)="downloadDocx()"
-								[disabled]="
-									!generatedPlan() ||
-									generatedPlan().startsWith(
-										'Ocurrió un error'
-									)
-								"
-							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
-							</button>
+					@if (showResult()) {
+						<div class="sports-practice-result">
+							<h3>Plan de Práctica Generado:</h3>
+							<div class="sports-practice-result-page">
+								@if (generatedPlan()) {
+									<markdown [data]="generatedPlan()" />
+								}
+							</div>
+
+							<div class="result-actions">
+								<button
+									mat-button
+									color="primary"
+									(click)="goBack()"
+								>
+									<mat-icon>arrow_back</mat-icon> Volver
+								</button>
+								<button
+									mat-flat-button
+									color="primary"
+									(click)="downloadDocx()"
+									[disabled]="
+										!generatedPlan() ||
+										generatedPlan().startsWith(
+											'Ocurrió un error'
+										)
+									"
+								>
+									<mat-icon>download</mat-icon> Descargar
+									(.docx)
+								</button>
+							</div>
 						</div>
-					</div>
-				}
+					}
+				</div>
 			</div>
-		</div>
 		</app-is-premium>
 	`,
 	// --- Inline Styles ---
@@ -414,7 +429,7 @@ export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
-	#store = inject(Store)
+	#store = inject(Store);
 	#conceptService = inject(SubjectConceptListService); // Renamed for clarity
 	#snackBar = inject(MatSnackBar);
 	#pretify = new PretifyPipe().transform;
@@ -425,7 +440,7 @@ export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
 	isGenerating = signal(false);
 	showResult = signal(false);
 	generatedPlan = signal<string>('');
-	sections = this.#store.selectSignal(selectAllClassSections)
+	sections = this.#store.selectSignal(selectAllClassSections);
 	availableSubjects = signal<string[]>([]);
 	availableConcepts = signal<string[]>([]); // For the discipline dropdown
 
@@ -455,19 +470,20 @@ export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
 		this.#listenForSubjectChanges(); // Listen for subject to load concepts
 		this.#listenForDisciplineConceptChanges(); // Listen for 'Other' selection
 	}
-	
+
 	// --- OnDestroy ---
 	ngOnDestroy(): void {
 		this.#destroy$.next();
 		this.#destroy$.complete();
 	}
-	
+
 	// --- Private Data Loading and Listener Methods ---
-	
+
 	#loadSections(): void {
-		this.#store.dispatch(loadSections())
+		this.#store.dispatch(loadSections());
 		this.isLoadingSections.set(true);
-		this.#store.select(selectAllClassSections)
+		this.#store
+			.select(selectAllClassSections)
 			.pipe(
 				takeUntil(this.#destroy$),
 				catchError((error) =>

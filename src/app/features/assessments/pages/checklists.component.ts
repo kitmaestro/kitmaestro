@@ -25,15 +25,17 @@ import { MatIconModule } from '@angular/material/icon';
 					style="align-items: center; justify-content: space-between"
 				>
 					<mat-card-title>Mis Listas de Cotejo</mat-card-title>
-					<a mat-flat-button routerLink="/checklist-generator">Crear Nueva</a>
+					<a mat-flat-button routerLink="/checklist-generator"
+						>Crear Nueva</a
+					>
 				</mat-card-header>
 				<mat-card-content>
 					<p>
 						Las listas de cotejo o listas de control constituyen un
-						instrumento para el registro de la evaluación, en la cual se
-						enumeran indicadores, tareas, acciones, actitudes, valores que
-						se espera las/los estudiantes evidencien en un proceso de
-						aprendizaje.
+						instrumento para el registro de la evaluación, en la
+						cual se enumeran indicadores, tareas, acciones,
+						actitudes, valores que se espera las/los estudiantes
+						evidencien en un proceso de aprendizaje.
 					</p>
 				</mat-card-content>
 			</mat-card>
@@ -54,7 +56,11 @@ import { MatIconModule } from '@angular/material/icon';
 						@for (checklist of checklists; track checklist._id) {
 							<tr>
 								<td>{{ checklist.section.name }}</td>
-								<td>{{ checklist.contentBlock.subject | pretify }}</td>
+								<td>
+									{{
+										checklist.contentBlock.subject | pretify
+									}}
+								</td>
 								<td>{{ checklist.contentBlock.title }}</td>
 								<td>{{ checklist.title }}</td>
 								<td>{{ checklist.activity }}</td>
@@ -73,7 +79,9 @@ import { MatIconModule } from '@angular/material/icon';
 											<mat-icon>download</mat-icon>
 										</button>
 										<a
-											routerLink="/checklists/{{ checklist._id }}"
+											routerLink="/checklists/{{
+												checklist._id
+											}}"
 											mat-mini-fab
 											><mat-icon>open_in_new</mat-icon></a
 										>
@@ -87,7 +95,8 @@ import { MatIconModule } from '@angular/material/icon';
 				<mat-card style="margin-top: 24px">
 					<mat-card-content>
 						<p style="padding: 24px; text-align: center">
-							No tienes ninguna lista de cotejo todavia. Empieza por
+							No tienes ninguna lista de cotejo todavia. Empieza
+							por
 							<a mat-button routerLink="/checklist-generator"
 								>crear una lista</a
 							>

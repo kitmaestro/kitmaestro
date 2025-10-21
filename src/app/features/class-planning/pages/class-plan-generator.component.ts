@@ -15,16 +15,23 @@ import { ClassPlan } from '../../../core';
 import { Router, RouterModule } from '@angular/router';
 import { CompetenceService } from '../../../core/services/competence.service';
 import { ClassSection } from '../../../core';
-import {
-	classPlanPrompt,
-	classroomResources,
-} from '../../../config/constants';
+import { classPlanPrompt, classroomResources } from '../../../config/constants';
 import { CompetenceEntry } from '../../../core';
 import { ClassPlanComponent } from '../components/class-plan.component';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { Store } from '@ngrx/store';
-import { ClassSectionStateStatus, createClassPlan, createClassPlanSuccess, loadClassPlans, loadSections, selectAllClassSections, selectAuthUser, selectClassPlans, selectClassSectionsStatus } from '../../../store';
+import {
+	ClassSectionStateStatus,
+	createClassPlan,
+	createClassPlanSuccess,
+	loadClassPlans,
+	loadSections,
+	selectAllClassSections,
+	selectAuthUser,
+	selectClassPlans,
+	selectClassSectionsStatus,
+} from '../../../store';
 import { filter, forkJoin, Subject, take, takeUntil, tap } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
 
@@ -158,7 +165,7 @@ import { Actions, ofType } from '@ngrx/effects';
 						mat-button
 					>
 						<mat-icon>bolt</mat-icon>
-						{{ plan ? "Regenerar" : "Generar" }}
+						{{ plan ? 'Regenerar' : 'Generar' }}
 					</button>
 				</div>
 			</form>
@@ -238,34 +245,34 @@ import { Actions, ofType } from '@ngrx/effects';
 	`,
 })
 export class ClassPlanGeneratorComponent implements OnInit {
-	sb = inject(MatSnackBar)
-	fb = inject(FormBuilder)
-	#store = inject(Store)
-	#actions$ = inject(Actions)
-	compService = inject(CompetenceService)
-	aiService = inject(AiService)
-	private userSubscriptionService = inject(UserSubscriptionService)
-	pdfService = inject(PdfService)
-	router = inject(Router)
-	datePipe = new DatePipe('en')
+	sb = inject(MatSnackBar);
+	fb = inject(FormBuilder);
+	#store = inject(Store);
+	#actions$ = inject(Actions);
+	compService = inject(CompetenceService);
+	aiService = inject(AiService);
+	private userSubscriptionService = inject(UserSubscriptionService);
+	pdfService = inject(PdfService);
+	router = inject(Router);
+	datePipe = new DatePipe('en');
 
-	classPlans = this.#store.select(selectClassPlans)
+	classPlans = this.#store.select(selectClassPlans);
 	todayDate = new Date(Date.now() - 4 * 60 * 60 * 1000)
 		.toISOString()
-		.split('T')[0]
-	classSections: ClassSection[] = []
-	user = this.#store.selectSignal(selectAuthUser)
-	status = this.#store.selectSignal(selectClassSectionsStatus)
+		.split('T')[0];
+	classSections: ClassSection[] = [];
+	user = this.#store.selectSignal(selectAuthUser);
+	status = this.#store.selectSignal(selectClassSectionsStatus);
 	subjects = computed<string[]>(() => {
-		const section = this.section()
-		return section ? section.subjects : []
-	})
-	generating = false
-	plan: ClassPlan | null = null
-	section = signal<ClassSection | null>(null)
+		const section = this.section();
+		return section ? section.subjects : [];
+	});
+	generating = false;
+	plan: ClassPlan | null = null;
+	section = signal<ClassSection | null>(null);
 
-	competence: CompetenceEntry[] = []
-	competenceString = ''
+	competence: CompetenceEntry[] = [];
+	competenceString = '';
 
 	bloomLevels = [
 		{ id: 'knowledge', label: 'Recordar' },
@@ -274,9 +281,9 @@ export class ClassPlanGeneratorComponent implements OnInit {
 		{ id: 'analysis', label: 'Analizar' },
 		{ id: 'evaluation', label: 'Evaluar' },
 		{ id: 'creation', label: 'Crear' },
-	]
+	];
 
-	teachingStyles: { id: string, label: string }[] = [
+	teachingStyles: { id: string; label: string }[] = [
 		{ id: 'tradicional', label: 'Docente Tradicional' },
 		{
 			id: 'innovador (soy tradicional pero trato de innovar algunas pequeñas cosas como utilizar estrategias modernas)',
@@ -291,9 +298,9 @@ export class ClassPlanGeneratorComponent implements OnInit {
 			id: 'adaptado a la educacion 4.0',
 			label: 'Docente 4.0 (Facilitador/a innovador)',
 		},
-	]
+	];
 
-	resources = classroomResources
+	resources = classroomResources;
 
 	planForm = this.fb.group({
 		classSection: ['', Validators.required],
@@ -313,30 +320,30 @@ export class ClassPlanGeneratorComponent implements OnInit {
 				'Cuadernos de ejercicios',
 			],
 		],
-	})
+	});
 
-	private planPrompt = classPlanPrompt
+	private planPrompt = classPlanPrompt;
 
-	destroy$ = new Subject<void>()
+	destroy$ = new Subject<void>();
 
 	ngOnDestroy() {
-		this.destroy$.next()
-		this.destroy$.complete()
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadClassPlans({ }))
-		this.#store.dispatch(loadSections())
+		this.#store.dispatch(loadClassPlans({}));
+		this.#store.dispatch(loadSections());
 		forkJoin([
 			this.userSubscriptionService.checkSubscription(),
 			this.classPlans,
 		])
-		.pipe(
-			filter(([sub]) => !!sub),
-			take(1),
-			takeUntil(this.destroy$)
-		)
-		.subscribe(([subscription, plans]) => {
+			.pipe(
+				filter(([sub]) => !!sub),
+				take(1),
+				takeUntil(this.destroy$),
+			)
+			.subscribe(([subscription, plans]) => {
 				if (
 					subscription.subscriptionType
 						.toLowerCase()
@@ -345,12 +352,14 @@ export class ClassPlanGeneratorComponent implements OnInit {
 					return;
 				const today = new Date();
 				const dayOfTheWeek = today.getDay();
-				const lastMonday = dayOfTheWeek === 1 ? today
-					: new Date(
-							today.setDate(
-								today.getDate() - (7 - dayOfTheWeek),
-							),
-						);
+				const lastMonday =
+					dayOfTheWeek === 1
+						? today
+						: new Date(
+								today.setDate(
+									today.getDate() - (7 - dayOfTheWeek),
+								),
+							);
 				const createdThisWeek = plans.filter(
 					(plan) =>
 						plan.createdAt &&
@@ -388,46 +397,54 @@ export class ClassPlanGeneratorComponent implements OnInit {
 			const resources = JSON.parse(availableResourcesStr) as string[];
 			this.planForm.get('resources')?.setValue(resources);
 		}
-		this.#store.select(selectAllClassSections).pipe(
-			filter(s => !!s && this.status() == ClassSectionStateStatus.IDLING),
-			takeUntil(this.destroy$),
-		).subscribe((sections) => {
-			this.classSections = sections;
-			if (sections.length) {
-				this.planForm
-					.get('classSection')
-					?.setValue(sections[0]._id || '');
-				this.onSectionSelect();
-				if (sections[0].subjects.length === 1) {
+		this.#store
+			.select(selectAllClassSections)
+			.pipe(
+				filter(
+					(s) =>
+						!!s && this.status() == ClassSectionStateStatus.IDLING,
+				),
+				takeUntil(this.destroy$),
+			)
+			.subscribe((sections) => {
+				this.classSections = sections;
+				if (sections.length) {
 					this.planForm
-						.get('subject')
-						?.setValue(sections[0].subjects[0]);
-					this.onSubjectSelect();
-				}
-			} else {
-				this.router.navigateByUrl('/sections').then(() => {
-					this.sb.open(
-						'Para poder planificar, primero tienes que crear una seccion',
-						'Ok',
-						{ duration: 5000 },
-					);
-				});
-			}
-		});
-		this.#actions$.pipe(
-			ofType(createClassPlanSuccess),
-			filter(plan => !!plan),
-			takeUntil(this.destroy$),
-			tap(({ classPlan }) => {
-				this.router
-					.navigateByUrl(`/planning/class-plans/${classPlan._id}`)
-					.then(() => {
-						this.sb.open('Tu plan ha sido guardado!', 'Ok', {
-							duration: 2500,
-						});
+						.get('classSection')
+						?.setValue(sections[0]._id || '');
+					this.onSectionSelect();
+					if (sections[0].subjects.length === 1) {
+						this.planForm
+							.get('subject')
+							?.setValue(sections[0].subjects[0]);
+						this.onSubjectSelect();
+					}
+				} else {
+					this.router.navigateByUrl('/sections').then(() => {
+						this.sb.open(
+							'Para poder planificar, primero tienes que crear una seccion',
+							'Ok',
+							{ duration: 5000 },
+						);
 					});
-			})
-		).subscribe()
+				}
+			});
+		this.#actions$
+			.pipe(
+				ofType(createClassPlanSuccess),
+				filter((plan) => !!plan),
+				takeUntil(this.destroy$),
+				tap(({ classPlan }) => {
+					this.router
+						.navigateByUrl(`/planning/class-plans/${classPlan._id}`)
+						.then(() => {
+							this.sb.open('Tu plan ha sido guardado!', 'Ok', {
+								duration: 2500,
+							});
+						});
+				}),
+			)
+			.subscribe();
 	}
 
 	onSectionSelect() {
@@ -450,7 +467,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 	}
 
 	onSubjectSelect() {
-		const section = this.section()
+		const section = this.section();
 		if (section) {
 			const { level, year } = section;
 			const { subject } = this.planForm.value;
@@ -546,13 +563,11 @@ export class ClassPlanGeneratorComponent implements OnInit {
 	}
 
 	savePlan() {
-		const plan = this.plan
+		const plan = this.plan;
 		if (plan) {
-			this.#store.dispatch(createClassPlan({ plan }))
+			this.#store.dispatch(createClassPlan({ plan }));
 		}
 	}
-
-	downloadPlan() {}
 
 	printPlan() {
 		const date = this.datePipe.transform(
@@ -576,7 +591,14 @@ export class ClassPlanGeneratorComponent implements OnInit {
 	}
 
 	yearIndex(year: string): number {
-		return ['PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'].indexOf(year)
+		return [
+			'PRIMERO',
+			'SEGUNDO',
+			'TERCERO',
+			'CUARTO',
+			'QUINTO',
+			'SEXTO',
+		].indexOf(year);
 	}
 
 	randomCompetence(categorized: any): string {

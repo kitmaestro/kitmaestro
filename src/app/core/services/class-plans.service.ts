@@ -1,7 +1,7 @@
-import { inject, Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
-import { ClassPlan } from '../models'
-import { ApiDeleteResponse } from '../interfaces'
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ClassPlan } from '../models';
+import { ApiDeleteResponse } from '../interfaces';
 import {
 	Document,
 	Packer,
@@ -12,42 +12,42 @@ import {
 	TableRow,
 	TextRun,
 	WidthType,
-} from 'docx'
-import { saveAs } from 'file-saver'
-import { PretifyPipe } from '../../shared/pipes/pretify.pipe'
-import { ApiService } from './api.service'
-import { ClassPlanDto } from '../../store/class-plans/class-plans.models'
+} from 'docx';
+import { saveAs } from 'file-saver';
+import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
+import { ApiService } from './api.service';
+import { ClassPlanDto } from '../../store/class-plans/class-plans.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ClassPlansService {
-	#apiService = inject(ApiService)
-	#endpoint = 'class-plans/'
-	#pretify = new PretifyPipe().transform
+	#apiService = inject(ApiService);
+	#endpoint = 'class-plans/';
+	#pretify = new PretifyPipe().transform;
 
 	countPlans(): Observable<{ plans: number }> {
-		return this.#apiService.get<{ plans: number }>('class-plans/count')
+		return this.#apiService.get<{ plans: number }>('class-plans/count');
 	}
 
 	findAll(filters?: any): Observable<ClassPlan[]> {
-		return this.#apiService.get<ClassPlan[]>(this.#endpoint, filters)
+		return this.#apiService.get<ClassPlan[]>(this.#endpoint, filters);
 	}
 
 	find(id: string): Observable<ClassPlan> {
-		return this.#apiService.get<ClassPlan>(this.#endpoint + id)
+		return this.#apiService.get<ClassPlan>(this.#endpoint + id);
 	}
 
 	addPlan(plan: Partial<ClassPlanDto>): Observable<ClassPlan> {
-		return this.#apiService.post<ClassPlan>(this.#endpoint, plan)
+		return this.#apiService.post<ClassPlan>(this.#endpoint, plan);
 	}
 
 	updatePlan(id: string, plan: any): Observable<ClassPlan> {
-		return this.#apiService.patch<ClassPlan>(this.#endpoint + id, plan)
+		return this.#apiService.patch<ClassPlan>(this.#endpoint + id, plan);
 	}
 
 	deletePlan(id: string): Observable<ApiDeleteResponse> {
-		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
 	async download(plan: ClassPlan) {
@@ -56,7 +56,7 @@ export class ClassPlansService {
 			.split('T')[0]
 			.split('-')
 			.reverse()
-			.join('-')
+			.join('-');
 		const planTable = new Table({
 			width: {
 				size: 100,
@@ -513,7 +513,7 @@ export class ClassPlansService {
 					],
 				}),
 			],
-		})
+		});
 
 		const doc = new Document({
 			sections: [
@@ -530,11 +530,11 @@ export class ClassPlansService {
 					children: [planTable],
 				},
 			],
-		})
-		const blob = await Packer.toBlob(doc)
+		});
+		const blob = await Packer.toBlob(doc);
 		saveAs(
 			blob,
 			`Plan diario - ${this.#pretify(plan.subject)} - ${date}.docx`,
-		)
+		);
 	}
 }

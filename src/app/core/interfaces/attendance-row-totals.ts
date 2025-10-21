@@ -1,4 +1,4 @@
 export interface AttendanceRowTotals {
-	p: number
-	t: number
+	p: number;
+	t: number;
 }

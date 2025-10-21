@@ -27,9 +27,11 @@ import { formatNumber } from '@angular/common';
 		MatSnackBarModule,
 	],
 	template: `
-				<mat-card style="margin-bottom: 24px">
+		<mat-card style="margin-bottom: 24px">
 			<mat-card-header>
-				<h2 mat-card-title>Generador de Ejercicios de Multiplicaci&oacute;n</h2>
+				<h2 mat-card-title>
+					Generador de Ejercicios de Multiplicaci&oacute;n
+				</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<form
@@ -40,15 +42,23 @@ import { formatNumber } from '@angular/common';
 						<div style="max-width: 25%; flex: 1 1 auto">
 							<mat-form-field appearance="outline">
 								<mat-label>T&iacute;tulo</mat-label>
-								<input type="text" formControlName="title" matInput />
+								<input
+									type="text"
+									formControlName="title"
+									matInput
+								/>
 							</mat-form-field>
 						</div>
 						<div style="max-width: 25%; flex: 1 1 auto">
 							<mat-form-field appearance="outline">
 								<mat-label>Conjunto Num&eacute;rico</mat-label>
 								<mat-select formControlName="numericalSet">
-									<mat-option value="natural">Naturales</mat-option>
-									<mat-option value="integer">Enteros</mat-option>
+									<mat-option value="natural"
+										>Naturales</mat-option
+									>
+									<mat-option value="integer"
+										>Enteros</mat-option
+									>
 								</mat-select>
 							</mat-form-field>
 						</div>
@@ -59,7 +69,9 @@ import { formatNumber } from '@angular/common';
 									<mat-option value="horizontal"
 										>Horizontal</mat-option
 									>
-									<mat-option value="vertical">Vertical</mat-option>
+									<mat-option value="vertical"
+										>Vertical</mat-option
+									>
 								</mat-select>
 							</mat-form-field>
 						</div>
@@ -145,8 +157,8 @@ import { formatNumber } from '@angular/common';
 								margin-bottom: 15px;
 							"
 						>
-							Para reemplazar cualquiera de los ejercicios generados, haz
-							click sobre &eacute;l.
+							Para reemplazar cualquiera de los ejercicios
+							generados, haz click sobre &eacute;l.
 						</div>
 					}
 					@if (multiplications.length) {
@@ -166,7 +178,7 @@ import { formatNumber } from '@angular/common';
 						mat-raised-button
 						color="primary"
 					>
-						{{ multiplications.length ? "Regenerar" : "Generar" }}
+						{{ multiplications.length ? 'Regenerar' : 'Generar' }}
 					</button>
 				</form>
 			</mat-card-content>
@@ -183,7 +195,11 @@ import { formatNumber } from '@angular/common';
 			>
 				<mat-card>
 					<mat-card-content>
-						<div class="page" id="multiplications" style="padding: 12px">
+						<div
+							class="page"
+							id="multiplications"
+							style="padding: 12px"
+						>
 							<div style="text-align: center">
 								<h3
 									style="
@@ -194,24 +210,46 @@ import { formatNumber } from '@angular/common';
 								>
 									{{ schoolName }}
 								</h3>
-								<h4 style="margin-bottom: 0">{{ teacherName }}</h4>
-								<h5 style="font-size: medium; margin-bottom: 24px">
-									{{ multiplicationsForm.get("title")?.value }}
+								<h4 style="margin-bottom: 0">
+									{{ teacherName }}
+								</h4>
+								<h5
+									style="font-size: medium; margin-bottom: 24px"
+								>
+									{{
+										multiplicationsForm.get('title')?.value
+									}}
 								</h5>
 							</div>
 							<br />
 							<div style="margin-bottom: 42px; display: flex">
-								@if (multiplicationsForm.get("name")?.value === true) {
+								@if (
+									multiplicationsForm.get('name')?.value ===
+									true
+								) {
 									<div><b>Nombre</b>:</div>
 									<div class="blank"></div>
 								}
-								@if (multiplicationsForm.get("grade")?.value === true) {
-									<div style="margin-left: 12px"><b>Grado</b>:</div>
+								@if (
+									multiplicationsForm.get('grade')?.value ===
+									true
+								) {
+									<div style="margin-left: 12px">
+										<b>Grado</b>:
+									</div>
 									<div class="blank"></div>
 								}
-								@if (multiplicationsForm.get("date")?.value === true) {
-									<div style="margin-left: 12px"><b>Fecha</b>:</div>
-									<div style="max-width: 25%" class="blank"></div>
+								@if (
+									multiplicationsForm.get('date')?.value ===
+									true
+								) {
+									<div style="margin-left: 12px">
+										<b>Fecha</b>:
+									</div>
+									<div
+										style="max-width: 25%"
+										class="blank"
+									></div>
 								}
 							</div>
 							<div
@@ -223,8 +261,8 @@ import { formatNumber } from '@angular/common';
 							>
 								@for (line of multiplications; track $index) {
 									@if (
-										multiplicationsForm.get("orientation")
-											?.value === "vertical"
+										multiplicationsForm.get('orientation')
+											?.value === 'vertical'
 									) {
 										<div
 											style="display: flex; align-items: center"
@@ -235,7 +273,7 @@ import { formatNumber } from '@angular/common';
 													>{{
 														($index + 1)
 															.toString()
-															.padStart(2, "0")
+															.padStart(2, '0')
 													}})</b
 												>
 											</div>
@@ -248,9 +286,12 @@ import { formatNumber } from '@angular/common';
 												"
 											>
 												@for (n of line; track $index) {
-													<div style="text-align: right">
+													<div
+														style="text-align: right"
+													>
 														@if (
-															$index === line.length - 1
+															$index ===
+															line.length - 1
 														) {
 															<span
 																style="
@@ -280,14 +321,16 @@ import { formatNumber } from '@angular/common';
 													>{{
 														($index + 1)
 															.toString()
-															.padStart(2, "0")
+															.padStart(2, '0')
 													}})
 													<span
 														style="
 															letter-spacing: 3px;
 															font-family: serif;
 														"
-														>{{ line.join(" × ") }}</span
+														>{{
+															line.join(' × ')
+														}}</span
 													></b
 												>=
 											</div>
@@ -305,11 +348,17 @@ import { formatNumber } from '@angular/common';
 							id="multiplications-solution"
 							style="padding: 12px"
 						>
-							<div style="text-align: center; margin-bottom: 24px">
+							<div
+								style="text-align: center; margin-bottom: 24px"
+							>
 								<h4 style="margin-bottom: 0">
-									{{ multiplicationsForm.get("title")?.value }}
+									{{
+										multiplicationsForm.get('title')?.value
+									}}
 								</h4>
-								<h5 style="font-size: medium; margin-bottom: 24px">
+								<h5
+									style="font-size: medium; margin-bottom: 24px"
+								>
 									Hoja de Respuestas
 								</h5>
 							</div>
@@ -328,14 +377,16 @@ import { formatNumber } from '@angular/common';
 												>{{
 													($index + 1)
 														.toString()
-														.padStart(2, "0")
+														.padStart(2, '0')
 												}})
 												<span
 													style="
 														letter-spacing: 3px;
 														font-family: serif;
 													"
-													>{{ line.join(" × ") }}</span
+													>{{
+														line.join(' × ')
+													}}</span
 												></b
 											>=
 										</div>
@@ -359,7 +410,7 @@ import { formatNumber } from '@angular/common';
 		}
 	`,
 	styles: `
-				.board {
+		.board {
 			display: flex;
 			flex-direction: column;
 			width: fit-content;

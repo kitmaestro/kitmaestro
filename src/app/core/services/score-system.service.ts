@@ -1,9 +1,13 @@
-import { inject, Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
-import { ScoreSystem, Student } from '../models'
-import { GradingActivity, GroupedGradingActivity, ApiDeleteResponse } from '../interfaces'
-import { ApiService } from './api.service'
-import { PretifyPipe } from '../../shared/pipes/pretify.pipe'
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ScoreSystem, Student } from '../models';
+import {
+	GradingActivity,
+	GroupedGradingActivity,
+	ApiDeleteResponse,
+} from '../interfaces';
+import { ApiService } from './api.service';
+import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
 import {
 	Table,
 	WidthType,
@@ -16,39 +20,39 @@ import {
 	AlignmentType,
 	Packer,
 	Document,
-} from 'docx'
-import saveAs from 'file-saver'
+} from 'docx';
+import saveAs from 'file-saver';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ScoreSystemService {
-	#apiService = inject(ApiService)
-	#endpoint = 'score-systems/'
-	#pretifyPipe = new PretifyPipe()
+	#apiService = inject(ApiService);
+	#endpoint = 'score-systems/';
+	#pretifyPipe = new PretifyPipe();
 
 	findAll(): Observable<ScoreSystem[]> {
-		return this.#apiService.get<ScoreSystem[]>(this.#endpoint)
+		return this.#apiService.get<ScoreSystem[]>(this.#endpoint);
 	}
 
 	find(id: string): Observable<ScoreSystem> {
-		return this.#apiService.get<ScoreSystem>(this.#endpoint + id)
+		return this.#apiService.get<ScoreSystem>(this.#endpoint + id);
 	}
 
 	create(plan: any): Observable<ScoreSystem> {
-		return this.#apiService.post<ScoreSystem>(this.#endpoint, plan)
+		return this.#apiService.post<ScoreSystem>(this.#endpoint, plan);
 	}
 
 	update(id: string, plan: any): Observable<ScoreSystem> {
-		return this.#apiService.patch<ScoreSystem>(this.#endpoint + id, plan)
+		return this.#apiService.patch<ScoreSystem>(this.#endpoint + id, plan);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
 	pretify(str: string) {
-		return this.#pretifyPipe.transform(str)
+		return this.#pretifyPipe.transform(str);
 	}
 
 	groupByCompetence(
@@ -57,27 +61,27 @@ export class ScoreSystemService {
 		const grouped = gradingActivities.reduce((acc, activity) => {
 			const existingGroup = acc.find(
 				(group) => group.competence === activity.competence,
-			)
+			);
 
 			if (existingGroup) {
-				existingGroup.grading.push(activity)
-				existingGroup.total += activity.points
+				existingGroup.grading.push(activity);
+				existingGroup.total += activity.points;
 			} else {
 				acc.push({
 					competence: activity.competence,
 					grading: [activity],
 					total: activity.points,
-				})
+				});
 			}
 
-			return acc
-		}, [] as GroupedGradingActivity[])
+			return acc;
+		}, [] as GroupedGradingActivity[]);
 
-		return grouped
+		return grouped;
 	}
 
 	async download(scoreSystem: ScoreSystem, students: Student[]) {
-		const grouped = this.groupByCompetence(scoreSystem.activities)
+		const grouped = this.groupByCompetence(scoreSystem.activities);
 		const gradingTable = new Table({
 			width: {
 				size: 100,
@@ -147,7 +151,7 @@ export class ScoreSystemService {
 										children: [
 											new Paragraph(
 												'Competencia ' +
-												group.competence,
+													group.competence,
 											),
 										],
 									}),
@@ -174,7 +178,7 @@ export class ScoreSystemService {
 										],
 									}),
 								],
-							})
+							});
 						} else {
 							return new TableRow({
 								children: [
@@ -201,9 +205,9 @@ export class ScoreSystemService {
 										],
 									}),
 								],
-							})
+							});
 						}
-					})
+					});
 					rows.push(
 						new TableRow({
 							children: [
@@ -227,11 +231,11 @@ export class ScoreSystemService {
 								}),
 							],
 						}),
-					)
-					return rows
+					);
+					return rows;
 				}),
 			],
-		})
+		});
 		const doc = new Document({
 			sections: [
 				{
@@ -451,16 +455,16 @@ export class ScoreSystemService {
 										),
 									],
 								}),
-							]
+							];
 						}),
 					],
 				},
 			],
-		})
-		const blob = await Packer.toBlob(doc)
+		});
+		const blob = await Packer.toBlob(doc);
 		saveAs(
 			blob,
 			`${scoreSystem.content.flatMap((c) => c.title)[0]} - Sistema de Calificacion.docx`,
-		)
+		);
 	}
 }

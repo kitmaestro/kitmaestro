@@ -49,7 +49,6 @@ import { TestComponent } from '../components/test.component';
 				</div>
 			</div>
 		}
-
 	`,
 })
 export class TestDetailComponent implements OnInit {

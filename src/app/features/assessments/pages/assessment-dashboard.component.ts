@@ -16,7 +16,9 @@ import { RouterLink } from '@angular/router';
 					</mat-card-header>
 					<mat-card-content>
 						<!-- <div style="margin-bottom: 12px;">{{ tool.description }}</div> -->
-						<div style="display: flex; flex-direction: column; gap: 12px">
+						<div
+							style="display: flex; flex-direction: column; gap: 12px"
+						>
 							<a
 								mat-raised-button
 								[routerLink]="['/assessments', tool.link]"

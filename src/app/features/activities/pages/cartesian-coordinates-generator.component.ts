@@ -100,7 +100,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 						</div>
 					</div>
 					@if (source) {
-						<div style="background-color: #f44336; padding: 24px; text-align: center; color: #ffffff; margin-bottom: 12px;">Para guardar el plano generado, puedes hacer click derecho y luego a copiar imagen o a guardar como</div>
+						<div
+							style="background-color: #f44336; padding: 24px; text-align: center; color: #ffffff; margin-bottom: 12px;"
+						>
+							Para guardar el plano generado, puedes hacer click
+							derecho y luego a copiar imagen o a guardar como
+						</div>
 					}
 					<div
 						style="
@@ -111,7 +116,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 					>
 						<button mat-flat-button type="submit">
 							<mat-icon>bolt</mat-icon>
-							{{ source ? "Regenerar" : "Generar" }}
+							{{ source ? 'Regenerar' : 'Generar' }}
 						</button>
 						<button
 							mat-button
@@ -133,7 +138,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 						<div>
 							<h2>Ejercicios</h2>
 							<h3>{{ title }}</h3>
-							<ol style="display: grid; grid-template-columns: 1fr 1fr">
+							<ol
+								style="display: grid; grid-template-columns: 1fr 1fr"
+							>
 								@for (exercise of exercises; track $index) {
 									<li [innerHTML]="exercise"></li>
 								}

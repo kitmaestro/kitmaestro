@@ -8,7 +8,7 @@ import { ClassSection } from '../../../core';
 @Component({
 	selector: 'app-rubric',
 	template: `
-		@if(rubric(); as rub) {
+		@if (rubric(); as rub) {
 			<div style="width: 8.5in; padding: 0.35in" id="rubric">
 				<div style="text-align: center">
 					<h2 style="margin-bottom: 4px">R&uacute;brica</h2>
@@ -19,7 +19,7 @@ import { ClassSection } from '../../../core';
 						{{ section()?.name }}
 					</h3>
 				}
-				@if (rub.rubricType === "SINTETICA") {
+				@if (rub.rubricType === 'SINTETICA') {
 					<div style="display: flex; gap: 12px; margin-bottom: 12px">
 						<div style="font-weight: bold">Estudiante:</div>
 						<div
@@ -39,7 +39,9 @@ import { ClassSection } from '../../../core';
 						></div>
 					</div>
 				}
-				<h3 style="font-weight: bold; margin-bottom: 8px; margin-top: 8px">
+				<h3
+					style="font-weight: bold; margin-bottom: 8px; margin-top: 8px"
+				>
 					Competencias Espec&iacute;ficas
 				</h3>
 				<ul style="list-style: none; margin: 0; padding: 0">
@@ -47,7 +49,9 @@ import { ClassSection } from '../../../core';
 						<li>- {{ item }}</li>
 					}
 				</ul>
-				<h3 style="font-weight: bold; margin-bottom: 8px; margin-top: 8px">
+				<h3
+					style="font-weight: bold; margin-bottom: 8px; margin-top: 8px"
+				>
 					Indicadores de Logro
 				</h3>
 				<ul style="list-style: none; margin: 0; padding: 0">
@@ -58,7 +62,7 @@ import { ClassSection } from '../../../core';
 				<div style="margin-bottom: 12px; margin-top: 12px">
 					<b>Evidencia o Actividad</b>: {{ rub.activity }}
 				</div>
-				@if (rub.rubricType === "SINTETICA") {
+				@if (rub.rubricType === 'SINTETICA') {
 					<table style="border-collapse: collapse">
 						<thead>
 							<tr>
@@ -68,8 +72,13 @@ import { ClassSection } from '../../../core';
 								</th>
 							</tr>
 							<tr>
-								@for (level of rub.progressLevels; track $index) {
-									<th>Nivel {{ $index + 1 }}<br />{{ level }}</th>
+								@for (
+									level of rub.progressLevels;
+									track $index
+								) {
+									<th>
+										Nivel {{ $index + 1 }}<br />{{ level }}
+									</th>
 								}
 							</tr>
 						</thead>
@@ -77,11 +86,17 @@ import { ClassSection } from '../../../core';
 							@for (row of rub.criteria; track $index) {
 								<tr>
 									<td>
-										{{ row.indicator }} ({{ row.maxScore }} puntos)
+										{{ row.indicator }} ({{
+											row.maxScore
+										}}
+										puntos)
 									</td>
 									@for (item of row.criterion; track item) {
 										<td>
-											{{ item.name }} ({{ item.score }} puntos)
+											{{ item.name }} ({{
+												item.score
+											}}
+											puntos)
 										</td>
 									}
 								</tr>
@@ -93,20 +108,35 @@ import { ClassSection } from '../../../core';
 						<tbody>
 							@for (row of rub.criteria; track $index) {
 								<tr>
-									<td [attr.colspan]="rub.progressLevels.length + 1">
-										<b>Criterio o Indicador</b>: {{ row.indicator }}
+									<td
+										[attr.colspan]="
+											rub.progressLevels.length + 1
+										"
+									>
+										<b>Criterio o Indicador</b>:
+										{{ row.indicator }}
 									</td>
 								</tr>
 								<tr>
 									<th rowspan="2">Estudiantes</th>
-									@for (level of rub.progressLevels; track $index) {
-										<th>Nivel {{ $index + 1 }}<br />{{ level }}</th>
+									@for (
+										level of rub.progressLevels;
+										track $index
+									) {
+										<th>
+											Nivel {{ $index + 1 }}<br />{{
+												level
+											}}
+										</th>
 									}
 								</tr>
 								<tr>
 									@for (item of row.criterion; track item) {
 										<td>
-											{{ item.name }} ({{ item.score }} puntos)
+											{{ item.name }} ({{
+												item.score
+											}}
+											puntos)
 										</td>
 									}
 								</tr>
@@ -116,14 +146,23 @@ import { ClassSection } from '../../../core';
 											{{ student.firstname }}
 											{{ student.lastname }}
 										</td>
-										@for (item of row.criterion; track item) {
+										@for (
+											item of row.criterion;
+											track item
+										) {
 											<td></td>
 										}
 									</tr>
 								} @empty {
-									@for (el of [].constructor(45); track $index) {
+									@for (
+										el of [].constructor(45);
+										track $index
+									) {
 										<tr></tr>
-										@for (item of row.criterion; track $index) {
+										@for (
+											item of row.criterion;
+											track $index
+										) {
 											<td></td>
 										}
 									}

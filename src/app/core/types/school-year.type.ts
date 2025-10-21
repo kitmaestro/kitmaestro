@@ -1,7 +1,7 @@
 export type SchoolYear =
-    | 'PRIMERO'
-    | 'SEGUNDO'
-    | 'TERCERO'
-    | 'CUARTO'
-    | 'QUINTO'
-    | 'SEXTO'
+	| 'PRIMERO'
+	| 'SEGUNDO'
+	| 'TERCERO'
+	| 'CUARTO'
+	| 'QUINTO'
+	| 'SEXTO';

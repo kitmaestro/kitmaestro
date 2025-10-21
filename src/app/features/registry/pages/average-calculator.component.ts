@@ -15,18 +15,21 @@ import { MatListModule } from '@angular/material/list';
 		MatChipsModule,
 	],
 	template: `
-		<h2 style="font-size: 24pt; margin-bottom: 24px">Calculadora de Promedios</h2>
+		<h2 style="font-size: 24pt; margin-bottom: 24px">
+			Calculadora de Promedios
+		</h2>
 
 		<div class="wrapper">
 			<div class="calculator-frame">
 				<div class="calculator-container">
 					<div class="screen">
 						<div class="history">
-							({{ history.join(" + ") || 0 }}) / {{ history.length }} =
+							({{ history.join(' + ') || 0 }}) /
+							{{ history.length }} =
 							{{ average(history) }}
 						</div>
 						<div class="current">
-							({{ currentCalculation.join(" + ") || 0 }}) /
+							({{ currentCalculation.join(' + ') || 0 }}) /
 							{{ currentCalculation.length }} =
 							{{ average(currentCalculation) }}
 						</div>
@@ -115,18 +118,21 @@ import { MatListModule } from '@angular/material/list';
 						<mat-chip>.</mat-chip> Insertar Punto
 					</mat-list-item>
 					<mat-list-item>
-						<mat-chip><mat-icon>keyboard_return</mat-icon></mat-chip>
+						<mat-chip
+							><mat-icon>keyboard_return</mat-icon></mat-chip
+						>
 						Agregar Calificaci&oacute;n
 					</mat-list-item>
 					<mat-list-item>
-						<mat-chip><mat-icon>space_bar</mat-icon></mat-chip> Nuevo
-						C&aacute;lculo
+						<mat-chip><mat-icon>space_bar</mat-icon></mat-chip>
+						Nuevo C&aacute;lculo
 					</mat-list-item>
 					<mat-list-item>
 						<mat-chip>Esc</mat-chip> Limpiar Pantalla
 					</mat-list-item>
 					<mat-list-item>
-						<mat-chip><mat-icon>backspace</mat-icon></mat-chip> Borrar
+						<mat-chip><mat-icon>backspace</mat-icon></mat-chip>
+						Borrar
 					</mat-list-item>
 				</mat-list>
 			</div>

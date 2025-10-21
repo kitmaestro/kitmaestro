@@ -163,14 +163,14 @@ import { Actions, ofType } from '@ngrx/effects';
 	],
 })
 export class NavigationComponent {
-	private store = inject(Store)
-	private userSubscriptionService = inject(UserSubscriptionService)
-	private breakpointObserver = inject(BreakpointObserver)
-	private dialog = inject(MatDialog)
-	private router = inject(Router)
+	private store = inject(Store);
+	private userSubscriptionService = inject(UserSubscriptionService);
+	private breakpointObserver = inject(BreakpointObserver);
+	private dialog = inject(MatDialog);
+	private router = inject(Router);
 	private actions$ = inject(Actions);
 
-	public isPrintView = window.location.href.includes('print')
+	public isPrintView = window.location.href.includes('print');
 
 	@Output() signOut = new EventEmitter<boolean>();
 
@@ -180,8 +180,8 @@ export class NavigationComponent {
 			map((result) => result.matches),
 			shareReplay(),
 		);
-	User$ = this.store.select(selectAuthUser)
-	subscription = signal<UserSubscription | null>(null)
+	User$ = this.store.select(selectAuthUser);
+	subscription = signal<UserSubscription | null>(null);
 	subscription$ = this.userSubscriptionService.checkSubscription().pipe(
 		map((sub) => {
 			if (sub.subscriptionType.toLowerCase() == 'free') {
@@ -198,18 +198,21 @@ export class NavigationComponent {
 	userIsAdmin = signal<boolean>(false);
 
 	ngOnInit() {
-		this.User$
-			.pipe(filter(user => !!user),map((user) => ['orgalay.dev@gmail.com'].includes(user.email)))
-			.subscribe((res) => this.userIsAdmin.set(res));
+		this.User$.pipe(
+			filter((user) => !!user),
+			map((user) => ['orgalay.dev@gmail.com'].includes(user.email)),
+		).subscribe((res) => this.userIsAdmin.set(res));
 		this.userSubscriptionService.checkSubscription().subscribe((sub) => {
 			this.subscription.set(sub);
 		});
-		this.actions$.pipe(
-			ofType(signOutSuccess),
-			tap(() => {
-				this.router.navigate(['/auth', 'login'])
-			})
-		).subscribe()
+		this.actions$
+			.pipe(
+				ofType(signOutSuccess),
+				tap(() => {
+					this.router.navigate(['/auth', 'login']);
+				}),
+			)
+			.subscribe();
 	}
 
 	toggleNames() {
@@ -221,7 +224,7 @@ export class NavigationComponent {
 	}
 
 	logout() {
-		this.store.dispatch(signOut())
+		this.store.dispatch(signOut());
 	}
 
 	get activatedRoute() {

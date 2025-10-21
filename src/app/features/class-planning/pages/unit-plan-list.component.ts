@@ -49,7 +49,11 @@ import { deletePlan, loadPlans } from '../../../store/unit-plans';
 		>
 			<ng-container matColumnDef="title">
 				<th mat-header-cell *matHeaderCellDef>T&iacute;tulo</th>
-				<td mat-cell *matCellDef="let plan"><a [routerLink]="['/planning', 'unit-plans', plan._id]">{{ plan.title }}</a></td>
+				<td mat-cell *matCellDef="let plan">
+					<a [routerLink]="['/planning', 'unit-plans', plan._id]">{{
+						plan.title
+					}}</a>
+				</td>
 			</ng-container>
 
 			<ng-container matColumnDef="section">
@@ -57,10 +61,10 @@ import { deletePlan, loadPlans } from '../../../store/unit-plans';
 				<td mat-cell *matCellDef="let plan">
 					@if (plan.sections && plan.sections.length) {
 						@for (section of plan.sections; track $index) {
-							{{ $index > 0 ? ", " : "" }}{{ section.name }}
+							{{ $index > 0 ? ', ' : '' }}{{ section.name }}
 						}
 					} @else {
-						{{ plan.section ? plan.section.name : "No Asignado" }}
+						{{ plan.section ? plan.section.name : 'No Asignado' }}
 					}
 				</td>
 			</ng-container>
@@ -82,8 +86,8 @@ import { deletePlan, loadPlans } from '../../../store/unit-plans';
 				<td mat-cell *matCellDef="let plan">
 					{{
 						plan.createdAt
-							? (plan.createdAt | date: "dd/MM/yyyy" : "+0400")
-							: "N/A"
+							? (plan.createdAt | date: 'dd/MM/yyyy' : '+0400')
+							: 'N/A'
 					}}
 				</td>
 			</ng-container>
@@ -152,32 +156,35 @@ import { deletePlan, loadPlans } from '../../../store/unit-plans';
 	`,
 })
 export class UnitPlanListComponent {
-	#store = inject(Store)
-	#unitPlanService = inject(UnitPlanService)
-	user = this.#store.selectSignal(selectAuthUser)
-	unitPlans$ = this.#store.select(selectAllUnitPlans)
-	classPlans = this.#store.selectSignal(selectClassPlans)
-	sb = inject(MatSnackBar)
+	#store = inject(Store);
+	#unitPlanService = inject(UnitPlanService);
+	user = this.#store.selectSignal(selectAuthUser);
+	unitPlans$ = this.#store.select(selectAllUnitPlans);
+	classPlans = this.#store.selectSignal(selectClassPlans);
+	sb = inject(MatSnackBar);
 
 	displayedColumns = ['title', 'section', 'subject', 'date', 'actions'];
 
 	loading = true;
 
 	ngOnInit() {
-		this.#store.dispatch(loadClassPlans({}))
-		this.#store.dispatch(loadPlans())
+		this.#store.dispatch(loadClassPlans({}));
+		this.#store.dispatch(loadPlans());
 	}
 
 	deletePlan(id: string) {
-		this.#store.dispatch(deletePlan({ id }))
+		this.#store.dispatch(deletePlan({ id }));
 	}
 
 	async download(plan: UnitPlan) {
-		const user = this.user()
-		const classPlans = this.classPlans()
-		if (!user)
-			return
-		await this.#unitPlanService.download(plan, classPlans.filter(cp => cp.unitPlan === plan._id), user);
+		const user = this.user();
+		const classPlans = this.classPlans();
+		if (!user) return;
+		await this.#unitPlanService.download(
+			plan,
+			classPlans.filter((cp) => cp.unitPlan === plan._id),
+			user,
+		);
 		this.sb.open('Se ha descargado tu plan', 'Ok', { duration: 2500 });
 	}
 }
