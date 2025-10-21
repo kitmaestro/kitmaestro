@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 export default [
+	{ path: '', loadComponent: () => import('./pages/class-planning.component').then(mod => mod.ClassPlanningComponent) },
 	{
 		path: 'sports-practice-generator',
 		loadComponent: () =>
@@ -120,5 +121,13 @@ export default [
 				'./pages/study-path-generator.component'
 			).then((mod) => mod.StudyPathGeneratorComponent),
 		title: 'Generador de Rutas de Estudio',
+	},
+	{
+		path: 'evaluation-plan-generator',
+		loadComponent: () =>
+			import(
+				'./pages/evaluation-plan-generator.component'
+			).then((mod) => mod.EvaluationPlanGeneratorComponent),
+		title: 'Generador de Planes de Evaluacion',
 	},
 ] as Routes;

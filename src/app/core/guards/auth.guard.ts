@@ -10,7 +10,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
 	const authRoute: UrlTree = router.parseUrl('/auth/login')
 
 	try {
-		const profile = await firstValueFrom(store.select(selectAuthState).pipe(filter(state => !!state && state.initialized), map(state => state.initialized && !!state.user)))
+		const profile = await firstValueFrom(store.select(selectAuthState).pipe(filter(state => !!state && !state.loading && state.initialized), map(state => !!state.user)))
 		if (profile) return true
 		else return authRoute
 	} catch (error) {

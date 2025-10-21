@@ -22,7 +22,6 @@ import {
 } from 'rxjs';
 
 // Angular Material Modules
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -33,8 +32,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 // --- Core Services & Interfaces (Using new structure paths) ---
 import { AiService } from '../../../core/services/ai.service';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-// ClassSectionService not needed for this component
 
 // --- DOCX Generation ---
 import { Document, Packer, Paragraph, AlignmentType, HeadingLevel } from 'docx';
@@ -48,7 +45,6 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
-		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
 		MatInputModule,
@@ -62,15 +58,11 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 	// --- Inline Template ---
 	template: `
 		<app-is-premium minSubscriptionType="Plan Basico">
-			<mat-card class="study-path-card">
-				<mat-card-header>
-					<mat-card-title>Generador de Ruta de Estudio</mat-card-title>
-					<mat-card-subtitle
-						>Planifica tu aprendizaje paso a paso</mat-card-subtitle
-					>
-				</mat-card-header>
-
-				<mat-card-content>
+			<div class="study-path-card">
+				<div>
+					<h2>Generador de Ruta de Estudio</h2>
+				</div>
+				<div>
 					@if (!showResult()) {
 						<form
 							[formGroup]="studyPathForm"
@@ -131,7 +123,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 							<div class="form-actions">
 								<button
-									mat-raised-button
+									mat-button
 									color="primary"
 									type="submit"
 									[disabled]="
@@ -167,29 +159,19 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 						<div class="study-path-result">
 							<h3>Ruta de Estudio Sugerida:</h3>
 							<div class="study-path-result-content">
-								<markdown
-									[data]="
-										generatedStudyPath().replaceAll(
-											'
-
-	',
-											'
-	'
-										)
-									"
-								/>
+								<markdown [data]="generatedStudyPath()"/>
 							</div>
 
 							<div class="result-actions">
 								<button
-									mat-stroked-button
+									mat-button
 									color="primary"
 									(click)="goBack()"
 								>
 									<mat-icon>arrow_back</mat-icon> Volver
 								</button>
 								<button
-									mat-raised-button
+									mat-flat-button
 									color="primary"
 									(click)="downloadDocx()"
 									[disabled]="
@@ -204,8 +186,8 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							</div>
 						</div>
 					}
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 		</app-is-premium>
 	`,
 	// --- Inline Styles ---
@@ -300,20 +282,14 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 	encapsulation: ViewEncapsulation.None,
 })
 export class StudyPathGeneratorComponent implements OnInit, OnDestroy {
-	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
-	// ClassSectionService not needed
 	#snackBar = inject(MatSnackBar);
 
-	#pretify = new PretifyPipe().transform;
-
-	// --- State Signals ---
 	isGenerating = signal(false);
 	showResult = signal(false);
 	generatedStudyPath = signal<string>(''); // Stores the AI response string
 
-	// --- Form Definition ---
 	studyPathForm = this.#fb.group({
 		topicSkill: ['', Validators.required],
 		masteryLevel: ['Intermedio', Validators.required], // Default value

@@ -10,7 +10,7 @@ export const unitPlansReducer = createReducer(
         ...state,
         status: UnitPlanStateStatus.LOADING_PLAN,
     })),
-    on(UnitPlansActions.loadPlans, state => ({
+    on(UnitPlansActions.loadPlans, UnitPlansActions.countPlans, state => ({
         ...state,
         status: UnitPlanStateStatus.LOADING_PLANS,
     })),
@@ -31,9 +31,11 @@ export const unitPlansReducer = createReducer(
     on(
         UnitPlansActions.loadPlanFailed,
         UnitPlansActions.loadPlansFailed,
+        UnitPlansActions.countPlansFailed,
         UnitPlansActions.createPlanFailed,
         UnitPlansActions.updatePlanFailed,
         UnitPlansActions.deletePlanFailed,
+        UnitPlansActions.downloadPlanFailed,
         (state, { error }) => ({ ...state, status: UnitPlanStateStatus.IDLING, error }),
     ),
 
@@ -47,6 +49,11 @@ export const unitPlansReducer = createReducer(
         ...state,
         status: UnitPlanStateStatus.IDLING,
         unitPlans: plans,
+    })),
+    on(UnitPlansActions.countPlansSuccess, (state, { plans }) => ({
+        ...state,
+        status: UnitPlanStateStatus.IDLING,
+        totalPlans: plans,
     })),
     on(UnitPlansActions.createPlanSuccess, (state, { plan }) => ({
         ...state,

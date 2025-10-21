@@ -116,7 +116,7 @@ import { selectClassPlans } from '../../../store/class-plans/class-plans.selecto
 									@for (rubric of rubrics; track rubric._id) {
 										<li>
 											<a
-												[routerLink]="['/rubrics', rubric._id]"
+												[routerLink]="['/assessments/rubrics', rubric._id]"
 												>{{ rubric.title }}</a
 											>
 										</li>
@@ -238,7 +238,7 @@ export class UnitPlanDetailComponent implements OnInit {
 		.pipe(
 			tap((_) => {
 				if (!_) {
-					this.router.navigate(['/unit-plans/list']).then(() => {
+					this.router.navigate(['/planning/unit-plans/list']).then(() => {
 						this.sb.open('Este plan no ha sido encontrado', 'Ok', {
 							duration: 2500,
 						});
@@ -383,7 +383,7 @@ export class UnitPlanDetailComponent implements OnInit {
 		if (id) {
 			this.unitPlanService.delete(id).subscribe((result) => {
 				if (result.deletedCount === 1) {
-					this.router.navigate(['/unit-plans']).then(() => {
+					this.router.navigate(['/planning/unit-plans']).then(() => {
 						this.sb.open('El plan ha sido eliminado.', 'Ok', {
 							duration: 2500,
 						});

@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -29,25 +28,24 @@ import {
 	mainThemeCategories,
 	schoolEnvironments,
 } from '../../../config/constants';
-import { forkJoin, takeUntil, tap } from 'rxjs';
+import { filter, forkJoin, Subject, takeUntil, tap } from 'rxjs';
 import { ContentBlockService } from '../../../core/services/content-block.service';
 import { ContentBlock } from '../../../core';
 import { TEACHING_METHODS } from '../../../core/data/teaching-methods';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { CommonModule } from '@angular/common';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { createPlan, createPlanSuccess } from '../../../store/unit-plans';
 import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { ClassSectionStateStatus, loadSections, selectAllClassSections, selectClassSectionsStatus } from '../../../store/class-sections';
 
 @Component({
 	selector: 'app-multigrade-unit-plan-generator',
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
 		MatSnackBarModule,
-		MatCardModule,
 		MatStepperModule,
 		MatFormFieldModule,
 		MatSelectModule,
@@ -60,21 +58,21 @@ import { Actions, ofType } from '@ngrx/effects';
 	],
 	template: `
 		<app-is-premium>
-			<mat-card>
-				<mat-card-header class="header">
-					<h2 class="title" mat-card-title>
+			<div>
+				<div class="header">
+					<h2 class="title">
 						Generador de Unidades de Aprendizaje (Multigrado)
 					</h2>
 					<button
 						class="title-button"
-						mat-flat-button
-						[routerLink]="['/unit-plans', 'list']"
+						mat-button
+						routerLink="/planning/unit-plans/list"
 						color="accent"
 					>
 						Ver mis Planes
 					</button>
-				</mat-card-header>
-				<mat-card-content>
+				</div>
+				<div>
 					<mat-stepper linear #stepper>
 						<mat-step [stepControl]="learningSituationForm">
 							<form
@@ -126,7 +124,7 @@ import { Actions, ofType } from '@ngrx/effects';
 											(selectionChange)="onSectionSelect()"
 										>
 											@for (
-												section of allClassSections;
+												section of allClassSections();
 												track section._id
 											) {
 												<mat-option [value]="section._id">{{
@@ -294,27 +292,29 @@ import { Actions, ofType } from '@ngrx/effects';
 								<div style="text-align: end">
 									<button
 										[disabled]="generating"
-										mat-raised-button
+										mat-button
 										type="button"
 										color="accent"
 										(click)="generateLearningSituation()"
 									>
+										<mat-icon>bolt</mat-icon>
 										@if (generating) {
-											<span>Generando...</span>
+											<span>Generando Situación de Aprendizaje...</span>
 										} @else {
 											@if (learningSituation.value) {
 												<span>Regenerar</span>
 											} @else {
-												<span>Generar</span>
+												<span>Generar Situación de Aprendizaje</span>
 											}
 										}
 									</button>
 									@if (learningSituation.value) {
 										<button
 											style="margin-left: 8px"
-											mat-raised-button
+											mat-flat-button
 											matStepperNext
 										>
+											<mat-icon>arrow_forward</mat-icon>
 											Siguiente
 										</button>
 									}
@@ -392,16 +392,18 @@ import { Actions, ofType } from '@ngrx/effects';
 									</div>
 								</div>
 								<div style="text-align: end">
-									<button mat-raised-button matStepperPrevious>
+									<button mat-button matStepperPrevious>
+										<mat-icon>arrow_back</mat-icon>
 										Anterior
 									</button>
 									<button
 										style="margin-left: 8px"
-										mat-raised-button
+										mat-flat-button
 										(click)="generateActivities()"
 										matStepperNext
 									>
-										Siguiente
+										<mat-icon>bolt</mat-icon>
+										Generar Actividades
 									</button>
 								</div>
 							</form>
@@ -475,19 +477,21 @@ import { Actions, ofType } from '@ngrx/effects';
 								}
 							</div>
 							<div style="text-align: end">
-								<button mat-raised-button matStepperPrevious>
+								<button mat-button matStepperPrevious>
+									<mat-icon>arrow_back</mat-icon>
 									Anterior
 								</button>
 								<button
 									[disabled]="generating"
 									style="margin-left: 8px"
-									mat-raised-button
+									mat-button
 									type="button"
 									color="accent"
 									(click)="generateActivities()"
 								>
+									<mat-icon>bolt</mat-icon>
 									@if (generating) {
-										<span>Generando...</span>
+										<span>Generando Actividades...</span>
 									} @else {
 										@if (activitiesByGrade.length) {
 											<span>Regenerar</span>
@@ -500,23 +504,24 @@ import { Actions, ofType } from '@ngrx/effects';
 									<button
 										style="margin-left: 8px"
 										color="primary"
-										mat-raised-button
+										mat-flat-button
 										(click)="fillFinalForm()"
 										type="button"
 									>
+										<mat-icon>save</mat-icon>
 										Guardar
 									</button>
 								}
 							</div>
 						</mat-step>
 					</mat-stepper>
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 		</app-is-premium>
 	`,
 	styles: [
 		`
-			mat-card-header.header {
+			div.header {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
@@ -558,17 +563,15 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 	#actions$ = inject(Actions)
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
-	private classSectionService = inject(ClassSectionService);
-	private UserService = inject(UserService);
 	private contentBlockService = inject(ContentBlockService);
 	private mainThemeService = inject(MainThemeService);
-	private unitPlanService = inject(UnitPlanService);
 	private competenceService = inject(CompetenceService);
 	private router = inject(Router);
 
 	generating = false;
-	User: User | null = null;
-	allClassSections: ClassSection[] = [];
+	user = this.#store.selectSignal(selectAuthUser)
+	allClassSections = this.#store.selectSignal(selectAllClassSections)
+	status = this.#store.selectSignal(selectClassSectionsStatus)
 	selectedClassSections: ClassSection[] = [];
 	commonSubjects: { id: string; label: string }[] = [];
 	contentBlocksBySection = new Map<string, ContentBlock[]>();
@@ -621,15 +624,15 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 
 	pretifyPipe = new PretifyPipe();
 
+	destroy$ = new Subject<void>()
+
 	ngOnInit(): void {
-		this.UserService
-			.getSettings()
-			.subscribe((settings) => (this.User = settings));
-		this.classSectionService.findSections().subscribe({
+		this.#store.dispatch(loadSections())
+		this.#store.select(selectAllClassSections).pipe(takeUntil(this.destroy$),filter((value) => !!value)).subscribe({
 			next: (value) => {
-				if (value.length) {
-					this.allClassSections = value;
-				} else {
+				if (this.status() === ClassSectionStateStatus.LOADING_SECTIONS || this.status() !== ClassSectionStateStatus.IDLING)
+					return
+				if (!value.length) {
 					this.sb.open(
 						'Para usar esta herramienta, necesitas crear al menos una sección.',
 						'Ok',
@@ -640,6 +643,7 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 		});
 		this.#actions$.pipe(
 			ofType(createPlanSuccess),
+			takeUntil(this.destroy$),
 			tap(({ plan }) => {
 				this.router
 					.navigate(['/unit-plans', plan._id])
@@ -654,10 +658,15 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 		).subscribe()
 	}
 
+	ngOnDestroy() {
+		this.destroy$.next()
+		this.destroy$.complete()
+	}
+
 	onSectionSelect(): void {
 		const selectedIds =
 			this.learningSituationForm.get('classSections')?.value || [];
-		this.selectedClassSections = this.allClassSections.filter((s) =>
+		this.selectedClassSections = this.allClassSections().filter((s) =>
 			selectedIds.includes(s._id),
 		);
 
@@ -946,7 +955,7 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 		}
 
 		const plan: any = {
-			user: this.User?._id,
+			user: this.user()?._id,
 			sections: this.learningSituationForm.get('classSections')?.value,
 			duration: this.unitPlanForm.value.duration,
 			learningSituation: this.learningSituation.value,
@@ -969,7 +978,6 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 			evaluationActivities: flatActivities('evaluation'),
 		};
 		this.plan = plan;
-		console.log('Sent to api:', plan);
 		this.savePlan();
 	}
 

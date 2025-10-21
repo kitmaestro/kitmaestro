@@ -40,58 +40,32 @@
 		<mat-tab-group>
 			<mat-tab label="Planificación">
 				<div class="container">
-					<div class="apps-grid">
-						@for (tool of planningTools; track $index) {
-							<app-tile [app]="tool" />
-						}
-					</div>
+					<app-tool-gallery [tools]="planningTools" category="Planificación" />
 				</div>
 			</mat-tab>
 			<mat-tab label="Evaluación">
 				<div class="container">
-					<div class="apps-grid">
-						@for (tool of assessmentTools; track $index) {
-							<app-tile [app]="tool" />
-						}
-					</div>
+					<app-tool-gallery [tools]="assessmentTools" category="Evaluación" />
 				</div>
 			</mat-tab>
 			<mat-tab label="Recursos">
 				<div class="container">
-					<div
-						class="apps-grid"
-					>
-						@for (tool of resourcesTools; track $index) {
-							<app-tile [app]="tool" />
-						}
-					</div>
+					<app-tool-gallery [tools]="resourcesTools" category="Recursos" />
 				</div>
 			</mat-tab>
 			<mat-tab label="Registro">
 				<div class="container">
-					<div class="apps-grid">
-						@for (tool of registryTools; track $index) {
-							<app-tile [app]="tool" />
-						}
-					</div>
+					<app-tool-gallery [tools]="registryTools" category="Registro" />
 				</div>
 			</mat-tab>
 			<mat-tab label="Actividades">
 				<div class="container">
-					<div class="apps-grid">
-						@for (tool of activitiesTools; track $index) {
-							<app-tile [app]="tool" />
-						}
-					</div>
+					<app-tool-gallery [tools]="activitiesTools" category="Actividades" />
 				</div>
 			</mat-tab>
 			<mat-tab label="Apoyo y Soporte">
 				<div class="container">
-					<div class="apps-grid">
-						@for (tool of supportTools; track $index) {
-							<app-tile [app]="tool" />
-						}
-					</div>
+					<app-tool-gallery [tools]="supportTools" category="Apoyo y Soporte" />
 				</div>
 			</mat-tab>
 		</mat-tab-group>

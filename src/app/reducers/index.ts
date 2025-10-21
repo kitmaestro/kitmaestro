@@ -23,8 +23,10 @@ import {
   UnitPlansState,
   unitPlansReducer,
 } from '../store';
+import { BaseRouterStoreState, routerReducer } from '@ngrx/router-store';
 
 export interface State {
+  router: BaseRouterStoreState,
   auth: AuthState,
   users: UsersState,
   classPlans: ClassPlanState,
@@ -37,6 +39,7 @@ export interface State {
 }
 
 export const reducers: ActionReducerMap<State> = {
+  router: routerReducer,
   auth: authReducer,
   users: usersReducer,
   classPlans: classPlansReducer,

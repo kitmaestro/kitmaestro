@@ -42,6 +42,7 @@ export interface UnitPlansState {
     unitPlans: UnitPlan[]
     selectedPlan: UnitPlan | null
     error: string | null
+    totalPlans: number
     status: UnitPlanStateStatus
 }
 
@@ -49,5 +50,6 @@ export const initialUnitPlansState: UnitPlansState = {
     unitPlans: [],
     selectedPlan: null,
     error: null,
+    totalPlans: 0,
     status: UnitPlanStateStatus.IDLING,
 }

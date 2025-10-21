@@ -1,6 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { MatCardModule } from '@angular/material/card'
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar'
 import {
 	FormBuilder,
@@ -15,12 +13,9 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
 import { MatInputModule } from '@angular/material/input'
 import { MatChipsModule } from '@angular/material/chips'
-import { Router, RouterModule } from '@angular/router'
+import { RouterModule } from '@angular/router'
 import { CdkStepperModule } from '@angular/cdk/stepper'
 import { AiService } from '../../../core/services/ai.service'
-import { UnitPlanService } from '../../../core/services/unit-plan.service'
-import { UserService } from '../../../core/services/user.service'
-import { User } from '../../../core'
 import { KINDER_CONTENT_BLOCKS } from '../../../core/data/kinder-content-blocks'
 
 import {
@@ -47,10 +42,8 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 	selector: 'app-unit-plan-generator-inicial',
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
 		MatSnackBarModule,
-		MatCardModule,
 		MatStepperModule,
 		CdkStepperModule,
 		MatFormFieldModule,
@@ -64,24 +57,24 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 	],
 	template: `
 		<app-is-premium minSubscriptionType="Plan Plus">
-			<mat-card>
-				<mat-card-header class="header">
+			<div>
+				<div class="header">
 					<div class="header-text">
 						<mat-icon class="header-icon">child_care</mat-icon>
-						<h2 class="title" mat-card-title>
+						<h2 class="title">
 							Generador de Unidades para Nivel Inicial
 						</h2>
 					</div>
 					<button
 						class="title-button"
-						mat-flat-button
-						[routerLink]="['/unit-plans', 'list']"
+						mat-button
+						routerLink="/planning/unit-plans/list"
 						color="accent"
 					>
 						Ver mis Planes
 					</button>
-				</mat-card-header>
-				<mat-card-content>
+				</div>
+				<div>
 					<mat-stepper linear #stepper>
 						<!-- PASO 1: DEFINICIÓN DE LA UNIDAD -->
 						<mat-step [stepControl]="infoForm">
@@ -127,10 +120,11 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 								</div>
 								<div class="stepper-actions">
 									<button
-										mat-raised-button
+										mat-button
 										color="primary"
 										matStepperNext
 									>
+										<mat-icon>arrow_forward</mat-icon>
 										Siguiente
 									</button>
 								</div>
@@ -201,22 +195,23 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 
 								<div class="stepper-actions generation-actions">
 									<button mat-button matStepperPrevious>
+										<mat-icon>arrow_back</mat-icon>
 										Anterior
 									</button>
 									<button
 										[disabled]="generating"
-										mat-raised-button
-					matStepperNext
+										mat-flat-button
+										matStepperNext
 										color="accent"
 										(click)="generateFullPlan()"
 									>
-										<mat-icon>auto_awesome</mat-icon>
+										<mat-icon>bolt</mat-icon>
 										{{
 											generating
 												? 'Generando Plan'
 												: planGenerado
 													? 'Regenerar Plan'
-													: 'Generar Plan Completo'
+													: 'Generar Plan'
 										}}
 									</button>
 								</div>
@@ -229,206 +224,184 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 								>Plan de Unidad Generado</ng-template
 							>
 
-							<div
-								*ngIf="!planGenerado && !generating"
-								class="placeholder"
-							>
-								<mat-icon>history_edu</mat-icon>
-								<p>
-									Tu plan de unidad aparecerá aquí una vez
-									generado.
-								</p>
-								<p>
-									Vuelve al paso anterior y haz clic en "Generar
-									Plan Completo".
-								</p>
-							</div>
-
-							<div *ngIf="generating" class="placeholder">
-								<span class="spinner large"></span>
-								<p>
-									Estamos creando tu plan de unidad... Esto puede
-									tardar un momento.
-								</p>
-							</div>
-
-							<div *ngIf="planGenerado" class="plan-display">
-								<!-- Situación de Aprendizaje -->
-								<section class="plan-section">
-									<h3>Situación de Aprendizaje</h3>
-									<h4>{{ planGenerado.tituloSituacion }}</h4>
-									<p>{{ planGenerado.situacionAprendizaje }}</p>
-								</section>
-
-								<!-- Cuadro de Anticipación -->
-								<section class="plan-section">
-									<h3>Cuadro de Anticipación</h3>
-									<div class="anticipacion-grid">
-										<div class="anticipacion-col">
-											<h4>¿Qué sabemos?</h4>
-											<ul>
-												<li
-													*ngFor="
-														let item of planGenerado
-															.cuadroAnticipacion
-															.queSabemos
-													"
-												>
-													{{ item }}
-												</li>
-											</ul>
-										</div>
-										<div class="anticipacion-col">
-											<h4>¿Qué queremos saber?</h4>
-											<ul>
-												<li
-													*ngFor="
-														let item of planGenerado
-															.cuadroAnticipacion
-															.queQueremosSaber
-													"
-												>
-													{{ item }}
-												</li>
-											</ul>
-										</div>
-										<div class="anticipacion-col">
-											<h4>¿Cómo lo vamos a saber?</h4>
-											<ul>
-												<li
-													*ngFor="
-														let item of planGenerado
-															.cuadroAnticipacion
-															.comoLoSaberemos
-													"
-												>
-													{{ item }}
-												</li>
-											</ul>
-										</div>
-									</div>
-								</section>
-
-								<!-- Detalles por Dominio -->
-								<section
-									class="plan-section"
-									*ngFor="
-										let dominio of planGenerado.planDetalladoPorDominio
-									"
-								>
-									<h3>
-										Dominio:
-										{{ getDominioLabel(dominio.dominio) }}
-									</h3>
-									<div class="dominio-details">
-										<p>
-											<strong
-												>Competencia Fundamental:</strong
-											>
-											{{ dominio.competenciaFundamental }}
-										</p>
-										<p>
-											<strong>Competencia Específica:</strong>
-											{{ dominio.competenciaEspecifica }}
-										</p>
-										<h4>Contenidos:</h4>
-										<ul>
-											<li>
-												<strong>Conceptuales:</strong>
-												{{
-													dominio.contenidos.conceptos.join(
-														', '
-													)
-												}}
-											</li>
-											<li>
-												<strong>Procedimentales:</strong>
-												{{
-													dominio.contenidos.procedimientos.join(
-														', '
-													)
-												}}
-											</li>
-											<li>
-												<strong
-													>Actitudes y Valores:</strong
-												>
-												{{
-													dominio.contenidos.actitudesValores.join(
-														', '
-													)
-												}}
-											</li>
-										</ul>
-										<p>
-											<strong>Indicadores de Logro:</strong>
-											{{
-												dominio.indicadoresDeLogro.join(
-													' | '
-												)
-											}}
-										</p>
-									</div>
-								</section>
-
-								<!-- Secuencia de Actividades -->
-								<section class="plan-section">
-									<h3>Secuencia Didáctica Sugerida</h3>
-									<div
-										class="actividad-card"
-										*ngFor="
-											let act of planGenerado.secuenciaActividades
-										"
-									>
-										<h4>
-											Semana {{ act.semana }}:
-											{{ act.titulo }}
-										</h4>
-										<p>
-											<strong>Inicio:</strong>
-											{{ act.inicio }}
-										</p>
-										<p>
-											<strong>Desarrollo:</strong>
-											{{ act.desarrollo }}
-										</p>
-										<p>
-											<strong>Cierre:</strong>
-											{{ act.cierre }}
-										</p>
-										<p>
-											<strong>Recursos:</strong>
-											<mat-chip-listbox
-												><mat-chip
-													*ngFor="let res of act.recursos"
-													>{{ res }}</mat-chip
-												></mat-chip-listbox
-											>
-										</p>
-									</div>
-								</section>
-
-								<div class="stepper-actions final-actions">
-									<button mat-button matStepperPrevious>
-										Atrás
-									</button>
-									<button
-										mat-raised-button
-										color="primary"
-										(click)="saveDocx()"
-										[disabled]="saving"
-									>
-										<mat-icon>save</mat-icon>
-										{{
-											saving ? 'Guardando...' : 'Guardar Plan'
-										}}
-									</button>
+							@if (!planGenerado && !generating) {
+								<div class="placeholder">
+									<mat-icon>history_edu</mat-icon>
+									<p>
+										Tu plan de unidad aparecerá aquí una vez
+										generado.
+									</p>
+									<p>
+										Vuelve al paso anterior y haz clic en "Generar Plan".
+									</p>
 								</div>
-							</div>
+							}
+
+							@if (generating) {
+								<div class="placeholder">
+									<span class="spinner large"></span>
+									<p>
+										Estamos creando tu plan de unidad... Esto puede
+										tardar un momento.
+									</p>
+								</div>
+							}
+
+							@if (planGenerado) {
+								<div class="plan-display">
+									<!-- Situación de Aprendizaje -->
+									<section class="plan-section">
+										<h3>Situación de Aprendizaje</h3>
+										<h4>{{ planGenerado.tituloSituacion }}</h4>
+										<p>{{ planGenerado.situacionAprendizaje }}</p>
+									</section>
+	
+									<!-- Cuadro de Anticipación -->
+									<section class="plan-section">
+										<h3>Cuadro de Anticipación</h3>
+										<div class="anticipacion-grid">
+											<div class="anticipacion-col">
+												<h4>¿Qué sabemos?</h4>
+												<ul>
+													@for (item of planGenerado.cuadroAnticipacion.queSabemos; track $index) {
+														<li>{{ item }}</li>
+													}
+												</ul>
+											</div>
+											<div class="anticipacion-col">
+												<h4>¿Qué queremos saber?</h4>
+												<ul>
+													@for (item of planGenerado.cuadroAnticipacion.queQueremosSaber; track $index) {
+														<li>{{ item }}</li>
+													}
+												</ul>
+											</div>
+											<div class="anticipacion-col">
+												<h4>¿Cómo lo vamos a saber?</h4>
+												<ul>
+													@for (item of planGenerado.cuadroAnticipacion.comoLoSaberemos; track $index) {
+														<li>{{ item }}</li>
+													}
+												</ul>
+											</div>
+										</div>
+									</section>
+	
+									<!-- Detalles por Dominio -->
+									@for (dominio of planGenerado.planDetalladoPorDominio; track $index) {
+										<section class="plan-section">
+											<h3>
+												Dominio:
+												{{ getDominioLabel(dominio.dominio) }}
+											</h3>
+											<div class="dominio-details">
+												<p>
+													<strong
+														>Competencia Fundamental:</strong
+													>
+													{{ dominio.competenciaFundamental }}
+												</p>
+												<p>
+													<strong>Competencia Específica:</strong>
+													{{ dominio.competenciaEspecifica }}
+												</p>
+												<h4>Contenidos:</h4>
+												<ul>
+													<li>
+														<strong>Conceptuales:</strong>
+														{{
+															dominio.contenidos.conceptos.join(
+																', '
+															)
+														}}
+													</li>
+													<li>
+														<strong>Procedimentales:</strong>
+														{{
+															dominio.contenidos.procedimientos.join(
+																', '
+															)
+														}}
+													</li>
+													<li>
+														<strong
+															>Actitudes y Valores:</strong
+														>
+														{{
+															dominio.contenidos.actitudesValores.join(
+																', '
+															)
+														}}
+													</li>
+												</ul>
+												<p>
+													<strong>Indicadores de Logro:</strong>
+													{{
+														dominio.indicadoresDeLogro.join(
+															' | '
+														)
+													}}
+												</p>
+											</div>
+										</section>
+									}
+	
+									<!-- Secuencia de Actividades -->
+									<section class="plan-section">
+										<h3>Secuencia Didáctica Sugerida</h3>
+										@for (act of planGenerado.secuenciaActividades; track $index) {
+											<div class="actividad-card">
+												<h4>
+													Semana {{ act.semana }}:
+													{{ act.titulo }}
+												</h4>
+												<p>
+													<strong>Inicio:</strong>
+													{{ act.inicio }}
+												</p>
+												<p>
+													<strong>Desarrollo:</strong>
+													{{ act.desarrollo }}
+												</p>
+												<p>
+													<strong>Cierre:</strong>
+													{{ act.cierre }}
+												</p>
+												<p>
+													<strong>Recursos:</strong>
+													<mat-chip-listbox>
+														@for (res of act.recursos; track $index) {
+															<mat-chip>{{ res }}</mat-chip>
+														}
+													</mat-chip-listbox>
+												</p>
+											</div>
+										}
+									</section>
+	
+									<div class="stepper-actions final-actions">
+										<button mat-button matStepperPrevious>
+											<mat-icon>arrow_back</mat-icon>
+											Atrás
+										</button>
+										<button
+											mat-flat-button
+											color="primary"
+											(click)="saveDocx()"
+											[disabled]="saving"
+										>
+											<mat-icon>download</mat-icon>
+											{{
+												saving ? 'Descargando...' : 'Descargar Plan'
+											}}
+										</button>
+									</div>
+								</div>
+							}
 						</mat-step>
 					</mat-stepper>
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 		</app-is-premium>
 	`,
 	styles: [
@@ -603,7 +576,6 @@ import { createPlan } from '../../../store/unit-plans/unit-plans.actions'
 export class KindergartenUnitPlanGeneratorComponent implements OnInit {
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
-	private router = inject(Router);
 	private aiService = inject(AiService);
 	#store = inject(Store)
 

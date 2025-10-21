@@ -51,6 +51,27 @@ export const planningTools: AppEntry[] = [
         tier: 3,
     },
     {
+        name: 'Plan diario ConBase',
+        description: 'Crea planes de evaluación en base a guias didacticas',
+        link: '/planning/sports-practice-generator',
+        icon: '/assets/conbase-logo.png',
+        tier: 2,
+    },
+    {
+        name: 'Plan diario con secuencias',
+        description: 'Crea planes de evaluación en base a guias didacticas',
+        link: '/planning/sports-practice-generator',
+        icon: '/assets/undraw_teacher_s628.svg',
+        tier: 2,
+    },
+    {
+        name: 'Plan de Evaluación',
+        description: 'Crea planes de evaluación en base a guias didacticas',
+        link: '/planning/evaluation-plan-generator',
+        icon: '/assets/undraw_online-review_08y6.svg',
+        tier: 2,
+    },
+    {
         name: 'Prácticas Deportivas',
         description: 'Obtén planes de entrenamiento detallados para tus clases',
         link: '/planning/sports-practice-generator',

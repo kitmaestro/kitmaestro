@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,14 +12,16 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ClassSection } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { ClassSectionService } from '../../../core/services/class-section.service';
 import { AiService } from '../../../core/services/ai.service';
-import { UserService } from '../../../core/services/user.service';
-import { ClassPlansService } from '../../../core/services/class-plans.service';
-import { User } from '../../../core';
 import { ClassPlan } from '../../../core';
 import { classroomResources } from '../../../config/constants';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { MarkdownComponent } from 'ngx-markdown';
+import { SimpleList } from '../../../shared';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { selectAllClassSections } from '../../../store/class-sections';
+import { Subject, takeUntil } from 'rxjs';
 
 // --- NUEVO PROMPT PARA AULAS MULTIGRADO v2 ---
 export const multigradeClassPlanPrompt = `
@@ -85,7 +86,6 @@ Genera un objeto JSON con la siguiente estructura exacta:
 		CommonModule,
 		RouterModule,
 		ReactiveFormsModule,
-		MatCardModule,
 		MatSnackBarModule,
 		MatButtonModule,
 		MatIconModule,
@@ -97,6 +97,8 @@ Genera un objeto JSON con la siguiente estructura exacta:
 		PretifyPipe,
 		DatePipe,
 		IsPremiumComponent,
+		MarkdownComponent,
+		SimpleList,
 	],
 	template: `
 	<app-is-premium minSubscriptionType="Plan Basico">
@@ -191,9 +193,9 @@ Genera un objeto JSON con la siguiente estructura exacta:
 							></mat-progress-bar>
 						</div>
 
-						<mat-card-actions align="end">
+						<div class="mat-card-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="generating || planForm.invalid"
@@ -201,7 +203,7 @@ Genera un objeto JSON con la siguiente estructura exacta:
 								<mat-icon>bolt</mat-icon>
 								Generar Plan
 							</button>
-						</mat-card-actions>
+						</div>
 					</form>
 
 					<!-- Visualización del Plan Generado -->
@@ -226,8 +228,8 @@ Genera un objeto JSON con la siguiente estructura exacta:
 											</td>
 											<td>
 												<b>Docente</b>:
-												{{ User?.firstname }}
-												{{ User?.lastname }}
+												{{ user()?.firstname }}
+												{{ user()?.lastname }}
 											</td>
 											<td colspan="2">
 												<b>Área Curricular</b>:
@@ -284,19 +286,7 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												{{ generatedPlan.competence }}
 											</td>
 											<td>
-												<ul
-													style="margin: 0; padding-left: 1.2em;"
-												>
-													<li
-														*ngFor="
-															let actividad of generatedPlan
-																.introduction
-																.activities
-														"
-													>
-														{{ actividad }}
-													</li>
-												</ul>
+												<markdown [data]="'- ' + generatedPlan.introduction.activities.join('\n- ')" />
 											</td>
 											<td>
 												{{
@@ -305,19 +295,7 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												}}
 											</td>
 											<td>
-												<ul
-													style="margin: 0; padding-left: 1.2em;"
-												>
-													<li
-														*ngFor="
-															let recurso of generatedPlan
-																.introduction
-																.resources
-														"
-													>
-														- {{ recurso }}
-													</li>
-												</ul>
+												<app-simple-list [items]="generatedPlan.introduction.resources" />
 											</td>
 										</tr>
 										<tr>
@@ -328,35 +306,13 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												Minutos)
 											</td>
 											<td>
-												<ul
-													style="margin: 0; padding-left: 1.2em;"
-												>
-													<li
-														*ngFor="
-															let actividad of generatedPlan
-																.main.activities
-														"
-													>
-														{{ actividad }}
-													</li>
-												</ul>
+												<markdown [data]="'- ' + generatedPlan.main.activities.join('\n- ')" />
 											</td>
 											<td>
 												{{ generatedPlan.main.layout }}
 											</td>
 											<td>
-												<ul
-													style="margin: 0; padding-left: 1.2em;"
-												>
-													<li
-														*ngFor="
-															let recurso of generatedPlan
-																.main.resources
-														"
-													>
-														- {{ recurso }}
-													</li>
-												</ul>
+												<app-simple-list [items]="generatedPlan.main.resources" />
 											</td>
 										</tr>
 										<tr>
@@ -368,19 +324,7 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												Minutos)
 											</td>
 											<td>
-												<ul
-													style="margin: 0; padding-left: 1.2em;"
-												>
-													<li
-														*ngFor="
-															let actividad of generatedPlan
-																.closing
-																.activities
-														"
-													>
-														{{ actividad }}
-													</li>
-												</ul>
+												<markdown [data]="'- ' + generatedPlan.closing.activities.join('\n- ')" />
 											</td>
 											<td>
 												{{
@@ -388,19 +332,7 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												}}
 											</td>
 											<td>
-												<ul
-													style="margin: 0; padding-left: 1.2em;"
-												>
-													<li
-														*ngFor="
-															let recurso of generatedPlan
-																.closing
-																.resources
-														"
-													>
-														- {{ recurso }}
-													</li>
-												</ul>
+												<app-simple-list [items]="generatedPlan.closing.resources" />
 											</td>
 										</tr>
 										<tr>
@@ -411,19 +343,7 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												>
 											</td>
 											<td>
-												<ul
-													style="margin: 0; padding-left: 1.2em;"
-												>
-													<li
-														*ngFor="
-															let actividad of generatedPlan
-																.supplementary
-																.activities
-														"
-													>
-														{{ actividad }}
-													</li>
-												</ul>
+												<markdown [data]="'- ' + generatedPlan.supplementary.activities.join('\n- ')" />
 											</td>
 											<td>
 												{{
@@ -432,19 +352,7 @@ Genera un objeto JSON con la siguiente estructura exacta:
 												}}
 											</td>
 											<td>
-												<ul
-													style="margin: 0; padding-left: 1.2em;"
-												>
-													<li
-														*ngFor="
-															let recurso of generatedPlan
-																.supplementary
-																.resources
-														"
-													>
-														- {{ recurso }}
-													</li>
-												</ul>
+												<app-simple-list [items]="generatedPlan.supplementary.resources" />
 											</td>
 										</tr>
 										<tr>
@@ -477,16 +385,16 @@ Genera un objeto JSON con la siguiente estructura exacta:
 								</table>
 							</div>
 						</div>
-						<p>
+						<p style="background-color: ">
 							<b>Nota</b>:
 							<i
 								>Puedes copiar tu plan y pegarlo en Word para
 								editarlo o imprimirlo.</i
 							>
 						</p>
-						<div class="mat-card-actions" align="end" style="margin-top: 16px;">
+						<div class="mat-card-actions">
 							<button
-								mat-stroked-button
+								mat-flat-button
 								(click)="generatedPlan = null"
 							>
 								Generar Otro Plan
@@ -526,8 +434,11 @@ Genera un objeto JSON con la siguiente estructura exacta:
 			.progress-section {
 				margin-top: 16px;
 			}
-			div.mat-card-actions {
+			.mat-card-actions {
 				padding: 16px 0 0 !important;
+				display: flex;
+				justify-content: end;
+				margin-top: 16px;
 			}
 			.plan-view {
 				margin-top: 24px;
@@ -548,13 +459,11 @@ Genera un objeto JSON con la siguiente estructura exacta:
 export class MultigradeClassPlanGeneratorComponent implements OnInit {
 	sb = inject(MatSnackBar);
 	fb = inject(FormBuilder);
-	classSectionService = inject(ClassSectionService);
 	aiService = inject(AiService);
-	UserService = inject(UserService);
-	classPlanService = inject(ClassPlansService);
+	#store = inject(Store)
 
 	allClassSections: ClassSection[] = [];
-	User: User | null = null;
+	user = this.#store.selectSignal(selectAuthUser)
 	generating = false;
 	generatedPlan: ClassPlan | null = null;
 	classroomResources = classroomResources;
@@ -570,13 +479,15 @@ export class MultigradeClassPlanGeneratorComponent implements OnInit {
 		resources: [['Pizarra', 'Libros de texto']],
 	});
 
+	destroy$ = new Subject<void>()
+
 	ngOnInit(): void {
-		this.UserService
-			.getSettings()
-			.subscribe((settings) => (this.User = settings));
-		this.classSectionService
-			.findSections()
-			.subscribe((sections) => (this.allClassSections = sections));
+		this.#store.select(selectAllClassSections).pipe(takeUntil(this.destroy$)).subscribe((sections) => (this.allClassSections = sections));
+	}
+
+	ngOnDestroy() {
+		this.destroy$.next()
+		this.destroy$.complete()
 	}
 
 	get availableSubjects(): string[] {
@@ -645,7 +556,7 @@ export class MultigradeClassPlanGeneratorComponent implements OnInit {
 				this.generatedPlan = {
 					...parsedPlan,
 					_id: `temp_${Date.now()}`,
-					user: this.User!,
+					user: this.user()!,
 					date: new Date(formValue.date!),
 					section: selectedSections[0], // Usamos la primera sección para referencia
 					subject: formValue.subject!,

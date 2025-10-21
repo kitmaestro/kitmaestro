@@ -29,8 +29,6 @@ import {
 	distinctUntilChanged,
 } from 'rxjs';
 
-// Angular Material Modules
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -41,7 +39,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 // --- Services ---
 import { AiService } from '../../../core/services/ai.service';
-import { ClassSectionService } from '../../../core/services/class-section.service'; // Service for sections
 import { SubjectConceptListService } from '../../../core/services/subject-concept-list.service'; // Service for concepts
 
 // --- Interfaces ---
@@ -53,6 +50,8 @@ import { saveAs } from 'file-saver';
 import { MarkdownComponent } from 'ngx-markdown';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { Store } from '@ngrx/store';
+import { loadSections, selectAllClassSections } from '../../../store/class-sections';
 
 // --- Constants ---
 const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
@@ -63,7 +62,6 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
-		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
 		MatInputModule,
@@ -78,18 +76,12 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
 	// --- Inline Template ---
 	template: `
 	<app-is-premium>
-		<mat-card class="sports-practice-card">
-			<mat-card-header>
-				<mat-card-title
-					>Generador de Prácticas Deportivas</mat-card-title
-				>
-				<mat-card-subtitle
-					>Obtén planes de entrenamiento detallados para tus
-					clases</mat-card-subtitle
-				>
-			</mat-card-header>
+		<div class="sports-practice-card">
+			<div>
+				<h2>Generador de Prácticas Deportivas</h2>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="sportsPracticeForm"
@@ -280,20 +272,24 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-button
 								color="primary"
 								type="submit"
 								[disabled]="
 									sportsPracticeForm.invalid || isGenerating()
 								"
 							>
-								@if (isGenerating()) {
+							@if (isGenerating()) {
+								<div style="display: flex; gap: 8px;">
 									<mat-spinner
 										diameter="20"
 										color="accent"
 										class="inline-spinner"
 									></mat-spinner>
-									Generando...
+									<span>
+										Generando...
+									</span>
+								</div>
 								} @else {
 									<ng-container>
 										<mat-icon>fitness_center</mat-icon>
@@ -316,14 +312,14 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
@@ -338,8 +334,8 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 		</app-is-premium>
 	`,
 	// --- Inline Styles ---
@@ -418,7 +414,7 @@ export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
 	// --- Dependencies ---
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
-	#sectionService = inject(ClassSectionService);
+	#store = inject(Store)
 	#conceptService = inject(SubjectConceptListService); // Renamed for clarity
 	#snackBar = inject(MatSnackBar);
 	#pretify = new PretifyPipe().transform;
@@ -429,7 +425,7 @@ export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
 	isGenerating = signal(false);
 	showResult = signal(false);
 	generatedPlan = signal<string>('');
-	sections = signal<ClassSection[]>([]);
+	sections = this.#store.selectSignal(selectAllClassSections)
 	availableSubjects = signal<string[]>([]);
 	availableConcepts = signal<string[]>([]); // For the discipline dropdown
 
@@ -459,26 +455,25 @@ export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
 		this.#listenForSubjectChanges(); // Listen for subject to load concepts
 		this.#listenForDisciplineConceptChanges(); // Listen for 'Other' selection
 	}
-
+	
 	// --- OnDestroy ---
 	ngOnDestroy(): void {
 		this.#destroy$.next();
 		this.#destroy$.complete();
 	}
-
+	
 	// --- Private Data Loading and Listener Methods ---
-
+	
 	#loadSections(): void {
+		this.#store.dispatch(loadSections())
 		this.isLoadingSections.set(true);
-		this.#sectionService
-			.findSections()
+		this.#store.select(selectAllClassSections)
 			.pipe(
 				takeUntil(this.#destroy$),
-				tap((sections) => this.sections.set(sections || [])),
 				catchError((error) =>
 					this.#handleError(error, 'Error al cargar las secciones.'),
 				),
-				finalize(() => this.isLoadingSections.set(false)),
+				tap(() => this.isLoadingSections.set(false)),
 			)
 			.subscribe();
 	}

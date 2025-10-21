@@ -1,8 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -12,20 +10,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { UnitPlan } from '../../../core/models';
-import { UnitPlanService } from '../../../core/services/unit-plan.service';
-import { ClassPlansService } from '../../../core/services/class-plans.service';
 import { AiService } from '../../../core/services/ai.service';
-import { UserService } from '../../../core/services/user.service';
 import {
 	ClassPlan,
 	ClassSection,
-	User,
 } from '../../../core';
 import { classroomResources } from '../../../config/constants';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { Store } from '@ngrx/store';
-import { selectAuthUser } from '../../../store/auth/auth.selectors';
-import { loadPlans, selectAllUnitPlans } from '../../../store/unit-plans';
+import { selectAuthUser, loadPlans, selectAllUnitPlans, selectUnitPlansIsLoading, createClassPlan, loadPlansSuccess } from '../../../store';
 
 const classPlanPrompt = `
 Eres un docente experto diseñando planes de clase diarios.
@@ -63,10 +56,8 @@ interface PlanToGenerate {
 	selector: 'app-daily-plan-batch-generator',
 	standalone: true,
 	imports: [
-		CommonModule,
 		RouterModule,
 		ReactiveFormsModule,
-		MatCardModule,
 		MatSnackBarModule,
 		MatButtonModule,
 		MatProgressBarModule,
@@ -79,17 +70,13 @@ interface PlanToGenerate {
 	template: `
 		<app-is-premium minSubscriptionType="Plan Plus">
 			<div class="container">
-				<mat-card>
+				<div>
 					@if (!unitPlanInput) {
-						<mat-card-header class="header"
-							><mat-card-title
-								><h2>
-									Generador por Lotes de Planes Diarios
-								</h2></mat-card-title
-							></mat-card-header
-						>
+						<div class="header">
+							<h2>Generador por Lotes de Planes Diarios</h2>
+						</div>
 					}
-					<mat-card-content>
+					<div>
 						<form
 							[formGroup]="generatorForm"
 							(ngSubmit)="generateDailyPlansBatch()"
@@ -100,69 +87,56 @@ interface PlanToGenerate {
 										>Unidad de Aprendizaje Base</mat-label
 									>
 									<mat-select formControlName="unitPlan">
-										<mat-option *ngIf="isLoadingUnits"
-											>Cargando unidades...</mat-option
-										>
-										<mat-option
-											*ngFor="let plan of allUnitPlans"
-											[value]="plan._id"
-											>{{ plan.title }}</mat-option
-										>
+										@if (isLoadingUnits()) {
+											<mat-option>Cargando unidades...</mat-option>
+										}
+										@for (plan of allUnitPlans(); track $index) {
+											<mat-option [value]="plan._id">{{ plan.title }}</mat-option>
+										}
 									</mat-select>
 								</mat-form-field>
 							}
 							<mat-form-field appearance="outline">
 								<mat-label>Estilo de Enseñanza</mat-label>
 								<mat-select formControlName="teachingStyle">
-									<mat-option
-										*ngFor="let style of teachingStyles"
-										[value]="style.id"
-										>{{ style.label }}</mat-option
-									>
+									@for (style of teachingStyles; track $index) {
+										<mat-option [value]="style.id">{{ style.label }}</mat-option>
+									}
 								</mat-select>
 							</mat-form-field>
 							<div class="resource-section">
-								<mat-label>Recursos Disponibles</mat-label>
+								<mat-label><b>Recursos Disponibles</b></mat-label>
 								<mat-chip-listbox
 									formControlName="resources"
 									multiple
 								>
-									<mat-chip-option
-										*ngFor="let resource of availableResources"
-										[value]="resource"
-										>{{ resource }}</mat-chip-option
-									>
+									@for (resource of availableResources; track $index) {
+										<mat-chip-option [value]="resource">{{ resource }}</mat-chip-option>
+									}
 								</mat-chip-listbox>
 							</div>
-							<div *ngIf="isGenerating" class="progress-section">
-								<p>Generando planes diarios, por favor espere...</p>
-								<mat-progress-bar
-									mode="determinate"
-									[value]="
-										(plansGenerated / totalPlansToGenerate) *
-										100
-									"
-								></mat-progress-bar>
-								<p class="progress-label">
-									{{ plansGenerated }} /
-									{{ totalPlansToGenerate }} planes generados
-								</p>
-							</div>
-							<mat-card-actions align="end">
+							@if (isGenerating) {
+								<div class="progress-section">
+									<p>Generando planes diarios, por favor espere...</p>
+									<mat-progress-bar
+										mode="determinate"
+										[value]="
+											(plansGenerated / totalPlansToGenerate) *
+											100
+										"
+									></mat-progress-bar>
+									<p class="progress-label">
+										{{ plansGenerated }} /
+										{{ totalPlansToGenerate }} planes generados
+									</p>
+								</div>
+							}
+							<div class="mat-card-actions">
 								<button
-									mat-stroked-button
-									[routerLink]="['/unit-plans', 'list']"
-									type="button"
-								>
-									Volver
-								</button>
-								<button
-									mat-raised-button
+									mat-flat-button
 									color="primary"
 									type="submit"
-									[disabled]="
-										isGenerating || generatorForm.invalid
-									"
+									[disabled]="isGenerating || generatorForm.invalid"
 								>
 									<mat-icon>bolt</mat-icon>
 									{{
@@ -171,10 +145,10 @@ interface PlanToGenerate {
 											: 'Iniciar Generación'
 									}}
 								</button>
-							</mat-card-actions>
+							</div>
 						</form>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			</div>
 		</app-is-premium>
 	`,
@@ -185,7 +159,7 @@ interface PlanToGenerate {
 				max-width: 1400px;
 				margin: 24px auto;
 			}
-			mat-card-content form {
+			div form {
 				display: flex;
 				flex-direction: column;
 				gap: 16px;
@@ -209,7 +183,9 @@ interface PlanToGenerate {
 				font-weight: 500;
 				color: #666;
 			}
-			mat-card-actions {
+			div.mat-card-actions {
+				display: flex;
+				justify-content: end;
 				padding: 16px 0 0 !important;
 				gap: 8px;
 			}
@@ -221,16 +197,14 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 	private router = inject(Router);
 	private sb = inject(MatSnackBar);
 	private fb = inject(FormBuilder);
-	private unitPlanService = inject(UnitPlanService);
-	private classPlanService = inject(ClassPlansService);
 	private aiService = inject(AiService);
 	private pretifyPipe = new PretifyPipe().transform;
 	#store = inject(Store)
 
 	user = this.#store.selectSignal(selectAuthUser)
-	allUnitPlans: UnitPlan[] = [];
+	allUnitPlans = this.#store.selectSignal(selectAllUnitPlans)
 
-	isLoadingUnits = true;
+	isLoadingUnits = this.#store.selectSignal(selectUnitPlansIsLoading)
 	isGenerating = false;
 	plansGenerated = 0;
 	totalPlansToGenerate = 0;
@@ -259,23 +233,12 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 			this.generatorForm.get('resources')?.setValue(resources);
 		}
 		if (this.unitPlanInput) {
-			this.allUnitPlans = [this.unitPlanInput];
+			this.#store.dispatch(loadPlansSuccess({ plans: [this.unitPlanInput] }));
 			this.generatorForm
 				.get('unitPlan')
 				?.setValue(this.unitPlanInput._id);
-			this.isLoadingUnits = false;
 		} else {
 			this.#store.dispatch(loadPlans())
-			this.#store.select(selectAllUnitPlans).subscribe({
-				next: (plans) => {
-					this.allUnitPlans = plans;
-					this.isLoadingUnits = false;
-				},
-				error: () =>
-					this.handleError(
-						'No se pudieron cargar las unidades de aprendizaje.',
-					),
-			});
 		}
 	}
 
@@ -289,7 +252,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 			JSON.stringify(this.generatorForm.value.resources),
 		);
 
-		const selectedUnitPlan = this.allUnitPlans.find(
+		const selectedUnitPlan = this.allUnitPlans().find(
 			(p) => p._id === this.generatorForm.value.unitPlan,
 		);
 
@@ -352,7 +315,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 		this.sb.open('¡Planes diarios generados y guardados con éxito!', 'Ok', {
 			duration: 5000,
 		});
-		this.router.navigate(['/class-plans', 'list']);
+		this.router.navigateByUrl('/planning/class-plans/list');
 	}
 
 	private sequenceActivitiesForUnit(
@@ -453,7 +416,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 			unitPlan: unitPlan._id,
 		};
 
-		await this.classPlanService.addPlan(newPlan as ClassPlan).toPromise();
+		this.#store.dispatch(createClassPlan({ plan: newPlan }))
 	}
 
 	// --- Métodos de Cálculo y Ayuda (sin cambios) ---
@@ -549,6 +512,5 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 	private handleError(message: string): void {
 		this.sb.open(message, 'Ok', { duration: 5000 });
 		this.isGenerating = false;
-		this.isLoadingUnits = false;
 	}
 }

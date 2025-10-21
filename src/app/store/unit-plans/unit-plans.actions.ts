@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store'
-import { UnitPlan } from '../../core/models'
+import { ClassPlan, UnitPlan, User } from '../../core/models'
 import { UnitPlanDto } from './unit-plans.models'
 
 // Load a single plan
@@ -13,6 +13,19 @@ export const loadPlanSuccess = createAction(
 )
 export const loadPlanFailed = createAction(
     '[Unit Plans] Load Plan Failed',
+    props<{ error: string }>(),
+)
+
+// Load a single plan
+export const countPlans = createAction(
+    '[Unit Plans] Count Plans',
+)
+export const countPlansSuccess = createAction(
+    '[Unit Plans] Count Plans Success',
+    props<{ plans: number }>(),
+)
+export const countPlansFailed = createAction(
+    '[Unit Plans] Count Plans Failed',
     props<{ error: string }>(),
 )
 
@@ -66,5 +79,18 @@ export const deletePlanSuccess = createAction(
 )
 export const deletePlanFailed = createAction(
     '[Unit Plans] Delete Plan Failed',
+    props<{ error: string }>(),
+)
+
+// Download a plan
+export const downloadPlan = createAction(
+    '[Unit Plans] Download Plan',
+    props<{ plan: UnitPlan, classPlans: ClassPlan[], user: User }>(),
+)
+export const downloadPlanSuccess = createAction(
+    '[Unit Plans] Download Plan Success',
+)
+export const downloadPlanFailed = createAction(
+    '[Unit Plans] Download Plan Failed',
     props<{ error: string }>(),
 )

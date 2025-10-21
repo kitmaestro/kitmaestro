@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { catchError, switchMap, map, of } from 'rxjs'
+import { catchError, switchMap, map, of, from } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { UnitPlanService } from '../../core/services'
 import * as UnitPlansActions from './unit-plans.actions'
@@ -96,4 +96,18 @@ export class UnitPlansEffects {
             ),
         ),
     )
+
+    downloadPlan$ = createEffect(() => this.#actions$.pipe(
+        ofType(UnitPlansActions.downloadPlan),
+        switchMap(({ plan, classPlans, user }) => from(this.#unitPlanService.download(plan, classPlans, user)).pipe(
+            map(() => {
+                this.#sb.open('El plan esta siendo descargado', 'Ok', timing)
+                return UnitPlansActions.downloadPlanSuccess()
+            }),
+            catchError(error => {
+                this.#sb.open('Error al descargar el plan de unidad', 'Ok', timing)
+                return of(UnitPlansActions.deletePlanFailed({ error: error.message }))
+            }),
+        ))
+    ))
 }

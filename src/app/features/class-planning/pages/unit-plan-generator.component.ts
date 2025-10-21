@@ -981,7 +981,7 @@ export class UnitPlanGeneratorComponent implements OnInit {
 			ofType(createPlanSuccess),
 			tap(({ plan }) => {
 				this.router
-					.navigate(['/unit-plans', plan._id])
+					.navigate(['/planning/unit-plans', plan._id])
 					.then(() => {
 						this.sb.open(
 							'Tu unidad multigrado ha sido guardada!',

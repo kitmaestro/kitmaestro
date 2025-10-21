@@ -10,7 +10,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AppTileComponent } from '../../shared/ui/app-tile.component';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../core';
 import { MatChipsModule } from '@angular/material/chips';
@@ -21,6 +20,7 @@ import { forkJoin } from 'rxjs';
 import { ClassSectionService } from '../../core/services/class-section.service';
 import { ClassSection } from '../../core';
 import { activitiesTools, assessmentTools, planningTools, registryTools, resourcesTools, supportTools } from '../../config';
+import { ToolGalleryComponent } from './tool-gallery.component';
 
 @Component({
 	selector: 'app-home',
@@ -36,10 +36,10 @@ import { activitiesTools, assessmentTools, planningTools, registryTools, resourc
 		MatButtonModule,
 		ReactiveFormsModule,
 		MatInputModule,
-		AppTileComponent,
 		ReactiveFormsModule,
 		MatChipsModule,
 		MatTabsModule,
+		ToolGalleryComponent,
 	],
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss',
