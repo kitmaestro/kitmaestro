@@ -1,8 +1,5 @@
-import { CommonModule } from '@angular/common';
 import {
 	Component,
-	EventEmitter,
-	Output,
 	inject,
 	OnInit,
 	input,
@@ -10,61 +7,57 @@ import {
 	isDevMode,
 	ChangeDetectionStrategy,
 	effect,
-} from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { map } from 'rxjs';
-import { UserSubscriptionService } from '../../core/services/user-subscription.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+} from '@angular/core'
+import { MatButtonModule } from '@angular/material/button'
+import { MatCardModule } from '@angular/material/card'
+import { map } from 'rxjs'
+import { UserSubscriptionService } from '../../core/services/user-subscription.service'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { Store } from '@ngrx/store'
+import { selectCurrentSubscription } from '../../store/user-subscriptions/user-subscriptions.selectors'
+import { loadCurrentSubscription, subscribe } from '../../store/user-subscriptions/user-subscriptions.actions'
+import { MatDialog, MatDialogModule } from '@angular/material/dialog'
+import { BankAccountComponent } from './bank-account.component'
 
-// Esta declaración es necesaria para que TypeScript no se queje del objeto global de PayPal
-declare const paypal: any;
+declare const paypal: any
 
-// Definimos un tipo para los planes para mayor seguridad y autocompletado
-type PlanType = 'Plan Basico' | 'Plan Plus' | 'Plan Premium';
+type PlanType = 'Plan Basico' | 'Plan Plus' | 'Plan Premium'
 
 interface PricingPlan {
-	id: string;
-	name: string;
-	code: PlanType;
-	price: number;
-	level: number;
-	features: string[];
-	container: string;
+	id: string
+	name: string
+	code: PlanType
+	price: number
+	level: number
+	features: string[]
+	container: string
 }
 
 @Component({
 	selector: 'app-is-premium',
-	imports: [CommonModule, MatCardModule, MatButtonModule, MatSnackBarModule],
-	standalone: true, // Es buena práctica hacer los componentes standalone
-	changeDetection: ChangeDetectionStrategy.OnPush, // Mejora el rendimiento
+	imports: [MatCardModule, MatButtonModule, MatSnackBarModule, MatDialogModule],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
-		<!-- Contenedor principal que se centra vertical y horizontalmente -->
 		<div class="main-container">
-			<!-- 1. Estado de Carga: Se muestra solo mientras se verifica la suscripción -->
 			@if (loading()) {
 				<div class="spinner-container">
 					<span class="spinner large"></span>
 				</div>
 			} @else {
-				<!-- 2. Estado de Acceso Permitido: Muestra el contenido protegido -->
 				@if (userCanAccess()) {
 					<ng-container>
 						<ng-content></ng-content>
 					</ng-container>
 				} @else {
-					<!-- 3. Estado de "Necesita Mejorar Plan": Muestra las opciones de suscripción -->
 					<div class="upgrade-prompt">
 						<header class="upgrade-header">
 							<h2>Contenido Premium de KitMaestro</h2>
 							<p>
-								Para acceder a esta funcionalidad, necesitas un
-								plan superior. Elige el que mejor se adapte a
-								ti.
+								Para acceder a esta funcionalidad,
+								necesitas un plan superior.
+								Elige el que mejor se adapte a ti.
 							</p>
 						</header>
-
-						<!-- Contenedor de las tarjetas de precios, responsive por defecto -->
 						<div class="plans-wrapper">
 							@for (plan of filteredPlans(); track plan.id) {
 								<div
@@ -93,13 +86,16 @@ interface PricingPlan {
 											<li>{{ feature }}</li>
 										}
 									</ul>
-									<!-- El botón de PayPal se renderizará aquí -->
 									<div
 										class="paypal-button-container"
 										[id]="plan.container"
 									></div>
 								</div>
 							}
+						</div>
+						<div style="text-align: center;">
+							<p>Tambien puedes pagar con transferencia bancaria.</p>
+							<button mat-button (click)="openBankAccount()">Ver Cuenta Bancaria</button>
 						</div>
 					</div>
 				}
@@ -179,7 +175,7 @@ interface PricingPlan {
 		}
 
 		.plan-card.recommended {
-			border-color: #673ab7; /* Color primario de Angular Material */
+			border-color: #005cbb; /* Color primario de Angular Material */
 			border-width: 2px;
 		}
 
@@ -187,7 +183,7 @@ interface PricingPlan {
 			position: absolute;
 			top: 15px;
 			right: -45px;
-			background-color: #673ab7;
+			background-color: #005cbb;
 			color: white;
 			padding: 6px 40px;
 			font-size: 0.8rem;
@@ -251,7 +247,7 @@ interface PricingPlan {
 			height: 18px;
 			border: 3px solid rgba(0, 0, 0, 0.1);
 			border-radius: 50%;
-			border-top-color: #673ab7;
+			border-top-color: #005cbb;
 			animation: spin 1s ease-in-out infinite;
 		}
 		.spinner.large {
@@ -267,20 +263,17 @@ interface PricingPlan {
 	`,
 })
 export class IsPremiumComponent implements OnInit {
-	private userSubscriptionService = inject(UserSubscriptionService);
-	private sb = inject(MatSnackBar);
+	#store = inject(Store)
+	#dialog = inject(MatDialog)
 
-	// INPUT: Define el nivel mínimo de suscripción para acceder al contenido
-	minSubscriptionType = input<PlanType>('Plan Basico');
+	minSubscriptionType = input<PlanType>('Plan Basico')
 
-	// SIGNALS: Gestionan el estado del componente de forma reactiva
-	loading = signal(true);
-	userCanAccess = signal(false);
-	filteredPlans = signal<PricingPlan[]>([]);
+	loading = signal(true)
+	userCanAccess = signal(false)
+	filteredPlans = signal<PricingPlan[]>([])
 
-	private buttonsRendered = false;
+	private buttonsRendered = false
 
-	// Lista de todos los planes disponibles en la plataforma
 	private allPricingPlans: PricingPlan[] = [
 		{
 			id: isDevMode()
@@ -327,31 +320,26 @@ export class IsPremiumComponent implements OnInit {
 			],
 			container: 'premium-plan-button-container',
 		},
-	];
+	]
 
 	constructor() {
-		// Usamos un effect para renderizar los botones de PayPal
-		// solo cuando sea necesario. Se ejecuta cuando cambian las señales de las que depende.
 		effect(() => {
 			if (!this.loading() && !this.userCanAccess()) {
-				// Pequeño timeout para asegurar que el DOM esté listo
-				setTimeout(() => this.renderPaypalButtons(), 100);
+				setTimeout(() => this.renderPaypalButtons(), 100)
 			}
-		});
+		})
 	}
 
 	ngOnInit() {
-		// 1. Determina el nivel de acceso requerido
-		const requiredLevel = this.getlevelForPlan(this.minSubscriptionType());
+		this.#store.dispatch(loadCurrentSubscription())
+		const requiredLevel = this.getlevelForPlan(this.minSubscriptionType())
 
-		// 2. Filtra los planes para mostrar solo los que son viables para el usuario
 		const plansToShow = this.allPricingPlans.filter(
 			(p) => p.level >= requiredLevel,
-		);
-		this.filteredPlans.set(plansToShow);
+		)
+		this.filteredPlans.set(plansToShow)
 
-		// 3. Se suscribe para verificar el estado de la suscripción del usuario
-		this.userSubscriptionService.subscription$
+		this.#store.select(selectCurrentSubscription)
 			.pipe(
 				map((sub) => {
 					if (
@@ -359,44 +347,47 @@ export class IsPremiumComponent implements OnInit {
 						sub.status !== 'active' ||
 						new Date(sub.endDate) < new Date()
 					) {
-						return false;
+						return false
 					}
 					const userAccessLevel = this.getlevelForPlan(
 						sub.subscriptionType as PlanType,
-					);
-					return userAccessLevel >= requiredLevel;
+					)
+					return userAccessLevel >= requiredLevel
 				}),
 			)
 			.subscribe((canAccess) => {
-				// **FIX PARA EL PARPADEO**: Actualizamos ambos signals en el mismo ciclo
-				this.userCanAccess.set(canAccess);
-				this.loading.set(false);
-			});
+				this.userCanAccess.set(canAccess)
+				this.loading.set(false)
+			})
+	}
+
+	openBankAccount() {
+		this.#dialog.open(BankAccountComponent)
 	}
 
 	private getlevelForPlan(plan: PlanType | 'FREE'): number {
 		switch (plan) {
 			case 'Plan Basico':
-				return 2;
+				return 2
 			case 'Plan Plus':
-				return 3;
+				return 3
 			case 'Plan Premium':
-				return 4;
+				return 4
 			default:
-				return 1; // Nivel para 'FREE' o cualquier otro caso
+				return 1
 		}
 	}
 
 	private renderPaypalButtons() {
-		if (this.buttonsRendered) return;
-		this.buttonsRendered = true;
+		if (this.buttonsRendered) return
+		this.buttonsRendered = true
 
 		const style = {
 			shape: 'rect',
 			color: 'gold',
 			layout: 'vertical',
 			label: 'subscribe',
-		};
+		}
 
 		this.filteredPlans().forEach(
 			({ id: plan_id, name, code, price, container }) => {
@@ -413,10 +404,10 @@ export class IsPremiumComponent implements OnInit {
 									name,
 								),
 						})
-						.render(`#${container}`);
+						.render(`#${container}`)
 				}
 			},
-		);
+		)
 	}
 
 	private handleSubscriptionSuccess(
@@ -424,17 +415,6 @@ export class IsPremiumComponent implements OnInit {
 		price: number,
 		planName: string,
 	) {
-		this.userSubscriptionService
-			.subscribe(code, 'PayPal', 30, price)
-			.subscribe(() => {
-				this.sb.open(
-					`¡Felicidades! Tu suscripción al ${planName} ha sido activada.`,
-					'OK',
-					{ duration: 7000 },
-				);
-				// Refresca el estado para que el componente muestre el contenido
-				this.userSubscriptionService.subscription$.subscribe();
-				this.userCanAccess.set(true);
-			});
+		this.#store.dispatch(subscribe({ subscriptionType: code, method: 'PayPal', duration: 30, amount: price }))
 	}
 }
