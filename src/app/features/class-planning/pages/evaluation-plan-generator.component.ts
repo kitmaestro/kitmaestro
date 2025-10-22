@@ -263,13 +263,10 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 					const end = response.response.lastIndexOf('}') + 1
 					const planData = JSON.parse(response.response.substring(start, end));
 					this.generatedPlan = {
-						user: user._id,
-						section: classSection._id,
-						title: plan.title,
-						fundamentalCompetences: planData.fundamentalCompetences,
-						evaluationAreas: planData.evaluationAreas,
-						createdAt: new Date(),
-					};
+						user,
+						unitPlan: plan,
+						evaluationAreas: planData.evaluationAreas
+					} as any;
 					this.sb.open('Planificación generada exitosamente', 'Ok', {
 						duration: 3000,
 					});
@@ -384,11 +381,11 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 					properties: {},
 					children: [
 						new Paragraph({
-							text: this.generatedPlan.title,
+							text: this.generatedPlan.unitPlan.title,
 							heading: 'Title',
 						}),
 						new Paragraph({
-							text: `Generado el: ${this.generatedPlan.createdAt.toLocaleDateString()}`,
+							text: `Generado el: ${new Date(this.generatedPlan.createdAt).toLocaleDateString()}`,
 						}),
 						new Paragraph({ text: '' }),
 						...this.generateDocxContent(this.generatedPlan),
@@ -398,7 +395,7 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 		});
 
 		const blob = await Packer.toBlob(doc);
-		saveAs(blob, `${this.generatedPlan.title}.docx`);
+		saveAs(blob, `${this.generatedPlan.unitPlan.title}.docx`);
 	}
 
 	private generateDocxContent(plan: EvaluationPlan): any[] {
@@ -474,8 +471,8 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 
 	private formatPlanAsText(plan: EvaluationPlan): string {
 		let text = `PLANIFICACIÓN DE EVALUACIÓN\n${'='.repeat(50)}\n\n`;
-		text += `Título: ${plan.title}\n`;
-		text += `Fecha: ${plan.createdAt.toLocaleDateString()}\n\n`;
+		text += `Título: ${plan.unitPlan.title}\n`;
+		text += `Fecha: ${new Date(plan.createdAt).toLocaleDateString()}\n\n`;
 
 		for (const area of plan.evaluationAreas) {
 			text += `ÁREA: ${area.curricularArea}\n`;

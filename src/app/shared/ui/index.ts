@@ -13,6 +13,5 @@ export * from './log-registry-entry-form.component';
 export * from './math-exercise.component';
 export * from './observation-guide.component';
 export * from './quote-dialog.component';
-export * from './resource-form.component';
 export * from './simple-list.component';
 export * from './student-form.component';

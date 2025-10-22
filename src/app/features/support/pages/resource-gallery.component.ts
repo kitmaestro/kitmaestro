@@ -11,7 +11,7 @@ import { DidacticResourceService } from '../../../core/services/didactic-resourc
 import { CommonModule } from '@angular/common';
 import { IsEmptyComponent } from '../../../shared/ui/is-empty.component';
 import { ResourceCardComponent } from '../components/resource-card.component';
-import { ResourceFormComponent } from '../../../shared/ui/resource-form.component';
+import { ResourceFormComponent } from '../components/resource-form.component';
 import { MatIconModule } from '@angular/material/icon';
 import { User } from '../../../core';
 import { DidacticResource } from '../../../core';

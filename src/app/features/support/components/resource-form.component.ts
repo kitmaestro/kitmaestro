@@ -2,8 +2,8 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { DidacticResourceService } from '../../core/services/didactic-resource.service';
-import { DidacticResource } from '../../core/models';
+import { DidacticResourceService } from '../../../core/services/didactic-resource.service';
+import { DidacticResource } from '../../../core/models';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -17,9 +17,10 @@ import {
 	ref,
 	uploadBytesResumable,
 } from '@angular/fire/storage';
-import { AuthService } from '../../core/services/auth.service';
-import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
+import { AuthService } from '../../../core/services/auth.service';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DidacticResourceDto } from '../../../store/didactic-resources/didactic-resources.models';
 
 @Component({
 	selector: 'app-resource-form',
@@ -332,7 +333,7 @@ export class ResourceFormComponent implements OnInit {
 	}
 
 	onSubmit() {
-		const resource: DidacticResource = this.resourceForm.value as any;
+		const resource: DidacticResourceDto = this.resourceForm.value as any;
 
 		resource.keywords = [
 			...resource.grade,

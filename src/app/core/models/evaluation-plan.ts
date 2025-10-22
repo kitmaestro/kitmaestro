@@ -1,10 +1,10 @@
-import { EvaluationArea, FundamentalCompetence } from '../interfaces'
+import { EvaluationArea } from '../interfaces'
+import { BaseModel } from './base-model'
+import { UnitPlan } from './unit-plan'
+import { User } from './user'
 
-export interface EvaluationPlan {
-	user: string;
-	section: string;
-	title: string;
-	fundamentalCompetences: FundamentalCompetence[];
-	evaluationAreas: EvaluationArea[];
-	createdAt: Date;
+export interface EvaluationPlan extends BaseModel {
+	user: User
+	unitPlan: UnitPlan
+	evaluationAreas: EvaluationArea[]
 }

@@ -12,10 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 		<div class="planning-container">
 			<div class="header">
 				<h1>Herramientas de {{ category() }}</h1>
-				<p>
-					Selecciona una herramienta para comenzar a planificar tus
-					clases
-				</p>
+				<p>{{ message() }}</p>
 			</div>
 
 			<div class="tools-grid">
@@ -211,4 +208,5 @@ import { MatButtonModule } from '@angular/material/button';
 export class ToolGalleryComponent {
 	tools = input<AppEntry[]>([]);
 	category = input<string>('');
+	message = input<string>('Selecciona una herramienta para comenzar a potenciar tus clases');
 }

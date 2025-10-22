@@ -1,5 +1,6 @@
-import { isDevMode } from '@angular/core';
-import { ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { isDevMode } from '@angular/core'
+import { ActionReducerMap, MetaReducer } from '@ngrx/store'
+import { BaseRouterStoreState, routerReducer } from '@ngrx/router-store'
 import {
 	AuthState,
 	authReducer,
@@ -19,20 +20,64 @@ import {
 	EstimationScalesState,
 	UnitPlansState,
 	unitPlansReducer,
-} from '../store';
-import { BaseRouterStoreState, routerReducer } from '@ngrx/router-store';
+	CompetenceEntriesState,
+	competenceEntriesReducer,
+	DidacticResourcesState,
+	didacticResourcesReducer,
+	IdeasState,
+	ideasReducer,
+	LogRegistryEntriesState,
+	logRegistryEntriesReducer,
+	ObservationGuidesState,
+	observationGuidesReducer,
+	ReadingActivitiesState,
+	readingActivitiesReducer,
+	RubricsState,
+	rubricsReducer,
+	ScoreSystemsState,
+	scoreSystemsReducer,
+	StudentsState,
+	studentsReducer,
+	TestsState,
+	testsReducer,
+	SubjectConceptListsState,
+	todoListsReducer,
+	subjectConceptListsReducer,
+	TodoListsState,
+	TodosState,
+	todosReducer,
+	UpdatesState,
+	updatesReducer,
+	UserSubscriptionsState,
+	userSubscriptionsReducer,
+} from '../store'
 
 export interface State {
-	router: BaseRouterStoreState;
-	auth: AuthState;
-	users: UsersState;
-	classPlans: ClassPlanState;
-	classSections: ClassSectionsState;
-	checklists: ChecklistsState;
-	contentBlocks: ContentBlocksState;
-	diagnosticEvaluations: DiagnosticEvaluationsState;
-	estimationScales: EstimationScalesState;
-	unitPlans: UnitPlansState;
+	router: BaseRouterStoreState
+	auth: AuthState
+	users: UsersState
+	classPlans: ClassPlanState
+	classSections: ClassSectionsState
+	checklists: ChecklistsState
+	contentBlocks: ContentBlocksState
+	diagnosticEvaluations: DiagnosticEvaluationsState
+	estimationScales: EstimationScalesState
+	unitPlans: UnitPlansState
+	competenceEntries: CompetenceEntriesState,
+	didacticResources: DidacticResourcesState,
+	ideas: IdeasState,
+	logRegistryEntries: LogRegistryEntriesState,
+	observationGuides: ObservationGuidesState,
+	readingActivities: ReadingActivitiesState,
+	rubrics: RubricsState,
+	scoreSystems: ScoreSystemsState,
+	students: StudentsState,
+	tests: TestsState,
+	subjectConceptLists: SubjectConceptListsState,
+	todoLists: TodoListsState,
+	todos: TodosState,
+	updates: UpdatesState,
+	userSubscriptions: UserSubscriptionsState,
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -46,6 +91,21 @@ export const reducers: ActionReducerMap<State> = {
 	diagnosticEvaluations: diagnosticEvaluationsReducer,
 	estimationScales: estimationScalesReducer,
 	unitPlans: unitPlansReducer,
-};
+	competenceEntries: competenceEntriesReducer,
+	didacticResources: didacticResourcesReducer,
+	ideas: ideasReducer,
+	logRegistryEntries: logRegistryEntriesReducer,
+	observationGuides: observationGuidesReducer,
+	readingActivities: readingActivitiesReducer,
+	rubrics: rubricsReducer,
+	scoreSystems: scoreSystemsReducer,
+	students: studentsReducer,
+	tests: testsReducer,
+	subjectConceptLists: subjectConceptListsReducer,
+	todoLists: todoListsReducer,
+	todos: todosReducer,
+	updates: updatesReducer,
+	userSubscriptions: userSubscriptionsReducer,
+}
 
-export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : [];
+export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : []

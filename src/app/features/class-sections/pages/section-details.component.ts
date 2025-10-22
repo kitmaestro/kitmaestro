@@ -24,6 +24,7 @@ import {
 	loadSection,
 	selectCurrentSection,
 } from '../../../store/class-sections';
+import { StudentDto } from '../../../store/students/students.models';
 
 @Component({
 	selector: 'app-section-details',
@@ -220,7 +221,7 @@ export class SectionDetailsComponent implements OnInit {
 	students$: Observable<Student[]> = this.studentService.findBySection(
 		this.id,
 	);
-	students: Student[] = [];
+	students: StudentDto[] = [];
 
 	displayedCols = ['firstname', 'lastname', 'gender', 'birth', 'actions'];
 
@@ -340,7 +341,7 @@ export class SectionDetailsComponent implements OnInit {
 				birth,
 				user: this.uid,
 				section: this.id,
-			} as any;
+			} as StudentDto;
 		});
 
 		this.students.forEach((student) => {

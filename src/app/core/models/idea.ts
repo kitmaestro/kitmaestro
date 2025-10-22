@@ -1,12 +1,12 @@
-import { BaseModel } from './base-model';
-import { User } from './user';
+import { BaseModel } from './base-model'
+import { User } from './user'
 
 export interface Idea extends BaseModel {
-	user: User;
-	title: string;
-	description: string;
+	user: User
+	title: string
+	description: string
 	votes: {
-		user: string;
-		like: boolean;
-	}[];
+		user: string
+		like: boolean
+	}[]
 }

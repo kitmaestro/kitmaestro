@@ -348,12 +348,10 @@ export class TodosComponent implements OnInit {
 	}
 
 	markAsCompleted(todo: Todo) {
-		const completed = todo;
-		completed.completed = !completed.completed;
-		this.todoService.update(todo._id, completed).subscribe({
+		this.todoService.update(todo._id, { completed: !todo.completed }).subscribe({
 			next: () => {
 				this.sb.open(
-					'Pendiente ' + completed.completed
+					'Pendiente ' + todo.completed
 						? 'completado!'
 						: 'pendiente',
 					undefined,

@@ -1,33 +1,33 @@
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { MainTheme } from '../models';
-import { ApiDeleteResponse, ApiUpdateResponse } from '../interfaces';
-import { ApiService } from './api.service';
+import { inject, Injectable } from '@angular/core'
+import { Observable } from 'rxjs'
+import { MainTheme } from '../models'
+import { ApiDeleteResponse } from '../interfaces'
+import { ApiService } from './api.service'
 
 @Injectable({
 	providedIn: 'root',
 })
 export class MainThemeService {
-	#apiService = inject(ApiService);
-	#endpoint = 'main-themes/';
+	#apiService = inject(ApiService)
+	#endpoint = 'main-themes/'
 
 	findAll(filters: any): Observable<MainTheme[]> {
-		return this.#apiService.get<MainTheme[]>(this.#endpoint, filters);
+		return this.#apiService.get<MainTheme[]>(this.#endpoint, filters)
 	}
 
 	find(id: string): Observable<MainTheme> {
-		return this.#apiService.get<MainTheme>(this.#endpoint + id);
+		return this.#apiService.get<MainTheme>(this.#endpoint + id)
 	}
 
-	create(theme: MainTheme): Observable<MainTheme> {
-		return this.#apiService.post<MainTheme>(this.#endpoint, theme);
+	create(theme: Partial<MainTheme>): Observable<MainTheme> {
+		return this.#apiService.post<MainTheme>(this.#endpoint, theme)
 	}
 
-	update(id: string, theme: any): Observable<MainTheme> {
-		return this.#apiService.patch<MainTheme>(this.#endpoint + id, theme);
+	update(id: string, theme: Partial<MainTheme>): Observable<MainTheme> {
+		return this.#apiService.patch<MainTheme>(this.#endpoint + id, theme)
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
 	}
 }

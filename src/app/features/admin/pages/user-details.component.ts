@@ -27,6 +27,7 @@ import { Store } from '@ngrx/store';
 import { loadUser, updateUser } from '../../../store/users/users.actions';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
 import { selectUsersCurrentUser } from '../../../store/users/users.selectors';
+import { UserSubscriptionDto } from '../../../store/user-subscriptions/user-subscriptions.models';
 
 @Component({
 	selector: 'app-section-creator',
@@ -464,7 +465,7 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 				const start = new Date(startDate).toISOString().split('T')[0];
 				const end = new Date(endDate).toISOString().split('T')[0];
 				this.subscriptionForm.patchValue({
-					user,
+					user: user._id,
 					subscriptionType,
 					status,
 					startDate: start,
@@ -505,8 +506,8 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	}
 
 	onSubmit() {
-		const subscription: UserSubscription = this.subscriptionForm
-			.value as unknown as UserSubscription;
+		const subscription: UserSubscriptionDto = this.subscriptionForm
+			.value as unknown as UserSubscriptionDto;
 		this.subscriptionService.create(subscription).subscribe(() => {
 			this.loadUser();
 			this.sb.open('Suscripción creada exitosamente', 'Ok', {

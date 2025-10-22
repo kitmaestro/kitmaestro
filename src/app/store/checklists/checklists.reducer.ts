@@ -4,7 +4,6 @@ import {
 	initialChecklistsState,
 	ChecklistStateStatus,
 } from './checklists.models';
-import { Checklist } from '../../core/models';
 
 export const checklistsReducer = createReducer(
 	initialChecklistsState,

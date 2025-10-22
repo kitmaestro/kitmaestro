@@ -22,7 +22,6 @@ export * from './grading-result';
 export * from './grouped-grading-activity';
 export * from './level-entry';
 export * from './log-entry-boilerplate';
-export * from './log-registry-entry';
 export * from './resource-filter-options';
 export * from './schedule';
 export * from './subject-aspects';
