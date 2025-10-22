@@ -1,54 +1,54 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store'
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
-    SubjectConceptListsState,
-    SubjectConceptListStateStatus,
-} from './subject-concept-lists.models'
+	SubjectConceptListsState,
+	SubjectConceptListStateStatus,
+} from './subject-concept-lists.models';
 
 export const selectSubjectConceptListsState =
-    createFeatureSelector<SubjectConceptListsState>('subjectConceptLists')
+	createFeatureSelector<SubjectConceptListsState>('subjectConceptLists');
 
 export const selectAllLists = createSelector(
-    selectSubjectConceptListsState,
-    state => state.lists,
-)
+	selectSubjectConceptListsState,
+	(state) => state.lists,
+);
 
 export const selectCurrentList = createSelector(
-    selectSubjectConceptListsState,
-    state => state.selectedList,
-)
+	selectSubjectConceptListsState,
+	(state) => state.selectedList,
+);
 
 export const selectListsStatus = createSelector(
-    selectSubjectConceptListsState,
-    state => state.status,
-)
+	selectSubjectConceptListsState,
+	(state) => state.status,
+);
 
 export const selectListsError = createSelector(
-    selectSubjectConceptListsState,
-    state => state.error,
-)
+	selectSubjectConceptListsState,
+	(state) => state.error,
+);
 
 // Selectores de estado booleanos
 export const selectIsLoadingMany = createSelector(
-    selectListsStatus,
-    status => status === SubjectConceptListStateStatus.LOADING_LISTS,
-)
+	selectListsStatus,
+	(status) => status === SubjectConceptListStateStatus.LOADING_LISTS,
+);
 
 export const selectIsLoadingOne = createSelector(
-    selectListsStatus,
-    status => status === SubjectConceptListStateStatus.LOADING_LIST,
-)
+	selectListsStatus,
+	(status) => status === SubjectConceptListStateStatus.LOADING_LIST,
+);
 
 export const selectIsCreating = createSelector(
-    selectListsStatus,
-    status => status === SubjectConceptListStateStatus.CREATING_LIST,
-)
+	selectListsStatus,
+	(status) => status === SubjectConceptListStateStatus.CREATING_LIST,
+);
 
 export const selectIsUpdating = createSelector(
-    selectListsStatus,
-    status => status === SubjectConceptListStateStatus.UPDATING_LIST,
-)
+	selectListsStatus,
+	(status) => status === SubjectConceptListStateStatus.UPDATING_LIST,
+);
 
 export const selectIsDeleting = createSelector(
-    selectListsStatus,
-    status => status === SubjectConceptListStateStatus.DELETING_LIST,
-)
+	selectListsStatus,
+	(status) => status === SubjectConceptListStateStatus.DELETING_LIST,
+);

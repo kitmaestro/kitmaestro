@@ -1,9 +1,9 @@
-import { inject, Injectable } from '@angular/core'
-import { lastValueFrom, Observable } from 'rxjs'
-import { Rubric, Student } from '../models'
-import { ApiDeleteResponse } from '../interfaces'
-import { ApiService } from './api.service'
-import { StudentsService } from './students.service'
+import { inject, Injectable } from '@angular/core';
+import { lastValueFrom, Observable } from 'rxjs';
+import { Rubric, Student } from '../models';
+import { ApiDeleteResponse } from '../interfaces';
+import { ApiService } from './api.service';
+import { StudentsService } from './students.service';
 import {
 	Document,
 	HeadingLevel,
@@ -16,36 +16,36 @@ import {
 	TableRow,
 	TextRun,
 	WidthType,
-} from 'docx'
-import { saveAs } from 'file-saver'
-import { RubricDto } from '../../store/rubrics/rubrics.models'
+} from 'docx';
+import { saveAs } from 'file-saver';
+import { RubricDto } from '../../store/rubrics/rubrics.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class RubricService {
-	#apiService = inject(ApiService)
-	#studentService = inject(StudentsService)
-	#endpoint = 'rubrics/'
+	#apiService = inject(ApiService);
+	#studentService = inject(StudentsService);
+	#endpoint = 'rubrics/';
 
 	findAll(filter?: any): Observable<Rubric[]> {
-		return this.#apiService.get<Rubric[]>(this.#endpoint, filter)
+		return this.#apiService.get<Rubric[]>(this.#endpoint, filter);
 	}
 
 	find(id: string): Observable<Rubric> {
-		return this.#apiService.get<Rubric>(this.#endpoint + id)
+		return this.#apiService.get<Rubric>(this.#endpoint + id);
 	}
 
 	create(plan: Partial<RubricDto>): Observable<Rubric> {
-		return this.#apiService.post<Rubric>(this.#endpoint, plan)
+		return this.#apiService.post<Rubric>(this.#endpoint, plan);
 	}
 
 	update(id: string, plan: Partial<RubricDto>): Observable<Rubric> {
-		return this.#apiService.patch<Rubric>(this.#endpoint + id, plan)
+		return this.#apiService.patch<Rubric>(this.#endpoint + id, plan);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
 	async download(rubric: Rubric) {
@@ -57,44 +57,44 @@ export class RubricService {
 					width: '216mm',
 				},
 			},
-		}
+		};
 		const students = await lastValueFrom(
 			this.#studentService.findBySection(rubric.section._id),
-		)
-		const sections: ISectionOptions[] = []
+		);
+		const sections: ISectionOptions[] = [];
 		const title = new Paragraph({
 			children: [new TextRun({ text: 'Rúbrica' })],
 			heading: HeadingLevel.HEADING_2,
-		})
+		});
 		const subtitle = new Paragraph({
 			children: [new TextRun({ text: rubric.title })],
 			heading: HeadingLevel.HEADING_3,
-		})
+		});
 		const sectionName = new Paragraph({
 			children: [new TextRun({ text: rubric.section.name })],
 			heading: HeadingLevel.HEADING_3,
-		})
+		});
 		const competenceTitle = new Paragraph({
 			children: [new TextRun({ text: 'Competencias Específicas' })],
 			heading: HeadingLevel.HEADING_3,
-		})
+		});
 		const competence: Paragraph[] = rubric.competence.map(
 			(c) => new Paragraph({ text: c, bullet: { level: 0 } }),
-		)
+		);
 		const indicatorsTitle = new Paragraph({
 			children: [new TextRun({ text: 'Indicadores de Logro' })],
 			heading: HeadingLevel.HEADING_3,
-		})
+		});
 		const indicators: Paragraph[] = rubric.achievementIndicators.map(
 			(c) => new Paragraph({ text: c, bullet: { level: 0 } }),
-		)
+		);
 		const activity = new Paragraph({
 			children: [
 				new TextRun({ text: 'Evidencia o Actividad:', bold: true }),
 				new TextRun(rubric.activity),
 			],
-		})
-		const table: { content: Table[] } = {} as any
+		});
+		const table: { content: Table[] } = {} as any;
 		if (students.length) {
 			if (rubric.rubricType !== 'SINTETICA') {
 				table.content = rubric.criteria.flatMap((indicator) => {
@@ -209,8 +209,8 @@ export class RubricService {
 									}),
 							),
 						],
-					})
-				})
+					});
+				});
 				const section: ISectionOptions = {
 					properties,
 					children: [
@@ -226,8 +226,8 @@ export class RubricService {
 						...table.content,
 						new Paragraph(''),
 					],
-				}
-				sections.push(section)
+				};
+				sections.push(section);
 			} else {
 				table.content = [
 					new Table({
@@ -310,7 +310,7 @@ export class RubricService {
 							),
 						],
 					}),
-				]
+				];
 				students.forEach((student) => {
 					const section: ISectionOptions = {
 						properties,
@@ -343,14 +343,14 @@ export class RubricService {
 							...table.content,
 							new Paragraph(''),
 						],
-					}
-					sections.push(section)
-				})
+					};
+					sections.push(section);
+				});
 			}
 		} else {
 			if (rubric.rubricType !== 'SINTETICA') {
 				table.content = rubric.criteria.flatMap((indicator) => {
-					const emptyRowsAmount = 45
+					const emptyRowsAmount = 45;
 					const emptyRowsCells = Array.from({
 						length: rubric.progressLevels.length + 1,
 					}).map(
@@ -367,10 +367,10 @@ export class RubricService {
 									}),
 								],
 							}),
-					)
+					);
 					const emptyRows = Array.from({
 						length: emptyRowsAmount,
-					}).map(() => new TableRow({ children: emptyRowsCells }))
+					}).map(() => new TableRow({ children: emptyRowsCells }));
 					return new Table({
 						width: {
 							size: 100,
@@ -449,8 +449,8 @@ export class RubricService {
 							}),
 							...emptyRows,
 						],
-					})
-				})
+					});
+				});
 			} else {
 				table.content = [
 					new Table({
@@ -524,7 +524,7 @@ export class RubricService {
 							),
 						],
 					}),
-				]
+				];
 			}
 			if (rubric.rubricType !== 'SINTETICA') {
 				const section: ISectionOptions = {
@@ -542,8 +542,8 @@ export class RubricService {
 						...table.content,
 						new Paragraph(''),
 					],
-				}
-				sections.push(section)
+				};
+				sections.push(section);
 			} else {
 				const section: ISectionOptions = {
 					properties,
@@ -571,14 +571,14 @@ export class RubricService {
 						...table.content,
 						new Paragraph(''),
 					],
-				}
-				sections.push(section)
+				};
+				sections.push(section);
 			}
 		}
 		const doc = new Document({
 			sections,
-		})
-		const blob = await Packer.toBlob(doc)
-		saveAs(blob, `${rubric.title} - Rubrica.docx`)
+		});
+		const blob = await Packer.toBlob(doc);
+		saveAs(blob, `${rubric.title} - Rubrica.docx`);
 	}
 }

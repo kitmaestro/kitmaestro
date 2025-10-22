@@ -138,9 +138,7 @@ import {
 					<tbody>
 						<tr>
 							<td>
-								<b>Inicio</b> ({{
-									plan.introduction.duration
-								}}
+								<b>Inicio</b> ({{ plan.introduction.duration }}
 								Minutos)
 							</td>
 							<td rowspan="4">{{ plan.competence }}</td>
@@ -175,9 +173,7 @@ import {
 						</tr>
 						<tr>
 							<td>
-								<b>Desarrollo</b> ({{
-									plan.main.duration
-								}}
+								<b>Desarrollo</b> ({{ plan.main.duration }}
 								Minutos)
 							</td>
 							<td>
@@ -210,9 +206,7 @@ import {
 						</tr>
 						<tr>
 							<td>
-								<b>Cierre</b> ({{
-									plan.closing.duration
-								}}
+								<b>Cierre</b> ({{ plan.closing.duration }}
 								Minutos)
 							</td>
 							<td>

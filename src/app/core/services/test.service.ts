@@ -1,7 +1,7 @@
-import { inject, Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
-import { ApiDeleteResponse } from '../interfaces'
-import { Test } from '../models/test'
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ApiDeleteResponse } from '../interfaces';
+import { Test } from '../models/test';
 import {
 	Document,
 	HeadingLevel,
@@ -13,37 +13,37 @@ import {
 	TableRow,
 	TextRun,
 	WidthType,
-} from 'docx'
-import { saveAs } from 'file-saver'
-import { PretifyPipe } from '../../shared'
-import { ApiService } from './api.service'
-import { TestDto } from '../../store/tests/tests.models'
+} from 'docx';
+import { saveAs } from 'file-saver';
+import { PretifyPipe } from '../../shared';
+import { ApiService } from './api.service';
+import { TestDto } from '../../store/tests/tests.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class TestService {
-	#apiService = inject(ApiService)
-	#enpoint = 'tests/'
+	#apiService = inject(ApiService);
+	#enpoint = 'tests/';
 
 	findAll(filters?: any): Observable<Test[]> {
-		return this.#apiService.get<Test[]>(this.#enpoint, filters)
+		return this.#apiService.get<Test[]>(this.#enpoint, filters);
 	}
 
 	find(id: string): Observable<Test> {
-		return this.#apiService.get<Test>(this.#enpoint + id)
+		return this.#apiService.get<Test>(this.#enpoint + id);
 	}
 
 	create(plan: Partial<TestDto>): Observable<Test> {
-		return this.#apiService.post<Test>(this.#enpoint, plan)
+		return this.#apiService.post<Test>(this.#enpoint, plan);
 	}
 
 	update(id: string, plan: Partial<TestDto>): Observable<Test> {
-		return this.#apiService.patch<Test>(this.#enpoint + id, plan)
+		return this.#apiService.patch<Test>(this.#enpoint + id, plan);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.#apiService.delete<ApiDeleteResponse>(this.#enpoint + id)
+		return this.#apiService.delete<ApiDeleteResponse>(this.#enpoint + id);
 	}
 
 	async download(test: Test) {
@@ -60,54 +60,54 @@ export class TestService {
 						},
 					},
 					children: test.body.split('\n').map((text) => {
-						if (!text || text.startsWith('__')) return this.p('')
+						if (!text || text.startsWith('__')) return this.p('');
 
 						if (text.startsWith('# '))
-							return this.heading(text.slice(2))
+							return this.heading(text.slice(2));
 
 						if (text.startsWith('## '))
 							return this.heading(
 								text.slice(3),
 								HeadingLevel.HEADING_2,
-							)
+							);
 
 						if (text.startsWith('### '))
 							return this.heading(
 								text.slice(4),
 								HeadingLevel.HEADING_3,
-							)
+							);
 
 						if (text.startsWith('#### '))
 							return this.heading(
 								text.slice(5),
 								HeadingLevel.HEADING_4,
-							)
+							);
 
 						if (text.includes('**'))
-							return this.p(text.slice(2), true)
+							return this.p(text.slice(2), true);
 
 						if (text.startsWith('|-'))
 							return this.table(
 								text.slice(1).replaceAll('-', ''),
-							)
+							);
 
 						if (text.startsWith('| '))
-							return this.table(text.slice(1))
+							return this.table(text.slice(1));
 
-						return this.p(text)
+						return this.p(text);
 					}),
 				},
 			],
-		})
-		const blob = await Packer.toBlob(doc)
+		});
+		const blob = await Packer.toBlob(doc);
 		saveAs(
 			blob,
 			`Examen de ${this.pretify(test.subject)} de ${this.pretify(test.section.year)} de ${this.pretify(test.section.level)}.docx`,
-		)
+		);
 	}
 
 	private pretify(str: string) {
-		return new PretifyPipe().transform(str)
+		return new PretifyPipe().transform(str);
 	}
 
 	private heading(
@@ -122,7 +122,7 @@ export class TestService {
 				}),
 			],
 			heading: level,
-		})
+		});
 	}
 
 	private table(text: string): Table {
@@ -134,21 +134,21 @@ export class TestService {
 			rows: text.split('|').map((s) => {
 				return new TableRow({
 					children: [new TableCell({ children: [this.p(s)] })],
-				})
+				});
 			}),
-		})
+		});
 	}
 
 	private p(text: string, bold = false): Paragraph {
 		if (bold) {
-			const sections = text.split('**')
+			const sections = text.split('**');
 			return new Paragraph({
 				children: sections.map((s, i) => {
-					if (i === 0) return new TextRun({ text: s, bold: true })
-					else return new TextRun({ text: s })
+					if (i === 0) return new TextRun({ text: s, bold: true });
+					else return new TextRun({ text: s });
 				}),
-			})
+			});
 		}
-		return new Paragraph({ text })
+		return new Paragraph({ text });
 	}
 }

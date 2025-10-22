@@ -1,12 +1,10 @@
-import { Component, input } from "@angular/core";
-import { EvaluationPlan } from "../../../core/models/evaluation-plan";
-import { MatTableModule } from "@angular/material/table";
+import { Component, input } from '@angular/core';
+import { EvaluationPlan } from '../../../core/models/evaluation-plan';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
 	selector: 'app-evaluation-plan',
-	imports: [
-		MatTableModule,
-	],
+	imports: [MatTableModule],
 	template: `
 		@if (plan(); as plan) {
 			<div style="overflow-x: auto;">
@@ -16,7 +14,9 @@ import { MatTableModule } from "@angular/material/table";
 					class="mat-elevation-z2"
 				>
 					<ng-container matColumnDef="curricularArea">
-						<th mat-header-cell *matHeaderCellDef>Área Curricular</th>
+						<th mat-header-cell *matHeaderCellDef>
+							Área Curricular
+						</th>
 						<td mat-cell *matCellDef="let area">
 							{{ area.curricularArea }}
 						</td>
@@ -46,10 +46,7 @@ import { MatTableModule } from "@angular/material/table";
 				</table>
 			</div>
 
-			@for (
-				area of plan.evaluationAreas;
-				track area.curricularArea
-			) {
+			@for (area of plan.evaluationAreas; track area.curricularArea) {
 				<div style="margin-top: 24px">
 					<h4>{{ area.curricularArea }}</h4>
 					<table
@@ -93,7 +90,9 @@ import { MatTableModule } from "@angular/material/table";
 									<td
 										style="border: 1px solid #ccc; padding: 8px; vertical-align: top"
 									>
-										<ul style="margin: 0; padding-left: 16px">
+										<ul
+											style="margin: 0; padding-left: 16px"
+										>
 											@for (
 												indicator of aspect.indicators;
 												track indicator
@@ -107,7 +106,9 @@ import { MatTableModule } from "@angular/material/table";
 									<td
 										style="border: 1px solid #ccc; padding: 8px; vertical-align: top"
 									>
-										<ul style="margin: 0; padding-left: 16px">
+										<ul
+											style="margin: 0; padding-left: 16px"
+										>
 											@for (
 												criterion of aspect.criteria;
 												track criterion
@@ -121,7 +122,9 @@ import { MatTableModule } from "@angular/material/table";
 									<td
 										style="border: 1px solid #ccc; padding: 8px; vertical-align: top"
 									>
-										<ul style="margin: 0; padding-left: 16px">
+										<ul
+											style="margin: 0; padding-left: 16px"
+										>
 											@for (
 												evidence of aspect.evidences;
 												track evidence.description
@@ -167,5 +170,5 @@ export class EvaluationPlanComponent {
 		'evaluationTypes',
 		'evaluationParticipants',
 	];
-	plan = input<EvaluationPlan | null>(null)
+	plan = input<EvaluationPlan | null>(null);
 }

@@ -208,5 +208,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class ToolGalleryComponent {
 	tools = input<AppEntry[]>([]);
 	category = input<string>('');
-	message = input<string>('Selecciona una herramienta para comenzar a potenciar tus clases');
+	message = input<string>(
+		'Selecciona una herramienta para comenzar a potenciar tus clases',
+	);
 }

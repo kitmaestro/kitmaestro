@@ -1,8 +1,8 @@
-import { inject, Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
-import { ReadingActivity } from '../models'
-import { ApiDeleteResponse } from '../interfaces'
-import { ApiService } from './api.service'
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ReadingActivity } from '../models';
+import { ApiDeleteResponse } from '../interfaces';
+import { ApiService } from './api.service';
 import {
 	AlignmentType,
 	Document,
@@ -12,43 +12,46 @@ import {
 	PageOrientation,
 	Paragraph,
 	TextRun,
-} from 'docx'
-import { saveAs } from 'file-saver'
-import { ReadingActivityDto } from '../../store/reading-activities/reading-activities.models'
+} from 'docx';
+import { saveAs } from 'file-saver';
+import { ReadingActivityDto } from '../../store/reading-activities/reading-activities.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ReadingActivityService {
-	#apiService = inject(ApiService)
-	#endpoint = 'reading-activities/'
+	#apiService = inject(ApiService);
+	#endpoint = 'reading-activities/';
 
 	findAll(): Observable<ReadingActivity[]> {
-		return this.#apiService.get<ReadingActivity[]>(this.#endpoint)
+		return this.#apiService.get<ReadingActivity[]>(this.#endpoint);
 	}
 
 	find(id: string): Observable<ReadingActivity> {
-		return this.#apiService.get<ReadingActivity>(this.#endpoint + id)
+		return this.#apiService.get<ReadingActivity>(this.#endpoint + id);
 	}
 
 	create(plan: Partial<ReadingActivityDto>): Observable<ReadingActivity> {
-		return this.#apiService.post<ReadingActivity>(this.#endpoint, plan)
+		return this.#apiService.post<ReadingActivity>(this.#endpoint, plan);
 	}
 
-	update(id: string, plan: Partial<ReadingActivityDto>): Observable<ReadingActivity> {
+	update(
+		id: string,
+		plan: Partial<ReadingActivityDto>,
+	): Observable<ReadingActivity> {
 		return this.#apiService.patch<ReadingActivity>(
 			this.#endpoint + id,
 			plan,
-		)
+		);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id)
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
 	async download(activity: ReadingActivity) {
-		const logo = await fetch(this.#apiService.getApiUrl() + 'logo-minerd')
-		const { data } = await logo.json()
+		const logo = await fetch(this.#apiService.getApiUrl() + 'logo-minerd');
+		const { data } = await logo.json();
 
 		const logoMinerd = new ImageRun({
 			type: 'png',
@@ -57,7 +60,7 @@ export class ReadingActivityService {
 				width: 300,
 				height: 233,
 			},
-		})
+		});
 		const doc = new Document({
 			sections: [
 				{
@@ -165,8 +168,8 @@ export class ReadingActivityService {
 					],
 				},
 			],
-		})
-		const blob = await Packer.toBlob(doc)
-		saveAs(blob, `Lectura guiada - ${activity.title}.docx`)
+		});
+		const blob = await Packer.toBlob(doc);
+		saveAs(blob, `Lectura guiada - ${activity.title}.docx`);
 	}
 }

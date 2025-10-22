@@ -1,25 +1,25 @@
-import { CommonModule, DatePipe } from '@angular/common'
-import { Component, OnInit, inject } from '@angular/core'
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { MatButtonModule } from '@angular/material/button'
+import { CommonModule, DatePipe } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import {
 	MAT_DIALOG_DATA,
 	MatDialogModule,
 	MatDialogRef,
-} from '@angular/material/dialog'
-import { MatIconModule } from '@angular/material/icon'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { LogRegistryEntry } from '../../core'
-import { MatInputModule } from '@angular/material/input'
-import { MatSelectModule } from '@angular/material/select'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { Student, ClassSection, User } from '../../core/models'
-import { LogRegistryEntryService } from '../../core/services/log-registry-entry.service'
-import { ClassSectionService } from '../../core/services/class-section.service'
-import { AuthService } from '../../core/services/auth.service'
-import { StudentsService } from '../../core/services/students.service'
-import { AiService } from '../../core/services/ai.service'
-import { LogRegistryEntryDto } from '../../store/log-registry-entries/log-registry-entries.models'
+} from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { LogRegistryEntry } from '../../core';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { Student, ClassSection, User } from '../../core/models';
+import { LogRegistryEntryService } from '../../core/services/log-registry-entry.service';
+import { ClassSectionService } from '../../core/services/class-section.service';
+import { AuthService } from '../../core/services/auth.service';
+import { StudentsService } from '../../core/services/students.service';
+import { AiService } from '../../core/services/ai.service';
+import { LogRegistryEntryDto } from '../../store/log-registry-entries/log-registry-entries.models';
 
 @Component({
 	selector: 'app-log-registry-entry-form',
@@ -356,20 +356,18 @@ export class LogRegistryEntryFormComponent implements OnInit {
 				this.description.value || this.logRegistryEntry.description;
 			this.logRegistryEntry.comments =
 				this.comments.value || this.logRegistryEntry.comments;
-			
-			const entry: LogRegistryEntryDto = this.logRegistryEntry as any
 
-			this.logRegistryEntryService
-				.create(entry)
-				.subscribe((res) => {
-					this.saving = false;
-					if (res._id) {
-						this.sb.open('Entrada guardada con exito', 'Ok', {
-							duration: 2500,
-						});
-						this.dialogRef.close(res);
-					}
-				});
+			const entry: LogRegistryEntryDto = this.logRegistryEntry as any;
+
+			this.logRegistryEntryService.create(entry).subscribe((res) => {
+				this.saving = false;
+				if (res._id) {
+					this.sb.open('Entrada guardada con exito', 'Ok', {
+						duration: 2500,
+					});
+					this.dialogRef.close(res);
+				}
+			});
 		}
 	}
 

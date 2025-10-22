@@ -1,4 +1,4 @@
-import { CompetenceAspect } from "./competence-aspect";
+import { CompetenceAspect } from './competence-aspect';
 
 export interface EvaluationArea {
 	curricularArea: string;

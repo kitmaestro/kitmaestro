@@ -261,9 +261,7 @@ class SectionCreatorComponent {
 									<p>Usuario Gratuito</p>
 								} @else {
 									<p>
-										{{
-											subscription.subscriptionType
-										}}
+										{{ subscription.subscriptionType }}
 										hasta
 										{{
 											subscription.endDate

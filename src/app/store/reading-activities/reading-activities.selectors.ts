@@ -1,54 +1,54 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store'
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
-    ReadingActivitiesState,
-    ReadingActivityStateStatus,
-} from './reading-activities.models'
+	ReadingActivitiesState,
+	ReadingActivityStateStatus,
+} from './reading-activities.models';
 
 export const selectReadingActivitiesState =
-    createFeatureSelector<ReadingActivitiesState>('readingActivities')
+	createFeatureSelector<ReadingActivitiesState>('readingActivities');
 
 export const selectAllActivities = createSelector(
-    selectReadingActivitiesState,
-    state => state.activities,
-)
+	selectReadingActivitiesState,
+	(state) => state.activities,
+);
 
 export const selectCurrentActivity = createSelector(
-    selectReadingActivitiesState,
-    state => state.selectedActivity,
-)
+	selectReadingActivitiesState,
+	(state) => state.selectedActivity,
+);
 
 export const selectActivitiesStatus = createSelector(
-    selectReadingActivitiesState,
-    state => state.status,
-)
+	selectReadingActivitiesState,
+	(state) => state.status,
+);
 
 export const selectActivitiesError = createSelector(
-    selectReadingActivitiesState,
-    state => state.error,
-)
+	selectReadingActivitiesState,
+	(state) => state.error,
+);
 
 // Selectores de estado booleanos
 export const selectIsLoadingMany = createSelector(
-    selectActivitiesStatus,
-    status => status === ReadingActivityStateStatus.LOADING_ACTIVITIES,
-)
+	selectActivitiesStatus,
+	(status) => status === ReadingActivityStateStatus.LOADING_ACTIVITIES,
+);
 
 export const selectIsLoadingOne = createSelector(
-    selectActivitiesStatus,
-    status => status === ReadingActivityStateStatus.LOADING_ACTIVITY,
-)
+	selectActivitiesStatus,
+	(status) => status === ReadingActivityStateStatus.LOADING_ACTIVITY,
+);
 
 export const selectIsCreating = createSelector(
-    selectActivitiesStatus,
-    status => status === ReadingActivityStateStatus.CREATING_ACTIVITY,
-)
+	selectActivitiesStatus,
+	(status) => status === ReadingActivityStateStatus.CREATING_ACTIVITY,
+);
 
 export const selectIsUpdating = createSelector(
-    selectActivitiesStatus,
-    status => status === ReadingActivityStateStatus.UPDATING_ACTIVITY,
-)
+	selectActivitiesStatus,
+	(status) => status === ReadingActivityStateStatus.UPDATING_ACTIVITY,
+);
 
 export const selectIsDeleting = createSelector(
-    selectActivitiesStatus,
-    status => status === ReadingActivityStateStatus.DELETING_ACTIVITY,
-)
+	selectActivitiesStatus,
+	(status) => status === ReadingActivityStateStatus.DELETING_ACTIVITY,
+);

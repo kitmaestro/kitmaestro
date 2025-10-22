@@ -86,16 +86,12 @@ import { ClassSection } from '../../../core';
 							@for (row of rub.criteria; track $index) {
 								<tr>
 									<td>
-										{{ row.indicator }} ({{
-											row.maxScore
-										}}
+										{{ row.indicator }} ({{ row.maxScore }}
 										puntos)
 									</td>
 									@for (item of row.criterion; track item) {
 										<td>
-											{{ item.name }} ({{
-												item.score
-											}}
+											{{ item.name }} ({{ item.score }}
 											puntos)
 										</td>
 									}
@@ -133,9 +129,7 @@ import { ClassSection } from '../../../core';
 								<tr>
 									@for (item of row.criterion; track item) {
 										<td>
-											{{ item.name }} ({{
-												item.score
-											}}
+											{{ item.name }} ({{ item.score }}
 											puntos)
 										</td>
 									}

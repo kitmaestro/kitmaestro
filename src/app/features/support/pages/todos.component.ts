@@ -348,18 +348,20 @@ export class TodosComponent implements OnInit {
 	}
 
 	markAsCompleted(todo: Todo) {
-		this.todoService.update(todo._id, { completed: !todo.completed }).subscribe({
-			next: () => {
-				this.sb.open(
-					'Pendiente ' + todo.completed
-						? 'completado!'
-						: 'pendiente',
-					undefined,
-					{ duration: 2500 },
-				);
-				this.loadTodos();
-			},
-		});
+		this.todoService
+			.update(todo._id, { completed: !todo.completed })
+			.subscribe({
+				next: () => {
+					this.sb.open(
+						'Pendiente ' + todo.completed
+							? 'completado!'
+							: 'pendiente',
+						undefined,
+						{ duration: 2500 },
+					);
+					this.loadTodos();
+				},
+			});
 	}
 
 	deleteTodo(id: string) {

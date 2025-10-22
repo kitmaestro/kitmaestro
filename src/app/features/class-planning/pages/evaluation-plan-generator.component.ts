@@ -1,4 +1,11 @@
-import { Component, inject, OnInit, OnDestroy, signal, computed } from '@angular/core';
+import {
+	Component,
+	inject,
+	OnInit,
+	OnDestroy,
+	signal,
+	computed,
+} from '@angular/core';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -63,7 +70,11 @@ import { PretifyPipe } from '../../../shared';
 				<div class="cols-2">
 					<mat-form-field appearance="outline">
 						<mat-label>Sección/Grado</mat-label>
-						<mat-select formControlName="classSection" required (selectionChange)="onSectionChange($event)">
+						<mat-select
+							formControlName="classSection"
+							required
+							(selectionChange)="onSectionChange($event)"
+						>
 							@for (
 								section of classSections();
 								track section._id
@@ -94,10 +105,7 @@ import { PretifyPipe } from '../../../shared';
 				<div class="cols-2">
 					<mat-form-field appearance="outline">
 						<mat-label>Tipos de Evaluación</mat-label>
-						<mat-select
-							formControlName="evaluationTypes"
-							required
-						>
+						<mat-select formControlName="evaluationTypes" required>
 							<mat-option value="Diagnóstica"
 								>Diagnóstica</mat-option
 							>
@@ -205,7 +213,7 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 	private aiService = inject(AiService);
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
-	private pretify = (new PretifyPipe()).transform
+	private pretify = new PretifyPipe().transform;
 
 	user = this.store.selectSignal(selectAuthUser);
 	classSections = this.store.selectSignal(selectAllClassSections);
@@ -235,21 +243,35 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 	}
 
 	generateEvaluationPlan() {
-		const formData = this.basicInfoForm.getRawValue()
-		const classSection = this.classSections().find(cs => cs._id == formData.classSection)
-		const plan = this.unitPlans().find(p => p._id == formData.plan)
-		const evaluationParticipants = formData.evaluationParticipants
-		const evaluationTypes = formData.evaluationTypes
-		const user = this.user()
+		const formData = this.basicInfoForm.getRawValue();
+		const classSection = this.classSections().find(
+			(cs) => cs._id == formData.classSection,
+		);
+		const plan = this.unitPlans().find((p) => p._id == formData.plan);
+		const evaluationParticipants = formData.evaluationParticipants;
+		const evaluationTypes = formData.evaluationTypes;
+		const user = this.user();
 
-		if (!plan || !classSection || !user || !evaluationParticipants || !evaluationTypes) return
+		if (
+			!plan ||
+			!classSection ||
+			!user ||
+			!evaluationParticipants ||
+			!evaluationTypes
+		)
+			return;
 
-		const data: { classSection: ClassSection, plan: UnitPlan, evaluationParticipants: string, evaluationTypes: string } = {
+		const data: {
+			classSection: ClassSection;
+			plan: UnitPlan;
+			evaluationParticipants: string;
+			evaluationTypes: string;
+		} = {
 			classSection,
 			plan,
 			evaluationParticipants,
-			evaluationTypes
-		}
+			evaluationTypes,
+		};
 
 		this.generating = true;
 
@@ -259,18 +281,20 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 			next: (response) => {
 				this.generating = false;
 				try {
-					const start = response.response.indexOf('{')
-					const end = response.response.lastIndexOf('}') + 1
-					const planData = JSON.parse(response.response.substring(start, end));
+					const start = response.response.indexOf('{');
+					const end = response.response.lastIndexOf('}') + 1;
+					const planData = JSON.parse(
+						response.response.substring(start, end),
+					);
 					this.generatedPlan = {
 						user,
 						unitPlan: plan,
-						evaluationAreas: planData.evaluationAreas
+						evaluationAreas: planData.evaluationAreas,
 					} as any;
 					this.sb.open('Planificación generada exitosamente', 'Ok', {
 						duration: 3000,
 					});
-					console.log(this.generatedPlan)
+					console.log(this.generatedPlan);
 				} catch (error) {
 					console.error('Error parsing AI response:', error);
 					this.sb.open(
@@ -292,9 +316,7 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 
 	onSectionChange(event: MatSelectChange) {
 		this.unitPlans.set(
-			this.allPlans().filter(
-				(plan) => plan.section._id === event.value,
-			),
+			this.allPlans().filter((plan) => plan.section._id === event.value),
 		);
 	}
 
@@ -305,10 +327,26 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 		if (plan) this.selectedPlan.set(plan);
 	}
 
-	private buildEvaluationPlanPrompt({ classSection, plan, evaluationParticipants, evaluationTypes }: { classSection: ClassSection, plan: UnitPlan, evaluationParticipants: string, evaluationTypes: string }): string {
-		const comunicativa = plan.competence.find(c => c.name === 'Comunicativa')?.entries.join(', ')
-		const pensamiento = plan.competence.find(c => c.name === 'Pensamiento')?.entries.join(', ')
-		const etica = plan.competence.find(c => c.name === 'Ciudadana')?.entries.join(', ')
+	private buildEvaluationPlanPrompt({
+		classSection,
+		plan,
+		evaluationParticipants,
+		evaluationTypes,
+	}: {
+		classSection: ClassSection;
+		plan: UnitPlan;
+		evaluationParticipants: string;
+		evaluationTypes: string;
+	}): string {
+		const comunicativa = plan.competence
+			.find((c) => c.name === 'Comunicativa')
+			?.entries.join(', ');
+		const pensamiento = plan.competence
+			.find((c) => c.name === 'Pensamiento')
+			?.entries.join(', ');
+		const etica = plan.competence
+			.find((c) => c.name === 'Ciudadana')
+			?.entries.join(', ');
 		return `
       Genera una planificación de evaluación basada en la metodología matricial de Tobón para educación ${classSection?.level} ${classSection?.year}.
 
