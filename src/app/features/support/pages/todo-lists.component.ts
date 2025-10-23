@@ -1,19 +1,18 @@
-import { Component, inject } from '@angular/core';
-import { TodoListService } from '../../../core/services/todo-list.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../../core/services/user.service';
-import { User } from '../../../core';
-import { AsyncPipe } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { tap } from 'rxjs';
+import { Component, inject } from '@angular/core'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
+import { MatSelectModule } from '@angular/material/select'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
+import { AsyncPipe } from '@angular/common'
+import { Router, RouterModule } from '@angular/router'
+import { tap } from 'rxjs'
+import { Store } from '@ngrx/store'
+import { createList, deleteList, selectAuthUser } from '../../../store'
+import { selectAllLists, selectCurrentList } from '../../../store/todo-lists/todo-lists.selectors'
 
 @Component({
 	selector: 'app-todo-lists',
@@ -21,7 +20,6 @@ import { tap } from 'rxjs';
 		MatSnackBarModule,
 		ReactiveFormsModule,
 		MatButtonModule,
-		MatCardModule,
 		MatIconModule,
 		MatFormFieldModule,
 		MatInputModule,
@@ -31,12 +29,12 @@ import { tap } from 'rxjs';
 		RouterModule,
 	],
 	template: `
-		<mat-card style="margin-bottom: 24px">
-			<mat-card-header>
-				<h2 mat-card-title>Listas de Tareas</h2>
+		<div style="margin-bottom: 24px">
+			<div style="display: flex; justify-content: space-between; align-items: center;">
+				<h2>Colecciones de Tareas</h2>
 				<button
 					style="margin-left: auto"
-					mat-mini-fab
+					mat-button
 					color="primary"
 					(click)="toggleForm()"
 				>
@@ -45,9 +43,10 @@ import { tap } from 'rxjs';
 					} @else {
 						<mat-icon>add</mat-icon>
 					}
+					<span>{{ showForm ? 'Ocultar Formulario' : 'Agregar Colecci&oacute;n' }}</span>
 				</button>
-			</mat-card-header>
-			<mat-card-content>
+			</div>
+			<div>
 				@if (showForm) {
 					<form [formGroup]="todoListForm" (ngSubmit)="addList()">
 						<div style="margin-bottom: 12px">
@@ -78,38 +77,39 @@ import { tap } from 'rxjs';
 						</div>
 						<div style="text-align: end">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 							>
-								Agregar
+								<mat-icon>save</mat-icon>
+								Guardar
 							</button>
 						</div>
 					</form>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		<div class="card-grid">
 			@for (list of todoLists$ | async; track list) {
-				<mat-card>
-					<mat-card-header>
-						<h3 mat-card-title>
+				<div>
+					<div>
+						<h3>
 							{{ list.name }} ({{
 								list.active ? 'Activa' : 'Inactiva'
 							}})
 						</h3>
-					</mat-card-header>
-					<mat-card-content>
+					</div>
+					<div>
 						<p style="padding: 12px">
 							{{ list.description }}
 						</p>
-					</mat-card-content>
-					<mat-card-actions>
+					</div>
+					<div>
 						<button
 							type="button"
-							[routerLink]="['/todos', list._id]"
-							mat-raised-button
+							[routerLink]="['/support', 'todos', list._id]"
+							mat-button
 							color="accent"
 							style="margin-right: 12px; margin-left: auto"
 						>
@@ -118,14 +118,14 @@ import { tap } from 'rxjs';
 						<button
 							type="button"
 							(click)="deleteList(list._id)"
-							mat-raised-button
+							mat-button
 							color="warn"
 							style="margin-right: auto"
 						>
 							Eliminar
 						</button>
-					</mat-card-actions>
-				</mat-card>
+					</div>
+				</div>
 			}
 		</div>
 	`,
@@ -154,57 +154,41 @@ import { tap } from 'rxjs';
 	`,
 })
 export class TodoListsComponent {
-	private sb = inject(MatSnackBar);
-	private todoListService = inject(TodoListService);
-	private UserService = inject(UserService);
-	private User: User | null = null;
-	private fb = inject(FormBuilder);
-	private router = inject(Router);
+	private sb = inject(MatSnackBar)
+	#store = inject(Store)
+	#user = this.#store.selectSignal(selectAuthUser)
+	private fb = inject(FormBuilder)
+	private router = inject(Router)
 
-	todoLists$ = this.todoListService
-		.findAll()
-		.pipe(tap(() => (this.loading = false)));
-	showForm = false;
-	loading = true;
+	todoLists$ = this.#store.select(selectAllLists)
+	showForm = false
 
 	todoListForm = this.fb.group({
 		name: ['', Validators.required],
 		description: ['', Validators.required],
 		active: [true],
-	});
-
-	constructor() {
-		this.UserService.getSettings().subscribe((settings) => {
-			this.User = settings;
-		});
-	}
+	})
 
 	toggleForm() {
-		this.showForm = !this.showForm;
+		this.showForm = !this.showForm
 	}
 
 	deleteList(id: string) {
-		this.todoListService.delete(id).subscribe({
-			next: (result) => {
-				if (result.deletedCount === 1) {
-					this.sb.open('La Lista ha sido borrada');
-					this.todoLists$ = this.todoListService.findAll();
-				}
-			},
-		});
+		this.#store.dispatch(deleteList({ id }))
 	}
 
 	addList() {
-		if (this.User) {
-			const todoList: any = this.todoListForm.value;
-			todoList.user = this.User._id;
-			this.todoListService.create(todoList).subscribe({
-				next: (list) => {
-					this.router.navigate(['/todos', list._id]).then(() => {
-						this.sb.open('Lista Creada!', 'Ok', { duration: 2500 });
-					});
-				},
-			});
+		const user = this.#user()
+		if (user) {
+			const todoList: any = this.todoListForm.value
+			todoList.user = user._id
+			this.#store.dispatch(createList({ list: todoList }))
+			const sub = this.#store.select(selectCurrentList).pipe(tap((list) => {
+				if (list) {
+					sub.unsubscribe()
+					this.router.navigate(['/support', 'todos', list._id])
+				}
+			})).subscribe()
 		}
 	}
 }

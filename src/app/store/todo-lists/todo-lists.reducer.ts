@@ -59,6 +59,7 @@ export const todoListsReducer = createReducer(
 		...state,
 		status: TodoListStateStatus.IDLING,
 		lists: [list, ...state.lists],
+		selectedList: list,
 	})),
 	on(TodoListsActions.updateListSuccess, (state, { list: updatedList }) => ({
 		...state,

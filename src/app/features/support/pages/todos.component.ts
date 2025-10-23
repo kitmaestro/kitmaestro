@@ -1,22 +1,23 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { TodoListService } from '../../../core/services/todo-list.service';
-import { TodoService } from '../../../core/services/todo.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { IsEmptyComponent } from '../../../shared/ui/is-empty.component';
-import { Todo } from '../../../core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { TodoList } from '../../../core';
-import { TodoFormComponent } from '../components/todo-form.component';
+import { Component, inject, OnInit } from '@angular/core'
+import { ActivatedRoute, Router, RouterModule } from '@angular/router'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatCardModule } from '@angular/material/card'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { MatInputModule } from '@angular/material/input'
+import { MatSelectModule } from '@angular/material/select'
+import { MatExpansionModule } from '@angular/material/expansion'
+import { IsEmptyComponent } from '../../../shared/ui/is-empty.component'
+import { Todo } from '../../../core'
+import { MatDialog, MatDialogModule } from '@angular/material/dialog'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { TodoFormComponent } from '../components/todo-form.component'
+import { Store } from '@ngrx/store'
+import { createTodo, deleteTodo, loadList, loadTodosByList, selectIsLoadingMany, updateList, updateTodo } from '../../../store'
+import { selectCurrentList } from '../../../store/todo-lists/todo-lists.selectors'
+import { selectAllTodos, selectListTodos } from '../../../store/todos/todos.selectors'
 
 @Component({
 	selector: 'app-todos',
@@ -36,40 +37,42 @@ import { TodoFormComponent } from '../components/todo-form.component';
 		IsEmptyComponent,
 	],
 	template: `
-		@if (todoList) {
-			<mat-card style="margin-bottom: 24px">
-				<mat-card-header>
-					<h2 mat-card-title>{{ todoList.name }}</h2>
-					<button
-						style="margin-left: auto"
-						mat-mini-fab
-						color=""
-						[routerLink]="['/todos']"
-					>
-						<mat-icon>arrow_back</mat-icon>
-					</button>
-					<button
-						style="margin-left: 12px"
-						mat-mini-fab
-						color=""
-						(click)="toggleEditForm()"
-					>
-						<mat-icon>edit</mat-icon>
-					</button>
-					<button
-						style="margin-left: 12px"
-						mat-mini-fab
-						color="primary"
-						(click)="toggleForm()"
-					>
-						@if (showForm) {
-							<mat-icon>close</mat-icon>
-						} @else {
-							<mat-icon>add</mat-icon>
-						}
-					</button>
-				</mat-card-header>
-				<mat-card-content>
+		@if (todoList()) {
+			<div style="margin-bottom: 24px;">
+				<div style="display: flex; justify-content: space-between; align-items: center">
+					<h2>{{ todoList()?.name }}</h2>
+					<div>
+						<button
+							style="margin-left: auto"
+							mat-button
+							routerLink="/support/todos"
+						>
+							<mat-icon>arrow_back</mat-icon>
+							Volver
+						</button>
+						<button
+							style="margin-left: 12px"
+							mat-button
+							(click)="toggleEditForm()"
+						>
+							<mat-icon>edit</mat-icon>
+							Editar
+						</button>
+						<button
+							style="margin-left: 12px"
+							mat-button
+							(click)="toggleForm()"
+						>
+							@if (showForm) {
+								<mat-icon>close</mat-icon>
+							} @else {
+								<mat-icon>add</mat-icon>
+							}
+							{{ showForm ? 'Cancelar' : 'Agregar' }}
+						</button>
+					</div>
+				</div>
+				<div>
 					@if (showEditForm) {
 						<form [formGroup]="listForm" (ngSubmit)="editList()">
 							<div style="margin-bottom: 12px">
@@ -100,7 +103,7 @@ import { TodoFormComponent } from '../components/todo-form.component';
 							</div>
 							<div style="text-align: end">
 								<button
-									mat-raised-button
+									mat-flat-button
 									color="primary"
 									type="submit"
 								>
@@ -109,15 +112,15 @@ import { TodoFormComponent } from '../components/todo-form.component';
 							</div>
 						</form>
 					}
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 
 			@if (showForm) {
-				<mat-card style="margin-bottom: 24px">
-					<mat-card-header>
-						<h3 mat-card-title>Agregar Pendiente</h3>
-					</mat-card-header>
-					<mat-card-content>
+				<div style="margin-bottom: 24px">
+					<div>
+						<h3>Agregar Pendiente</h3>
+					</div>
+					<div>
 						<form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
 							<div>
 								<mat-form-field appearance="outline">
@@ -138,19 +141,19 @@ import { TodoFormComponent } from '../components/todo-form.component';
 							<div style="text-align: end">
 								<button
 									type="submit"
-									mat-raised-button
+									mat-flat-button
 									color="primary"
 								>
 									Agregar
 								</button>
 							</div>
 						</form>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			}
 
 			<mat-accordion>
-				@for (todo of todos; track todo) {
+				@for (todo of todos(); track todo) {
 					<mat-expansion-panel>
 						<mat-expansion-panel-header>
 							<mat-panel-title>
@@ -211,7 +214,7 @@ import { TodoFormComponent } from '../components/todo-form.component';
 					</div>
 				}
 			</mat-accordion>
-		} @else {}
+		}
 	`,
 	styles: `
 		mat-form-field {
@@ -238,22 +241,21 @@ import { TodoFormComponent } from '../components/todo-form.component';
 	`,
 })
 export class TodosComponent implements OnInit {
-	private route = inject(ActivatedRoute);
-	private router = inject(Router);
-	private dialog = inject(MatDialog);
-	private todoListService = inject(TodoListService);
-	private todoService = inject(TodoService);
-	private sb = inject(MatSnackBar);
-	private fb = inject(FormBuilder);
+	private route = inject(ActivatedRoute)
+	private router = inject(Router)
+	private dialog = inject(MatDialog)
+	#store = inject(Store)
+	private sb = inject(MatSnackBar)
+	private fb = inject(FormBuilder)
 
-	listId = this.route.snapshot.paramMap.get('id') || '';
-	todoList: TodoList | null = null;
-	todos: Todo[] = [];
-	loading = true;
+	listId = this.route.snapshot.paramMap.get('id') || ''
+	todoList = this.#store.selectSignal(selectCurrentList)
+	todos = this.#store.selectSignal(selectListTodos)
+	loading = this.#store.selectSignal(selectIsLoadingMany)
 
-	showForm = false;
-	showEditForm = false;
-	showTodoEditForm = false;
+	showForm = false
+	showEditForm = false
+	showTodoEditForm = false
 
 	listForm = this.fb.group({
 		_id: [''],
@@ -261,142 +263,89 @@ export class TodosComponent implements OnInit {
 		name: [''],
 		description: [''],
 		active: [true],
-	});
+	})
 
 	todoForm = this.fb.group({
 		title: ['', Validators.required],
 		description: ['', Validators.required],
 		completed: [false],
 		list: [this.listId],
-	});
+	})
 
 	toggleForm() {
-		this.showForm = !this.showForm;
+		this.showForm = !this.showForm
 	}
 
 	toggleEditForm() {
-		this.showEditForm = !this.showEditForm;
+		this.showEditForm = !this.showEditForm
 	}
 
 	loadList() {
-		this.loading = true;
-		this.todoListService.findOne(this.listId).subscribe({
+		const id = this.listId
+		this.#store.dispatch(loadList({ id }))
+		this.#store.select(selectCurrentList).subscribe({
 			next: (list) => {
-				if (list._id) {
-					this.todoList = list;
-					const { _id, user, name, description, active } = list;
-					this.listForm.setValue({
-						_id,
-						user,
+				if (list) {
+					const { _id, user, name, description, active } = list
+						this.listForm.setValue({
+							_id,
+							user,
 						name,
 						description,
 						active,
-					});
-					this.loading = false;
+					})
 				}
 			},
 			error: () => {
-				this.router.navigate(['/todos']).then(() => {
-					this.sb.open('No pudimos encontrar la lista solicitada');
-				});
-			},
-			complete: () => {
-				this.loading = false;
-			},
-		});
+				this.router.navigate(['/support', 'todos']).then(() => {
+					this.sb.open('No pudimos encontrar la lista solicitada')
+				})
+			}
+		})
 	}
 
 	loadTodos() {
-		this.loading = true;
-		this.todoService.findByList(this.listId).subscribe({
-			next: (todos) => {
-				if (todos) {
-					this.todos = todos;
-				}
-			},
-			complete: () => {
-				this.loading = false;
-			},
-		});
+		this.#store.dispatch(loadTodosByList({ listId: this.listId }))
 	}
 
 	ngOnInit(): void {
-		this.loadList();
-		this.loadTodos();
+		this.loadList()
+		this.loadTodos()
 	}
 
 	onSubmit() {
-		const todo: any = this.todoForm.value;
-		todo.user = this.listForm.get('user')?.value;
-		this.todoService.create(todo).subscribe({
-			next: (todo) => {
-				if (todo) {
-					this.sb.open('Nuevo pendiente guardardo', 'Ok', {
-						duration: 2500,
-					});
-					this.toggleForm();
-					this.loadTodos();
-					this.todoForm.setValue({
-						title: '',
-						description: '',
-						completed: false,
-						list: this.listId,
-					});
-				}
-			},
-		});
+		const todo: any = this.todoForm.value
+		todo.user = this.listForm.get('user')?.value
+		this.#store.dispatch(createTodo({ todo }))
+		this.toggleForm()
+		this.todoForm.setValue({
+			title: '',
+			description: '',
+			completed: false,
+			list: this.listId,
+		})
 	}
 
 	markAsCompleted(todo: Todo) {
-		this.todoService
-			.update(todo._id, { completed: !todo.completed })
-			.subscribe({
-				next: () => {
-					this.sb.open(
-						'Pendiente ' + todo.completed
-							? 'completado!'
-							: 'pendiente',
-						undefined,
-						{ duration: 2500 },
-					);
-					this.loadTodos();
-				},
-			});
+		this.#store.dispatch(updateTodo({ id: todo._id, data: { completed: !todo.completed } }))
 	}
 
 	deleteTodo(id: string) {
-		this.todoService.delete(id).subscribe({
-			next: (result) => {
-				if (result.deletedCount === 1) {
-					this.sb.open('La tarea ha sido eliminada', undefined, {
-						duration: 2500,
-					});
-					this.loadTodos();
-				}
-			},
-		});
+		this.#store.dispatch(deleteTodo({ id }))
 	}
 
 	editTodo(todo: Todo) {
 		const ref = this.dialog.open(TodoFormComponent, {
 			data: todo,
-		});
+		})
 		ref.afterClosed().subscribe(() => {
-			this.loadTodos();
-		});
+			this.loadTodos()
+		})
 	}
 
 	editList() {
-		const list: any = this.listForm.value;
-		this.todoService.update(list._id, list).subscribe({
-			next: () => {
-				this.sb.open(
-					'Los detalles de la lista han sido actualizados.',
-					undefined,
-					{ duration: 2500 },
-				);
-				this.loadList();
-			},
-		});
+		const list: any = this.listForm.value
+		this.#store.dispatch(updateList({ id: list._id, data: list }))
+		this.toggleEditForm()
 	}
 }

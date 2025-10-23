@@ -272,7 +272,7 @@ export class ResourceDetailsComponent implements OnInit {
 			},
 			error: (err) => {
 				console.log(err);
-				this.router.navigateByUrl('/resources').then(() => {
+				this.router.navigateByUrl('/support/resources').then(() => {
 					this.sb.open('No se encontro el recurso');
 				});
 			},

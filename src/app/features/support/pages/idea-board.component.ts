@@ -1,14 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { Idea } from '../../../core';
-import { IdeaService } from '../../../core/services/idea.service';
-import { User } from '../../../core';
-import { UserService } from '../../../core/services/user.service';
+import { Component, effect, inject, OnInit } from '@angular/core'
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
+import { MatButtonModule } from '@angular/material/button'
+import { MatCardModule } from '@angular/material/card'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatIconModule } from '@angular/material/icon'
+import { MatInputModule } from '@angular/material/input'
+import { Idea } from '../../../core'
+import { Store } from '@ngrx/store'
+import { selectAuthUser, loadIdeas, createIdea, updateIdea } from '../../../store'
+import { selectAllIdeas, selectIsCreating } from '../../../store/ideas/ideas.selectors'
 
 @Component({
 	selector: 'app-idea-board',
@@ -46,8 +46,8 @@ import { UserService } from '../../../core/services/user.service';
 						></textarea>
 					</mat-form-field>
 				</div>
-				<div>
-					<button type="submit" mat-flat-button color="primary">
+				<div style="text-align: end">
+					<button type="submit" mat-flat-button [disabled]="creating() || ideaForm.invalid" color="primary">
 						Agregar
 					</button>
 				</div>
@@ -55,7 +55,7 @@ import { UserService } from '../../../core/services/user.service';
 		</div>
 
 		<div class="grid">
-			@for (idea of ideas; track idea._id) {
+			@for (idea of ideas(); track idea._id) {
 				<mat-card>
 					<mat-card-header>
 						<h3 mat-card-title>{{ idea.title }}</h3>
@@ -69,27 +69,25 @@ import { UserService } from '../../../core/services/user.service';
 					</mat-card-content>
 					<mat-card-actions>
 						<button
-							mat-fab
-							extended
+							mat-button
 							type="button"
 							(click)="dislike(idea)"
 							[style]="
 								'margin-right: 12px;' +
 								(iDislikedIt(idea)
-									? 'background-color: #005cbb;'
+									? 'background-color: #005cbb; color: white;'
 									: '')
 							"
 						>
 							<mat-icon>thumb_down</mat-icon> {{ dislikes(idea) }}
 						</button>
 						<button
-							mat-fab
-							extended
+							mat-button
 							type="button"
 							(click)="like(idea)"
 							[style]="
 								iLikedIt(idea)
-									? 'background-color: #005cbb;'
+									? 'background-color: #005cbb; color: white;'
 									: ''
 							"
 						>
@@ -126,108 +124,99 @@ import { UserService } from '../../../core/services/user.service';
 	`,
 })
 export class IdeaBoardComponent implements OnInit {
-	private ideaService = inject(IdeaService);
-	private fb = inject(FormBuilder);
-	private UserService = inject(UserService);
+	private fb = inject(FormBuilder)
+	#store = inject(Store)
 
-	ideas: Idea[] = [];
-	user: User | null = null;
+	ideas = this.#store.selectSignal(selectAllIdeas)
+	user = this.#store.selectSignal(selectAuthUser)
+	creating = this.#store.selectSignal(selectIsCreating)
+
 	ideaForm = this.fb.group({
 		user: ['', Validators.required],
 		title: ['', Validators.required],
 		description: ['', Validators.required],
-	});
+	})
 
 	loadIdeas() {
-		this.ideaService.findAll().subscribe({
-			next: (ideas) => {
-				this.ideas = ideas;
-			},
-		});
+		this.#store.dispatch(loadIdeas())
+	}
+
+	constructor() {
+		effect(() => {
+			if (this.user()) {
+				const id = this.user()?._id
+				if (!id) return
+				this.ideaForm.get('user')?.setValue(id)
+			}
+		})
 	}
 
 	ngOnInit() {
-		this.loadIdeas();
-		this.UserService.getSettings().subscribe({
-			next: (user) => {
-				this.user = user;
-				this.ideaForm.get('user')?.setValue(user._id);
-			},
-		});
+		this.loadIdeas()
 	}
 
 	addIdea() {
-		const idea: any = this.ideaForm.value;
-		idea.votes = [];
-		this.ideaService.create(idea).subscribe({
-			next: () => {
-				this.loadIdeas();
-				this.ideaForm.setValue({
-					user: idea.user,
-					title: '',
-					description: '',
-				});
-			},
-		});
+		const idea: any = this.ideaForm.value
+		idea.votes = []
+		this.#store.dispatch(createIdea({ idea }))
+		this.ideaForm.setValue({ user: idea.user, title: '', description: '', })
 	}
 
 	like(idea: Idea) {
-		if (!this.user) return;
+		const user = this.user()?._id
+		if (!user) return
 
-		const votes: { user: string; like: boolean }[] = idea.votes.filter(
-			(v) => v.user != this.user?._id,
-		);
+		const id = idea._id
+
+		const votes = idea.votes.filter(
+			(v) => v.user != user,
+		)
 		votes.push({
-			user: this.user._id,
+			user: user,
 			like: true,
-		});
+		})
 
-		this.ideaService.update(idea._id, { votes }).subscribe({
-			next: () => {
-				this.loadIdeas();
-			},
-		});
+		this.#store.dispatch(updateIdea({ id, data: { votes } }))
 	}
 
 	dislike(idea: Idea) {
-		if (!this.user) return;
+		const user = this.user()?._id
+		if (!user) return
 
-		const votes: { user: string; like: boolean }[] = idea.votes.filter(
-			(v) => v.user != this.user?._id,
-		);
+		const id = idea._id
+
+		const votes = idea.votes.filter(
+			(v) => v.user != user,
+		)
 		votes.push({
-			user: this.user._id,
+			user: user,
 			like: false,
-		});
+		})
 
-		this.ideaService.update(idea._id, { votes }).subscribe({
-			next: () => {
-				this.loadIdeas();
-			},
-		});
+		this.#store.dispatch(updateIdea({ id, data: { votes } }))
 	}
 
 	likes(idea: Idea) {
-		return idea.votes.filter((v) => v.like === true).length;
+		return idea.votes.filter((v) => v.like === true).length
 	}
 
 	dislikes(idea: Idea) {
-		return idea.votes.filter((v) => v.like === false).length;
+		return idea.votes.filter((v) => v.like === false).length
 	}
 
 	didIVoteIt(idea: Idea) {
-		return idea.votes.some((v) => v.user === this.user?._id);
+		return idea.votes.some((v) => v.user === this.user()?._id)
 	}
 
 	iLikedIt(idea: Idea) {
 		return idea.votes.some(
-			(v) => v.user === this.user?._id && v.like === true,
-		);
+			(v) => v.user === this.user()?._id && v.like === true,
+		)
 	}
 
 	iDislikedIt(idea: Idea) {
 		return idea.votes.some(
-			(v) => v.user === this.user?._id && v.like === false,
-		);
+			(v) => v.user === this.user()?._id && v.like === false,
+		)
 	}
 }

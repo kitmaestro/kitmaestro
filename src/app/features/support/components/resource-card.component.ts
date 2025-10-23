@@ -125,7 +125,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 									mat-flat-button
 									color="primary"
 									type="button"
-									[routerLink]="'/resources/' + resource._id"
+									[routerLink]="'/support/resources/' + resource._id"
 								>
 									Detalles
 								</button>

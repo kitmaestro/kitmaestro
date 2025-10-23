@@ -1,20 +1,20 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { AiService } from '../../../core/services/ai.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { PdfService } from '../../../core/services/pdf.service';
-import { ClassSectionService } from '../../../core/services/class-section.service';
-import { UserService } from '../../../core/services/user.service';
-import { MatIconModule } from '@angular/material/icon';
-import { ClassSection } from '../../../core';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { uniq } from 'lodash';
+import { Component, OnInit, inject } from '@angular/core'
+import { MatCardModule } from '@angular/material/card'
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
+import { CommonModule } from '@angular/common'
+import { MatButtonModule } from '@angular/material/button'
+import { MatInputModule } from '@angular/material/input'
+import { MatSelectModule } from '@angular/material/select'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { AiService } from '../../../core/services/ai.service'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { PdfService } from '../../../core/services/pdf.service'
+import { ClassSectionService } from '../../../core/services/class-section.service'
+import { UserService } from '../../../core/services/user.service'
+import { MatIconModule } from '@angular/material/icon'
+import { ClassSection } from '../../../core'
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
+import { uniq } from 'lodash'
 import {
 	convertInchesToTwip,
 	Document,
@@ -27,14 +27,17 @@ import {
 	TableRow,
 	TextRun,
 	WidthType,
-} from 'docx';
-import { saveAs } from 'file-saver';
+} from 'docx'
+import { saveAs } from 'file-saver'
+import { Store } from '@ngrx/store'
+import { loadSections, selectAllClassSections, selectAuthUser } from '../../../store'
+import { filter } from 'rxjs'
 
 interface PlannerTemplate {
-	date: string;
-	fullname: string;
-	classroom: string;
-	subject: string;
+	date: string
+	fullname: string
+	classroom: string
+	subject: string
 }
 
 @Component({
@@ -52,20 +55,14 @@ interface PlannerTemplate {
 		PretifyPipe,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
-				<h2 mat-card-title>
-					Generador De Plantillas de Planificaciones Personalizadas
-				</h2>
-				<h3
-					mat-card-subtitle
-					style="margin: 4px 0 24px; font-weight: normal"
-				>
-					Habr&aacute;n m&aacute;s tipos de plantillas diponibles muy
-					pronto.
+		<div>
+			<div>
+				<h2>Generador De Plantillas de Planificaciones Personalizadas</h2>
+				<h3 style="margin: 4px 0 24px; font-weight: normal">
+					Habr&aacute;n m&aacute;s tipos de plantillas diponibles pronto.
 				</h3>
-			</mat-card-header>
-			<mat-card-content>
+			</div>
+			<div>
 				<form (ngSubmit)="onSubmit()" [formGroup]="plannerForm">
 					<div style="display: flex; gap: 12px">
 						<mat-form-field appearance="outline">
@@ -113,7 +110,7 @@ interface PlannerTemplate {
 								required
 								(selectionChange)="onSectionSelect($event)"
 							>
-								@for (section of sections; track section._id) {
+								@for (section of sections(); track section._id) {
 									<mat-option [value]="section._id">{{
 										section.name
 									}}</mat-option>
@@ -172,16 +169,14 @@ interface PlannerTemplate {
 							[disabled]="generating || plannerForm.invalid"
 							type="submit"
 							color="primary"
-							mat-fab
-							extended
+							mat-button
 						>
 							<mat-icon>bolt</mat-icon
 							>{{ generating ? 'Generando...' : 'Generar' }}
 						</button>
 						@if (!generating && templates.length > 0) {
 							<button
-								mat-fab
-								extended
+								mat-button
 								color="accent"
 								(click)="printTemplates()"
 							>
@@ -189,8 +184,7 @@ interface PlannerTemplate {
 								><span> Exportar PDF</span>
 							</button>
 							<button
-								mat-fab
-								extended
+								mat-button
 								color="accent"
 								(click)="downloadTemplates()"
 							>
@@ -200,8 +194,8 @@ interface PlannerTemplate {
 						}
 					</div>
 				</form>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		@if (!generating && templates.length > 0) {
 			<h2 style="font-size: 22pt; margin-top: 24px">Vista Previa</h2>
@@ -561,16 +555,14 @@ interface PlannerTemplate {
 	`,
 })
 export class PlannerGeneratorComponent implements OnInit {
-	private fb = inject(FormBuilder);
-	private sb = inject(MatSnackBar);
-	private aiService = inject(AiService);
-	private pdfService = inject(PdfService);
-	private settingsService = inject(UserService);
-	private sectionService = inject(ClassSectionService);
+	#store = inject(Store)
+	private fb = inject(FormBuilder)
+	private sb = inject(MatSnackBar)
+	private pdfService = inject(PdfService)
 
-	generating = false;
-	imgSrc = '';
-	m = new Date().getMonth();
+	generating = false
+	imgSrc = ''
+	m = new Date().getMonth()
 	months = [
 		{ id: 7, name: 'Agosto' },
 		{ id: 8, name: 'Septiembre' },
@@ -584,17 +576,17 @@ export class PlannerGeneratorComponent implements OnInit {
 		{ id: 4, name: 'Mayo' },
 		{ id: 5, name: 'Junio' },
 		{ id: 6, name: 'Julio' },
-	];
+	]
 
-	sections: ClassSection[] = [];
-	selectedSections: string[] = [];
+	sections = this.#store.selectSignal(selectAllClassSections)
+	selectedSections: string[] = []
 
 	templateTypes = [
 		'Plan Diario (Primaria)',
 		// 'Unidad de Aprendizaje (Primaria)',
-	];
+	]
 
-	colors: { color: string; spanish: string; hex: string }[] = [
+	colors: { color: string, spanish: string, hex: string }[] = [
 		{ color: 'red', spanish: 'Rojo', hex: '#F44336' },
 		{ color: 'pink', spanish: 'Rosa', hex: '#E91E63' },
 		{ color: 'purple', spanish: 'Morado', hex: '#9C27B0' },
@@ -623,9 +615,9 @@ export class PlannerGeneratorComponent implements OnInit {
 		{ color: 'Silver', spanish: 'Plata', hex: '#C0C0C0' },
 		{ color: 'Gold', spanish: 'Oro', hex: '#FFD700' },
 		{ color: 'Violet', spanish: 'Violeta', hex: '#8A2BE2' },
-	];
+	]
 
-	flowers: { name: string; spanish: string }[] = [
+	flowers: { name: string, spanish: string }[] = [
 		{ name: 'Rose', spanish: 'Rosa' },
 		{ name: 'Daisy', spanish: 'Margarita' },
 		{ name: 'Sunflower', spanish: 'Girasol' },
@@ -646,9 +638,9 @@ export class PlannerGeneratorComponent implements OnInit {
 		{ name: 'Bougainvillea', spanish: 'Buganvilla' },
 		{ name: 'Azalea', spanish: 'Azalea' },
 		{ name: 'Camellia', spanish: 'Camelia' },
-	];
+	]
 
-	decorations: { option: string; spanish: string }[] = [
+	decorations: { option: string, spanish: string }[] = [
 		{ option: 'Floral patterns', spanish: 'Patrones florales' },
 		{ option: 'Geometric designs', spanish: 'Diseños geométricos' },
 		{ option: 'Cute illustrations', spanish: 'Ilustraciones bonitas' },
@@ -689,15 +681,15 @@ export class PlannerGeneratorComponent implements OnInit {
 			option: 'Fairytale and fantasy elements',
 			spanish: 'Elementos de cuento de hadas y fantasía',
 		},
-	];
+	]
 
-	subjects: string[] = [];
-	school = '';
-	fullname = '';
-	visible = false;
-	queue = 0;
+	subjects: string[] = []
+	school = ''
+	fullname = ''
+	visible = false
+	queue = 0
 
-	templates: PlannerTemplate[] = [];
+	templates: PlannerTemplate[] = []
 
 	plannerForm = this.fb.group({
 		templateType: [0],
@@ -707,59 +699,50 @@ export class PlannerGeneratorComponent implements OnInit {
 		classroom: [[] as string[], Validators.required],
 		subjects: ['', Validators.required],
 		date: [this.m],
-	});
+	})
 
 	ngOnInit() {
-		setTimeout(() => {
-			this.settingsService.getSettings().subscribe((user) => {
-				const fullname = `${user.title}. ${user.firstname} ${user.lastname}`;
-				this.fullname = fullname;
-				this.plannerForm.get('fullName')?.setValue(fullname);
-				this.plannerForm.get('fullName')?.disable();
-				// TODO: fix school name
-				// this.school = user.schoolName;
-			});
-			this.sectionService.findSections().subscribe({
-				next: (sections) => {
-					if (sections.length) {
-						this.sections = sections;
-					}
-				},
-			});
-		}, 0);
+		this.#store.dispatch(loadSections())
+		this.#store.select(selectAuthUser).pipe(filter((user) => !!user)).subscribe((user) => {
+			const fullname = `${user.title}. ${user.firstname} ${user.lastname}`
+			this.fullname = fullname
+			this.plannerForm.get('fullName')?.setValue(fullname)
+			this.plannerForm.get('fullName')?.disable()
+			this.school = user.schoolName
+		})
 	}
 
 	onSectionSelect(event: any) {
-		this.selectedSections = event.value;
+		this.selectedSections = event.value
 		setTimeout(() => {
 			this.subjects = uniq(
-				this.sections
+				this.sections()
 					.filter((s) => this.selectedSections.includes(s._id))
 					.flatMap((s) => s.subjects),
-			);
-		}, 0);
+			)
+		}, 0)
 	}
 
 	onSubmit() {
-		this.generating = true;
+		this.generating = true
 		const { color, decoration, classroom, subjects, date } =
-			this.plannerForm.value;
+			this.plannerForm.value
 		if (!subjects || !classroom) {
-			this.generating = false;
-			return;
+			this.generating = false
+			return
 		}
 
-		const templates: PlannerTemplate[] = [];
+		const templates: PlannerTemplate[] = []
 		const d =
 			typeof date !== 'number'
 				? `${new Date().getMonth() + 1}/2025`
 				: date < 6
 					? `${date + 1}/2025`
-					: `${date + 1}/2024`;
+					: `${date + 1}/2024`
 
-		const classrooms = this.sections
+		const classrooms = this.sections()
 			.filter((s) => classroom.includes(s._id))
-			.map((s) => s.name);
+			.map((s) => s.name)
 
 		for (const cr of classrooms) {
 			for (const subject of subjects as any as string[]) {
@@ -768,33 +751,33 @@ export class PlannerGeneratorComponent implements OnInit {
 					subject,
 					classroom: cr,
 					fullname: this.fullname,
-				};
-				templates.push(template);
+				}
+				templates.push(template)
 			}
 		}
 
-		this.templates = templates;
+		this.templates = templates
 
 		// this.aiService.generateImage(`a ${color} ${decoration}`).subscribe((res) => {
-		//   this.sb.open('Generacion completa!', 'Ok', { duration: 2500 });
-		//   this.imgSrc = res.result;
-		//   this.generating = false;
-		// });
-		this.generating = false;
+		//   this.sb.open('Generacion completa!', 'Ok', { duration: 2500 })
+		//   this.imgSrc = res.result
+		//   this.generating = false
+		// })
+		this.generating = false
 	}
 
 	pretify(str: string) {
-		return new PretifyPipe().transform(str);
+		return new PretifyPipe().transform(str)
 	}
 
 	async downloadTemplates() {
-		const fill = (this.plannerForm.get('color')?.value || '').slice(1);
+		const fill = (this.plannerForm.get('color')?.value || '').slice(1)
 		const shading85 = {
 			fill,
 			color: 'ffffff',
 			type: ShadingType.PERCENT_70,
-		};
-		const shadingClear = { fill, color: 'auto', type: ShadingType.CLEAR };
+		}
+		const shadingClear = { fill, color: 'auto', type: ShadingType.CLEAR }
 		const doc = new Document({
 			sections: this.templates.map((template) => {
 				return {
@@ -1214,25 +1197,25 @@ export class PlannerGeneratorComponent implements OnInit {
 						}),
 						new Paragraph(''),
 					],
-				};
+				}
 			}),
-		});
-		const blob = await Packer.toBlob(doc);
-		saveAs(blob, 'Plantillas de planificacion.docx');
+		})
+		const blob = await Packer.toBlob(doc)
+		saveAs(blob, 'Plantillas de planificacion.docx')
 	}
 
 	printTemplates() {
 		if (this.queue > 0) {
 			this.sb.open(
 				'Las descargas ya estan en progreso, espera a que terminen.',
-			);
-			return;
+			)
+			return
 		}
 
-		this.queue = this.templates.length;
+		this.queue = this.templates.length
 		this.sb.open(
 			'La descarga empezara en unos instantes. No quites esta pantalla hasta que finalicen las descargas.',
-		);
+		)
 		this.templates.forEach((t, i) => {
 			setTimeout(() => {
 				this.pdfService
@@ -1242,22 +1225,22 @@ export class PlannerGeneratorComponent implements OnInit {
 						false,
 					)
 					.then(() => {
-						this.queue--;
+						this.queue--
 						if (this.queue === 0) {
 							this.sb.open(
 								'Todas las descargas han finalizado. Ya puedes salir de esta pantalla.',
-							);
+							)
 						}
 					})
 					.catch(() => {
-						this.queue--;
+						this.queue--
 						if (this.queue === 0) {
 							this.sb.open(
 								'Todas las descargas han finalizado. Ya puedes salir de esta pantalla.',
-							);
+							)
 						}
-					});
-			}, 1500);
-		});
+					})
+			}, 1500)
+		})
 	}
 }
