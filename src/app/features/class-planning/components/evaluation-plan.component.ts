@@ -1,142 +1,93 @@
 import { Component, input } from '@angular/core';
 import { EvaluationPlan } from '../../../core/models/evaluation-plan';
 import { MatTableModule } from '@angular/material/table';
+import { PretifyPipe, SimpleList } from '../../../shared';
 
 @Component({
 	selector: 'app-evaluation-plan',
-	imports: [MatTableModule],
+	imports: [
+		MatTableModule,
+		SimpleList,
+		PretifyPipe,
+	],
 	template: `
 		@if (plan(); as plan) {
-			<div style="overflow-x: auto;">
-				<table
-					mat-table
-					[dataSource]="plan.evaluationAreas"
-					class="mat-elevation-z2"
-				>
-					<ng-container matColumnDef="curricularArea">
-						<th mat-header-cell *matHeaderCellDef>
-							Área Curricular
-						</th>
-						<td mat-cell *matCellDef="let area">
-							{{ area.curricularArea }}
-						</td>
-					</ng-container>
-
-					<ng-container matColumnDef="evaluationTypes">
-						<th mat-header-cell *matHeaderCellDef>
-							Tipo de Evaluación
-						</th>
-						<td mat-cell *matCellDef="let area">
-							{{ area.evaluationTypes.join(', ') }}
-						</td>
-					</ng-container>
-
-					<ng-container matColumnDef="evaluationParticipants">
-						<th mat-header-cell *matHeaderCellDef>Participantes</th>
-						<td mat-cell *matCellDef="let area">
-							{{ area.evaluationParticipants.join(', ') }}
-						</td>
-					</ng-container>
-
-					<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-					<tr
-						mat-row
-						*matRowDef="let row; columns: displayedColumns"
-					></tr>
+			<div>
+				<h2 style="text-align: center">Planificación de la evaluación de las competencias</h2>
+				<table>
+					<thead>
+						<tr>
+							<th>
+								<div>Área curricular <span style="font-weight: normal;">{{ plan.unitPlan.subjects.join(', ') | pretify }}</span></div>
+								<div>Grado <span style="font-weight: normal;">{{ plan.classSection.name }}</span></div>
+							</th>
+							<th>Tipos de evaluación</th>
+							<th>Evaluación según los participantes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<div>
+									<div><b>Competencia específicas del grado</b>:</div>
+									@for (comp of plan.competence; track comp) {
+										<app-simple-list [items]="comp.entries" />
+									}
+								</div>
+							</td>
+							<td><app-simple-list [items]="plan.evaluationTypes" /></td>
+							<td><app-simple-list [items]="plan.evaluationParticipants" /></td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 
-			@for (area of plan.evaluationAreas; track area.curricularArea) {
-				<div style="margin-top: 24px">
-					<h4>{{ area.curricularArea }}</h4>
-					<table
-						style="width: 100%; border-collapse: collapse; margin-top: 8px"
-					>
-						<thead>
+			@for (area of plan.evaluationEntries; track $index) {
+				<div style="margin-top: 24px; padding-bottom: 24px;">
+					@if ($index == 0) {
+						<h4 style="text-align: center">{{ area.subject | pretify }}</h4>
+					}
+					<table style="width: 100%; border-collapse: collapse; margin-top: 8px">
+						<tbody>
 							<tr>
-								<th
-									style="border: 1px solid #ccc; padding: 8px; background: #f5f5f5"
-								>
-									Aspecto de la Competencia
+								<th colspan="4">
+									Aspecto de la competencia específica del grado
 								</th>
-								<th
-									style="border: 1px solid #ccc; padding: 8px; background: #f5f5f5"
-								>
+								<th colspan="4">
 									Indicadores de Logro
 								</th>
-								<th
-									style="border: 1px solid #ccc; padding: 8px; background: #f5f5f5"
-								>
+								<th colspan="4">
 									Criterios
 								</th>
-								<th
-									style="border: 1px solid #ccc; padding: 8px; background: #f5f5f5"
-								>
-									Evidencias
-								</th>
 							</tr>
-						</thead>
-						<tbody>
-							@for (
-								aspect of area.competenceAspects;
-								track aspect.aspect
-							) {
+							<tr>
+								<td colspan="4">
+									{{ area.specificCompetenceAspect }}
+								</td>
+								<td colspan="4">
+									<app-simple-list [items]="area.achievementIndicators" />
+								</td>
+								<td colspan="4">
+									<app-simple-list [items]="area.criteria" />
+								</td>
+							</tr>
+							@for (block of area.evaluationBlocks; track block; let i = $index) {
+								@if (i == 0) {
+									<tr>
+										<th style="text-align: center" colspan="12">{{ block.competence | pretify }}</th>
+									</tr>
+									<tr>
+										<th colspan="3">Aspecto del Indicador</th>
+										<th colspan="3">Evidencias</th>
+										<th colspan="3">Ponderación</th>
+										<th colspan="3">Instrumento (s)</th>
+									</tr>
+								}
 								<tr>
-									<td
-										style="border: 1px solid #ccc; padding: 8px; vertical-align: top"
-									>
-										{{ aspect.aspect }}
-									</td>
-									<td
-										style="border: 1px solid #ccc; padding: 8px; vertical-align: top"
-									>
-										<ul
-											style="margin: 0; padding-left: 16px"
-										>
-											@for (
-												indicator of aspect.indicators;
-												track indicator
-											) {
-												<li>
-													{{ indicator }}
-												</li>
-											}
-										</ul>
-									</td>
-									<td
-										style="border: 1px solid #ccc; padding: 8px; vertical-align: top"
-									>
-										<ul
-											style="margin: 0; padding-left: 16px"
-										>
-											@for (
-												criterion of aspect.criteria;
-												track criterion
-											) {
-												<li>
-													{{ criterion }}
-												</li>
-											}
-										</ul>
-									</td>
-									<td
-										style="border: 1px solid #ccc; padding: 8px; vertical-align: top"
-									>
-										<ul
-											style="margin: 0; padding-left: 16px"
-										>
-											@for (
-												evidence of aspect.evidences;
-												track evidence.description
-											) {
-												<li>
-													{{ evidence.description }}
-													({{ evidence.weighting }}% -
-													{{ evidence.instrument }})
-												</li>
-											}
-										</ul>
-									</td>
+									<td colspan="3">{{ block.achievementIndicatorAspect }}</td>
+									<td colspan="3"><app-simple-list [items]="block.evidences" /></td>
+									<td colspan="3">{{ block.weighting }}</td>
+									<td colspan="3">{{ block.instrument }}</td>
 								</tr>
 							}
 						</tbody>

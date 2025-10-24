@@ -6,7 +6,7 @@ import { SCHOOL_SUBJECT } from '../../core/enums/school-subject.enum';
 	standalone: true,
 })
 export class PretifyPipe implements PipeTransform {
-	transform(value: string | SCHOOL_SUBJECT, level?: string): string {
+	transform(value: string | SCHOOL_SUBJECT, level: string = 'PRIMARIA'): string {
 		switch (value) {
 			case SCHOOL_SUBJECT.LENGUA_ESPANOLA:
 			case 'LENGUA_ESPANOLA':
@@ -73,7 +73,7 @@ export class PretifyPipe implements PipeTransform {
 			case 'creation':
 				return 'Crear';
 			case 'Comunicativa':
-				return level === 'SECUNDARIA' ? 'Comunicativa' : 'Comunicativa';
+				return 'Comunicativa';
 			case 'Pensamiento Logico':
 				return level === 'SECUNDARIA'
 					? 'Pensamiento Lógico, Creativo y Crítico'

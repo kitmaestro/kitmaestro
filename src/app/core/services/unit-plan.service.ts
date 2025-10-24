@@ -35,8 +35,8 @@ export class UnitPlanService {
 		);
 	}
 
-	findAll(): Observable<UnitPlan[]> {
-		return this.#apiService.get<UnitPlan[]>(this.#endpoint);
+	findAll(filters?: any): Observable<UnitPlan[]> {
+		return this.#apiService.get<UnitPlan[]>(this.#endpoint, filters);
 	}
 
 	findOne(id: string): Observable<UnitPlan> {

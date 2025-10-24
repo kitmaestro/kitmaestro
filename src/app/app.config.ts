@@ -37,6 +37,7 @@ import {
 	TodosEffects,
 	UpdatesEffects,
 	UserSubscriptionsEffects,
+	AiEffects,
 } from './store';
 import { ChecklistsEffects } from './store/checklists/checklists.effects';
 import { provideRouterStore } from '@ngrx/router-store';
@@ -91,6 +92,7 @@ export const appConfig: ApplicationConfig = {
 			TodosEffects,
 			UpdatesEffects,
 			UserSubscriptionsEffects,
+			AiEffects,
 		),
 		provideRouterStore(),
 	],

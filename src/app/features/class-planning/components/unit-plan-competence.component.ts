@@ -1,10 +1,9 @@
 import { Component, input } from '@angular/core';
 import { ClassSection, CompetenceEntry, UnitPlan } from '../../../core';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 @Component({
 	selector: 'app-unit-plan-competence',
-	imports: [PretifyPipe],
+	imports: [],
 	template: `
 		@if (unitPlan(); as plan) {}
 	`,

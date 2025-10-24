@@ -7,60 +7,50 @@ import {
 	OnDestroy,
 	ViewEncapsulation,
 	computed,
-} from '@angular/core';
+} from '@angular/core'
 import {
 	FormBuilder,
 	ReactiveFormsModule,
 	Validators,
 	AbstractControl,
-} from '@angular/forms';
-import { CommonModule } from '@angular/common';
+} from '@angular/forms'
+import { CommonModule } from '@angular/common'
 import {
 	Subject,
-	firstValueFrom,
 	takeUntil,
 	tap,
-	catchError,
-	EMPTY,
-	finalize,
-	switchMap,
 	filter,
-	map,
 	distinctUntilChanged,
-} from 'rxjs';
+} from 'rxjs'
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatSelectModule } from '@angular/material/select'
+import { MatInputModule } from '@angular/material/input'
+import { MatButtonModule } from '@angular/material/button'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatIconModule } from '@angular/material/icon'
 
-// --- Services ---
-import { AiService } from '../../../core/services/ai.service';
-import { SubjectConceptListService } from '../../../core/services/subject-concept-list.service'; // Service for concepts
+import { ClassSection } from '../../../core'
 
-// --- Interfaces ---
-import { ClassSection } from '../../../core';
-
-// --- DOCX Generation ---
-import { Document, Packer, Paragraph, TextRun } from 'docx';
-import { saveAs } from 'file-saver';
-import { MarkdownComponent } from 'ngx-markdown';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
-import { Store } from '@ngrx/store';
+import { Document, Packer, Paragraph, TextRun } from 'docx'
+import { saveAs } from 'file-saver'
+import { MarkdownComponent } from 'ngx-markdown'
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
+import { Store } from '@ngrx/store'
 import {
 	loadSections,
 	selectAllClassSections,
-} from '../../../store/class-sections';
+	selectIsLoadingSections,
+} from '../../../store/class-sections'
+import { askGemini, loadSubjectConceptLists, selectAiIsGenerating, selectAiResult } from '../../../store'
+import { selectAllLists, selectIsLoadingManyConcepts } from '../../../store/subject-concept-lists/subject-concept-lists.selectors'
 
-// --- Constants ---
-const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
+const OTHER_DISCIPLINE_VALUE = 'Otra'
 
 @Component({
-	selector: 'app-sports-practice-generator', // Component selector
+	selector: 'app-sports-practice-generator',
 	standalone: true,
 	imports: [
 		CommonModule,
@@ -209,13 +199,8 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
 												Cargando...</mat-option
 											>
 										} @else {
-											@for (
-												concept of availableConcepts();
-												track concept
-											) {
-												<mat-option [value]="concept">{{
-													concept
-												}}</mat-option>
+											@for (concept of availableConcepts(); track concept) {
+												<mat-option [value]="concept">{{ concept }}</mat-option>
 											}
 											@if (
 												!availableConcepts().length &&
@@ -316,38 +301,49 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
 					}
 
 					@if (showResult()) {
-						<div class="sports-practice-result">
-							<h3>Plan de Práctica Generado:</h3>
-							<div class="sports-practice-result-page">
-								@if (generatedPlan()) {
-									<markdown [data]="generatedPlan()" />
-								}
+						@if (isGenerating()) {
+							<div style="display: flex; gap: 8px;">
+								<mat-spinner
+									diameter="20"
+									color="accent"
+									class="inline-spinner"
+								></mat-spinner>
+								<span> Generando... </span>
 							</div>
+						} @else {
+							<div class="sports-practice-result">
+								<h3>Plan de Práctica Generado:</h3>
+								<div class="sports-practice-result-page">
+									@if (generatedPlan()) {
+										<markdown [data]="generatedPlan()" />
+									}
+								</div>
 
-							<div class="result-actions">
-								<button
-									mat-button
-									color="primary"
-									(click)="goBack()"
-								>
-									<mat-icon>arrow_back</mat-icon> Volver
-								</button>
-								<button
-									mat-flat-button
-									color="primary"
-									(click)="downloadDocx()"
-									[disabled]="
-										!generatedPlan() ||
-										generatedPlan().startsWith(
-											'Ocurrió un error'
-										)
-									"
-								>
-									<mat-icon>download</mat-icon> Descargar
-									(.docx)
-								</button>
+								<div class="result-actions">
+									<button
+										mat-button
+										color="primary"
+										(click)="goBack()"
+									>
+										<mat-icon>arrow_back</mat-icon> Volver
+									</button>
+									<button
+										mat-flat-button
+										color="primary"
+										(click)="downloadDocx()"
+										[disabled]="
+											!generatedPlan() ||
+											generatedPlan()?.startsWith(
+												'Ocurrió un error'
+											)
+										"
+									>
+										<mat-icon>download</mat-icon> Descargar
+										(.docx)
+									</button>
+								</div>
 							</div>
-						</div>
+						}
 					}
 				</div>
 			</div>
@@ -426,72 +422,46 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'; // Constant for the 'Other' option value
 	encapsulation: ViewEncapsulation.None,
 })
 export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
-	// --- Dependencies ---
-	#fb = inject(FormBuilder);
-	#aiService = inject(AiService);
-	#store = inject(Store);
-	#conceptService = inject(SubjectConceptListService); // Renamed for clarity
-	#snackBar = inject(MatSnackBar);
-	#pretify = new PretifyPipe().transform;
+	#fb = inject(FormBuilder)
+	#store = inject(Store)
+	#snackBar = inject(MatSnackBar)
+	#pretify = new PretifyPipe().transform
 
-	// --- State Signals ---
-	isLoadingSections = signal(false);
-	isLoadingConcepts = signal(false); // Separate loading for concepts
-	isGenerating = signal(false);
-	showResult = signal(false);
-	generatedPlan = signal<string>('');
-	sections = this.#store.selectSignal(selectAllClassSections);
-	availableSubjects = signal<string[]>([]);
-	availableConcepts = signal<string[]>([]); // For the discipline dropdown
+	isLoadingSections = this.#store.selectSignal(selectIsLoadingSections)
+	isLoadingConcepts = this.#store.selectSignal(selectIsLoadingManyConcepts)
+	isGenerating = this.#store.selectSignal(selectAiIsGenerating)
+	showResult = signal(false)
+	generatedPlan = this.#store.selectSignal(selectAiResult)
+	sections = this.#store.selectSignal(selectAllClassSections)
+	allConcepts = this.#store.selectSignal(selectAllLists)
+	availableSubjects = signal<string[]>([])
+	availableConcepts = computed(() => this.allConcepts().flatMap((c) => c.concepts))
 
-	// --- Form Definition ---
 	sportsPracticeForm = this.#fb.group({
 		section: ['', Validators.required],
 		subject: [{ value: '', disabled: true }, Validators.required],
 		disciplineConcept: [{ value: '', disabled: true }, Validators.required],
-		customDiscipline: [{ value: '', disabled: true }], // Initially disabled, conditionally required
-	});
+		customDiscipline: [{ value: '', disabled: true }],
+	})
 
-	// --- Lifecycle Management ---
-	#destroy$ = new Subject<void>();
+	#destroy$ = new Subject<void>()
 
-	// --- Computed Values ---
-	// Determine the final discipline to use for the prompt
 	finalDiscipline = computed(() => {
-		const concept = this.disciplineConceptCtrl?.value;
-		const custom = this.customDisciplineCtrl?.value;
-		return concept === OTHER_DISCIPLINE_VALUE ? custom?.trim() : concept;
-	});
+		const concept = this.disciplineConceptCtrl?.value
+		const custom = this.customDisciplineCtrl?.value
+		return concept === OTHER_DISCIPLINE_VALUE ? custom?.trim() : concept
+	})
 
-	// --- OnInit ---
 	ngOnInit(): void {
-		this.#loadSections();
-		this.#listenForSectionChanges();
-		this.#listenForSubjectChanges(); // Listen for subject to load concepts
-		this.#listenForDisciplineConceptChanges(); // Listen for 'Other' selection
+		this.#store.dispatch(loadSections())
+		this.#listenForSectionChanges()
+		this.#listenForSubjectChanges()
+		this.#listenForDisciplineConceptChanges()
 	}
 
-	// --- OnDestroy ---
 	ngOnDestroy(): void {
-		this.#destroy$.next();
-		this.#destroy$.complete();
-	}
-
-	// --- Private Data Loading and Listener Methods ---
-
-	#loadSections(): void {
-		this.#store.dispatch(loadSections());
-		this.isLoadingSections.set(true);
-		this.#store
-			.select(selectAllClassSections)
-			.pipe(
-				takeUntil(this.#destroy$),
-				catchError((error) =>
-					this.#handleError(error, 'Error al cargar las secciones.'),
-				),
-				tap(() => this.isLoadingSections.set(false)),
-			)
-			.subscribe();
+		this.#destroy$.next()
+		this.#destroy$.complete()
 	}
 
 	#listenForSectionChanges(): void {
@@ -499,239 +469,170 @@ export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
 			.pipe(
 				takeUntil(this.#destroy$),
 				tap((sectionId) => {
-					// Reset dependent fields
-					this.subjectCtrl?.reset();
-					this.subjectCtrl?.disable();
-					this.disciplineConceptCtrl?.reset();
-					this.disciplineConceptCtrl?.disable();
-					this.customDisciplineCtrl?.reset();
-					this.customDisciplineCtrl?.disable();
-					this.availableSubjects.set([]);
-					this.availableConcepts.set([]);
+					this.subjectCtrl?.reset()
+					this.subjectCtrl?.disable()
+					this.disciplineConceptCtrl?.reset()
+					this.disciplineConceptCtrl?.disable()
+					this.customDisciplineCtrl?.reset()
+					this.customDisciplineCtrl?.disable()
 
 					if (sectionId) {
 						const selectedSection = this.sections().find(
 							(s) => s._id === sectionId,
-						);
+						)
 						if (selectedSection?.subjects?.length) {
 							this.availableSubjects.set(
 								selectedSection.subjects,
-							);
-							this.subjectCtrl?.enable();
+							)
+							this.subjectCtrl?.enable()
 						}
 					}
 				}),
 			)
-			.subscribe();
+			.subscribe()
 	}
 
 	#listenForSubjectChanges(): void {
 		this.subjectCtrl?.valueChanges
 			.pipe(
 				takeUntil(this.#destroy$),
-				filter((subject) => !!subject && !!this.sectionCtrl?.value), // Ensure both section and subject are selected
-				distinctUntilChanged(), // Avoid redundant calls if subject re-selected
-				tap(() => {
-					// Reset concept fields before loading new ones
-					this.disciplineConceptCtrl?.reset();
-					this.disciplineConceptCtrl?.disable();
-					this.customDisciplineCtrl?.reset();
-					this.customDisciplineCtrl?.disable();
-					this.availableConcepts.set([]);
-					this.isLoadingConcepts.set(true); // Set loading before async call
-				}),
-				switchMap((subject) => {
-					// Use switchMap to handle async concept loading
-					const sectionId = this.sectionCtrl?.value;
-					const selectedSection = this.sections().find(
-						(s) => s._id === sectionId,
-					);
-					if (!selectedSection || !subject) {
-						return EMPTY; // Should not happen due to filter, but good practice
-					}
-					const filterParams = {
-						level: selectedSection.level,
-						grade: selectedSection.year,
-						subject: subject,
-					};
-					return this.#conceptService.findAll(filterParams).pipe(
-						takeUntil(this.#destroy$), // Ensure inner observable is also cleaned up
-						map((conceptLists) => {
-							// Flatten concepts from all returned lists and make unique
-							const concepts =
-								conceptLists?.flatMap(
-									(list) => list.concepts || [],
-								) || [];
-							return [...new Set(concepts)]; // Unique concepts
-						}),
-						catchError((error) =>
-							this.#handleError(
-								error,
-								'Error al cargar disciplinas/conceptos.',
-							),
-						),
-						finalize(() => this.isLoadingConcepts.set(false)),
-					);
-				}),
-				tap((concepts) => {
-					this.availableConcepts.set(concepts);
-					this.disciplineConceptCtrl?.enable(); // Enable concept dropdown
+				filter((subject) => !!subject && !!this.sectionCtrl?.value),
+				distinctUntilChanged(),
+				tap((subject) => {
+					this.disciplineConceptCtrl?.reset()
+					this.disciplineConceptCtrl?.disable()
+					this.customDisciplineCtrl?.reset()
+					this.customDisciplineCtrl?.disable()
+					const section = this.sections()?.find((s) => s._id === this.sectionCtrl?.value)
+					if (!section) return
+
+					this.#store.dispatch(loadSubjectConceptLists({
+						filters: {
+							level: section.level,
+							grade: section.year,
+							subject,
+						}
+					}))
+					this.disciplineConceptCtrl?.enable()
 				}),
 			)
-			.subscribe();
+			.subscribe()
 	}
 
 	#listenForDisciplineConceptChanges(): void {
 		this.disciplineConceptCtrl?.valueChanges
 			.pipe(
 				takeUntil(this.#destroy$),
-				distinctUntilChanged(), // Only react on actual change
+				distinctUntilChanged(),
 			)
 			.subscribe((value) => {
 				if (value === OTHER_DISCIPLINE_VALUE) {
-					this.customDisciplineCtrl?.enable();
+					this.customDisciplineCtrl?.enable()
 					this.customDisciplineCtrl?.setValidators(
 						Validators.required,
-					);
+					)
 				} else {
-					this.customDisciplineCtrl?.disable();
-					this.customDisciplineCtrl?.clearValidators();
-					this.customDisciplineCtrl?.reset(); // Clear value if not 'Other'
+					this.customDisciplineCtrl?.disable()
+					this.customDisciplineCtrl?.clearValidators()
+					this.customDisciplineCtrl?.reset()
 				}
-				this.customDisciplineCtrl?.updateValueAndValidity(); // Apply changes
-			});
+				this.customDisciplineCtrl?.updateValueAndValidity()
+			})
 	}
 
-	#handleError(error: any, defaultMessage: string) {
-		console.error(defaultMessage, error);
-		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 });
-		return EMPTY; // Return empty observable to gracefully handle error in chain
-	}
-
-	// --- Public Methods ---
-
-	/** Formats section display name */
 	getSectionDisplay(section: ClassSection): string {
-		return `${section.year || ''} ${section.name || ''} (${section.level || 'Nivel no especificado'})`;
+		return `${section.year || ''} ${section.name || ''} (${section.level || 'Nivel no especificado'})`
 	}
 
-	/** Handles form submission */
 	async onSubmit(): Promise<void> {
 		if (this.sportsPracticeForm.invalid) {
-			this.sportsPracticeForm.markAllAsTouched();
-			return;
+			this.sportsPracticeForm.markAllAsTouched()
+			return
 		}
 
-		this.isGenerating.set(true);
-		this.generatedPlan.set('');
-		this.showResult.set(false);
+		this.showResult.set(false)
 
-		const formValue = this.sportsPracticeForm.getRawValue();
+		const formValue = this.sportsPracticeForm.getRawValue()
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
-		);
-		const discipline = this.finalDiscipline(); // Use computed signal
+		)
+		const discipline = this.finalDiscipline()
 
 		if (!discipline) {
 			this.#snackBar.open(
 				'Por favor, selecciona o introduce una disciplina válida.',
 				'Cerrar',
 				{ duration: 3000 },
-			);
-			this.isGenerating.set(false);
-			return;
+			)
+			return
 		}
 
-		// Construct the prompt for a sports practice plan
 		const prompt = `Eres un asistente experto en educación física y planificación deportiva pedagógica.
-      Necesito crear un plan de práctica o guía de entrenamiento detallada para una clase, diseñada específicamente para que un profesor SIN EXPERIENCIA PREVIA en la disciplina pueda impartirla con éxito.
+Necesito crear un plan de práctica o guía de entrenamiento detallada para una clase, diseñada específicamente para que un profesor SIN EXPERIENCIA PREVIA en la disciplina pueda impartirla con éxito.
 
-      Contexto de la Clase:
-      - Nivel Educativo: ${this.#pretify(selectedSection?.level || 'No especificado')}
-      - Año/Grado: ${this.#pretify(selectedSection?.year || 'No especificado')}
-      - Asignatura Contenedora: ${this.#pretify(formValue.subject || '')}
-      - Disciplina Deportiva Específica: ${discipline}
+Contexto de la Clase:
+- Nivel Educativo: ${this.#pretify(selectedSection?.level || 'No especificado')}
+- Año/Grado: ${this.#pretify(selectedSection?.year || 'No especificado')}
+- Asignatura Contenedora: ${this.#pretify(formValue.subject || '')}
+- Disciplina Deportiva Específica: ${discipline}
 
-      Instrucciones para el Plan:
-      1.  **Objetivo Claro:** Define un objetivo simple y alcanzable para una sesión de clase (ej: introducción a las reglas básicas, práctica de un fundamento específico).
-      2.  **Calentamiento (Warm-up):** Describe ejercicios de calentamiento sencillos y seguros, apropiados para la edad/nivel (5-10 min).
-      3.  **Parte Principal (Main Activity):** Detalla paso a paso los ejercicios o actividades principales para enseñar/practicar la disciplina. Explica CÓMO hacer cada ejercicio de forma muy clara (como si hablaras con alguien que nunca lo ha hecho). Usa lenguaje simple. Divide en sub-pasos si es necesario. Incluye posibles puntos clave o errores comunes a evitar. (20-30 min).
-      4.  **Vuelta a la Calma (Cool-down):** Sugiere ejercicios de estiramiento suaves o una actividad relajante final (5 min).
-      5.  **Materiales:** Lista los materiales mínimos necesarios (conos, balones, etc.).
-      6.  **Adaptaciones/Variaciones:** Si es posible, sugiere 1-2 adaptaciones simples para diferentes niveles de habilidad dentro de la clase.
-      7.  **Enfoque:** Prioriza la seguridad, la participación, la diversión y el aprendizaje básico sobre la técnica avanzada.
-      8.  **Formato:** Estructura la respuesta claramente con títulos (Calentamiento, Parte Principal, etc.). Usa párrafos cortos y listas.
+Instrucciones para el Plan:
+1.  **Objetivo Claro:** Define un objetivo simple y alcanzable para una sesión de clase (ej: introducción a las reglas básicas, práctica de un fundamento específico).
+2.  **Calentamiento (Warm-up):** Describe ejercicios de calentamiento sencillos y seguros, apropiados para la edad/nivel (5-10 min).
+3.  **Parte Principal (Main Activity):** Detalla paso a paso los ejercicios o actividades principales para enseñar/practicar la disciplina. Explica CÓMO hacer cada ejercicio de forma muy clara (como si hablaras con alguien que nunca lo ha hecho). Usa lenguaje simple. Divide en sub-pasos si es necesario. Incluye posibles puntos clave o errores comunes a evitar. (20-30 min).
+4.  **Vuelta a la Calma (Cool-down):** Sugiere ejercicios de estiramiento suaves o una actividad relajante final (5 min).
+5.  **Materiales:** Lista los materiales mínimos necesarios (conos, balones, etc.).
+6.  **Adaptaciones/Variaciones:** Si es posible, sugiere 1-2 adaptaciones simples para diferentes niveles de habilidad dentro de la clase.
+7.  **Enfoque:** Prioriza la seguridad, la participación, la diversión y el aprendizaje básico sobre la técnica avanzada.
+8.  **Formato:** Estructura la respuesta claramente con títulos (Calentamiento, Parte Principal, etc.). Usa párrafos cortos y listas.
 
-      IMPORTANTE: El lenguaje debe ser extremadamente claro y directo, asumiendo CERO conocimiento previo del profesor sobre ${discipline}. Solo devuelve el plan, sin saludos ni despedidas.`;
+IMPORTANTE: El lenguaje debe ser extremadamente claro y directo, asumiendo CERO conocimiento previo del profesor sobre ${discipline}. Solo devuelve el plan, sin saludos ni despedidas ya que sera impreso tal cual, y no debe ser visto como un chat, sino como un documento especial, redactado por un docente.`
 
-		try {
-			const result = await firstValueFrom(
-				this.#aiService.geminiAi(prompt),
-			);
-			this.generatedPlan.set(
-				result?.response || 'No se pudo generar el plan de práctica.',
-			);
-			this.showResult.set(true);
-		} catch (error) {
-			this.generatedPlan.set(
-				'Ocurrió un error al generar el plan. Por favor, inténtalo de nuevo.',
-			);
-			this.showResult.set(true); // Show error in result area
-			this.#handleError(error, 'Error al contactar el servicio de IA');
-		} finally {
-			this.isGenerating.set(false);
-		}
+		this.#store.dispatch(askGemini({ question: prompt }))
+		this.showResult.set(true)
 	}
 
-	/** Resets the form and view */
 	goBack(): void {
-		this.showResult.set(false);
-		this.generatedPlan.set('');
-		this.sportsPracticeForm.reset();
-		// Explicitly disable controls that depend on others
-		this.subjectCtrl?.disable();
-		this.disciplineConceptCtrl?.disable();
-		this.customDisciplineCtrl?.disable();
-		this.availableSubjects.set([]);
-		this.availableConcepts.set([]);
+		this.showResult.set(false)
+		this.sportsPracticeForm.reset()
+		this.subjectCtrl?.disable()
+		this.disciplineConceptCtrl?.disable()
+		this.customDisciplineCtrl?.disable()
+		this.availableSubjects.set([])
 	}
 
-	/** Downloads the generated plan as DOCX */
 	downloadDocx(): void {
-		const planText = this.generatedPlan();
-		if (!planText || planText.startsWith('Ocurrió un error')) return;
+		const planText = this.generatedPlan()
+		if (!planText || planText.startsWith('Ocurrió un error')) return
 
-		const formValue = this.sportsPracticeForm.getRawValue();
+		const formValue = this.sportsPracticeForm.getRawValue()
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
-		);
-		const discipline = this.finalDiscipline();
+		)
+		const discipline = this.finalDiscipline()
 
-		// Sanitize filename parts
 		const sectionName = (section?.name || 'Seccion').replace(
 			/[^a-z0-9]/gi,
 			'_',
-		);
+		)
 		const subjectName = (formValue.subject || 'Asignatura').replace(
 			/[^a-z0-9]/gi,
 			'_',
-		);
+		)
 		const disciplineName = (discipline || 'Disciplina')
 			.substring(0, 20)
-			.replace(/[^a-z0-9]/gi, '_');
+			.replace(/[^a-z0-9]/gi, '_')
 
-		const filename = `PlanPractica_${sectionName}_${subjectName}_${disciplineName}.docx`;
+		const filename = `PlanPractica_${sectionName}_${subjectName}_${disciplineName}.docx`
 
-		// Create paragraphs, splitting by newline characters
 		const paragraphs = planText.split('\n').map(
 			(line) =>
 				new Paragraph({
 					children: [new TextRun(line)],
-					spacing: { after: 180 }, // Adjust spacing as needed
+					spacing: { after: 180 },
 				}),
-		);
+		)
 
-		// Create the document
 		const doc = new Document({
 			sections: [
 				{
@@ -775,38 +676,36 @@ export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
 							],
 							spacing: { after: 400 },
 						}),
-						...paragraphs, // Add the generated content paragraphs
+						...paragraphs,
 					],
 				},
 			],
-		});
+		})
 
-		// Generate blob and trigger download
 		Packer.toBlob(doc)
 			.then((blob) => {
-				saveAs(blob, filename);
+				saveAs(blob, filename)
 			})
 			.catch((error) => {
-				console.error('Error creating DOCX file:', error);
+				console.error('Error creating DOCX file:', error)
 				this.#snackBar.open(
 					'Error al generar el archivo DOCX',
 					'Cerrar',
 					{ duration: 3000 },
-				);
-			});
+				)
+			})
 	}
 
-	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.sportsPracticeForm.get('section');
+		return this.sportsPracticeForm.get('section')
 	}
 	get subjectCtrl(): AbstractControl | null {
-		return this.sportsPracticeForm.get('subject');
+		return this.sportsPracticeForm.get('subject')
 	}
 	get disciplineConceptCtrl(): AbstractControl | null {
-		return this.sportsPracticeForm.get('disciplineConcept');
+		return this.sportsPracticeForm.get('disciplineConcept')
 	}
 	get customDisciplineCtrl(): AbstractControl | null {
-		return this.sportsPracticeForm.get('customDiscipline');
+		return this.sportsPracticeForm.get('customDiscipline')
 	}
 }

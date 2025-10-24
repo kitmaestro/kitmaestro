@@ -327,7 +327,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadPlans());
+		this.#store.dispatch(loadPlans({ }));
 		this.#store.dispatch(loadSections());
 		const res = localStorage.getItem('available-resources') as string;
 		const resources = res ? JSON.parse(res) : null;

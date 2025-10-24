@@ -2,8 +2,6 @@ import {
 	Component,
 	inject,
 	OnInit,
-	Pipe,
-	PipeTransform,
 	Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -23,8 +21,8 @@ import { RubricService } from '../../../core/services/rubric.service';
 import { ChecklistService } from '../../../core/services/checklist.service';
 import { EstimationScaleService } from '../../../core/services/estimation-scale.service';
 import { TestService } from '../../../core/services/test.service';
-import { RubricComponent } from '../../assessments/rubric/rubric.component';
-import { ChecklistComponent } from '../../assessments/checklist/checklist.component';
+import { RubricComponent } from '../../assessments/components/rubric.component';
+import { ChecklistComponent } from '../../assessments/components/checklist.component';
 
 export const generateRubricPrompt = `
 Crea el contenido para una Rúbrica Analítica en formato JSON.

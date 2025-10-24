@@ -169,7 +169,7 @@ export class UnitPlanListComponent {
 
 	ngOnInit() {
 		this.#store.dispatch(loadClassPlans({}));
-		this.#store.dispatch(loadPlans());
+		this.#store.dispatch(loadPlans({}));
 	}
 
 	deletePlan(id: string) {

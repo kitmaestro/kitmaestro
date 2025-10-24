@@ -63,7 +63,6 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 							}
 						</tbody>
 					</table>
-				</div>
 			</div>
 		}
 	`,

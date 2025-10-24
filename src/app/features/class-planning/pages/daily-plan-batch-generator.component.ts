@@ -271,7 +271,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 				.get('unitPlan')
 				?.setValue(this.unitPlanInput._id);
 		} else {
-			this.#store.dispatch(loadPlans());
+			this.#store.dispatch(loadPlans({}));
 		}
 	}
 

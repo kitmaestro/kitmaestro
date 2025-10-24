@@ -39,8 +39,8 @@ export class UnitPlansEffects {
 	loadPlans$ = createEffect(() =>
 		this.#actions$.pipe(
 			ofType(UnitPlansActions.loadPlans),
-			switchMap(() =>
-				this.#unitPlanService.findAll().pipe(
+			switchMap(({ filters }) =>
+				this.#unitPlanService.findAll(filters).pipe(
 					map((plans) =>
 						UnitPlansActions.loadPlansSuccess({
 							plans: plans as any[],
