@@ -1,6 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core'
-import { DiagnosticEvaluationService, UserService } from '../../../core/services'
-import { GeneratedEvaluation, User } from '../../../core'
+import { Component, effect, inject } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
@@ -9,9 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import { RouterLink } from '@angular/router'
 import { DatePipe } from '@angular/common'
 import { Store } from '@ngrx/store'
-import { deleteEvaluation, deleteEvaluationFailed, loadEvaluations, selectAllEvaluations, selectAuthUser } from '../../../store'
-import { Actions, ofType } from '@ngrx/effects'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { deleteEvaluation, loadEvaluations, selectAllEvaluations, selectAuthUser } from '../../../store'
 
 @Component({
 	selector: 'app-diagnostic-evaluations',
@@ -45,7 +41,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 						<a
 							mat-flat-button
 							color="primary"
-							routerLink="/diagnostic-evaluation-generator"
+							routerLink="/assessments/diagnostic-evaluation-generator"
 						>
 							Crear Nueva Evaluación
 						</a>

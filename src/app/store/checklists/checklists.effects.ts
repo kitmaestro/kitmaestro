@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, switchMap, map, of } from 'rxjs';
+import { catchError, switchMap, map, of, tap, take } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChecklistService } from '../../core/services';
 import * as ChecklistsActions from './checklists.actions';
@@ -156,4 +156,24 @@ export class ChecklistsEffects {
 			),
 		),
 	);
+
+	downloadChecklist$ = createEffect(() =>
+		this.#actions$.pipe(
+			ofType(ChecklistsActions.downloadChecklist),
+			take(1),
+			tap(({ checklist }) => {
+				this.#checklistService.download(checklist)
+				this.#sb.open('La lista de cotejo ha sido descargada', 'Ok', timing)
+				return ChecklistsActions.downloadChecklistSuccess()
+			}),
+			catchError((error) => {
+				this.#sb.open('Error al descargar la lista de cotejo', 'Ok', timing)
+				return of(
+					ChecklistsActions.downloadChecklistFailed({
+						error: error.message,
+					})
+				)
+			})
+		)
+	)
 }

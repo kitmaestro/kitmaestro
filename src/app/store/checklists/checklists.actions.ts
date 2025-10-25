@@ -68,3 +68,14 @@ export const deleteChecklistFailed = createAction(
 	'[Checklists] Delete Checklist Failed',
 	props<{ error: string }>(),
 );
+
+// Download a checklist
+export const downloadChecklist = createAction(
+	'[Checklists] Download Checklist',
+	props<{ checklist: Checklist }>(),
+);
+export const downloadChecklistSuccess = createAction('[Checklists] Download Checklist Success');
+export const downloadChecklistFailed = createAction(
+	'[Checklists] Download Checklist Failed',
+	props<{ error: string }>(),
+);

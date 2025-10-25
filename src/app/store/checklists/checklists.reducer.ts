@@ -29,6 +29,10 @@ export const checklistsReducer = createReducer(
 		...state,
 		status: ChecklistStateStatus.DELETING_CHECKLIST,
 	})),
+	on(ChecklistsActions.downloadChecklist, (state) => ({
+		...state,
+		status: ChecklistStateStatus.DOWNLOADING_CHECKLIST,
+	})),
 
 	// Handle failure cases
 	on(
@@ -37,6 +41,7 @@ export const checklistsReducer = createReducer(
 		ChecklistsActions.createChecklistFailed,
 		ChecklistsActions.updateChecklistFailed,
 		ChecklistsActions.deleteChecklistFailed,
+		ChecklistsActions.downloadChecklistFailed,
 		(state, { error }) => ({
 			...state,
 			status: ChecklistStateStatus.IDLING,
@@ -82,5 +87,9 @@ export const checklistsReducer = createReducer(
 				? null
 				: state.selectedChecklist,
 		checklists: state.checklists.filter((c) => c._id !== id),
+	})),
+	on(ChecklistsActions.downloadChecklistSuccess, (state) => ({
+		...state,
+		status: ChecklistStateStatus.IDLING,
 	})),
 );

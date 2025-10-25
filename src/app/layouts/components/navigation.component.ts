@@ -76,15 +76,19 @@ import { Actions, ofType } from '@ngrx/effects';
 					<mat-icon>class</mat-icon>
 					<span>Mis Secciones</span>
 				</button>
-				<button routerLink="/unit-plans/list" mat-menu-item>
+				<button routerLink="/assessments/unit-plans/list" mat-menu-item>
 					<mat-icon>schema</mat-icon>
 					<span>Mis Unidades</span>
 				</button>
-				<button routerLink="/class-plans/list" mat-menu-item>
+				<button routerLink="/planning/class-plans/list" mat-menu-item>
 					<mat-icon>assignment</mat-icon>
 					<span>Mis Planes Diarios</span>
 				</button>
-				<button routerLink="/rubrics" mat-menu-item>
+				<button routerLink="/assessments/checklists" mat-menu-item>
+					<mat-icon>list</mat-icon>
+					<span>Mis Listas de Cotejo</span>
+				</button>
+				<button routerLink="/assessments/rubrics" mat-menu-item>
 					<mat-icon>analytics</mat-icon>
 					<span>Mis Rubricas</span>
 				</button>
@@ -93,7 +97,7 @@ import { Actions, ofType } from '@ngrx/effects';
 					<span>Tutoriales</span>
 				</button>
 				@if (subscription()?.subscriptionType == 'Plan Premium') {
-					<button routerLink="/referrals" mat-menu-item>
+					<button routerLink="/referrals" mat-menu-item style="display: none">
 						<mat-icon>people_circle</mat-icon>
 						<span>Mis Referidos</span>
 					</button>

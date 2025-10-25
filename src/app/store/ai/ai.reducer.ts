@@ -17,6 +17,10 @@ export const aiReducer = createReducer(
             const start = result.indexOf('{')
             const end = result.lastIndexOf('}') + 1
             jsonString = result.substring(start, end)
+        } else if (result.includes('[') && result.includes(']')) {
+            const start = result.indexOf('[')
+            const end = result.lastIndexOf(']') + 1
+            jsonString = result.substring(start, end)
         }
         const serializedResult = jsonString ? JSON.parse(jsonString) : null
         return {

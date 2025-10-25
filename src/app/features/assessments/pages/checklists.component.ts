@@ -1,109 +1,114 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { Checklist } from '../../../core';
-import { ChecklistService } from '../../../core/services/checklist.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { MatIconModule } from '@angular/material/icon';
+import { Store } from '@ngrx/store';
+import { deleteChecklist, downloadChecklist, loadChecklists, loadCurrentSubscription, selectAllChecklists } from '../../../store';
+import { selectCurrentSubscription } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
 	selector: 'app-checklists',
 	imports: [
-		MatCardModule,
 		MatButtonModule,
 		MatIconModule,
-		MatSnackBarModule,
+		MatTableModule,
+		MatTooltipModule,
 		PretifyPipe,
 		RouterLink,
 	],
 	template: `
 		<div>
-			<mat-card>
-				<mat-card-header
-					style="align-items: center; justify-content: space-between"
-				>
-					<mat-card-title>Mis Listas de Cotejo</mat-card-title>
-					<a mat-flat-button routerLink="/checklist-generator"
-						>Crear Nueva</a
-					>
-				</mat-card-header>
-				<mat-card-content>
-					<p>
-						Las listas de cotejo o listas de control constituyen un
-						instrumento para el registro de la evaluación, en la
-						cual se enumeran indicadores, tareas, acciones,
-						actitudes, valores que se espera las/los estudiantes
-						evidencien en un proceso de aprendizaje.
-					</p>
-				</mat-card-content>
-			</mat-card>
+			<div>
+				<div style="align-items: center; justify-content: space-between; display: flex;">
+					<h2>Mis Listas de Cotejo</h2>
+					<a
+						mat-flat-button
+						routerLink="/assessments/checklist-generator"
+						>
+						Crear Nueva
+					</a>
+				</div>
+			</div>
 
-			@if (checklists.length) {
-				<table style="margin-top: 24px" class="table">
-					<thead>
-						<tr>
-							<th>Curso</th>
-							<th>Asignatura</th>
-							<th>Unidad</th>
-							<th>Titulo</th>
-							<th>Actividad</th>
-							<th>Acciones</th>
-						</tr>
-					</thead>
-					<tbody>
-						@for (checklist of checklists; track checklist._id) {
-							<tr>
-								<td>{{ checklist.section.name }}</td>
-								<td>
-									{{
-										checklist.contentBlock.subject | pretify
-									}}
-								</td>
-								<td>{{ checklist.contentBlock.title }}</td>
-								<td>{{ checklist.title }}</td>
-								<td>{{ checklist.activity }}</td>
-								<td>
-									<div style="display: flex; gap: 12px">
-										<button
-											(click)="delete(checklist._id)"
-											mat-mini-fab
-										>
-											<mat-icon>delete</mat-icon>
-										</button>
-										<button
-											(click)="download(checklist)"
-											mat-mini-fab
-										>
-											<mat-icon>download</mat-icon>
-										</button>
-										<a
-											routerLink="/checklists/{{
-												checklist._id
-											}}"
-											mat-mini-fab
-											><mat-icon>open_in_new</mat-icon></a
-										>
-									</div>
-								</td>
-							</tr>
-						}
-					</tbody>
+			@if (checklists().length) {
+				<table style="margin-top: 24px" mat-table [dataSource]="checklists()">
+					<ng-container matColumnDef="classSection">
+						<th mat-header-cell *matHeaderCellDef>Curso</th>
+						<td mat-cell *matCellDef="let checklist">
+							{{ checklist.section.name }}
+						</td>
+					</ng-container>
+					<ng-container matColumnDef="subject">
+						<th mat-header-cell *matHeaderCellDef>Asignatura</th>
+						<td mat-cell *matCellDef="let checklist">
+							{{ checklist.contentBlock.subject | pretify }}
+						</td>
+					</ng-container>
+					<ng-container matColumnDef="unit">
+						<th mat-header-cell *matHeaderCellDef>Unidad</th>
+						<td mat-cell *matCellDef="let checklist">
+							{{ checklist.contentBlock.title }}
+						</td>
+					</ng-container>
+					<ng-container matColumnDef="title">
+						<th mat-header-cell *matHeaderCellDef>Titulo</th>
+						<td mat-cell *matCellDef="let checklist">
+							{{ checklist.title }}
+						</td>
+					</ng-container>
+					<ng-container matColumnDef="activity">
+						<th mat-header-cell *matHeaderCellDef>Actividad</th>
+						<td mat-cell *matCellDef="let checklist">
+							{{ checklist.activity }}
+						</td>
+					</ng-container>
+					<ng-container matColumnDef="actions">
+						<th mat-header-cell *matHeaderCellDef>Acciones</th>
+						<td mat-cell *matCellDef="let checklist">
+							<div style="display: flex; gap: 12px">
+								<button
+									(click)="delete(checklist._id)"
+									mat-icon-button
+								>
+									<mat-icon>delete</mat-icon>
+								</button>
+								<div [matTooltip]="isPremium() ? 'Descargar' : 'Necesitas una suscripcion para descargar'">
+									<button
+										(click)="download(checklist)"
+										[disabled]="!isPremium()"
+										mat-icon-button
+									>
+										<mat-icon>download</mat-icon>
+									</button>
+								</div>
+								<a
+									routerLink="/assessments/checklists/{{ checklist._id }}"
+									mat-icon-button
+									><mat-icon>open_in_new</mat-icon></a
+								>
+							</div>
+						</td>
+					</ng-container>
+					<tr mat-header-row *matHeaderRowDef="['classSection', 'subject', 'unit', 'title', 'activity', 'actions']"></tr>
+					<tr mat-row *matRowDef="let checklist; columns: ['classSection', 'subject', 'unit', 'title', 'activity', 'actions'];"></tr>
 				</table>
 			} @else {
-				<mat-card style="margin-top: 24px">
-					<mat-card-content>
+				<div style="margin-top: 24px">
+					<div>
 						<p style="padding: 24px; text-align: center">
 							No tienes ninguna lista de cotejo todavia. Empieza
 							por
-							<a mat-button routerLink="/checklist-generator"
+							<a mat-button routerLink="/assessments/checklist-generator"
 								>crear una lista</a
 							>
 							ahora.
 						</p>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			}
 		</div>
 	`,
@@ -148,50 +153,20 @@ import { MatIconModule } from '@angular/material/icon';
 	`,
 })
 export class ChecklistsComponent implements OnInit {
-	private checklistService = inject(ChecklistService);
-	private sb = inject(MatSnackBar);
-
-	checklists: Checklist[] = [];
-
-	load() {
-		this.checklistService.findAll().subscribe({
-			next: (checklists) => {
-				if (checklists.length) {
-					this.checklists = checklists;
-				}
-			},
-		});
-	}
-
+	#store = inject(Store)
+	isPremium = this.#store.selectSignal(selectCurrentSubscription)
+	checklists = this.#store.selectSignal(selectAllChecklists)
+	
 	ngOnInit() {
-		this.load();
+		this.#store.dispatch(loadChecklists())
+		this.#store.dispatch(loadCurrentSubscription())
 	}
 
 	download(checklist: Checklist) {
-		this.checklistService.download(checklist);
+		this.#store.dispatch(downloadChecklist({ checklist }))
 	}
 
 	delete(id: string) {
-		this.checklistService.delete(id).subscribe({
-			next: (res) => {
-				if (res.deletedCount > 0) {
-					this.sb.open('Se ha eliminado la lista de cotejo.', 'Ok', {
-						duration: 2500,
-					});
-				} else {
-					this.sb.open('Ha ocurrido un error al eliminar', 'Ok', {
-						duration: 2500,
-					});
-				}
-				this.load();
-			},
-			error: (err) => {
-				this.load();
-				this.sb.open('Ha ocurrido un error al eliminar', 'Ok', {
-					duration: 2500,
-				});
-				console.log(err.message);
-			},
-		});
+		this.#store.dispatch(deleteChecklist({ id }))
 	}
 }

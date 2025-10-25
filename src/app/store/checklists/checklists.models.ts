@@ -18,6 +18,7 @@ export enum ChecklistStateStatus {
 	CREATING_CHECKLIST,
 	UPDATING_CHECKLIST,
 	DELETING_CHECKLIST,
+	DOWNLOADING_CHECKLIST,
 }
 
 export interface ChecklistsState {
