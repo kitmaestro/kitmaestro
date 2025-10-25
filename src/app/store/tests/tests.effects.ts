@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, switchMap, map, of } from 'rxjs';
+import { catchError, switchMap, map, of, tap, take } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TestService } from '../../core/services';
 import * as TestsActions from './tests.actions';
@@ -142,6 +142,21 @@ export class TestsEffects {
 					}),
 				),
 			),
+		),
+	);
+
+	downloadTest$ = createEffect(() =>
+		this.#actions$.pipe(
+			ofType(TestsActions.downloadTest),
+			take(1),
+			tap(({ test }) => {
+				this.#testService.download(test)
+				this.#sb.open(
+					'El examen ha sido descargada',
+					'Ok',
+					timing
+				);
+			}),
 		),
 	);
 }
