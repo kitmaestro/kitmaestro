@@ -31,6 +31,7 @@ import { AiService } from '../../../core/services/ai.service';
 import { RubricService } from '../../../core/services/rubric.service';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { RubricDto } from '../../../store';
 
 @Component({
 	selector: 'app-rubric-lot-generator',
@@ -530,7 +531,7 @@ export class RubricLotGeneratorComponent implements OnInit {
 				if (!rubric) {
 					return of(null);
 				}
-				return this.rubricService.create(rubric as Rubric).pipe(
+				return this.rubricService.create(rubric as any as RubricDto).pipe(
 					tap(() => {
 						this.generationStatus.push(
 							`   -> ✅ Rúbrica para "${concept}" guardada con éxito.`,

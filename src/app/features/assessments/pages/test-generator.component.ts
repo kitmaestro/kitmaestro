@@ -338,7 +338,7 @@ Al final del examen, incluye un mensaje sencillo pero alentador o un 'Buena suer
 		if (!this.test) return;
 
 		this.loading = true;
-		this.testService.create(this.test).subscribe({
+		this.testService.create(this.test as any).subscribe({
 			next: (res) => {
 				this.loading = false;
 				if (res._id) {

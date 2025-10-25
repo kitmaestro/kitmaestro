@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { DiagnosticEvaluationService, UserService } from '../../core/services';
-import { GeneratedEvaluation, User } from '../../core';
+import { DiagnosticEvaluationService, UserService } from '../../../core/services';
+import { GeneratedEvaluation, User } from '../../../core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +8,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { IsPremiumComponent } from '../../shared/ui/is-premium.component';
 
 @Component({
 	selector: 'app-diagnostic-evaluations',

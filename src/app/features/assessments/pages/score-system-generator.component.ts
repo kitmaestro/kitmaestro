@@ -420,7 +420,7 @@ Algunos puntos 'fijos' son los cuadernos (5 a 15 puntos) y la participacion acti
 			this.saving = true;
 			const content = this.scoreSystem.content.map((c) => c._id);
 			this.scoreService
-				.create({ ...this.scoreSystem, content })
+				.create({ ...this.scoreSystem, content } as any)
 				.subscribe({
 					next: (system) => {
 						if (system._id) {

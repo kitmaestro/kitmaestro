@@ -354,7 +354,7 @@ export class ObservationSheetComponent implements OnInit {
 		this.compentenceOptions = this.getCompentenceOptions(id);
 		const group = this.groups.find((g) => g._id === id);
 		if (group) {
-			this.schoolName = group.school.name;
+			this.schoolName = this.user?.schoolName || '';
 		}
 	}
 
@@ -507,8 +507,7 @@ export class ObservationSheetComponent implements OnInit {
 		const section = this.groups.find((g) => g._id === sectionId);
 		if (!section) return;
 
-		this.competenceService
-			.findByGrade(section.year)
+		this.competenceService.findAll({ grade: section.year })
 			.subscribe((competence) => {
 				this.competenceCol = competence;
 			});

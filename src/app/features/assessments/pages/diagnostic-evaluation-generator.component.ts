@@ -513,7 +513,10 @@ export class DiagnosticEvaluationGeneratorComponent implements OnInit {
 					this.evaluation = JSON.parse(
 						jsonString,
 					) as GeneratedEvaluation;
-					this.evaluation.user = this.User?._id || 'unknown';
+					const user = this.User
+					if (user) {
+						this.evaluation.user = user;
+					}
 					this.evaluation.year = this.prevGrade(selectedSection).year;
 					this.evaluation.level =
 						this.prevGrade(selectedSection).level;
@@ -738,7 +741,7 @@ Asegúrate de que las preguntas sean apropiadas para el nivel académico de ${gr
 	saveEvaluation(): void {
 		if (!this.evaluation) return;
 
-		this.diagnosticEvaluationService.create(this.evaluation).subscribe({
+		this.diagnosticEvaluationService.create(this.evaluation as any).subscribe({
 			next: (savedEval) => {
 				this.evaluation = savedEval;
 				this.router.navigate([

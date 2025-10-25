@@ -5,9 +5,7 @@ import {
 	ChangeDetectionStrategy,
 	OnInit,
 	OnDestroy,
-	ViewEncapsulation,
-	ElementRef,
-	ViewChild,
+	ViewEncapsulation
 } from '@angular/core';
 import {
 	FormBuilder,
@@ -21,7 +19,6 @@ import {
 	Observable,
 	firstValueFrom,
 	takeUntil,
-	tap,
 	catchError,
 	EMPTY,
 	finalize,
@@ -493,35 +490,35 @@ export class ImageGraderComponent implements OnInit, OnDestroy {
 		// This assumes your AiService has a method like this.
 		// You might need to convert files to base64 or use FormData depending on your backend.
 		try {
-			const result = await firstValueFrom(
-				this.#aiService
-					.gradeImageActivity(
-						filesToProcess,
-						formValue.maxPoints ?? undefined,
-					)
-					.pipe(
-						takeUntil(this.#destroy$),
-						catchError((error) =>
-							this.#handleError(
-								error,
-								'Error al procesar la actividad.',
-							),
-						),
-						finalize(() => this.isGenerating.set(false)), // Ensure loading stops
-					),
-			);
+			// const result = await firstValueFrom(
+			// 	this.#aiService
+			// 		.gradeImageActivity(
+			// 			filesToProcess,
+			// 			formValue.maxPoints ?? undefined,
+			// 		)
+			// 		.pipe(
+			// 			takeUntil(this.#destroy$),
+			// 			catchError((error) =>
+			// 				this.#handleError(
+			// 					error,
+			// 					'Error al procesar la actividad.',
+			// 				),
+			// 			),
+			// 			finalize(() => this.isGenerating.set(false)), // Ensure loading stops
+			// 		),
+			// );
 
-			if (result) {
-				this.gradingResult.set(result);
-				this.showResult.set(true);
-			} else {
-				// Handle cases where the service might return null/undefined even without throwing
-				this.#snackBar.open(
-					'No se recibió un resultado válido del servicio.',
-					'Cerrar',
-					{ duration: 4000 },
-				);
-			}
+			// if (result) {
+			// 	this.gradingResult.set(result);
+			// 	this.showResult.set(true);
+			// } else {
+			// 	// Handle cases where the service might return null/undefined even without throwing
+			// 	this.#snackBar.open(
+			// 		'No se recibió un resultado válido del servicio.',
+			// 		'Cerrar',
+			// 		{ duration: 4000 },
+			// 	);
+			// }
 		} catch (error) {
 			// Catch potential errors not caught by RxJS catchError (e.g., during promise conversion)
 			this.#handleError(

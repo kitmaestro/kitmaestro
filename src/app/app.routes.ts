@@ -16,6 +16,7 @@ import usersRoutes from './features/users/users.routes';
 import activitiesRoutes from './features/activities/activities.routes';
 import registryRoutes from './features/registry/registry.routes';
 import sectionsRoutes from './features/class-sections/sections.routes';
+import assessmentsRoutes from './features/assessments/assessment.routes';
 
 export const routes: Routes = [
 	{
@@ -58,6 +59,7 @@ export const routes: Routes = [
 			{ path: 'registry', children: registryRoutes },
 			{ path: 'activities', children: activitiesRoutes },
 			{ path: 'resources', children: resourcesRoutes },
+			{ path: 'assessments', children: assessmentsRoutes },
 		],
 	},
 

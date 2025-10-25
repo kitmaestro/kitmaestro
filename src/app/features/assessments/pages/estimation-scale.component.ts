@@ -238,7 +238,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 						@if (selectedSection) {
 							<div style="text-align: center">
 								<h2 style="margin: 0px">
-									{{ selectedSection.school.name }}
+									{{ user?.schoolName }}
 								</h2>
 								<h3 style="margin: 0px">
 									A&ntilde;o Escolar {{ schoolYear }}
@@ -470,8 +470,7 @@ export class EstimationScaleComponent implements OnInit {
 		const section = this.sections.find((g) => g._id === sectionId);
 		if (!section) return;
 
-		this.competenceService
-			.findByGrade(section.year)
+		this.competenceService.findAll({ grade: section.year })
 			.subscribe((competence) => {
 				this.competenceCol = competence.filter(
 					(c) => c.subject === this.scaleForm.value.subject,
