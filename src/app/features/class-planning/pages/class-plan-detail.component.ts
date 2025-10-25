@@ -19,6 +19,8 @@ import {
 	downloadClassPlan,
 	loadClassPlan,
 } from '../../../store/class-plans/class-plans.actions';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { loadCurrentSubscription } from '../../../store';
 
 @Component({
 	selector: 'app-class-plan-detail',
@@ -48,6 +50,7 @@ import {
 					type="button"
 					mat-button
 					color="warn"
+					style="display: none"
 					(click)="deletePlan()"
 				>
 					Eliminar
@@ -116,7 +119,11 @@ import {
 									>Estrategias y técnicas de
 									enseñanza-aprendizaje</b
 								>:
-								{{ plan.strategies.join(', ') }}
+								<ul style="margin: 0; padding: 0; list-style: none">
+									@for(strategy of plan.strategies; track strategy) {
+										<li>- {{ strategy }}</li>
+									}
+								</ul>
 							</td>
 						</tr>
 						<tr>
@@ -141,7 +148,7 @@ import {
 								<b>Inicio</b> ({{ plan.introduction.duration }}
 								Minutos)
 							</td>
-							<td rowspan="4">{{ plan.competence }}</td>
+							<td [attr.rowspan]="plan.supplementary.activities.length > 0 ? 4 : 3">{{ plan.competence }}</td>
 							<td>
 								<ul
 									style="margin: 0; padding: 0; list-style: none"
@@ -151,7 +158,7 @@ import {
 											.activities;
 										track actividad
 									) {
-										<li>{{ actividad }}</li>
+										<li>{{ actividad.replaceAll('**', '') }}</li>
 									}
 								</ul>
 							</td>
@@ -184,7 +191,7 @@ import {
 										actividad of plan.main.activities;
 										track actividad
 									) {
-										<li>{{ actividad }}</li>
+										<li>{{ actividad.replaceAll('**', '') }}</li>
 									}
 								</ul>
 							</td>
@@ -217,7 +224,7 @@ import {
 										actividad of plan.closing.activities;
 										track actividad
 									) {
-										<li>{{ actividad }}</li>
+										<li>{{ actividad.replaceAll('**', '') }}</li>
 									}
 								</ul>
 							</td>
@@ -237,37 +244,39 @@ import {
 								</ul>
 							</td>
 						</tr>
-						<tr>
-							<td><b>Actividades Complementarias</b></td>
-							<td>
-								<ul
-									style="margin: 0; padding: 0; list-style: none"
-								>
-									@for (
-										actividad of plan.supplementary
-											.activities;
-										track actividad
-									) {
-										<li>{{ actividad }}</li>
-									}
-								</ul>
-							</td>
-							<td>
-								{{ plan.supplementary.layout }}
-							</td>
-							<td>
-								<ul
-									style="margin: 0; padding: 0; list-style: none"
-								>
-									@for (
-										recurso of plan.supplementary.resources;
-										track recurso
-									) {
-										<li>- {{ recurso }}</li>
-									}
-								</ul>
-							</td>
-						</tr>
+						@if (plan.supplementary.activities.length > 0) {
+							<tr>
+								<td><b>Actividades Complementarias</b></td>
+								<td>
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
+										@for (
+											actividad of plan.supplementary
+												.activities;
+											track actividad
+										) {
+											<li>{{ actividad.replaceAll('**', '') }}</li>
+										}
+									</ul>
+								</td>
+								<td>
+									{{ plan.supplementary.layout }}
+								</td>
+								<td>
+									<ul
+										style="margin: 0; padding: 0; list-style: none"
+									>
+										@for (
+											recurso of plan.supplementary.resources;
+											track recurso
+										) {
+											<li>- {{ recurso }}</li>
+										}
+									</ul>
+								</td>
+							</tr>
+						}
 						<tr>
 							<td colspan="5">
 								<b>Vocabulario del día/de la semana</b>:
@@ -340,7 +349,7 @@ export class ClassPlanDetailComponent {
 	plan: ClassPlan | null = null;
 	printing = false;
 
-	isPremium = signal(false);
+	isPremium = this.#store.selectSignal(selectIsPremium)
 
 	pretify = new PretifyPipe().transform;
 
@@ -348,17 +357,7 @@ export class ClassPlanDetailComponent {
 
 	ngOnInit() {
 		this.#store.dispatch(loadClassPlan({ planId: this.planId }));
-		this.userSubscriptionService.checkSubscription().subscribe((sub) => {
-			let status = false;
-			if (sub && sub.subscriptionType.toLowerCase() !== 'free') {
-				if (new Date(sub.endDate) > new Date()) {
-					if (sub.status == 'active') {
-						status = true;
-					}
-				}
-			}
-			this.isPremium.set(status);
-		});
+		this.#store.dispatch(loadCurrentSubscription())
 	}
 
 	printPlan() {

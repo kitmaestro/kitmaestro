@@ -41,8 +41,8 @@ export class CompetenceEntriesEffects {
 	loadEntries$ = createEffect(() =>
 		this.#actions$.pipe(
 			ofType(CompetenceEntriesActions.loadEntries),
-			switchMap(() =>
-				this.#competenceService.findAll().pipe(
+			switchMap(({ filters }) =>
+				this.#competenceService.findAll(filters).pipe(
 					map((entries) =>
 						CompetenceEntriesActions.loadEntriesSuccess({
 							entries,

@@ -92,6 +92,7 @@ export const appConfig: ApplicationConfig = {
 			TodosEffects,
 			UpdatesEffects,
 			UserSubscriptionsEffects,
+			MainThemesEffects,
 			AiEffects,
 		),
 		provideRouterStore(),

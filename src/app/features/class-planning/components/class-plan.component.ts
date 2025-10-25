@@ -70,7 +70,7 @@ import { ClassPlan } from '../../../core';
 									}}
 									Minutos)
 								</td>
-								<td rowspan="4">{{ plan.competence }}</td>
+								<td [attr.rowspan]="plan.supplementary.activities.length > 0 ? 4 : 3">{{ plan.competence }}</td>
 								<td>
 									<ul
 										style="margin: 0; padding: 0; list-style: none"
@@ -80,7 +80,7 @@ import { ClassPlan } from '../../../core';
 												.activities;
 											track actividad
 										) {
-											<li>{{ actividad }}</li>
+											<li>{{ actividad.replaceAll('**', '') }}</li>
 										}
 									</ul>
 								</td>
@@ -114,7 +114,7 @@ import { ClassPlan } from '../../../core';
 											actividad of plan.main.activities;
 											track actividad
 										) {
-											<li>{{ actividad }}</li>
+											<li>{{ actividad.replaceAll('**', '') }}</li>
 										}
 									</ul>
 								</td>
@@ -153,30 +153,32 @@ import { ClassPlan } from '../../../core';
 									/>
 								</td>
 							</tr>
-							<tr>
-								<td><b>Actividades Complementarias</b></td>
-								<td>
-									<app-simple-list
-										[items]="plan.supplementary.activities"
-									/>
-								</td>
-								<td>
-									{{ plan.supplementary.layout }}
-								</td>
-								<td>
-									<ul
-										style="margin: 0; padding: 0; list-style: none"
-									>
-										@for (
-											recurso of plan.supplementary
-												.resources;
-											track recurso
-										) {
-											<li>- {{ recurso }}</li>
-										}
-									</ul>
-								</td>
-							</tr>
+							@if (plan.supplementary.activities.length > 0) {
+								<tr>
+									<td><b>Actividades Complementarias</b></td>
+									<td>
+										<app-simple-list
+											[items]="plan.supplementary.activities"
+										/>
+									</td>
+									<td>
+										{{ plan.supplementary.layout }}
+									</td>
+									<td>
+										<ul
+											style="margin: 0; padding: 0; list-style: none"
+										>
+											@for (
+												recurso of plan.supplementary
+													.resources;
+												track recurso
+											) {
+												<li>- {{ recurso }}</li>
+											}
+										</ul>
+									</td>
+								</tr>
+							}
 							<tr>
 								<td colspan="5">
 									<b>Vocabulario del día/de la semana</b>:

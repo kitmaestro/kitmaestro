@@ -52,6 +52,8 @@ import {
 	userSubscriptionsReducer,
 	AiState,
 	aiReducer,
+	MainThemesState,
+	mainThemesReducer,
 } from '../store'
 
 export interface State {
@@ -80,6 +82,7 @@ export interface State {
 	todos: TodosState
 	updates: UpdatesState
 	userSubscriptions: UserSubscriptionsState
+	mainThemes: MainThemesState
 	ai: AiState
 }
 
@@ -109,6 +112,7 @@ export const reducers: ActionReducerMap<State> = {
 	todos: todosReducer,
 	updates: updatesReducer,
 	userSubscriptions: userSubscriptionsReducer,
+	mainThemes: mainThemesReducer,
 	ai: aiReducer,
 }
 

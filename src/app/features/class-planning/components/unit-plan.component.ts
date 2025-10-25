@@ -1,4 +1,4 @@
-import { Component, computed, input, Input, OnInit } from '@angular/core';
+import { Component, computed, inject, input, Input, OnInit } from '@angular/core';
 import {
 	CompetenceEntry,
 	ContentBlock,
@@ -9,10 +9,14 @@ import {
 } from '../../../core';
 import { UnitPlan } from '../../../core/models';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { MarkdownComponent } from 'ngx-markdown';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store';
+import { filter } from 'rxjs';
 
 @Component({
 	selector: 'app-unit-plan',
-	imports: [PretifyPipe],
+	imports: [PretifyPipe, MarkdownComponent],
 	template: `
 		@if (unitPlan) {
 			<div style="padding-top: 16px; min-width: 8.5in">
@@ -36,11 +40,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 								<b>Centro Educativo</b>
 							</td>
 							<td colspan="5">
-								@if (section) {
-									<span>{{ user?.schoolName }}</span>
-								} @else {
-									<span>{{ unitPlan.user.schoolName }}</span>
-								}
+								<span>{{ schoolName }}</span>
 							</td>
 						</tr>
 						<tr>
@@ -1537,7 +1537,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 													activity of activityList.activities;
 													track $index
 												) {
-													<li>- {{ activity }}</li>
+													<markdown [data]="activity" />
 												}
 											} @else {
 												<li class="bold">
@@ -1557,9 +1557,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 														activity of activityList.activities;
 														track $index
 													) {
-														<li>
-															- {{ activity }}
-														</li>
+														<markdown [data]="activity" />
 													}
 												</ul>
 											}
@@ -1581,7 +1579,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 													activity of activityList.activities;
 													track $index
 												) {
-													<li>- {{ activity }}</li>
+													<markdown [data]="activity" />
 												}
 											} @else {
 												<li class="bold">
@@ -1601,9 +1599,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 														activity of activityList.activities;
 														track $index
 													) {
-														<li>
-															- {{ activity }}
-														</li>
+														<markdown [data]="activity" />
 													}
 												</ul>
 											}
@@ -1625,7 +1621,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 													activity of activityList.activities;
 													track $index
 												) {
-													<li>- {{ activity }}</li>
+													<markdown [data]="activity" />
 												}
 											} @else {
 												<li class="bold">
@@ -1645,9 +1641,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 														activity of activityList.activities;
 														track $index
 													) {
-														<li>
-															- {{ activity }}
-														</li>
+														<markdown [data]="activity" />
 													}
 												</ul>
 											}
@@ -1731,6 +1725,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 	`,
 })
 export class UnitPlanComponent implements OnInit {
+	#store = inject(Store)
 	@Input() unitPlan: UnitPlan | null = null;
 	@Input() section: ClassSection | null = null;
 	@Input() user: User | null = null;
@@ -1738,6 +1733,8 @@ export class UnitPlanComponent implements OnInit {
 	@Input() competence: CompetenceEntry[] = [];
 	@Input() mainThemes: MainTheme[] = [];
 	classPlans = input<ClassPlan[]>([]);
+
+	schoolName = ''
 
 	public isPrintView = window.location.href.includes('print');
 	planIsForPrimary = computed<boolean>(() => {
@@ -1814,6 +1811,11 @@ export class UnitPlanComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.#store.select(selectAuthUser).pipe(filter(user => !!user)).subscribe(user => {
+			if (user) {
+				this.schoolName = user.schoolName
+			}
+		})
 		setTimeout(() => {
 			this.unitPlan?.competence.sort(
 				(a, b) =>

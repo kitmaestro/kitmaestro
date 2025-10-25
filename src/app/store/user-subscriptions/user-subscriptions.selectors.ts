@@ -63,3 +63,8 @@ export const selectIsDeleting = createSelector(
 	selectSubscriptionsStatus,
 	(status) => status === UserSubscriptionStateStatus.DELETING_SUBSCRIPTION,
 )
+
+export const selectIsPremium = createSelector(
+	selectCurrentSubscription,
+	(subscription) => subscription && subscription.subscriptionType !== 'FREE' && new Date(subscription.endDate) > new Date(),
+)

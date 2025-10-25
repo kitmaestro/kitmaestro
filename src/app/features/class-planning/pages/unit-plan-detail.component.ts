@@ -1,39 +1,35 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { UnitPlanService } from '../../../core/services/unit-plan.service';
-import { map, Observable, tap } from 'rxjs';
 import { UnitPlan } from '../../../core/models';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { UserService } from '../../../core/services/user.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PdfService } from '../../../core/services/pdf.service';
 import { UnitPlanComponent } from '../components/unit-plan.component';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { DailyPlanBatchGeneratorComponent } from './daily-plan-batch-generator.component';
-import { ClassPlan, Rubric } from '../../../core';
-import { ClassPlansService } from '../../../core/services/class-plans.service';
-import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
+import { Rubric } from '../../../core';
 import { UnitPlanInstruments } from '../../../core';
-import { RubricService } from '../../../core/services/rubric.service';
 import { RubricGeneratorComponent } from '../../assessments/pages/rubric-generator.component';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
 import {
+	deletePlan,
+	downloadPlan,
 	loadPlan,
-	loadPlans,
 	selectCurrentPlan,
+	selectUnitPlanIsLoading,
 } from '../../../store/unit-plans';
 import { loadClassPlans } from '../../../store/class-plans/class-plans.actions';
-import { selectClassPlans } from '../../../store/class-plans/class-plans.selectors';
+import { selectClassPlans, selectClassPlansLoading } from '../../../store/class-plans/class-plans.selectors';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { loadCurrentSubscription } from '../../../store';
 
 @Component({
 	selector: 'app-unit-plan-detail',
 	imports: [
 		RouterModule,
-		AsyncPipe,
 		MatButtonModule,
 		MatIconModule,
 		MatCardModule,
@@ -49,7 +45,7 @@ import { selectClassPlans } from '../../../store/class-plans/class-plans.selecto
 				<button mat-button color="link" (click)="goBack()">
 					Volver
 				</button>
-				<button mat-button color="warn" (click)="deletePlan()">
+				<button mat-button color="warn" style="display: none" (click)="deletePlan()">
 					Eliminar
 				</button>
 				<button
@@ -84,18 +80,18 @@ import { selectClassPlans } from '../../../store/class-plans/class-plans.selecto
 			</div>
 		}
 
-		@if (plan$ | async; as plan) {
+		@if (plan(); as plan) {
 			<div [id]="isPrintView ? 'print-view-sheet' : 'plan-sheet'">
 				@if (isPrintView) {
 					<h1 style="text-align: center">{{ plan.title }}</h1>
 				}
-				<app-unit-plan [classPlans]="classPlans" [unitPlan]="plan" />
+				<app-unit-plan [classPlans]="classPlans()" [unitPlan]="plan" />
 				@if (!isPrintView) {
 					<div>
 						<h2>Planes Diarios</h2>
 						<ul style="list-style: none">
 							@for (
-								dailyPlan of classPlans;
+								dailyPlan of classPlans();
 								track dailyPlan._id
 							) {
 								<li>
@@ -117,7 +113,7 @@ import { selectClassPlans } from '../../../store/class-plans/class-plans.selecto
 							}
 						</ul>
 					</div>
-					@if (activeSubscription$ | async) {
+					@if (isPremium()) {
 						@if (classPlans.length === 0) {
 							<h2>Generar Planes Diarios</h2>
 							<app-daily-plan-batch-generator [plan]="plan" />
@@ -147,7 +143,7 @@ import { selectClassPlans } from '../../../store/class-plans/class-plans.selecto
 								</ul>
 							}
 						</div>
-						@if (activeSubscription$ | async) {
+						@if (isPremium()) {
 							@if (rubrics.length == 0) {
 								<h2>Generar Instrumentos</h2>
 								<app-rubric-generator [unitPlan]="plan" />
@@ -225,48 +221,20 @@ export class UnitPlanDetailComponent implements OnInit {
 	#store = inject(Store);
 	private router = inject(Router);
 	private route = inject(ActivatedRoute);
-	private unitPlanService = inject(UnitPlanService);
-	private classPlanService = inject(ClassPlansService);
-	private userSubscriptionService = inject(UserSubscriptionService);
-	private rubricService = inject(RubricService);
 	private sb = inject(MatSnackBar);
 	private pdfService = inject(PdfService);
 	printing = false;
 	planId = this.route.snapshot.paramMap.get('id') || '';
-	plan: UnitPlan | null = null;
+	plan = this.#store.selectSignal(selectCurrentPlan)
 	instruments: UnitPlanInstruments | null = null;
 	user = this.#store.selectSignal(selectAuthUser);
 
 	rubrics: Rubric[] = [];
-	isPremium = signal(false);
+	isPremium = this.#store.selectSignal(selectIsPremium)
+	classPlans = this.#store.selectSignal(selectClassPlans)
 
-	activeSubscription$: Observable<boolean> = this.userSubscriptionService
-		.checkSubscription()
-		.pipe(
-			map((sub) =>
-				sub.subscriptionType.toLowerCase() == 'free'
-					? false
-					: sub.status.toLowerCase() == 'active' &&
-						+new Date(sub.endDate) > Date.now(),
-			),
-			tap((status) => this.isPremium.set(status)),
-		);
-
-	plan$ = this.#store.select(selectCurrentPlan).pipe(
-		tap((_) => {
-			if (!_) {
-				this.router.navigate(['/planning/unit-plans/list']).then(() => {
-					this.sb.open('Este plan no ha sido encontrado', 'Ok', {
-						duration: 2500,
-					});
-				});
-			} else {
-				this.plan = _;
-			}
-		}),
-	);
-	user$ = this.#store.select(selectAuthUser);
-	classPlans: ClassPlan[] = [];
+	isLoading = this.#store.selectSignal(selectUnitPlanIsLoading)
+	isLoadingClassPlans = this.#store.selectSignal(selectClassPlansLoading)
 
 	isPrintView = window.location.href.includes('print');
 
@@ -274,8 +242,8 @@ export class UnitPlanDetailComponent implements OnInit {
 		const unitPlan = this.planId;
 		this.#store.dispatch(loadPlan({ id: unitPlan }));
 		this.#store.dispatch(loadClassPlans({ filters: { unitPlan } }));
+		this.#store.dispatch(loadCurrentSubscription())
 		this.#store.select(selectClassPlans).subscribe((res) => {
-			this.classPlans = res;
 			if (this.isPrintView) {
 				setTimeout(() => {
 					window.print();
@@ -284,50 +252,11 @@ export class UnitPlanDetailComponent implements OnInit {
 		});
 	}
 
-	pretify(value: string): string {
-		return new PretifyPipe().transform(value);
-	}
-
-	pretifyCompetence(value: string, level: string) {
-		if (level === 'PRIMARIA') {
-			if (value === 'Comunicativa') {
-				return 'Comunicativa';
-			}
-			if (value.includes('Pensamiento')) {
-				return 'Pensamiento Lógico Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica';
-			}
-			if (value.includes('Ciudadana')) {
-				return 'Ética Y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud';
-			}
-		} else {
-			if (value === 'Comunicativa') {
-				return 'Comunicativa';
-			}
-			if (value === 'Pensamiento Logico') {
-				return 'Pensamiento Lógico, Creativo y Crítico';
-			}
-			if (value === 'Resolucion De Problemas') {
-				return 'Resolución de Problemas';
-			}
-			if (value === 'Ciencia Y Tecnologia') {
-				return 'Tecnológica y Científica';
-			}
-			if (value === 'Etica Y Ciudadana') {
-				return 'Ética y Ciudadana';
-			}
-			if (value === 'Desarrollo Personal Y Espiritual') {
-				return 'Desarrollo Personal y Espiritual';
-			}
-			if (value === 'Ambiental Y De La Salud') {
-				return 'Ambiental y de la Salud';
-			}
-		}
-		return value;
-	}
-
 	async download() {
 		const user = this.user();
-		if (!this.plan || !user) return;
+		const plan = this.plan()
+		const classPlans = this.classPlans() || []
+		if (!plan || !user) return;
 		this.printing = true;
 		this.sb.open(
 			'Tu descarga empezara en breve, espera un momento...',
@@ -338,7 +267,7 @@ export class UnitPlanDetailComponent implements OnInit {
 		//   "https://api.algobook.info/v1/randomimage?category=education"
 		// );
 		// const img = await response.arrayBuffer();
-		await this.unitPlanService.download(this.plan, this.classPlans, user);
+		this.#store.dispatch(downloadPlan({ plan, classPlans, user }))
 		this.printing = false;
 	}
 
@@ -351,37 +280,6 @@ export class UnitPlanDetailComponent implements OnInit {
 
 	goBack() {
 		window.history.back();
-	}
-
-	pretifySubject(subject: string) {
-		if (subject === 'LENGUA_ESPANOLA') {
-			return 'Lengua Española';
-		}
-		if (subject === 'MATEMATICA') {
-			return 'Matemática';
-		}
-		if (subject === 'CIENCIAS_SOCIALES') {
-			return 'Ciencias Sociales';
-		}
-		if (subject === 'CIENCIAS_NATURALES') {
-			return 'Ciencias de la Naturaleza';
-		}
-		if (subject === 'INGLES') {
-			return 'Inglés';
-		}
-		if (subject === 'FRANCES') {
-			return 'Francés';
-		}
-		if (subject === 'FORMACION_HUMANA') {
-			return 'Formación Integral Humana y Religiosa';
-		}
-		if (subject === 'EDUCACION_FISICA') {
-			return 'Educación Física';
-		}
-		if (subject === 'EDUCACION_ARTISTICA') {
-			return 'Educación Artística';
-		}
-		return 'Talleres Optativos';
 	}
 
 	printPlan() {
@@ -398,21 +296,12 @@ export class UnitPlanDetailComponent implements OnInit {
 	deletePlan() {
 		const id = this.route.snapshot.paramMap.get('id');
 		if (id) {
-			this.unitPlanService.delete(id).subscribe((result) => {
-				if (result.deletedCount === 1) {
-					this.router.navigate(['/planning/unit-plans']).then(() => {
-						this.sb.open('El plan ha sido eliminado.', 'Ok', {
-							duration: 2500,
-						});
-					});
-				}
+			this.#store.dispatch(deletePlan({ id }))
+			this.router.navigate(['/planning/unit-plans']).then(() => {
+				this.sb.open('El plan ha sido eliminado.', 'Ok', {
+					duration: 2500,
+				});
 			});
-		} else {
-			this.sb.open(
-				'No se puede eliminar el plan. Se produjo un error.',
-				'Ok',
-				{ duration: 2500 },
-			);
 		}
 	}
 }

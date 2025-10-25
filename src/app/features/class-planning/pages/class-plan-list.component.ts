@@ -72,6 +72,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 						<button
 							mat-icon-button
 							color="warn"
+							style="display: none"
 							(click)="deletePlan(plan._id)"
 						>
 							<mat-icon>delete</mat-icon>

@@ -41,8 +41,8 @@ export class ContentBlocksEffects {
 	loadBlocks$ = createEffect(() =>
 		this.#actions$.pipe(
 			ofType(ContentBlocksActions.loadBlocks),
-			switchMap(() =>
-				this.#contentBlockService.findAll().pipe(
+			switchMap(({ filters }) =>
+				this.#contentBlockService.findAll(filters).pipe(
 					map((blocks) =>
 						ContentBlocksActions.loadBlocksSuccess({ blocks }),
 					),

@@ -17,7 +17,9 @@ export const loadEntryFailed = createAction(
 );
 
 // Load all entries
-export const loadEntries = createAction('[Competence Entries] Load Entries');
+export const loadEntries = createAction('[Competence Entries] Load Entries',
+	props<{ filters: any }>(),
+);
 export const loadEntriesSuccess = createAction(
 	'[Competence Entries] Load Entries Success',
 	props<{ entries: CompetenceEntry[] }>(),

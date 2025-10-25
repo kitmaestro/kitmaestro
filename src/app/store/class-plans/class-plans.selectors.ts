@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ClassPlanState } from './class-plans.models';
+import { ClassPlanState, ClassPlanStateStatus } from './class-plans.models';
 
 export const selectClassPlanFeature =
 	createFeatureSelector<ClassPlanState>('classPlans');
@@ -22,4 +22,9 @@ export const selectClassPlanError = createSelector(
 export const selectClassPlanStatus = createSelector(
 	selectClassPlanFeature,
 	(state: ClassPlanState) => state.status,
+);
+
+export const selectClassPlansLoading = createSelector(
+	selectClassPlanFeature,
+	(state: ClassPlanState) => state.status === ClassPlanStateStatus.LOADING_CLASS_PLANS,
 );

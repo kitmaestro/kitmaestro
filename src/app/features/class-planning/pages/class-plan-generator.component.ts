@@ -535,7 +535,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 						const extract = response.response.slice(
 							response.response.indexOf('{'),
 							response.response.lastIndexOf('}') + 1,
-						);
+						).replaceAll('**', '');
 						const plan: any = JSON.parse(extract);
 						plan.user = this.user()?._id;
 						plan.section = this.section()?._id;

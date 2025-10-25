@@ -69,7 +69,7 @@ import { Subject } from 'rxjs';
 					</mat-select>
 				</mat-form-field>
 				<mat-form-field>
-					<mat-label>Nombre de la Secci&oacuten</mat-label>
+					<mat-label>Nombre de la Secci&oacute;n</mat-label>
 					<input
 						type="text"
 						placeholder="1ro A"
