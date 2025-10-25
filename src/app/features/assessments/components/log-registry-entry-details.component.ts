@@ -7,19 +7,17 @@ import {
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { LogRegistryEntry } from '../../../core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Student } from '../../../core';
 
 @Component({
 	styles: '',
 	template: `
-		<h2 mat-dialog-title>Detalles de la Situaci&oacute;n</h2>
-
 		@if (!loading) {
 			<mat-dialog-content>
 				@if (entry) {
 					<div style="text-align: center">
-						<h2>Registro Anecd&oacute;tico</h2>
+						<h2 mat-dialog-title>Registro Anecd&oacute;tico</h2>
 						<p>
 							<b>Fecha</b>: {{ entry.date | date: 'dd/MM/yyyy' }}
 						</p>
@@ -57,7 +55,8 @@ import { Student } from '../../../core';
 		}
 
 		<mat-dialog-actions>
-			<button style="margin-left: auto" (click)="close()" mat-flat-button>
+			<button style="margin-left: auto" (click)="close()" mat-button>
+				<mat-icon>close</mat-icon>
 				Salir
 			</button>
 			<button
@@ -66,21 +65,23 @@ import { Student } from '../../../core';
 				mat-flat-button
 				color="accent"
 			>
+				<mat-icon>edit</mat-icon>
 				Editar
 			</button>
 		</mat-dialog-actions>
 	`,
-	imports: [MatDialogModule, MatButtonModule, MatIconModule, CommonModule],
+	imports: [
+		MatDialogModule,
+		MatButtonModule,
+		MatIconModule,
+		DatePipe,
+	],
 })
 export class LogRegistryEntryDetailsComponent implements OnInit {
-	dialogRef = inject(MatDialogRef<LogRegistryEntryDetailsComponent>);
+	dialogRef = inject(MatDialogRef<LogRegistryEntryDetailsComponent>)
+	private data = inject<LogRegistryEntry>(MAT_DIALOG_DATA)
 	entry: LogRegistryEntry | null = null;
 	loading = true;
-
-	constructor(
-		@Inject(MAT_DIALOG_DATA)
-		private data: LogRegistryEntry,
-	) {}
 
 	ngOnInit() {
 		if (this.data) {

@@ -1,18 +1,20 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { LogRegistryEntry } from '../../../core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { LogRegistryEntryFormComponent } from '../../../shared/ui/log-registry-entry-form.component';
-import { LogRegistryEntryDetailsComponent } from '../components/log-registry-entry-details.component';
-import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
-import { CommonModule } from '@angular/common';
-import { Student } from '../../../core';
-import { LogRegistryEntryService } from '../../../core/services/log-registry-entry.service';
-import { LogRegistryEntryEditFormComponent } from '../../../shared/ui/log-registry-entry-edit-form.component';
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { Component, OnInit, inject } from '@angular/core'
+import { LogRegistryEntry } from '../../../core'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatDialog, MatDialogModule } from '@angular/material/dialog'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { LogRegistryEntryFormComponent } from '../../../shared/ui/log-registry-entry-form.component'
+import { LogRegistryEntryDetailsComponent } from '../components/log-registry-entry-details.component'
+import { MatTableModule } from '@angular/material/table'
+import { MatCardModule } from '@angular/material/card'
+import { Student } from '../../../core'
+import { LogRegistryEntryEditFormComponent } from '../../../shared/ui/log-registry-entry-edit-form.component'
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
+import { DatePipe } from '@angular/common'
+import { Store } from '@ngrx/store'
+import { selectAllEntries } from '../../../store/log-registry-entries/log-registry-entries.selectors'
+import { deleteLogRegistryEntry, loadLogRegistryEntries } from '../../../store'
 
 @Component({
 	selector: 'app-log-registry-generator',
@@ -23,27 +25,27 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 		MatCardModule,
 		MatIconModule,
 		MatTableModule,
-		CommonModule,
 		IsPremiumComponent,
+		DatePipe,
 	],
 	template: `
 		<app-is-premium>
-			<mat-card>
-				<mat-card-header>
-					<h2 mat-card-title>Registro Anecdótico</h2>
+			<div>
+				<div style="display: flex; justify-content: space-between; align-items: center;">
+					<h2>Registro Anecdótico</h2>
 					<button
 						style="margin-left: auto"
 						(click)="createLogRegistryEntry()"
-						mat-mini-fab
+						mat-flat-button
 					>
 						<mat-icon>add</mat-icon>
+						Nueva Entrada
 					</button>
-				</mat-card-header>
-				<mat-card-content></mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 			<table
 				mat-table
-				[dataSource]="entries"
+				[dataSource]="entries()"
 				style="margin-top: 24px"
 				class="mat-elevation-z4"
 			>
@@ -96,7 +98,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							style="margin-right: 12px"
 							color="warn"
 							(click)="deleteLogRegistryEntry(element._id)"
-							mat-mini-fab
+							mat-icon-button
 						>
 							<mat-icon>delete</mat-icon>
 						</button>
@@ -104,14 +106,14 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							style="margin-right: 12px"
 							color="accent"
 							(click)="editLogRegistryEntry(element)"
-							mat-mini-fab
+							mat-icon-button
 						>
 							<mat-icon>edit</mat-icon>
 						</button>
 						<button
 							color="primary"
 							(click)="showLogRegistryEntry(element)"
-							mat-mini-fab
+							mat-icon-button
 						>
 							<mat-icon>open_in_new</mat-icon>
 						</button>
@@ -125,12 +127,11 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 	`,
 })
 export class LogRegistryGeneratorComponent implements OnInit {
-	private logService = inject(LogRegistryEntryService);
-	private sb = inject(MatSnackBar);
-	private dialog = inject(MatDialog);
-	entries: LogRegistryEntry[] = [];
+	#store = inject(Store)
+	private dialog = inject(MatDialog)
+	entries = this.#store.selectSignal(selectAllEntries)
 
-	labels = ['date', 'time', 'grade', 'students', 'event', 'actions'];
+	labels = ['date', 'time', 'grade', 'students', 'event', 'actions']
 
 	eventTypes = [
 		'Mejora de comportamiento',
@@ -145,60 +146,45 @@ export class LogRegistryGeneratorComponent implements OnInit {
 		'Incumplimiento de acuerdo',
 		'Asignación no entregada',
 		'Asignación no satisfactoria',
-	];
-
-	loadEntries() {
-		this.logService.findAll().subscribe((entries) => {
-			this.entries = entries;
-		});
-	}
+	]
 
 	ngOnInit(): void {
-		this.loadEntries();
+		this.#store.dispatch(loadLogRegistryEntries())
 	}
 
 	createLogRegistryEntry() {
-		const ref = this.dialog.open(LogRegistryEntryFormComponent, {
-			minWidth: '400px',
+		this.dialog.open(LogRegistryEntryFormComponent, {
+			maxWidth: '960px',
 			width: '75%',
-		});
-		ref.afterClosed().subscribe(() => this.loadEntries());
+		})
 	}
 
 	editLogRegistryEntry(entry: LogRegistryEntry) {
-		const ref = this.dialog.open(LogRegistryEntryEditFormComponent, {
+		this.dialog.open(LogRegistryEntryEditFormComponent, {
 			data: entry,
-			minWidth: '400px',
+			maxWidth: '960px',
 			width: '75%',
-		});
-		ref.afterClosed().subscribe(() => this.loadEntries());
+		})
 	}
 
 	showLogRegistryEntry(entry: LogRegistryEntry) {
 		const ref = this.dialog.open(LogRegistryEntryDetailsComponent, {
 			data: entry,
-			minWidth: '400px',
+			maxWidth: '960px',
 			width: '75%',
-		});
+		})
 		ref.afterClosed().subscribe((res) => {
 			if (res) {
-				this.editLogRegistryEntry(entry);
+				this.editLogRegistryEntry(entry)
 			}
-		});
+		})
 	}
 
 	studentNames(students: Student[]) {
-		return students.map((s) => s.firstname + ' ' + s.lastname).join(', ');
+		return students.map((s) => s.firstname + ' ' + s.lastname).join(', ')
 	}
 
 	deleteLogRegistryEntry(id: string) {
-		this.logService.delete(id).subscribe((res) => {
-			if (res.deletedCount === 1) {
-				this.loadEntries();
-				this.sb.open('Se ha eliminado el registro', 'Ok', {
-					duration: 2500,
-				});
-			}
-		});
+		this.#store.dispatch(deleteLogRegistryEntry({ id }))
 	}
 }
