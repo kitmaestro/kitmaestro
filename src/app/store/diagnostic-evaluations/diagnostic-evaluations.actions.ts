@@ -19,6 +19,7 @@ export const loadEvaluationFailed = createAction(
 // Load all evaluations
 export const loadEvaluations = createAction(
 	'[Diagnostic Evaluations] Load Evaluations',
+	props<{ filters?: any }>(),
 );
 export const loadEvaluationsSuccess = createAction(
 	'[Diagnostic Evaluations] Load Evaluations Success',

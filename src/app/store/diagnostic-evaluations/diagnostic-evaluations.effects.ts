@@ -43,8 +43,8 @@ export class DiagnosticEvaluationsEffects {
 	loadEvaluations$ = createEffect(() =>
 		this.#actions$.pipe(
 			ofType(DiagnosticEvaluationsActions.loadEvaluations),
-			switchMap(() =>
-				this.#diagnosticEvaluationService.findAll().pipe(
+			switchMap(({ filters }) =>
+				this.#diagnosticEvaluationService.findAll(filters).pipe(
 					map((evaluations) =>
 						DiagnosticEvaluationsActions.loadEvaluationsSuccess({
 							evaluations,

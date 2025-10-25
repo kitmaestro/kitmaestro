@@ -1,13 +1,17 @@
-import { Component, inject, signal } from '@angular/core';
-import { DiagnosticEvaluationService, UserService } from '../../../core/services';
-import { GeneratedEvaluation, User } from '../../../core';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { Component, effect, inject, signal } from '@angular/core'
+import { DiagnosticEvaluationService, UserService } from '../../../core/services'
+import { GeneratedEvaluation, User } from '../../../core'
+import { MatCardModule } from '@angular/material/card'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { MatListModule } from '@angular/material/list'
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { RouterLink } from '@angular/router'
+import { DatePipe } from '@angular/common'
+import { Store } from '@ngrx/store'
+import { deleteEvaluation, deleteEvaluationFailed, loadEvaluations, selectAllEvaluations, selectAuthUser } from '../../../store'
+import { Actions, ofType } from '@ngrx/effects'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
 	selector: 'app-diagnostic-evaluations',
@@ -21,20 +25,20 @@ import { DatePipe } from '@angular/common';
 		MatListModule,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header class="header">
-				<h2 class="title" mat-card-title>
+		<div>
+			<div class="header">
+				<h2 class="title">
 					Mis Evaluaciones Diagnósticas
 				</h2>
 				<a
 					mat-flat-button
 					color="primary"
-					routerLink="/diagnostic-evaluation-generator"
+					routerLink="/assessments/diagnostic-evaluation-generator"
 				>
 					Crear Nueva Evaluación
 				</a>
-			</mat-card-header>
-			<mat-card-content>
+			</div>
+			<div>
 				@if (evaluations().length === 0) {
 					<div class="no-evaluations">
 						<p>No tienes evaluaciones guardadas.</p>
@@ -85,19 +89,6 @@ import { DatePipe } from '@angular/common';
 											>
 												<button
 													mat-icon-button
-													color="primary"
-													[routerLink]="[
-														'/diagnostic-evaluations',
-														eval._id,
-													]"
-													matTooltip="Ver Evaluación"
-												>
-													<mat-icon
-														>open_in_new</mat-icon
-													>
-												</button>
-												<button
-													mat-icon-button
 													color="warn"
 													(click)="
 														deleteEvaluation(
@@ -108,6 +99,19 @@ import { DatePipe } from '@angular/common';
 												>
 													<mat-icon>delete</mat-icon>
 												</button>
+												<button
+													mat-icon-button
+													color="primary"
+													[routerLink]="[
+														'/assessments/diagnostic-evaluations',
+														eval._id,
+													]"
+													matTooltip="Ver Evaluación"
+												>
+													<mat-icon
+														>open_in_new</mat-icon
+													>
+												</button>
 											</div>
 										</td>
 									</tr>
@@ -116,8 +120,8 @@ import { DatePipe } from '@angular/common';
 						</table>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	styles: `
 		.evaluations-list,
@@ -129,7 +133,7 @@ import { DatePipe } from '@angular/common';
 			text-align: center;
 		}
 
-		mat-card-header.header {
+		div.header {
 			padding-bottom: 16px;
 			display: flex;
 			justify-content: space-between;
@@ -161,50 +165,22 @@ import { DatePipe } from '@angular/common';
 	`,
 })
 export class DiagnosticEvaluationsComponent {
-	private diagnosticEvaluationService = inject(DiagnosticEvaluationService);
-	private UserService = inject(UserService);
+	#store = inject(Store)
+	user = this.#store.selectSignal(selectAuthUser)
+	evaluations = this.#store.selectSignal(selectAllEvaluations)
 
-	User = signal<User | null>(null);
-
-	evaluations = signal<GeneratedEvaluation[]>([]);
-
-	ngOnInit() {
-		this.loadUser();
-	}
-
-	loadUser() {
-		this.UserService.getSettings().subscribe({
-			next: (settings) => {
-				this.User.set(settings);
-				this.loadEvaluations();
-			},
-			error: (err) => console.error('Error loading user settings', err),
-		});
-	}
-
-	loadEvaluations() {
-		console.log({ user: this.User()?._id });
-		this.diagnosticEvaluationService
-			.findAll({ user: this.User()?._id })
-			.subscribe({
-				next: (evaluations) => {
-					this.evaluations.set(evaluations);
-				},
-				error: (err) => console.error('Error loading evaluations', err),
-			});
+	constructor() {
+		effect(() => {
+			const user = this.user()
+			if (!user) return
+			this.#store.dispatch(loadEvaluations({ filters: { user: user._id } }))
+		})
 	}
 
 	deleteEvaluation(id: string) {
 		if (!confirm('¿Estás seguro de que deseas eliminar esta evaluación?')) {
-			return;
+			return
 		}
-		this.diagnosticEvaluationService.delete(id).subscribe({
-			next: () => {
-				this.evaluations.set(
-					this.evaluations().filter((e) => e._id !== id),
-				);
-			},
-			error: (err) => console.error('Error deleting evaluation', err),
-		});
+		this.#store.dispatch(deleteEvaluation({ id }))
 	}
 }

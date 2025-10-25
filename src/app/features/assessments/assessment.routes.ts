@@ -193,4 +193,9 @@ export default [
 			),
 		title: 'Generador de Registros Anecdóticos',
 	},
+	{
+		path: 'improvement-plan-generator',
+		loadComponent: () => import('./pages/improvement-plan-generator.component').then(mod => mod.ImprovementPlanGeneratorComponent),
+		title: 'Generador de Planes de Mejora'
+	},
 ] as Route[];

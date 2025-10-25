@@ -23,6 +23,13 @@ export const assessmentTools: AppEntry[] = [
 	// 	tier: 4,
 	// },
 	{
+		link: '/assessments/improvement-plan-generator',
+		name: 'Generador de Planes de Mejora',
+		icon: '/assets/undraw_solution-mindset_pit7.svg',
+		description: 'Genera planes de mejora para tus estudiantes.',
+		tier: 3,
+	},
+	{
 		name: 'Generador de Listas de Cotejo',
 		description: 'Genera listas de cotejo de forma rápida y fácil',
 		link: '/assessments/checklist-generator',

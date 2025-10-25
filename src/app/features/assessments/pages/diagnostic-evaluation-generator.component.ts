@@ -1,24 +1,19 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Component, effect, inject, OnInit, signal } from '@angular/core'
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { Router, RouterLink } from '@angular/router'
 
 // Importaciones de Angular Material
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
+import { MatSelectModule } from '@angular/material/select'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 // Servicios y modelos de la aplicación
-import { AiService } from '../../../core/services/ai.service';
-import { ClassSectionService } from '../../../core/services/class-section.service';
-import { UserService } from '../../../core/services/user.service';
-import { ClassSection } from '../../../core';
-import { User } from '../../../core';
+import { ClassSection } from '../../../core'
 
 // Librería para generar DOCX
 import {
@@ -28,22 +23,21 @@ import {
 	TextRun,
 	HeadingLevel,
 	AlignmentType,
-} from 'docx';
-import { saveAs } from 'file-saver';
-import {
-	ContentBlockService,
-	DiagnosticEvaluationService,
-} from '../../../core/services';
-import { ContentBlock, GeneratedEvaluation } from '../../../core';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { DiagnosticEvaluationDetailComponent } from './diagnostic-evaluation-detail.component';
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+} from 'docx'
+import { saveAs } from 'file-saver'
+import { ContentBlock, GeneratedEvaluation } from '../../../core'
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
+import { DiagnosticEvaluationDetailComponent } from './diagnostic-evaluation-detail.component'
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
+import { Store } from '@ngrx/store'
+import { askGemini, createEvaluation, createEvaluationFailed, createEvaluationSuccess, loadBlocks, loadSections, loadSectionsSuccess, selectAiIsGenerating, selectAiSerializedResult, selectAllClassSections, selectAllContentBlocks, selectAuthUser } from '../../../store'
+import { Actions, ofType } from '@ngrx/effects'
+import { Subject, takeUntil } from 'rxjs'
 
 @Component({
 	selector: 'app-diagnostic-evaluation-generator',
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
 		MatCardModule,
 		MatFormFieldModule,
@@ -59,26 +53,20 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 	],
 	template: `
 		<app-is-premium>
-			<mat-card>
-				<mat-card-header class="header no-print">
-					<h2 class="title" mat-card-title>
+			<div>
+				<div class="header no-print">
+					<h2 class="title">
 						Generador de Evaluaciones Diagnósticas
 					</h2>
 					<button
-						mat-flat-button
-						routerLink="/diagnostic-evaluations"
+						mat-button
+						routerLink="/assessments/diagnostic-evaluations"
 					>
 						Mis Evaluaciones
 					</button>
-				</mat-card-header>
-				<mat-card-content>
+				</div>
+				<div>
 					<div class="no-print">
-						<p>
-							Configura los parámetros de tu evaluación y haz clic
-							en "Generar" para crear una prueba diagnóstica
-							personalizada.
-						</p>
-
 						<form
 							[formGroup]="evaluationForm"
 							(ngSubmit)="generateEvaluation()"
@@ -95,12 +83,12 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 										"
 									>
 										@for (
-											section of classSections;
+											section of classSections();
 											track section._id
 										) {
-											<mat-option [value]="section._id">{{
-												section.name
-											}}</mat-option>
+											<mat-option [value]="section._id">
+												{{ section.name }}
+											</mat-option>
 										}
 									</mat-select>
 								</mat-form-field>
@@ -119,9 +107,9 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 											@if (
 												subject !== 'TALLERES_OPTATIVOS'
 											) {
-												<mat-option [value]="subject">{{
-													subject | pretify
-												}}</mat-option>
+												<mat-option [value]="subject">
+													{{ subject | pretify }}
+												</mat-option>
 											}
 										}
 									</mat-select>
@@ -153,14 +141,31 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 
 							<div class="actions">
 								<button
-									mat-fab
-									extended
-									type="submit"
-									[disabled]="generating"
+									mat-flat-button
+									[disabled]="!evaluation"
+									color="accent"
+									(click)="saveEvaluation()"
+									>
+									<mat-icon>save</mat-icon>
+									Guardar
+								</button>
+								<button
+									mat-button
+									[disabled]="!evaluation"
+									color="accent"
+									(click)="downloadDocx()"
 								>
+									<mat-icon>download</mat-icon>
+									Descargar DOCX
+								</button>
+								<button
+									mat-button
+									type="submit"
+									[disabled]="generating() || evaluationForm.invalid"
+									>
 									<mat-icon>auto_awesome</mat-icon>
 									{{
-										generating
+										generating()
 											? 'Generando...'
 											: evaluation
 												? 'Regenerar Evaluación'
@@ -172,29 +177,8 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 					</div>
 
 					<!-- Resultados de la Evaluación -->
-					@if (!generating && evaluation) {
+					@if (!generating() && evaluation) {
 						<div class="results-container">
-							<div class="actions result-actions no-print">
-								<button
-									mat-fab
-									extended
-									color="accent"
-									(click)="downloadDocx()"
-								>
-									<mat-icon>download</mat-icon>
-									Descargar DOCX
-								</button>
-								<button
-									mat-fab
-									extended
-									color="accent"
-									(click)="saveEvaluation()"
-								>
-									<mat-icon>save</mat-icon>
-									Guardar en Mi Cuenta
-								</button>
-							</div>
-
 							<div id="printable-area" class="evaluation-preview">
 								<app-diagnostic-evaluation-detail
 									[classSection]="classSection"
@@ -203,8 +187,8 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							</div>
 						</div>
 					}
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 		</app-is-premium>
 	`,
 	styles: `
@@ -213,7 +197,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 			padding: 16px;
 		}
 
-		mat-card-header.header {
+		div.header {
 			padding-bottom: 16px;
 			display: flex;
 			justify-content: space-between;
@@ -369,87 +353,89 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 })
 export class DiagnosticEvaluationGeneratorComponent implements OnInit {
 	// Inyección de dependencias
-	private fb = inject(FormBuilder);
-	private aiService = inject(AiService);
-	private sb = inject(MatSnackBar);
-	private router = inject(Router);
-	private classSectionService = inject(ClassSectionService);
-	private UserService = inject(UserService);
-	private diagnosticEvaluationService = inject(DiagnosticEvaluationService);
-	private contentBlockService = inject(ContentBlockService);
+	private fb = inject(FormBuilder)
+	private sb = inject(MatSnackBar)
+	private router = inject(Router)
+	#store = inject(Store)
+	#actions$ = inject(Actions)
+	#destroy$ = new Subject<void>()
 
-	private pretifySubject = new PretifyPipe().transform;
+	private pretifySubject = new PretifyPipe().transform
 
-	contentBlocks = signal<ContentBlock[]>([]);
-	subjects = signal<string[]>([]);
+	contentBlocks = this.#store.selectSignal(selectAllContentBlocks)
+	subjects = signal<string[]>([])
 
 	// Estado del componente
-	generating = false;
-	classSections: ClassSection[] = [];
-	User: User | null = null;
-	evaluation: GeneratedEvaluation | null = null;
+	generating = this.#store.selectSignal(selectAiIsGenerating)
+	classSections = this.#store.selectSignal(selectAllClassSections)
+	user = this.#store.selectSignal(selectAuthUser)
+	result = this.#store.selectSignal(selectAiSerializedResult)
+	evaluation: GeneratedEvaluation | null = null
 
 	// Formulario reactivo para la configuración de la evaluación
 	evaluationForm = this.fb.group({
 		classSection: ['', Validators.required],
 		subject: ['', Validators.required],
 		topics: [[] as string[], Validators.required],
-		questionCount: [5, Validators.required],
-	});
+	})
+
+	constructor() {
+		effect(() => {
+			const result: GeneratedEvaluation = this.result()
+			const user = this.user()
+			const selectedSection = this.classSection
+			if (result && user && selectedSection) {
+				const { title, subject, schoolYear, sections } = result
+				const { year, level } = this.prevGrade(selectedSection)
+				this.evaluation = {
+					user,
+					year,
+					level,
+					title,
+					subject,
+					schoolYear,
+					sections,
+				} as any
+			}
+		})
+	}
 
 	ngOnInit(): void {
-		this.UserService.getSettings().subscribe((settings) => {
-			this.User = settings;
-		});
+		this.#store.dispatch(loadSections())
+		this.#actions$.pipe(ofType(loadSectionsSuccess)).subscribe(({ sections }) => {
+			if (sections.length) {
+				this.evaluationForm
+					.get('classSection')
+					?.setValue(sections[0]._id || '')
+				this.onClassSectionChange()
+			} else {
+				this.sb.open('Para usar esta herramienta, necesitas crear al menos una sección.', 'Ok', { duration: 5000 })
+			}
+		})
+	}
 
-		this.classSectionService.findSections().subscribe({
-			next: (value) => {
-				if (value.length) {
-					this.classSections = value;
-					this.evaluationForm
-						.get('classSection')
-						?.setValue(value[0]._id || '');
-					this.onClassSectionChange();
-				} else {
-					this.sb.open(
-						'Para usar esta herramienta, necesitas crear al menos una sección.',
-						'Ok',
-						{ duration: 5000 },
-					);
-				}
-			},
-			error: () => {
-				this.sb.open(
-					'No se pudieron cargar las secciones de clase.',
-					'Cerrar',
-					{ duration: 3000 },
-				);
-			},
-		});
+	ngOnDestroy() {
+		this.#destroy$.next()
+		this.#destroy$.complete()
 	}
 
 	onClassSectionChange(): void {
-		const section = this.classSection;
+		const section = this.classSection
 		if (section && section.subjects.length) {
-			this.subjects.set(section.subjects);
-			this.evaluationForm.get('subject')?.setValue(section.subjects[0]);
-			this.onSubjectChange();
+			this.subjects.set(section.subjects)
+			this.evaluationForm.get('subject')?.setValue(section.subjects[0])
+			this.onSubjectChange()
 		} else {
-			this.evaluationForm.get('subject')?.setValue('');
+			this.evaluationForm.get('subject')?.setValue('')
 		}
 	}
 
 	onSubjectChange(): void {
-		const section = this.classSection;
-		const subject = this.evaluationForm.value.subject;
-		this.contentBlocks.set([]);
+		const section = this.classSection
+		const subject = this.evaluationForm.value.subject
 		if (section && subject) {
-			const { year, level } = this.prevGrade(section);
-			this.contentBlockService
-				.findAll({ year, subject, level })
-				.subscribe((blocks) => {
-					this.contentBlocks.set(blocks);
-				});
+			const { year, level } = this.prevGrade(section)
+			this.#store.dispatch(loadBlocks({ filters: { year, subject, level } }))
 		}
 	}
 
@@ -462,97 +448,47 @@ export class DiagnosticEvaluationGeneratorComponent implements OnInit {
 				'Por favor, completa todos los campos requeridos.',
 				'Ok',
 				{ duration: 3000 },
-			);
-			return;
+			)
+			return
 		}
 
-		this.generating = true;
-		this.evaluation = null;
-		const formValue = this.evaluationForm.value;
-		const selectedSection = this.classSection;
+		this.evaluation = null
+		const formValue = this.evaluationForm.value
+		const selectedSection = this.classSection
 
 		if (!selectedSection) {
-			this.sb.open('Sección de clase no válida.', 'Cerrar');
-			this.generating = false;
-			return;
+			this.sb.open('Sección de clase no válida.', 'Cerrar')
+			return
 		}
 
 		const selectedBlocks = this.contentBlocks().filter((block) =>
 			formValue.topics?.includes(block._id),
-		);
+		)
 		if (selectedBlocks.length === 0) {
 			this.sb.open(
 				'Por favor, selecciona al menos un tema válido.',
 				'Ok',
 				{ duration: 3000 },
-			);
-			this.generating = false;
-			return;
+			)
+			return
 		}
 
 		const topicsDescriptions = selectedBlocks
 			.map((block) => this.blockToString(block))
-			.join('\n');
+			.join('\n')
 
-		const prompt = this.createPrompt(
+		const question = this.createPrompt(
 			selectedSection,
 			formValue.subject!,
 			topicsDescriptions,
-			20 /*formValue.questionCount!*/,
-		);
+			20,
+		)
 
-		this.aiService.geminiAi(prompt).subscribe({
-			next: (response) => {
-				try {
-					const rawResponse = response.response;
-					const jsonStart = rawResponse.indexOf('```json');
-					const jsonEnd = rawResponse.lastIndexOf('```');
-					const jsonString = rawResponse
-						.substring(jsonStart + 7, jsonEnd)
-						.trim();
-					this.evaluation = JSON.parse(
-						jsonString,
-					) as GeneratedEvaluation;
-					const user = this.User
-					if (user) {
-						this.evaluation.user = user;
-					}
-					this.evaluation.year = this.prevGrade(selectedSection).year;
-					this.evaluation.level =
-						this.prevGrade(selectedSection).level;
-					this.sb.open(
-						'Evaluación generada exitosamente. Revisa y guarda los cambios.',
-						'Ok',
-						{ duration: 3000 },
-					);
-				} catch (error) {
-					console.error(
-						'Error al parsear la respuesta JSON de la IA:',
-						error,
-					);
-					this.sb.open(
-						'Hubo un error al procesar la respuesta. Inténtalo de nuevo.',
-						'Ok',
-						{ duration: 4000 },
-					);
-				} finally {
-					this.generating = false;
-				}
-			},
-			error: (err) => {
-				console.error('Error en la llamada a la IA:', err);
-				this.sb.open(
-					'Hubo un error generando la evaluación. Inténtalo de nuevo.',
-					'Ok',
-					{ duration: 4000 },
-				);
-				this.generating = false;
-			},
-		});
+		this.#store.dispatch(askGemini({ question }))
 	}
 
 	private blockToString(block: ContentBlock) {
-		return `Unidad Tematica: ${block.title}.\n (Conceptos: ${block.concepts.join(', ')}; Procedimientos: ${block.procedures.join(', ')}; Actitudes: ${block.attitudes.join(', ')}; Indicadores de logro: ${block.achievement_indicators.join(', ')})`;
+		return `Unidad Tematica: ${block.title}.\n (Conceptos: ${block.concepts.join(', ')} Procedimientos: ${block.procedures.join(', ')} Actitudes: ${block.attitudes.join(', ')} Indicadores de logro: ${block.achievement_indicators.join(', ')})`
 	}
 
 	/**
@@ -564,8 +500,8 @@ export class DiagnosticEvaluationGeneratorComponent implements OnInit {
 		topics: string,
 		count: number,
 	): string {
-		const subjectName = this.pretifySubject(subject);
-		const gradeName = `${section.year.toLowerCase()} de secundaria`;
+		const subjectName = this.pretifySubject(subject)
+		const gradeName = `${section.year.toLowerCase()} de secundaria`
 
 		return `
 Actúa como un experto pedagogo y crea una evaluación diagnóstica para estudiantes de ${gradeName}.
@@ -604,14 +540,14 @@ Genera la evaluación en formato JSON. La estructura debe ser la siguiente:
     ]
 }
 Asegúrate de que las preguntas sean apropiadas para el nivel académico de ${gradeName} y cubran los temas solicitados. Incluye al menos dos secciones con tipos de preguntas diferentes (multiple_choice, open_ended, calculation). El JSON debe ser válido y no incluir comentarios ni texto fuera del objeto JSON.
-    `;
+    `
 	}
 
 	/**
 	 * Descarga la evaluación generada como un archivo DOCX.
 	 */
 	async downloadDocx(): Promise<void> {
-		if (!this.evaluation) return;
+		if (!this.evaluation) return
 
 		const paragraphs: Paragraph[] = [
 			new Paragraph({
@@ -647,7 +583,7 @@ Asegúrate de que las preguntas sean apropiadas para el nivel académico de ${gr
 				text: 'Nombre: ___________________________________ Curso: _______ Fecha: ________',
 				spacing: { after: 600 },
 			}),
-		];
+		]
 
 		this.evaluation.sections.forEach((section) => {
 			paragraphs.push(
@@ -671,7 +607,7 @@ Asegúrate de que las preguntas sean apropiadas para el nivel académico de ${gr
 					],
 					spacing: { after: 200 },
 				}),
-			);
+			)
 
 			section.questions.forEach((q, index) => {
 				paragraphs.push(
@@ -681,7 +617,7 @@ Asegúrate de que las preguntas sean apropiadas para el nivel académico de ${gr
 						],
 						spacing: { after: 100 },
 					}),
-				);
+				)
 				if (q.type === 'multiple_choice' && q.options) {
 					q.options.forEach((opt) => {
 						paragraphs.push(
@@ -689,13 +625,13 @@ Asegúrate de que las preguntas sean apropiadas para el nivel académico de ${gr
 								children: [new TextRun(opt)],
 								indent: { left: 720 }, // 0.5 inch indent
 							}),
-						);
-					});
+						)
+					})
 				}
 				// Agrega espacio extra después de cada pregunta para las respuestas
-				paragraphs.push(new Paragraph({ text: '\n\n' }));
-			});
-		});
+				paragraphs.push(new Paragraph({ text: '\n\n' }))
+			})
+		})
 
 		const doc = new Document({
 			sections: [
@@ -704,20 +640,20 @@ Asegúrate de que las preguntas sean apropiadas para el nivel académico de ${gr
 					children: paragraphs,
 				},
 			],
-		});
+		})
 
-		const blob = await Packer.toBlob(doc);
-		saveAs(blob, 'evaluacion-diagnostica.docx');
+		const blob = await Packer.toBlob(doc)
+		saveAs(blob, 'evaluacion-diagnostica.docx')
 	}
 
 	/**
 	 * Activa la función de impresión del navegador.
 	 */
 	printEvaluation(): void {
-		window.print();
+		window.print()
 	}
 
-	prevGrade(section: ClassSection): { year: string; level: string } {
+	prevGrade(section: ClassSection): { year: string, level: string } {
 		const yearMap: { [key: string]: string } = {
 			PRIMERO: 'SEXTO',
 			SEGUNDO: 'PRIMERO',
@@ -725,49 +661,49 @@ Asegúrate de que las preguntas sean apropiadas para el nivel académico de ${gr
 			CUARTO: 'TERCERO',
 			QUINTO: 'CUARTO',
 			SEXTO: 'QUINTO',
-		};
+		}
 		if (section.year === 'PRIMERO' && section.level === 'PRIMARIA') {
-			return { year: 'PRIMERO', level: 'PRIMARIA' };
+			return { year: 'PRIMERO', level: 'PRIMARIA' }
 		}
 		if (section.year === 'PRIMERO' && section.level === 'SECUNDARIA') {
-			return { year: 'SEXTO', level: 'PRIMARIA' };
+			return { year: 'SEXTO', level: 'PRIMARIA' }
 		}
 		return {
 			year: yearMap[section.year] || section.year,
 			level: section.level,
-		};
+		}
 	}
 
 	saveEvaluation(): void {
-		if (!this.evaluation) return;
-
-		this.diagnosticEvaluationService.create(this.evaluation as any).subscribe({
-			next: (savedEval) => {
-				this.evaluation = savedEval;
-				this.router.navigate([
-					'/diagnostic-evaluations',
-					savedEval._id,
-				]);
+		const evaluation: any = this.evaluation
+		if (!evaluation) return
+		this.#store.dispatch(createEvaluation({ evaluation }))
+		this.#actions$.pipe(ofType(createEvaluationSuccess), takeUntil(this.#destroy$)).subscribe(({ evaluation }) => {
+			this.router.navigate([
+				'/assessments',
+				'diagnostic-evaluations',
+				evaluation._id,
+			]).then(() => {
 				this.sb.open(
 					'Evaluación guardada exitosamente en tu cuenta.',
 					'Ok',
 					{ duration: 3000 },
-				);
-			},
-			error: (err) => {
-				console.error('Error al guardar la evaluación:', err);
-				this.sb.open(
-					'Hubo un error al guardar la evaluación. Inténtalo de nuevo.',
-					'Ok',
-					{ duration: 4000 },
-				);
-			},
-		});
+				)
+			})
+		})
+		this.#actions$.pipe(ofType(createEvaluationFailed), takeUntil(this.#destroy$)).subscribe(({ error }) => {
+			console.error('Error al guardar la evaluación:', error)
+			this.sb.open(
+				'Hubo un error al guardar la evaluación. Inténtalo de nuevo.',
+				'Ok',
+				{ duration: 4000 },
+			)
+		})
 	}
 
 	// Getters y helpers
 	get classSection(): ClassSection | null {
-		const sectionId = this.evaluationForm.value.classSection;
-		return this.classSections.find((s) => s._id === sectionId) || null;
+		const sectionId = this.evaluationForm.value.classSection
+		return this.classSections().find((s) => s._id === sectionId) || null
 	}
 }

@@ -1,17 +1,16 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core'
 import {
 	DiagnosticEvaluationService,
 	UserService,
-} from '../../../core/services';
-import { ClassSection, GeneratedEvaluation, User } from '../../../core';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+} from '../../../core/services'
+import { ClassSection, GeneratedEvaluation, User } from '../../../core'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { MatListModule } from '@angular/material/list'
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { ActivatedRoute, Router, RouterLink } from '@angular/router'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
 import {
 	AlignmentType,
 	Document,
@@ -19,13 +18,12 @@ import {
 	Packer,
 	Paragraph,
 	TextRun,
-} from 'docx';
-import { saveAs } from 'file-saver';
+} from 'docx'
+import { saveAs } from 'file-saver'
 
 @Component({
 	selector: 'app-diagnostic-evaluation-detail',
 	imports: [
-		MatCardModule,
 		MatButtonModule,
 		MatIconModule,
 		MatTooltipModule,
@@ -100,53 +98,48 @@ import { saveAs } from 'file-saver';
 					</section>
 				}
 			} @else {
-				<mat-card>
-					<mat-card-header>
+				<div>
+					<div>
 						<div
 							style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;"
 						>
-							<mat-card-title>
-								Detalle de la Evaluación Diagnóstica
-							</mat-card-title>
+							<h2>Detalle de la Evaluación Diagnóstica</h2>
 							<div style="display: flex; gap: 8px;">
 								<button
-									mat-icon-button
-									routerLink="/diagnostic-evaluations"
-									matTooltip="Volver al listado"
+									mat-button
+									routerLink="/assessments/diagnostic-evaluations"
 								>
 									<mat-icon>chevron_left</mat-icon>
+									Volver al listado
 								</button>
 								<button
-									mat-icon-button
-									(click)="
-										deleteEvaluation(evaluation._id || '')
-									"
-									matTooltip="Eliminar Evaluación"
+									mat-button
+									style="display: none"
+									(click)="deleteEvaluation(evaluation._id || '')"
 								>
 									<mat-icon>delete</mat-icon>
 								</button>
 								<button
-									mat-icon-button
+									mat-button
 									(click)="downloadDocx()"
-									matTooltip="Descargar Evaluación"
-								>
+									>
 									<mat-icon>download</mat-icon>
+									Descargar Evaluación
 								</button>
 							</div>
 						</div>
-					</mat-card-header>
-					<mat-card-content>
+					</div>
+					<div>
 						<div
 							style="padding: 1.25in; background-color: #fff; min-width: 8.5in margin-top: 24px;"
 						>
 							<header class="evaluation-header">
 								<h1>{{ evaluation.title }}</h1>
 								<h2>
-									{{ evaluation.subject }} para
 									{{ evaluation.year | pretify }} de
 									{{ evaluation.level | pretify }}
 								</h2>
-								<p>{{ evaluation.schoolYear }}</p>
+								<p>{{ schoolYear() }}</p>
 								@if (User(); as user) {
 									<p>
 										{{ user.title }}. {{ user.firstname }}
@@ -206,8 +199,8 @@ import { saveAs } from 'file-saver';
 								</section>
 							}
 						</div>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			}
 		}
 	`,
@@ -326,66 +319,74 @@ import { saveAs } from 'file-saver';
 	`,
 })
 export class DiagnosticEvaluationDetailComponent {
-	private diagnosticEvaluationService = inject(DiagnosticEvaluationService);
-	private route = inject(ActivatedRoute);
-	private router = inject(Router);
-	private sb = inject(MatSnackBar);
-	private UserService = inject(UserService);
+	private diagnosticEvaluationService = inject(DiagnosticEvaluationService)
+	private route = inject(ActivatedRoute)
+	private router = inject(Router)
+	private sb = inject(MatSnackBar)
+	private UserService = inject(UserService)
 
-	private id = this.route.snapshot.paramMap.get('id') || '';
-	evaluationInput = input<GeneratedEvaluation | null>(null);
-	classSection = input<ClassSection | null>(null);
+	private id = this.route.snapshot.paramMap.get('id') || ''
+	evaluationInput = input<GeneratedEvaluation | null>(null)
+	classSection = input<ClassSection | null>(null)
 
-	User = signal<User | null>(null);
+	User = signal<User | null>(null)
 
-	evaluation = signal<GeneratedEvaluation | null>(null);
+	evaluation = signal<GeneratedEvaluation | null>(null)
+
+	schoolYear = computed(() => {
+		const date = new Date()
+		if (date.getMonth() < 6) {
+			return `Año Escolar ${date.getFullYear() - 1} - ${date.getFullYear()}`
+		}
+		return `Año Escolar ${date.getFullYear()} - ${date.getFullYear() + 1}`
+	})
 
 	ngOnInit() {
-		this.loadUser();
+		this.loadUser()
 	}
 
 	loadUser() {
 		this.UserService.getSettings().subscribe({
 			next: (settings) => {
-				this.User.set(settings);
+				this.User.set(settings)
 				if (this.evaluationInput()) {
-					this.evaluation.set(this.evaluationInput());
+					this.evaluation.set(this.evaluationInput())
 				} else {
-					this.loadEvaluations();
+					this.loadEvaluations()
 				}
 			},
 			error: (err) => console.error('Error loading user settings', err),
-		});
+		})
 	}
 
 	loadEvaluations() {
 		this.diagnosticEvaluationService.findOne(this.id).subscribe({
 			next: (evaluation) => this.evaluation.set(evaluation),
 			error: (err) => console.error('Error loading evaluations', err),
-		});
+		})
 	}
 
 	deleteEvaluation(id: string) {
 		if (!confirm('¿Estás seguro de que deseas eliminar esta evaluación?')) {
-			return;
+			return
 		}
 		this.diagnosticEvaluationService.delete(id).subscribe({
 			next: () => {
-				this.router.navigateByUrl('/diagnostic-evaluations');
+				this.router.navigateByUrl('/assessments/diagnostic-evaluations')
 				this.sb.open('Evaluación eliminada exitosamente', 'Cerrar', {
 					duration: 3000,
-				});
+				})
 			},
 			error: (err) => console.error('Error deleting evaluation', err),
-		});
+		})
 	}
 
 	/**
 	 * Descarga la evaluación generada como un archivo DOCX.
 	 */
 	async downloadDocx(): Promise<void> {
-		const evaluation = this.evaluation();
-		if (!evaluation) return;
+		const evaluation = this.evaluation()
+		if (!evaluation) return
 
 		const paragraphs: Paragraph[] = [
 			new Paragraph({
@@ -421,7 +422,7 @@ export class DiagnosticEvaluationDetailComponent {
 				text: 'Nombre: ___________________________________ Curso: _______ Fecha: ________',
 				spacing: { after: 600 },
 			}),
-		];
+		]
 
 		evaluation.sections.forEach((section) => {
 			paragraphs.push(
@@ -445,7 +446,7 @@ export class DiagnosticEvaluationDetailComponent {
 					],
 					spacing: { after: 200 },
 				}),
-			);
+			)
 
 			section.questions.forEach((q, index) => {
 				paragraphs.push(
@@ -455,7 +456,7 @@ export class DiagnosticEvaluationDetailComponent {
 						],
 						spacing: { after: 100 },
 					}),
-				);
+				)
 				if (q.type === 'multiple_choice' && q.options) {
 					q.options.forEach((opt) => {
 						paragraphs.push(
@@ -463,13 +464,13 @@ export class DiagnosticEvaluationDetailComponent {
 								children: [new TextRun(opt)],
 								indent: { left: 720 }, // 0.5 inch indent
 							}),
-						);
-					});
+						)
+					})
 				}
 				// Agrega espacio extra después de cada pregunta para las respuestas
-				paragraphs.push(new Paragraph({ text: '\n\n' }));
-			});
-		});
+				paragraphs.push(new Paragraph({ text: '\n\n' }))
+			})
+		})
 
 		const doc = new Document({
 			sections: [
@@ -478,9 +479,9 @@ export class DiagnosticEvaluationDetailComponent {
 					children: paragraphs,
 				},
 			],
-		});
+		})
 
-		const blob = await Packer.toBlob(doc);
-		saveAs(blob, 'evaluacion-diagnostica.docx');
+		const blob = await Packer.toBlob(doc)
+		saveAs(blob, `evaluacion-diagnostica-${evaluation.title || 'sin-titulo'}.docx`)
 	}
 }
