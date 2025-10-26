@@ -312,7 +312,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 									)
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>

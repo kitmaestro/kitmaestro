@@ -66,7 +66,6 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
-		PretifyPipe,
 		MarkdownComponent,
 	],
 	template: `
@@ -102,11 +101,9 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones';
 											section of sections();
 											track section._id
 										) {
-											<mat-option [value]="section._id"
-												>{{ section.name }} ({{
-													section.level | pretify
-												}})</mat-option
-											>
+											<mat-option [value]="section._id">
+												{{ section.name }}
+											</mat-option>
 										}
 										@if (
 											!sections().length &&
@@ -223,16 +220,18 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones';
 								"
 							>
 								@if (isGenerating()) {
-									<mat-spinner
-										diameter="20"
-										color="accent"
-										class="inline-spinner"
-									></mat-spinner>
-									Generando...
+									<div style="display: flex; gap: 8px;">
+										<mat-spinner
+											diameter="20"
+											color="accent"
+											class="inline-spinner"
+										></mat-spinner>
+										Generando...
+									</div>
 								} @else {
 									<ng-container>
-										<mat-icon>calculate</mat-icon> Generar
-										Divisiones
+										<mat-icon>calculate</mat-icon>
+										Generar Divisiones
 									</ng-container>
 								}
 							</button>
@@ -266,7 +265,7 @@ const NUMBER_TYPE_FRACTIONS = 'Solo Fracciones';
 									)
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>

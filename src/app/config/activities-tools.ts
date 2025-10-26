@@ -126,14 +126,14 @@ export const activitiesTools: AppEntry[] = [
 	{
 		name: 'Reflexiones Diarias',
 		description: 'Crea reflexiones personalizadas para tus estudiantes',
-		link: '/activities/reflection-generator',
+		link: '/resources/reflection-generator',
 		icon: '/assets/undraw_creative-thinking_ruwx.svg',
 		tier: 1,
 	},
 	{
 		name: 'Rompehielos',
 		description: 'Crea actividades dinámicas para iniciar tus clases',
-		link: '/activities/icebreaker-generator',
+		link: '/resources/icebreaker-generator',
 		icon: '/assets/undraw_team-up_qeem.svg',
 		tier: 1,
 	},

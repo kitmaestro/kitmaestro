@@ -22,15 +22,15 @@ import { PdfService } from '../../../core/services/pdf.service';
 		MatIconModule,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
+		<div>
+			<div>
 				<h2>Generador de Papel Cuadriculado</h2>
-			</mat-card-header>
-			<mat-card-content>
+			</div>
+			<div>
 				<form [formGroup]="paperForm">
 					<div class="row">
 						<div>
-							<mat-form-field>
+							<mat-form-field appearance="outline">
 								<mat-label>Cuadros Por Pulgadas</mat-label>
 								<input
 									type="number"
@@ -41,7 +41,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 							</mat-form-field>
 						</div>
 						<div>
-							<mat-form-field>
+							<mat-form-field appearance="outline">
 								<mat-label>Estilo del Borde</mat-label>
 								<mat-select formControlName="border">
 									@for (
@@ -58,7 +58,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 					</div>
 					<div class="row">
 						<div>
-							<mat-form-field>
+							<mat-form-field appearance="outline">
 								<mat-label>Grosor del Borde</mat-label>
 								<mat-select formControlName="thickness">
 									@for (
@@ -73,7 +73,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 							</mat-form-field>
 						</div>
 						<div>
-							<mat-form-field>
+							<mat-form-field appearance="outline">
 								<mat-label>Color del Borde</mat-label>
 								<input
 									type="color"
@@ -93,11 +93,11 @@ import { PdfService } from '../../../core/services/pdf.service';
 				>
 					Descargar
 				</button>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
-		<mat-card style="margin-top: 24px">
-			<mat-card-content>
+		<div style="margin-top: 24px">
+			<div>
 				<div class="page" id="graph-paper">
 					@for (line of lines; track $index) {
 						<div class="holder">
@@ -118,8 +118,8 @@ import { PdfService } from '../../../core/services/pdf.service';
 						</div>
 					}
 				</div>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	styles: `
 		.dotted {

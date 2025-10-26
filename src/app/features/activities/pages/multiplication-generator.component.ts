@@ -12,6 +12,7 @@ import { UserService } from '../../../core/services/user.service';
 import { PdfService } from '../../../core/services/pdf.service';
 import { shuffle } from 'lodash';
 import { formatNumber } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'app-multiplication',
@@ -25,21 +26,22 @@ import { formatNumber } from '@angular/common';
 		MatChipsModule,
 		ReactiveFormsModule,
 		MatSnackBarModule,
+		MatIconModule,
 	],
 	template: `
-		<mat-card style="margin-bottom: 24px">
-			<mat-card-header>
+		<div style="margin-bottom: 24px">
+			<div>
 				<h2>
 					Generador de Ejercicios de Multiplicaci&oacute;n
 				</h2>
-			</mat-card-header>
-			<mat-card-content>
+			</div>
+			<div>
 				<form
 					[formGroup]="multiplicationsForm"
 					(ngSubmit)="generateMultiplications()"
 				>
-					<div style="display: flex; gap: 16px">
-						<div style="max-width: 25%; flex: 1 1 auto">
+					<div class="fields-grid">
+						<div>
 							<mat-form-field appearance="outline">
 								<mat-label>T&iacute;tulo</mat-label>
 								<input
@@ -49,7 +51,7 @@ import { formatNumber } from '@angular/common';
 								/>
 							</mat-form-field>
 						</div>
-						<div style="max-width: 25%; flex: 1 1 auto">
+						<div>
 							<mat-form-field appearance="outline">
 								<mat-label>Conjunto Num&eacute;rico</mat-label>
 								<mat-select formControlName="numericalSet">
@@ -62,7 +64,7 @@ import { formatNumber } from '@angular/common';
 								</mat-select>
 							</mat-form-field>
 						</div>
-						<div style="max-width: 25%; flex: 1 1 auto">
+						<div>
 							<mat-form-field appearance="outline">
 								<mat-label>Orientaci&oacute;n</mat-label>
 								<mat-select formControlName="orientation">
@@ -75,7 +77,7 @@ import { formatNumber } from '@angular/common';
 								</mat-select>
 							</mat-form-field>
 						</div>
-						<div style="max-width: 25%; flex: 1 1 auto">
+						<div>
 							<mat-form-field appearance="outline">
 								<mat-label>Cantidad de Factores</mat-label>
 								<input
@@ -85,9 +87,7 @@ import { formatNumber } from '@angular/common';
 								/>
 							</mat-form-field>
 						</div>
-					</div>
-					<div style="display: flex; gap: 16px">
-						<div style="max-width: 25%; flex: 1 1 auto">
+						<div>
 							<mat-form-field appearance="outline">
 								<mat-label
 									>Cantidad de D&iacute;gitos
@@ -101,7 +101,7 @@ import { formatNumber } from '@angular/common';
 								/>
 							</mat-form-field>
 						</div>
-						<div style="max-width: 25%; flex: 1 1 auto">
+						<div>
 							<mat-form-field appearance="outline">
 								<mat-label
 									>Cantidad de D&iacute;gitos
@@ -115,7 +115,7 @@ import { formatNumber } from '@angular/common';
 								/>
 							</mat-form-field>
 						</div>
-						<div style="max-width: 25%; flex: 1 1 auto">
+						<div>
 							<mat-form-field appearance="outline">
 								<mat-label>Cantidad de Ejercicios</mat-label>
 								<input
@@ -127,7 +127,7 @@ import { formatNumber } from '@angular/common';
 								/>
 							</mat-form-field>
 						</div>
-						<div style="max-width: 25%; flex: 1 1 auto">
+						<div>
 							<mat-label>Campos a Incluir:</mat-label>
 							<mat-chip-set>
 								<mat-chip-option
@@ -161,28 +161,32 @@ import { formatNumber } from '@angular/common';
 							generados, haz click sobre &eacute;l.
 						</div>
 					}
-					@if (multiplications.length) {
+					<div style="text-align: right">
+						@if (multiplications.length) {
+							<button
+								type="button"
+								(click)="print()"
+								style="margin-right: 12px"
+								mat-flat-button
+								color="accent"
+							>
+								<mat-icon>download</mat-icon>
+								Descargar
+							</button>
+						}
 						<button
-							type="button"
-							(click)="print()"
-							style="margin-right: 12px"
-							mat-raised-button
-							color="accent"
+							[disabled]="multiplicationsForm.invalid"
+							type="submit"
+							mat-button
+							color="primary"
 						>
-							Imprimir
+							<mat-icon>bolt</mat-icon>
+							{{ multiplications.length ? 'Regenerar' : 'Generar' }}
 						</button>
-					}
-					<button
-						[disabled]="multiplicationsForm.invalid"
-						type="submit"
-						mat-raised-button
-						color="primary"
-					>
-						{{ multiplications.length ? 'Regenerar' : 'Generar' }}
-					</button>
+					</div>
 				</form>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		@if (multiplications.length) {
 			<div
@@ -193,8 +197,8 @@ import { formatNumber } from '@angular/common';
 					margin-top: 24px;
 				"
 			>
-				<mat-card>
-					<mat-card-content>
+				<div>
+					<div>
 						<div
 							class="page"
 							id="multiplications"
@@ -339,10 +343,10 @@ import { formatNumber } from '@angular/common';
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
-				<mat-card>
-					<mat-card-content>
+					</div>
+				</div>
+				<div>
+					<div>
 						<div
 							class="page"
 							id="multiplications-solution"
@@ -404,12 +408,26 @@ import { formatNumber } from '@angular/common';
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			</div>
 		}
 	`,
 	styles: `
+		.fields-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 16px;
+
+			@media (min-width: 720px) {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			@media (min-width: 1280px) {
+				grid-template-columns: repeat(4, 1fr);
+			}
+		}
+
 		.board {
 			display: flex;
 			flex-direction: column;

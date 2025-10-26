@@ -46,10 +46,11 @@ import { MarkdownComponent } from 'ngx-markdown';
 					<h2>Actividad de Lectura Guiada</h2>
 					<span style="flex: 1 1 auto"></span>
 					<button
-						mat-flat-button
+						mat-button
 						routerLink="/activities/reading-activities"
 						color="primary"
 					>
+						<mat-icon>arrow_back</mat-icon>
 						Mis Actividades
 					</button>
 				</div>
@@ -126,6 +127,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 								(click)="save()"
 								style="margin-left: 12px"
 							>
+								<mat-icon>save</mat-icon>
 								Guardar
 							</button>
 						}
@@ -134,7 +136,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 			</div>
 
 			@if (text) {
-				<mat-card
+				<div
 					style="
 						margin-top: 24px;
 						min-width: 8.5in;
@@ -143,7 +145,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 						margin-right: auto;
 					"
 				>
-					<mat-card-content>
+					<div>
 						<div id="reading-activity" style="padding: 0.5in">
 							@if (user) {
 								<div style="text-align: center">
@@ -217,8 +219,8 @@ import { MarkdownComponent } from 'ngx-markdown';
 								</p>
 							}
 						</div>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			}
 		</app-is-premium>
 	`,
@@ -227,7 +229,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 			width: 100%;
 		}
 
-		mat-card {
+		div {
 			margin-bottom: 24px;
 		}
 

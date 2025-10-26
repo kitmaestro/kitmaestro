@@ -24,7 +24,6 @@ import { MatIconModule } from '@angular/material/icon';
 		MatFormFieldModule,
 		MatIconModule,
 		MatSnackBarModule,
-		PretifyPipe,
 		ReactiveFormsModule,
 		RouterLink,
 	],

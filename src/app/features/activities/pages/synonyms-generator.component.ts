@@ -35,7 +35,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MarkdownComponent } from 'ngx-markdown';
 // --- Core Services & Interfaces (Using new structure paths) ---
 import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
@@ -68,20 +68,17 @@ import { saveAs } from 'file-saver';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
+		MarkdownComponent,
 		PretifyPipe,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="synonyms-generator-card">
-			<mat-card-header>
+		<div class="synonyms-generator-card">
+			<div>
 				<h2>Generador de Sinónimos</h2>
-				<mat-card-subtitle
-					>Crea listas de palabras y sus sinónimos
-					contextualizados</mat-card-subtitle
-				>
-			</mat-card-header>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="synonymsForm"
@@ -109,7 +106,7 @@ import { saveAs } from 'file-saver';
 											track section._id
 										) {
 											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
+												section.name
 											}}</mat-option>
 										}
 										@if (
@@ -253,7 +250,7 @@ import { saveAs } from 'file-saver';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="
@@ -288,27 +285,20 @@ import { saveAs } from 'file-saver';
 				@if (showResult()) {
 					<div class="synonyms-result">
 						<h3>Sinónimos Generados:</h3>
-						<div
-							class="synonyms-result-content"
-							[innerHTML]="
-								generatedSynonyms().replaceAll(
-									'
-',
-									'<br>'
-								)
-							"
-						></div>
+						<div class="synonyms-result-content">
+							<markdown [data]="generatedSynonyms()" />
+						</div>
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
@@ -318,13 +308,13 @@ import { saveAs } from 'file-saver';
 									)
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [

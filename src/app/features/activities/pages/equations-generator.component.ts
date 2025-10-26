@@ -27,106 +27,108 @@ import { PdfService } from '../../../core/services/pdf.service';
 		MatChipsModule,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
+		<div>
+			<div>
 				<h2>Generador de Ecuaciones</h2>
-			</mat-card-header>
-			<mat-card-content>
+			</div>
+			<div>
 				<form
 					[formGroup]="exerciseForm"
 					(ngSubmit)="generateExercises()"
 				>
-					<div>
-						<mat-form-field appearance="outline">
-							<mat-label>T&iacute;tulo</mat-label>
-							<input formControlName="title" matInput />
-						</mat-form-field>
-					</div>
-
-					<div>
-						<mat-form-field appearance="outline">
-							<mat-label>Tipo de ecuación</mat-label>
-							<mat-select formControlName="equationType">
-								<mat-option value="linear">Lineal</mat-option>
-								<mat-option value="quadratic"
-									>Cuadrática</mat-option
-								>
-							</mat-select>
-						</mat-form-field>
-					</div>
-
-					<div>
-						<mat-form-field appearance="outline">
-							<mat-label for="difficulty"
-								>Nivel de dificultad</mat-label
-							>
-							<mat-select
-								id="difficulty"
-								formControlName="difficulty"
-							>
-								<mat-option value="basic">Básico</mat-option>
-								<mat-option value="intermediate"
-									>Intermedio</mat-option
-								>
-								<mat-option value="advanced"
-									>Avanzado</mat-option
-								>
-							</mat-select>
-						</mat-form-field>
-					</div>
-
-					<div>
-						<mat-form-field appearance="outline">
-							<mat-label for="numExercises"
-								>Número de ejercicios</mat-label
-							>
-							<input
-								matInput
-								type="number"
-								id="numExercises"
-								formControlName="numExercises"
-								min="1"
-								max="20"
-							/>
-						</mat-form-field>
-					</div>
-
-					<div>
-						<mat-label for="valueRange">Rango de valores</mat-label>
+					<div class="fields-grid">
 						<div>
-							<mat-slider min="-100" max="100" step="1" discrete>
+							<mat-form-field appearance="outline">
+								<mat-label>T&iacute;tulo</mat-label>
+								<input formControlName="title" matInput />
+							</mat-form-field>
+						</div>
+
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label>Tipo de ecuación</mat-label>
+								<mat-select formControlName="equationType">
+									<mat-option value="linear">Lineal</mat-option>
+									<mat-option value="quadratic"
+										>Cuadrática</mat-option
+									>
+								</mat-select>
+							</mat-form-field>
+						</div>
+
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label for="difficulty"
+									>Nivel de dificultad</mat-label
+								>
+								<mat-select
+									id="difficulty"
+									formControlName="difficulty"
+								>
+									<mat-option value="basic">Básico</mat-option>
+									<mat-option value="intermediate"
+										>Intermedio</mat-option
+									>
+									<mat-option value="advanced"
+										>Avanzado</mat-option
+									>
+								</mat-select>
+							</mat-form-field>
+						</div>
+
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label for="numExercises"
+									>Número de ejercicios</mat-label
+								>
 								<input
-									formControlName="valueRangeMin"
-									matSliderStartThumb
+									matInput
+									type="number"
+									id="numExercises"
+									formControlName="numExercises"
+									min="1"
+									max="20"
 								/>
-								<input
-									formControlName="valueRangeMax"
-									matSliderEndThumb
-								/>
-							</mat-slider>
+							</mat-form-field>
+						</div>
+						<div>
+							<mat-label for="valueRange">Rango de valores</mat-label>
+							<div>
+								<mat-slider min="-100" max="100" step="1" discrete>
+									<input
+										formControlName="valueRangeMin"
+										matSliderStartThumb
+									/>
+									<input
+										formControlName="valueRangeMax"
+										matSliderEndThumb
+									/>
+								</mat-slider>
+							</div>
+						</div>
+	
+						<div style="margin-bottom: 12px">
+							<mat-label>Campos a Incluir:</mat-label>
+							<mat-chip-set>
+								<mat-chip-option
+									[selected]="true"
+									(selectionChange)="toggleName()"
+									>Nombre</mat-chip-option
+								>
+								<mat-chip-option
+									[selected]="true"
+									(selectionChange)="toggleGrade()"
+									>Grado</mat-chip-option
+								>
+								<mat-chip-option
+									[selected]="true"
+									(selectionChange)="toggleDate()"
+									>Fecha</mat-chip-option
+								>
+							</mat-chip-set>
 						</div>
 					</div>
 
-					<div style="margin-bottom: 12px">
-						<mat-label>Campos a Incluir:</mat-label>
-						<mat-chip-set>
-							<mat-chip-option
-								[selected]="true"
-								(selectionChange)="toggleName()"
-								>Nombre</mat-chip-option
-							>
-							<mat-chip-option
-								[selected]="true"
-								(selectionChange)="toggleGrade()"
-								>Grado</mat-chip-option
-							>
-							<mat-chip-option
-								[selected]="true"
-								(selectionChange)="toggleDate()"
-								>Fecha</mat-chip-option
-							>
-						</mat-chip-set>
-					</div>
 					@if (exercises.length) {
 						<div
 							style="
@@ -140,27 +142,29 @@ import { PdfService } from '../../../core/services/pdf.service';
 							generados, haz click sobre &eacute;l.
 						</div>
 						<button
-							mat-raised-button
+							mat-flat-button
 							style="margin-right: 12px"
 							(click)="print()"
 							color="accent"
 							type="button"
 						>
-							Imprimir
+							<mat-icon>download</mat-icon>
+							Descargar
 						</button>
 					}
 
 					<button
-						mat-raised-button
+						mat-button
 						color="primary"
 						[disabled]="exerciseForm.invalid"
 						type="submit"
 					>
+						<mat-icon>bolt</mat-icon>
 						Generar Ejercicios
 					</button>
 				</form>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		@if (exercises.length > 0) {
 			<div
@@ -169,10 +173,11 @@ import { PdfService } from '../../../core/services/pdf.service';
 					grid-template-columns: 1fr 1fr;
 					gap: 24px;
 					margin-top: 24px;
+					padding-bottom: 42px;
 				"
 			>
-				<mat-card>
-					<mat-card-content>
+				<div>
+					<div>
 						<div class="page" id="equations" style="padding: 12px">
 							<div style="text-align: center">
 								<h3
@@ -245,10 +250,10 @@ import { PdfService } from '../../../core/services/pdf.service';
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
-				<mat-card style="display: none">
-					<mat-card-content>
+					</div>
+				</div>
+				<div style="display: none">
+					<div>
 						<div
 							class="page"
 							id="equations-solution"
@@ -306,22 +311,25 @@ import { PdfService } from '../../../core/services/pdf.service';
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			</div>
 		}
 	`,
 	styles: `
+		.fields-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 12px;
+
+			@media (min-width: 720px) {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+
 		mat-form-field,
 		mat-slider {
 			width: 100%;
-		}
-
-		@media screen and (min-width: 1200px) {
-			mat-form-field,
-			mat-slider {
-				width: 60%;
-			}
 		}
 
 		.board {

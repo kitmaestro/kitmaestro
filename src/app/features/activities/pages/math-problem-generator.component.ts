@@ -72,18 +72,12 @@ const MATH_SUBJECT = 'Matemática'; // Hardcoded subject for fetching topics
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="math-problem-card">
-			<mat-card-header>
-				<mat-card-title
-					>Generador de Problemas Matemáticos</mat-card-title
-				>
-				<mat-card-subtitle
-					>Crea problemas contextualizados para tus clases de
-					matemáticas</mat-card-subtitle
-				>
-			</mat-card-header>
+		<div class="math-problem-card">
+			<div>
+				<h2>Generador de Problemas Matemáticos</h2>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="mathProblemForm"
@@ -111,7 +105,7 @@ const MATH_SUBJECT = 'Matemática'; // Hardcoded subject for fetching topics
 											track section._id
 										) {
 											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
+												section.name
 											}}</mat-option>
 										}
 										@if (
@@ -231,7 +225,7 @@ const MATH_SUBJECT = 'Matemática'; // Hardcoded subject for fetching topics
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="
@@ -279,14 +273,14 @@ const MATH_SUBJECT = 'Matemática'; // Hardcoded subject for fetching topics
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
@@ -296,13 +290,13 @@ const MATH_SUBJECT = 'Matemática'; // Hardcoded subject for fetching topics
 									)
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [

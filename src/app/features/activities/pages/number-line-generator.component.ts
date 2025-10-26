@@ -65,16 +65,12 @@ const CM_PER_MM = 0.1;
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="number-line-card">
-			<mat-card-header>
+		<div class="number-line-card">
+			<div>
 				<h2>Generador de Recta Numérica</h2>
-				<mat-card-subtitle
-					>Crea una recta numérica con cuadrícula
-					personalizable</mat-card-subtitle
-				>
-			</mat-card-header>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="numberLineForm"
@@ -138,13 +134,12 @@ const CM_PER_MM = 0.1;
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="numberLineForm.invalid"
 							>
-								<mat-icon>linear_scale</mat-icon> Generar Recta
-								Numérica
+								<mat-icon>linear_scale</mat-icon> Generar Recta Numérica
 							</button>
 						</div>
 					</form>
@@ -169,25 +164,25 @@ const CM_PER_MM = 0.1;
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="!generatedImageSrc()"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [
@@ -385,17 +380,17 @@ export class NumberLineGeneratorComponent
 
 		// Vertical CM lines (Solid)
 		for (let x = 0; x <= canvasWidth; x += PIXELS_PER_CM) {
-			ctx.beginPath();
-			ctx.moveTo(x, 0);
-			ctx.lineTo(x, canvasHeight);
-			ctx.stroke();
+			// ctx.beginPath();
+			// ctx.moveTo(x, 0);
+			// ctx.lineTo(x, canvasHeight);
+			// ctx.stroke();
 		}
 		// Horizontal CM lines (Solid)
 		for (let y = 0; y <= canvasHeight; y += PIXELS_PER_CM) {
-			ctx.beginPath();
-			ctx.moveTo(0, y);
-			ctx.lineTo(canvasWidth, y);
-			ctx.stroke();
+			// ctx.beginPath();
+			// ctx.moveTo(0, y);
+			// ctx.lineTo(canvasWidth, y);
+			// ctx.stroke();
 		}
 
 		// MM subdivisions (Dashed/Dotted)
@@ -427,7 +422,7 @@ export class NumberLineGeneratorComponent
 
 		// --- Number Line Drawing ---
 		ctx.strokeStyle = '#000000'; // Black for number line
-		ctx.lineWidth = 2;
+		ctx.lineWidth = 1;
 		ctx.fillStyle = '#000000';
 		ctx.font = '12px Arial';
 		ctx.textAlign = 'center';

@@ -56,6 +56,7 @@ import {
 	selectAllClassSections,
 	selectClassSectionsStatus,
 } from '../../../store/class-sections';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
 	selector: 'app-antonyms-generator', // Component selector
@@ -70,6 +71,7 @@ import {
 		MatSnackBarModule,
 		MatIconModule,
 		PretifyPipe,
+		MarkdownComponent,
 	],
 	// --- Inline Template ---
 	template: `
@@ -104,7 +106,7 @@ import {
 											track section._id
 										) {
 											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
+												section.name
 											}}</mat-option>
 										}
 										@if (
@@ -283,16 +285,9 @@ import {
 				@if (showResult()) {
 					<div class="antonyms-result">
 						<h3>Antónimos Generados:</h3>
-						<div
-							class="antonyms-result-content"
-							[innerHTML]="
-								generatedAntonyms().replaceAll(
-									'
-',
-									'<br>'
-								)
-							"
-						></div>
+						<div class="antonyms-result-content">
+							<markdown [data]="generatedAntonyms()" />
+						</div>
 
 						<div class="result-actions">
 							<button
@@ -313,7 +308,7 @@ import {
 									)
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>

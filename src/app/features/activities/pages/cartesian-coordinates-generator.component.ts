@@ -132,8 +132,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 		</div>
 
 		@if (source) {
-			<mat-card style="margin-top: 24px; min-width: 8.5in">
-				<mat-card-content>
+			<div style="margin-top: 24px; min-width: 8.5in">
+				<div>
 					@if (exercises.length) {
 						<div>
 							<h2>Ejercicios</h2>
@@ -159,8 +159,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 							/>
 						}
 					</div>
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 		}
 	`,
 	styles: `

@@ -27,11 +27,11 @@ import { UserService } from '../../../core/services/user.service';
 		MatSnackBarModule,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
+		<div>
+			<div>
 				<h2>Generador de Sudoku</h2>
-			</mat-card-header>
-			<mat-card-content>
+			</div>
+			<div>
 				<div
 					style="
 						display: grid;
@@ -41,7 +41,7 @@ import { UserService } from '../../../core/services/user.service';
 					"
 				>
 					<div>
-						<mat-form-field>
+						<mat-form-field appearance="outline">
 							<mat-label>Nivel</mat-label>
 							<mat-select [formControl]="sudokuLevel">
 								@for (opt of levels; track $index) {
@@ -53,7 +53,7 @@ import { UserService } from '../../../core/services/user.service';
 						</mat-form-field>
 					</div>
 					<div>
-						<mat-form-field>
+						<mat-form-field appearance="outline">
 							<mat-label>T&iacute;tulo</mat-label>
 							<input
 								type="text"
@@ -88,22 +88,24 @@ import { UserService } from '../../../core/services/user.service';
 						type="button"
 						(click)="print()"
 						style="margin-right: 12px"
-						mat-raised-button
+						mat-flat-button
 						color="accent"
 					>
-						Exportar
+						<mat-icon>download</mat-icon>
+						Descargar
 					</button>
 				}
 				<button
-					mat-raised-button
+					mat-button
 					color="primary"
 					type="button"
 					(click)="generate()"
 				>
+					<mat-icon>bolt</mat-icon>
 					{{ board.length ? 'Regenerar' : 'Generar' }}
 				</button>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		@if (board.length) {
 			<div
@@ -114,8 +116,8 @@ import { UserService } from '../../../core/services/user.service';
 					margin-top: 24px;
 				"
 			>
-				<mat-card>
-					<mat-card-content>
+				<div>
+					<div>
 						<div class="page" id="sudoku" style="padding: 12px">
 							<div style="text-align: center">
 								<h3
@@ -199,11 +201,11 @@ import { UserService } from '../../../core/services/user.service';
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 				@if (sudokuIncludeSolution.value) {
-					<mat-card>
-						<mat-card-content>
+					<div>
+						<div>
 							<div
 								class="page"
 								id="sudoku-solution"
@@ -280,8 +282,8 @@ import { UserService } from '../../../core/services/user.service';
 									}
 								</div>
 							</div>
-						</mat-card-content>
-					</mat-card>
+						</div>
+					</div>
 				}
 			</div>
 		}

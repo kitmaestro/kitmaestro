@@ -13,6 +13,7 @@ import { UserService } from '../../../core/services/user.service';
 import { PdfService } from '../../../core/services/pdf.service';
 import { shuffle } from 'lodash';
 import { formatNumber } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'app-subtraction',
@@ -27,19 +28,20 @@ import { formatNumber } from '@angular/common';
 		ReactiveFormsModule,
 		MatSnackBarModule,
 		MatRadioModule,
+		MatIconModule,
 	],
 	template: `
-		<mat-card style="margin-bottom: 24px">
-			<mat-card-header>
+		<div style="margin-bottom: 24px">
+			<div>
 				<h2>Generador de Ejercicios de Resta</h2>
-			</mat-card-header>
-			<mat-card-content>
+			</div>
+			<div>
 				<form
 					[formGroup]="subtractionsForm"
 					(ngSubmit)="generateSubtractions()"
 				>
 					<div style="display: flex">
-						<div style="min-width: 20%; padding-right: 8px">
+						<div style="min-width: 25%; padding-right: 8px">
 							<mat-form-field appearance="outline">
 								<mat-label>T&iacute;tulo</mat-label>
 								<input
@@ -51,7 +53,7 @@ import { formatNumber } from '@angular/common';
 						</div>
 						<div
 							style="
-								min-width: 20%;
+								min-width: 25%;
 								padding-left: 8px;
 								padding-right: 8px;
 							"
@@ -70,7 +72,7 @@ import { formatNumber } from '@angular/common';
 						</div>
 						<div
 							style="
-								min-width: 20%;
+								min-width: 25%;
 								padding-left: 8px;
 								padding-right: 8px;
 							"
@@ -92,7 +94,7 @@ import { formatNumber } from '@angular/common';
 						</div>
 						<div
 							style="
-								min-width: 20%;
+								min-width: 25%;
 								padding-left: 8px;
 								padding-right: 8px;
 							"
@@ -111,26 +113,6 @@ import { formatNumber } from '@angular/common';
 									>
 								</mat-radio-group>
 							</div>
-						</div>
-						<div style="min-width: 20%; padding-left: 8px">
-							<mat-label>Campos a Incluir:</mat-label>
-							<mat-chip-set>
-								<mat-chip-option
-									[selected]="true"
-									(selectionChange)="toggleName()"
-									>Nombre</mat-chip-option
-								>
-								<mat-chip-option
-									[selected]="true"
-									(selectionChange)="toggleGrade()"
-									>Grado</mat-chip-option
-								>
-								<mat-chip-option
-									[selected]="true"
-									(selectionChange)="toggleDate()"
-									>Fecha</mat-chip-option
-								>
-							</mat-chip-set>
 						</div>
 					</div>
 					<div style="display: flex; margin-top: 12px">
@@ -197,6 +179,27 @@ import { formatNumber } from '@angular/common';
 							</mat-form-field>
 						</div>
 					</div>
+
+					<div style="margin-bottom: 24px;">
+						<mat-label>Campos a Incluir:</mat-label>
+						<mat-chip-set>
+							<mat-chip-option
+								[selected]="true"
+								(selectionChange)="toggleName()"
+								>Nombre</mat-chip-option
+							>
+							<mat-chip-option
+								[selected]="true"
+								(selectionChange)="toggleGrade()"
+								>Grado</mat-chip-option
+							>
+							<mat-chip-option
+								[selected]="true"
+								(selectionChange)="toggleDate()"
+								>Fecha</mat-chip-option
+							>
+						</mat-chip-set>
+					</div>
 					@if (subtractions.length) {
 						<div
 							style="
@@ -210,28 +213,32 @@ import { formatNumber } from '@angular/common';
 							generados, haz click sobre &eacute;l.
 						</div>
 					}
-					@if (subtractions.length) {
+					<div style="text-align: right">
+						@if (subtractions.length) {
+							<button
+								type="button"
+								(click)="print()"
+								style="margin-right: 12px"
+								mat-flat-button
+								color="accent"
+							>
+								<mat-icon>download</mat-icon>
+								Descargar
+							</button>
+						}
 						<button
-							type="button"
-							(click)="print()"
-							style="margin-right: 12px"
-							mat-raised-button
-							color="accent"
+							[disabled]="subtractionsForm.invalid"
+							type="submit"
+							mat-button
+							color="primary"
 						>
-							Imprimir
+							<mat-icon>bolt</mat-icon>
+							{{ subtractions.length ? 'Regenerar' : 'Generar' }}
 						</button>
-					}
-					<button
-						[disabled]="subtractionsForm.invalid"
-						type="submit"
-						mat-raised-button
-						color="primary"
-					>
-						{{ subtractions.length ? 'Regenerar' : 'Generar' }}
-					</button>
+					</div>
 				</form>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		@if (subtractions.length) {
 			<div
@@ -242,8 +249,8 @@ import { formatNumber } from '@angular/common';
 					margin-top: 24px;
 				"
 			>
-				<mat-card>
-					<mat-card-content>
+				<div>
+					<div>
 						<div
 							class="page"
 							id="subtractions"
@@ -378,10 +385,10 @@ import { formatNumber } from '@angular/common';
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
-				<mat-card>
-					<mat-card-content>
+					</div>
+				</div>
+				<div>
+					<div>
 						<div
 							class="page"
 							id="subtractions-solution"
@@ -441,8 +448,8 @@ import { formatNumber } from '@angular/common';
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			</div>
 		}
 	`,

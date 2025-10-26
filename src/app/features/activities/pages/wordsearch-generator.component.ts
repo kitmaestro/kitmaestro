@@ -19,6 +19,7 @@ import { VocabularyEntry } from '../../../core';
 import { WORD_LISTS } from '../../../core/data/word-lists';
 import { TOPICS } from '../../../core/data/topics';
 import { ClassSection } from '../../../core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'app-wordsearch',
@@ -31,17 +32,18 @@ import { ClassSection } from '../../../core';
 		MatInputModule,
 		MatChipsModule,
 		ReactiveFormsModule,
+		MatIconModule,
 		MatSnackBarModule,
 	],
 	template: `
-		<mat-card style="margin-bottom: 24px">
-			<mat-card-header>
+		<div style="margin-bottom: 24px">
+			<div>
 				<h2>Generador de Sopas de Letras</h2>
-			</mat-card-header>
-			<mat-card-content>
+			</div>
+			<div>
 				<form [formGroup]="wsForm" (ngSubmit)="generateWordSearch()">
 					<div style="display: flex; gap: 16px">
-						<div style="min-width: 25%">
+						<div style="flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
 								<mat-label>Curso</mat-label>
 								<mat-select formControlName="section">
@@ -56,7 +58,7 @@ import { ClassSection } from '../../../core';
 								</mat-select>
 							</mat-form-field>
 						</div>
-						<div style="min-width: 25%">
+						<div style="flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
 								<mat-label>Tema</mat-label>
 								<mat-select formControlName="topic">
@@ -68,7 +70,7 @@ import { ClassSection } from '../../../core';
 								</mat-select>
 							</mat-form-field>
 						</div>
-						<div style="min-width: 25%">
+						<div style="flex: 1 1 auto;">
 							<mat-form-field appearance="outline">
 								<mat-label>Cantidad de Palabras</mat-label>
 								<input
@@ -80,48 +82,50 @@ import { ClassSection } from '../../../core';
 								/>
 							</mat-form-field>
 						</div>
-						<div style="min-width: 25%">
-							<mat-label>Campos a Incluir:</mat-label>
-							<mat-chip-set>
-								<mat-chip-option
-									[selected]="true"
-									(selectionChange)="toggleName()"
-									>Nombre</mat-chip-option
-								>
-								<mat-chip-option
-									[selected]="true"
-									(selectionChange)="toggleGrade()"
-									>Grado</mat-chip-option
-								>
-								<mat-chip-option
-									[selected]="true"
-									(selectionChange)="toggleDate()"
-									>Fecha</mat-chip-option
-								>
-							</mat-chip-set>
-						</div>
+					</div>
+					<div style="margin-bottom: 24px;">
+						<mat-label>Campos a Incluir:</mat-label>
+						<mat-chip-set>
+							<mat-chip-option
+								[selected]="true"
+								(selectionChange)="toggleName()"
+								>Nombre</mat-chip-option
+							>
+							<mat-chip-option
+								[selected]="true"
+								(selectionChange)="toggleGrade()"
+								>Grado</mat-chip-option
+							>
+							<mat-chip-option
+								[selected]="true"
+								(selectionChange)="toggleDate()"
+								>Fecha</mat-chip-option
+							>
+						</mat-chip-set>
 					</div>
 					@if (wordsearch) {
 						<button
 							type="button"
 							(click)="print()"
 							style="margin-right: 12px"
-							mat-raised-button
+							mat-flat-button
 							color="accent"
 						>
+							<mat-icon>download</mat-icon>
 							Exportar
 						</button>
 					}
-					<button type="submit" mat-raised-button color="primary">
+					<button type="submit" mat-button color="primary">
+						<mat-icon>bolt</mat-icon>
 						{{ wordsearch ? 'Regenerar' : 'Generar' }}
 					</button>
 				</form>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		@if (wordsearch) {
-			<mat-card>
-				<mat-card-content>
+			<div>
+				<div>
 					<div class="page" id="wordsearch" style="padding: 12px">
 						<div style="text-align: center">
 							<h3
@@ -210,8 +214,8 @@ import { ClassSection } from '../../../core';
 							</div>
 						</div>
 					</div>
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 		}
 	`,
 	styles: `

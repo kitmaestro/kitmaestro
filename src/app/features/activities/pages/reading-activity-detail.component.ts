@@ -75,9 +75,10 @@ import { MarkdownComponent } from 'ngx-markdown';
 			</div>
 		</mat-dialog-content>
 		<mat-dialog-actions>
-			<button mat-button mat-dialog-close>Cerrar</button>
+			<button mat-button mat-dialog-close><mat-icon>close</mat-icon>Cerrar</button>
 			<!-- <button mat-button (click)="delete()">Eliminar</button> -->
 			<button [disabled]="printing" mat-flat-button (click)="download()">
+				<mat-icon>download</mat-icon>
 				Descargar
 			</button>
 		</mat-dialog-actions>

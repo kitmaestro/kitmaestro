@@ -63,16 +63,12 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="tongue-twister-card">
-			<mat-card-header>
+		<div class="tongue-twister-card">
+			<div>
 				<h2>Generador de Trabalenguas</h2>
-				<mat-card-subtitle
-					>Crea trabalenguas divertidos para tus
-					clases</mat-card-subtitle
-				>
-			</mat-card-header>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="tongueTwisterForm"
@@ -100,7 +96,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 											track section._id
 										) {
 											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
+												section.name
 											}}</mat-option>
 										}
 										@if (
@@ -182,7 +178,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-button
 								color="primary"
 								type="submit"
 								[disabled]="
@@ -223,14 +219,14 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
@@ -240,13 +236,13 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 									)
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [

@@ -13,6 +13,7 @@ import { easySpeakConversations } from '../../../core/data/easyspeak-conversatio
 import { easyDialogsConversations } from '../../../core/data/easydialogs-conversations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'app-english-dialog-generator',
@@ -23,19 +24,20 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 		MatFormFieldModule,
 		MatSnackBarModule,
 		MatButtonModule,
+		MatIconModule,
 		MatSelectModule,
 		MatInputModule,
 		MatCardModule,
 	],
 	template: `
 		<app-is-premium>
-			<mat-card>
-				<mat-card-header>
-					<h2 mat-card-ittle>
+			<div>
+				<div>
+					<h2>
 						Generador de Conversaciones en Ingl&eacute;s
 					</h2>
-				</mat-card-header>
-				<mat-card-content>
+				</div>
+				<div>
 					<form [formGroup]="generatorForm" (ngSubmit)="onSubmit()">
 						<div
 							style="
@@ -44,7 +46,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 								grid-template-columns: 1fr 1fr;
 							"
 						>
-							<mat-form-field>
+							<mat-form-field appearance="outline">
 								<mat-label>Nivel</mat-label>
 								<mat-select formControlName="level">
 									@for (level of dialogLevels; track $index) {
@@ -54,7 +56,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 									}
 								</mat-select>
 							</mat-form-field>
-							<mat-form-field>
+							<mat-form-field appearance="outline">
 								<mat-label>Tema</mat-label>
 								<mat-select formControlName="topic">
 									@for (topic of topics; track $index) {
@@ -77,10 +79,11 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 						<div>
 							<button
 								[disabled]="generating"
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 							>
+								<mat-icon>bolt</mat-icon>
 								{{
 									generating
 										? 'Generando...'
@@ -91,14 +94,14 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 							</button>
 						</div>
 					</form>
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 			@if (conversation) {
-				<mat-card style="margin-top: 24px">
-					<mat-card-header>
+				<div style="margin-top: 24px">
+					<div>
 						<h2>{{ conversation.title }}</h2>
-					</mat-card-header>
-					<mat-card-content>
+					</div>
+					<div>
 						<div class="conversation">
 							@for (line of conversation.talk; track $index) {
 								<div [class.a]="line.a" [class.b]="line.b">
@@ -107,8 +110,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 								</div>
 							}
 						</div>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			}
 		</app-is-premium>
 	`,

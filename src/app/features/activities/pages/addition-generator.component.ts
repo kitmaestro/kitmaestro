@@ -13,6 +13,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 import { shuffle } from 'lodash';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'app-addition',
@@ -26,6 +27,7 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 		MatChipsModule,
 		ReactiveFormsModule,
 		MatSnackBarModule,
+		MatIconModule,
 	],
 	template: `
 		<div style="margin-bottom: 24px">
@@ -126,12 +128,14 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 								type="button"
 								(click)="print()"
 								style="margin-right: 12px"
-								mat-button
+								mat-flat-button
 							>
+								<mat-icon>download</mat-icon>
 								Descargar PDF
 							</button>
 						}
-						<button type="submit" mat-flat-button color="primary">
+						<button type="submit" mat-button color="primary">
+							<mat-icon>bolt</mat-icon>
 							{{ additions.length ? 'Regenerar' : 'Generar' }}
 						</button>
 					</div>
@@ -149,8 +153,8 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 					padding-bottom: 42px;
 				"
 			>
-				<mat-card>
-					<mat-card-content>
+				<div>
+					<div>
 						<div class="page" id="additions" style="padding: 12px">
 							<div style="text-align: center">
 								<h3
@@ -238,10 +242,10 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
-				<mat-card>
-					<mat-card-content>
+					</div>
+				</div>
+				<div>
+					<div>
 						<div
 							class="page"
 							id="additions-solution"
@@ -301,8 +305,8 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			</div>
 		}
 	`,

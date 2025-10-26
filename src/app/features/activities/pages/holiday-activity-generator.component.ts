@@ -117,11 +117,11 @@ import {
 
 			@if (response) {
 				<div style="margin-top: 24px">
-					<mat-card>
-						<mat-card-content>
+					<div>
+						<div>
 							<markdown [data]="response"></markdown>
-						</mat-card-content>
-					</mat-card>
+						</div>
+					</div>
 				</div>
 			}
 		</app-is-premium>

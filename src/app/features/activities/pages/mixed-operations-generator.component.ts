@@ -10,6 +10,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MathExerciseComponent } from '../../../shared/ui/math-exercise.component';
 import { AuthService } from '../../../core/services/auth.service';
 import { PdfService } from '../../../core/services/pdf.service';
+import { MatIconModule } from '@angular/material/icon';
 
 export type MathOperationType =
 	| 'addition'
@@ -38,17 +39,18 @@ export interface MathExercise {
 		MatFormFieldModule,
 		ReactiveFormsModule,
 		MathExerciseComponent,
+		MatIconModule,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
+		<div>
+			<div>
 				<h2>Generador de Operaciones Mixtas</h2>
-			</mat-card-header>
-			<mat-card-content>
+			</div>
+			<div>
 				<div style="margin-top: 24px">
 					<form [formGroup]="generatorForm" (ngSubmit)="onSubmit()">
 						<div>
-							<mat-form-field>
+							<mat-form-field appearance="outline">
 								<mat-label>Cant. de Ejercicios</mat-label>
 								<input
 									formControlName="size"
@@ -83,13 +85,15 @@ export interface MathExercise {
 									type="button"
 									(click)="print()"
 									style="margin-right: 12px"
-									mat-raised-button
+									mat-flat-button
 									color="accent"
 								>
-									Imprimir
+									<mat-icon>download</mat-icon>
+									Descargar
 								</button>
 							}
-							<button mat-flat-button type="submit">
+							<button mat-button type="submit">
+								<mat-icon>bolt</mat-icon>
 								{{
 									exercises.length > 0
 										? 'Regenerar'
@@ -99,8 +103,8 @@ export interface MathExercise {
 						</div>
 					</form>
 				</div>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		@if (exercises.length) {
 			<div
@@ -111,8 +115,8 @@ export interface MathExercise {
 					margin-top: 24px;
 				"
 			>
-				<mat-card>
-					<mat-card-content>
+				<div>
+					<div>
 						<div class="page" id="exercises" style="padding: 12px">
 							<div style="text-align: center">
 								<h3
@@ -191,10 +195,10 @@ export interface MathExercise {
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
-				<mat-card style="display: none">
-					<mat-card-content>
+					</div>
+				</div>
+				<div style="display: none">
+					<div>
 						<div
 							class="page"
 							id="exercises-solution"
@@ -247,8 +251,8 @@ export interface MathExercise {
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			</div>
 		}
 	`,
