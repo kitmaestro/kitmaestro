@@ -71,7 +71,7 @@ import { saveAs } from 'file-saver';
 	template: `
 		<mat-card class="joke-generator-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Chistes</mat-card-title>
+				<h2>Generador de Chistes</h2>
 				<mat-card-subtitle
 					>Crea chistes apropiados para tus
 					estudiantes</mat-card-subtitle

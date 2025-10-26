@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
 				<mat-card class="item-card">
 					<!-- <img style="aspect-ratio: 1/1;" [src]="tool.cover" mat-card-image alt=""> -->
 					<mat-card-header>
-						<h2 mat-card-title>{{ tool.name }}</h2>
+						<h2>{{ tool.name }}</h2>
 					</mat-card-header>
 					<mat-card-content>
 						<!-- <div style="margin-bottom: 12px;">{{ tool.description }}</div> -->

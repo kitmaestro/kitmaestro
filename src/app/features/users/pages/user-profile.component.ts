@@ -150,7 +150,7 @@ import { forkJoin } from 'rxjs';
 
 		<mat-card class="profile-card">
 			<mat-card-header>
-				<mat-card-title>Mi Suscripci&oacute;n</mat-card-title>
+				<h2>Mi Suscripci&oacute;n</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<div style="margin-top: 12px">

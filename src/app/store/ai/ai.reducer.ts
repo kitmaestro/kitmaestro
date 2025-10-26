@@ -12,23 +12,41 @@ export const aiReducer = createReducer(
         }
     }),
     on(AiActions.askGeminiSuccess, (state, { result }) => {
-        let jsonString = ''
-        if (result.includes('{') && result.includes('}')) {
-            const start = result.indexOf('{')
-            const end = result.lastIndexOf('}') + 1
-            jsonString = result.substring(start, end)
-        } else if (result.includes('[') && result.includes(']')) {
-            const start = result.indexOf('[')
-            const end = result.lastIndexOf(']') + 1
-            jsonString = result.substring(start, end)
-        }
-        const serializedResult = jsonString ? JSON.parse(jsonString) : null
-        return {
-            ...state,
-            isGenerating: false,
-            result,
-            serializedResult,
-            error: null,
+        try {
+            let jsonString = ''
+            const firstBracket = result.indexOf('{')
+            const lastBracket = result.lastIndexOf('}') + 1
+            const firstSquareBracket = result.indexOf('[')
+            const lastSquareBracket = result.lastIndexOf(']') + 1
+            if (firstBracket > -1 && firstSquareBracket > -1 && firstBracket < firstSquareBracket) {
+                jsonString = result.substring(firstBracket, lastBracket)
+            } else if (firstBracket > -1 && firstSquareBracket > -1 && firstBracket > firstSquareBracket) {
+                jsonString = result.substring(firstSquareBracket, lastSquareBracket)
+            } else if (firstBracket > -1 && firstSquareBracket > -1) {
+                jsonString = result.substring(firstBracket, lastBracket)
+            } else if (firstSquareBracket > -1 && firstSquareBracket > -1) {
+                jsonString = result.substring(firstSquareBracket, lastSquareBracket)
+            } else {
+                jsonString = 'null'
+            }
+            const serializedResult = jsonString ? JSON.parse(jsonString) : null
+            return {
+                ...state,
+                isGenerating: false,
+                result,
+                serializedResult,
+                error: null,
+            }
+        } catch (err: any) {
+            console.log(err)
+            console.log(result)
+            return {
+                ...state,
+                isGenerating: false,
+                result,
+                serializedResult: null,
+                error: err.message,
+            }
         }
     }),
     on(AiActions.askGeminiFailure, (state, { error }) => {

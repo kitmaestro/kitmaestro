@@ -19,7 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<mat-card-title>Mi Horario</mat-card-title>
+				<h2>Mi Horario</h2>
 				<a
 					routerLink="/schedules/create"
 					mat-mini-fab

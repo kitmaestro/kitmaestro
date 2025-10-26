@@ -63,7 +63,7 @@ import {
 				<div
 					style="display: flex; justify-content: space-between; align-items: center;"
 				>
-					<h2 class="title" mat-card-title>
+					<h2 class="title">
 						Generador de Planificación Anual
 					</h2>
 					<button

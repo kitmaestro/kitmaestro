@@ -25,7 +25,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 	],
 	template: `
 		<div class="header">
-			<h2 mat-card-title class="title">Mis Planes Diarios</h2>
+			<h2 class="title">Mis Planes Diarios</h2>
 			<button
 				class="title-button"
 				mat-flat-button

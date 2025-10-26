@@ -71,7 +71,7 @@ import { saveAs } from 'file-saver';
 	template: `
 		<mat-card class="fable-generator-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Fábulas</mat-card-title>
+				<h2>Generador de Fábulas</h2>
 				<mat-card-subtitle
 					>Crea fábulas con moralejas para tus
 					clases</mat-card-subtitle

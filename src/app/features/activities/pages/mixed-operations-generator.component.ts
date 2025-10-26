@@ -42,7 +42,7 @@ export interface MathExercise {
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<h2 mat-card-title>Generador de Operaciones Mixtas</h2>
+				<h2>Generador de Operaciones Mixtas</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<div style="margin-top: 24px">

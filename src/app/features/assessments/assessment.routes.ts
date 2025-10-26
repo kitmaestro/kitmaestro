@@ -162,7 +162,7 @@ export default [
 		title: 'Detalles de la Escala de Estimación',
 	},
 	{
-		path: 'grading-systems',
+		path: 'grading-system-generator',
 		loadComponent: () =>
 			import('./pages/score-system-generator.component').then(
 				(mod) => mod.ScoreSystemGeneratorComponent,

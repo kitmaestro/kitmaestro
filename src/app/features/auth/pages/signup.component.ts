@@ -36,7 +36,7 @@ import { environment } from '../../../../environments/environment';
 					<div
 						style="display: flex; justify-content: center; width: 100%"
 					>
-						<h2 mat-card-title>Reg&iacute;strate</h2>
+						<h2>Reg&iacute;strate</h2>
 					</div>
 				</mat-card-header>
 				<mat-card-content>

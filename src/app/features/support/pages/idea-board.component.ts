@@ -58,7 +58,7 @@ import { selectAllIdeas, selectIsCreating } from '../../../store/ideas/ideas.sel
 			@for (idea of ideas(); track idea._id) {
 				<mat-card>
 					<mat-card-header>
-						<h3 mat-card-title>{{ idea.title }}</h3>
+						<h3>{{ idea.title }}</h3>
 					</mat-card-header>
 					<mat-card-content>
 						<p>{{ idea.description }}</p>

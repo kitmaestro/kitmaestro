@@ -31,7 +31,7 @@ import { deletePlan, loadPlans } from '../../../store/unit-plans';
 	],
 	template: `
 		<div class="header">
-			<h2 mat-card-title class="title">Mis Unidades de Aprendizaje</h2>
+			<h2 class="title">Mis Unidades de Aprendizaje</h2>
 			<button
 				mat-flat-button
 				class="title-button"

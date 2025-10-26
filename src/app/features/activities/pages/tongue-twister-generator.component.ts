@@ -65,7 +65,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 	template: `
 		<mat-card class="tongue-twister-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Trabalenguas</mat-card-title>
+				<h2>Generador de Trabalenguas</h2>
 				<mat-card-subtitle
 					>Crea trabalenguas divertidos para tus
 					clases</mat-card-subtitle

@@ -29,7 +29,7 @@ import { formatNumber } from '@angular/common';
 	template: `
 		<mat-card style="margin-bottom: 24px">
 			<mat-card-header>
-				<h2 mat-card-title>
+				<h2>
 					Generador de Ejercicios de Multiplicaci&oacute;n
 				</h2>
 			</mat-card-header>

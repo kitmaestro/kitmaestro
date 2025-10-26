@@ -71,7 +71,7 @@ import { saveAs } from 'file-saver';
 	template: `
 		<mat-card class="poem-generator-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Poesía</mat-card-title>
+				<h2>Generador de Poesía</h2>
 				<mat-card-subtitle
 					>Crea poemas originales para inspirar a tus
 					estudiantes</mat-card-subtitle

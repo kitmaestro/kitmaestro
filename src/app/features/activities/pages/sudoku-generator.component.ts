@@ -29,7 +29,7 @@ import { UserService } from '../../../core/services/user.service';
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<h2 mat-card-title>Generador de Sudoku</h2>
+				<h2>Generador de Sudoku</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<div

@@ -66,7 +66,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 	template: `
 		<mat-card class="icebreaker-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Rompehielos</mat-card-title>
+				<h2>Generador de Rompehielos</h2>
 				<mat-card-subtitle
 					>Crea actividades dinámicas para iniciar tus
 					clases</mat-card-subtitle

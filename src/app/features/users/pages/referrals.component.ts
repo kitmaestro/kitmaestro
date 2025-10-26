@@ -30,7 +30,7 @@ import { UserSubscription } from '../../../core/models';
 		<app-is-premium>
 			<mat-card>
 				<mat-card-header>
-					<h2 mat-card-title style="margin-top: 8px">
+					<h2 style="margin-top: 8px">
 						Panel de Comisiones
 					</h2>
 					<a
@@ -141,7 +141,7 @@ import { UserSubscription } from '../../../core/models';
 			</div>
 
 			<div style="margin-top: 24px">
-				<mat-card-title>Mis Referidos</mat-card-title>
+				<h2>Mis Referidos</h2>
 			</div>
 
 			<table

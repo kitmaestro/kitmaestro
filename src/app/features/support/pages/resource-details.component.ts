@@ -28,7 +28,7 @@ import { User } from '../../../core';
 		@if (resource) {
 			<mat-card class="resource-card">
 				<mat-card-header>
-					<h2 mat-card-title class="title">{{ resource.title }}</h2>
+					<h2 class="title">{{ resource.title }}</h2>
 				</mat-card-header>
 				<mat-card-content>
 					<h3 mat-card-subtitle class="subtitle">

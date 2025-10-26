@@ -19,24 +19,23 @@ import { StudentsService } from '../../../core/services/students.service';
 		MatIconModule,
 		MatButtonModule,
 		MatTableModule,
-		MatCardModule,
 		PretifyPipe,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
-				<mat-card-title>Sistemas de Calificaci&oacute;n</mat-card-title>
+		<div>
+			<div style="display: flex; justify-content: space-between; align-items: center;">
+				<h2>Sistemas de Calificaci&oacute;n</h2>
 				<button
 					style="margin-left: auto"
-					mat-raised-button
+					mat-flat-button
 					color="primary"
-					routerLink="/grading-systems"
+					routerLink="/assessments/grading-system-generator"
 				>
+					<mat-icon>add</mat-icon>
 					Crear Nuevo
 				</button>
-			</mat-card-header>
-			<mat-card-content> </mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		<table
 			mat-table
@@ -84,6 +83,7 @@ import { StudentsService } from '../../../core/services/students.service';
 						type="button"
 						(click)="delete(element.id)"
 						color="warn"
+						style="display: none"
 						mat-icon-button
 					>
 						<mat-icon>delete</mat-icon>
@@ -99,7 +99,7 @@ import { StudentsService } from '../../../core/services/students.service';
 					<a
 						type="button"
 						mat-icon-button
-						[routerLink]="['/grading-systems', element._id]"
+						routerLink="/assessments/grading-systems/{{element._id}}"
 						color="primary"
 					>
 						<mat-icon>open_in_new</mat-icon>
@@ -121,7 +121,7 @@ export class ScoreSystemsComponent implements OnInit {
 		'section',
 		'subject',
 		'content',
-		'competence',
+		// 'competence',
 		'activities',
 		'actions',
 	];

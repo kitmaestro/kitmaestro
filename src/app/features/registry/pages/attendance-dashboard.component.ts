@@ -33,7 +33,7 @@ import { MatIconModule } from '@angular/material/icon';
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<mat-card-title>Registro de Asistencia</mat-card-title>
+				<h2>Registro de Asistencia</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<div

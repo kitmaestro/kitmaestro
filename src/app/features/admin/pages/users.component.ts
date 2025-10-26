@@ -39,7 +39,7 @@ import { UserDto } from '../../../store/users/users.models';
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<mat-card-title>Crear Usuario</mat-card-title>
+				<h2>Crear Usuario</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<form [formGroup]="userForm" (ngSubmit)="createUser()">

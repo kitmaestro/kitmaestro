@@ -28,7 +28,7 @@ import { UpdateService } from '../../../core/services/update.service';
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<mat-card-title>Actualizaciones</mat-card-title>
+				<h2>Actualizaciones</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<div style="margin-top: 12px">

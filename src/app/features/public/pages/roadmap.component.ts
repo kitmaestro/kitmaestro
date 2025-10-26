@@ -34,7 +34,7 @@ interface Stage {
 		<div style="margin: 20px">
 			<mat-card style="margin-top: 0">
 				<mat-card-header>
-					<h2 mat-card-title>Roadmap de Desarrollo de KitMaestro</h2>
+					<h2>Roadmap de Desarrollo de KitMaestro</h2>
 				</mat-card-header>
 				<mat-card-content>
 					<p>
@@ -47,7 +47,7 @@ interface Stage {
 			<ng-container *ngFor="let stage of stages">
 				<mat-card>
 					<mat-card-header>
-						<h3 mat-card-title>{{ stage.name }}</h3>
+						<h3>{{ stage.name }}</h3>
 					</mat-card-header>
 					<mat-card-content>
 						<p>

@@ -67,7 +67,7 @@ const CM_PER_MM = 0.1;
 	template: `
 		<mat-card class="number-line-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Recta Numérica</mat-card-title>
+				<h2>Generador de Recta Numérica</h2>
 				<mat-card-subtitle
 					>Crea una recta numérica con cuadrícula
 					personalizable</mat-card-subtitle

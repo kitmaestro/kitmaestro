@@ -19,9 +19,9 @@ import { MatCardModule } from '@angular/material/card';
 	template: `
 		<mat-card class="card">
 			<mat-card-header>
-				<mat-card-title>
+				<h2>
 					<h2>Calculadora de Porcentaje de Asistencia</h2>
-				</mat-card-title>
+				</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<h3>Dias Trabajados</h3>

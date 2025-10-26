@@ -36,7 +36,7 @@ import { ClassSection } from '../../../core';
 	template: `
 		<mat-card style="margin-bottom: 24px">
 			<mat-card-header>
-				<h2 mat-card-title>Generador de Sopas de Letras</h2>
+				<h2>Generador de Sopas de Letras</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<form [formGroup]="wsForm" (ngSubmit)="generateWordSearch()">

@@ -1,69 +1,50 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core'
 import {
 	GradingActivity,
 	GroupedGradingActivity,
 	ScoreSystem,
-} from '../../../core';
-import { User } from '../../../core';
-import { ClassSection } from '../../../core';
-import { ContentBlock } from '../../../core';
-import { Student } from '../../../core';
-import { MatCardModule } from '@angular/material/card';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { StudentsService } from '../../../core/services/students.service';
+} from '../../../core'
+import { ContentBlock } from '../../../core'
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
+import { Store } from '@ngrx/store'
+import { loadStudentsBySection, selectAuthUser } from '../../../store'
+import { selectSectionStudents } from '../../../store/students/students.selectors'
 
 @Component({
 	selector: 'app-score-system',
-	imports: [MatCardModule, PretifyPipe],
+	imports: [PretifyPipe],
 	template: `
-		@if (scoreSystem) {
-			<mat-card style="margin-top: 24px">
-				<mat-card-content>
+		@if (scoreSystem(); as system) {
+			<div style="margin-top: 24px">
+				<div>
 					<div class="page" id="score-system">
 						<div style="text-align: center">
 							<h2 style="margin-bottom: 0">
 								{{
-									section?.user?.schoolName ||
-										scoreSystem.user.schoolName
+									user()?.schoolName
 								}}
 							</h2>
 							<h2 style="margin-bottom: 0">
 								Sistema de Calificaci&oacute;n de
 								{{
-									(contentBlock && contentBlock.length
-										? contentBlock[0].subject
-										: content[0].subject
-									) | pretify
+									((system.content[0].subject) || '') | pretify
 								}}
 							</h2>
 							<h3 style="margin-bottom: 0">
-								{{ user?.title || scoreSystem.user.title }}.
-								{{
-									user?.firstname ||
-										scoreSystem.user.firstname
-								}}
-								{{
-									user?.lastname || scoreSystem.user.lastname
-								}}
+								{{ user()?.title }}.
+								{{ user()?.firstname }}
+								{{ user()?.lastname }}
 							</h3>
 							<h3 style="margin-bottom: 0">
 								{{
-									section?.name ||
-										scoreSystem.section.name ||
-										'-Sin seccion-'
+									(system.section.name) || '-Sin seccion-'
 								}}
 							</h3>
-							@if (contentBlock && contentBlock.length) {
+							@if (system.content.length) {
 								<h3>
 									|
-									@for (c of contentBlock; track $index) {
+									@for (c of system.content; track $index) {
 										{{ c.title + ' | ' }}
-									}
-								</h3>
-							} @else {
-								<h3>
-									@for (c of content; track $index) {
-										{{ c.title }}
 									}
 								</h3>
 							}
@@ -186,7 +167,7 @@ import { StudentsService } from '../../../core/services/students.service';
 										}
 										<td>{{ group.total }}</td>
 									</tr>
-									@for (student of students; track $index) {
+									@for (student of students(); track $index) {
 										<tr>
 											<th>{{ $index + 1 }}</th>
 											<td>
@@ -195,7 +176,7 @@ import { StudentsService } from '../../../core/services/students.service';
 											</td>
 											@for (
 												row of group.grading;
-												track $index
+												track row
 											) {
 												<td></td>
 											}
@@ -206,8 +187,8 @@ import { StudentsService } from '../../../core/services/students.service';
 							</table>
 						}
 					</div>
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 		}
 	`,
 	styles: `
@@ -234,26 +215,19 @@ import { StudentsService } from '../../../core/services/students.service';
 	`,
 })
 export class ScoreSystemComponent implements OnInit {
-	@Input() scoreSystem: ScoreSystem | null = null;
-	@Input() user: User | null = null;
-	@Input() section: ClassSection | null = null;
-	@Input() contentBlock: ContentBlock[] = [];
-	private studentsService = inject(StudentsService);
-	grouped: GroupedGradingActivity[] = [];
-	students: Student[] = [];
+	#store = inject(Store)
+	scoreSystem = input<ScoreSystem>()
+
+	user = this.#store.selectSignal(selectAuthUser)
+	students = this.#store.selectSignal(selectSectionStudents)
+
+	grouped: GroupedGradingActivity[] = []
 
 	ngOnInit() {
-		if (this.scoreSystem) {
-			this.grouped = this.groupByCompetence(this.scoreSystem.activities);
-			this.studentsService
-				.findBySection(
-					this.section?._id || this.scoreSystem.section._id,
-				)
-				.subscribe({
-					next: (students) => {
-						this.students = students;
-					},
-				});
+		const system = this.scoreSystem()
+		if (system) {
+			this.grouped = this.groupByCompetence(system.activities)
+			this.#store.dispatch(loadStudentsBySection({sectionId: system.section._id}))
 		}
 	}
 
@@ -264,24 +238,24 @@ export class ScoreSystemComponent implements OnInit {
 			// Si ya existe un grupo con la misma competencia, añade la actividad al grupo
 			const existingGroup = acc.find(
 				(group) => group.competence === activity.competence,
-			);
+			)
 
 			if (existingGroup) {
-				existingGroup.grading.push(activity);
-				existingGroup.total += activity.points;
+				existingGroup.grading.push(activity)
+				existingGroup.total += activity.points
 			} else {
 				// Si no existe, crea un nuevo grupo para esta competencia
 				acc.push({
 					competence: activity.competence,
 					grading: [activity],
 					total: activity.points,
-				});
+				})
 			}
 
-			return acc;
-		}, [] as GroupedGradingActivity[]);
+			return acc
+		}, [] as GroupedGradingActivity[])
 
-		return grouped;
+		return grouped
 	}
 
 	adjustGradingActivities(
@@ -291,58 +265,55 @@ export class ScoreSystemComponent implements OnInit {
 		const grouped = gradingActivities.reduce((acc, activity) => {
 			const existingGroup = acc.find(
 				(group) => group.competence === activity.competence,
-			);
+			)
 
 			if (existingGroup) {
-				existingGroup.grading.push(activity);
-				existingGroup.total += activity.points;
+				existingGroup.grading.push(activity)
+				existingGroup.total += activity.points
 			} else {
 				acc.push({
 					competence: activity.competence,
 					grading: [activity],
 					total: activity.points,
-				});
+				})
 			}
 
-			return acc;
-		}, [] as GroupedGradingActivity[]);
+			return acc
+		}, [] as GroupedGradingActivity[])
 
 		// Paso 2: Ajustar los grupos que tengan un total menor a 100
 		grouped.forEach((group) => {
 			if (group.total < 100) {
 				// Calculamos la diferencia que falta para llegar a 100
-				const difference = 100 - group.total;
+				const difference = 100 - group.total
 
 				// Ordenamos las actividades por puntaje ascendente para encontrar las dos menores
-				group.grading.sort((a, b) => a.points - b.points);
+				group.grading.sort((a, b) => a.points - b.points)
 
 				if (group.grading.length >= 2) {
 					// Repartimos la diferencia entre las dos actividades con menor puntaje
-					group.grading[0].points += Math.floor(difference / 2);
-					group.grading[1].points += Math.ceil(difference / 2);
+					group.grading[0].points += Math.floor(difference / 2)
+					group.grading[1].points += Math.ceil(difference / 2)
 				} else if (group.grading.length === 1) {
 					// Si solo hay una actividad, le sumamos toda la diferencia
-					group.grading[0].points += difference;
+					group.grading[0].points += difference
 				}
 
 				// Actualizamos el total del grupo a 100
-				group.total = 100;
+				group.total = 100
 			}
-		});
+		})
 
 		// Paso 3: Retornar el array plano de GradingActivity con los puntos ajustados
-		return grouped.flatMap((group) => group.grading);
+		return grouped.flatMap((group) => group.grading)
 	}
 
 	get content(): ContentBlock[] {
-		if (this.scoreSystem) {
-			if (typeof this.scoreSystem.content.join === 'function') {
-				return this.scoreSystem.content;
-			} else {
-				return [this.scoreSystem.content] as any as ContentBlock[];
-			}
+		const system = this.scoreSystem()
+		if (system) {
+			return [system.content].flat()
 		} else {
-			return [];
+			return []
 		}
 	}
 }

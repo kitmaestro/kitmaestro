@@ -39,7 +39,7 @@ import { selectSigningIn } from '../../../store/auth/auth.selectors';
 					<div
 						style="display: flex; justify-content: center; width: 100%"
 					>
-						<h2 mat-card-title>Inicia Sesi&oacute;n</h2>
+						<h2>Inicia Sesi&oacute;n</h2>
 					</div>
 				</mat-card-header>
 				<mat-card-content>

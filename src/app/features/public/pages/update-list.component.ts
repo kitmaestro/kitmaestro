@@ -25,7 +25,7 @@ import { AuthService } from '../../../core/services/auth.service';
 	template: `
 		<mat-card style="margin-bottom: 42px">
 			<mat-card-header>
-				<h2 mat-card-title>Notificaciones</h2>
+				<h2>Notificaciones</h2>
 				@if (authorUser) {
 					<span style="flex: 1 1 auto"></span>
 					<button

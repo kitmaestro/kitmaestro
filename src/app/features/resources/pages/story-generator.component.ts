@@ -70,7 +70,7 @@ import { saveAs } from 'file-saver';
 	template: `
 		<mat-card class="story-generator-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Cuentos</mat-card-title>
+				<h2>Generador de Cuentos</h2>
 				<mat-card-subtitle
 					>Crea cuentos originales adaptados a tus
 					estudiantes</mat-card-subtitle

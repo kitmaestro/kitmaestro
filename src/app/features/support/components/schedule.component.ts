@@ -12,10 +12,10 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 		@if (schedule) {
 			<mat-card>
 				<mat-card-header>
-					<mat-card-title>
+					<h2>
 						{{ schedule.section.name }} - {{ user()?.schoolName }} -
 						{{ pretifyFormat(schedule.format) }}
-					</mat-card-title>
+					</h2>
 				</mat-card-header>
 				<mat-card-content>
 					<table>

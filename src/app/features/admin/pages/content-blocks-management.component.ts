@@ -78,7 +78,7 @@ import { ApiUpdateResponse } from '../../../core';
 	template: `
 		<mat-card class="content-blocks-card">
 			<mat-card-header>
-				<mat-card-title>Gestión de Bloques de Contenido</mat-card-title>
+				<h2>Gestión de Bloques de Contenido</h2>
 				<mat-card-subtitle
 					>Administra los bloques de contenido
 					curricular</mat-card-subtitle

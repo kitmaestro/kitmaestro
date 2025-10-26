@@ -18,7 +18,7 @@ interface TutorialVideo {
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<h2 mat-card-title>Tutoriales</h2>
+				<h2>Tutoriales</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<div>

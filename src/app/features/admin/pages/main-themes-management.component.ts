@@ -73,7 +73,7 @@ import { ApiUpdateResponse } from '../../../core';
 	template: `
 		<mat-card class="main-themes-card">
 			<mat-card-header>
-				<mat-card-title>Gestión de Temas Principales</mat-card-title>
+				<h2>Gestión de Temas Principales</h2>
 				<mat-card-subtitle
 					>Administra los temas principales para la generación de
 					contenido</mat-card-subtitle

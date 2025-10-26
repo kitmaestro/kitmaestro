@@ -74,7 +74,7 @@ import { SubjectName } from '../../../core/types/subject-name';
 	template: `
 		<mat-card class="competence-entries-card">
 			<mat-card-header>
-				<mat-card-title>Gestión de Competencias</mat-card-title>
+				<h2>Gestión de Competencias</h2>
 				<mat-card-subtitle
 					>Administra las entradas de competencias y sus
 					criterios</mat-card-subtitle

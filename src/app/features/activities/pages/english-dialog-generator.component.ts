@@ -96,7 +96,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 			@if (conversation) {
 				<mat-card style="margin-top: 24px">
 					<mat-card-header>
-						<h2 mat-card-title>{{ conversation.title }}</h2>
+						<h2>{{ conversation.title }}</h2>
 					</mat-card-header>
 					<mat-card-content>
 						<div class="conversation">

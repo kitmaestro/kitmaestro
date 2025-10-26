@@ -152,7 +152,7 @@ import { ClassSection } from '../../../core';
 			} @else {
 				<mat-card>
 					<mat-card-header>
-						<h2 mat-card-title>Generador de Calificaciones</h2>
+						<h2>Generador de Calificaciones</h2>
 					</mat-card-header>
 					<mat-card-content>
 						<form [formGroup]="configForm" (ngSubmit)="onSubmit()">

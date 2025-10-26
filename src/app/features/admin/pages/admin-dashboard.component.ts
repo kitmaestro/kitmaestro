@@ -23,7 +23,7 @@ import { HttpClient } from '@angular/common/http';
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<mat-card-title>Panel de Administraci&oacute;n</mat-card-title>
+				<h2>Panel de Administraci&oacute;n</h2>
 			</mat-card-header>
 			<mat-card-content> </mat-card-content>
 			<mat-card-actions>
@@ -59,7 +59,7 @@ import { HttpClient } from '@angular/common/http';
 		<div class="grid">
 			<mat-card routerLink="/admin/users">
 				<mat-card-header style="justify-content: center">
-					<mat-card-title>Usuarios Registrados</mat-card-title>
+					<h2>Usuarios Registrados</h2>
 				</mat-card-header>
 				<mat-card-content>
 					<p class="giant-text">{{ users$ | async }}</p>
@@ -67,7 +67,7 @@ import { HttpClient } from '@angular/common/http';
 			</mat-card>
 			<mat-card>
 				<mat-card-header style="justify-content: center">
-					<mat-card-title>Suscripciones</mat-card-title>
+					<h2>Suscripciones</h2>
 				</mat-card-header>
 				<mat-card-content>
 					<p class="giant-text">{{ subscriptions$ | async }}</p>
@@ -75,7 +75,7 @@ import { HttpClient } from '@angular/common/http';
 			</mat-card>
 			<mat-card>
 				<mat-card-header style="justify-content: center">
-					<mat-card-title>Unidades Generadas</mat-card-title>
+					<h2>Unidades Generadas</h2>
 				</mat-card-header>
 				<mat-card-content>
 					<p class="giant-text">{{ unitPlans$ | async }}</p>
@@ -83,7 +83,7 @@ import { HttpClient } from '@angular/common/http';
 			</mat-card>
 			<mat-card>
 				<mat-card-header style="justify-content: center">
-					<mat-card-title>Planes Diarios</mat-card-title>
+					<h2>Planes Diarios</h2>
 				</mat-card-header>
 				<mat-card-content>
 					<p class="giant-text">{{ classPlans$ | async }}</p>
@@ -93,7 +93,7 @@ import { HttpClient } from '@angular/common/http';
 		<!-- <div style="margin-bottom: 12px;">
 			<mat-card>
 				<mat-card-header style="justify-content: center">
-					<mat-card-title>Ingresos por Subscripcion Hasta Hoy</mat-card-title>
+					<h2>Ingresos por Subscripcion Hasta Hoy</h2>
 				</mat-card-header>
 				<mat-card-content>
 					<p class="giant-text">{{ dopRate | currency : 'dop' : 'RD$' }}</p>
@@ -103,7 +103,7 @@ import { HttpClient } from '@angular/common/http';
 		<div style="margin-top: 12px; margin-bottom: 12px;">
 			<mat-card>
 				<mat-card-header style="justify-content: center">
-					<mat-card-title>Media de Pago por usuario</mat-card-title>
+					<h2>Media de Pago por usuario</h2>
 				</mat-card-header>
 				<mat-card-content>
 					<p class="giant-text">{{ dopRate / subs | currency : 'dop' : 'RD$' }}</p>

@@ -24,7 +24,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<h2 mat-card-title>Generador de Papel Cuadriculado</h2>
+				<h2>Generador de Papel Cuadriculado</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<form [formGroup]="paperForm">

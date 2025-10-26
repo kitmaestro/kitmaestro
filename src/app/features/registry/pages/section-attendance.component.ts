@@ -29,7 +29,7 @@ import { ClassSectionService } from '../../../core/services/class-section.servic
 		<div style="margin: 20px">
 			<mat-card>
 				<mat-card-header>
-					<h2 mat-card-title>
+					<h2>
 						Asistencia en
 						<ng-container *ngIf="section$ | async as section">{{
 							section.name

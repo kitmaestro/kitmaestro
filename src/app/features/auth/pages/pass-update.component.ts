@@ -24,7 +24,7 @@ import { AuthService } from '../../../core/services/auth.service';
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<h2 mat-card-title>Recuperar Contrase&ntilde;a</h2>
+				<h2>Recuperar Contrase&ntilde;a</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<img src="/assets/teach.svg" class="teach-svg" alt="" />

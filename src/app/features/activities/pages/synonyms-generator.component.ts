@@ -74,7 +74,7 @@ import { saveAs } from 'file-saver';
 	template: `
 		<mat-card class="synonyms-generator-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Sinónimos</mat-card-title>
+				<h2>Generador de Sinónimos</h2>
 				<mat-card-subtitle
 					>Crea listas de palabras y sus sinónimos
 					contextualizados</mat-card-subtitle

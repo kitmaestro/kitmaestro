@@ -37,7 +37,7 @@ import { ClassPeriod } from '../../../core';
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<mat-card-title>Manejo de Horario</mat-card-title>
+				<h2>Manejo de Horario</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<div>

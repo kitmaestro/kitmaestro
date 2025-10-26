@@ -1,20 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core'
-import { AuthService } from '../../../core/services/auth.service'
-import { EstimationScaleService } from '../../../core/services/estimation-scale.service'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 import { PdfService } from '../../../core/services/pdf.service'
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { User } from '../../../core'
-import { EstimationScale } from '../../../core'
-import { MatCardModule } from '@angular/material/card'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
 import { EstimationScaleComponent } from '../components/estimation-scale.component'
-import { PretifyPipe } from '../../../shared'
 import { Store } from '@ngrx/store'
 import { Actions, ofType } from '@ngrx/effects'
 import { Subject, take, takeUntil } from 'rxjs'
-import { deleteScale, deleteScaleSuccess, loadScale, loadScaleFailed, selectAuthUser, selectCurrentScale } from '../../../store'
+import { deleteScale, deleteScaleSuccess, loadScale, loadScaleFailed, selectCurrentScale } from '../../../store'
 
 @Component({
 	selector: 'app-estimation-scale-detail',

@@ -71,7 +71,7 @@ import { saveAs } from 'file-saver';
 	template: `
 		<mat-card class="proverb-generator-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Refranes</mat-card-title>
+				<h2>Generador de Refranes</h2>
 				<mat-card-subtitle
 					>Encuentra refranes y su significado para tus
 					clases</mat-card-subtitle

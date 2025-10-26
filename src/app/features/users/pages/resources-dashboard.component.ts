@@ -21,7 +21,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 					<mat-grid-tile [colspan]="1" [rowspan]="1">
 						<mat-card class="dashboard-card">
 							<mat-card-header>
-								<mat-card-title>
+								<h2>
 									{{ resource.title }}
 									<button
 										mat-icon-button
@@ -38,7 +38,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 										<button mat-menu-item>Expand</button>
 										<button mat-menu-item>Remove</button>
 									</mat-menu>
-								</mat-card-title>
+								</h2>
 							</mat-card-header>
 							<mat-card-content class="dashboard-card-content">
 								<div>Card Content Here</div>

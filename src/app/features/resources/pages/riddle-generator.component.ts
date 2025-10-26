@@ -71,7 +71,7 @@ import { saveAs } from 'file-saver';
 	template: `
 		<mat-card class="riddle-generator-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Adivinanzas</mat-card-title>
+				<h2>Generador de Adivinanzas</h2>
 				<mat-card-subtitle
 					>Crea adivinanzas ingeniosas para desafiar a tus
 					estudiantes</mat-card-subtitle

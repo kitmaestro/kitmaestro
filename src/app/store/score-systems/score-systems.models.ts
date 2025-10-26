@@ -14,6 +14,7 @@ export enum ScoreSystemStateStatus {
 	CREATING_SYSTEM,
 	UPDATING_SYSTEM,
 	DELETING_SYSTEM,
+	DOWNLOADING_SYSTEM,
 }
 
 export interface ScoreSystemsState {

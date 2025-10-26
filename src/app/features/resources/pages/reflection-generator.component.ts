@@ -41,7 +41,7 @@ import { MatIconModule } from '@angular/material/icon';
 	template: `
 		<mat-card class="reflection-card">
 			<mat-card-header>
-				<mat-card-title>Generador de Reflexión Diaria</mat-card-title>
+				<h2>Generador de Reflexión Diaria</h2>
 				<mat-card-subtitle
 					>Crea reflexiones personalizadas para tus
 					estudiantes</mat-card-subtitle

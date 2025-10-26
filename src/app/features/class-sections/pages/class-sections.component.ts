@@ -55,7 +55,7 @@ import { AsyncPipe } from '@angular/common';
 				@for (section of sections$ | async; track section._id) {
 					<mat-card style="margin-top: 20px">
 						<mat-card-header>
-							<h2 mat-card-title>{{ section.name }}</h2>
+							<h2>{{ section.name }}</h2>
 							<h3 mat-card-subtitle>
 								{{ formatValue(section.year) }} de
 								{{ formatValue(section.level) }}
