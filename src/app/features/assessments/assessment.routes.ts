@@ -138,10 +138,10 @@ export default [
 		title: 'Detalles de la Rúbrica',
 	},
 	{
-		path: 'estimation-scale',
+		path: 'estimation-scale-generator',
 		loadComponent: () =>
-			import('./pages/estimation-scale.component').then(
-				(mod) => mod.EstimationScaleComponent,
+			import('./pages/estimation-scale-generator.component').then(
+				(mod) => mod.EstimationScaleGeneratorComponent,
 			),
 		title: 'Generador de Escalas de Estimación',
 	},

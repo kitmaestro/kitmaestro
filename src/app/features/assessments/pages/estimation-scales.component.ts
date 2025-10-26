@@ -1,12 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { EstimationScaleService } from '../../../core/services/estimation-scale.service';
-import { EstimationScale } from '../../../core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { RouterLink } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { EstimationScaleService } from '../../../core/services/estimation-scale.service'
+import { EstimationScale } from '../../../core'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { MatTableModule } from '@angular/material/table'
+import { RouterLink } from '@angular/router'
+import { PretifyPipe } from '../../../shared'
 
 @Component({
 	selector: 'app-estimation-scales',
@@ -16,10 +16,16 @@ import { RouterLink } from '@angular/router';
 		MatButtonModule,
 		MatIconModule,
 		RouterLink,
-		MatCardModule,
+		PretifyPipe,
 	],
 	template: `
-		<mat-card-title>Escala de Estimaci&oacute;n</mat-card-title>
+		<div style="display: flex; justify-content: space-between; align-items: center;">
+			<h2>Escala de Estimaci&oacute;n</h2>
+			<button mat-flat-button routerLink="/assessments/estimation-scale-generator">
+				<mat-icon>add</mat-icon>
+				Agregar Nueva Escala
+			</button>
+		</div>
 
 		<table
 			mat-table
@@ -40,7 +46,7 @@ import { RouterLink } from '@angular/router';
 			<ng-container matColumnDef="subject">
 				<th mat-header-cell *matHeaderCellDef>Asignatura</th>
 				<td mat-cell *matCellDef="let element">
-					{{ element.subject }}
+					{{ element.subject | pretify }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="activity">
@@ -54,7 +60,7 @@ import { RouterLink } from '@angular/router';
 				<td mat-cell *matCellDef="let element">
 					<button
 						(click)="deleteAssessment(element._id)"
-						color="warn"
+						style="display: none"
 						mat-icon-button
 					>
 						<mat-icon>delete</mat-icon>

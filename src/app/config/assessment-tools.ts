@@ -67,14 +67,14 @@ export const assessmentTools: AppEntry[] = [
 	{
 		name: 'Generador de Escala de Estimación',
 		description: 'Escalas de estimación para evaluar.',
-		link: '/assessments/estimation-scale',
+		link: '/assessments/estimation-scale-generator',
 		icon: '/assets/checklist.svg',
 		tier: 1,
 	},
 	{
 		name: 'Sistemas de Calificación',
 		description: 'Informes detallados para cada necesidad.',
-		link: '/assessments/grading-systems',
+		link: '/assessments/grading-system-generator',
 		icon: '/assets/undraw_portfolio_website_re_jsdd.svg',
 		tier: 1,
 	},
