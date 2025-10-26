@@ -9,13 +9,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { User } from '../../../core';
-import { map } from 'rxjs';
 import { selectUsersUsers } from '../../../store/users/users.selectors';
 import {
 	createUser,
@@ -36,7 +34,6 @@ import { UserDto } from '../../../store/users/users.models';
 		ReactiveFormsModule,
 		MatSelectModule,
 		MatFormFieldModule,
-		MatSnackBarModule,
 		MatInputModule,
 	],
 	template: `
@@ -163,13 +160,13 @@ import { UserDto } from '../../../store/users/users.models';
 			<ng-container matColumnDef="actions">
 				<th mat-header-cell *matHeaderCellDef>Acciones</th>
 				<td mat-cell *matCellDef="let user">
-					<button (click)="removeUser(user._id)" mat-mini-fab>
+					<button (click)="removeUser(user._id)" mat-icon-button>
 						<mat-icon>delete</mat-icon>
 					</button>
 					<a
 						routerLink="/admin/users/{{ user._id }}"
 						style="margin-left: 12px"
-						mat-mini-fab
+						mat-icon-button
 						><mat-icon>open_in_new</mat-icon></a
 					>
 				</td>

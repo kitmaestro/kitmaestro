@@ -48,6 +48,7 @@ import { selectSectionStudents } from '../../../store/students/students.selector
 				>
 					<h2>Generador de Rúbricas</h2>
 					<button mat-button type="button" routerLink="/assessments/rubrics">
+						<mat-icon>assignment</mat-icon>
 						Mis R&uacute;bricas
 					</button>
 				</div>

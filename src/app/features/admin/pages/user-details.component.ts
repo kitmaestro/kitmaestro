@@ -186,7 +186,7 @@ class SectionCreatorComponent {
 									}}</a>
 								</p>
 							}
-							<div style="display: flex; gap: 12px;">
+							<div style="display: flex; gap: 12px; align-items: center;">
 								<div style="flex: 1 auto auto;">
 									<mat-form-field appearance="outline">
 										<mat-label>Contrase&ntilde;a</mat-label>
@@ -211,7 +211,7 @@ class SectionCreatorComponent {
 					<p><b>Codigo de Referencia</b>: {{ user.refCode }}</p>
 					<div style="margin-top: 20px; margin-bottom: 20px;">
 						<button
-							mat-raised-button
+							mat-button
 							color="accent"
 							(click)="exportContact()"
 						>

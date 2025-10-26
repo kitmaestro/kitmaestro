@@ -40,7 +40,6 @@ import { RubricDto } from '../../../store';
 		CommonModule,
 		ReactiveFormsModule,
 		MatSelectModule,
-		MatCardModule,
 		MatSnackBarModule,
 		MatButtonModule,
 		MatIconModule,
@@ -52,17 +51,18 @@ import { RubricDto } from '../../../store';
 		IsPremiumComponent,
 	],
 	template: `
-		<app-is-premium minSubscriptionType="Plan Plus">
-			<mat-card>
-				<mat-card-header
-					style="justify-content: space-between; align-items: center"
+		<app-is-premium minSubscriptionType="Plan Premium">
+			<div>
+				<div
+					style="justify-content: space-between; align-items: center; display: flex;"
 				>
-					<h2 mat-card-title>Generador de Rúbricas por Lote</h2>
-					<button mat-flat-button type="button" routerLink="/rubrics">
+					<h2>Generador de Rúbricas por Lote</h2>
+					<button mat-button type="button" routerLink="/assessments/rubrics">
+						<mat-icon>assignment</mat-icon>
 						Mis Rúbricas
 					</button>
-				</mat-card-header>
-				<mat-card-content>
+				</div>
+				<div>
 					@if (!generating) {
 						<form
 							[formGroup]="rubricLotForm"
@@ -200,9 +200,10 @@ import { RubricDto } from '../../../store';
 								<button
 									type="submit"
 									[disabled]="rubricLotForm.invalid"
-									mat-raised-button
+									mat-flat-button
 									color="primary"
 								>
+									<mat-icon>bolt</mat-icon>
 									Generar Rúbricas
 								</button>
 							</div>
@@ -217,8 +218,8 @@ import { RubricDto } from '../../../store';
 								Este proceso puede tardar varios minutos
 								dependiendo de la cantidad de temas.
 							</p>
-							<mat-card style="width: 100%; max-width: 600px">
-								<mat-card-content>
+							<div style="width: 100%; max-width: 600px">
+								<div>
 									<h4>Progreso:</h4>
 									@for (
 										status of generationStatus;
@@ -226,12 +227,12 @@ import { RubricDto } from '../../../store';
 									) {
 										<div>{{ status }}</div>
 									}
-								</mat-card-content>
-							</mat-card>
+								</div>
+							</div>
 						</div>
 					}
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 		</app-is-premium>
 	`,
 	styles: [
@@ -430,7 +431,7 @@ export class RubricLotGeneratorComponent implements OnInit {
 						'Ok',
 						{ duration: 4000 },
 					);
-					this.router.navigate(['/rubrics']);
+					this.router.navigateByUrl('/assessments/rubrics');
 				}),
 			)
 			.subscribe();

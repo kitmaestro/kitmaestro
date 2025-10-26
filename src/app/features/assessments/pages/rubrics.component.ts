@@ -19,7 +19,7 @@ import { MatTableModule } from '@angular/material/table';
 		MatTableModule,
 	],
 	template: `
-		<div>
+		<div style="padding-bottom: 24px;">
 			<div
 				style="justify-content: space-between; align-items: center; display: flex;"
 			>
@@ -33,75 +33,75 @@ import { MatTableModule } from '@angular/material/table';
 					Generar R&uacute;brica
 				</button>
 			</div>
-		</div>
-		<table
-			mat-table
-			[dataSource]="rubrics"
-			class="mat-elevation-z8"
-			style="margin-top: 24px"
-		>
-			<ng-container matColumnDef="title">
-				<th mat-header-cell *matHeaderCellDef>T&iacute;tulo</th>
-				<td mat-cell *matCellDef="let element">{{ element.title }}</td>
-			</ng-container>
-			<ng-container matColumnDef="section">
-				<th mat-header-cell *matHeaderCellDef>Curso</th>
-				<td mat-cell *matCellDef="let element">
-					{{ element.section.name }}
-				</td>
-			</ng-container>
-			<ng-container matColumnDef="activity">
-				<th mat-header-cell *matHeaderCellDef>Actividad</th>
-				<td mat-cell *matCellDef="let element">
-					{{ element.activity }}
-				</td>
-			</ng-container>
-			<ng-container matColumnDef="rubricType">
-				<th mat-header-cell *matHeaderCellDef>
-					Tipo de R&uacute;brica
-				</th>
-				<td mat-cell *matCellDef="let element">
-					{{
-						element.rubricType === 'SINTETICA'
-							? 'Sintética (Holística)'
-							: 'Analítica (Global)'
-					}}
-				</td>
-			</ng-container>
-			<ng-container matColumnDef="actions">
-				<th mat-header-cell *matHeaderCellDef>Acciones</th>
-				<td mat-cell *matCellDef="let element">
-					<button
-						(click)="deleteAssessment(element._id)"
-						color="warn"
-						style="display: none;"
-						mat-icon-button
-					>
-						<mat-icon>delete</mat-icon>
-					</button>
-					<!-- <button color="accent" mat-icon-button>
-							<mat-icon>edit</mat-icon>
-						</button> -->
-					<button
-						[routerLink]="['/assessments', 'rubrics', element._id]"
-						color="primary"
-						mat-icon-button
-					>
-						<mat-icon>open_in_new</mat-icon>
-					</button>
-					<button
-						color="primary"
-						mat-icon-button
-						(click)="download(element)"
-					>
-						<mat-icon>download</mat-icon>
-					</button>
-				</td>
-			</ng-container>
+			<table
+				mat-table
+				[dataSource]="rubrics"
+				class="mat-elevation-z8"
+				style="margin-top: 24px"
+			>
+				<ng-container matColumnDef="title">
+					<th mat-header-cell *matHeaderCellDef>T&iacute;tulo</th>
+					<td mat-cell *matCellDef="let element">{{ element.title }}</td>
+				</ng-container>
+				<ng-container matColumnDef="section">
+					<th mat-header-cell *matHeaderCellDef>Curso</th>
+					<td mat-cell *matCellDef="let element">
+						{{ element.section.name }}
+					</td>
+				</ng-container>
+				<ng-container matColumnDef="activity">
+					<th mat-header-cell *matHeaderCellDef>Actividad</th>
+					<td mat-cell *matCellDef="let element">
+						{{ element.activity }}
+					</td>
+				</ng-container>
+				<ng-container matColumnDef="rubricType">
+					<th mat-header-cell *matHeaderCellDef>
+						Tipo de R&uacute;brica
+					</th>
+					<td mat-cell *matCellDef="let element">
+						{{
+							element.rubricType === 'SINTETICA'
+								? 'Sintética (Holística)'
+								: 'Analítica (Global)'
+						}}
+					</td>
+				</ng-container>
+				<ng-container matColumnDef="actions">
+					<th mat-header-cell *matHeaderCellDef>Acciones</th>
+					<td mat-cell *matCellDef="let element">
+						<button
+							(click)="deleteAssessment(element._id)"
+							color="warn"
+							style="display: none;"
+							mat-icon-button
+						>
+							<mat-icon>delete</mat-icon>
+						</button>
+						<!-- <button color="accent" mat-icon-button>
+								<mat-icon>edit</mat-icon>
+							</button> -->
+						<button
+							[routerLink]="['/assessments', 'rubrics', element._id]"
+							color="primary"
+							mat-icon-button
+						>
+							<mat-icon>open_in_new</mat-icon>
+						</button>
+						<button
+							color="primary"
+							mat-icon-button
+							(click)="download(element)"
+						>
+							<mat-icon>download</mat-icon>
+						</button>
+					</td>
+				</ng-container>
 
-			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-		</table>
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+			</table>
+		</div>
 	`,
 })
 export class RubricsComponent implements OnInit {
