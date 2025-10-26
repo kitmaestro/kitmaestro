@@ -25,8 +25,6 @@ import {
 	Observable,
 } from 'rxjs';
 
-// Angular Material Modules
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -51,6 +49,10 @@ import {
 	HeadingLevel,
 } from 'docx';
 import { saveAs } from 'file-saver';
+import { MarkdownComponent } from 'ngx-markdown';
+import { Store } from '@ngrx/store';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { loadCurrentSubscription } from '../../../store';
 
 @Component({
 	selector: 'app-poem-generator', // Component selector
@@ -58,27 +60,23 @@ import { saveAs } from 'file-saver';
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
-		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
 		MatInputModule,
 		MatButtonModule,
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
+		MarkdownComponent,
 		MatIconModule,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="poem-generator-card">
-			<mat-card-header>
+		<div class="poem-generator-card">
+			<div>
 				<h2>Generador de Poesía</h2>
-				<mat-card-subtitle
-					>Crea poemas originales para inspirar a tus
-					estudiantes</mat-card-subtitle
-				>
-			</mat-card-header>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="poemForm"
@@ -105,9 +103,7 @@ import { saveAs } from 'file-saver';
 											section of sections();
 											track section._id
 										) {
-											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
-											}}</mat-option>
+											<mat-option [value]="section._id">{{ section.name }}</mat-option>
 										}
 										@if (
 											!sections().length &&
@@ -196,7 +192,7 @@ import { saveAs } from 'file-saver';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="poemForm.invalid || isGenerating()"
@@ -212,7 +208,7 @@ import { saveAs } from 'file-saver';
 									</div>
 								} @else {
 									<ng-container>
-										<mat-icon>edit</mat-icon> Generar Poesía
+										<mat-icon>history_edu</mat-icon> Generar Poesía
 									</ng-container>
 								}
 							</button>
@@ -223,43 +219,33 @@ import { saveAs } from 'file-saver';
 				@if (showResult()) {
 					<div class="poem-result">
 						<h3>Poema Generado:</h3>
-						<div
-							class="poem-result-content"
-							[innerHTML]="
-								generatedPoem().replaceAll(
-									'
-',
-									'<br>'
-								)
-							"
-						></div>
+						<div class="poem-result-content" >
+							<markdown [data]="generatedPoem()" />
+						</div>
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
-								color="primary"
+								mat-button
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
-								color="primary"
+								mat-flat-button
 								(click)="downloadDocx()"
 								[disabled]="
 									!generatedPoem() ||
-									generatedPoem().startsWith(
-										'Ocurrió un error'
-									)
+									generatedPoem().startsWith('Ocurrió un error') ||
+									!isPremium()
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [
@@ -335,11 +321,13 @@ import { saveAs } from 'file-saver';
 	encapsulation: ViewEncapsulation.None,
 })
 export class PoemGeneratorComponent implements OnInit, OnDestroy {
-	// --- Dependencies ---
+	#store = inject(Store)
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
+
+	isPremium = this.#store.selectSignal(selectIsPremium);
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
@@ -367,6 +355,7 @@ export class PoemGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- OnInit ---
 	ngOnInit(): void {
+		this.#store.dispatch(loadCurrentSubscription())
 		this.#loadSections();
 	}
 

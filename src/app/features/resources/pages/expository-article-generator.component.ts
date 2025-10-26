@@ -49,7 +49,8 @@ import {
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { Store } from '@ngrx/store';
-import { loadSections, selectAllClassSections } from '../../../store';
+import { loadCurrentSubscription, loadSections, selectAllClassSections } from '../../../store';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
 
 @Component({
 	selector: 'app-expository-article-generator', // Component selector
@@ -99,9 +100,9 @@ import { loadSections, selectAllClassSections } from '../../../store';
 											section of sections();
 											track section._id
 										) {
-											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
-											}}</mat-option>
+											<mat-option [value]="section._id">
+												{{ section.name }}
+											</mat-option>
 										}
 										@if (
 											!sections().length &&
@@ -201,7 +202,7 @@ import { loadSections, selectAllClassSections } from '../../../store';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="
@@ -250,16 +251,14 @@ import { loadSections, selectAllClassSections } from '../../../store';
 							</button>
 							<button
 								mat-flat-button
-								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
 									!generatedArticle() ||
-									generatedArticle().startsWith(
-										'Ocurrió un error'
-									)
+									generatedArticle().startsWith('Ocurrió un error') ||
+									!isPremium()
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
@@ -355,6 +354,8 @@ export class ExpositoryArticleGeneratorComponent implements OnInit, OnDestroy {
 	generatedArticle = signal<string>('');
 	sections = this.#store.selectSignal(selectAllClassSections);
 
+	isPremium = this.#store.selectSignal(selectIsPremium);
+
 	// --- Form Definition ---
 	articleForm = this.#fb.group({
 		section: ['', Validators.required],
@@ -372,6 +373,7 @@ export class ExpositoryArticleGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- OnInit ---
 	ngOnInit(): void {
+		this.#store.dispatch(loadCurrentSubscription())
 		this.#loadSections();
 	}
 

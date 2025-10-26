@@ -9,6 +9,20 @@ export const resourcesTools: AppEntry[] = [
 		tier: 2,
 	},
 	{
+		name: 'Rompehielos',
+		description: 'Crea actividades dinámicas para iniciar tus clases',
+		link: '/resources/icebreaker-generator',
+		icon: '/assets/undraw_explore_kfv3.svg',
+		tier: 2,
+	},
+	{
+		name: 'Reflexión Diaria',
+		description: 'Crea reflexiones personalizadas para tus estudiantes',
+		link: '/resources/reflection-generator',
+		icon: '/assets/undraw_deep-thinker-avatar_6xg6.svg',
+		tier: 2,
+	},
+	{
 		name: 'Generador de Cuentos',
 		description: 'Crea cuentos originales adaptados a tus estudiantes',
 		link: '/resources/story-generator',
@@ -79,19 +93,19 @@ export const resourcesTools: AppEntry[] = [
 		icon: '/assets/undraw_new_entries_re_cffr.svg',
 		tier: 3,
 	},
-	{
-		link: '/resources/games',
-		name: 'Juegos Educativos',
-		icon: '/assets/games.svg',
-		description:
-			'Juegos educativos para hacer el aprendizaje más interactivo y divertido.',
-		tier: 4,
-	},
-	{
-		name: 'Seguimiento del Estudiante',
-		description: 'Estadísticas del rendimiento estudiantil.',
-		link: '/resources/tracking',
-		icon: '/assets/grade.svg',
-		tier: 4,
-	},
+	// {
+	// 	link: '/resources/games',
+	// 	name: 'Juegos Educativos',
+	// 	icon: '/assets/games.svg',
+	// 	description:
+	// 		'Juegos educativos para hacer el aprendizaje más interactivo y divertido.',
+	// 	tier: 4,
+	// },
+	// {
+	// 	name: 'Seguimiento del Estudiante',
+	// 	description: 'Estadísticas del rendimiento estudiantil.',
+	// 	link: '/resources/tracking',
+	// 	icon: '/assets/grade.svg',
+	// 	tier: 4,
+	// },
 ];

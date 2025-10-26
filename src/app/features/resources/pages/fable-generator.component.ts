@@ -51,12 +51,15 @@ import {
 	HeadingLevel,
 } from 'docx';
 import { saveAs } from 'file-saver';
+import { Store } from '@ngrx/store';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { loadCurrentSubscription } from '../../../store';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
 	selector: 'app-fable-generator', // Component selector
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
 		MatCardModule,
 		MatFormFieldModule,
@@ -66,19 +69,16 @@ import { saveAs } from 'file-saver';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
+		MarkdownComponent,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="fable-generator-card">
-			<mat-card-header>
+		<div class="fable-generator-card">
+			<div>
 				<h2>Generador de Fábulas</h2>
-				<mat-card-subtitle
-					>Crea fábulas con moralejas para tus
-					clases</mat-card-subtitle
-				>
-			</mat-card-header>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="fableForm"
@@ -106,7 +106,7 @@ import { saveAs } from 'file-saver';
 											track section._id
 										) {
 											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
+												section.name
 											}}</mat-option>
 										}
 										@if (
@@ -198,7 +198,7 @@ import { saveAs } from 'file-saver';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="fableForm.invalid || isGenerating()"
@@ -230,50 +230,34 @@ import { saveAs } from 'file-saver';
 				@if (showResult()) {
 					<div class="fable-result">
 						<h3>Fábula Generada:</h3>
-						<div
-							class="fable-result-content"
-							[innerHTML]="
-								generatedFable()
-									.replaceAll(
-										'
-
-',
-										'<br><br>'
-									)
-									.replaceAll(
-										'
-',
-										'<br>'
-									)
-							"
-						></div>
+						<div class="fable-result-content">
+							<markdown [data]="generatedFable()" />
+						</div>
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
-								color="primary"
+								mat-flat-button
 								(click)="downloadDocx()"
 								[disabled]="
 									!generatedFable() ||
-									generatedFable().startsWith(
-										'Ocurrió un error'
-									)
+									generatedFable().startsWith('Ocurrió un error') ||
+									!isPremium()
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [
@@ -357,13 +341,14 @@ import { saveAs } from 'file-saver';
 	encapsulation: ViewEncapsulation.None,
 })
 export class FableGeneratorComponent implements OnInit, OnDestroy {
-	// --- Dependencies ---
+	#store = inject(Store)
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
 
 	#pretify = new PretifyPipe().transform;
+	isPremium = this.#store.selectSignal(selectIsPremium);
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
@@ -390,6 +375,7 @@ export class FableGeneratorComponent implements OnInit, OnDestroy {
 	// --- OnInit ---
 	ngOnInit(): void {
 		this.#loadSections();
+		this.#store.dispatch(loadCurrentSubscription())
 	}
 
 	// --- OnDestroy ---

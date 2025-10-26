@@ -51,12 +51,16 @@ import {
 	HeadingLevel,
 } from 'docx';
 import { saveAs } from 'file-saver';
+import { MarkdownComponent } from 'ngx-markdown';
+import { Store } from '@ngrx/store';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { loadCurrentSubscription } from '../../../store';
 
 @Component({
 	selector: 'app-song-generator', // Component selector
 	standalone: true,
 	imports: [
-		CommonModule,
+		MarkdownComponent,
 		ReactiveFormsModule,
 		MatCardModule,
 		MatFormFieldModule,
@@ -69,16 +73,12 @@ import { saveAs } from 'file-saver';
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="song-generator-card">
-			<mat-card-header>
+		<div class="song-generator-card">
+			<div>
 				<h2>Generador de Canciones</h2>
-				<mat-card-subtitle
-					>Crea letras de canciones originales para tus
-					actividades</mat-card-subtitle
-				>
-			</mat-card-header>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="songForm"
@@ -106,7 +106,7 @@ import { saveAs } from 'file-saver';
 											track section._id
 										) {
 											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
+												section.name
 											}}</mat-option>
 										}
 										@if (
@@ -180,7 +180,7 @@ import { saveAs } from 'file-saver';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="songForm.invalid || isGenerating()"
@@ -212,44 +212,37 @@ import { saveAs } from 'file-saver';
 
 				@if (showResult()) {
 					<div class="song-result">
-						<h3>Letra de Canción Generada:</h3>
-						<div
-							class="song-result-content"
-							[innerHTML]="
-								generatedSong().replaceAll(
-									'
-',
-									'<br>'
-								)
-							"
-						></div>
+						<h3>Canción Generada:</h3>
+						<div class="song-result-content">
+							<markdown [data]="generatedSong()" />
+						</div>
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
 									!generatedSong() ||
 									generatedSong().startsWith(
 										'Ocurrió un error'
-									)
+									) || !isPremium()
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [
@@ -336,13 +329,15 @@ import { saveAs } from 'file-saver';
 	encapsulation: ViewEncapsulation.None,
 })
 export class SongGeneratorComponent implements OnInit, OnDestroy {
-	// --- Dependencies ---
+	#store = inject(Store)
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
 
 	#pretify = new PretifyPipe().transform;
+
+	isPremium = this.#store.selectSignal(selectIsPremium)
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
@@ -370,6 +365,7 @@ export class SongGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- OnInit ---
 	ngOnInit(): void {
+		this.#store.dispatch(loadCurrentSubscription());
 		this.#loadSections();
 	}
 
@@ -447,17 +443,17 @@ export class SongGeneratorComponent implements OnInit, OnDestroy {
 
 		// Construct the prompt for generating song lyrics
 		const prompt = `Eres un compositor y letrista experto en crear canciones originales para público infantil y juvenil, adecuadas para actividades escolares.
-      Necesito que escribas la letra para una canción original.
+Necesito que escribas la letra para una canción original.
 
-      Contexto e Instrucciones:
-      - Audiencia: Estudiantes de ${this.#pretify(selectedSection?.level || 'Nivel no especificado')}, ${this.#pretify(selectedSection?.year || 'Grado no especificado')}. La letra debe ser apropiada para su edad, intereses y nivel de comprensión.
-      - Complejidad de la Canción: La canción debe ser ${this.#getComplexityInstruction(formValue.complexity!)}.
-      - Temática Central (Requerida): La canción debe tratar sobre "${formValue.topic}". Desarrolla ideas y mensajes relacionados con este tema.
-      - Estructura: Organiza la letra claramente en estrofas y un coro (estribillo). Puedes incluir un puente si lo consideras apropiado para la complejidad "Elaborada". Marca claramente cada sección, por ejemplo: [Estrofa 1], [Coro], [Estrofa 2], [Puente], [Coro Final].
-      - Lenguaje y Tono: Usa un lenguaje positivo y adecuado a la edad. El tono debe ser coherente con la temática (alegre, emotivo, reflexivo, etc.).
-      - Ritmo y Rima: Intenta que la letra tenga buen ritmo y rimas que funcionen bien musicalmente (sin ser excesivamente forzadas).
+Contexto e Instrucciones:
+- Audiencia: Estudiantes de ${this.#pretify(selectedSection?.level || 'Nivel no especificado')}, ${this.#pretify(selectedSection?.year || 'Grado no especificado')}. La letra debe ser apropiada para su edad, intereses y nivel de comprensión.
+- Complejidad de la Canción: La canción debe ser ${this.#getComplexityInstruction(formValue.complexity!)}.
+- Temática Central (Requerida): La canción debe tratar sobre "${formValue.topic}". Desarrolla ideas y mensajes relacionados con este tema.
+- Estructura: Organiza la letra claramente en estrofas y un coro (estribillo). Puedes incluir un puente si lo consideras apropiado para la complejidad "Elaborada". Marca claramente cada sección, por ejemplo: [Estrofa 1], [Coro], [Estrofa 2], [Puente], [Coro Final].
+- Lenguaje y Tono: Usa un lenguaje positivo y adecuado a la edad. El tono debe ser coherente con la temática (alegre, emotivo, reflexivo, etc.).
+- Ritmo y Rima: Intenta que la letra tenga buen ritmo y rimas que funcionen bien musicalmente (sin ser excesivamente forzadas).
 
-      IMPORTANTE: Genera únicamente la letra de la canción, siguiendo la estructura solicitada. No incluyas acordes, descripciones musicales, saludos ni despedidas.`;
+IMPORTANTE: Genera la letra de la canción, siguiendo la estructura solicitada sugiriendo una tonalidad y acordes de acompañamiento. No incluyas saludos ni despedidas. Escribe un documento listo para imprimir.`;
 
 		try {
 			const result = await firstValueFrom(

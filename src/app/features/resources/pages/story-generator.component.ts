@@ -13,7 +13,6 @@ import {
 	Validators,
 	AbstractControl,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import {
 	Subject,
 	firstValueFrom,
@@ -26,7 +25,6 @@ import {
 } from 'rxjs';
 
 // Angular Material Modules
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input'; // Needed for topic input
@@ -47,37 +45,35 @@ import {
 	TextRun,
 	AlignmentType,
 	HeadingLevel,
-	Indent,
 } from 'docx'; // Import Indent
 import { saveAs } from 'file-saver';
+import { Store } from '@ngrx/store';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { loadCurrentSubscription } from '../../../store';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
 	selector: 'app-story-generator', // Component selector
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
-		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
-		MatInputModule, // Import MatInputModule
+		MatInputModule,
 		MatButtonModule,
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
+		MarkdownComponent,
 		MatIconModule,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="story-generator-card">
-			<mat-card-header>
+		<div class="story-generator-card">
+			<div>
 				<h2>Generador de Cuentos</h2>
-				<mat-card-subtitle
-					>Crea cuentos originales adaptados a tus
-					estudiantes</mat-card-subtitle
-				>
-			</mat-card-header>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="storyForm"
@@ -104,9 +100,7 @@ import { saveAs } from 'file-saver';
 											section of sections();
 											track section._id
 										) {
-											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
-											}}</mat-option>
+											<mat-option [value]="section._id">{{ section.name }}</mat-option>
 										}
 										@if (
 											!sections().length &&
@@ -197,24 +191,13 @@ import { saveAs } from 'file-saver';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="storyForm.invalid || isGenerating()"
 							>
-								@if (isGenerating()) {
-									<mat-spinner
-										diameter="20"
-										color="accent"
-										class="inline-spinner"
-									></mat-spinner>
-									Generando...
-								} @else {
-									<ng-container>
-										<mat-icon>auto_stories</mat-icon>
-										Generar Cuento
-									</ng-container>
-								}
+								<mat-icon>auto_stories</mat-icon>
+								{{ isGenerating() ? 'Generando...' : 'Generar Cuento' }}
 							</button>
 						</div>
 					</form>
@@ -223,50 +206,36 @@ import { saveAs } from 'file-saver';
 				@if (showResult()) {
 					<div class="story-result">
 						<h3>Cuento Generado:</h3>
-						<div
-							class="story-result-content"
-							[innerHTML]="
-								generatedStory()
-									.replaceAll(
-										'
-
-',
-										'<br><br>'
-									)
-									.replaceAll(
-										'
-',
-										'<br>'
-									)
-							"
-						></div>
+						<div class="story-result-content">
+							<markdown [data]="generatedStory()" />
+						</div>
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
 									!generatedStory() ||
 									generatedStory().startsWith(
 										'Ocurrió un error'
-									)
+									) || !isPremium()
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [
@@ -341,11 +310,13 @@ import { saveAs } from 'file-saver';
 	encapsulation: ViewEncapsulation.None,
 })
 export class StoryGeneratorComponent implements OnInit, OnDestroy {
-	// --- Dependencies ---
+	#store = inject(Store)
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
+
+	isPremium = this.#store.selectSignal(selectIsPremium);
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
@@ -372,6 +343,7 @@ export class StoryGeneratorComponent implements OnInit, OnDestroy {
 	// --- OnInit ---
 	ngOnInit(): void {
 		this.#loadSections();
+		this.#store.dispatch(loadCurrentSubscription())
 	}
 
 	// --- OnDestroy ---

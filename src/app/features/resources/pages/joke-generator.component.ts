@@ -40,6 +40,8 @@ import { AiService } from '../../../core/services/ai.service';
 import { ClassSectionService } from '../../../core/services/class-section.service';
 import { ClassSection } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { Store } from '@ngrx/store';
+import { MarkdownComponent } from 'ngx-markdown'
 
 // --- DOCX Generation ---
 import {
@@ -51,12 +53,13 @@ import {
 	HeadingLevel,
 } from 'docx';
 import { saveAs } from 'file-saver';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { loadCurrentSubscription } from '../../../store';
 
 @Component({
 	selector: 'app-joke-generator', // Component selector
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
 		MatCardModule,
 		MatFormFieldModule,
@@ -65,20 +68,17 @@ import { saveAs } from 'file-saver';
 		MatButtonModule,
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
+		MarkdownComponent,
 		MatIconModule,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="joke-generator-card">
-			<mat-card-header>
+		<div class="joke-generator-card">
+			<div>
 				<h2>Generador de Chistes</h2>
-				<mat-card-subtitle
-					>Crea chistes apropiados para tus
-					estudiantes</mat-card-subtitle
-				>
-			</mat-card-header>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="jokeForm"
@@ -106,7 +106,7 @@ import { saveAs } from 'file-saver';
 											track section._id
 										) {
 											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
+												section.name
 											}}</mat-option>
 										}
 										@if (
@@ -202,7 +202,7 @@ import { saveAs } from 'file-saver';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="jokeForm.invalid || isGenerating()"
@@ -235,43 +235,36 @@ import { saveAs } from 'file-saver';
 				@if (showResult()) {
 					<div class="joke-result">
 						<h3>Chiste(s) Generado(s):</h3>
-						<div
-							class="joke-result-content"
-							[innerHTML]="
-								generatedJokes().replaceAll(
-									'
-',
-									'<br>'
-								)
-							"
-						></div>
+						<div class="joke-result-content">
+							<markdown [data]="generatedJokes()" />
+						</div>
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
 									!generatedJokes() ||
 									generatedJokes().startsWith(
 										'Ocurrió un error'
-									)
+									) || !isPremium()
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [
@@ -347,12 +340,14 @@ import { saveAs } from 'file-saver';
 	encapsulation: ViewEncapsulation.None,
 })
 export class JokeGeneratorComponent implements OnInit, OnDestroy {
-	// --- Dependencies ---
+	#store = inject(Store)
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
 	#pretify = new PretifyPipe().transform;
+
+	isPremium = this.#store.selectSignal(selectIsPremium);
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
@@ -383,6 +378,7 @@ export class JokeGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- OnInit ---
 	ngOnInit(): void {
+		this.#store.dispatch(loadCurrentSubscription())
 		this.#loadSections();
 	}
 

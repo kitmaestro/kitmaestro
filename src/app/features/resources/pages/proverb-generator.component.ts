@@ -51,12 +51,15 @@ import {
 	HeadingLevel,
 } from 'docx';
 import { saveAs } from 'file-saver';
+import { MarkdownComponent } from 'ngx-markdown';
+import { Store } from '@ngrx/store';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { loadCurrentSubscription } from '../../../store';
 
 @Component({
 	selector: 'app-proverb-generator', // Component selector
 	standalone: true,
 	imports: [
-		CommonModule,
 		ReactiveFormsModule,
 		MatCardModule,
 		MatFormFieldModule,
@@ -66,19 +69,16 @@ import { saveAs } from 'file-saver';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
+		MarkdownComponent,
 	],
 	// --- Inline Template ---
 	template: `
-		<mat-card class="proverb-generator-card">
-			<mat-card-header>
+		<div class="proverb-generator-card">
+			<div>
 				<h2>Generador de Refranes</h2>
-				<mat-card-subtitle
-					>Encuentra refranes y su significado para tus
-					clases</mat-card-subtitle
-				>
-			</mat-card-header>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="proverbForm"
@@ -106,7 +106,7 @@ import { saveAs } from 'file-saver';
 											track section._id
 										) {
 											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
+												section.name
 											}}</mat-option>
 										}
 										@if (
@@ -210,7 +210,7 @@ import { saveAs } from 'file-saver';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="
@@ -245,43 +245,36 @@ import { saveAs } from 'file-saver';
 				@if (showResult()) {
 					<div class="proverb-result">
 						<h3>Refrán(es) Generado(s):</h3>
-						<div
-							class="proverb-result-content"
-							[innerHTML]="
-								generatedProverbs().replaceAll(
-									'
-',
-									'<br>'
-								)
-							"
-						></div>
+						<div class="proverb-result-content">
+							<markdown [data]="generatedProverbs()" />
+						</div>
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
 									!generatedProverbs() ||
 									generatedProverbs().startsWith(
 										'Ocurrió un error'
-									)
+									) || !isPremium()
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [
@@ -364,13 +357,15 @@ import { saveAs } from 'file-saver';
 	encapsulation: ViewEncapsulation.None,
 })
 export class ProverbGeneratorComponent implements OnInit, OnDestroy {
-	// --- Dependencies ---
+	#store = inject(Store)
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
 
 	#pretify = new PretifyPipe().transform;
+
+	isPremium = this.#store.selectSignal(selectIsPremium);
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
@@ -400,6 +395,7 @@ export class ProverbGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- OnInit ---
 	ngOnInit(): void {
+		this.#store.dispatch(loadCurrentSubscription())
 		this.#loadSections();
 	}
 
@@ -491,7 +487,7 @@ export class ProverbGeneratorComponent implements OnInit, OnDestroy {
 		);
 
 		// Construct the prompt for generating proverbs
-		const prompt = `Eres un experto en el refranero popular y la sabiduría tradicional, capaz de explicar conceptos complejos de forma sencilla.
+		const prompt = `Eres un experto en el refranero popular y la sabiduría tradicional (especialmente dominicana), capaz de explicar conceptos complejos de forma sencilla.
       Necesito que generes algunos refranes (proverbios) adecuados para estudiantes.
 
       Contexto e Instrucciones:

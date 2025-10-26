@@ -23,6 +23,10 @@ import { AiService } from '../../../core/services/ai.service'; // Adjust path if
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { saveAs } from 'file-saver'; // npm install docx file-saver @types/file-saver
 import { MatIconModule } from '@angular/material/icon';
+import { MarkdownComponent } from 'ngx-markdown';
+import { Store } from '@ngrx/store';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { loadCurrentSubscription } from '../../../store';
 
 @Component({
 	selector: 'app-reflection-generator',
@@ -37,18 +41,15 @@ import { MatIconModule } from '@angular/material/icon';
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatIconModule,
+		MarkdownComponent,
 	],
 	template: `
-		<mat-card class="reflection-card">
-			<mat-card-header>
+		<div class="reflection-card">
+			<div>
 				<h2>Generador de Reflexión Diaria</h2>
-				<mat-card-subtitle
-					>Crea reflexiones personalizadas para tus
-					estudiantes</mat-card-subtitle
-				>
-			</mat-card-header>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!mostrarReflexion()) {
 					<form
 						(ngSubmit)="generarReflexion()"
@@ -218,23 +219,15 @@ import { MatIconModule } from '@angular/material/icon';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 								[disabled]="
 									!esFormularioValido() || estaGenerando()
 								"
 							>
-								@if (estaGenerando()) {
-									<mat-spinner
-										diameter="20"
-										color="accent"
-										style="display: inline-block; margin-right: 8px;"
-									></mat-spinner>
-									Generando...
-								} @else {
-									Generar Reflexión
-								}
+								<mat-icon>psychology</mat-icon>
+								{{ estaGenerando() ? 'Generando...' : 'Generar Reflexión' }}
 							</button>
 						</div>
 					</form>
@@ -243,34 +236,27 @@ import { MatIconModule } from '@angular/material/icon';
 				@if (mostrarReflexion()) {
 					<div class="reflection-display">
 						<h3>Reflexión Generada:</h3>
-						<div
-							class="carta"
-							[innerHTML]="
-								reflexionGenerada().replaceAll(
-									'
-',
-									'<br>'
-								)
-							"
-						></div>
+						<div class="carta">
+							<markdown [data]="reflexionGenerada()" />
+						</div>
 
 						<div class="reflection-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="volver()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="descargarDocx()"
 								[disabled]="
 									!reflexionGenerada() ||
 									reflexionGenerada().startsWith(
 										'Ocurrió un error'
-									)
+									) || !isPremium()
 								"
 							>
 								<mat-icon>download</mat-icon> Descargar
@@ -278,8 +264,8 @@ import { MatIconModule } from '@angular/material/icon';
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	styles: `
 		@use '@angular/material' as mat; // Import Angular Material theming functions
@@ -374,7 +360,7 @@ import { MatIconModule } from '@angular/material/icon';
 	changeDetection: ChangeDetectionStrategy.OnPush, // Use OnPush for performance with signals
 })
 export class ReflectionGeneratorComponent {
-	// --- Inject Dependencies ---
+	#store = inject(Store)
 	#aiService = inject(AiService);
 	#snackBar = inject(MatSnackBar);
 
@@ -388,6 +374,8 @@ export class ReflectionGeneratorComponent {
 	reflexionGenerada = signal<string>('');
 	estaGenerando = signal<boolean>(false);
 	mostrarReflexion = signal<boolean>(false);
+
+	isPremium = this.#store.selectSignal(selectIsPremium)
 
 	// --- Configuration Data ---
 	readonly niveles = ['Primaria', 'Secundaria'];
@@ -438,6 +426,9 @@ export class ReflectionGeneratorComponent {
 	});
 
 	// --- Methods ---
+	ngOnInit() {
+		this.#store.dispatch(loadCurrentSubscription());
+	}
 
 	/**
 	 * Generates the daily reflection by calling the AI service.

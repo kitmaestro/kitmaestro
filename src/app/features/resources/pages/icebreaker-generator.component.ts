@@ -44,13 +44,15 @@ import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { saveAs } from 'file-saver';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { MarkdownComponent } from 'ngx-markdown';
+import { Store } from '@ngrx/store';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { loadCurrentSubscription } from '../../../store';
 
 @Component({
 	selector: 'app-icebreaker-generator',
 	standalone: true,
 	imports: [
-		// CommonModule, // For @if, @for, async pipe
-		ReactiveFormsModule, // Use Reactive Forms
+		ReactiveFormsModule,
 		MatCardModule,
 		MatFormFieldModule,
 		MatSelectModule,
@@ -58,22 +60,17 @@ import { MarkdownComponent } from 'ngx-markdown';
 		MatButtonModule,
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
-		MatIconModule, // Import MatIconModule
+		MatIconModule,
 		PretifyPipe,
 		MarkdownComponent,
 	],
-	// --- Inline Template ---
 	template: `
-		<mat-card class="icebreaker-card">
-			<mat-card-header>
+		<div class="icebreaker-card">
+			<div>
 				<h2>Generador de Rompehielos</h2>
-				<mat-card-subtitle
-					>Crea actividades dinámicas para iniciar tus
-					clases</mat-card-subtitle
-				>
-			</mat-card-header>
+			</div>
 
-			<mat-card-content>
+			<div>
 				@if (!showResult()) {
 					<form
 						[formGroup]="icebreakerForm"
@@ -101,7 +98,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 											track section._id
 										) {
 											<mat-option [value]="section._id">{{
-												getSectionDisplay(section)
+												section.name
 											}}</mat-option>
 										}
 										@if (
@@ -202,8 +199,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 
 						<div class="form-actions">
 							<button
-								mat-raised-button
-								color="primary"
+								mat-flat-button
 								type="submit"
 								[disabled]="
 									icebreakerForm.invalid || isGenerating()
@@ -232,38 +228,36 @@ import { MarkdownComponent } from 'ngx-markdown';
 						<h3>Actividad Rompehielos Generada:</h3>
 						<div class="icebreaker-result-page">
 							@if (generatedIcebreaker()) {
-								<markdown
-									[data]="generatedIcebreaker()"
-								></markdown>
+								<markdown [data]="generatedIcebreaker()" />
 							}
 						</div>
 
 						<div class="result-actions">
 							<button
-								mat-stroked-button
+								mat-button
 								color="primary"
 								(click)="goBack()"
 							>
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								(click)="downloadDocx()"
 								[disabled]="
 									!generatedIcebreaker() ||
 									generatedIcebreaker().startsWith(
 										'Ocurrió un error'
-									)
+									) || !isPremium()
 								"
 							>
-								<mat-icon>download</mat-icon> Descargar (.docx)
+								<mat-icon>download</mat-icon> Descargar
 							</button>
 						</div>
 					</div>
 				}
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 	`,
 	// --- Inline Styles ---
 	styles: [
@@ -351,12 +345,14 @@ import { MarkdownComponent } from 'ngx-markdown';
 	encapsulation: ViewEncapsulation.None, // Optional: Use None if global styles should apply easily, or Emulated (default)
 })
 export class IcebreakerGeneratorComponent implements OnInit, OnDestroy {
-	// --- Dependencies ---
+	#store = inject(Store);
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
 	#pretify = new PretifyPipe();
+
+	isPremium = this.#store.selectSignal(selectIsPremium);
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);
@@ -389,6 +385,7 @@ export class IcebreakerGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- OnInit: Load initial data and set up listeners ---
 	ngOnInit(): void {
+		this.#store.dispatch(loadCurrentSubscription());
 		this.#loadSections();
 		this.#listenForSectionChanges();
 	}
