@@ -139,22 +139,24 @@ import { ClassSection } from '../../../core';
 					</table>
 				</div>
 				<button
-					mat-raised-button
+					mat-button
 					color="accent"
 					style="margin-right: 12px"
 					(click)="generated = null"
 				>
+					<mat-icon>refresh</mat-icon>
 					Reiniciar
 				</button>
 				<button mat-flat-button color="accent" (click)="export()">
+					<mat-icon>download</mat-icon>
 					Descargar Excel
 				</button>
 			} @else {
-				<mat-card>
-					<mat-card-header>
+				<div>
+					<div>
 						<h2>Generador de Calificaciones</h2>
-					</mat-card-header>
-					<mat-card-content>
+					</div>
+					<div>
 						<form [formGroup]="configForm" (ngSubmit)="onSubmit()">
 							<div style="display: flex; gap: 16px">
 								<div style="flex: 1 1 auto">
@@ -371,7 +373,7 @@ import { ClassSection } from '../../../core';
 													"
 												>
 													<button
-														mat-fab
+														mat-icon-button
 														(click)="
 															removeStudent(
 																$index
@@ -384,9 +386,7 @@ import { ClassSection } from '../../../core';
 																.length !== 1
 														"
 													>
-														<mat-icon
-															>delete</mat-icon
-														>
+														<mat-icon>delete</mat-icon>
 													</button>
 												</div>
 											</div>
@@ -434,9 +434,10 @@ import { ClassSection } from '../../../core';
 												type="button"
 												(click)="importStudents()"
 												[disabled]="importFrom.invalid"
-												mat-raised-button
+												mat-button
 												color="accent"
 											>
+												<mat-icon>upload</mat-icon>
 												Importar Estudiantes
 											</button>
 										</div>
@@ -463,9 +464,10 @@ import { ClassSection } from '../../../core';
 											<button
 												type="button"
 												(click)="addStudent()"
-												mat-raised-button
+												mat-button
 												color="accent"
 											>
+												<mat-icon>add</mat-icon>
 												Agregar
 												{{ qty.value }} Estudiante{{
 													qty.value === 1 ? '' : 's'
@@ -481,10 +483,11 @@ import { ClassSection } from '../../../core';
 									[disabled]="
 										generating || configForm.invalid
 									"
-									mat-raised-button
+									mat-flat-button
 									color="primary"
 									type="submit"
 								>
+									<mat-icon>bolt</mat-icon>
 									<span *ngIf="generating; else iddle"
 										>Generando...</span
 									>
@@ -494,8 +497,8 @@ import { ClassSection } from '../../../core';
 								</button>
 							</div>
 						</form>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			}
 		</app-is-premium>
 	`,
@@ -939,10 +942,10 @@ export class GradesGeneratorComponent implements OnInit {
 		if (this.imported && this.section) {
 			XLSX.writeFile(
 				workbook,
-				'Calificaciones de ' + this.section.name + '.xlsb',
+				'Calificaciones de ' + this.section.name + '.xlsx',
 			);
 		} else {
-			XLSX.writeFile(workbook, 'Calificaciones.xlsb');
+			XLSX.writeFile(workbook, 'Calificaciones.xlsx');
 		}
 	}
 }

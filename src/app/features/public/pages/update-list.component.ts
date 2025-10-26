@@ -29,7 +29,7 @@ import { AuthService } from '../../../core/services/auth.service';
 				@if (authorUser) {
 					<span style="flex: 1 1 auto"></span>
 					<button
-						mat-mini-fab
+						mat-icon-button
 						type="button"
 						routerLink="/updates/new"
 						color="primary"

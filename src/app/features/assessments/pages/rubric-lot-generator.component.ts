@@ -157,7 +157,7 @@ import { RubricDto } from '../../../store';
 								<h3>Niveles de Desempeño</h3>
 								<button
 									type="button"
-									mat-mini-fab
+									mat-icon-button
 									color="accent"
 									[disabled]="
 										rubricLevels.controls.length > 4
@@ -187,7 +187,7 @@ import { RubricDto } from '../../../store';
 										<button
 											(click)="deleteLevel(i)"
 											type="button"
-											mat-mini-fab
+											mat-icon-button
 											color="warn"
 										>
 											<mat-icon>delete</mat-icon>

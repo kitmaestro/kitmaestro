@@ -17,17 +17,15 @@ import { MatCardModule } from '@angular/material/card';
 		CommonModule,
 	],
 	template: `
-		<mat-card class="card">
-			<mat-card-header>
-				<h2>
-					<h2>Calculadora de Porcentaje de Asistencia</h2>
-				</h2>
-			</mat-card-header>
-			<mat-card-content>
+		<div class="card">
+			<div>
+				<h2>Calculadora de Porcentaje de Asistencia</h2>
+			</div>
+			<div>
 				<h3>Dias Trabajados</h3>
 				<div class="form-container">
 					<div>
-						<button mat-mini-fab color="primary" (click)="less()">
+						<button mat-icon-button color="primary" (click)="less()">
 							<mat-icon>remove</mat-icon>
 						</button>
 					</div>
@@ -38,42 +36,44 @@ import { MatCardModule } from '@angular/material/card';
 						[formControl]="days"
 					/>
 					<div>
-						<button mat-mini-fab color="primary" (click)="plus()">
+						<button mat-icon-button color="primary" (click)="plus()">
 							<mat-icon>add</mat-icon>
 						</button>
 					</div>
 				</div>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
-		<table
-			mat-table
-			[dataSource]="dataSet"
-			class="mat-elevation-z8"
-			*ngIf="dataSet.length"
-		>
-			<ng-container matColumnDef="attendance">
-				<th mat-header-cell *matHeaderCellDef>Asistencia</th>
-				<td mat-cell *matCellDef="let element">{{ element.qty }}</td>
-			</ng-container>
+		<div style="padding-bottom: 24px">
+			<table
+				mat-table
+				[dataSource]="dataSet"
+				class="mat-elevation-z8"
+				*ngIf="dataSet.length"
+			>
+				<ng-container matColumnDef="attendance">
+					<th mat-header-cell *matHeaderCellDef>Asistencia</th>
+					<td mat-cell *matCellDef="let element">{{ element.qty }}</td>
+				</ng-container>
 
-			<ng-container matColumnDef="percentage">
-				<th mat-header-cell *matHeaderCellDef>Porcentaje</th>
-				<td mat-cell *matCellDef="let element">
-					{{ element.percentage }}
-				</td>
-			</ng-container>
+				<ng-container matColumnDef="percentage">
+					<th mat-header-cell *matHeaderCellDef>Porcentaje</th>
+					<td mat-cell *matCellDef="let element">
+						{{ element.percentage }}
+					</td>
+				</ng-container>
 
-			<ng-container matColumnDef="fixed">
-				<th mat-header-cell *matHeaderCellDef>
-					Ajustado (Redondeo hacia arriba)
-				</th>
-				<td mat-cell *matCellDef="let element">{{ element.fixed }}</td>
-			</ng-container>
+				<ng-container matColumnDef="fixed">
+					<th mat-header-cell *matHeaderCellDef>
+						Ajustado (Redondeo hacia arriba)
+					</th>
+					<td mat-cell *matCellDef="let element">{{ element.fixed }}</td>
+				</ng-container>
 
-			<tr mat-header-row *matHeaderRowDef="labels"></tr>
-			<tr mat-row *matRowDef="let row; columns: labels"></tr>
-		</table>
+				<tr mat-header-row *matHeaderRowDef="labels"></tr>
+				<tr mat-row *matRowDef="let row; columns: labels"></tr>
+			</table>
+		</div>
 	`,
 	styles: `
 		input::-webkit-outer-spin-button,

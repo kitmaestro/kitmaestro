@@ -38,13 +38,13 @@ import { ClassSectionService } from '../../../core/services/class-section.servic
 				</mat-card-header>
 				<mat-card-content>
 					<div style="display: flex; align-items: center">
-						<button mat-mini-fab (click)="prevMonth()">
+						<button mat-icon-button (click)="prevMonth()">
 							<mat-icon>arrow_back</mat-icon>
 						</button>
 						<div class="text">
 							{{ months[currentMonth] }} de {{ currentYear }}
 						</div>
-						<button mat-mini-fab (click)="nextMonth()">
+						<button mat-icon-button (click)="nextMonth()">
 							<mat-icon>arrow_forward</mat-icon>
 						</button>
 					</div>

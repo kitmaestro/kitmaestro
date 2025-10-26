@@ -22,7 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 				<h2>Mi Horario</h2>
 				<a
 					routerLink="/schedules/create"
-					mat-mini-fab
+					mat-icon-button
 					style="margin-left: auto"
 				>
 					<mat-icon>add</mat-icon>

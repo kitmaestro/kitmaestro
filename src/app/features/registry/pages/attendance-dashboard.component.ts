@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -19,7 +18,6 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
 	selector: 'app-attendance-dashboard',
 	imports: [
-		MatCardModule,
 		MatInputModule,
 		MatSelectModule,
 		MatButtonModule,
@@ -31,11 +29,11 @@ import { MatIconModule } from '@angular/material/icon';
 		RouterLink,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
+		<div>
+			<div>
 				<h2>Registro de Asistencia</h2>
-			</mat-card-header>
-			<mat-card-content>
+			</div>
+			<div>
 				<div
 					style="
 						margin-top: 24px;
@@ -52,15 +50,9 @@ import { MatIconModule } from '@angular/material/icon';
 								(selectionChange)="onSectionSelect($event)"
 							>
 								@for (section of sections; track section._id) {
-									<mat-option [value]="section._id"
-										>{{ section.name }} ({{
-											section.year | pretify
-										}}
-										de
-										{{
-											section.level | pretify
-										}})</mat-option
-									>
+									<mat-option [value]="section._id">
+										{{ section.name }}
+									</mat-option>
 								}
 							</mat-select>
 						</mat-form-field>
@@ -90,8 +82,8 @@ import { MatIconModule } from '@angular/material/icon';
 						</mat-form-field>
 					</div>
 				</div>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
 		<div style="margin-top: 24px; box-shadow: #ccc 4px 4px 12px">
 			<table>
@@ -237,17 +229,14 @@ import { MatIconModule } from '@angular/material/icon';
 		>
 			<button
 				(click)="onSave()"
-				mat-fab
-				extended
-				color="primary"
+				mat-flat-button
 				[disabled]="saving || downloading || removing"
 			>
 				<mat-icon>save</mat-icon>{{ saving ? 'Guardando' : 'Guardar' }}
 			</button>
 			<button
 				(click)="download()"
-				mat-fab
-				extended
+				mat-button
 				color="primary"
 				[disabled]="saving || downloading || removing"
 			>
@@ -256,8 +245,7 @@ import { MatIconModule } from '@angular/material/icon';
 			</button>
 			<button
 				(click)="deleteEntries()"
-				mat-fab
-				extended
+				mat-button
 				color="primary"
 				[disabled]="saving || downloading || removing"
 			>

@@ -35,11 +35,11 @@ import { CompetenceEntry } from '../../../core';
 	],
 	template: `
 		<app-is-premium>
-			<mat-card style="margin-bottom: 24px" class="mat-elevation-z8">
-				<mat-card-header>
-					<h2 mat-card-ittle>Generador de Aspectos Trabajados</h2>
-				</mat-card-header>
-				<mat-card-content>
+			<div style="margin-bottom: 24px" class="mat-elevation-z8">
+				<div>
+					<h2>Generador de Aspectos Trabajados</h2>
+				</div>
+				<div>
 					<form [formGroup]="generatorForm" (ngSubmit)="onSubmit()">
 						<div class="fields-grid col-3">
 							<mat-form-field appearance="outline">
@@ -143,10 +143,11 @@ import { CompetenceEntry } from '../../../core';
 							<button
 								(click)="reset()"
 								style="margin-right: 12px"
-								mat-raised-button
+								mat-button
 								color="accent"
 								type="button"
 							>
+								<mat-icon>refresh</mat-icon>
 								Reiniciar
 							</button>
 							<button
@@ -155,10 +156,11 @@ import { CompetenceEntry } from '../../../core';
 									loading ||
 									generating
 								"
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 							>
+								<mat-icon>bolt</mat-icon>
 								{{
 									generating
 										? 'Generando...'
@@ -167,8 +169,8 @@ import { CompetenceEntry } from '../../../core';
 							</button>
 						</div>
 					</form>
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 
 			@if (dataSource.length > 0) {
 				<table

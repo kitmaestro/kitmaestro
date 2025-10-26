@@ -48,11 +48,11 @@ interface AttendanceRecord {
 	],
 	template: `
 		<app-is-premium>
-			<mat-card>
-				<mat-card-header>
-					<h2 mat-card-ittle>Generador de Asistencia</h2>
-				</mat-card-header>
-				<mat-card-content>
+			<div>
+				<div>
+					<h2>Generador de Asistencia</h2>
+				</div>
+				<div>
 					<form [formGroup]="studentsForm" (ngSubmit)="onSubmit()">
 						<div class="student-container">
 							<div
@@ -137,7 +137,7 @@ interface AttendanceRecord {
 										@if (students.length > 1) {
 											<button
 												(click)="removeStudent($index)"
-												mat-mini-fab
+												mat-icon-button
 												color="warn"
 												type="button"
 											>
@@ -171,12 +171,13 @@ interface AttendanceRecord {
 										/>
 									</mat-form-field>
 									<button
-										mat-raised-button
+										mat-button
 										style="display: block; width: 100%"
 										color="accent"
 										type="button"
 										(click)="addStudent()"
 									>
+										<mat-icon>add</mat-icon>
 										Agregar Estudiante(s)
 									</button>
 								</div>
@@ -211,12 +212,13 @@ interface AttendanceRecord {
 										</mat-select>
 									</mat-form-field>
 									<button
-										mat-raised-button
+										mat-button
 										style="display: block; width: 100%"
 										color="accent"
 										type="button"
 										(click)="importStudents()"
 									>
+										<mat-icon>upload</mat-icon>
 										Importar Estudiantes
 									</button>
 								</div>
@@ -225,16 +227,17 @@ interface AttendanceRecord {
 						<div>
 							<button
 								style="display: block; margin-left: auto"
-								mat-raised-button
+								mat-flat-button
 								color="primary"
 								type="submit"
 							>
+								<mat-icon>bolt</mat-icon>
 								Generar
 							</button>
 						</div>
 					</form>
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 
 			@if (attendanceRecords.length) {
 				<table
