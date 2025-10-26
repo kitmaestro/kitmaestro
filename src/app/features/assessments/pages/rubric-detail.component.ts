@@ -1,20 +1,19 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { RubricService } from '../../../core/services/rubric.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Rubric } from '../../../core';
-import { MatCardModule } from '@angular/material/card';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { PdfService } from '../../../core/services/pdf.service';
-import { Student } from '../../../core';
-import { StudentsService } from '../../../core/services/students.service';
-import { RubricComponent } from '../components/rubric.component';
+import { Component, computed, effect, inject, OnInit } from '@angular/core'
+import { ActivatedRoute, Router, RouterLink } from '@angular/router'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { RubricComponent } from '../components/rubric.component'
+import { Store } from '@ngrx/store'
+import { deleteRubric, deleteRubricSuccess, downloadRubric, loadRubric, loadStudentsBySection } from '../../../store'
+import { selectSectionStudents } from '../../../store/students/students.selectors'
+import { selectCurrentRubric } from '../../../store/rubrics/rubrics.selectors'
+import { Subject, takeUntil } from 'rxjs'
+import { Actions, ofType } from '@ngrx/effects'
 
 @Component({
 	selector: 'app-rubric-detail',
 	imports: [
-		MatCardModule,
 		MatSnackBarModule,
 		MatButtonModule,
 		RouterLink,
@@ -22,46 +21,45 @@ import { RubricComponent } from '../components/rubric.component';
 		RubricComponent,
 	],
 	template: `
-		@if (rubric) {
-			<mat-card>
-				<mat-card-header
-					style="justify-content: space-between; align-items: center"
+		@if (rubric(); as rub) {
+			<div>
+				<div
+					style="justify-content: space-between; align-items: center; display: flex;"
 				>
-					<mat-card-title>{{ rubric.title }}</mat-card-title>
+					<h2>{{ rub.title }}</h2>
 					<span style="flex: 1 1 auto"></span>
 					<a
-						routerLink="/rubrics"
-						mat-icon-button
+						routerLink="/assessments/rubrics"
+						mat-button
 						color="link"
 						style="margin-right: 8px"
-						title="Todas las rubricas"
 					>
 						<mat-icon>home</mat-icon>
+						Todas las rubricas
 					</a>
 					<button
-						mat-icon-button
+						mat-button
 						color="warn"
 						(click)="deleteRubric()"
-						style="margin-right: 8px"
-						title="Eliminar esta rubrica"
+						style="margin-right: 8px; display: none;"
 					>
 						<mat-icon>delete</mat-icon>
+						Eliminar esta rubrica
 					</button>
 					<!-- <a target="_blank" routerLink="/print-activities/{{id}}" mat-icon-button color="link" style="margin-right: 8px;">
 						<mat-icon>print</mat-icon>
 					</a> -->
 					<button
 						(click)="download()"
-						mat-icon-button
+						mat-flat-button
 						color="accent"
-						title="Descargar como PDF"
 					>
 						<mat-icon>download</mat-icon>
+						Descargar
 					</button>
-				</mat-card-header>
-				<mat-card-content></mat-card-content>
-			</mat-card>
-			<mat-card
+				</div>
+			</div>
+			<div
 				style="
 					margin-top: 24px;
 					width: fit-content;
@@ -69,10 +67,10 @@ import { RubricComponent } from '../components/rubric.component';
 					margin-right: auto;
 				"
 			>
-				<mat-card-content style="width: fit-content">
-					<app-rubric [rubric]="rubric"></app-rubric>
-				</mat-card-content>
-			</mat-card>
+				<div style="width: fit-content">
+					<app-rubric [rubric]="rub"></app-rubric>
+				</div>
+			</div>
 		}
 	`,
 	styles: `
@@ -124,57 +122,52 @@ import { RubricComponent } from '../components/rubric.component';
 	`,
 })
 export class RubricDetailComponent implements OnInit {
-	private rubricService = inject(RubricService);
-	private studentService = inject(StudentsService);
-	private router = inject(Router);
-	private route = inject(ActivatedRoute);
-	private sb = inject(MatSnackBar);
-	private pdfService = inject(PdfService);
-	private id = this.route.snapshot.paramMap.get('id') || '';
+	#store = inject(Store)
+	#actions$ = inject(Actions)
+	private router = inject(Router)
+	private route = inject(ActivatedRoute)
+	private sb = inject(MatSnackBar)
+	private id = this.route.snapshot.paramMap.get('id') || ''
 
-	public rubric: Rubric | null = null;
-	public students: Student[] = [];
+	public rubric = this.#store.selectSignal(selectCurrentRubric)
+	public students = this.#store.selectSignal(selectSectionStudents)
+	section = computed(() => this.rubric() ? this.rubric()?.section : null)
+
+	#destroy$ = new Subject<void>()
+
+	constructor() {
+		effect(() => {
+			const rubric = this.rubric()
+			if (rubric) {
+				this.#store.dispatch(loadStudentsBySection({ sectionId: rubric.section._id }))
+			}
+		})
+	}
 
 	ngOnInit() {
-		this.rubricService.find(this.id).subscribe({
-			next: (rubric) => {
-				if (rubric._id) {
-					this.rubric = rubric;
-					this.studentService
-						.findBySection(rubric.section._id)
-						.subscribe((students) => {
-							if (students.length) {
-								this.students = students;
-							}
-						});
-				}
-			},
-			error: (err) => {
-				this.sb.open('Error al cargar', 'Ok', { duration: 2500 });
-				console.log(err.message);
-			},
-		});
+		this.#store.dispatch(loadRubric({ id: this.id }))
+	}
+
+	ngOnDestroy() {
+		this.#destroy$.next()
+		this.#destroy$.complete()
 	}
 
 	deleteRubric() {
-		this.rubricService.delete(this.id).subscribe((res) => {
-			if (res.deletedCount === 1) {
-				this.router.navigate(['/assessments/rubrics']).then(() =>
-					this.sb.open('Se ha eliminado la rubrica', 'Ok', {
-						duration: 2500,
-					}),
-				);
-			}
-		});
+		this.#store.dispatch(deleteRubric({ id: this.id }))
+		this.#actions$.pipe(ofType(deleteRubricSuccess), takeUntil(this.#destroy$)).subscribe(() => {
+			this.router.navigate(['/assessments/rubrics'])
+		})
 	}
 
 	async download() {
-		if (!this.rubric) return;
+		const rubric = this.rubric()
+		if (!rubric) return
 		this.sb.open(
 			'Estamos preparando tu descarga. Espera un momento, por favor',
 			'Ok',
 			{ duration: 2500 },
-		);
-		await this.rubricService.download(this.rubric);
+		)
+		await this.#store.dispatch(downloadRubric({ rubric }))
 	}
 }

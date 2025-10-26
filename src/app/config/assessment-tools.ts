@@ -46,7 +46,7 @@ export const assessmentTools: AppEntry[] = [
 	{
 		name: 'Generador de Guía de Observación',
 		description: 'Elabora una guía de observación para tus actividades.',
-		link: '/assessments/observation-sheet',
+		link: '/assessments/observation-sheet-generator',
 		icon: '/assets/checklist.svg',
 		tier: 1,
 	},

@@ -1,32 +1,26 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from '../../../core/services/auth.service';
-import { ClassSectionService } from '../../../core/services/class-section.service';
-import { CompetenceService } from '../../../core/services/competence.service';
-import { ObservationGuideComponent } from '../../../shared/ui/observation-guide.component';
-import { ObservationGuide } from '../../../core';
-import { StudentsService } from '../../../core/services/students.service';
-import { Student } from '../../../core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { PdfService } from '../../../core/services/pdf.service';
-import { CompetenceEntry } from '../../../core';
-import { ClassSection } from '../../../core';
-import { ObservationGuideService } from '../../../core/services/observation-guide.service';
-import { User } from '../../../core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core'
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms'
+import { MatButtonModule } from '@angular/material/button'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
+import { MatSelectModule } from '@angular/material/select'
+import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatIconModule } from '@angular/material/icon'
+import { ObservationGuideComponent } from '../../../shared/ui/observation-guide.component'
+import { ObservationGuide } from '../../../core'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { Router, RouterLink } from '@angular/router'
+import { PdfService } from '../../../core/services/pdf.service'
+import { Store } from '@ngrx/store'
+import { Actions, ofType } from '@ngrx/effects'
+import { createGuide, createGuideSuccess, loadEntries, loadSections, loadStudentsBySection, selectAiIsGenerating, selectAllClassSections, selectAllCompetenceEntries, selectAuthUser } from '../../../store'
+import { selectSectionStudents } from '../../../store/students/students.selectors'
+import { Subject, takeUntil } from 'rxjs'
 
 @Component({
 	selector: 'app-observation-sheet',
 	imports: [
 		MatIconModule,
-		MatCardModule,
 		MatButtonModule,
 		MatFormFieldModule,
 		MatInputModule,
@@ -35,13 +29,18 @@ import { User } from '../../../core';
 		MatCheckboxModule,
 		ObservationGuideComponent,
 		MatSnackBarModule,
+		RouterLink,
 	],
 	template: `
-		<mat-card style="margin-bottom: 24px">
-			<mat-card-header>
-				<h2 mat-card-title>Gu&iacute;as de Observaci&oacute;n</h2>
-			</mat-card-header>
-			<mat-card-content>
+		<div style="margin-bottom: 24px">
+			<div style="margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between">
+				<h2>Generar Gu&iacute;a de Observaci&oacute;n</h2>
+				<button mat-button routerLink="/assessments/observation-sheets">
+					<mat-icon>arrow_back</mat-icon>
+					Mis Gu&iacute;as
+				</button>
+			</div>
+			<div>
 				<div>
 					<form [formGroup]="sheetForm" (ngSubmit)="onSubmit()">
 						<div style="">
@@ -107,7 +106,7 @@ import { User } from '../../../core';
 										"
 									>
 										@for (
-											group of groups;
+											group of groups();
 											track group._id
 										) {
 											<mat-option [value]="group._id">{{
@@ -126,7 +125,7 @@ import { User } from '../../../core';
 							>
 								<mat-form-field appearance="outline">
 									<mat-label>Asignatura(s)</mat-label>
-									<mat-select formControlName="subject">
+									<mat-select formControlName="subject" (selectionChange)="onSubjectSelect()">
 										@for (
 											subject of gradeSubjects;
 											track $index
@@ -167,11 +166,11 @@ import { User } from '../../../core';
 										multiple
 									>
 										@for (
-											option of compentenceOptions;
+											option of compentenceOptions();
 											track $index
 										) {
-											<mat-option [value]="option">{{
-												option
+											<mat-option [value]="option.value">{{
+												option.label
 											}}</mat-option>
 										}
 									</mat-select>
@@ -222,49 +221,46 @@ import { User } from '../../../core';
 								</mat-form-field>
 							</div>
 						</div>
-						@if (observationSheet) {
+						<div style="text-align: right;">
 							<button
-								type="button"
-								(click)="print()"
-								style="margin-left: auto; margin-right: 12px"
-								mat-raised-button
-								color="link"
+								[disabled]="sheetForm.invalid"
+								mat-button
+								[color]="observationSheet ? 'accent' : 'primary'"
+								type="submit"
 							>
-								Descargar
+								<mat-icon>bolt</mat-icon>
+								@if (observationSheet) {
+									Regenerar
+								} @else {
+									Generar
+								}
 							</button>
-							<button
-								type="button"
-								(click)="onSave()"
-								style="margin-right: 12px"
-								mat-raised-button
-								color="primary"
-							>
-								Guardar
-							</button>
-						}
-						<button
-							[disabled]="sheetForm.invalid"
-							mat-raised-button
-							[color]="observationSheet ? 'accent' : 'primary'"
-							type="submit"
-						>
 							@if (observationSheet) {
-								Regenerar
-							} @else {
-								Generar
+								<button
+									type="button"
+									(click)="onSave()"
+									style="margin-right: 12px"
+									mat-flat-button
+									color="primary"
+								>
+									<mat-icon>save</mat-icon>
+									Guardar
+								</button>
 							}
-						</button>
+						</div>
 					</form>
 				</div>
-			</mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 
-		@if (observationSheet) {
-			<app-observation-guide
-				[students]="students"
-				[guide]="observationSheet"
-			></app-observation-guide>
-		}
+		<div style="padding-bottom: 42px">
+			@if (observationSheet) {
+				<app-observation-guide
+					[students]="students()"
+					[guide]="observationSheet"
+				></app-observation-guide>
+			}
+		</div>
 	`,
 	styles: `
 		.example-margin {
@@ -280,24 +276,25 @@ import { User } from '../../../core';
 		}
 	`,
 })
-export class ObservationSheetComponent implements OnInit {
-	private fb = inject(FormBuilder);
-	private observationGuideService = inject(ObservationGuideService);
-	private authService = inject(AuthService);
-	private classSectionService = inject(ClassSectionService);
-	private competenceService = inject(CompetenceService);
-	private studentsService = inject(StudentsService);
-	private pdfService = inject(PdfService);
-	private router = inject(Router);
-	private sb = inject(MatSnackBar);
-	user: User | null = null;
-	teacherName = '';
-	schoolName = '';
+export class ObservationSheetGeneratorComponent implements OnInit {
+	#store = inject(Store)
+	#actions$ = inject(Actions)
+	private fb = inject(FormBuilder)
+	private pdfService = inject(PdfService)
+	private router = inject(Router)
+	private sb = inject(MatSnackBar)
 
-	groups: ClassSection[] = [];
-	competenceCol: CompetenceEntry[] = [];
-	students: Student[] = [];
-	compentenceOptions: string[];
+	#destroy$ = new Subject<void>()
+	
+	user = this.#store.selectSignal(selectAuthUser)
+	teacherName = computed(() => this.user() ? `${this.user()?.title}. ${this.user()?.firstname} ${this.user()?.lastname}` : '')
+	schoolName = computed(() => this.user() ? this.user()?.schoolName : '')
+
+	groups = this.#store.selectSignal(selectAllClassSections)
+	competenceCol = this.#store.selectSignal(selectAllCompetenceEntries)
+	students = this.#store.selectSignal(selectSectionStudents)
+	compentenceOptions = signal<{ value: string; label: string }[]>([])
+	generating = this.#store.selectSignal(selectAiIsGenerating)
 
 	aspects = [
 		'Interacción entre los estudiantes',
@@ -311,7 +308,7 @@ export class ObservationSheetComponent implements OnInit {
 		'Interacción con el espacio',
 		'Uso de recursos y referentes del espacio de aprendizaje',
 		'Solidaridad y colaboración entre pares',
-	];
+	]
 
 	durationOptions = [
 		'45 minutos',
@@ -319,9 +316,9 @@ export class ObservationSheetComponent implements OnInit {
 		'1 día',
 		'1 semana',
 		'1 mes',
-	];
+	]
 
-	observationSheet: ObservationGuide | null = null;
+	observationSheet: ObservationGuide | null = null
 
 	sheetForm = this.fb.group({
 		blankDate: [false],
@@ -335,31 +332,31 @@ export class ObservationSheetComponent implements OnInit {
 		subject: ['', Validators.required],
 		aspects: [['Interacción entre los estudiantes'], Validators.required],
 		customAspects: [''],
-	});
-
-	constructor() {
-		this.compentenceOptions = this.getCompentenceOptions();
-	}
+	})
 
 	ngOnInit() {
-		this.loadProfile();
-		this.loadCompetences();
-		this.loadSections();
+		this.#store.dispatch(loadSections())
+		this.loadCompetences()
+	}
+
+	ngOnDestroy() {
+		this.#destroy$.next()
+		this.#destroy$.complete()
 	}
 
 	onGradeSelect(event?: any) {
-		const id: string | undefined = event.value;
-		this.loadCompetences(id);
-		this.loadStudents(id);
-		this.compentenceOptions = this.getCompentenceOptions(id);
-		const group = this.groups.find((g) => g._id === id);
-		if (group) {
-			this.schoolName = this.user?.schoolName || '';
-		}
+		const id: string | undefined = event.value
+		this.loadStudents(id)
+		this.loadCompetences(id)
+		this.compentenceOptions.set(this.getCompentenceOptions(id))
+	}
+
+	onSubjectSelect() {
+		this.loadCompetences()
 	}
 
 	onSubmit() {
-		this.observationSheet = null;
+		this.observationSheet = null
 		const {
 			customAspects,
 			blankDate,
@@ -372,24 +369,25 @@ export class ObservationSheetComponent implements OnInit {
 			competence,
 			duration,
 			description,
-		} = this.sheetForm.value as any;
-		const comps = this.competenceCol.filter(
+		} = this.sheetForm.value as any
+		const comps = this.competenceCol().filter(
 			(c) => c.subject === subject && competence?.includes(c.name),
-		);
+		)
 
 		const competenceMap = competence.map((s: string) => {
-			const items = comps.find((c) => c.name === s)?.entries || [];
+			const items = comps.find((c) => c.name === s)?.entries || []
 
 			return {
 				fundamental: s,
 				items,
-			};
-		});
+			}
+		})
+		const section = this.groups().find((g) => g._id === group)
 		const guide: any = {
-			user: this.user?._id,
-			date: blankDate ? '' : date.split('-').reverse().join('/'),
+			user: this.user()?._id,
+			date: blankDate ? '' : new Date(date),
 			title,
-			section: group,
+			section,
 			duration,
 			individual,
 			description,
@@ -403,28 +401,22 @@ export class ObservationSheetComponent implements OnInit {
 							.filter((s: string) => s.length),
 					]
 				: aspects,
-		};
+		}
 
-		this.observationSheet = guide;
+		this.observationSheet = guide
 	}
 
 	onSave() {
-		const guide: any = this.observationSheet;
-		this.observationGuideService.create(guide).subscribe((result) => {
-			if (result._id) {
-				this.router
-					.navigate([
-						'/assessments',
-						'observation-sheets',
-						result._id,
-					])
-					.then(() => {
-						this.sb.open('Guia guardada con exito.', 'Ok', {
-							duration: 2500,
-						});
-					});
-			}
-		});
+		const guide: any = this.observationSheet
+		this.#store.dispatch(createGuide({ guide }))
+		this.#actions$.pipe(ofType(createGuideSuccess), takeUntil(this.#destroy$)).subscribe(({ guide }) => {
+			this.router
+				.navigate([
+					'/assessments',
+					'observation-sheets',
+					guide._id,
+			])
+		})
 	}
 
 	getObservedGroupSentence(groupId: string) {
@@ -434,13 +426,13 @@ export class ObservationSheetComponent implements OnInit {
 			'Alumnado de ',
 			'Estudiantado de ',
 			'',
-		];
+		]
 
-		const index = Math.round(Math.random() * (starting.length - 1));
-		const group = this.groups.find((g) => g._id === groupId);
-		if (!group) return '';
+		const index = Math.round(Math.random() * (starting.length - 1))
+		const group = this.groups().find((g) => g._id === groupId)
+		if (!group) return ''
 
-		return starting[index] + group.name;
+		return starting[index] + group.name
 	}
 
 	subjectLabel(subject: string): string {
@@ -457,8 +449,8 @@ export class ObservationSheetComponent implements OnInit {
 				value: 'FORMACION_HUMANA',
 				label: 'Formación Integral Humana y Religiosa',
 			},
-		];
-		return subjects.find((s) => s.value === subject)?.label || '';
+		]
+		return subjects.find((s) => s.value === subject)?.label || ''
 	}
 
 	print() {
@@ -466,100 +458,84 @@ export class ObservationSheetComponent implements OnInit {
 			'Guardando como PDF!, por favor espera un momento.',
 			undefined,
 			{ duration: 5000 },
-		);
+		)
 		if (this.sheetForm.get('individual')?.value) {
-			this.students.forEach((student, i) => {
+			this.students().forEach((student, i) => {
 				setTimeout(() => {
 					this.pdfService.createAndDownloadFromHTML(
 						'guide-' + i,
 						`Guia de Observación ${student.firstname} ${student.lastname}`,
-					);
-				}, 3000 * i);
-			});
+					)
+				}, 1000 * i)
+			})
 		} else {
 			this.pdfService.createAndDownloadFromHTML(
 				'guide',
 				`Guia de Observación`,
-			);
+			)
 		}
 	}
 
-	loadProfile() {
-		this.authService.profile().subscribe((settings) => {
-			if (settings) {
-				this.user = settings;
-				this.teacherName = `${settings.title}. ${settings.firstname} ${settings.lastname}`;
-				// this.schoolName = settings.schoolName;
-			}
-		});
-	}
+	loadCompetences(id: string = '') {
+		const sectionId = id || this.sheetForm.value.group
+		if (!sectionId) return
+		
+		const section = this.groups().find((g) => g._id === sectionId)
+		if (!section) return
+		const grade = section.year
+		const level = section.level
+		
+		const subject = this.sheetForm.get('subject')?.value
+		if (!subject) return
 
-	loadSections() {
-		this.classSectionService.findSections().subscribe((sections) => {
-			this.groups = sections;
-		});
-	}
-
-	loadCompetences(id?: string) {
-		const sectionId = id || this.sheetForm.get('grade')?.value;
-		if (!sectionId) return;
-
-		const section = this.groups.find((g) => g._id === sectionId);
-		if (!section) return;
-
-		this.competenceService.findAll({ grade: section.year })
-			.subscribe((competence) => {
-				this.competenceCol = competence;
-			});
+		this.#store.dispatch(loadEntries({ filters: { grade, level, subject } }))
 	}
 
 	loadStudents(id?: string) {
-		const section = id || this.sheetForm.get('grade')?.value;
-		if (!section) return;
+		const section = id || this.sheetForm.get('grade')?.value
+		if (!section) return
 
-		this.studentsService.findBySection(section).subscribe((students) => {
-			this.students = students;
-		});
+		this.#store.dispatch(loadStudentsBySection({ sectionId: section }))
 	}
 
-	getCompentenceOptions(id?: string): string[] {
+	getCompentenceOptions(id?: string): { value: string; label: string }[] {
 		const primary = [
-			'Comunicativa',
-			'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
-			'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
-		];
+			{ value: 'Comunicativa', label: 'Comunicativa' },
+			{ value: 'Pensamiento Logico', label: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica' },
+			{ value: 'Etica Y Ciudadana', label: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud' },
+		]
 		const secondary = [
-			'Comunicativa',
-			'Pensamiento Lógico, Creativo y Crítico',
-			'Resolución de Problemas',
-			'Tecnológica y Científica',
-			'Ética y Ciudadana',
-			'Desarrollo Personal y Espiritual',
-			'Ambiental y de la Salud',
-		];
-		const sectionId = id || this.sheetForm.get('grade')?.value;
+			{ value: 'Comunicativa', label: 'Comunicativa' },
+			{ value: 'Pensamiento Logico', label: 'Pensamiento Lógico, Creativo y Crítico' },
+			{ value: 'Resolucion De Problemas', label: 'Resolución de Problemas' },
+			{ value: 'Ciencia Y Tecnologia', label: 'Tecnológica y Científica' },
+			{ value: 'Etica Y Ciudadana', label: 'Ética y Ciudadana' },
+			{ value: 'Desarrollo Personal Y Espiritual', label: 'Desarrollo Personal y Espiritual' },
+			{ value: 'Ambiental Y De La Salud', label: 'Ambiental y de la Salud' },
+		]
+		const sectionId = id || this.sheetForm.get('grade')?.value
 		if (!sectionId) {
-			return secondary;
+			return secondary
 		}
 
-		const section = this.groups.find((g) => g._id === sectionId);
+		const section = this.groups().find((g) => g._id === sectionId)
 		if (!section) {
-			return secondary;
+			return secondary
 		}
 
 		if (section.level === 'PRIMARIA') {
-			return primary;
+			return primary
 		}
 
-		return secondary;
+		return secondary
 	}
 
 	get gradeSubjects(): string[] {
-		const grade = this.groups.find(
+		const grade = this.groups().find(
 			(g) => g._id === this.sheetForm.get('group')?.value,
-		);
-		if (!grade) return [];
+		)
+		if (!grade) return []
 
-		return grade.subjects as any;
+		return grade.subjects as any
 	}
 }

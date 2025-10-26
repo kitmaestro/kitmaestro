@@ -1,43 +1,35 @@
-import { Component, inject, input, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { Component, effect, inject, input, OnInit } from '@angular/core'
+import { MatButtonModule } from '@angular/material/button'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatIconModule } from '@angular/material/icon'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
+import { MatSelectModule } from '@angular/material/select'
 import {
 	FormArray,
 	FormBuilder,
 	ReactiveFormsModule,
 	Validators,
-} from '@angular/forms';
-import { RubricService } from '../../../core/services/rubric.service';
-import { ClassSectionService } from '../../../core/services/class-section.service';
-import { UserService } from '../../../core/services/user.service';
-import { Rubric } from '../../../core';
-import { Router, RouterLink } from '@angular/router';
-import { Student } from '../../../core';
-import { StudentsService } from '../../../core/services/students.service';
-import { AiService } from '../../../core/services/ai.service';
-import { ClassSection } from '../../../core';
-import { SubjectConceptListService } from '../../../core/services/subject-concept-list.service';
-import { ContentBlockService } from '../../../core/services/content-block.service';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { ContentBlock } from '../../../core';
-import { SubjectConceptList } from '../../../core';
-import { CompetenceService } from '../../../core/services/competence.service';
-import { RubricComponent } from '../components/rubric.component';
-import { UnitPlan } from '../../../core/models';
-import { forkJoin, map } from 'rxjs';
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+} from '@angular/forms'
+import { Rubric } from '../../../core'
+import { Router, RouterLink } from '@angular/router'
+import { ClassSection } from '../../../core'
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
+import { RubricComponent } from '../components/rubric.component'
+import { UnitPlan } from '../../../core/models'
+import { Subject, takeUntil } from 'rxjs'
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
+import { Store } from '@ngrx/store'
+import { Actions, ofType } from '@ngrx/effects'
+import { askGemini, createRubric, createRubricSuccess, loadBlocks, loadBlocksSuccess, loadEntries, loadSections, loadStudentsBySection, loadSubjectConceptLists, selectAiIsGenerating, selectAiSerializedResult, selectAllClassSections, selectAllCompetenceEntries, selectAllContentBlocks } from '../../../store'
+import { selectAllLists } from '../../../store/subject-concept-lists/subject-concept-lists.selectors'
+import { selectSectionStudents } from '../../../store/students/students.selectors'
 
 @Component({
 	selector: 'app-rubric-generator',
 	imports: [
 		ReactiveFormsModule,
 		MatSelectModule,
-		MatCardModule,
 		MatSnackBarModule,
 		MatButtonModule,
 		MatIconModule,
@@ -50,16 +42,16 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 	],
 	template: `
 		<app-is-premium>
-			<mat-card>
-				<mat-card-header
-					style="justify-content: space-between; align-items: center"
+			<div>
+				<div
+					style="justify-content: space-between; align-items: center; display: flex;"
 				>
-					<h2 mat-card-title>Generador de Rúbricas</h2>
-					<button mat-flat-button type="button" routerLink="/rubrics">
+					<h2>Generador de Rúbricas</h2>
+					<button mat-button type="button" routerLink="/assessments/rubrics">
 						Mis R&uacute;bricas
 					</button>
-				</mat-card-header>
-				<mat-card-content>
+				</div>
+				<div>
 					<form
 						[formGroup]="rubricForm"
 						(ngSubmit)="onSubmit()"
@@ -72,7 +64,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							</mat-form-field>
 						</div>
 						<div class="grid-3-cols">
-							@if (sections.length) {
+							@if (sections().length) {
 								<mat-form-field
 									style="max-width: 100%"
 									appearance="outline"
@@ -85,7 +77,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 										"
 									>
 										@for (
-											section of sections;
+											section of sections();
 											track section._id
 										) {
 											<mat-option [value]="section._id">{{
@@ -134,7 +126,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									(selectionChange)="onConceptSelect($event)"
 								>
 									@for (
-										list of subjectConceptLists;
+										list of subjectConceptLists();
 										track list
 									) {
 										@for (
@@ -212,12 +204,13 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							<h3>Niveles de desempe&ntilde;o</h3>
 							<button
 								type="button"
-								mat-mini-fab
+								mat-button
 								[disabled]="rubricLevels.controls.length > 4"
 								color="accent"
 								(click)="addRubricLevel()"
 							>
 								<mat-icon>add</mat-icon>
+								Agregar
 							</button>
 						</div>
 						<div formArrayName="levels">
@@ -244,7 +237,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 									<button
 										(click)="deleteLevel($index)"
 										type="button"
-										mat-mini-fab
+										mat-icon-button
 										color="warn"
 										style="margin-top: 8px"
 									>
@@ -284,25 +277,26 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							</div>
 						}
 						<div style="text-align: end">
-							<!-- hidden button since it's autosaved -->
 							<button
 								type="button"
 								[disabled]="!rubric"
-								mat-raised-button
+								mat-flat-button
 								color="accent"
-								style="margin-right: 12px; display: none"
+								style="margin-right: 12px;"
 								(click)="save()"
 							>
+								<mat-icon>save</mat-icon>
 								Guardar
 							</button>
 							<button
 								type="submit"
-								[disabled]="rubricForm.invalid || generating"
-								mat-raised-button
+								[disabled]="rubricForm.invalid || generating()"
+								mat-button
 								[color]="rubric ? 'link' : 'primary'"
 							>
+								<mat-icon>bolt</mat-icon>
 								{{
-									generating
+									generating()
 										? 'Generando...'
 										: rubric
 											? 'Regenerar'
@@ -311,11 +305,11 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 							</button>
 						</div>
 					</form>
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 
 			@if (rubric) {
-				<mat-card
+				<div
 					style="
 						margin-top: 24px;
 						width: fit-content;
@@ -323,10 +317,10 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 						margin-right: auto;
 					"
 				>
-					<mat-card-content style="width: fit-content">
+					<div style="width: fit-content">
 						<app-rubric [rubric]="rubric"></app-rubric>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			}
 		</app-is-premium>
 	`,
@@ -379,32 +373,29 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 	`,
 })
 export class RubricGeneratorComponent implements OnInit {
-	private sb = inject(MatSnackBar);
-	private fb = inject(FormBuilder);
-	private rubricService = inject(RubricService);
-	private aiService = inject(AiService);
-	private sectionsService = inject(ClassSectionService);
-	private router = inject(Router);
-	private UserService = inject(UserService);
-	private studentsService = inject(StudentsService);
-	private competenceService = inject(CompetenceService);
-	private sclService = inject(SubjectConceptListService);
-	private contentBlockService = inject(ContentBlockService);
+	#store = inject(Store)
+	#actions$ = inject(Actions)
+	private sb = inject(MatSnackBar)
+	private fb = inject(FormBuilder)
+	private router = inject(Router)
 
-	unitPlan = input<UnitPlan | null>(null);
+	private pretify = (new PretifyPipe()).transform
 
-	sections: ClassSection[] = [];
-	subjects: string[] = [];
-	contentBlocks: ContentBlock[] = [];
-	subjectConceptLists: SubjectConceptList[] = [];
-	achievementIndicators: string[] = [];
+	unitPlan = input<UnitPlan | null>(null)
+
+	sections = this.#store.selectSignal(selectAllClassSections)
+	subjects: string[] = []
+	contentBlocks = this.#store.selectSignal(selectAllContentBlocks)
+	competenceEntries = this.#store.selectSignal(selectAllCompetenceEntries)
+	subjectConceptLists = this.#store.selectSignal(selectAllLists)
+	achievementIndicators: string[] = []
+
+	aiResult = this.#store.selectSignal(selectAiSerializedResult)
 
 	// selected data
-	section: ClassSection | null = null;
+	section: ClassSection | null = null
 
-	competence: string[] = [];
-
-	User$ = this.UserService.getSettings();
+	competence: string[] = []
 
 	rubricTypes = [
 		{ id: 'SINTETICA', label: 'Sintética (Una rubrica por estudiante)' },
@@ -412,14 +403,16 @@ export class RubricGeneratorComponent implements OnInit {
 			id: 'ANALITICA',
 			label: 'Analítica (Una rubrica para todos los estudiantes)',
 		},
-	];
+	]
 
-	rubric: Rubric | null = null;
+	rubric: Rubric | null = null
 
-	generating = false;
-	loading = true;
+	generating = this.#store.selectSignal(selectAiIsGenerating)
+	loading = true
 
-	students: Student[] = [];
+	students = this.#store.selectSignal(selectSectionStudents)
+
+	#destroy$ = new Subject<void>()
 
 	rubricForm = this.fb.group({
 		title: [''],
@@ -444,11 +437,54 @@ export class RubricGeneratorComponent implements OnInit {
 			this.fb.control('Autónomo'),
 			this.fb.control('Estratégico'),
 		]),
-	});
+	})
+
+	constructor() {
+		effect(() => {
+			const result: {
+				title?: string
+				activity?: string
+				criteria: {
+					indicator: string
+					maxScore: number
+					criterion: { name: string, score: number }[]
+				}[]
+			} = this.aiResult()
+			if (!result) return
+
+			if (result.activity) {
+				this.rubricForm.patchValue({
+					title: result.title,
+					activity: result.activity,
+				})
+			} else {
+				const {title, rubricType, section, achievementIndicators, activity, levels} = this.rubricForm.getRawValue()
+	
+				const rubric: any = {
+					criteria: result.criteria,
+					title: result.title ? result.title : title,
+					rubricType,
+					section,
+					competence: this.competence,
+					achievementIndicators,
+					activity,
+					progressLevels: levels,
+					user: this.section?.user,
+				}
+				this.rubric = rubric
+			}
+		})
+		effect(() => {
+			const competenceEntries = this.competenceEntries()
+			if (competenceEntries.length) {
+				this.competence = competenceEntries.flatMap((entry) => entry.entries)
+			}
+		})
+	}
 
 	ngOnInit() {
-		this.loadSections();
-		const unitPlan = this.unitPlan();
+		this.#store.dispatch(loadSections())
+		const unitPlan = this.unitPlan()
 		if (unitPlan) {
 			this.rubricForm.patchValue({
 				section: unitPlan.section._id,
@@ -462,171 +498,108 @@ export class RubricGeneratorComponent implements OnInit {
 				achievementIndicators: unitPlan.contents.flatMap(
 					(c) => c.achievement_indicators,
 				),
-			});
-			this.onSelectSection({ value: unitPlan.section._id });
-			this.onSubjectSelect({ value: unitPlan.subjects[0] });
+			})
+			this.onSelectSection({ value: unitPlan.section._id })
+			this.onSubjectSelect({ value: unitPlan.subjects[0] })
 			if (
 				unitPlan.contents.length &&
 				unitPlan.contents[0].concepts.length
 			)
 				this.onConceptSelect({
 					value: unitPlan.contents[0].concepts[0],
-				});
+				})
 		}
 	}
 
-	loadSections() {
-		this.loading = true;
-		this.sectionsService.findSections().subscribe({
-			next: (sections) => {
-				this.sections = sections;
-			},
-			error: (err) => {
-				console.log(err);
-				this.loading = false;
-			},
-			complete: () => {
-				this.loading = false;
-			},
-		});
+	ngOnDestroy() {
+		this.#destroy$.next()
+		this.#destroy$.complete()
 	}
 
 	loadContentBlocks() {
-		this.loading = true;
+		this.loading = true
 	}
 
 	onSelectSection(event: any) {
-		const id = event.value;
-		const section = this.sections.find((s) => s._id === id);
+		const id = event.value
+		const section = this.sections().find((s) => s._id === id)
 		if (section) {
-			this.section = section;
-			this.subjects = section.subjects;
+			this.section = section
+			this.subjects = section.subjects
 		}
 	}
 
 	onSubjectSelect(event: any) {
-		const subject = event.value;
+		const subject = event.value
 		if (this.section) {
-			this.sclService
-				.findAll({
+			this.#store.dispatch(loadSubjectConceptLists({
+				filters: {
 					subject,
 					grade: this.section.year,
 					level: this.section.level,
-				})
-				.subscribe({
-					next: (res) => {
-						this.subjectConceptLists = res;
-					},
-				});
+				}
+			}))
 		}
 	}
 
 	onConceptSelect(event: any) {
-		const concept = event.value;
-		const subject = this.rubricForm.get('subject')?.value || '';
+		const concept = event.value
+		const subject = this.rubricForm.get('subject')?.value || ''
 		if (this.section) {
-			const rubricTitlePrompt = `Necesito que me sugieras un titulo breve y conciso para una rubrica de evaluacion para ${this.pretify(subject)} de ${this.pretify(this.section.year)} de ${this.pretify(this.section.level)} (Republica Dominicana), cuyo contenido es "${concept}". El titulo debe ser en maximo 8 palabras y debe resumir el contenido a evaluar. Tambien vas a sugerir una actividad a realizar, esta tambien debe ser breve y concisa, en maximo 12 palabras. Tu respuesta debe ser un json valido con esta interfaz: { title: string; activity: string; }. Evita incluir "Rubrica", "Evaluacion", la asignatura o el grado en el titulo, simplemente el titulo de la actividad que se va a realizar, algunos ejemplos validos son: "Comunicamos las conclusiones de nuestros experimentos de fosilización", "Leemos y aprendemos con el cuento 'La sombrilla que perdió los colores'" o "Escribiendo cuentos sobre el futuro". Evita explicar la actividad, esta debe ser suficientemente sugerente para que un docente, incluso sin experiencia, la entienda.`;
-			this.generating = true;
-			this.achievementIndicators = [];
-			this.competence = [];
-			this.contentBlocks = [];
-			forkJoin([
-				this.competenceService.findAll({
-					subject,
-					grade: this.section.year,
-					level: this.section.level,
-				}),
-				this.contentBlockService.findAll({
-					subject,
-					year: this.section.year,
-					level: this.section.level,
-					title: concept,
-				}),
-				this.aiService
-					.geminiAi(rubricTitlePrompt)
-					.pipe(map((res) => res.response)),
-			]).subscribe({
-				next: ([competence, contentBlocks, ai]) => {
-					this.generating = false;
-					this.competence = competence.flatMap(
-						(entry) =>
-							entry.entries[
-								Math.round(
-									Math.random() * (entry.entries.length - 1),
-								)
-							],
-					);
-					this.contentBlocks = contentBlocks;
-					contentBlocks.forEach((block) => {
-						const indicators: string[] = [];
+			const question = `Necesito que me sugieras un titulo breve y conciso para una rubrica de evaluacion para ${this.pretify(subject)} de ${this.pretify(this.section.year)} de ${this.pretify(this.section.level)} (Republica Dominicana), cuyo contenido es "${concept}". El titulo debe ser en maximo 8 palabras y debe resumir el contenido a evaluar. Tambien vas a sugerir una actividad a realizar, esta tambien debe ser breve y concisa, en maximo 12 palabras. Tu respuesta debe ser un json valido con esta interfaz: { title: string activity: string }. Evita incluir "Rubrica", "Evaluacion", la asignatura o el grado en el titulo, simplemente el titulo de la actividad que se va a realizar, algunos ejemplos validos son: "Comunicamos las conclusiones de nuestros experimentos de fosilización", "Leemos y aprendemos con el cuento 'La sombrilla que perdió los colores'" o "Escribiendo cuentos sobre el futuro". Evita explicar la actividad, esta debe ser suficientemente sugerente para que un docente, incluso sin experiencia, la entienda.`
+			this.#store.dispatch(askGemini({ question }))
+			this.#store.dispatch(loadEntries({ filters: {
+				subject,
+				grade: this.section.year,
+				level: this.section.level,
+			} }))
+			this.#store.dispatch(loadBlocks({ filters: {
+				subject,
+				year: this.section.year,
+				level: this.section.level,
+				title: concept,
+			}}))
+			this.#actions$.pipe(ofType(loadBlocksSuccess), takeUntil(this.#destroy$)).subscribe(({ blocks }) => {
+					blocks.forEach((block) => {
+						const indicators: string[] = []
 						block.achievement_indicators.forEach((indicator) => {
 							if (!indicators.includes(indicator)) {
-								indicators.push(indicator);
+								indicators.push(indicator)
 							}
-						});
-						this.achievementIndicators = indicators;
+						})
+						this.achievementIndicators = indicators
 						this.rubricForm.patchValue({
 							achievementIndicators: indicators.slice(0, 3),
-						});
-					});
-					try {
-						const start = ai.indexOf('{');
-						const limit = ai.lastIndexOf('}') + 1;
-						const obj = JSON.parse(ai.slice(start, limit)) as {
-							title: string;
-							activity: string;
-						};
-						if (obj.title) {
-							this.rubricForm.patchValue({
-								title: obj.title,
-							});
-						}
-						if (obj.activity) {
-							this.rubricForm.patchValue({
-								activity: obj.activity,
-							});
-						}
-					} catch (e) {
-						console.log('Error parsing AI response', e);
-					}
-				},
-				error: (err) => {
-					this.generating = false;
-					console.log(err);
-				},
-			});
+						})
+					})
+			})
 		}
 	}
 
 	onSubmit() {
-		this.generating = true;
-		this.loadStudents();
-		this.createRubric(this.rubricForm.value);
+		this.loadStudents()
+		this.createRubric(this.rubricForm.value)
 	}
 
 	loadStudents() {
-		const { section } = this.rubricForm.value;
-		if (section) {
-			this.studentsService
-				.findBySection(section)
-				.subscribe((students) => {
-					this.students = students;
-				});
+		const { section: sectionId } = this.rubricForm.value
+		if (sectionId) {
+			this.#store.dispatch(loadStudentsBySection({ sectionId }))
 		}
 	}
 
 	save() {
-		const rubric: any = this.rubric;
-		if (this.unitPlan()) rubric.unitPlan = this.unitPlan()?._id;
-		this.rubricService.create(rubric).subscribe((res) => {
-			if (res._id) {
-				this.router.navigate(['/rubrics/', res._id]).then(() => {
-					this.sb.open('El instrumento ha sido guardado.', 'Ok', {
-						duration: 2500,
-					});
-				});
-			}
-		});
+		const rubric: any = this.rubric
+		if (this.unitPlan()) rubric.unitPlan = this.unitPlan()?._id
+
+		this.#store.dispatch(createRubric({ rubric }))
+		this.#actions$.pipe(ofType(createRubricSuccess), takeUntil(this.#destroy$)).subscribe((res) => {
+			this.router.navigate(['/assessments', 'rubrics', res.rubric._id]).then(() => {
+				this.sb.open('El instrumento ha sido guardado.', 'Ok', {
+					duration: 2500,
+				})
+			})
+		})
 	}
 
 	createRubric(formValue: any) {
@@ -642,8 +615,8 @@ export class RubricGeneratorComponent implements OnInit {
 			rubricType,
 			levels,
 			achievementIndicators,
-		} = formValue;
-		if (!this.section) return;
+		} = formValue
+		if (!this.section) return
 		const data: any = {
 			title,
 			minScore,
@@ -659,14 +632,14 @@ export class RubricGeneratorComponent implements OnInit {
 			achievementIndicators,
 			competence: this.competence,
 			levels,
-		};
-		const text = `Necesito que me construyas en contenido de una rubrica ${rubricType === 'SINTETICA' ? 'Sintética (Una rubrica por estudiante)' : 'Analítica (Una rubrica para todos los estudiantes)'} para evaluar el contenido de "${content}" de ${data.subject} de ${this.section.year} grado de educación ${this.section.level}.
+		}
+		const question = `Necesito que me construyas en contenido de una rubrica ${rubricType === 'SINTETICA' ? 'Sintética (Una rubrica por estudiante)' : 'Analítica (Una rubrica para todos los estudiantes)'} para evaluar el contenido de "${content}" de ${data.subject} de ${this.section.year} grado de educación ${this.section.level}.
 La rubrica sera aplicada tras esta actividad/evidencia: ${activity}.${scored ? ' La rubrica tendra un valor de ' + minScore + ' a ' + maxScore + ' puntos.' : ''}
 Los criterios a evaluar deben estar basados en estos indicadores de logro:
 - ${achievementIndicators.join('\n- ')}
 Cada criterio tendra ${levels.length} niveles de desempeño: ${levels.map((el: string, i: number) => i + ') ' + el).join(', ')}.
 Tu respuesta debe ser un json valido con esta interfaz:
-{${title ? '' : '\n\ttitle: string;'}
+{${title ? '' : '\n\ttitle: string'}
   criteria: { // un objeto 'criteria' por cada indicador/criterio a evaluar
     indicator: string, // indicador a evaluar
     maxScore: number, // maxima calificacion para este indicador
@@ -674,66 +647,17 @@ Tu respuesta debe ser un json valido con esta interfaz:
       name: string, // criterio que debe cumplir (descripcion, osea que si el indicador es 'Lee y comprende el cuento', un criterio seria 'Lee el cuento deficientemente', otro seria 'Lee el cuento pero no comprende su contenido' y otro seria 'Lee el cuento de manera fluida e interpreta su contenido')
       score: number, // calificacion a asignar
     }[]
-  }[];
-}`;
-		this.aiService.geminiAi(text).subscribe({
-			next: (result) => {
-				const start = result.response.indexOf('{');
-				const limit = result.response.lastIndexOf('}') + 1;
-				const obj = JSON.parse(result.response.slice(start, limit)) as {
-					title?: string;
-					criteria: {
-						indicator: string;
-						maxScore: number;
-						criterion: { name: string; score: number }[];
-					}[];
-				};
-				if (!obj) {
-					this.sb.open(
-						'Error al generar la rubrica. Intentalo de nuevo.',
-						'Ok',
-						{ duration: 2500 },
-					);
-					this.generating = false;
-					return;
-				}
-				const rubric: any = {
-					criteria: obj.criteria,
-					title: obj.title ? obj.title : title,
-					rubricType,
-					section,
-					competence: this.competence,
-					achievementIndicators,
-					activity,
-					progressLevels: levels,
-					user: this.section?.user,
-				};
-				this.rubric = rubric;
-				this.generating = false;
-				this.save();
-			},
-			error: (error) => {
-				this.sb.open(
-					'Error al generar la rubrica. Intentelo de nuevo.',
-					'Ok',
-					{ duration: 2500 },
-				);
-				console.log(error.message);
-				this.generating = false;
-			},
-		});
+  }[]
+}`
+		this.#store.dispatch(askGemini({ question }))
 	}
 
 	addRubricLevel() {
-		this.rubricLevels.push(this.fb.control(''));
+		this.rubricLevels.push(this.fb.control(''))
 	}
 
 	deleteLevel(pos: number) {
-		this.rubricLevels.removeAt(pos);
-	}
-
-	pretify(str: string) {
-		return new PretifyPipe().transform(str);
+		this.rubricLevels.removeAt(pos)
 	}
 
 	yearIndex(grade: string): number {
@@ -744,10 +668,10 @@ Tu respuesta debe ser un json valido con esta interfaz:
 			'CUARTO',
 			'QUINTO',
 			'SEXTO',
-		].indexOf(grade);
+		].indexOf(grade)
 	}
 
 	get rubricLevels() {
-		return this.rubricForm.get('levels') as FormArray;
+		return this.rubricForm.get('levels') as FormArray
 	}
 }

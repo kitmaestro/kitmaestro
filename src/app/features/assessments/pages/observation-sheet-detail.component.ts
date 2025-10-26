@@ -1,140 +1,136 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ObservationGuideService } from '../../../core/services/observation-guide.service';
-import { StudentsService } from '../../../core/services/students.service';
-import { ObservationGuide } from '../../../core';
-import { Student } from '../../../core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { ObservationGuideComponent } from '../../../shared/ui/observation-guide.component';
-import { PdfService } from '../../../core/services/pdf.service';
+import { Component, effect, inject, OnInit } from '@angular/core'
+import { ActivatedRoute, Router, RouterLink } from '@angular/router'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { ObservationGuideComponent } from '../../../shared/ui/observation-guide.component'
+import { PdfService } from '../../../core/services/pdf.service'
+import { Store } from '@ngrx/store'
+import { selectCurrentGuide } from '../../../store/observation-guides/observation-guides.selectors'
+import { selectSectionStudents } from '../../../store/students/students.selectors'
+import { deleteGuide, deleteGuideSuccess, loadGuide, loadStudentsBySection } from '../../../store'
+import { Actions, ofType } from '@ngrx/effects'
+import { Subject, takeUntil } from 'rxjs'
 
 @Component({
 	selector: 'app-observation-sheet-detail',
 	imports: [
 		MatSnackBarModule,
-		MatCardModule,
 		MatButtonModule,
 		MatIconModule,
 		ObservationGuideComponent,
 		RouterLink,
 	],
 	template: `
-		@if (observationGuide) {
-			<mat-card>
-				<mat-card-header>
-					<mat-card-title>{{
-						observationGuide.title
-					}}</mat-card-title>
+		@if (observationGuide(); as guide) {
+			<div>
+				<div style="display: flex; align-items: center; justify-content: space-between;">
+					<h2>{{ guide.title }}</h2>
 					<span style="flex: 1 1 auto"></span>
-					<a
+					<button
 						routerLink="/assessments/observation-sheets"
-						mat-icon-button
+						mat-button
 						color="link"
 						style="margin-right: 8px"
-						title="Todas las guias"
 					>
 						<mat-icon>home</mat-icon>
-					</a>
+						Todas las guias
+					</button>
 					<button
-						mat-icon-button
+						mat-button
 						color="warn"
 						(click)="deleteGuide()"
-						style="margin-right: 8px"
-						title="Eliminar esta guia"
+						style="margin-right: 8px; display: none;"
 					>
 						<mat-icon>delete</mat-icon>
+						Eliminar esta guia
 					</button>
-					<!-- <a target="_blank" routerLink="/print-activities/{{id}}" mat-icon-button color="link" style="margin-right: 8px;">
-						<mat-icon>print</mat-icon>
-					</a> -->
 					<button
 						(click)="download()"
-						mat-icon-button
+						mat-flat-button
 						color="accent"
-						title="Descargar como PDF"
 					>
 						<mat-icon>download</mat-icon>
+						Descargar
 					</button>
-				</mat-card-header>
-				<mat-card-content></mat-card-content>
-			</mat-card>
-			<app-observation-guide
-				[students]="students"
-				[guide]="observationGuide"
-			></app-observation-guide>
+				</div>
+			</div>
+			<div style="margin-top: 24px">
+				<app-observation-guide
+					[students]="students()"
+					[guide]="guide"
+				></app-observation-guide>
+			</div>
 		}
 	`,
 })
 export class ObservationSheetDetailComponent implements OnInit {
-	private guideService = inject(ObservationGuideService);
-	private studentService = inject(StudentsService);
-	private pdfService = inject(PdfService);
-	private route = inject(ActivatedRoute);
-	private router = inject(Router);
-	private sb = inject(MatSnackBar);
+	#store = inject(Store)
+	#actions$ = inject(Actions)
+	private pdfService = inject(PdfService)
+	private route = inject(ActivatedRoute)
+	private router = inject(Router)
+	private sb = inject(MatSnackBar)
 
-	public observationGuide: ObservationGuide | null = null;
-	public students: Student[] = [];
-	public id = this.route.snapshot.paramMap.get('id') || '';
+	public observationGuide = this.#store.selectSignal(selectCurrentGuide)
+	public students = this.#store.selectSignal(selectSectionStudents)
+	public id = this.route.snapshot.paramMap.get('id') || ''
+
+	#destroy$ = new Subject<void>()
+
+	constructor() {
+		effect(() => {
+			const guide = this.observationGuide()
+			if (guide) {
+				const section = guide.section
+				this.#store.dispatch(loadStudentsBySection({ sectionId: section._id }))
+			}
+		})
+	}
 
 	ngOnInit() {
-		this.guideService.find(this.id).subscribe({
-			next: (guide) => {
-				if (guide._id) {
-					this.observationGuide = guide;
-					this.studentService
-						.findBySection(guide.section._id)
-						.subscribe((students) => {
-							if (students.length) {
-								this.students = students;
-							}
-						});
-				}
-			},
-			error: (err) => {
-				this.sb.open('Error al cargar', 'Ok', { duration: 2500 });
-				console.log(err.message);
-			},
-		});
+		this.#store.dispatch(loadGuide({ id: this.id }))
+	}
+
+	ngOnDestroy() {
+		this.#destroy$.next()
+		this.#destroy$.complete()
 	}
 
 	deleteGuide() {
-		this.guideService.delete(this.id).subscribe((res) => {
-			if (res.deletedCount === 1) {
-				this.router
-					.navigate(['/assessments/observation-sheets'])
-					.then(() => {
-						this.sb.open('El instrumento ha sido eliminado', 'Ok', {
-							duration: 2500,
-						});
-					});
-			}
-		});
+		this.#store.dispatch(deleteGuide({ id: this.id }))
+		this.#actions$.pipe(ofType(deleteGuideSuccess), takeUntil(this.#destroy$)).subscribe(() => {
+			this.router
+				.navigate(['/assessments/observation-sheets'])
+				.then(() => {
+					this.sb.open('El instrumento ha sido eliminado', 'Ok', {
+						duration: 2500,
+					})
+				})
+		})
 	}
 
 	download() {
-		if (!this.observationGuide) return;
-		const title = this.observationGuide.title;
+		const guide = this.observationGuide()
+		if (!guide) return
+		const title = guide.title
 		this.sb.open(
 			'Estamos preparando la descarga, espera un momento.',
 			'Ok',
 			{ duration: 2500 },
-		);
-		if (this.observationGuide.individual) {
-			this.students.forEach((student, i) => {
+		)
+		if (guide.individual) {
+			this.students().forEach((student, i) => {
 				this.pdfService.createAndDownloadFromHTML(
 					'guide-' + i,
 					`Guia de observacion ${title} para ${student.firstname} ${student.lastname}`,
-				);
-			});
+				)
+			})
 		} else {
 			this.pdfService.createAndDownloadFromHTML(
 				'guide',
 				'Guia de observacion: ' + title,
-			);
+			)
 		}
 	}
 }

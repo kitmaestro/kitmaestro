@@ -1,30 +1,33 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ObservationGuide } from '../../../core';
-import { ObservationGuideService } from '../../../core/services/observation-guide.service';
-import { MatTableModule } from '@angular/material/table';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
+import { Component, inject, OnInit } from '@angular/core'
+import { MatTableModule } from '@angular/material/table'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { RouterLink } from '@angular/router'
+import { DatePipe } from '@angular/common'
+import { Store } from '@ngrx/store'
+import { selectAllGuides } from '../../../store/observation-guides/observation-guides.selectors'
+import { deleteGuide, loadGuides } from '../../../store'
 
 @Component({
 	selector: 'app-observation-sheets',
 	imports: [
 		MatTableModule,
-		MatSnackBarModule,
 		MatButtonModule,
 		MatIconModule,
 		RouterLink,
 		DatePipe,
-		MatCardModule,
 	],
 	template: `
-		<mat-card-title>Gu&iacute;as de Observaci&oacute;n</mat-card-title>
+		<div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+			<h2>Gu&iacute;as de Observaci&oacute;n</h2>
+			<button mat-flat-button routerLink="/assessments/observation-sheet-generator">
+				<mat-icon>add</mat-icon>
+				Nueva Gu&iacute;a
+			</button>
+		</div>
 		<table
 			mat-table
-			[dataSource]="assessments"
+			[dataSource]="assessments()"
 			class="mat-elevation-z8"
 			style="margin-top: 24px"
 		>
@@ -56,13 +59,11 @@ import { MatCardModule } from '@angular/material/card';
 					<button
 						(click)="deleteAssessment(element._id)"
 						color="warn"
+						style="display: none"
 						mat-icon-button
 					>
 						<mat-icon>delete</mat-icon>
 					</button>
-					<!-- <button color="accent" mat-icon-button>
-							<mat-icon>edit</mat-icon>
-						</button> -->
 					<button
 						[routerLink]="[
 							'/assessments/observation-sheets',
@@ -82,31 +83,17 @@ import { MatCardModule } from '@angular/material/card';
 	`,
 })
 export class ObservationSheetsComponent implements OnInit {
-	private guideService = inject(ObservationGuideService);
-	private sb = inject(MatSnackBar);
+	#store = inject(Store)
 
-	displayedColumns = ['title', 'date', 'section', 'individual', 'actions'];
+	displayedColumns = ['title', 'date', 'section', 'individual', 'actions']
 
-	assessments: ObservationGuide[] = [];
+	assessments = this.#store.selectSignal(selectAllGuides)
 
 	ngOnInit(): void {
-		this.loadGuides();
-	}
-
-	loadGuides() {
-		this.guideService.findAll().subscribe((guides) => {
-			if (guides.length) {
-				this.assessments = guides;
-			}
-		});
+		this.#store.dispatch(loadGuides())
 	}
 
 	deleteAssessment(id: string) {
-		this.guideService.delete(id).subscribe(() => {
-			this.sb.open('Se ha eliminado el intrumento', 'Ok', {
-				duration: 2500,
-			});
-			this.loadGuides();
-		});
+		this.#store.dispatch(deleteGuide({ id }))
 	}
 }

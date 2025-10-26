@@ -12,10 +12,10 @@ import { DatePipe } from '@angular/common';
 		@if (guide) {
 			@if (guide.individual) {
 				@for (student of students; track $index) {
-					<mat-card style="margin-bottom: 24px; margin-top: 24px">
-						<mat-card-content>
+					<div style="margin-bottom: 24px; margin-top: 24px">
+						<div>
 							<div class="page" id="guide-{{ $index }}">
-								<h2 mat-card-title>
+								<h2>
 									Gu&iacute;a de Observaci&oacute;n
 								</h2>
 								<div
@@ -124,17 +124,17 @@ import { DatePipe } from '@angular/common';
 									}
 								</div>
 							</div>
-						</mat-card-content>
-					</mat-card>
+						</div>
+					</div>
 				}
 			} @else {
-				<mat-card style="margin-top: 24px">
-					<mat-card-content>
+				<div style="margin-top: 24px">
+					<div style="border: 1px solid #eee;">
 						<div class="page" id="guide">
-							<h2 mat-card-title>
+							<h2>
 								Gu&iacute;a de Observaci&oacute;n
 							</h2>
-							<h3 mat-card-subtitle>{{ guide.title }}</h3>
+							<h3>{{ guide.title }}</h3>
 							<div
 								[style]="
 									guide.date === ''
@@ -153,7 +153,7 @@ import { DatePipe } from '@angular/common';
 										&nbsp;
 									</div>
 								} @else {
-									{{ guide.date | date: 'dd/MM/yyyy' }}
+									{{ dateify(guide.date) | date: 'dd/MM/yyyy' }}
 								}
 							</div>
 							<div>
@@ -234,8 +234,8 @@ import { DatePipe } from '@angular/common';
 								}
 							</div>
 						</div>
-					</mat-card-content>
-				</mat-card>
+					</div>
+				</div>
 			}
 		}
 	`,
@@ -243,7 +243,7 @@ import { DatePipe } from '@angular/common';
 		.page {
 			display: block;
 			margin: 0 auto;
-			padding: 12px;
+			padding: 0.75in;
 			width: 8.5in;
 		}
 
@@ -261,4 +261,8 @@ import { DatePipe } from '@angular/common';
 export class ObservationGuideComponent {
 	@Input() guide: ObservationGuide | null = null;
 	@Input() students: Student[] = [];
+
+	dateify(dateStr: string) {
+		return new Date(dateStr)
+	}
 }

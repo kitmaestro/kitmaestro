@@ -82,10 +82,10 @@ export default [
 		title: 'Detalles del Examen',
 	},
 	{
-		path: 'observation-sheet',
+		path: 'observation-sheet-generator',
 		loadComponent: () =>
-			import('./pages/observation-sheet.component').then(
-				(mod) => mod.ObservationSheetComponent,
+			import('./pages/observation-sheet-generator.component').then(
+				(mod) => mod.ObservationSheetGeneratorComponent,
 			),
 		title: 'Generador de Hojas de Observación',
 	},

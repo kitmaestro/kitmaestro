@@ -19,21 +19,21 @@ import { MatTableModule } from '@angular/material/table';
 		MatTableModule,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header
-				style="justify-content: space-between; align-items: center"
+		<div>
+			<div
+				style="justify-content: space-between; align-items: center; display: flex;"
 			>
-				<mat-card-title>Mis R&uacute;bricas </mat-card-title>
+				<h2>Mis R&uacute;bricas </h2>
 				<button
 					mat-flat-button
 					type="button"
-					routerLink="/rubric-generator"
+					routerLink="/assessments/rubric-generator"
 				>
+					<mat-icon>add</mat-icon>
 					Generar R&uacute;brica
 				</button>
-			</mat-card-header>
-			<mat-card-content> </mat-card-content>
-		</mat-card>
+			</div>
+		</div>
 		<table
 			mat-table
 			[dataSource]="rubrics"
@@ -74,6 +74,7 @@ import { MatTableModule } from '@angular/material/table';
 					<button
 						(click)="deleteAssessment(element._id)"
 						color="warn"
+						style="display: none;"
 						mat-icon-button
 					>
 						<mat-icon>delete</mat-icon>
@@ -82,7 +83,7 @@ import { MatTableModule } from '@angular/material/table';
 							<mat-icon>edit</mat-icon>
 						</button> -->
 					<button
-						[routerLink]="['/rubrics', element._id]"
+						[routerLink]="['/assessments', 'rubrics', element._id]"
 						color="primary"
 						mat-icon-button
 					>
