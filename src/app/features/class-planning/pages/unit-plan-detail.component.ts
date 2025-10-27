@@ -24,7 +24,7 @@ import {
 import { loadClassPlans } from '../../../store/class-plans/class-plans.actions';
 import { selectClassPlans, selectClassPlansLoading } from '../../../store/class-plans/class-plans.selectors';
 import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
-import { loadCurrentSubscription } from '../../../store';
+import { loadCurrentSubscription, selectAiIsGenerating } from '../../../store';
 
 @Component({
 	selector: 'app-unit-plan-detail',
@@ -42,7 +42,7 @@ import { loadCurrentSubscription } from '../../../store';
 	template: `
 		@if (!isPrintView) {
 			<div style="display: flex; gap: 12px; justify-content: center">
-				<button mat-button color="link" (click)="goBack()">
+				<button mat-button color="link" routerLink="/planning/unit-plans">
 					Volver
 				</button>
 				<button mat-button color="warn" style="display: none" (click)="deletePlan()">
@@ -114,7 +114,7 @@ import { loadCurrentSubscription } from '../../../store';
 						</ul>
 					</div>
 					@if (isPremium()) {
-						@if (classPlans.length === 0) {
+						@if (classPlans().length === 0 || isGenerating()) {
 							<h2>Generar Planes Diarios</h2>
 							<app-daily-plan-batch-generator [plan]="plan" />
 						}
@@ -144,7 +144,7 @@ import { loadCurrentSubscription } from '../../../store';
 							}
 						</div>
 						@if (isPremium()) {
-							@if (rubrics.length == 0) {
+							@if (rubrics.length === 0) {
 								<h2>Generar Instrumentos</h2>
 								<app-rubric-generator [unitPlan]="plan" />
 							}
@@ -235,15 +235,16 @@ export class UnitPlanDetailComponent implements OnInit {
 
 	isLoading = this.#store.selectSignal(selectUnitPlanIsLoading)
 	isLoadingClassPlans = this.#store.selectSignal(selectClassPlansLoading)
+	isGenerating = this.#store.selectSignal(selectAiIsGenerating)
 
 	isPrintView = window.location.href.includes('print');
 
 	ngOnInit() {
 		const unitPlan = this.planId;
-		this.#store.dispatch(loadPlan({ id: unitPlan }));
 		this.#store.dispatch(loadClassPlans({ filters: { unitPlan } }));
+		this.#store.dispatch(loadPlan({ id: unitPlan }));
 		this.#store.dispatch(loadCurrentSubscription())
-		this.#store.select(selectClassPlans).subscribe((res) => {
+		this.#store.select(selectClassPlans).subscribe(() => {
 			if (this.isPrintView) {
 				setTimeout(() => {
 					window.print();

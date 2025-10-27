@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, OnChanges } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -22,6 +22,8 @@ import {
 	selectUnitPlansIsLoading,
 	createClassPlan,
 	loadPlansSuccess,
+	askGeminiEnd,
+	askGeminiStart,
 } from '../../../store';
 
 const classPlanPrompt = `
@@ -75,7 +77,7 @@ interface PlanToGenerate {
 		<app-is-premium minSubscriptionType="Plan Plus">
 			<div class="container">
 				<div>
-					@if (!unitPlanInput) {
+					@if (!plan) {
 						<div class="header">
 							<h2>Generador por Lotes de Planes Diarios</h2>
 						</div>
@@ -85,7 +87,7 @@ interface PlanToGenerate {
 							[formGroup]="generatorForm"
 							(ngSubmit)="generateDailyPlansBatch()"
 						>
-							@if (!unitPlanInput) {
+							@if (!plan) {
 								<mat-form-field appearance="outline">
 									<mat-label
 										>Unidad de Aprendizaje Base</mat-label
@@ -223,8 +225,8 @@ interface PlanToGenerate {
 		`,
 	],
 })
-export class DailyPlanBatchGeneratorComponent implements OnInit {
-	@Input('plan') unitPlanInput: UnitPlan | null = null;
+export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
+	@Input() plan: UnitPlan | null = null;
 	private router = inject(Router);
 	private sb = inject(MatSnackBar);
 	private fb = inject(FormBuilder);
@@ -257,19 +259,32 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 		],
 	});
 
+	ngOnChanges() {
+		if (this.plan) {
+			this.#store.dispatch(
+				loadPlansSuccess({ plans: [this.plan] }),
+			);
+			this.generatorForm
+				.get('unitPlan')
+				?.setValue(this.plan._id);
+		} else {
+			this.#store.dispatch(loadPlans({}));
+		}
+	}
+
 	ngOnInit(): void {
 		const res = localStorage.getItem('available-resources') as string;
 		const resources = res ? JSON.parse(res) : null;
 		if (resources && Array.isArray(resources) && resources.length > 0) {
 			this.generatorForm.get('resources')?.setValue(resources);
 		}
-		if (this.unitPlanInput) {
+		if (this.plan) {
 			this.#store.dispatch(
-				loadPlansSuccess({ plans: [this.unitPlanInput] }),
+				loadPlansSuccess({ plans: [this.plan] }),
 			);
 			this.generatorForm
 				.get('unitPlan')
-				?.setValue(this.unitPlanInput._id);
+				?.setValue(this.plan._id);
 		} else {
 			this.#store.dispatch(loadPlans({}));
 		}
@@ -315,6 +330,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 		}
 
 		this.isGenerating = true;
+		this.#store.dispatch(askGeminiStart())
 		this.totalPlansToGenerate = plansToGenerate.length;
 		this.plansGenerated = 0;
 		let currentDate = new Date();
@@ -337,7 +353,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 				subjectCounters.set(planInfo.subject, counter + 1);
 				currentDate = this.getNextWorkDay(currentDate);
 				await new Promise((resolve) => setTimeout(resolve, 2000));
-			} catch (error) {
+			} catch {
 				this.handleError(
 					`Error al generar plan para ${this.pretifyPipe(planInfo.subject)}.`,
 				);
@@ -345,6 +361,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 		}
 
 		this.isGenerating = false;
+		this.#store.dispatch(askGeminiEnd())
 		this.sb.open('¡Planes diarios generados y guardados con éxito!', 'Ok', {
 			duration: 5000,
 		});
@@ -506,6 +523,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 		}
 		return totalPlans;
 	}
+
 	private createClassSessions(
 		total: number,
 		num45: number,
@@ -519,6 +537,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 			sessions.push({ subject, duration: 90 });
 		return sessions;
 	}
+
 	private getNextWorkDay(date: Date): Date {
 		const newDate = new Date(date);
 		newDate.setDate(newDate.getDate() + 1);
@@ -526,7 +545,8 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 		if (newDate.getDay() === 0) newDate.setDate(newDate.getDate() + 1); // Si es Domingo, pasa al Lunes
 		return newDate;
 	}
-	private extractJson(text: string): any {
+
+	private extractJson(text: string) {
 		try {
 			const start = text.indexOf('{');
 			const end = text.lastIndexOf('}') + 1;
@@ -537,6 +557,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit {
 			return null;
 		}
 	}
+
 	private handleError(message: string): void {
 		this.sb.open(message, 'Ok', { duration: 5000 });
 		this.isGenerating = false;

@@ -4,7 +4,6 @@ import {
 	OnInit,
 	OnDestroy,
 	signal,
-	computed,
 	effect,
 } from '@angular/core'
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar'
@@ -21,13 +20,10 @@ import { Store } from '@ngrx/store'
 import { selectAuthUser } from '../../../store/auth/auth.selectors'
 import { selectAllClassSections, selectIsLoadingSections } from '../../../store/class-sections/class-sections.selectors'
 import { loadSections } from '../../../store/class-sections/class-sections.actions'
-import { saveAs } from 'file-saver'
-import { Document, Packer, Paragraph, Table, TableCell, TableRow, WidthType, AlignmentType, TextRun, HeadingLevel, BorderStyle } from 'docx'
-import { askGemini, loadPlans, selectAiIsGenerating, selectAiResult, selectAiSerializedResult, selectAllUnitPlans, selectUnitPlanIsLoading } from '../../../store'
-import { ClassSection, CompetenceEntry, ContentBlock, EvaluationEntry, EvaluationPlanService, UnitPlan } from '../../../core'
+import { askGemini, loadPlans, selectAiIsGenerating, selectAiSerializedResult, selectAllUnitPlans, selectUnitPlanIsLoading } from '../../../store'
+import { ClassSection, EvaluationPlanService, UnitPlan } from '../../../core'
 import { EvaluationPlan } from '../../../core/models/evaluation-plan'
 import { EvaluationPlanComponent } from '../components'
-import { PretifyPipe } from '../../../shared'
 
 @Component({
 	selector: 'app-evaluation-plan-generator',
@@ -215,7 +211,6 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 	private fb = inject(FormBuilder)
 	private sb = inject(MatSnackBar)
 	private epService = inject(EvaluationPlanService)
-	private pretify = new PretifyPipe().transform
 
 	user = this.store.selectSignal(selectAuthUser)
 	classSections = this.store.selectSignal(selectAllClassSections)

@@ -1,21 +1,19 @@
-import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { DatePipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnitPlanService } from '../../../core/services/unit-plan.service';
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
-import { UnitPlan } from '../../../core/models';
-import { Store } from '@ngrx/store';
-import { selectAuthUser } from '../../../store/auth/auth.selectors';
-import { selectClassPlans } from '../../../store/class-plans/class-plans.selectors';
-import { selectAllUnitPlans } from '../../../store/unit-plans/unit-plans.selectors';
-import { loadClassPlans } from '../../../store/class-plans/class-plans.actions';
-import { deletePlan, loadPlans } from '../../../store/unit-plans';
+import { Component, inject, OnInit } from '@angular/core'
+import { MatButtonModule } from '@angular/material/button'
+import { MatCardModule } from '@angular/material/card'
+import { MatListModule } from '@angular/material/list'
+import { MatIconModule } from '@angular/material/icon'
+import { MatTableModule } from '@angular/material/table'
+import { DatePipe } from '@angular/common'
+import { RouterModule } from '@angular/router'
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
+import { UnitPlan } from '../../../core/models'
+import { Store } from '@ngrx/store'
+import { selectAuthUser } from '../../../store/auth/auth.selectors'
+import { selectClassPlans } from '../../../store/class-plans/class-plans.selectors'
+import { selectAllUnitPlans } from '../../../store/unit-plans/unit-plans.selectors'
+import { loadClassPlans } from '../../../store/class-plans/class-plans.actions'
+import { deletePlan, downloadPlan, loadPlans } from '../../../store/unit-plans'
 
 @Component({
 	selector: 'app-unit-plan-list',
@@ -155,36 +153,29 @@ import { deletePlan, loadPlans } from '../../../store/unit-plans';
 		}
 	`,
 })
-export class UnitPlanListComponent {
-	#store = inject(Store);
-	#unitPlanService = inject(UnitPlanService);
-	user = this.#store.selectSignal(selectAuthUser);
-	unitPlans$ = this.#store.select(selectAllUnitPlans);
-	classPlans = this.#store.selectSignal(selectClassPlans);
-	sb = inject(MatSnackBar);
+export class UnitPlanListComponent implements OnInit {
+	#store = inject(Store)
+	user = this.#store.selectSignal(selectAuthUser)
+	unitPlans$ = this.#store.select(selectAllUnitPlans)
+	classPlans = this.#store.selectSignal(selectClassPlans)
 
-	displayedColumns = ['title', 'section', 'subject', 'date', 'actions'];
+	displayedColumns = ['title', 'section', 'subject', 'date', 'actions']
 
-	loading = true;
+	loading = true
 
 	ngOnInit() {
-		this.#store.dispatch(loadClassPlans({}));
-		this.#store.dispatch(loadPlans({}));
+		this.#store.dispatch(loadClassPlans({}))
+		this.#store.dispatch(loadPlans({}))
 	}
 
 	deletePlan(id: string) {
-		this.#store.dispatch(deletePlan({ id }));
+		this.#store.dispatch(deletePlan({ id }))
 	}
 
 	async download(plan: UnitPlan) {
-		const user = this.user();
-		const classPlans = this.classPlans();
-		if (!user) return;
-		await this.#unitPlanService.download(
-			plan,
-			classPlans.filter((cp) => cp.unitPlan === plan._id),
-			user,
-		);
-		this.sb.open('Se ha descargado tu plan', 'Ok', { duration: 2500 });
+		const user = this.user()
+		const classPlans = this.classPlans().filter(c => (typeof c.unitPlan === 'string' ? c.unitPlan : (c.unitPlan as UnitPlan)._id) === plan._id)
+		if (!user) return
+		this.#store.dispatch(downloadPlan({ plan, classPlans, user }))
 	}
 }

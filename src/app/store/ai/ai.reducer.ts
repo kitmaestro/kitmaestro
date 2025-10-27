@@ -24,7 +24,7 @@ export const aiReducer = createReducer(
                 jsonString = result.substring(firstSquareBracket, lastSquareBracket)
             } else if (firstBracket > -1 && firstSquareBracket > -1) {
                 jsonString = result.substring(firstBracket, lastBracket)
-            } else if (firstSquareBracket > -1 && firstSquareBracket > -1) {
+            } else if (firstSquareBracket > -1) {
                 jsonString = result.substring(firstSquareBracket, lastSquareBracket)
             } else {
                 jsonString = 'null'
@@ -54,6 +54,19 @@ export const aiReducer = createReducer(
             ...state,
             isGenerating: false,
             error,
+        }
+    }),
+    on(AiActions.askGeminiStart, (state) => {
+        return {
+            ...state,
+            isGenerating: true,
+            error: null,
+        }
+    }),
+    on(AiActions.askGeminiEnd, (state) => {
+        return {
+            ...state,
+            isGenerating: false,
         }
     })
 )

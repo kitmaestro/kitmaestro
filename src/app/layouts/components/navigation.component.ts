@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -76,7 +76,7 @@ import { Actions, ofType } from '@ngrx/effects';
 					<mat-icon>class</mat-icon>
 					<span>Mis Secciones</span>
 				</button>
-				<button routerLink="/assessments/unit-plans/list" mat-menu-item>
+				<button routerLink="/planning/unit-plans/list" mat-menu-item>
 					<mat-icon>schema</mat-icon>
 					<span>Mis Unidades</span>
 				</button>
@@ -96,7 +96,7 @@ import { Actions, ofType } from '@ngrx/effects';
 					<mat-icon>video_library</mat-icon>
 					<span>Tutoriales</span>
 				</button>
-				@if (subscription()?.subscriptionType == 'Plan Premium') {
+				@if (subscription()?.subscriptionType === 'Plan Premium') {
 					<button routerLink="/referrals" mat-menu-item style="display: none">
 						<mat-icon>people_circle</mat-icon>
 						<span>Mis Referidos</span>
@@ -166,7 +166,7 @@ import { Actions, ofType } from '@ngrx/effects';
 		RouterModule,
 	],
 })
-export class NavigationComponent {
+export class NavigationComponent implements OnInit {
 	private store = inject(Store);
 	private userSubscriptionService = inject(UserSubscriptionService);
 	private breakpointObserver = inject(BreakpointObserver);
@@ -184,7 +184,7 @@ export class NavigationComponent {
 			map((result) => result.matches),
 			shareReplay(),
 		);
-	User$ = this.store.select(selectAuthUser);
+	user$ = this.store.select(selectAuthUser);
 	subscription = signal<UserSubscription | null>(null);
 	subscription$ = this.userSubscriptionService.checkSubscription().pipe(
 		map((sub) => {
@@ -202,7 +202,7 @@ export class NavigationComponent {
 	userIsAdmin = signal<boolean>(false);
 
 	ngOnInit() {
-		this.User$.pipe(
+		this.user$.pipe(
 			filter((user) => !!user),
 			map((user) => ['orgalay.dev@gmail.com'].includes(user.email)),
 		).subscribe((res) => this.userIsAdmin.set(res));
