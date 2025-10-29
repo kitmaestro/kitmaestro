@@ -10,6 +10,14 @@ export default [
 		title: 'Panel de Administración',
 	},
 	{
+		path: 'didactic-sequences',
+		loadComponent: () =>
+			import('./pages/didactic-sequence-management.component').then(
+				(mod) => mod.DidacticSequenceManagementComponent,
+			),
+		title: 'Secuencias Didácticas',
+	},
+	{
 		path: 'content-blocks',
 		loadComponent: () =>
 			import('./pages/content-blocks-management.component').then(

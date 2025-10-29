@@ -21,6 +21,7 @@ import {
 	loadUsers,
 } from '../../../store/users/users.actions';
 import { UserDto } from '../../../store/users/users.models';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
 	selector: 'app-users',
@@ -35,85 +36,89 @@ import { UserDto } from '../../../store/users/users.models';
 		MatSelectModule,
 		MatFormFieldModule,
 		MatInputModule,
+		MatExpansionModule,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
+		<mat-expansion-panel>
+			<mat-expansion-panel-header>
 				<h2>Crear Usuario</h2>
-			</mat-card-header>
-			<mat-card-content>
-				<form [formGroup]="userForm" (ngSubmit)="createUser()">
-					<div class="grid">
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Nombre(s)</mat-label>
-								<input
-									type="text"
-									matInput
-									formControlName="firstname"
-								/>
-							</mat-form-field>
+			</mat-expansion-panel-header>
+			
+			<mat-card>
+				<mat-card-content>
+					<form [formGroup]="userForm" (ngSubmit)="createUser()">
+						<div class="grid">
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Nombre(s)</mat-label>
+									<input
+										type="text"
+										matInput
+										formControlName="firstname"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Apellido(s)</mat-label>
+									<input
+										type="text"
+										matInput
+										formControlName="lastname"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Sexo</mat-label>
+									<mat-select formControlName="gender">
+										<mat-option value="Hombre"
+											>Hombre</mat-option
+										>
+										<mat-option value="Mujer">Mujer</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Teléfono</mat-label>
+									<input
+										type="text"
+										matInput
+										formControlName="phone"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Email</mat-label>
+									<input
+										type="email"
+										matInput
+										formControlName="email"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Contraseña</mat-label>
+									<input
+										type="password"
+										matInput
+										formControlName="password"
+									/>
+								</mat-form-field>
+							</div>
 						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Apellido(s)</mat-label>
-								<input
-									type="text"
-									matInput
-									formControlName="lastname"
-								/>
-							</mat-form-field>
+						<div style="text-align: end">
+							<button mat-flat-button color="primary" type="submit">
+								Guardar
+							</button>
 						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Sexo</mat-label>
-								<mat-select formControlName="gender">
-									<mat-option value="Hombre"
-										>Hombre</mat-option
-									>
-									<mat-option value="Mujer">Mujer</mat-option>
-								</mat-select>
-							</mat-form-field>
-						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Teléfono</mat-label>
-								<input
-									type="text"
-									matInput
-									formControlName="phone"
-								/>
-							</mat-form-field>
-						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Email</mat-label>
-								<input
-									type="email"
-									matInput
-									formControlName="email"
-								/>
-							</mat-form-field>
-						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Contraseña</mat-label>
-								<input
-									type="password"
-									matInput
-									formControlName="password"
-								/>
-							</mat-form-field>
-						</div>
-					</div>
-					<div style="text-align: end">
-						<button mat-flat-button color="primary" type="submit">
-							Guardar
-						</button>
-					</div>
-				</form>
-			</mat-card-content>
-		</mat-card>
+					</form>
+				</mat-card-content>
+			</mat-card>
+		</mat-expansion-panel>
 
 		<h2>Usuarios del Sistema</h2>
 

@@ -26,6 +26,7 @@ import { forkJoin } from 'rxjs';
 		MatIconModule,
 		DatePipe,
 		ReactiveFormsModule,
+		MatIconModule,
 	],
 	template: `
 		<h2>Mi Perfil</h2>
@@ -143,6 +144,7 @@ import { forkJoin } from 'rxjs';
 					[disabled]="userForm.invalid"
 					color="primary"
 				>
+					<mat-icon>save</mat-icon>
 					Guardar
 				</button>
 			</div>
@@ -184,6 +186,7 @@ import { forkJoin } from 'rxjs';
 						color="accent"
 						mat-flat-button
 					>
+						<mat-icon>rocket</mat-icon>
 						{{
 							!userSubscription() ||
 							userSubscription()?.subscriptionType == 'FREE'

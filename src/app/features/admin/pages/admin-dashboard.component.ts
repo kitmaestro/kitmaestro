@@ -32,6 +32,14 @@ import { HttpClient } from '@angular/common/http';
 						mat-flat-button
 						color="primary"
 						type="button"
+						routerLink="/admin/didactic-sequences"
+					>
+						Secuencias Didácticas
+					</button>
+					<button
+						mat-flat-button
+						color="primary"
+						type="button"
 						routerLink="/admin/content-blocks"
 					>
 						Bloques de Cotenido
