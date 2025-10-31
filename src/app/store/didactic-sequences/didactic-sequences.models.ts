@@ -1,5 +1,5 @@
 import { DidacticSequence } from '../../core/models'
-import { DidacticSequencePlan, TableOfContentsItem } from '../../core'
+import { TableOfContentsItem } from '../../core'
 import { SchoolLevel, SchoolSubject, SchoolYear } from '../../core/types'
 
 export interface DidacticSequenceDto {
@@ -7,7 +7,6 @@ export interface DidacticSequenceDto {
     year: SchoolYear
     subject: SchoolSubject
     tableOfContents: TableOfContentsItem[]
-    plans: DidacticSequencePlan[]
 }
 
 export enum DidacticSequenceStateStatus {

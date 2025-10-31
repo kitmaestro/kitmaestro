@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
@@ -208,7 +208,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 		}
 	`,
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
 	private store = inject(Store);
 	private subscriptionService = inject(UserSubscriptionService);
 	private unitPlanService = inject(UnitPlanService);
@@ -270,7 +270,7 @@ Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 
 	}
 
 	createUser() {
-		const user: UserDto = this.userForm.getRawValue() as any;
+		const user: UserDto = this.userForm.getRawValue() as UserDto;
 
 		this.store.dispatch(createUser({ user }));
 	}

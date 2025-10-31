@@ -1,18 +1,16 @@
 import { Component, inject, OnDestroy, signal } from '@angular/core'
-import { CommonModule } from '@angular/common'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
 import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatListModule } from '@angular/material/list'
 import { Store } from '@ngrx/store'
 import { Subject, takeUntil } from 'rxjs'
 
-import { DidacticSequence, DidacticSequencePlan } from '../../../core/models'
+import { DidacticSequence } from '../../../core'
 import {
     loadSequence,
     deleteSequence,
@@ -31,13 +29,11 @@ const {
     selector: 'app-didactic-sequence-details',
     standalone: true,
     imports: [
-        CommonModule,
         RouterModule,
         MatCardModule,
         MatButtonModule,
         MatIconModule,
         MatProgressSpinnerModule,
-        MatSnackBarModule,
         MatDialogModule,
         MatTabsModule,
         MatListModule,
@@ -311,7 +307,7 @@ export class DidacticSequenceDetailsComponent implements OnDestroy {
     }
 
     getResourceIcon(resourceType: string): string {
-        const icons: { [key: string]: string } = {
+        const icons: Record<string, string> = {
             VIDEO: 'ondemand_video',
             ARTICLE: 'article',
             BOOK: 'menu_book',
