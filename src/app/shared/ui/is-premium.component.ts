@@ -10,7 +10,7 @@ import {
 } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
-import { map } from 'rxjs'
+import { filter, map } from 'rxjs'
 import { UserSubscriptionService } from '../../core/services/user-subscription.service'
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
 import { Store } from '@ngrx/store'

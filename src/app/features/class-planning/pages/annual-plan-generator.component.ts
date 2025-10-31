@@ -30,8 +30,8 @@ import { MainThemeService } from '../../../core/services/main-theme.service';
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { forkJoin } from 'rxjs';
 import {
-	createPlan,
-	loadPlans,
+	createUnitPlan,
+	loadUnitPlans,
 	selectAllUnitPlans,
 	UnitPlanDto,
 } from '../../../store/unit-plans';
@@ -327,7 +327,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadPlans({ }));
+		this.#store.dispatch(loadUnitPlans({ }));
 		this.#store.dispatch(loadSections());
 		const res = localStorage.getItem('available-resources') as string;
 		const resources = res ? JSON.parse(res) : null;
@@ -591,7 +591,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			studentActivities: activitiesJson.student_activities || [],
 			evaluationActivities: activitiesJson.evaluation_activities || [],
 		} as any;
-		this.#store.dispatch(createPlan({ plan }));
+		this.#store.dispatch(createUnitPlan({ plan }));
 	}
 
 	private getLearningSituationPrompt(

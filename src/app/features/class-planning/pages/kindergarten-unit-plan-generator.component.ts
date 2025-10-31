@@ -36,7 +36,7 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { UnitPlanInicial } from '../../../core/interfaces';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
-import { createPlan } from '../../../store/unit-plans/unit-plans.actions';
+import { createUnitPlan } from '../../../store/unit-plans/unit-plans.actions';
 
 @Component({
 	selector: 'app-unit-plan-generator-inicial',
@@ -895,7 +895,7 @@ Tu tarea es generar un plan de unidad completo para el Nivel Inicial.
 			secuenciaActividades: this.planGenerado.secuenciaActividades,
 		};
 
-		this.#store.dispatch(createPlan({ plan }));
+		this.#store.dispatch(createUnitPlan({ plan }));
 	}
 
 	public async saveDocx(): Promise<void> {

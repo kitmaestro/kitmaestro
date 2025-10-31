@@ -26,7 +26,7 @@ import { ContentBlock } from '../../../core'
 import { TEACHING_METHODS } from '../../../core/data/teaching-methods'
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
 import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
-import { createPlan, createPlanSuccess, selectCurrentPlan } from '../../../store/unit-plans'
+import { createUnitPlan, createUnitPlanSuccess, selectCurrentPlan } from '../../../store/unit-plans'
 import { Store } from '@ngrx/store'
 import { Actions, ofType } from '@ngrx/effects'
 import { selectAuthUser } from '../../../store/auth/auth.selectors'
@@ -35,8 +35,16 @@ import {
 	loadSections,
 	selectAllClassSections,
 	selectClassSectionsStatus,
-} from '../../../store/class-sections'
-import { askGemini, loadBlocks, loadEntries, loadThemes, selectAiIsGenerating, selectAiResult, selectAiSerializedResult, selectAllCompetenceEntries, selectAllContentBlocks } from '../../../store'
+	askGemini,
+	loadBlocks,
+	loadEntries,
+	loadThemes,
+	selectAiIsGenerating,
+	selectAiResult,
+	selectAiSerializedResult,
+	selectAllCompetenceEntries,
+	selectAllContentBlocks
+} from '../../../store'
 import { selectAllThemes } from '../../../store/main-themes/main-themes.selectors'
 
 @Component({
@@ -741,7 +749,7 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 			})
 		this.#actions$
 			.pipe(
-				ofType(createPlanSuccess),
+				ofType(createUnitPlanSuccess),
 				takeUntil(this.destroy$),
 				switchMap(() => this.#store.select(selectCurrentPlan)),
 				filter((plan) => !!plan),
@@ -880,7 +888,7 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 			return
 		}
 
-		const { environment, situationType, reality, mainThemeCategory } =
+		const { environment, reality, mainThemeCategory } =
 			this.learningSituationForm.value
 		const contentsText = this.getSelectedContentsText()
 		const gradesText = this.selectedClassSections
@@ -984,7 +992,7 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit {
 	savePlan(): void {
 		const plan: any = this.plan
 		if (this.plan) {
-			this.#store.dispatch(createPlan({ plan }))
+			this.#store.dispatch(createUnitPlan({ plan }))
 		}
 	}
 }

@@ -12,13 +12,15 @@ import { MatListModule } from '@angular/material/list'
 import { Store } from '@ngrx/store'
 import { Subject, takeUntil } from 'rxjs'
 
-import { DidacticSequence } from '../../../core/models'
+import { DidacticSequence, DidacticSequencePlan } from '../../../core/models'
 import {
     loadSequence,
     deleteSequence,
-    fromDidacticSequences
+    fromDidacticSequences,
+	loadPlans
 } from '../../../store'
 import { ConfirmationDialogComponent, PretifyPipe } from '../../../shared'
+import { selectAllPlans } from '../../../store/didactic-sequence-plans/didactic-sequence-plans.selectors'
 const {
     selectCurrentSequence,
     selectIsLoadingOne,
@@ -54,23 +56,23 @@ const {
               Secuencia Didáctica - {{ (sequence()!.level || '') | pretify }} - {{ (sequence()!.year || '') | pretify }} - {{ (sequence()!.subject || '') | pretify }}
             </mat-card-title>
             <div class="header-actions">
-              <button 
-                mat-raised-button 
+              <button
+                mat-raised-button
                 color="primary"
                 [routerLink]="['/admin/didactic-sequences', sequence()!._id, 'edit']">
                 <mat-icon>edit</mat-icon>
                 Editar
               </button>
-              <button 
-                mat-raised-button 
+              <button
+                mat-raised-button
                 color="warn"
                 (click)="onDelete()"
                 [disabled]="isDeleting()">
                 <mat-icon>delete</mat-icon>
                 Eliminar
               </button>
-              <button 
-                mat-button 
+              <button
+                mat-button
                 routerLink="/admin/didactic-sequences">
                 <mat-icon>arrow_back</mat-icon>
                 Volver
@@ -107,14 +109,14 @@ const {
               <!-- Planes Didácticos -->
               <mat-tab label="Planes Didácticos">
                 <div class="tab-content">
-                  @for (plan of sequence()!.plans; track plan.title; let i = $index) {
+                  @for (plan of plans(); track plan.title; let i = $index) {
                     <mat-card class="plan-item">
                       <mat-card-header>
                         <mat-card-title>{{ i + 1 }}. {{ plan.title }}</mat-card-title>
                       </mat-card-header>
                       <mat-card-content>
                         <p><strong>Descripción:</strong> {{ plan.description }}</p>
-                        
+
                         <h4>Competencias Específicas:</h4>
                         <mat-list dense>
                           @for (competence of plan.specificCompetencies; track competence.name) {
@@ -133,7 +135,7 @@ const {
                             </mat-card-header>
                             <mat-card-content>
                               <p><strong>Competencia:</strong> {{ block.competence }}</p>
-                              
+
                               <h5>Sesión Inicial:</h5>
                               <p>{{ block.initialSession.description }}</p>
                               <p><strong>Duración:</strong> {{ block.initialSession.durationInHours }} horas</p>
@@ -192,61 +194,61 @@ const {
     .container {
       padding: 16px;
     }
-    
+
     .spinner-container {
       display: flex;
       justify-content: center;
       padding: 40px;
     }
-    
+
     .header-actions {
       display: flex;
       gap: 8px;
       margin-left: auto;
     }
-    
+
     .tab-content {
       padding: 16px 0;
     }
-    
+
     .content-item, .plan-item, .block-item, .activity-item {
       margin-bottom: 16px;
     }
-    
+
     .page-info {
       color: rgba(0, 0, 0, 0.54);
       font-size: 14px;
     }
-    
+
     .block-item {
       margin-left: 16px;
       border-left: 3px solid #3f51b5;
     }
-    
+
     .activity-item {
       margin-left: 16px;
       border-left: 3px solid #ff9800;
     }
-    
+
     .not-found {
       text-align: center;
       padding: 40px;
       color: rgba(0, 0, 0, 0.54);
     }
-    
+
     .not-found mat-icon {
       font-size: 48px;
       width: 48px;
       height: 48px;
       margin-bottom: 16px;
     }
-    
+
     h4, h5 {
       margin-top: 16px;
       margin-bottom: 8px;
       color: rgba(0, 0, 0, 0.87);
     }
-    
+
     strong {
       color: rgba(0, 0, 0, 0.87);
     }
@@ -263,8 +265,10 @@ export class DidacticSequenceDetailsComponent implements OnDestroy {
     sequence = signal<DidacticSequence | null>(null)
     isLoading = signal(false)
     isDeleting = signal(false)
+    plans = this.#store.selectSignal(selectAllPlans)
 
     constructor() {
+		this.#store.dispatch(loadPlans({ filters:  {} }))
         this.#store.select(selectCurrentSequence)
             .pipe(takeUntil(this.#destroy$))
             .subscribe(sequence => this.sequence.set(sequence))

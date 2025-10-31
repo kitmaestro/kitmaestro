@@ -15,10 +15,10 @@ export class UnitPlansEffects {
 
 	loadPlan$ = createEffect(() =>
 		this.#actions$.pipe(
-			ofType(UnitPlansActions.loadPlan),
+			ofType(UnitPlansActions.loadUnitPlan),
 			switchMap(({ id }) =>
 				this.#unitPlanService.findOne(id).pipe(
-					map((plan) => UnitPlansActions.loadPlanSuccess({ plan })),
+					map((plan) => UnitPlansActions.loadUnitPlanSuccess({ plan })),
 					catchError((error) => {
 						this.#sb.open(
 							'Error al cargar el plan de unidad',
@@ -26,7 +26,7 @@ export class UnitPlansEffects {
 							timing,
 						);
 						return of(
-							UnitPlansActions.loadPlanFailed({
+							UnitPlansActions.loadUnitPlanFailed({
 								error: error.message,
 							}),
 						);
@@ -38,11 +38,11 @@ export class UnitPlansEffects {
 
 	loadPlans$ = createEffect(() =>
 		this.#actions$.pipe(
-			ofType(UnitPlansActions.loadPlans),
+			ofType(UnitPlansActions.loadUnitPlans),
 			switchMap(({ filters }) =>
 				this.#unitPlanService.findAll(filters).pipe(
 					map((plans) =>
-						UnitPlansActions.loadPlansSuccess({
+						UnitPlansActions.loadUnitPlansSuccess({
 							plans: plans as any[],
 						}),
 					),
@@ -53,7 +53,7 @@ export class UnitPlansEffects {
 							timing,
 						);
 						return of(
-							UnitPlansActions.loadPlansFailed({
+							UnitPlansActions.loadUnitPlansFailed({
 								error: error.message,
 							}),
 						);
@@ -65,7 +65,7 @@ export class UnitPlansEffects {
 
 	createPlan$ = createEffect(() =>
 		this.#actions$.pipe(
-			ofType(UnitPlansActions.createPlan),
+			ofType(UnitPlansActions.createUnitPlan),
 			switchMap(({ plan }) =>
 				this.#unitPlanService.create(plan).pipe(
 					map((newPlan) => {
@@ -74,7 +74,7 @@ export class UnitPlansEffects {
 							'Ok',
 							timing,
 						);
-						return UnitPlansActions.createPlanSuccess({
+						return UnitPlansActions.createUnitPlanSuccess({
 							plan: newPlan,
 						});
 					}),
@@ -85,7 +85,7 @@ export class UnitPlansEffects {
 							timing,
 						);
 						return of(
-							UnitPlansActions.createPlanFailed({
+							UnitPlansActions.createUnitPlanFailed({
 								error: error.message,
 							}),
 						);
@@ -97,7 +97,7 @@ export class UnitPlansEffects {
 
 	updatePlan$ = createEffect(() =>
 		this.#actions$.pipe(
-			ofType(UnitPlansActions.updatePlan),
+			ofType(UnitPlansActions.updateUnitPlan),
 			switchMap(({ id, data }) =>
 				this.#unitPlanService.update(id, data).pipe(
 					map((response) => {
@@ -106,7 +106,7 @@ export class UnitPlansEffects {
 							'Ok',
 							timing,
 						);
-						return UnitPlansActions.updatePlanSuccess({
+						return UnitPlansActions.updateUnitPlanSuccess({
 							plan: response,
 						});
 					}),
@@ -117,7 +117,7 @@ export class UnitPlansEffects {
 							timing,
 						);
 						return of(
-							UnitPlansActions.updatePlanFailed({
+							UnitPlansActions.updateUnitPlanFailed({
 								error: error.message,
 							}),
 						);
@@ -129,7 +129,7 @@ export class UnitPlansEffects {
 
 	deletePlan$ = createEffect(() =>
 		this.#actions$.pipe(
-			ofType(UnitPlansActions.deletePlan),
+			ofType(UnitPlansActions.deleteUnitPlan),
 			switchMap(({ id }) =>
 				this.#unitPlanService.delete(id).pipe(
 					map(() => {
@@ -138,7 +138,7 @@ export class UnitPlansEffects {
 							'Ok',
 							timing,
 						);
-						return UnitPlansActions.deletePlanSuccess({ id });
+						return UnitPlansActions.deleteUnitPlanSuccess({ id });
 					}),
 					catchError((error) => {
 						this.#sb.open(
@@ -147,7 +147,7 @@ export class UnitPlansEffects {
 							timing,
 						);
 						return of(
-							UnitPlansActions.deletePlanFailed({
+							UnitPlansActions.deleteUnitPlanFailed({
 								error: error.message,
 							}),
 						);
@@ -159,7 +159,7 @@ export class UnitPlansEffects {
 
 	downloadPlan$ = createEffect(() =>
 		this.#actions$.pipe(
-			ofType(UnitPlansActions.downloadPlan),
+			ofType(UnitPlansActions.downloadUnitPlan),
 			switchMap(({ plan, classPlans, user }) =>
 				from(
 					this.#unitPlanService.download(plan, classPlans, user),
@@ -170,7 +170,7 @@ export class UnitPlansEffects {
 							'Ok',
 							timing,
 						);
-						return UnitPlansActions.downloadPlanSuccess();
+						return UnitPlansActions.downloadUnitPlanSuccess();
 					}),
 					catchError((error) => {
 						this.#sb.open(
@@ -179,7 +179,7 @@ export class UnitPlansEffects {
 							timing,
 						);
 						return of(
-							UnitPlansActions.deletePlanFailed({
+							UnitPlansActions.downloadUnitPlanFailed({
 								error: error.message,
 							}),
 						);

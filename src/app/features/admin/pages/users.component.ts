@@ -43,9 +43,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 			<mat-expansion-panel-header>
 				<h2>Crear Usuario</h2>
 			</mat-expansion-panel-header>
-			
-			<mat-card>
-				<mat-card-content>
+
+			<div>
+				<div>
 					<form [formGroup]="userForm" (ngSubmit)="createUser()">
 						<div class="grid">
 							<div>
@@ -116,8 +116,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 							</button>
 						</div>
 					</form>
-				</mat-card-content>
-			</mat-card>
+				</div>
+			</div>
 		</mat-expansion-panel>
 
 		<h2>Usuarios del Sistema</h2>

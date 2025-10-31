@@ -1,5 +1,5 @@
 import { DidacticSequence } from '../../core/models'
-import { DidacticSequencePlan, TableOfContentsItem } from '../../core/interfaces'
+import { DidacticSequencePlan, TableOfContentsItem } from '../../core'
 import { SchoolLevel, SchoolSubject, SchoolYear } from '../../core/types'
 
 export interface DidacticSequenceDto {

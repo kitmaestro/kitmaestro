@@ -9,36 +9,36 @@ export const unitPlansReducer = createReducer(
 	initialUnitPlansState,
 
 	// Set status for ongoing operations
-	on(UnitPlansActions.loadPlan, (state) => ({
+	on(UnitPlansActions.loadUnitPlan, (state) => ({
 		...state,
 		status: UnitPlanStateStatus.LOADING_PLAN,
 	})),
-	on(UnitPlansActions.loadPlans, UnitPlansActions.countPlans, (state) => ({
+	on(UnitPlansActions.loadUnitPlans, UnitPlansActions.countUnitPlans, (state) => ({
 		...state,
 		status: UnitPlanStateStatus.LOADING_PLANS,
 	})),
-	on(UnitPlansActions.createPlan, (state) => ({
+	on(UnitPlansActions.createUnitPlan, (state) => ({
 		...state,
 		status: UnitPlanStateStatus.CREATING_PLAN,
 	})),
-	on(UnitPlansActions.updatePlan, (state) => ({
+	on(UnitPlansActions.updateUnitPlan, (state) => ({
 		...state,
 		status: UnitPlanStateStatus.UPDATING_PLAN,
 	})),
-	on(UnitPlansActions.deletePlan, (state) => ({
+	on(UnitPlansActions.deleteUnitPlan, (state) => ({
 		...state,
 		status: UnitPlanStateStatus.DELETING_PLAN,
 	})),
 
 	// Handle failure cases
 	on(
-		UnitPlansActions.loadPlanFailed,
-		UnitPlansActions.loadPlansFailed,
-		UnitPlansActions.countPlansFailed,
-		UnitPlansActions.createPlanFailed,
-		UnitPlansActions.updatePlanFailed,
-		UnitPlansActions.deletePlanFailed,
-		UnitPlansActions.downloadPlanFailed,
+		UnitPlansActions.loadUnitPlanFailed,
+		UnitPlansActions.loadUnitPlansFailed,
+		UnitPlansActions.countUnitPlansFailed,
+		UnitPlansActions.createUnitPlanFailed,
+		UnitPlansActions.updateUnitPlanFailed,
+		UnitPlansActions.deleteUnitPlanFailed,
+		UnitPlansActions.downloadUnitPlanFailed,
 		(state, { error }) => ({
 			...state,
 			status: UnitPlanStateStatus.IDLING,
@@ -47,27 +47,27 @@ export const unitPlansReducer = createReducer(
 	),
 
 	// Handle success cases
-	on(UnitPlansActions.loadPlanSuccess, (state, { plan }) => ({
+	on(UnitPlansActions.loadUnitPlanSuccess, (state, { plan }) => ({
 		...state,
 		status: UnitPlanStateStatus.IDLING,
 		selectedPlan: plan,
 	})),
-	on(UnitPlansActions.loadPlansSuccess, (state, { plans }) => ({
+	on(UnitPlansActions.loadUnitPlansSuccess, (state, { plans }) => ({
 		...state,
 		status: UnitPlanStateStatus.IDLING,
 		unitPlans: plans,
 	})),
-	on(UnitPlansActions.countPlansSuccess, (state, { plans }) => ({
+	on(UnitPlansActions.countUnitPlansSuccess, (state, { plans }) => ({
 		...state,
 		status: UnitPlanStateStatus.IDLING,
 		totalPlans: plans,
 	})),
-	on(UnitPlansActions.createPlanSuccess, (state, { plan }) => ({
+	on(UnitPlansActions.createUnitPlanSuccess, (state, { plan }) => ({
 		...state,
 		status: UnitPlanStateStatus.IDLING,
 		unitPlans: [plan, ...state.unitPlans],
 	})),
-	on(UnitPlansActions.updatePlanSuccess, (state, { plan }) => {
+	on(UnitPlansActions.updateUnitPlanSuccess, (state, { plan }) => {
 		const updatedPlan = plan;
 		return {
 			...state,
@@ -81,7 +81,7 @@ export const unitPlansReducer = createReducer(
 			),
 		};
 	}),
-	on(UnitPlansActions.deletePlanSuccess, (state, { id }) => ({
+	on(UnitPlansActions.deleteUnitPlanSuccess, (state, { id }) => ({
 		...state,
 		status: UnitPlanStateStatus.IDLING,
 		selectedPlan:

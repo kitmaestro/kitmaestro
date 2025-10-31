@@ -13,7 +13,7 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors'
 import { selectClassPlans } from '../../../store/class-plans/class-plans.selectors'
 import { selectAllUnitPlans } from '../../../store/unit-plans/unit-plans.selectors'
 import { loadClassPlans } from '../../../store/class-plans/class-plans.actions'
-import { deletePlan, downloadPlan, loadPlans } from '../../../store/unit-plans'
+import { deleteUnitPlan, downloadUnitPlan, loadUnitPlans } from '../../../store/unit-plans/unit-plans.actions'
 
 @Component({
 	selector: 'app-unit-plan-list',
@@ -165,17 +165,17 @@ export class UnitPlanListComponent implements OnInit {
 
 	ngOnInit() {
 		this.#store.dispatch(loadClassPlans({}))
-		this.#store.dispatch(loadPlans({}))
+		this.#store.dispatch(loadUnitPlans({}))
 	}
 
 	deletePlan(id: string) {
-		this.#store.dispatch(deletePlan({ id }))
+		this.#store.dispatch(deleteUnitPlan({ id }))
 	}
 
 	async download(plan: UnitPlan) {
 		const user = this.user()
 		const classPlans = this.classPlans().filter(c => (typeof c.unitPlan === 'string' ? c.unitPlan : (c.unitPlan as UnitPlan)._id) === plan._id)
 		if (!user) return
-		this.#store.dispatch(downloadPlan({ plan, classPlans, user }))
+		this.#store.dispatch(downloadUnitPlan({ plan, classPlans, user }))
 	}
 }

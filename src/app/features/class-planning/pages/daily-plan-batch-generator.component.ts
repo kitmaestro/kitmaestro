@@ -17,11 +17,11 @@ import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
 import { Store } from '@ngrx/store';
 import {
 	selectAuthUser,
-	loadPlans,
+	loadUnitPlans,
 	selectAllUnitPlans,
 	selectUnitPlansIsLoading,
 	createClassPlan,
-	loadPlansSuccess,
+	loadUnitPlansSuccess,
 	askGeminiEnd,
 	askGeminiStart,
 } from '../../../store';
@@ -262,13 +262,13 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 	ngOnChanges() {
 		if (this.plan) {
 			this.#store.dispatch(
-				loadPlansSuccess({ plans: [this.plan] }),
+				loadUnitPlansSuccess({ plans: [this.plan] }),
 			);
 			this.generatorForm
 				.get('unitPlan')
 				?.setValue(this.plan._id);
 		} else {
-			this.#store.dispatch(loadPlans({}));
+			this.#store.dispatch(loadUnitPlans({}));
 		}
 	}
 
@@ -280,13 +280,13 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 		}
 		if (this.plan) {
 			this.#store.dispatch(
-				loadPlansSuccess({ plans: [this.plan] }),
+				loadUnitPlansSuccess({ plans: [this.plan] }),
 			);
 			this.generatorForm
 				.get('unitPlan')
 				?.setValue(this.plan._id);
 		} else {
-			this.#store.dispatch(loadPlans({}));
+			this.#store.dispatch(loadUnitPlans({}));
 		}
 	}
 

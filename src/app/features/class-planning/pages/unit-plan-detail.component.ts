@@ -15,9 +15,9 @@ import { RubricGeneratorComponent } from '../../assessments/pages/rubric-generat
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
 import {
-	deletePlan,
-	downloadPlan,
-	loadPlan,
+	deleteUnitPlan,
+	downloadUnitPlan,
+	loadUnitPlan,
 	selectCurrentPlan,
 	selectUnitPlanIsLoading,
 } from '../../../store/unit-plans';
@@ -242,7 +242,7 @@ export class UnitPlanDetailComponent implements OnInit {
 	ngOnInit() {
 		const unitPlan = this.planId;
 		this.#store.dispatch(loadClassPlans({ filters: { unitPlan } }));
-		this.#store.dispatch(loadPlan({ id: unitPlan }));
+		this.#store.dispatch(loadUnitPlan({ id: unitPlan }));
 		this.#store.dispatch(loadCurrentSubscription())
 		this.#store.select(selectClassPlans).subscribe(() => {
 			if (this.isPrintView) {
@@ -268,7 +268,7 @@ export class UnitPlanDetailComponent implements OnInit {
 		//   "https://api.algobook.info/v1/randomimage?category=education"
 		// );
 		// const img = await response.arrayBuffer();
-		this.#store.dispatch(downloadPlan({ plan, classPlans, user }))
+		this.#store.dispatch(downloadUnitPlan({ plan, classPlans, user }))
 		this.printing = false;
 	}
 
@@ -297,7 +297,7 @@ export class UnitPlanDetailComponent implements OnInit {
 	deletePlan() {
 		const id = this.route.snapshot.paramMap.get('id');
 		if (id) {
-			this.#store.dispatch(deletePlan({ id }))
+			this.#store.dispatch(deleteUnitPlan({ id }))
 			this.router.navigate(['/planning/unit-plans']).then(() => {
 				this.sb.open('El plan ha sido eliminado.', 'Ok', {
 					duration: 2500,

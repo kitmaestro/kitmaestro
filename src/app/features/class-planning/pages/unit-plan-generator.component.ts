@@ -35,11 +35,11 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors'
 import { selectAllClassSections } from '../../../store/class-sections/class-sections.selectors'
 import { loadSections } from '../../../store/class-sections/class-sections.actions'
 import {
-	createPlan,
-	createPlanSuccess,
+	createUnitPlan,
+	createUnitPlanSuccess,
 	selectAllUnitPlans,
 	UnitPlanDto,
-} from '../../../store/unit-plans'
+} from '../../../store'
 import { Actions, ofType } from '@ngrx/effects'
 
 interface LearningSituation {
@@ -988,7 +988,7 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 				}).length
 				if (sub == 'free' && createdThisMonth > 0) {
 					this.router
-						.navigateByUrl('/planning/unit-plans/list')
+						.navigateByUrl('/buy')
 						.then(() => {
 							this.sb.open(
 								'Ya has agotado tu limite de planes para este mes. Para continuar planificando, contrata un plan de pago.',
@@ -1022,7 +1022,7 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 		}
 		this.#actions$
 			.pipe(
-				ofType(createPlanSuccess),
+				ofType(createUnitPlanSuccess),
 				tap(({ plan }) => {
 					this.router
 						.navigate(['/planning/unit-plans', plan._id])
@@ -1273,7 +1273,7 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 	savePlan() {
 		const plan = this.plan as unknown as UnitPlanDto
 		if (plan) {
-			this.#store.dispatch(createPlan({ plan }))
+			this.#store.dispatch(createUnitPlan({ plan }))
 		}
 	}
 
