@@ -12,10 +12,26 @@ export default [
 	{
 		path: 'didactic-sequences',
 		loadComponent: () =>
-			import('./pages/didactic-sequence-management.component').then(
-				(mod) => mod.DidacticSequenceManagementComponent,
+			import('./pages/didactic-sequences.component').then(
+				(mod) => mod.DidacticSequencesComponent,
 			),
 		title: 'Secuencias Didácticas',
+	},
+	{
+		path: 'didactic-sequences/new',
+		loadComponent: () =>
+			import('./pages/didactic-sequence-creator.component').then(
+				(mod) => mod.DidacticSequenceCreatorComponent,
+			),
+		title: 'Secuencia Didáctica',
+	},
+	{
+		path: 'didactic-sequences/:id',
+		loadComponent: () =>
+			import('./pages/didactic-sequence-details.component').then(
+				(mod) => mod.DidacticSequenceDetailsComponent,
+			),
+		title: 'Secuencia Didáctica',
 	},
 	{
 		path: 'content-blocks',
