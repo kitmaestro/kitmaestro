@@ -17,7 +17,10 @@ export const loadBlockFailed = createAction(
 );
 
 // Load all blocks
-export const loadBlocks = createAction('[Content Blocks] Load Blocks', props<{ filters: any }>());
+export const loadBlocks = createAction(
+	'[Content Blocks] Load Blocks',
+	props<{ filters: any }>(),
+);
 export const loadBlocksSuccess = createAction(
 	'[Content Blocks] Load Blocks Success',
 	props<{ blocks: ContentBlock[] }>(),

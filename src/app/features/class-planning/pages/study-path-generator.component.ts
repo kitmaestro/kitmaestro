@@ -6,35 +6,39 @@ import {
 	OnInit,
 	OnDestroy,
 	ViewEncapsulation,
-} from '@angular/core'
+} from '@angular/core';
 import {
 	FormBuilder,
 	ReactiveFormsModule,
 	Validators,
 	AbstractControl,
-} from '@angular/forms'
-import { CommonModule } from '@angular/common'
-import { Subject, Observable, firstValueFrom, EMPTY } from 'rxjs'
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Subject, Observable, firstValueFrom, EMPTY } from 'rxjs';
 
 // Angular Material Modules
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSelectModule } from '@angular/material/select'
-import { MatInputModule } from '@angular/material/input'
-import { MatButtonModule } from '@angular/material/button'
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatIconModule } from '@angular/material/icon'
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 // --- Core Services & Interfaces (Using new structure paths) ---
-import { AiService } from '../../../core/services/ai.service'
+import { AiService } from '../../../core/services/ai.service';
 
 // --- DOCX Generation ---
-import { Document, Packer, Paragraph, AlignmentType, HeadingLevel } from 'docx'
-import { saveAs } from 'file-saver'
-import { MarkdownComponent } from 'ngx-markdown'
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
-import { Store } from '@ngrx/store'
-import { askGemini, selectAiIsGenerating, selectAiResult } from '../../../store'
+import { Document, Packer, Paragraph, AlignmentType, HeadingLevel } from 'docx';
+import { saveAs } from 'file-saver';
+import { MarkdownComponent } from 'ngx-markdown';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { Store } from '@ngrx/store';
+import {
+	askGemini,
+	selectAiIsGenerating,
+	selectAiResult,
+} from '../../../store';
 
 @Component({
 	selector: 'app-study-path-generator', // Component selector
@@ -285,18 +289,18 @@ import { askGemini, selectAiIsGenerating, selectAiResult } from '../../../store'
 	encapsulation: ViewEncapsulation.None,
 })
 export class StudyPathGeneratorComponent implements OnInit, OnDestroy {
-	#fb = inject(FormBuilder)
-	#store = inject(Store)
-	#snackBar = inject(MatSnackBar)
+	#fb = inject(FormBuilder);
+	#store = inject(Store);
+	#snackBar = inject(MatSnackBar);
 
-	isGenerating = this.#store.selectSignal(selectAiIsGenerating)
-	showResult = signal(false)
-	generatedStudyPath = this.#store.selectSignal(selectAiResult)
+	isGenerating = this.#store.selectSignal(selectAiIsGenerating);
+	showResult = signal(false);
+	generatedStudyPath = this.#store.selectSignal(selectAiResult);
 
 	studyPathForm = this.#fb.group({
 		topicSkill: ['', Validators.required],
 		masteryLevel: ['Intermedio', Validators.required], // Default value
-	})
+	});
 
 	// --- Fixed Select Options ---
 	readonly masteryLevels = [
@@ -304,10 +308,10 @@ export class StudyPathGeneratorComponent implements OnInit, OnDestroy {
 		'Intermedio',
 		'Avanzado',
 		'Experto',
-	]
+	];
 
 	// --- Lifecycle Management ---
-	#destroy$ = new Subject<void>()
+	#destroy$ = new Subject<void>();
 
 	// --- OnInit ---
 	ngOnInit(): void {
@@ -316,31 +320,31 @@ export class StudyPathGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- OnDestroy ---
 	ngOnDestroy(): void {
-		this.#destroy$.next()
-		this.#destroy$.complete()
+		this.#destroy$.next();
+		this.#destroy$.complete();
 	}
 
 	// --- Private Methods ---
 
 	#handleError(error: any, defaultMessage: string): Observable<never> {
-		console.error(defaultMessage, error)
-		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 })
-		return EMPTY
+		console.error(defaultMessage, error);
+		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 });
+		return EMPTY;
 	}
 
 	/** Maps user selection to prompt instructions for mastery level */
 	#getMasteryInstruction(masterySelection: string): string {
 		switch (masterySelection) {
 			case 'Principiante':
-				return 'un nivel básico/introductorio, cubriendo los fundamentos esenciales'
+				return 'un nivel básico/introductorio, cubriendo los fundamentos esenciales';
 			case 'Intermedio':
-				return 'un nivel intermedio, construyendo sobre los fundamentos con mayor profundidad y aplicación práctica'
+				return 'un nivel intermedio, construyendo sobre los fundamentos con mayor profundidad y aplicación práctica';
 			case 'Avanzado':
-				return 'un nivel avanzado, abordando temas complejos, especializaciones y análisis crítico'
+				return 'un nivel avanzado, abordando temas complejos, especializaciones y análisis crítico';
 			case 'Experto':
-				return 'un nivel experto, enfocado en la maestría profunda, contribución original o enseñanza del tema'
+				return 'un nivel experto, enfocado en la maestría profunda, contribución original o enseñanza del tema';
 			default:
-				return 'un nivel intermedio'
+				return 'un nivel intermedio';
 		}
 	}
 
@@ -349,17 +353,17 @@ export class StudyPathGeneratorComponent implements OnInit, OnDestroy {
 	/** Handles form submission */
 	async onSubmit(): Promise<void> {
 		if (this.studyPathForm.invalid) {
-			this.studyPathForm.markAllAsTouched()
+			this.studyPathForm.markAllAsTouched();
 			this.#snackBar.open(
 				'Por favor, completa todos los campos requeridos.',
 				'Cerrar',
 				{ duration: 3000 },
-			)
-			return
+			);
+			return;
 		}
-		this.showResult.set(false)
+		this.showResult.set(false);
 
-		const formValue = this.studyPathForm.getRawValue()
+		const formValue = this.studyPathForm.getRawValue();
 
 		// Construct the prompt for generating the study path
 		const prompt = `Eres un diseñador instruccional y planificador de aprendizaje experto.
@@ -373,49 +377,49 @@ Instrucciones para la Ruta de Estudio:
 - Tipos de Recursos Sugeridos: Incluye una breve lista de *tipos* de recursos recomendados para empezar (ej: "libros introductorios", "cursos en línea (plataformas como Coursera/Udemy)", "documentación oficial", "tutoriales en video", "proyectos prácticos pequeños", "comunidades en línea", "mentores"). No proporciones URLs específicas a menos que sea una fuente oficial muy estándar (como python.org).
 - Formato: Estructura la respuesta claramente usando títulos o secciones para "Pasos de Aprendizaje", "Tiempo Estimado", y "Recursos Sugeridos". Usa listas numeradas o con viñetas para los pasos y recursos.
 
-IMPORTANTE: La ruta debe ser práctica y motivadora. No incluyas saludos ni despedidas. Tu respuesta debe ser un documento de caracter oficial y profesional que sera directamente impreso, sin modificaciones, por lo que no puedes considerarlo una conversacion, sino, mas bien, la redaccion de un documento.`
+IMPORTANTE: La ruta debe ser práctica y motivadora. No incluyas saludos ni despedidas. Tu respuesta debe ser un documento de caracter oficial y profesional que sera directamente impreso, sin modificaciones, por lo que no puedes considerarlo una conversacion, sino, mas bien, la redaccion de un documento.`;
 
-	  	this.#store.dispatch(askGemini({ question: prompt }))
-		this.showResult.set(true)
+		this.#store.dispatch(askGemini({ question: prompt }));
+		this.showResult.set(true);
 	}
 
 	/** Resets the form and view */
 	goBack(): void {
-		this.showResult.set(false)
+		this.showResult.set(false);
 		// Reset form to defaults
 		this.studyPathForm.reset({
 			topicSkill: '',
 			masteryLevel: 'Intermedio',
-		})
+		});
 	}
 
 	/** Downloads the generated study path as DOCX */
 	downloadDocx(): void {
-		const studyPathText = this.generatedStudyPath()
+		const studyPathText = this.generatedStudyPath();
 		if (!studyPathText || studyPathText.startsWith('Ocurrió un error'))
-			return
+			return;
 
-		const formValue = this.studyPathForm.getRawValue()
+		const formValue = this.studyPathForm.getRawValue();
 
 		// Sanitize filename parts
 		const topicName = (formValue.topicSkill || 'RutaEstudio')
 			.substring(0, 25)
-			.replace(/[^a-z0-9]/gi, '_')
+			.replace(/[^a-z0-9]/gi, '_');
 		const masteryLevelName = (formValue.masteryLevel || 'Nivel').replace(
 			/[^a-z0-9]/gi,
 			'_',
-		)
+		);
 
-		const filename = `RutaEstudio_${topicName}_${masteryLevelName}.docx`
+		const filename = `RutaEstudio_${topicName}_${masteryLevelName}.docx`;
 
 		// Create paragraphs, trying to identify headings and list items
-		const paragraphs: Paragraph[] = []
+		const paragraphs: Paragraph[] = [];
 		const lines = studyPathText
 			.split('\n')
-			.filter((line) => line.trim().length > 0)
+			.filter((line) => line.trim().length > 0);
 
 		lines.forEach((line) => {
-			const trimmedLine = line.trim()
+			const trimmedLine = line.trim();
 			// Basic check for potential headings (all caps, ends with ':', short)
 			if (
 				trimmedLine === trimmedLine.toUpperCase() &&
@@ -428,7 +432,7 @@ IMPORTANTE: La ruta debe ser práctica y motivadora. No incluyas saludos ni desp
 						heading: HeadingLevel.HEADING_2,
 						spacing: { before: 240, after: 120 },
 					}),
-				)
+				);
 			}
 			// Basic check for list items
 			else if (trimmedLine.match(/^(\*|-|\d+\.)\s+/)) {
@@ -438,7 +442,7 @@ IMPORTANTE: La ruta debe ser práctica y motivadora. No incluyas saludos ni desp
 						bullet: { level: 0 },
 						spacing: { after: 60 },
 					}),
-				)
+				);
 			}
 			// Regular paragraph
 			else {
@@ -447,9 +451,9 @@ IMPORTANTE: La ruta debe ser práctica y motivadora. No incluyas saludos ni desp
 						text: trimmedLine,
 						spacing: { after: 120 },
 					}),
-				)
+				);
 			}
-		})
+		});
 
 		// Create the document
 		const doc = new Document({
@@ -495,28 +499,28 @@ IMPORTANTE: La ruta debe ser práctica y motivadora. No incluyas saludos ni desp
 					},
 				],
 			},
-		})
+		});
 
 		// Generate blob and trigger download
 		Packer.toBlob(doc)
 			.then((blob) => {
-				saveAs(blob, filename)
+				saveAs(blob, filename);
 			})
 			.catch((error) => {
-				console.error('Error creating DOCX file:', error)
+				console.error('Error creating DOCX file:', error);
 				this.#snackBar.open(
 					'Error al generar el archivo DOCX.',
 					'Cerrar',
 					{ duration: 3000 },
-				)
-			})
+				);
+			});
 	}
 
 	// --- Getters for easier access to form controls ---
 	get topicSkillCtrl(): AbstractControl | null {
-		return this.studyPathForm.get('topicSkill')
+		return this.studyPathForm.get('topicSkill');
 	}
 	get masteryLevelCtrl(): AbstractControl | null {
-		return this.studyPathForm.get('masteryLevel')
+		return this.studyPathForm.get('masteryLevel');
 	}
 }

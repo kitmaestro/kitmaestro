@@ -162,18 +162,26 @@ export class ChecklistsEffects {
 			ofType(ChecklistsActions.downloadChecklist),
 			take(1),
 			tap(({ checklist }) => {
-				this.#checklistService.download(checklist)
-				this.#sb.open('La lista de cotejo ha sido descargada', 'Ok', timing)
-				return ChecklistsActions.downloadChecklistSuccess()
+				this.#checklistService.download(checklist);
+				this.#sb.open(
+					'La lista de cotejo ha sido descargada',
+					'Ok',
+					timing,
+				);
+				return ChecklistsActions.downloadChecklistSuccess();
 			}),
 			catchError((error) => {
-				this.#sb.open('Error al descargar la lista de cotejo', 'Ok', timing)
+				this.#sb.open(
+					'Error al descargar la lista de cotejo',
+					'Ok',
+					timing,
+				);
 				return of(
 					ChecklistsActions.downloadChecklistFailed({
 						error: error.message,
-					})
-				)
-			})
-		)
-	)
+					}),
+				);
+			}),
+		),
+	);
 }

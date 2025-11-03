@@ -22,7 +22,10 @@ import {
 	selectUnitPlanIsLoading,
 } from '../../../store/unit-plans';
 import { loadClassPlans } from '../../../store/class-plans/class-plans.actions';
-import { selectClassPlans, selectClassPlansLoading } from '../../../store/class-plans/class-plans.selectors';
+import {
+	selectClassPlans,
+	selectClassPlansLoading,
+} from '../../../store/class-plans/class-plans.selectors';
 import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
 import { loadCurrentSubscription, selectAiIsGenerating } from '../../../store';
 
@@ -42,10 +45,19 @@ import { loadCurrentSubscription, selectAiIsGenerating } from '../../../store';
 	template: `
 		@if (!isPrintView) {
 			<div style="display: flex; gap: 12px; justify-content: center">
-				<button mat-button color="link" routerLink="/planning/unit-plans">
+				<button
+					mat-button
+					color="link"
+					routerLink="/planning/unit-plans"
+				>
 					Volver
 				</button>
-				<button mat-button color="warn" style="display: none" (click)="deletePlan()">
+				<button
+					mat-button
+					color="warn"
+					style="display: none"
+					(click)="deletePlan()"
+				>
 					Eliminar
 				</button>
 				<button
@@ -225,17 +237,17 @@ export class UnitPlanDetailComponent implements OnInit {
 	private pdfService = inject(PdfService);
 	printing = false;
 	planId = this.route.snapshot.paramMap.get('id') || '';
-	plan = this.#store.selectSignal(selectCurrentPlan)
+	plan = this.#store.selectSignal(selectCurrentPlan);
 	instruments: UnitPlanInstruments | null = null;
 	user = this.#store.selectSignal(selectAuthUser);
 
 	rubrics: Rubric[] = [];
-	isPremium = this.#store.selectSignal(selectIsPremium)
-	classPlans = this.#store.selectSignal(selectClassPlans)
+	isPremium = this.#store.selectSignal(selectIsPremium);
+	classPlans = this.#store.selectSignal(selectClassPlans);
 
-	isLoading = this.#store.selectSignal(selectUnitPlanIsLoading)
-	isLoadingClassPlans = this.#store.selectSignal(selectClassPlansLoading)
-	isGenerating = this.#store.selectSignal(selectAiIsGenerating)
+	isLoading = this.#store.selectSignal(selectUnitPlanIsLoading);
+	isLoadingClassPlans = this.#store.selectSignal(selectClassPlansLoading);
+	isGenerating = this.#store.selectSignal(selectAiIsGenerating);
 
 	isPrintView = window.location.href.includes('print');
 
@@ -243,7 +255,7 @@ export class UnitPlanDetailComponent implements OnInit {
 		const unitPlan = this.planId;
 		this.#store.dispatch(loadClassPlans({ filters: { unitPlan } }));
 		this.#store.dispatch(loadUnitPlan({ id: unitPlan }));
-		this.#store.dispatch(loadCurrentSubscription())
+		this.#store.dispatch(loadCurrentSubscription());
 		this.#store.select(selectClassPlans).subscribe(() => {
 			if (this.isPrintView) {
 				setTimeout(() => {
@@ -255,8 +267,8 @@ export class UnitPlanDetailComponent implements OnInit {
 
 	async download() {
 		const user = this.user();
-		const plan = this.plan()
-		const classPlans = this.classPlans() || []
+		const plan = this.plan();
+		const classPlans = this.classPlans() || [];
 		if (!plan || !user) return;
 		this.printing = true;
 		this.sb.open(
@@ -268,7 +280,7 @@ export class UnitPlanDetailComponent implements OnInit {
 		//   "https://api.algobook.info/v1/randomimage?category=education"
 		// );
 		// const img = await response.arrayBuffer();
-		this.#store.dispatch(downloadUnitPlan({ plan, classPlans, user }))
+		this.#store.dispatch(downloadUnitPlan({ plan, classPlans, user }));
 		this.printing = false;
 	}
 
@@ -297,7 +309,7 @@ export class UnitPlanDetailComponent implements OnInit {
 	deletePlan() {
 		const id = this.route.snapshot.paramMap.get('id');
 		if (id) {
-			this.#store.dispatch(deleteUnitPlan({ id }))
+			this.#store.dispatch(deleteUnitPlan({ id }));
 			this.router.navigate(['/planning/unit-plans']).then(() => {
 				this.sb.open('El plan ha sido eliminado.', 'Ok', {
 					duration: 2500,

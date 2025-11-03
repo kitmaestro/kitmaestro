@@ -386,7 +386,9 @@ import { ClassSection } from '../../../core';
 																.length !== 1
 														"
 													>
-														<mat-icon>delete</mat-icon>
+														<mat-icon
+															>delete</mat-icon
+														>
 													</button>
 												</div>
 											</div>

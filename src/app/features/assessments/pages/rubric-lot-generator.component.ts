@@ -57,7 +57,11 @@ import { RubricDto } from '../../../store';
 					style="justify-content: space-between; align-items: center; display: flex;"
 				>
 					<h2>Generador de Rúbricas por Lote</h2>
-					<button mat-button type="button" routerLink="/assessments/rubrics">
+					<button
+						mat-button
+						type="button"
+						routerLink="/assessments/rubrics"
+					>
 						<mat-icon>assignment</mat-icon>
 						Mis Rúbricas
 					</button>
@@ -532,20 +536,22 @@ export class RubricLotGeneratorComponent implements OnInit {
 				if (!rubric) {
 					return of(null);
 				}
-				return this.rubricService.create(rubric as any as RubricDto).pipe(
-					tap(() => {
-						this.generationStatus.push(
-							`   -> ✅ Rúbrica para "${concept}" guardada con éxito.`,
-						);
-					}),
-					catchError((err) => {
-						console.error('Error saving rubric:', err);
-						this.generationStatus.push(
-							`   -> ❌ Error al guardar rúbrica para "${concept}".`,
-						);
-						return of(null); // Continuar con el siguiente aunque falle
-					}),
-				);
+				return this.rubricService
+					.create(rubric as any as RubricDto)
+					.pipe(
+						tap(() => {
+							this.generationStatus.push(
+								`   -> ✅ Rúbrica para "${concept}" guardada con éxito.`,
+							);
+						}),
+						catchError((err) => {
+							console.error('Error saving rubric:', err);
+							this.generationStatus.push(
+								`   -> ❌ Error al guardar rúbrica para "${concept}".`,
+							);
+							return of(null); // Continuar con el siguiente aunque falle
+						}),
+					);
 			}),
 		);
 	}

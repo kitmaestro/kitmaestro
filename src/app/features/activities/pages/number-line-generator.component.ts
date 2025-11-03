@@ -139,7 +139,8 @@ const CM_PER_MM = 0.1;
 								type="submit"
 								[disabled]="numberLineForm.invalid"
 							>
-								<mat-icon>linear_scale</mat-icon> Generar Recta Numérica
+								<mat-icon>linear_scale</mat-icon> Generar Recta
+								Numérica
 							</button>
 						</div>
 					</form>

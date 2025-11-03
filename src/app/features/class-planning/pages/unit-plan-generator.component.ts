@@ -1,20 +1,20 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core'
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar'
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { MatStepperModule } from '@angular/material/stepper'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSelectModule } from '@angular/material/select'
-import { MatInputModule } from '@angular/material/input'
-import { MatChipsModule } from '@angular/material/chips'
-import { AiService } from '../../../core/services/ai.service'
-import { UnitPlan } from '../../../core/models'
-import { Router, RouterModule } from '@angular/router'
-import { CompetenceService } from '../../../core/services/competence.service'
-import { CompetenceEntry } from '../../../core'
-import { MainTheme } from '../../../core'
-import { MainThemeService } from '../../../core/services/main-theme.service'
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { AiService } from '../../../core/services/ai.service';
+import { UnitPlan } from '../../../core/models';
+import { Router, RouterModule } from '@angular/router';
+import { CompetenceService } from '../../../core/services/competence.service';
+import { CompetenceEntry } from '../../../core';
+import { MainTheme } from '../../../core';
+import { MainThemeService } from '../../../core/services/main-theme.service';
 import {
 	classroomProblems,
 	classroomResources,
@@ -23,30 +23,30 @@ import {
 	generateStrategiesPrompt,
 	mainThemeCategories,
 	schoolEnvironments,
-} from '../../../config/constants'
-import { forkJoin, Subject, tap } from 'rxjs'
-import { ContentBlockService } from '../../../core/services/content-block.service'
-import { ContentBlock } from '../../../core'
-import { TEACHING_METHODS } from '../../../core/data/teaching-methods'
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
-import { UserSubscriptionService } from '../../../core/services/user-subscription.service'
-import { Store } from '@ngrx/store'
-import { selectAuthUser } from '../../../store/auth/auth.selectors'
-import { selectAllClassSections } from '../../../store/class-sections/class-sections.selectors'
-import { loadSections } from '../../../store/class-sections/class-sections.actions'
+} from '../../../config/constants';
+import { forkJoin, Subject, tap } from 'rxjs';
+import { ContentBlockService } from '../../../core/services/content-block.service';
+import { ContentBlock } from '../../../core';
+import { TEACHING_METHODS } from '../../../core/data/teaching-methods';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { selectAllClassSections } from '../../../store/class-sections/class-sections.selectors';
+import { loadSections } from '../../../store/class-sections/class-sections.actions';
 import {
 	createUnitPlan,
 	createUnitPlanSuccess,
 	selectAllUnitPlans,
 	UnitPlanDto,
-} from '../../../store'
-import { Actions, ofType } from '@ngrx/effects'
+} from '../../../store';
+import { Actions, ofType } from '@ngrx/effects';
 
 interface LearningSituation {
-	title: string
-	content: string
-	learningCriteria: string[]
-	strategies: string[]
+	title: string;
+	content: string;
+	learningCriteria: string[];
+	strategies: string[];
 }
 
 @Component({
@@ -836,57 +836,57 @@ interface LearningSituation {
 	`,
 })
 export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
-	#store = inject(Store)
-	#actions$ = inject(Actions)
-	private aiService = inject(AiService)
-	private mainThemeService = inject(MainThemeService)
-	private fb = inject(FormBuilder)
-	private sb = inject(MatSnackBar)
-	userSubscriptionService = inject(UserSubscriptionService)
-	private contentBlockService = inject(ContentBlockService)
-	private competenceService = inject(CompetenceService)
-	private router = inject(Router)
-	private _evaluationCriteria: CompetenceEntry[] = []
+	#store = inject(Store);
+	#actions$ = inject(Actions);
+	private aiService = inject(AiService);
+	private mainThemeService = inject(MainThemeService);
+	private fb = inject(FormBuilder);
+	private sb = inject(MatSnackBar);
+	userSubscriptionService = inject(UserSubscriptionService);
+	private contentBlockService = inject(ContentBlockService);
+	private competenceService = inject(CompetenceService);
+	private router = inject(Router);
+	private _evaluationCriteria: CompetenceEntry[] = [];
 
-	pretify = new PretifyPipe().transform
-	working = true
+	pretify = new PretifyPipe().transform;
+	working = true;
 
-	user = this.#store.selectSignal(selectAuthUser)
+	user = this.#store.selectSignal(selectAuthUser);
 
-	public mainThemeCategories = mainThemeCategories
-	public environments = schoolEnvironments
-	public problems = classroomProblems
-	public resources = classroomResources
+	public mainThemeCategories = mainThemeCategories;
+	public environments = schoolEnvironments;
+	public problems = classroomProblems;
+	public resources = classroomResources;
 
-	classSections = this.#store.selectSignal(selectAllClassSections)
+	classSections = this.#store.selectSignal(selectAllClassSections);
 
-	generating = false
+	generating = false;
 
 	// TODO: start using this
-	strategyOptions = []
+	strategyOptions = [];
 
-	learningSituationTitle = this.fb.control('')
-	learningSituation = this.fb.control('')
-	learningCriteria = this.fb.array<string[]>([])
-	strategies = this.fb.array<string[]>([])
-	teacher_activities: { subject: string, activities: string[] }[] = []
-	student_activities: { subject: string, activities: string[] }[] = []
-	evaluation_activities: { subject: string, activities: string[] }[] = []
-	instruments = this.fb.array<string[]>([])
-	resourceList = this.fb.array<string[]>([])
-	mainTheme = this.fb.control<string>('Salud y Bienestar')
-	mainThemes: MainTheme[] = []
-	contentBlocks: ContentBlock[] = []
+	learningSituationTitle = this.fb.control('');
+	learningSituation = this.fb.control('');
+	learningCriteria = this.fb.array<string[]>([]);
+	strategies = this.fb.array<string[]>([]);
+	teacher_activities: { subject: string; activities: string[] }[] = [];
+	student_activities: { subject: string; activities: string[] }[] = [];
+	evaluation_activities: { subject: string; activities: string[] }[] = [];
+	instruments = this.fb.array<string[]>([]);
+	resourceList = this.fb.array<string[]>([]);
+	mainTheme = this.fb.control<string>('Salud y Bienestar');
+	mainThemes: MainTheme[] = [];
+	contentBlocks: ContentBlock[] = [];
 
-	public teachingMethods = TEACHING_METHODS
+	public teachingMethods = TEACHING_METHODS;
 
-	plan: UnitPlan | null = null
+	plan: UnitPlan | null = null;
 
 	situationTypes = [
 		{ id: 'realityProblem', label: 'Problema Real' },
 		{ id: 'reality', label: 'Basada en mi Realidad' },
 		{ id: 'fiction', label: 'Ficticia' },
-	]
+	];
 
 	learningSituationForm = this.fb.group({
 		classSection: [''],
@@ -903,7 +903,7 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 		situationType: ['realityProblem'],
 		reality: ['Falta de disciplina'],
 		environment: ['Salón de clases'],
-	})
+	});
 
 	unitPlanForm = this.fb.group({
 		duration: [4],
@@ -927,7 +927,7 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 				'Cuadernos de ejercicios',
 			],
 		],
-	})
+	});
 
 	activitiesForm = this.fb.array([
 		this.fb.group({
@@ -935,36 +935,36 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 			title: [''],
 			description: [''],
 		}),
-	])
+	]);
 
-	destroy$ = new Subject<void>()
+	destroy$ = new Subject<void>();
 
 	ngOnDestroy() {
-		this.destroy$.next()
-		this.destroy$.complete()
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadSections())
+		this.#store.dispatch(loadSections());
 		forkJoin({
 			sections: this.#store.select(selectAllClassSections),
 			subscription: this.userSubscriptionService.checkSubscription(),
 			plans: this.#store.select(selectAllUnitPlans),
 		}).subscribe({
 			next: ({ sections, subscription, plans }) => {
-				let maxPlans = 0
+				let maxPlans = 0;
 				if (sections.length) {
 					maxPlans = sections.flatMap((s) =>
 						s.subjects.filter((s) => s !== 'TALLERES_OPTATIVOS'),
-					).length
+					).length;
 					this.learningSituationForm
 						.get('classSection')
-						?.setValue(sections[0]._id || '')
+						?.setValue(sections[0]._id || '');
 					if (sections[0].subjects.length === 1) {
 						this.learningSituationForm
 							.get('subjects')
-							?.setValue([sections[0].subjects[0]])
-						this.onSubjectSelect()
+							?.setValue([sections[0].subjects[0]]);
+						this.onSubjectSelect();
 					}
 				} else {
 					this.router.navigateByUrl('/sections').then(() => {
@@ -972,53 +972,51 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 							'Para poder planificar, primero tienes que crear una seccion',
 							'Ok',
 							{ duration: 5000 },
-						)
-					})
-					return
+						);
+					});
+					return;
 				}
-				const sub = subscription.subscriptionType.toLowerCase()
-				if (sub == 'plan premium') return
+				const sub = subscription.subscriptionType.toLowerCase();
+				if (sub == 'plan premium') return;
 
 				const createdThisMonth = plans.filter((plan) => {
-					const created = new Date(plan.createdAt)
+					const created = new Date(plan.createdAt);
 					const thirtyDaysAgo = new Date(
 						Date.now() - 1000 * 60 * 60 * 24 * 30,
-					)
-					return +created > +thirtyDaysAgo
-				}).length
+					);
+					return +created > +thirtyDaysAgo;
+				}).length;
 				if (sub == 'free' && createdThisMonth > 0) {
-					this.router
-						.navigateByUrl('/buy')
-						.then(() => {
-							this.sb.open(
-								'Ya has agotado tu limite de planes para este mes. Para continuar planificando, contrata un plan de pago.',
-								'Ok',
-								{ duration: 10000 },
-							)
-						})
-					return
+					this.router.navigateByUrl('/buy').then(() => {
+						this.sb.open(
+							'Ya has agotado tu limite de planes para este mes. Para continuar planificando, contrata un plan de pago.',
+							'Ok',
+							{ duration: 10000 },
+						);
+					});
+					return;
 				}
-				if (sub == 'plan plus') maxPlans = maxPlans * 2
+				if (sub == 'plan plus') maxPlans = maxPlans * 2;
 				if (createdThisMonth >= maxPlans) {
 					this.router.navigateByUrl('/').then(() => {
 						this.sb.open(
 							'Haz alcanzado el limite de planes de este mes. Mejora tu suscripcion para eliminar las restricciones o vuelve la proxima semana.',
 							'Ok',
 							{ duration: 5000 },
-						)
-					})
+						);
+					});
 				}
 			},
 			error: (err) => {
-				console.log(err)
+				console.log(err);
 			},
-		})
+		});
 		const availableResourcesStr = localStorage.getItem(
 			'available-resources',
-		)
+		);
 		if (availableResourcesStr) {
-			const resources = JSON.parse(availableResourcesStr) as string[]
-			this.unitPlanForm.get('resources')?.setValue(resources)
+			const resources = JSON.parse(availableResourcesStr) as string[];
+			this.unitPlanForm.get('resources')?.setValue(resources);
 		}
 		this.#actions$
 			.pipe(
@@ -1031,44 +1029,44 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 								'Tu unidad multigrado ha sido guardada!',
 								'Ok',
 								{ duration: 2500 },
-							)
-						})
+							);
+						});
 				}),
 			)
-			.subscribe()
+			.subscribe();
 	}
 
 	onSectionSelect() {
 		setTimeout(() => {
-			const subjects = this.classSection?.subjects
+			const subjects = this.classSection?.subjects;
 			if (subjects && subjects.length === 1) {
 				this.learningSituationForm
 					.get('subjects')
-					?.setValue([subjects[0]])
-				this.onSubjectSelect()
+					?.setValue([subjects[0]]);
+				this.onSubjectSelect();
 			}
-		})
+		});
 	}
 
 	onSubjectSelect() {
 		setTimeout(() => {
-			this.loadMainThemes()
-		}, 0)
+			this.loadMainThemes();
+		}, 0);
 	}
 
 	onResourceChange(event: any) {
 		setTimeout(() => {
-			const resources = JSON.stringify(event.value)
-			localStorage.setItem('available-resources', resources)
-		}, 0)
+			const resources = JSON.stringify(event.value);
+			localStorage.setItem('available-resources', resources);
+		}, 0);
 	}
 
 	loadMainThemes() {
-		if (!this.classSection) return
+		if (!this.classSection) return;
 
-		const { level, year } = this.classSection
-		const subjects = this.learningSituationForm.value.subjects as string[]
-		const category = this.mainTheme.value as string
+		const { level, year } = this.classSection;
+		const subjects = this.learningSituationForm.value.subjects as string[];
+		const category = this.mainTheme.value as string;
 		forkJoin<MainTheme[][]>(
 			subjects.map((subject: string) =>
 				this.mainThemeService.findAll({
@@ -1079,8 +1077,8 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 				}),
 			),
 		).subscribe((result) => {
-			this.mainThemes = result.flat()
-		})
+			this.mainThemes = result.flat();
+		});
 		forkJoin<ContentBlock[][]>(
 			subjects.map((subject: string) =>
 				this.contentBlockService.findAll({ level, year, subject }),
@@ -1088,19 +1086,19 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 		).subscribe((result) => {
 			this.contentBlocks = result
 				.flat()
-				.sort((a, b) => a.order - b.order)
-		})
+				.sort((a, b) => a.order - b.order);
+		});
 		this.competenceService.findAll().subscribe((competence) => {
 			const subjects = this.learningSituationForm.value
-				.subjects as string[]
+				.subjects as string[];
 			this._evaluationCriteria = competence.filter((c) => {
 				return (
 					c.grade === this.classSectionYear &&
 					c.level === this.classSectionLevel &&
 					subjects.includes(c.subject)
-				)
-			})
-		})
+				);
+			});
+		});
 	}
 
 	getSelectedContentsId() {
@@ -1114,7 +1112,7 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 			religionContent,
 			artisticEducationContent,
 			physicalEducationContent,
-		} = this.learningSituationForm.value
+		} = this.learningSituationForm.value;
 		const selected: string[] = [
 			spanishContent,
 			englishContent,
@@ -1129,24 +1127,24 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 			.flat()
 			.map((s) => s?.trim())
 			.filter((s) => s && s?.length > 0)
-			.filter((s) => typeof s == 'string')
-		return selected
+			.filter((s) => typeof s == 'string');
+		return selected;
 	}
 
 	getSelectedContents() {
-		const ids = this.getSelectedContentsId()
-		const selected = this.contentBlocks.filter((b) => ids.includes(b._id))
-		return selected
+		const ids = this.getSelectedContentsId();
+		const selected = this.contentBlocks.filter((b) => ids.includes(b._id));
+		return selected;
 	}
 
 	generateActivities() {
-		const { duration, resources } = this.unitPlanForm.value
+		const { duration, resources } = this.unitPlanForm.value;
 
 		const contents = this.getSelectedContents()
 			.map((c) => {
-				return `${this.pretify(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\n\nProcedimentales:\n- ${c.procedures.join('\n- ')}\n\nActitudinales:\n- ${c.attitudes.join('\n- ')}`
+				return `${this.pretify(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\n\nProcedimentales:\n- ${c.procedures.join('\n- ')}\n\nActitudinales:\n- ${c.attitudes.join('\n- ')}`;
 			})
-			.join('\n')
+			.join('\n');
 
 		const text = generateActivitySequencePrompt
 			.replace('classroom_year', `${this.classSectionYear.toLowerCase()}`)
@@ -1181,56 +1179,56 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 			.replace(
 				'subject_type',
 				`${this.learningSituationForm.value.subjects?.map((s) => `'${s}'`).join(' | ')}`,
-			)
+			);
 
-		this.generating = true
+		this.generating = true;
 
 		this.aiService.geminiAi(text).subscribe({
 			next: (response) => {
 				try {
-					this.generating = false
+					this.generating = false;
 					// const answer = response.candidates.map(c => c.content.parts.map(p => p.text).join('\n')).join('\n')
-					const answer = response.response
-					const start = answer.indexOf('{')
-					const end = answer.lastIndexOf('}') + 1
-					const extract = answer.slice(start, end)
+					const answer = response.response;
+					const start = answer.indexOf('{');
+					const end = answer.lastIndexOf('}') + 1;
+					const extract = answer.slice(start, end);
 					// const activities: { teacher_activities: { subject: string, activities: string[]}[], student_activities: { subject: string, activities: string[]}[], evaluation_activities: { subject: string, activities: string[]}[], instruments: string[], resources: string[] } = JSON.parse(response.response.slice(start, -3))
 					const activities: {
 						teacher_activities: {
-							subject: string
-							activities: string[]
-						}[]
+							subject: string;
+							activities: string[];
+						}[];
 						student_activities: {
-							subject: string
-							activities: string[]
-						}[]
+							subject: string;
+							activities: string[];
+						}[];
 						evaluation_activities: {
-							subject: string
-							activities: string[]
-						}[]
-						instruments: string[]
-						resources: string[]
-					} = JSON.parse(extract)
-					this.instruments.clear()
-					this.resourceList.clear()
-					this.teacher_activities = activities.teacher_activities
-					this.student_activities = activities.student_activities
+							subject: string;
+							activities: string[];
+						}[];
+						instruments: string[];
+						resources: string[];
+					} = JSON.parse(extract);
+					this.instruments.clear();
+					this.resourceList.clear();
+					this.teacher_activities = activities.teacher_activities;
+					this.student_activities = activities.student_activities;
 					this.evaluation_activities =
-						activities.evaluation_activities
+						activities.evaluation_activities;
 					activities.instruments.forEach((list) => {
-						this.instruments.push(this.fb.control(list))
-					})
+						this.instruments.push(this.fb.control(list));
+					});
 					activities.resources.forEach((resource) => {
-						this.resourceList.push(this.fb.control(resource))
-					})
+						this.resourceList.push(this.fb.control(resource));
+					});
 				} catch (error) {
-					console.log(error)
-					this.generating = false
+					console.log(error);
+					this.generating = false;
 					this.sb.open(
 						'Ha ocurrido un error generando las actividades. Haz click en generar para intentarlo de nuevo.',
 						'Ok',
 						{ duration: 2500 },
-					)
+					);
 				}
 			},
 			error: (err) => {
@@ -1238,15 +1236,15 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 					'Hubo un error generando las actividades. Intentalo de nuevo',
 					undefined,
 					{ duration: 2500 },
-				)
-				console.log(err.message)
-				this.generating = false
+				);
+				console.log(err.message);
+				this.generating = false;
 			},
-		})
+		});
 	}
 
 	fillFinalForm() {
-		const user = this.user()
+		const user = this.user();
 		const plan = {
 			user: user?._id,
 			section: this.classSection?._id,
@@ -1265,29 +1263,31 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 			teacherActivities: this.teacher_activities,
 			studentActivities: this.student_activities,
 			evaluationActivities: this.evaluation_activities,
-		}
-		this.plan = plan as unknown as UnitPlan
-		this.savePlan()
+		};
+		this.plan = plan as unknown as UnitPlan;
+		this.savePlan();
 	}
 
 	savePlan() {
-		const plan = this.plan as unknown as UnitPlanDto
+		const plan = this.plan as unknown as UnitPlanDto;
 		if (plan) {
-			this.#store.dispatch(createUnitPlan({ plan }))
+			this.#store.dispatch(createUnitPlan({ plan }));
 		}
 	}
 
-	generateLearningSituation(cb?: (learningSituation: LearningSituation) => void) {
+	generateLearningSituation(
+		cb?: (learningSituation: LearningSituation) => void,
+	) {
 		const { environment, situationType, reality } =
-			this.learningSituationForm.value
+			this.learningSituationForm.value;
 
-		if (!environment || !reality || !situationType) return
+		if (!environment || !reality || !situationType) return;
 
 		const contents = this.getSelectedContents()
 			.map((c) => {
-				return `${this.pretify(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\n\nProcedimentales:\n- ${c.procedures.join('\n- ')}\n\nActitudinales:\n- ${c.attitudes.join('\n- ')}`
+				return `${this.pretify(c.subject)}:\nConceptuales:\n- ${c.concepts.join('\n- ')}\n\nProcedimentales:\n- ${c.procedures.join('\n- ')}\n\nActitudinales:\n- ${c.attitudes.join('\n- ')}`;
 			})
-			.join('\n')
+			.join('\n');
 
 		const text = generateLearningSituationPrompt
 			.replace(
@@ -1315,32 +1315,33 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 				'condicion_inicial',
 				'Los alumnos aun no saben nada sobre el tema',
 			)
-			.replace('contenido_especifico', contents)
+			.replace('contenido_especifico', contents);
 
-		this.generating = true
+		this.generating = true;
 
 		this.aiService.geminiAi(text).subscribe({
 			next: (res) => {
-				this.generating = false
-				const { response } = res
+				this.generating = false;
+				const { response } = res;
 				const extract = response.slice(
 					response.indexOf('{'),
 					response.lastIndexOf('}') + 1,
-				)
-				const learningSituation: LearningSituation = JSON.parse(extract)
-				this.learningSituationTitle.setValue(learningSituation.title)
-				this.learningSituation.setValue(learningSituation.content)
-				this.strategies.clear()
+				);
+				const learningSituation: LearningSituation =
+					JSON.parse(extract);
+				this.learningSituationTitle.setValue(learningSituation.title);
+				this.learningSituation.setValue(learningSituation.content);
+				this.strategies.clear();
 				if (cb) {
-					cb(learningSituation)
+					cb(learningSituation);
 				}
 				if (
 					learningSituation.strategies &&
 					learningSituation.strategies.length
 				) {
 					learningSituation.strategies.forEach((strategy) => {
-						this.strategies.push(this.fb.control(strategy))
-					})
+						this.strategies.push(this.fb.control(strategy));
+					});
 				} else {
 					const query = generateStrategiesPrompt
 						.replace(
@@ -1354,40 +1355,40 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 								this.mainTheme.value || 'Salud y Bienestar'
 							).toLowerCase(),
 						)
-						.replace('contenido_especifico', contents)
+						.replace('contenido_especifico', contents);
 					this.aiService.geminiAi(query).subscribe({
 						next: (response) => {
-							console.log(response.response)
+							console.log(response.response);
 							const result: string[] = JSON.parse(
 								response.response.slice(
 									response.response.indexOf('['),
 									response.response.lastIndexOf(']') + 1,
 								),
-							)
+							);
 							result.forEach((strategy) => {
-								this.strategies.push(this.fb.control(strategy))
-							})
+								this.strategies.push(this.fb.control(strategy));
+							});
 						},
-					})
+					});
 				}
 			},
 			error: (err) => {
-				this.generating = false
+				this.generating = false;
 				this.sb.open(
 					'Ha ocurrido un problema al generar la situacion. Intentalo de nuevo, por favor.',
 					'Ok',
 					{ duration: 2500 },
-				)
-				console.log(err.message)
+				);
+				console.log(err.message);
 			},
-		})
+		});
 	}
 
 	formatedLevel(levelOrYear: string): string {
 		return (
 			(levelOrYear[0] || '').toUpperCase() +
 			levelOrYear.toLowerCase().slice(1)
-		).replace('_', ' ')
+		).replace('_', ' ');
 	}
 
 	yearIndex(year: string): number {
@@ -1401,139 +1402,138 @@ export class UnitPlanGeneratorComponent implements OnInit, OnDestroy {
 						? 3
 						: year === 'QUINTO'
 							? 4
-							: 5
+							: 5;
 	}
 
 	get classSectionSubjects() {
 		if (this.learningSituationForm.value.classSection) {
-			return []
+			return [];
 		}
-		return []
+		return [];
 	}
 
 	get classSection() {
-		const { classSection: sectionId } = this.learningSituationForm.value
-		const section = this.classSections().find((cs) => cs._id == sectionId)
-		return section || null
+		const { classSection: sectionId } = this.learningSituationForm.value;
+		const section = this.classSections().find((cs) => cs._id == sectionId);
+		return section || null;
 	}
 
 	get classSectionSchoolName() {
-		return this.user()?.schoolName || ''
+		return this.user()?.schoolName || '';
 	}
 
 	get classSectionName() {
 		if (this.classSection) {
-			return this.classSection.name
+			return this.classSection.name;
 		}
-		return ''
+		return '';
 	}
 
 	get classSectionYear() {
 		if (this.classSection) {
-			return this.classSection.year
+			return this.classSection.year;
 		}
-		return ''
+		return '';
 	}
 
 	get classSectionLevel() {
 		if (this.classSection) {
-			return this.classSection.level
+			return this.classSection.level;
 		}
-		return ''
+		return '';
 	}
 
 	get competence(): CompetenceEntry[] {
 		return this._evaluationCriteria
 			.filter((c) => {
-				const subjects = this.learningSituationForm.value.subjects as string[]
+				const subjects = this.learningSituationForm.value
+					.subjects as string[];
 				return (
 					c.grade === this.classSectionYear &&
 					c.level === this.classSectionLevel &&
 					subjects.includes(c.subject)
-				)
+				);
 			})
 			.map((c) => ({
 				...c,
 				entries: [this.randomCompetence(c.entries)],
-			}))
+			}));
 	}
 
 	randomCompetence(categorized: string[]): string {
-		const random = Math.round(Math.random() * (categorized.length - 1))
-		return categorized[random]
+		const random = Math.round(Math.random() * (categorized.length - 1));
+		return categorized[random];
 	}
 
 	randomCriteria(categorized: string[]): string {
-		const random = Math.round(Math.random() * (categorized.length - 1))
-		return categorized[random]
+		const random = Math.round(Math.random() * (categorized.length - 1));
+		return categorized[random];
 	}
 
 	mainThemeByGrade(themes: {
-		Primero: string[]
-		Segundo: string[]
-		Tercero: string[]
-		Cuarto: string[]
-		Quinto: string[]
-		Sexto: string[]
+		Primero: string[];
+		Segundo: string[];
+		Tercero: string[];
+		Cuarto: string[];
+		Quinto: string[];
+		Sexto: string[];
 	}): string {
-		let random = 0
+		let random = 0;
 		switch (this.yearIndex(this.classSectionYear)) {
 			case 0:
 				random = Math.round(
 					Math.random() * (themes.Primero.length - 1),
-				)
-				return themes.Primero[random]
+				);
+				return themes.Primero[random];
 			case 1:
 				random = Math.round(
 					Math.random() * (themes.Segundo.length - 1),
-				)
-				return themes.Segundo[random]
+				);
+				return themes.Segundo[random];
 			case 2:
 				random = Math.round(
 					Math.random() * (themes.Tercero.length - 1),
-				)
-				return themes.Tercero[random]
+				);
+				return themes.Tercero[random];
 			case 3:
-				random = Math.round(Math.random() * (themes.Cuarto.length - 1))
-				return themes.Cuarto[random]
+				random = Math.round(Math.random() * (themes.Cuarto.length - 1));
+				return themes.Cuarto[random];
 			case 4:
-				random = Math.round(Math.random() * (themes.Quinto.length - 1))
-				return themes.Quinto[random]
+				random = Math.round(Math.random() * (themes.Quinto.length - 1));
+				return themes.Quinto[random];
 			case 5:
-				random = Math.round(Math.random() * (themes.Sexto.length - 1))
-				return themes.Sexto[random]
+				random = Math.round(Math.random() * (themes.Sexto.length - 1));
+				return themes.Sexto[random];
 			default:
-				return ''
+				return '';
 		}
 	}
 
 	get subjectNames(): string[] {
-		const subjects = this.learningSituationForm.value.subjects as string[]
-		return subjects.map((subject: string) =>
-			this.pretify(subject),
-		)
+		const subjects = this.learningSituationForm.value.subjects as string[];
+		return subjects.map((subject: string) => this.pretify(subject));
 	}
 
 	removeDuplicates(strings: string[]): string[] {
-		const seen = new Set<string>()
+		const seen = new Set<string>();
 
 		return strings.filter((str) => {
 			if (!seen.has(str)) {
-				seen.add(str)
-				return true
+				seen.add(str);
+				return true;
 			}
-			return false
-		})
+			return false;
+		});
 	}
 
-	get subjects(): { id: string, label: string }[] {
-		const subjectsFromClassSection = this.classSection?.subjects
+	get subjects(): { id: string; label: string }[] {
+		const subjectsFromClassSection = this.classSection?.subjects;
 		if (subjectsFromClassSection && subjectsFromClassSection.length) {
 			return subjectsFromClassSection.map((sId) => ({
 				id: sId,
 				label: this.pretify(sId),
-			}))
+			}));
 		}
-		return []
+		return [];
 	}
 }

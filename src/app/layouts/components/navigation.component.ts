@@ -1,4 +1,11 @@
-import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
+import {
+	Component,
+	EventEmitter,
+	inject,
+	OnInit,
+	Output,
+	signal,
+} from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -97,7 +104,11 @@ import { Actions, ofType } from '@ngrx/effects';
 					<span>Tutoriales</span>
 				</button>
 				@if (subscription()?.subscriptionType === 'Plan Premium') {
-					<button routerLink="/referrals" mat-menu-item style="display: none">
+					<button
+						routerLink="/referrals"
+						mat-menu-item
+						style="display: none"
+					>
 						<mat-icon>people_circle</mat-icon>
 						<span>Mis Referidos</span>
 					</button>
@@ -202,10 +213,12 @@ export class NavigationComponent implements OnInit {
 	userIsAdmin = signal<boolean>(false);
 
 	ngOnInit() {
-		this.user$.pipe(
-			filter((user) => !!user),
-			map((user) => ['orgalay.dev@gmail.com'].includes(user.email)),
-		).subscribe((res) => this.userIsAdmin.set(res));
+		this.user$
+			.pipe(
+				filter((user) => !!user),
+				map((user) => ['orgalay.dev@gmail.com'].includes(user.email)),
+			)
+			.subscribe((res) => this.userIsAdmin.set(res));
 		this.userSubscriptionService.checkSubscription().subscribe((sub) => {
 			this.subscription.set(sub);
 		});

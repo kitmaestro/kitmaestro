@@ -7,35 +7,43 @@ import {
 	isDevMode,
 	ChangeDetectionStrategy,
 	effect,
-} from '@angular/core'
-import { MatButtonModule } from '@angular/material/button'
-import { MatCardModule } from '@angular/material/card'
-import { filter, map } from 'rxjs'
-import { UserSubscriptionService } from '../../core/services/user-subscription.service'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { Store } from '@ngrx/store'
-import { selectCurrentSubscription } from '../../store/user-subscriptions/user-subscriptions.selectors'
-import { loadCurrentSubscription, subscribe } from '../../store/user-subscriptions/user-subscriptions.actions'
-import { MatDialog, MatDialogModule } from '@angular/material/dialog'
-import { BankAccountComponent } from './bank-account.component'
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { filter, map } from 'rxjs';
+import { UserSubscriptionService } from '../../core/services/user-subscription.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { selectCurrentSubscription } from '../../store/user-subscriptions/user-subscriptions.selectors';
+import {
+	loadCurrentSubscription,
+	subscribe,
+} from '../../store/user-subscriptions/user-subscriptions.actions';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { BankAccountComponent } from './bank-account.component';
 
-declare const paypal: any
+declare const paypal: any;
 
-type PlanType = 'Plan Basico' | 'Plan Plus' | 'Plan Premium'
+type PlanType = 'Plan Basico' | 'Plan Plus' | 'Plan Premium';
 
 interface PricingPlan {
-	id: string
-	name: string
-	code: PlanType
-	price: number
-	level: number
-	features: string[]
-	container: string
+	id: string;
+	name: string;
+	code: PlanType;
+	price: number;
+	level: number;
+	features: string[];
+	container: string;
 }
 
 @Component({
 	selector: 'app-is-premium',
-	imports: [MatCardModule, MatButtonModule, MatSnackBarModule, MatDialogModule],
+	imports: [
+		MatCardModule,
+		MatButtonModule,
+		MatSnackBarModule,
+		MatDialogModule,
+	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
 		<div class="main-container">
@@ -53,9 +61,9 @@ interface PricingPlan {
 						<header class="upgrade-header">
 							<h2>Contenido Premium de KitMaestro</h2>
 							<p>
-								Para acceder a esta funcionalidad,
-								necesitas un plan superior.
-								Elige el que mejor se adapte a ti.
+								Para acceder a esta funcionalidad, necesitas un
+								plan superior. Elige el que mejor se adapte a
+								ti.
 							</p>
 						</header>
 						<div class="plans-wrapper">
@@ -94,8 +102,12 @@ interface PricingPlan {
 							}
 						</div>
 						<div style="text-align: center;">
-							<p>Tambien puedes pagar con transferencia bancaria.</p>
-							<button mat-button (click)="openBankAccount()">Ver Cuenta Bancaria</button>
+							<p>
+								Tambien puedes pagar con transferencia bancaria.
+							</p>
+							<button mat-button (click)="openBankAccount()">
+								Ver Cuenta Bancaria
+							</button>
 						</div>
 					</div>
 				}
@@ -263,16 +275,16 @@ interface PricingPlan {
 	`,
 })
 export class IsPremiumComponent implements OnInit {
-	#store = inject(Store)
-	#dialog = inject(MatDialog)
+	#store = inject(Store);
+	#dialog = inject(MatDialog);
 
-	minSubscriptionType = input<PlanType>('Plan Basico')
+	minSubscriptionType = input<PlanType>('Plan Basico');
 
-	loading = signal(true)
-	userCanAccess = signal(false)
-	filteredPlans = signal<PricingPlan[]>([])
+	loading = signal(true);
+	userCanAccess = signal(false);
+	filteredPlans = signal<PricingPlan[]>([]);
 
-	private buttonsRendered = false
+	private buttonsRendered = false;
 
 	private allPricingPlans: PricingPlan[] = [
 		{
@@ -320,26 +332,27 @@ export class IsPremiumComponent implements OnInit {
 			],
 			container: 'premium-plan-button-container',
 		},
-	]
+	];
 
 	constructor() {
 		effect(() => {
 			if (!this.loading() && !this.userCanAccess()) {
-				setTimeout(() => this.renderPaypalButtons(), 100)
+				setTimeout(() => this.renderPaypalButtons(), 100);
 			}
-		})
+		});
 	}
 
 	ngOnInit() {
-		this.#store.dispatch(loadCurrentSubscription())
-		const requiredLevel = this.getlevelForPlan(this.minSubscriptionType())
+		this.#store.dispatch(loadCurrentSubscription());
+		const requiredLevel = this.getlevelForPlan(this.minSubscriptionType());
 
 		const plansToShow = this.allPricingPlans.filter(
 			(p) => p.level >= requiredLevel,
-		)
-		this.filteredPlans.set(plansToShow)
+		);
+		this.filteredPlans.set(plansToShow);
 
-		this.#store.select(selectCurrentSubscription)
+		this.#store
+			.select(selectCurrentSubscription)
 			.pipe(
 				map((sub) => {
 					if (
@@ -347,47 +360,47 @@ export class IsPremiumComponent implements OnInit {
 						sub.status !== 'active' ||
 						new Date(sub.endDate) < new Date()
 					) {
-						return false
+						return false;
 					}
 					const userAccessLevel = this.getlevelForPlan(
 						sub.subscriptionType as PlanType,
-					)
-					return userAccessLevel >= requiredLevel
+					);
+					return userAccessLevel >= requiredLevel;
 				}),
 			)
 			.subscribe((canAccess) => {
-				this.userCanAccess.set(canAccess)
-				this.loading.set(false)
-			})
+				this.userCanAccess.set(canAccess);
+				this.loading.set(false);
+			});
 	}
 
 	openBankAccount() {
-		this.#dialog.open(BankAccountComponent)
+		this.#dialog.open(BankAccountComponent);
 	}
 
 	private getlevelForPlan(plan: PlanType | 'FREE'): number {
 		switch (plan) {
 			case 'Plan Basico':
-				return 2
+				return 2;
 			case 'Plan Plus':
-				return 3
+				return 3;
 			case 'Plan Premium':
-				return 4
+				return 4;
 			default:
-				return 1
+				return 1;
 		}
 	}
 
 	private renderPaypalButtons() {
-		if (this.buttonsRendered) return
-		this.buttonsRendered = true
+		if (this.buttonsRendered) return;
+		this.buttonsRendered = true;
 
 		const style = {
 			shape: 'rect',
 			color: 'gold',
 			layout: 'vertical',
 			label: 'subscribe',
-		}
+		};
 
 		this.filteredPlans().forEach(
 			({ id: plan_id, name, code, price, container }) => {
@@ -404,10 +417,10 @@ export class IsPremiumComponent implements OnInit {
 									name,
 								),
 						})
-						.render(`#${container}`)
+						.render(`#${container}`);
 				}
 			},
-		)
+		);
 	}
 
 	private handleSubscriptionSuccess(
@@ -415,6 +428,13 @@ export class IsPremiumComponent implements OnInit {
 		price: number,
 		planName: string,
 	) {
-		this.#store.dispatch(subscribe({ subscriptionType: code, method: 'PayPal', duration: 30, amount: price }))
+		this.#store.dispatch(
+			subscribe({
+				subscriptionType: code,
+				method: 'PayPal',
+				duration: 30,
+				amount: price,
+			}),
+		);
 	}
 }

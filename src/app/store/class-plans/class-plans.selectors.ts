@@ -26,5 +26,6 @@ export const selectClassPlanStatus = createSelector(
 
 export const selectClassPlansLoading = createSelector(
 	selectClassPlanFeature,
-	(state: ClassPlanState) => state.status === ClassPlanStateStatus.LOADING_CLASS_PLANS,
+	(state: ClassPlanState) =>
+		state.status === ClassPlanStateStatus.LOADING_CLASS_PLANS,
 );

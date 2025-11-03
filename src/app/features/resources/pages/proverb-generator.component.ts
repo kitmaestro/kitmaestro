@@ -265,7 +265,8 @@ import { loadCurrentSubscription } from '../../../store';
 									!generatedProverbs() ||
 									generatedProverbs().startsWith(
 										'Ocurrió un error'
-									) || !isPremium()
+									) ||
+									!isPremium()
 								"
 							>
 								<mat-icon>download</mat-icon> Descargar
@@ -357,7 +358,7 @@ import { loadCurrentSubscription } from '../../../store';
 	encapsulation: ViewEncapsulation.None,
 })
 export class ProverbGeneratorComponent implements OnInit, OnDestroy {
-	#store = inject(Store)
+	#store = inject(Store);
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
@@ -395,7 +396,7 @@ export class ProverbGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- OnInit ---
 	ngOnInit(): void {
-		this.#store.dispatch(loadCurrentSubscription())
+		this.#store.dispatch(loadCurrentSubscription());
 		this.#loadSections();
 	}
 

@@ -1,12 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { MatTableModule } from '@angular/material/table'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { RouterLink } from '@angular/router'
-import { DatePipe } from '@angular/common'
-import { Store } from '@ngrx/store'
-import { selectAllGuides } from '../../../store/observation-guides/observation-guides.selectors'
-import { deleteGuide, loadGuides } from '../../../store'
+import { Component, inject, OnInit } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { selectAllGuides } from '../../../store/observation-guides/observation-guides.selectors';
+import { deleteGuide, loadGuides } from '../../../store';
 
 @Component({
 	selector: 'app-observation-sheets',
@@ -18,9 +18,14 @@ import { deleteGuide, loadGuides } from '../../../store'
 		DatePipe,
 	],
 	template: `
-		<div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+		<div
+			style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;"
+		>
 			<h2>Gu&iacute;as de Observaci&oacute;n</h2>
-			<button mat-flat-button routerLink="/assessments/observation-sheet-generator">
+			<button
+				mat-flat-button
+				routerLink="/assessments/observation-sheet-generator"
+			>
 				<mat-icon>add</mat-icon>
 				Nueva Gu&iacute;a
 			</button>
@@ -83,17 +88,17 @@ import { deleteGuide, loadGuides } from '../../../store'
 	`,
 })
 export class ObservationSheetsComponent implements OnInit {
-	#store = inject(Store)
+	#store = inject(Store);
 
-	displayedColumns = ['title', 'date', 'section', 'individual', 'actions']
+	displayedColumns = ['title', 'date', 'section', 'individual', 'actions'];
 
-	assessments = this.#store.selectSignal(selectAllGuides)
+	assessments = this.#store.selectSignal(selectAllGuides);
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadGuides())
+		this.#store.dispatch(loadGuides());
 	}
 
 	deleteAssessment(id: string) {
-		this.#store.dispatch(deleteGuide({ id }))
+		this.#store.dispatch(deleteGuide({ id }));
 	}
 }

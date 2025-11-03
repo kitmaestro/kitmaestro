@@ -1,9 +1,4 @@
-import {
-	Component,
-	inject,
-	OnInit,
-	Input,
-} from '@angular/core';
+import { Component, inject, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';

@@ -1,20 +1,20 @@
-import { Component, OnInit, inject } from '@angular/core'
-import { LogRegistryEntry } from '../../../core'
-import { MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatDialog, MatDialogModule } from '@angular/material/dialog'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { LogRegistryEntryFormComponent } from '../../../shared/ui/log-registry-entry-form.component'
-import { LogRegistryEntryDetailsComponent } from '../components/log-registry-entry-details.component'
-import { MatTableModule } from '@angular/material/table'
-import { MatCardModule } from '@angular/material/card'
-import { Student } from '../../../core'
-import { LogRegistryEntryEditFormComponent } from '../../../shared/ui/log-registry-entry-edit-form.component'
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
-import { DatePipe } from '@angular/common'
-import { Store } from '@ngrx/store'
-import { selectAllEntries } from '../../../store/log-registry-entries/log-registry-entries.selectors'
-import { deleteLogRegistryEntry, loadLogRegistryEntries } from '../../../store'
+import { Component, OnInit, inject } from '@angular/core';
+import { LogRegistryEntry } from '../../../core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { LogRegistryEntryFormComponent } from '../../../shared/ui/log-registry-entry-form.component';
+import { LogRegistryEntryDetailsComponent } from '../components/log-registry-entry-details.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { Student } from '../../../core';
+import { LogRegistryEntryEditFormComponent } from '../../../shared/ui/log-registry-entry-edit-form.component';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { DatePipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { selectAllEntries } from '../../../store/log-registry-entries/log-registry-entries.selectors';
+import { deleteLogRegistryEntry, loadLogRegistryEntries } from '../../../store';
 
 @Component({
 	selector: 'app-log-registry-generator',
@@ -31,7 +31,9 @@ import { deleteLogRegistryEntry, loadLogRegistryEntries } from '../../../store'
 	template: `
 		<app-is-premium>
 			<div>
-				<div style="display: flex; justify-content: space-between; align-items: center;">
+				<div
+					style="display: flex; justify-content: space-between; align-items: center;"
+				>
 					<h2>Registro Anecdótico</h2>
 					<button
 						style="margin-left: auto"
@@ -127,11 +129,11 @@ import { deleteLogRegistryEntry, loadLogRegistryEntries } from '../../../store'
 	`,
 })
 export class LogRegistryGeneratorComponent implements OnInit {
-	#store = inject(Store)
-	private dialog = inject(MatDialog)
-	entries = this.#store.selectSignal(selectAllEntries)
+	#store = inject(Store);
+	private dialog = inject(MatDialog);
+	entries = this.#store.selectSignal(selectAllEntries);
 
-	labels = ['date', 'time', 'grade', 'students', 'event', 'actions']
+	labels = ['date', 'time', 'grade', 'students', 'event', 'actions'];
 
 	eventTypes = [
 		'Mejora de comportamiento',
@@ -146,17 +148,17 @@ export class LogRegistryGeneratorComponent implements OnInit {
 		'Incumplimiento de acuerdo',
 		'Asignación no entregada',
 		'Asignación no satisfactoria',
-	]
+	];
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadLogRegistryEntries())
+		this.#store.dispatch(loadLogRegistryEntries());
 	}
 
 	createLogRegistryEntry() {
 		this.dialog.open(LogRegistryEntryFormComponent, {
 			maxWidth: '960px',
 			width: '75%',
-		})
+		});
 	}
 
 	editLogRegistryEntry(entry: LogRegistryEntry) {
@@ -164,7 +166,7 @@ export class LogRegistryGeneratorComponent implements OnInit {
 			data: entry,
 			maxWidth: '960px',
 			width: '75%',
-		})
+		});
 	}
 
 	showLogRegistryEntry(entry: LogRegistryEntry) {
@@ -172,19 +174,19 @@ export class LogRegistryGeneratorComponent implements OnInit {
 			data: entry,
 			maxWidth: '960px',
 			width: '75%',
-		})
+		});
 		ref.afterClosed().subscribe((res) => {
 			if (res) {
-				this.editLogRegistryEntry(entry)
+				this.editLogRegistryEntry(entry);
 			}
-		})
+		});
 	}
 
 	studentNames(students: Student[]) {
-		return students.map((s) => s.firstname + ' ' + s.lastname).join(', ')
+		return students.map((s) => s.firstname + ' ' + s.lastname).join(', ');
 	}
 
 	deleteLogRegistryEntry(id: string) {
-		this.#store.dispatch(deleteLogRegistryEntry({ id }))
+		this.#store.dispatch(deleteLogRegistryEntry({ id }));
 	}
 }

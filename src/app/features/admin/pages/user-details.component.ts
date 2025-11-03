@@ -186,7 +186,9 @@ class SectionCreatorComponent {
 									}}</a>
 								</p>
 							}
-							<div style="display: flex; gap: 12px; align-items: center;">
+							<div
+								style="display: flex; gap: 12px; align-items: center;"
+							>
 								<div style="flex: 1 auto auto;">
 									<mat-form-field appearance="outline">
 										<mat-label>Contrase&ntilde;a</mat-label>

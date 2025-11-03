@@ -75,7 +75,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 										<mat-option value="Hombre"
 											>Hombre</mat-option
 										>
-										<mat-option value="Mujer">Mujer</mat-option>
+										<mat-option value="Mujer"
+											>Mujer</mat-option
+										>
 									</mat-select>
 								</mat-form-field>
 							</div>
@@ -111,7 +113,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 							</div>
 						</div>
 						<div style="text-align: end">
-							<button mat-flat-button color="primary" type="submit">
+							<button
+								mat-flat-button
+								color="primary"
+								type="submit"
+							>
 								Guardar
 							</button>
 						</div>

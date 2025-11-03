@@ -30,9 +30,7 @@ import { UserSubscription } from '../../../core/models';
 		<app-is-premium>
 			<mat-card>
 				<mat-card-header>
-					<h2 style="margin-top: 8px">
-						Panel de Comisiones
-					</h2>
+					<h2 style="margin-top: 8px">Panel de Comisiones</h2>
 					<a
 						class="desktop"
 						target="_blank"

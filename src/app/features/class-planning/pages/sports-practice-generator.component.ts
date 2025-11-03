@@ -7,47 +7,49 @@ import {
 	OnDestroy,
 	ViewEncapsulation,
 	computed,
-} from '@angular/core'
+} from '@angular/core';
 import {
 	FormBuilder,
 	ReactiveFormsModule,
 	Validators,
 	AbstractControl,
-} from '@angular/forms'
-import { CommonModule } from '@angular/common'
-import {
-	Subject,
-	takeUntil,
-	tap,
-	filter,
-	distinctUntilChanged,
-} from 'rxjs'
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Subject, takeUntil, tap, filter, distinctUntilChanged } from 'rxjs';
 
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSelectModule } from '@angular/material/select'
-import { MatInputModule } from '@angular/material/input'
-import { MatButtonModule } from '@angular/material/button'
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatIconModule } from '@angular/material/icon'
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
-import { ClassSection } from '../../../core'
+import { ClassSection } from '../../../core';
 
-import { Document, Packer, Paragraph, TextRun } from 'docx'
-import { saveAs } from 'file-saver'
-import { MarkdownComponent } from 'ngx-markdown'
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
-import { Store } from '@ngrx/store'
+import { Document, Packer, Paragraph, TextRun } from 'docx';
+import { saveAs } from 'file-saver';
+import { MarkdownComponent } from 'ngx-markdown';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { Store } from '@ngrx/store';
 import {
 	loadSections,
 	selectAllClassSections,
 	selectIsLoadingSections,
-} from '../../../store/class-sections'
-import { askGemini, loadSubjectConceptLists, selectAiIsGenerating, selectAiResult } from '../../../store'
-import { selectAllLists, selectIsLoadingManyConcepts } from '../../../store/subject-concept-lists/subject-concept-lists.selectors'
+} from '../../../store/class-sections';
+import {
+	askGemini,
+	loadSubjectConceptLists,
+	selectAiIsGenerating,
+	selectAiResult,
+} from '../../../store';
+import {
+	selectAllLists,
+	selectIsLoadingManyConcepts,
+} from '../../../store/subject-concept-lists/subject-concept-lists.selectors';
 
-const OTHER_DISCIPLINE_VALUE = 'Otra'
+const OTHER_DISCIPLINE_VALUE = 'Otra';
 
 @Component({
 	selector: 'app-sports-practice-generator',
@@ -199,8 +201,13 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'
 												Cargando...</mat-option
 											>
 										} @else {
-											@for (concept of availableConcepts(); track concept) {
-												<mat-option [value]="concept">{{ concept }}</mat-option>
+											@for (
+												concept of availableConcepts();
+												track concept
+											) {
+												<mat-option [value]="concept">{{
+													concept
+												}}</mat-option>
 											}
 											@if (
 												!availableConcepts().length &&
@@ -422,46 +429,48 @@ const OTHER_DISCIPLINE_VALUE = 'Otra'
 	encapsulation: ViewEncapsulation.None,
 })
 export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
-	#fb = inject(FormBuilder)
-	#store = inject(Store)
-	#snackBar = inject(MatSnackBar)
-	#pretify = new PretifyPipe().transform
+	#fb = inject(FormBuilder);
+	#store = inject(Store);
+	#snackBar = inject(MatSnackBar);
+	#pretify = new PretifyPipe().transform;
 
-	isLoadingSections = this.#store.selectSignal(selectIsLoadingSections)
-	isLoadingConcepts = this.#store.selectSignal(selectIsLoadingManyConcepts)
-	isGenerating = this.#store.selectSignal(selectAiIsGenerating)
-	showResult = signal(false)
-	generatedPlan = this.#store.selectSignal(selectAiResult)
-	sections = this.#store.selectSignal(selectAllClassSections)
-	allConcepts = this.#store.selectSignal(selectAllLists)
-	availableSubjects = signal<string[]>([])
-	availableConcepts = computed(() => this.allConcepts().flatMap((c) => c.concepts))
+	isLoadingSections = this.#store.selectSignal(selectIsLoadingSections);
+	isLoadingConcepts = this.#store.selectSignal(selectIsLoadingManyConcepts);
+	isGenerating = this.#store.selectSignal(selectAiIsGenerating);
+	showResult = signal(false);
+	generatedPlan = this.#store.selectSignal(selectAiResult);
+	sections = this.#store.selectSignal(selectAllClassSections);
+	allConcepts = this.#store.selectSignal(selectAllLists);
+	availableSubjects = signal<string[]>([]);
+	availableConcepts = computed(() =>
+		this.allConcepts().flatMap((c) => c.concepts),
+	);
 
 	sportsPracticeForm = this.#fb.group({
 		section: ['', Validators.required],
 		subject: [{ value: '', disabled: true }, Validators.required],
 		disciplineConcept: [{ value: '', disabled: true }, Validators.required],
 		customDiscipline: [{ value: '', disabled: true }],
-	})
+	});
 
-	#destroy$ = new Subject<void>()
+	#destroy$ = new Subject<void>();
 
 	finalDiscipline = computed(() => {
-		const concept = this.disciplineConceptCtrl?.value
-		const custom = this.customDisciplineCtrl?.value
-		return concept === OTHER_DISCIPLINE_VALUE ? custom?.trim() : concept
-	})
+		const concept = this.disciplineConceptCtrl?.value;
+		const custom = this.customDisciplineCtrl?.value;
+		return concept === OTHER_DISCIPLINE_VALUE ? custom?.trim() : concept;
+	});
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadSections())
-		this.#listenForSectionChanges()
-		this.#listenForSubjectChanges()
-		this.#listenForDisciplineConceptChanges()
+		this.#store.dispatch(loadSections());
+		this.#listenForSectionChanges();
+		this.#listenForSubjectChanges();
+		this.#listenForDisciplineConceptChanges();
 	}
 
 	ngOnDestroy(): void {
-		this.#destroy$.next()
-		this.#destroy$.complete()
+		this.#destroy$.next();
+		this.#destroy$.complete();
 	}
 
 	#listenForSectionChanges(): void {
@@ -469,27 +478,27 @@ export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
 			.pipe(
 				takeUntil(this.#destroy$),
 				tap((sectionId) => {
-					this.subjectCtrl?.reset()
-					this.subjectCtrl?.disable()
-					this.disciplineConceptCtrl?.reset()
-					this.disciplineConceptCtrl?.disable()
-					this.customDisciplineCtrl?.reset()
-					this.customDisciplineCtrl?.disable()
+					this.subjectCtrl?.reset();
+					this.subjectCtrl?.disable();
+					this.disciplineConceptCtrl?.reset();
+					this.disciplineConceptCtrl?.disable();
+					this.customDisciplineCtrl?.reset();
+					this.customDisciplineCtrl?.disable();
 
 					if (sectionId) {
 						const selectedSection = this.sections().find(
 							(s) => s._id === sectionId,
-						)
+						);
 						if (selectedSection?.subjects?.length) {
 							this.availableSubjects.set(
 								selectedSection.subjects,
-							)
-							this.subjectCtrl?.enable()
+							);
+							this.subjectCtrl?.enable();
 						}
 					}
 				}),
 			)
-			.subscribe()
+			.subscribe();
 	}
 
 	#listenForSubjectChanges(): void {
@@ -499,72 +508,73 @@ export class SportsPracticeGeneratorComponent implements OnInit, OnDestroy {
 				filter((subject) => !!subject && !!this.sectionCtrl?.value),
 				distinctUntilChanged(),
 				tap((subject) => {
-					this.disciplineConceptCtrl?.reset()
-					this.disciplineConceptCtrl?.disable()
-					this.customDisciplineCtrl?.reset()
-					this.customDisciplineCtrl?.disable()
-					const section = this.sections()?.find((s) => s._id === this.sectionCtrl?.value)
-					if (!section) return
+					this.disciplineConceptCtrl?.reset();
+					this.disciplineConceptCtrl?.disable();
+					this.customDisciplineCtrl?.reset();
+					this.customDisciplineCtrl?.disable();
+					const section = this.sections()?.find(
+						(s) => s._id === this.sectionCtrl?.value,
+					);
+					if (!section) return;
 
-					this.#store.dispatch(loadSubjectConceptLists({
-						filters: {
-							level: section.level,
-							grade: section.year,
-							subject,
-						}
-					}))
-					this.disciplineConceptCtrl?.enable()
+					this.#store.dispatch(
+						loadSubjectConceptLists({
+							filters: {
+								level: section.level,
+								grade: section.year,
+								subject,
+							},
+						}),
+					);
+					this.disciplineConceptCtrl?.enable();
 				}),
 			)
-			.subscribe()
+			.subscribe();
 	}
 
 	#listenForDisciplineConceptChanges(): void {
 		this.disciplineConceptCtrl?.valueChanges
-			.pipe(
-				takeUntil(this.#destroy$),
-				distinctUntilChanged(),
-			)
+			.pipe(takeUntil(this.#destroy$), distinctUntilChanged())
 			.subscribe((value) => {
 				if (value === OTHER_DISCIPLINE_VALUE) {
-					this.customDisciplineCtrl?.enable()
+					this.customDisciplineCtrl?.enable();
 					this.customDisciplineCtrl?.setValidators(
 						Validators.required,
-					)
+					);
 				} else {
-					this.customDisciplineCtrl?.disable()
-					this.customDisciplineCtrl?.clearValidators()
-					this.customDisciplineCtrl?.reset()
+					this.customDisciplineCtrl?.disable();
+					this.customDisciplineCtrl?.clearValidators();
+					this.customDisciplineCtrl?.reset();
 				}
-				this.customDisciplineCtrl?.updateValueAndValidity()
-			})
+				this.customDisciplineCtrl?.updateValueAndValidity();
+			});
 	}
 
 	getSectionDisplay(section: ClassSection): string {
-		return `${section.year || ''} ${section.name || ''} (${section.level || 'Nivel no especificado'})`
+		return `${section.year || ''} ${section.name || ''} (${section.level || 'Nivel no especificado'})`;
 	}
 
 	async onSubmit(): Promise<void> {
 		if (this.sportsPracticeForm.invalid) {
-			this.sportsPracticeForm.markAllAsTouched()
-			return
+			this.sportsPracticeForm.markAllAsTouched();
+			return;
 		}
 
-		this.showResult.set(false)
+		this.showResult.set(false);
 
-		const formValue = this.sportsPracticeForm.getRawValue()
+		const formValue = this.sportsPracticeForm.getRawValue();
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
-		)
-		const discipline = this.finalDiscipline()
+		);
+		const discipline = this.finalDiscipline();
 
 		if (!discipline) {
 			this.#snackBar.open(
 				'Por favor, selecciona o introduce una disciplina válida.',
 				'Cerrar',
 				{ duration: 3000 },
-			)
-			return
+			);
+			return;
 		}
 
 		const prompt = `Eres un asistente experto en educación física y planificación deportiva pedagógica.
@@ -586,44 +596,44 @@ Instrucciones para el Plan:
 7.  **Enfoque:** Prioriza la seguridad, la participación, la diversión y el aprendizaje básico sobre la técnica avanzada.
 8.  **Formato:** Estructura la respuesta claramente con títulos (Calentamiento, Parte Principal, etc.). Usa párrafos cortos y listas.
 
-IMPORTANTE: El lenguaje debe ser extremadamente claro y directo, asumiendo CERO conocimiento previo del profesor sobre ${discipline}. Solo devuelve el plan, sin saludos ni despedidas ya que sera impreso tal cual, y no debe ser visto como un chat, sino como un documento especial, redactado por un docente.`
+IMPORTANTE: El lenguaje debe ser extremadamente claro y directo, asumiendo CERO conocimiento previo del profesor sobre ${discipline}. Solo devuelve el plan, sin saludos ni despedidas ya que sera impreso tal cual, y no debe ser visto como un chat, sino como un documento especial, redactado por un docente.`;
 
-		this.#store.dispatch(askGemini({ question: prompt }))
-		this.showResult.set(true)
+		this.#store.dispatch(askGemini({ question: prompt }));
+		this.showResult.set(true);
 	}
 
 	goBack(): void {
-		this.showResult.set(false)
-		this.sportsPracticeForm.reset()
-		this.subjectCtrl?.disable()
-		this.disciplineConceptCtrl?.disable()
-		this.customDisciplineCtrl?.disable()
-		this.availableSubjects.set([])
+		this.showResult.set(false);
+		this.sportsPracticeForm.reset();
+		this.subjectCtrl?.disable();
+		this.disciplineConceptCtrl?.disable();
+		this.customDisciplineCtrl?.disable();
+		this.availableSubjects.set([]);
 	}
 
 	downloadDocx(): void {
-		const planText = this.generatedPlan()
-		if (!planText || planText.startsWith('Ocurrió un error')) return
+		const planText = this.generatedPlan();
+		if (!planText || planText.startsWith('Ocurrió un error')) return;
 
-		const formValue = this.sportsPracticeForm.getRawValue()
+		const formValue = this.sportsPracticeForm.getRawValue();
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
-		)
-		const discipline = this.finalDiscipline()
+		);
+		const discipline = this.finalDiscipline();
 
 		const sectionName = (section?.name || 'Seccion').replace(
 			/[^a-z0-9]/gi,
 			'_',
-		)
+		);
 		const subjectName = (formValue.subject || 'Asignatura').replace(
 			/[^a-z0-9]/gi,
 			'_',
-		)
+		);
 		const disciplineName = (discipline || 'Disciplina')
 			.substring(0, 20)
-			.replace(/[^a-z0-9]/gi, '_')
+			.replace(/[^a-z0-9]/gi, '_');
 
-		const filename = `PlanPractica_${sectionName}_${subjectName}_${disciplineName}.docx`
+		const filename = `PlanPractica_${sectionName}_${subjectName}_${disciplineName}.docx`;
 
 		const paragraphs = planText.split('\n').map(
 			(line) =>
@@ -631,7 +641,7 @@ IMPORTANTE: El lenguaje debe ser extremadamente claro y directo, asumiendo CERO 
 					children: [new TextRun(line)],
 					spacing: { after: 180 },
 				}),
-		)
+		);
 
 		const doc = new Document({
 			sections: [
@@ -680,32 +690,32 @@ IMPORTANTE: El lenguaje debe ser extremadamente claro y directo, asumiendo CERO 
 					],
 				},
 			],
-		})
+		});
 
 		Packer.toBlob(doc)
 			.then((blob) => {
-				saveAs(blob, filename)
+				saveAs(blob, filename);
 			})
 			.catch((error) => {
-				console.error('Error creating DOCX file:', error)
+				console.error('Error creating DOCX file:', error);
 				this.#snackBar.open(
 					'Error al generar el archivo DOCX',
 					'Cerrar',
 					{ duration: 3000 },
-				)
-			})
+				);
+			});
 	}
 
 	get sectionCtrl(): AbstractControl | null {
-		return this.sportsPracticeForm.get('section')
+		return this.sportsPracticeForm.get('section');
 	}
 	get subjectCtrl(): AbstractControl | null {
-		return this.sportsPracticeForm.get('subject')
+		return this.sportsPracticeForm.get('subject');
 	}
 	get disciplineConceptCtrl(): AbstractControl | null {
-		return this.sportsPracticeForm.get('disciplineConcept')
+		return this.sportsPracticeForm.get('disciplineConcept');
 	}
 	get customDisciplineCtrl(): AbstractControl | null {
-		return this.sportsPracticeForm.get('customDiscipline')
+		return this.sportsPracticeForm.get('customDiscipline');
 	}
 }

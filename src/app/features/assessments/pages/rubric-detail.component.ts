@@ -1,15 +1,21 @@
-import { Component, computed, effect, inject, OnInit } from '@angular/core'
-import { ActivatedRoute, Router, RouterLink } from '@angular/router'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { RubricComponent } from '../components/rubric.component'
-import { Store } from '@ngrx/store'
-import { deleteRubric, deleteRubricSuccess, downloadRubric, loadRubric, loadStudentsBySection } from '../../../store'
-import { selectSectionStudents } from '../../../store/students/students.selectors'
-import { selectCurrentRubric } from '../../../store/rubrics/rubrics.selectors'
-import { Subject, takeUntil } from 'rxjs'
-import { Actions, ofType } from '@ngrx/effects'
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { RubricComponent } from '../components/rubric.component';
+import { Store } from '@ngrx/store';
+import {
+	deleteRubric,
+	deleteRubricSuccess,
+	downloadRubric,
+	loadRubric,
+	loadStudentsBySection,
+} from '../../../store';
+import { selectSectionStudents } from '../../../store/students/students.selectors';
+import { selectCurrentRubric } from '../../../store/rubrics/rubrics.selectors';
+import { Subject, takeUntil } from 'rxjs';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
 	selector: 'app-rubric-detail',
@@ -49,11 +55,7 @@ import { Actions, ofType } from '@ngrx/effects'
 					<!-- <a target="_blank" routerLink="/print-activities/{{id}}" mat-icon-button color="link" style="margin-right: 8px;">
 						<mat-icon>print</mat-icon>
 					</a> -->
-					<button
-						(click)="download()"
-						mat-flat-button
-						color="accent"
-					>
+					<button (click)="download()" mat-flat-button color="accent">
 						<mat-icon>download</mat-icon>
 						Descargar
 					</button>
@@ -122,52 +124,56 @@ import { Actions, ofType } from '@ngrx/effects'
 	`,
 })
 export class RubricDetailComponent implements OnInit {
-	#store = inject(Store)
-	#actions$ = inject(Actions)
-	private router = inject(Router)
-	private route = inject(ActivatedRoute)
-	private sb = inject(MatSnackBar)
-	private id = this.route.snapshot.paramMap.get('id') || ''
+	#store = inject(Store);
+	#actions$ = inject(Actions);
+	private router = inject(Router);
+	private route = inject(ActivatedRoute);
+	private sb = inject(MatSnackBar);
+	private id = this.route.snapshot.paramMap.get('id') || '';
 
-	public rubric = this.#store.selectSignal(selectCurrentRubric)
-	public students = this.#store.selectSignal(selectSectionStudents)
-	section = computed(() => this.rubric() ? this.rubric()?.section : null)
+	public rubric = this.#store.selectSignal(selectCurrentRubric);
+	public students = this.#store.selectSignal(selectSectionStudents);
+	section = computed(() => (this.rubric() ? this.rubric()?.section : null));
 
-	#destroy$ = new Subject<void>()
+	#destroy$ = new Subject<void>();
 
 	constructor() {
 		effect(() => {
-			const rubric = this.rubric()
+			const rubric = this.rubric();
 			if (rubric) {
-				this.#store.dispatch(loadStudentsBySection({ sectionId: rubric.section._id }))
+				this.#store.dispatch(
+					loadStudentsBySection({ sectionId: rubric.section._id }),
+				);
 			}
-		})
+		});
 	}
 
 	ngOnInit() {
-		this.#store.dispatch(loadRubric({ id: this.id }))
+		this.#store.dispatch(loadRubric({ id: this.id }));
 	}
 
 	ngOnDestroy() {
-		this.#destroy$.next()
-		this.#destroy$.complete()
+		this.#destroy$.next();
+		this.#destroy$.complete();
 	}
 
 	deleteRubric() {
-		this.#store.dispatch(deleteRubric({ id: this.id }))
-		this.#actions$.pipe(ofType(deleteRubricSuccess), takeUntil(this.#destroy$)).subscribe(() => {
-			this.router.navigate(['/assessments/rubrics'])
-		})
+		this.#store.dispatch(deleteRubric({ id: this.id }));
+		this.#actions$
+			.pipe(ofType(deleteRubricSuccess), takeUntil(this.#destroy$))
+			.subscribe(() => {
+				this.router.navigate(['/assessments/rubrics']);
+			});
 	}
 
 	async download() {
-		const rubric = this.rubric()
-		if (!rubric) return
+		const rubric = this.rubric();
+		if (!rubric) return;
 		this.sb.open(
 			'Estamos preparando tu descarga. Espera un momento, por favor',
 			'Ok',
 			{ duration: 2500 },
-		)
-		await this.#store.dispatch(downloadRubric({ rubric }))
+		);
+		await this.#store.dispatch(downloadRubric({ rubric }));
 	}
 }

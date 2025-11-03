@@ -20,7 +20,10 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { SimpleList } from '../../../shared';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
-import { loadSections, selectAllClassSections } from '../../../store/class-sections';
+import {
+	loadSections,
+	selectAllClassSections,
+} from '../../../store/class-sections';
 import { Subject, takeUntil } from 'rxjs';
 
 // --- NUEVO PROMPT PARA AULAS MULTIGRADO v2 ---
@@ -251,9 +254,16 @@ No incluyas markup ya que no puedo visualizarlo correctamente.`;
 													>Estrategias y técnicas de
 													enseñanza-aprendizaje</b
 												>:
-												<ul style="list-style: none; padding: 0; margin: 0;">
-													@for(strategy of generatedPlan.strategies; track $index) {
-														<li>- {{ strategy }}</li>
+												<ul
+													style="list-style: none; padding: 0; margin: 0;"
+												>
+													@for (
+														strategy of generatedPlan.strategies;
+														track $index
+													) {
+														<li>
+															- {{ strategy }}
+														</li>
 													}
 												</ul>
 											</td>

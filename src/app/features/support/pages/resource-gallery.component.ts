@@ -40,9 +40,7 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 			<mat-card-header
 				style="align-items: center; justify-content: space-between"
 			>
-				<h2>
-					Galer&iacute;a de Recursos Did&aacute;cticos
-				</h2>
+				<h2>Galer&iacute;a de Recursos Did&aacute;cticos</h2>
 				<button
 					mat-fab
 					extended

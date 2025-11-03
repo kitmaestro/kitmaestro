@@ -1,25 +1,39 @@
-import { Component, effect, inject, OnInit } from '@angular/core'
+import { Component, effect, inject, OnInit } from '@angular/core';
 import {
 	FormArray,
 	FormBuilder,
 	ReactiveFormsModule,
 	Validators,
-} from '@angular/forms'
-import { Router } from '@angular/router'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSelectModule } from '@angular/material/select'
-import { MatInputModule } from '@angular/material/input'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { EstimationScale } from '../../../core'
-import { PdfService } from '../../../core/services/pdf.service'
-import { EstimationScaleComponent } from '../components/estimation-scale.component'
-import { Store } from '@ngrx/store'
-import { Actions, ofType } from '@ngrx/effects'
-import { Subject, take, takeUntil } from 'rxjs'
-import { askGemini, createScale, createScaleSuccess, loadBlocks, loadBlocksSuccess, loadEntries, loadSections, selectAiIsGenerating, selectAiSerializedResult, selectAllClassSections, selectAllCompetenceEntries, selectAuthUser, selectCreatingEstimationScale } from '../../../store'
-import { PretifyPipe } from '../../../shared'
+} from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { EstimationScale } from '../../../core';
+import { PdfService } from '../../../core/services/pdf.service';
+import { EstimationScaleComponent } from '../components/estimation-scale.component';
+import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
+import { Subject, take, takeUntil } from 'rxjs';
+import {
+	askGemini,
+	createScale,
+	createScaleSuccess,
+	loadBlocks,
+	loadBlocksSuccess,
+	loadEntries,
+	loadSections,
+	selectAiIsGenerating,
+	selectAiSerializedResult,
+	selectAllClassSections,
+	selectAllCompetenceEntries,
+	selectAuthUser,
+	selectCreatingEstimationScale,
+} from '../../../store';
+import { PretifyPipe } from '../../../shared';
 
 @Component({
 	selector: 'app-estimation-scale-generator',
@@ -36,7 +50,9 @@ import { PretifyPipe } from '../../../shared'
 	],
 	template: `
 		<div>
-			<div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+			<div
+				style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;"
+			>
 				<h2>Generador de Escala de Estimaci&oacute;n</h2>
 				<button mat-button routerLink="/assessments/estimation-scales">
 					<mat-icon>assignment_turned_in</mat-icon>
@@ -280,27 +296,27 @@ import { PretifyPipe } from '../../../shared'
 	`,
 })
 export class EstimationScaleGeneratorComponent implements OnInit {
-	#store = inject(Store)
-	#actions$ = inject(Actions)
-	private pdfService = inject(PdfService)
-	private router = inject(Router)
-	private sb = inject(MatSnackBar)
-	private fb = inject(FormBuilder)
+	#store = inject(Store);
+	#actions$ = inject(Actions);
+	private pdfService = inject(PdfService);
+	private router = inject(Router);
+	private sb = inject(MatSnackBar);
+	private fb = inject(FormBuilder);
 
-	public user = this.#store.selectSignal(selectAuthUser)
-	public estimationScale: EstimationScale | null = null
-	public sections = this.#store.selectSignal(selectAllClassSections)
-	public subjects: string[] = []
-	public competenceOptions: string[] = []
-	public achievementIndicatorOptions: string[] = []
-	public competenceCol = this.#store.selectSignal(selectAllCompetenceEntries)
-	saving = this.#store.selectSignal(selectCreatingEstimationScale)
-	generating = this.#store.selectSignal(selectAiIsGenerating)
-	aiResult = this.#store.selectSignal(selectAiSerializedResult)
+	public user = this.#store.selectSignal(selectAuthUser);
+	public estimationScale: EstimationScale | null = null;
+	public sections = this.#store.selectSignal(selectAllClassSections);
+	public subjects: string[] = [];
+	public competenceOptions: string[] = [];
+	public achievementIndicatorOptions: string[] = [];
+	public competenceCol = this.#store.selectSignal(selectAllCompetenceEntries);
+	saving = this.#store.selectSignal(selectCreatingEstimationScale);
+	generating = this.#store.selectSignal(selectAiIsGenerating);
+	aiResult = this.#store.selectSignal(selectAiSerializedResult);
 
-	private pretify = (new PretifyPipe()).transform
+	private pretify = new PretifyPipe().transform;
 
-	#destroy$ = new Subject<void>()
+	#destroy$ = new Subject<void>();
 
 	public scaleForm = this.fb.group({
 		title: ['', Validators.required],
@@ -316,19 +332,29 @@ export class EstimationScaleGeneratorComponent implements OnInit {
 			this.fb.control('En Proceso'),
 			this.fb.control('Logrado'),
 		]),
-	})
+	});
 
 	constructor() {
-		this.competenceOptions = this.getCompentenceOptions()
+		this.competenceOptions = this.getCompentenceOptions();
 		effect(() => {
-			const aiResult: { criteria: string[] } = this.aiResult()
-			const user = this.user()
+			const aiResult: { criteria: string[] } = this.aiResult();
+			const user = this.user();
 			if (aiResult && user) {
-				const { activity, subject, section: sectionId, title } = this.scaleForm.value
-				const competence = this.competenceCol().map((col) => col.entries).flat()
-				const achievementIndicators = this.scaleForm.get('achievementIndicators')?.value || []
-				const levels = this.scaleLevels.value || []
-				const section = this.sections().find((s) => s._id === sectionId)
+				const {
+					activity,
+					subject,
+					section: sectionId,
+					title,
+				} = this.scaleForm.value;
+				const competence = this.competenceCol()
+					.map((col) => col.entries)
+					.flat();
+				const achievementIndicators =
+					this.scaleForm.get('achievementIndicators')?.value || [];
+				const levels = this.scaleLevels.value || [];
+				const section = this.sections().find(
+					(s) => s._id === sectionId,
+				);
 
 				this.estimationScale = {
 					user,
@@ -340,41 +366,45 @@ export class EstimationScaleGeneratorComponent implements OnInit {
 					title,
 					section,
 					subject,
-				} as any
+				} as any;
 			}
-		})
+		});
 	}
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadSections())
+		this.#store.dispatch(loadSections());
 	}
 
 	ngOnDestroy() {
-		this.#destroy$.next()
-		this.#destroy$.complete()
+		this.#destroy$.next();
+		this.#destroy$.complete();
 	}
 
 	loadCompetences(id?: string) {
-		const sectionId = id || this.scaleForm.get('grade')?.value
-		if (!sectionId) return
+		const sectionId = id || this.scaleForm.get('grade')?.value;
+		if (!sectionId) return;
 
-		const section = this.sections().find((g) => g._id === sectionId)
-		if (!section) return
+		const section = this.sections().find((g) => g._id === sectionId);
+		if (!section) return;
 
-		const subject = this.scaleForm.get('subject')?.value
-		if (!subject) return
+		const subject = this.scaleForm.get('subject')?.value;
+		if (!subject) return;
 
-		const { year: grade, level } = section
-		this.#store.dispatch(loadEntries({ filters: { grade, level, subject } }))
+		const { year: grade, level } = section;
+		this.#store.dispatch(
+			loadEntries({ filters: { grade, level, subject } }),
+		);
 	}
 
 	onSubmit() {
-		const { qty, activity, subject, section, title } = this.scaleForm.value
-		const competence = this.competenceCol().map((col) => col.entries).flat()
-		const levels = this.scaleLevels.value
+		const { qty, activity, subject, section, title } = this.scaleForm.value;
+		const competence = this.competenceCol()
+			.map((col) => col.entries)
+			.flat();
+		const levels = this.scaleLevels.value;
 		const gradeStr = this.selectedSection
 			? `${this.selectedSection.year.toLowerCase()} de educacion ${this.selectedSection.level === 'PRIMARIA' ? 'primaria' : 'secundaria'}`
-			: ''
+			: '';
 		const question = `Necesito que me escribas una lista con ${qty} criterios para evaluar (con una escala de estimacion) una actividad de ${this.pretify(subject || '')} que he realizado con mis alumnos de ${gradeStr}: "${activity}".
 Las competencias que voy a evaluar son estas:
 - ${competence.join('\n- ')}
@@ -387,66 +417,83 @@ Responde con un JSON con esta interfaz:
   criteria: string[] // los criterios para evaluar
 }
 
-Ya tengo los niveles de desempeno, asi que solo necesito los criterios. Los criterios deben ser claros y concisos, mientras mas breves (sin exagerar), mejor.`
-		this.#store.dispatch(askGemini({ question }))
+Ya tengo los niveles de desempeno, asi que solo necesito los criterios. Los criterios deben ser claros y concisos, mientras mas breves (sin exagerar), mejor.`;
+		this.#store.dispatch(askGemini({ question }));
 	}
 
 	save() {
-		const scale: any = this.estimationScale
-		scale.user = this.user()?._id
-		this.#store.dispatch(createScale({ scale }))
-		this.#actions$.pipe(ofType(createScaleSuccess), take(1), takeUntil(this.#destroy$)).subscribe(({ scale }) => {
-			this.router.navigate(['/assessments/estimation-scales/', scale._id])
-		})
+		const scale: any = this.estimationScale;
+		scale.user = this.user()?._id;
+		this.#store.dispatch(createScale({ scale }));
+		this.#actions$
+			.pipe(
+				ofType(createScaleSuccess),
+				take(1),
+				takeUntil(this.#destroy$),
+			)
+			.subscribe(({ scale }) => {
+				this.router.navigate([
+					'/assessments/estimation-scales/',
+					scale._id,
+				]);
+			});
 	}
 
 	onSectionSelect(event: any) {
-		const { value } = event
+		const { value } = event;
 		if (!value) {
-			this.subjects = []
-			return
+			this.subjects = [];
+			return;
 		}
-		const section = this.sections().find((s) => s._id === value)
+		const section = this.sections().find((s) => s._id === value);
 		if (section) {
-			this.subjects = section.subjects as any
+			this.subjects = section.subjects as any;
 		} else {
-			this.subjects = []
+			this.subjects = [];
 		}
-		this.loadCompetences(value)
-		this.competenceOptions = this.getCompentenceOptions(value)
+		this.loadCompetences(value);
+		this.competenceOptions = this.getCompentenceOptions(value);
 	}
 
 	onSubjectChange(event: any) {
-		const { value } = event
+		const { value } = event;
 		if (!value) {
-			this.achievementIndicatorOptions = []
-			return
+			this.achievementIndicatorOptions = [];
+			return;
 		}
-		const sectionId = this.scaleForm.get('section')?.value
-		const section = this.sections().find((s) => s._id === sectionId)
-		this.loadCompetences(sectionId || '')
+		const sectionId = this.scaleForm.get('section')?.value;
+		const section = this.sections().find((s) => s._id === sectionId);
+		this.loadCompetences(sectionId || '');
 		if (section) {
-			const { year, level } = section
-			const subject = value
-			this.#store.dispatch(loadBlocks({ filters: { year, level, subject } }))
-			this.#actions$.pipe(ofType(loadBlocksSuccess), take(1), takeUntil(this.#destroy$)).subscribe(({ blocks }) => {
-				if (blocks.length) {
-					this.achievementIndicatorOptions = blocks
-						.map((block) => block.achievement_indicators)
-						.reduce((prev, curr) => {
-							curr.forEach((s) => {
-								if (!prev.includes(s)) {
-									prev.push(s)
-								}
-							})
-							return prev
-						}, [] as string[])
-				} else {
-					this.achievementIndicatorOptions = []
-				}
-			})
+			const { year, level } = section;
+			const subject = value;
+			this.#store.dispatch(
+				loadBlocks({ filters: { year, level, subject } }),
+			);
+			this.#actions$
+				.pipe(
+					ofType(loadBlocksSuccess),
+					take(1),
+					takeUntil(this.#destroy$),
+				)
+				.subscribe(({ blocks }) => {
+					if (blocks.length) {
+						this.achievementIndicatorOptions = blocks
+							.map((block) => block.achievement_indicators)
+							.reduce((prev, curr) => {
+								curr.forEach((s) => {
+									if (!prev.includes(s)) {
+										prev.push(s);
+									}
+								});
+								return prev;
+							}, [] as string[]);
+					} else {
+						this.achievementIndicatorOptions = [];
+					}
+				});
 		} else {
-			this.achievementIndicatorOptions = []
+			this.achievementIndicatorOptions = [];
 		}
 	}
 
@@ -455,7 +502,7 @@ Ya tengo los niveles de desempeno, asi que solo necesito los criterios. Los crit
 			'Comunicativa',
 			'Pensamiento Lógico, Creativo y Crítico Resolución de Problemas Tecnológica y Científica',
 			'Ética y Ciudadana Desarrollo Personal y Espiritual Ambiental y de la Salud',
-		]
+		];
 		const secondary = [
 			'Comunicativa',
 			'Pensamiento Lógico, Creativo y Crítico',
@@ -464,56 +511,56 @@ Ya tengo los niveles de desempeno, asi que solo necesito los criterios. Los crit
 			'Ética y Ciudadana',
 			'Desarrollo Personal y Espiritual',
 			'Ambiental y de la Salud',
-		]
-		const sectionId = id || this.scaleForm.get('grade')?.value
+		];
+		const sectionId = id || this.scaleForm.get('grade')?.value;
 		if (!sectionId) {
-			return secondary
+			return secondary;
 		}
 
-		const section = this.sections().find((g) => g._id === sectionId)
+		const section = this.sections().find((g) => g._id === sectionId);
 		if (!section) {
-			return secondary
+			return secondary;
 		}
 
 		if (section.level === 'PRIMARIA') {
-			return primary
+			return primary;
 		}
 
-		return secondary
+		return secondary;
 	}
 
 	addLevel() {
-		this.scaleLevels.push(this.fb.control(''))
+		this.scaleLevels.push(this.fb.control(''));
 	}
 
 	removeLevel(index: number) {
-		this.scaleLevels.removeAt(index)
+		this.scaleLevels.removeAt(index);
 	}
 
 	print() {
-		if (!this.estimationScale) return
+		if (!this.estimationScale) return;
 		this.sb.open(
 			'Ya estamos exportando tu instrumento. Espera un momento.',
 			'Ok',
 			{ duration: 2500 },
-		)
+		);
 		this.pdfService.exportTableToPDF(
 			'estimation-scale',
 			this.estimationScale.title,
-		)
+		);
 	}
 
 	get selectedSection() {
 		return this.sections().find(
 			(section) => section._id === this.scaleForm.get('section')?.value,
-		)
+		);
 	}
 
 	get scaleLevels(): FormArray {
-		return this.scaleForm.get('levels') as FormArray
+		return this.scaleForm.get('levels') as FormArray;
 	}
 
 	get selectedIndicators(): string[] {
-		return this.scaleForm.get('achievementIndicators')?.value as string[]
+		return this.scaleForm.get('achievementIndicators')?.value as string[];
 	}
 }

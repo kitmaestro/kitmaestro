@@ -15,10 +15,16 @@ import { MatDialogModule } from '@angular/material/dialog';
 			<div class="alert">
 				<b>IMPORTANTE</b>:
 				<p>
-					En pesos dominicanos, los precios son RD$599, RD$999 y RD$2,399 para los planes B&aacute;sico, Plus y Premium, respectivamente.
+					En pesos dominicanos, los precios son RD$599, RD$999 y
+					RD$2,399 para los planes B&aacute;sico, Plus y Premium,
+					respectivamente.
 				</p>
 				<p style="margin: 0;">
-					Tras hacer tu dep&oacute;sito, env&iacute;a la captura por <a href="https://wa.me/+18094659650" target="_blank">WhatsApp</a> para que tu plan sea activado.
+					Tras hacer tu dep&oacute;sito, env&iacute;a la captura por
+					<a href="https://wa.me/+18094659650" target="_blank"
+						>WhatsApp</a
+					>
+					para que tu plan sea activado.
 				</p>
 			</div>
 		</mat-dialog-content>
@@ -30,7 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 			border-radius: 24px;
 			margin-top: 24px;
 		}
-	`
+	`,
 })
 export class BankAccountComponent {
 	account2 = {

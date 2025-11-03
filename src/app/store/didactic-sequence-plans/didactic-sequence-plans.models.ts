@@ -1,40 +1,34 @@
-import { DidacticSequencePlan } from '../../core/models'
-import {
-    ActivityResource,
-    DidacticSequenceBlock,
-} from '../../core/interfaces'
+import { DidacticPlan, ActivityResource } from '../../core';
 
-export interface DidacticSequencePlanDto {
-    didacticSequence: string
-    title: string
-    description: string
-    specificCompetencies: {
-        name: string
-        description: string
-    }[]
-    additionalResources: ActivityResource[]
-    blocks: DidacticSequenceBlock[]
+export interface DidacticPlanDto {
+	didacticSequence: string;
+	title: string;
+	description: string;
+	specificCompetencies: {
+		name: string;
+		description: string;
+	}[];
 }
 
-export enum DidacticSequencePlanStateStatus {
-    IDLING,
-    LOADING_PLANS,
-    LOADING_PLAN,
-    CREATING_PLAN,
-    UPDATING_PLAN,
-    DELETING_PLAN,
+export enum DidacticPlanStateStatus {
+	IDLING,
+	LOADING_PLANS,
+	LOADING_PLAN,
+	CREATING_PLAN,
+	UPDATING_PLAN,
+	DELETING_PLAN,
 }
 
-export interface DidacticSequencePlansState {
-    plans: DidacticSequencePlan[]
-    selectedPlan: DidacticSequencePlan | null
-    error: string | null
-    status: DidacticSequencePlanStateStatus
+export interface DidacticPlansState {
+	plans: DidacticPlan[];
+	selectedPlan: DidacticPlan | null;
+	error: string | null;
+	status: DidacticPlanStateStatus;
 }
 
-export const initialDidacticSequencePlansState: DidacticSequencePlansState = {
-    plans: [],
-    selectedPlan: null,
-    error: null,
-    status: DidacticSequencePlanStateStatus.IDLING,
-}
+export const initialDidacticPlansState: DidacticPlansState = {
+	plans: [],
+	selectedPlan: null,
+	error: null,
+	status: DidacticPlanStateStatus.IDLING,
+};

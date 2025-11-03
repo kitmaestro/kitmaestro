@@ -253,7 +253,8 @@ import { loadCurrentSubscription } from '../../../store';
 									!generatedRiddles() ||
 									generatedRiddles().startsWith(
 										'Ocurrió un error'
-									) || !isPremium()
+									) ||
+									!isPremium()
 								"
 							>
 								<mat-icon>download</mat-icon> Descargar
@@ -345,7 +346,7 @@ import { loadCurrentSubscription } from '../../../store';
 	encapsulation: ViewEncapsulation.None,
 })
 export class RiddleGeneratorComponent implements OnInit, OnDestroy {
-	#store = inject(Store)
+	#store = inject(Store);
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
@@ -353,7 +354,7 @@ export class RiddleGeneratorComponent implements OnInit, OnDestroy {
 
 	#pretify = new PretifyPipe().transform;
 
-	isPremium = this.#store.selectSignal(selectIsPremium)
+	isPremium = this.#store.selectSignal(selectIsPremium);
 
 	// --- State Signals ---
 	isLoadingSections = signal(false);

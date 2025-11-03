@@ -261,12 +261,8 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 
 	ngOnChanges() {
 		if (this.plan) {
-			this.#store.dispatch(
-				loadUnitPlansSuccess({ plans: [this.plan] }),
-			);
-			this.generatorForm
-				.get('unitPlan')
-				?.setValue(this.plan._id);
+			this.#store.dispatch(loadUnitPlansSuccess({ plans: [this.plan] }));
+			this.generatorForm.get('unitPlan')?.setValue(this.plan._id);
 		} else {
 			this.#store.dispatch(loadUnitPlans({}));
 		}
@@ -279,12 +275,8 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 			this.generatorForm.get('resources')?.setValue(resources);
 		}
 		if (this.plan) {
-			this.#store.dispatch(
-				loadUnitPlansSuccess({ plans: [this.plan] }),
-			);
-			this.generatorForm
-				.get('unitPlan')
-				?.setValue(this.plan._id);
+			this.#store.dispatch(loadUnitPlansSuccess({ plans: [this.plan] }));
+			this.generatorForm.get('unitPlan')?.setValue(this.plan._id);
 		} else {
 			this.#store.dispatch(loadUnitPlans({}));
 		}
@@ -330,7 +322,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 		}
 
 		this.isGenerating = true;
-		this.#store.dispatch(askGeminiStart())
+		this.#store.dispatch(askGeminiStart());
 		this.totalPlansToGenerate = plansToGenerate.length;
 		this.plansGenerated = 0;
 		let currentDate = new Date();
@@ -361,7 +353,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 		}
 
 		this.isGenerating = false;
-		this.#store.dispatch(askGeminiEnd())
+		this.#store.dispatch(askGeminiEnd());
 		this.sb.open('¡Planes diarios generados y guardados con éxito!', 'Ok', {
 			duration: 5000,
 		});

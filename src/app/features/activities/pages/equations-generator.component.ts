@@ -48,7 +48,9 @@ import { PdfService } from '../../../core/services/pdf.service';
 							<mat-form-field appearance="outline">
 								<mat-label>Tipo de ecuación</mat-label>
 								<mat-select formControlName="equationType">
-									<mat-option value="linear">Lineal</mat-option>
+									<mat-option value="linear"
+										>Lineal</mat-option
+									>
 									<mat-option value="quadratic"
 										>Cuadrática</mat-option
 									>
@@ -65,7 +67,9 @@ import { PdfService } from '../../../core/services/pdf.service';
 									id="difficulty"
 									formControlName="difficulty"
 								>
-									<mat-option value="basic">Básico</mat-option>
+									<mat-option value="basic"
+										>Básico</mat-option
+									>
 									<mat-option value="intermediate"
 										>Intermedio</mat-option
 									>
@@ -92,9 +96,16 @@ import { PdfService } from '../../../core/services/pdf.service';
 							</mat-form-field>
 						</div>
 						<div>
-							<mat-label for="valueRange">Rango de valores</mat-label>
+							<mat-label for="valueRange"
+								>Rango de valores</mat-label
+							>
 							<div>
-								<mat-slider min="-100" max="100" step="1" discrete>
+								<mat-slider
+									min="-100"
+									max="100"
+									step="1"
+									discrete
+								>
 									<input
 										formControlName="valueRangeMin"
 										matSliderStartThumb
@@ -106,7 +117,7 @@ import { PdfService } from '../../../core/services/pdf.service';
 								</mat-slider>
 							</div>
 						</div>
-	
+
 						<div style="margin-bottom: 12px">
 							<mat-label>Campos a Incluir:</mat-label>
 							<mat-chip-set>

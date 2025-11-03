@@ -1,13 +1,13 @@
-import { Component, computed, inject, input } from "@angular/core";
-import { EstimationScale } from "../../../core";
-import { Store } from "@ngrx/store";
-import { selectAuthUser } from "../../../store";
+import { Component, computed, inject, input } from '@angular/core';
+import { EstimationScale } from '../../../core';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store';
 
 @Component({
-    selector: 'app-estimation-scale',
-    template: `
-        @if (estimationScale(); as data) {
-            <div style="margin-top: 24px">
+	selector: 'app-estimation-scale',
+	template: `
+		@if (estimationScale(); as data) {
+			<div style="margin-top: 24px">
 				<div>
 					<div
 						style="width: 8.5in; padding: 0.35in; margin: 0 auto"
@@ -75,10 +75,7 @@ import { selectAuthUser } from "../../../store";
 							Competencias Espec&iacute;ficas
 						</h3>
 						<ul style="list-style: none; margin: 0; padding: 0">
-							@for (
-								item of data.competence;
-								track item
-							) {
+							@for (item of data.competence; track item) {
 								<li>- {{ item }}</li>
 							}
 						</ul>
@@ -109,20 +106,14 @@ import { selectAuthUser } from "../../../store";
 							<thead>
 								<tr>
 									<th>Indicador o Criterio</th>
-									@for (
-										level of data.levels;
-										track level
-									) {
+									@for (level of data.levels; track level) {
 										<th>{{ level }}</th>
 									}
 									<th>Observaciones</th>
 								</tr>
 							</thead>
 							<tbody>
-								@for (
-									row of data.criteria;
-									track row
-								) {
+								@for (row of data.criteria; track row) {
 									<tr>
 										<td>{{ row }}</td>
 										<td></td>
@@ -136,9 +127,9 @@ import { selectAuthUser } from "../../../store";
 					</div>
 				</div>
 			</div>
-        }
-    `,
-    styles: `
+		}
+	`,
+	styles: `
 		.grid-2 {
 			display: grid;
 			gap: 12px;
@@ -175,19 +166,19 @@ import { selectAuthUser } from "../../../store";
 		th {
 			padding: 12px;
 		}
-    `
+	`,
 })
 export class EstimationScaleComponent {
-    #store = inject(Store)
-    estimationScale = input<EstimationScale>()
+	#store = inject(Store);
+	estimationScale = input<EstimationScale>();
 
-    user = this.#store.selectSignal(selectAuthUser)
+	user = this.#store.selectSignal(selectAuthUser);
 
-    schoolYear = computed(() => {
-        const date = new Date()
-        if (date.getMonth() < 6) {
-            return date.getFullYear() - 1 + ' - ' + date.getFullYear()
-        }
-        return date.getFullYear() + ' - ' + (date.getFullYear() + 1)
-    })
+	schoolYear = computed(() => {
+		const date = new Date();
+		if (date.getMonth() < 6) {
+			return date.getFullYear() - 1 + ' - ' + date.getFullYear();
+		}
+		return date.getFullYear() + ' - ' + (date.getFullYear() + 1);
+	});
 }

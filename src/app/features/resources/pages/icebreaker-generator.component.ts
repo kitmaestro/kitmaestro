@@ -248,7 +248,8 @@ import { loadCurrentSubscription } from '../../../store';
 									!generatedIcebreaker() ||
 									generatedIcebreaker().startsWith(
 										'Ocurrió un error'
-									) || !isPremium()
+									) ||
+									!isPremium()
 								"
 							>
 								<mat-icon>download</mat-icon> Descargar

@@ -74,7 +74,9 @@ export const downloadChecklist = createAction(
 	'[Checklists] Download Checklist',
 	props<{ checklist: Checklist }>(),
 );
-export const downloadChecklistSuccess = createAction('[Checklists] Download Checklist Success');
+export const downloadChecklistSuccess = createAction(
+	'[Checklists] Download Checklist Success',
+);
 export const downloadChecklistFailed = createAction(
 	'[Checklists] Download Checklist Failed',
 	props<{ error: string }>(),

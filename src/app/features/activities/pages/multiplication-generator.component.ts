@@ -31,9 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
 	template: `
 		<div style="margin-bottom: 24px">
 			<div>
-				<h2>
-					Generador de Ejercicios de Multiplicaci&oacute;n
-				</h2>
+				<h2>Generador de Ejercicios de Multiplicaci&oacute;n</h2>
 			</div>
 			<div>
 				<form
@@ -181,7 +179,9 @@ import { MatIconModule } from '@angular/material/icon';
 							color="primary"
 						>
 							<mat-icon>bolt</mat-icon>
-							{{ multiplications.length ? 'Regenerar' : 'Generar' }}
+							{{
+								multiplications.length ? 'Regenerar' : 'Generar'
+							}}
 						</button>
 					</div>
 				</form>

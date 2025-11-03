@@ -43,13 +43,7 @@ import { ClassSection } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 
 // --- DOCX Generation ---
-import {
-	Document,
-	Packer,
-	Paragraph,
-	AlignmentType,
-	HeadingLevel,
-} from 'docx'; // Import Bullet
+import { Document, Packer, Paragraph, AlignmentType, HeadingLevel } from 'docx'; // Import Bullet
 import { saveAs } from 'file-saver';
 import { MarkdownComponent } from 'ngx-markdown';
 import { Store } from '@ngrx/store';
@@ -243,7 +237,8 @@ import { loadCurrentSubscription } from '../../../store';
 									!generatedFunFacts() ||
 									generatedFunFacts().startsWith(
 										'Ocurrió un error'
-									) || !isPremium()
+									) ||
+									!isPremium()
 								"
 							>
 								<mat-icon>download</mat-icon> Descargar
@@ -346,7 +341,7 @@ export class FunFactGeneratorComponent implements OnInit, OnDestroy {
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
 	#snackBar = inject(MatSnackBar);
-	#store = inject(Store)
+	#store = inject(Store);
 
 	#pretify = new PretifyPipe().transform;
 	isPremium = this.#store.selectSignal(selectIsPremium);

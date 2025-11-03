@@ -6,14 +6,14 @@ import {
 	OnInit,
 	OnDestroy,
 	ViewEncapsulation,
-} from '@angular/core'
+} from '@angular/core';
 import {
 	FormBuilder,
 	ReactiveFormsModule,
 	Validators,
 	AbstractControl,
-} from '@angular/forms'
-import { CommonModule } from '@angular/common'
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import {
 	Subject,
 	firstValueFrom,
@@ -23,32 +23,32 @@ import {
 	EMPTY,
 	finalize,
 	Observable,
-} from 'rxjs'
+} from 'rxjs';
 
 // Angular Material Modules
-import { MatCardModule } from '@angular/material/card'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSelectModule } from '@angular/material/select'
-import { MatInputModule } from '@angular/material/input'
-import { MatButtonModule } from '@angular/material/button'
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatIconModule } from '@angular/material/icon'
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 // --- Services ---
-import { AiService } from '../../../core/services/ai.service'
-import { ClassSectionService } from '../../../core/services/class-section.service' // Service for sections
+import { AiService } from '../../../core/services/ai.service';
+import { ClassSectionService } from '../../../core/services/class-section.service'; // Service for sections
 
 // --- Interfaces ---
-import { ClassSection } from '../../../core'
+import { ClassSection } from '../../../core';
 
 // --- DOCX Generation ---
-import { Document, Packer, Paragraph, TextRun, AlignmentType } from 'docx' // Import HeadingLevel
-import { saveAs } from 'file-saver'
-import { MarkdownComponent } from 'ngx-markdown'
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
-import { Store } from '@ngrx/store'
-import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors'
+import { Document, Packer, Paragraph, TextRun, AlignmentType } from 'docx'; // Import HeadingLevel
+import { saveAs } from 'file-saver';
+import { MarkdownComponent } from 'ngx-markdown';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { Store } from '@ngrx/store';
+import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
 
 @Component({
 	selector: 'app-hook-generator', // Component selector
@@ -70,7 +70,9 @@ import { selectIsPremium } from '../../../store/user-subscriptions/user-subscrip
 	// --- Inline Template ---
 	template: `
 		<div class="hook-generator-card">
-			<div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+			<div
+				style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;"
+			>
 				<h2>Generador de Ganchos para Clases</h2>
 			</div>
 
@@ -211,10 +213,7 @@ import { selectIsPremium } from '../../../store/user-subscriptions/user-subscrip
 						</div>
 
 						<div class="result-actions">
-							<button
-								mat-button
-								(click)="goBack()"
-							>
+							<button mat-button (click)="goBack()">
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
@@ -224,7 +223,8 @@ import { selectIsPremium } from '../../../store/user-subscriptions/user-subscrip
 									!generatedHooks() ||
 									generatedHooks().startsWith(
 										'Ocurrió un error'
-									) || !isPremium()
+									) ||
+									!isPremium()
 								"
 							>
 								<mat-icon>download</mat-icon> Descargar
@@ -323,49 +323,49 @@ import { selectIsPremium } from '../../../store/user-subscriptions/user-subscrip
 	encapsulation: ViewEncapsulation.None,
 })
 export class ClassHookGeneratorComponent implements OnInit, OnDestroy {
-	#fb = inject(FormBuilder)
-	#aiService = inject(AiService)
-	#sectionService = inject(ClassSectionService)
-	#snackBar = inject(MatSnackBar)
-	#store = inject(Store)
+	#fb = inject(FormBuilder);
+	#aiService = inject(AiService);
+	#sectionService = inject(ClassSectionService);
+	#snackBar = inject(MatSnackBar);
+	#store = inject(Store);
 
-	isPremium = this.#store.selectSignal(selectIsPremium)
+	isPremium = this.#store.selectSignal(selectIsPremium);
 
 	// --- State Signals ---
-	isLoadingSections = signal(false)
-	isGenerating = signal(false)
-	showResult = signal(false)
-	generatedHooks = signal<string>('') // Will store the AI response string
-	sections = signal<ClassSection[]>([])
-	availableSubjects = signal<string[]>([])
+	isLoadingSections = signal(false);
+	isGenerating = signal(false);
+	showResult = signal(false);
+	generatedHooks = signal<string>(''); // Will store the AI response string
+	sections = signal<ClassSection[]>([]);
+	availableSubjects = signal<string[]>([]);
 
 	// --- Form Definition ---
 	hookForm = this.#fb.group({
 		section: ['', Validators.required],
 		subject: [{ value: '', disabled: true }, Validators.required],
 		topic: [''], // Optional topic
-	})
+	});
 
 	// --- Lifecycle Management ---
-	#destroy$ = new Subject<void>()
+	#destroy$ = new Subject<void>();
 
 	// --- OnInit ---
 	ngOnInit(): void {
-		this.#loadSections()
-		this.#listenForSectionChanges()
+		this.#loadSections();
+		this.#listenForSectionChanges();
 	}
 
 	// --- OnDestroy ---
 	ngOnDestroy(): void {
-		this.#destroy$.next()
-		this.#destroy$.complete()
+		this.#destroy$.next();
+		this.#destroy$.complete();
 	}
 
 	// --- Private Methods ---
 
 	/** Loads sections */
 	#loadSections(): void {
-		this.isLoadingSections.set(true)
+		this.isLoadingSections.set(true);
 		this.#sectionService
 			.findSections()
 			.pipe(
@@ -376,7 +376,7 @@ export class ClassHookGeneratorComponent implements OnInit, OnDestroy {
 				),
 				finalize(() => this.isLoadingSections.set(false)),
 			)
-			.subscribe()
+			.subscribe();
 	}
 
 	/** Updates subjects based on selected section */
@@ -386,54 +386,54 @@ export class ClassHookGeneratorComponent implements OnInit, OnDestroy {
 				takeUntil(this.#destroy$),
 				tap((sectionId) => {
 					// Reset dependent fields
-					this.subjectCtrl?.reset()
-					this.subjectCtrl?.disable()
-					this.availableSubjects.set([])
+					this.subjectCtrl?.reset();
+					this.subjectCtrl?.disable();
+					this.availableSubjects.set([]);
 
 					if (sectionId) {
 						const selectedSection = this.sections().find(
 							(s) => s._id === sectionId,
-						)
+						);
 						if (selectedSection?.subjects?.length) {
 							this.availableSubjects.set(
 								selectedSection.subjects,
-							)
-							this.subjectCtrl?.enable()
+							);
+							this.subjectCtrl?.enable();
 						}
 					}
 				}),
 			)
-			.subscribe()
+			.subscribe();
 	}
 
 	#handleError(error: any, defaultMessage: string): Observable<never> {
-		console.error(defaultMessage, error)
-		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 })
-		return EMPTY
+		console.error(defaultMessage, error);
+		this.#snackBar.open(defaultMessage, 'Cerrar', { duration: 5000 });
+		return EMPTY;
 	}
 
 	// --- Public Methods ---
 
 	/** Formats section display name */
 	getSectionDisplay(section: ClassSection): string {
-		return `${section.year || ''} ${section.name || ''} (${section.level || 'Nivel no especificado'})`
+		return `${section.year || ''} ${section.name || ''} (${section.level || 'Nivel no especificado'})`;
 	}
 
 	/** Handles form submission to generate hooks */
 	async onSubmit(): Promise<void> {
 		if (this.hookForm.invalid) {
-			this.hookForm.markAllAsTouched()
-			return
+			this.hookForm.markAllAsTouched();
+			return;
 		}
 
-		this.isGenerating.set(true)
-		this.generatedHooks.set('')
-		this.showResult.set(false)
+		this.isGenerating.set(true);
+		this.generatedHooks.set('');
+		this.showResult.set(false);
 
-		const formValue = this.hookForm.getRawValue()
+		const formValue = this.hookForm.getRawValue();
 		const selectedSection = this.sections().find(
 			(s) => s._id === formValue.section,
-		)
+		);
 
 		// Construct the prompt for generating hooks
 		const prompt = `Eres un experto en pedagogía creativa y estrategias de captación de atención en el aula.
@@ -457,73 +457,73 @@ export class ClassHookGeneratorComponent implements OnInit, OnDestroy {
       4.  **Claridad y Brevedad:** Deben ser fáciles de entender y rápidos de implementar (1-3 minutos máximo).
       5.  **Formato:** Presenta las ideas claramente, quizás como una lista numerada o con viñetas.
 
-      IMPORTANTE: Solo devuelve las ideas de los ganchos, sin saludos, despedidas o explicaciones adicionales sobre cómo usarlos (el profesor sabrá).`
+      IMPORTANTE: Solo devuelve las ideas de los ganchos, sin saludos, despedidas o explicaciones adicionales sobre cómo usarlos (el profesor sabrá).`;
 
 		try {
 			const result = await firstValueFrom(
 				this.#aiService.geminiAi(prompt),
-			)
+			);
 			// Store the raw response, assuming AI formats it reasonably (like a list)
 			this.generatedHooks.set(
 				result?.response || 'No se pudieron generar los ganchos.',
-			)
-			this.showResult.set(true)
+			);
+			this.showResult.set(true);
 		} catch (error) {
 			this.generatedHooks.set(
 				'Ocurrió un error al generar los ganchos. Por favor, inténtalo de nuevo.',
-			)
-			this.showResult.set(true) // Show error in result area
-			this.#handleError(error, 'Error al contactar el servicio de IA')
+			);
+			this.showResult.set(true); // Show error in result area
+			this.#handleError(error, 'Error al contactar el servicio de IA');
 		} finally {
-			this.isGenerating.set(false)
+			this.isGenerating.set(false);
 		}
 	}
 
 	/** Resets the form and view */
 	goBack(): void {
-		this.showResult.set(false)
-		this.generatedHooks.set('')
-		this.hookForm.reset()
-		this.subjectCtrl?.disable()
-		this.availableSubjects.set([])
+		this.showResult.set(false);
+		this.generatedHooks.set('');
+		this.hookForm.reset();
+		this.subjectCtrl?.disable();
+		this.availableSubjects.set([]);
 	}
 
 	/** Downloads the generated hooks as DOCX */
 	downloadDocx(): void {
-		const hooksText = this.generatedHooks()
-		if (!hooksText || hooksText.startsWith('Ocurrió un error')) return
+		const hooksText = this.generatedHooks();
+		if (!hooksText || hooksText.startsWith('Ocurrió un error')) return;
 
-		const formValue = this.hookForm.getRawValue()
+		const formValue = this.hookForm.getRawValue();
 		const section = this.sections().find(
 			(s) => s._id === formValue.section,
-		)
+		);
 
 		// Sanitize filename parts
 		const sectionName = (section?.name || 'Seccion').replace(
 			/[^a-z0-9]/gi,
 			'_',
-		)
+		);
 		const subjectName = (formValue.subject || 'Asignatura').replace(
 			/[^a-z0-9]/gi,
 			'_',
-		)
+		);
 		const topicName = (formValue.topic || 'General')
 			.substring(0, 15)
-			.replace(/[^a-z0-9]/gi, '_')
+			.replace(/[^a-z0-9]/gi, '_');
 
-		const filename = `Ganchos_${sectionName}_${subjectName}_${topicName}.docx`
+		const filename = `Ganchos_${sectionName}_${subjectName}_${topicName}.docx`;
 
 		// Create paragraphs, splitting by newline characters
 		const paragraphs = hooksText.split('\n').map((line) => {
 			// Basic heuristic to make potential list items bold or add bullets
-			const trimmedLine = line.trim()
+			const trimmedLine = line.trim();
 			if (trimmedLine.match(/^(\d+\.|-|\*)\s+/)) {
 				// Looks like a list item
 				return new Paragraph({
 					children: [new TextRun(trimmedLine)],
 					bullet: { level: 0 }, // Add bullet point
 					spacing: { after: 150 },
-				})
+				});
 			} else if (
 				trimmedLine.length > 0 &&
 				trimmedLine.length < 80 &&
@@ -533,14 +533,14 @@ export class ClassHookGeneratorComponent implements OnInit, OnDestroy {
 				return new Paragraph({
 					children: [new TextRun({ text: trimmedLine, bold: true })],
 					spacing: { after: 180 },
-				})
+				});
 			}
 			return new Paragraph({
 				// Regular text
 				children: [new TextRun(line)],
 				spacing: { after: 150 },
-			})
-		})
+			});
+		});
 
 		// Create the document
 		const doc = new Document({
@@ -600,28 +600,28 @@ export class ClassHookGeneratorComponent implements OnInit, OnDestroy {
 					],
 				},
 			],
-		})
+		});
 
 		// Generate blob and trigger download
 		Packer.toBlob(doc)
 			.then((blob) => {
-				saveAs(blob, filename)
+				saveAs(blob, filename);
 			})
 			.catch((error) => {
-				console.error('Error creating DOCX file:', error)
+				console.error('Error creating DOCX file:', error);
 				this.#snackBar.open(
 					'Error al generar el archivo DOCX',
 					'Cerrar',
 					{ duration: 3000 },
-				)
-			})
+				);
+			});
 	}
 
 	// --- Getters for easier access to form controls ---
 	get sectionCtrl(): AbstractControl | null {
-		return this.hookForm.get('section')
+		return this.hookForm.get('section');
 	}
 	get subjectCtrl(): AbstractControl | null {
-		return this.hookForm.get('subject')
+		return this.hookForm.get('subject');
 	}
 }

@@ -1,17 +1,17 @@
-import { inject, Injectable } from '@angular/core'
-import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { catchError, switchMap, map, of, tap, take } from 'rxjs'
-import { MatSnackBar } from '@angular/material/snack-bar'
-import { ScoreSystemService } from '../../core/services'
-import * as ScoreSystemsActions from './score-systems.actions'
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, switchMap, map, of, tap, take } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ScoreSystemService } from '../../core/services';
+import * as ScoreSystemsActions from './score-systems.actions';
 
-const timing = { duration: 2500 }
+const timing = { duration: 2500 };
 
 @Injectable()
 export class ScoreSystemsEffects {
-	#actions$ = inject(Actions)
-	#scoreSystemService = inject(ScoreSystemService)
-	#sb = inject(MatSnackBar)
+	#actions$ = inject(Actions);
+	#scoreSystemService = inject(ScoreSystemService);
+	#sb = inject(MatSnackBar);
 
 	loadSystem$ = createEffect(() =>
 		this.#actions$.pipe(
@@ -26,17 +26,17 @@ export class ScoreSystemsEffects {
 							'Error al cargar el esquema de calificaciones',
 							'Ok',
 							timing,
-						)
+						);
 						return of(
 							ScoreSystemsActions.loadSystemFailed({
 								error: error.message,
 							}),
-						)
+						);
 					}),
 				),
 			),
 		),
-	)
+	);
 
 	loadSystems$ = createEffect(() =>
 		this.#actions$.pipe(
@@ -51,17 +51,17 @@ export class ScoreSystemsEffects {
 							'Error al cargar los esquemas de calificaciones',
 							'Ok',
 							timing,
-						)
+						);
 						return of(
 							ScoreSystemsActions.loadSystemsFailed({
 								error: error.message,
 							}),
-						)
+						);
 					}),
 				),
 			),
 		),
-	)
+	);
 
 	createSystem$ = createEffect(() =>
 		this.#actions$.pipe(
@@ -73,27 +73,27 @@ export class ScoreSystemsEffects {
 							'El esquema de calificaciones ha sido creado',
 							'Ok',
 							timing,
-						)
+						);
 						return ScoreSystemsActions.createSystemSuccess({
 							system: newSystem,
-						})
+						});
 					}),
 					catchError((error) => {
 						this.#sb.open(
 							'Error al crear el esquema de calificaciones',
 							'Ok',
 							timing,
-						)
+						);
 						return of(
 							ScoreSystemsActions.createSystemFailed({
 								error: error.message,
 							}),
-						)
+						);
 					}),
 				),
 			),
 		),
-	)
+	);
 
 	updateSystem$ = createEffect(() =>
 		this.#actions$.pipe(
@@ -105,27 +105,27 @@ export class ScoreSystemsEffects {
 							'El esquema de calificaciones ha sido actualizado',
 							'Ok',
 							timing,
-						)
+						);
 						return ScoreSystemsActions.updateSystemSuccess({
 							system: updatedSystem,
-						})
+						});
 					}),
 					catchError((error) => {
 						this.#sb.open(
 							'Error al actualizar el esquema de calificaciones',
 							'Ok',
 							timing,
-						)
+						);
 						return of(
 							ScoreSystemsActions.updateSystemFailed({
 								error: error.message,
 							}),
-						)
+						);
 					}),
 				),
 			),
 		),
-	)
+	);
 
 	deleteSystem$ = createEffect(() =>
 		this.#actions$.pipe(
@@ -137,51 +137,51 @@ export class ScoreSystemsEffects {
 							'El esquema de calificaciones ha sido eliminado',
 							'Ok',
 							timing,
-						)
-						return ScoreSystemsActions.deleteSystemSuccess({ id })
+						);
+						return ScoreSystemsActions.deleteSystemSuccess({ id });
 					}),
 					catchError((error) => {
 						this.#sb.open(
 							'Error al eliminar el esquema de calificaciones',
 							'Ok',
 							timing,
-						)
+						);
 						return of(
 							ScoreSystemsActions.deleteSystemFailed({
 								error: error.message,
 							}),
-						)
+						);
 					}),
 				),
 			),
 		),
-	)
+	);
 
 	downloadSystem$ = createEffect(() =>
 		this.#actions$.pipe(
 			ofType(ScoreSystemsActions.downloadSystem),
 			take(1),
 			tap(({ system, students }) => {
-				this.#scoreSystemService.download(system, students)
+				this.#scoreSystemService.download(system, students);
 				this.#sb.open(
-				'El esquema de calificaciones ha sido descargado',
+					'El esquema de calificaciones ha sido descargado',
 					'Ok',
 					timing,
-				)
-				return ScoreSystemsActions.downloadSystemSuccess()
+				);
+				return ScoreSystemsActions.downloadSystemSuccess();
 			}),
 			catchError((error) => {
 				this.#sb.open(
 					'Error al descargar el esquema de calificaciones',
 					'Ok',
 					timing,
-				)
+				);
 				return of(
 					ScoreSystemsActions.downloadSystemFailed({
 						error: error.message,
 					}),
-				)
+				);
 			}),
 		),
-	)
+	);
 }

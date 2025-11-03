@@ -1,4 +1,11 @@
-import { Component, computed, inject, input, Input, OnInit } from '@angular/core';
+import {
+	Component,
+	computed,
+	inject,
+	input,
+	Input,
+	OnInit,
+} from '@angular/core';
 import {
 	CompetenceEntry,
 	ContentBlock,
@@ -1537,7 +1544,9 @@ import { filter } from 'rxjs';
 													activity of activityList.activities;
 													track $index
 												) {
-													<markdown [data]="activity" />
+													<markdown
+														[data]="activity"
+													/>
 												}
 											} @else {
 												<li class="bold">
@@ -1557,7 +1566,9 @@ import { filter } from 'rxjs';
 														activity of activityList.activities;
 														track $index
 													) {
-														<markdown [data]="activity" />
+														<markdown
+															[data]="activity"
+														/>
 													}
 												</ul>
 											}
@@ -1579,7 +1590,9 @@ import { filter } from 'rxjs';
 													activity of activityList.activities;
 													track $index
 												) {
-													<markdown [data]="activity" />
+													<markdown
+														[data]="activity"
+													/>
 												}
 											} @else {
 												<li class="bold">
@@ -1599,7 +1612,9 @@ import { filter } from 'rxjs';
 														activity of activityList.activities;
 														track $index
 													) {
-														<markdown [data]="activity" />
+														<markdown
+															[data]="activity"
+														/>
 													}
 												</ul>
 											}
@@ -1621,7 +1636,9 @@ import { filter } from 'rxjs';
 													activity of activityList.activities;
 													track $index
 												) {
-													<markdown [data]="activity" />
+													<markdown
+														[data]="activity"
+													/>
 												}
 											} @else {
 												<li class="bold">
@@ -1641,7 +1658,9 @@ import { filter } from 'rxjs';
 														activity of activityList.activities;
 														track $index
 													) {
-														<markdown [data]="activity" />
+														<markdown
+															[data]="activity"
+														/>
 													}
 												</ul>
 											}
@@ -1725,7 +1744,7 @@ import { filter } from 'rxjs';
 	`,
 })
 export class UnitPlanComponent implements OnInit {
-	#store = inject(Store)
+	#store = inject(Store);
 	@Input() unitPlan: UnitPlan | null = null;
 	@Input() section: ClassSection | null = null;
 	@Input() user: User | null = null;
@@ -1734,7 +1753,7 @@ export class UnitPlanComponent implements OnInit {
 	@Input() mainThemes: MainTheme[] = [];
 	classPlans = input<ClassPlan[]>([]);
 
-	schoolName = ''
+	schoolName = '';
 
 	public isPrintView = window.location.href.includes('print');
 	planIsForPrimary = computed<boolean>(() => {
@@ -1811,11 +1830,14 @@ export class UnitPlanComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.#store.select(selectAuthUser).pipe(filter(user => !!user)).subscribe(user => {
-			if (user) {
-				this.schoolName = user.schoolName
-			}
-		})
+		this.#store
+			.select(selectAuthUser)
+			.pipe(filter((user) => !!user))
+			.subscribe((user) => {
+				if (user) {
+					this.schoolName = user.schoolName;
+				}
+			});
 		setTimeout(() => {
 			this.unitPlan?.competence.sort(
 				(a, b) =>

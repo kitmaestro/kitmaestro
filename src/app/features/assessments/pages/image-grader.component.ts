@@ -5,7 +5,7 @@ import {
 	ChangeDetectionStrategy,
 	OnInit,
 	OnDestroy,
-	ViewEncapsulation
+	ViewEncapsulation,
 } from '@angular/core';
 import {
 	FormBuilder,
@@ -507,7 +507,6 @@ export class ImageGraderComponent implements OnInit, OnDestroy {
 			// 			finalize(() => this.isGenerating.set(false)), // Ensure loading stops
 			// 		),
 			// );
-
 			// if (result) {
 			// 	this.gradingResult.set(result);
 			// 	this.showResult.set(true);

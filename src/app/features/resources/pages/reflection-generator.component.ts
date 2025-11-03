@@ -227,7 +227,11 @@ import { loadCurrentSubscription } from '../../../store';
 								"
 							>
 								<mat-icon>psychology</mat-icon>
-								{{ estaGenerando() ? 'Generando...' : 'Generar Reflexión' }}
+								{{
+									estaGenerando()
+										? 'Generando...'
+										: 'Generar Reflexión'
+								}}
 							</button>
 						</div>
 					</form>
@@ -256,7 +260,8 @@ import { loadCurrentSubscription } from '../../../store';
 									!reflexionGenerada() ||
 									reflexionGenerada().startsWith(
 										'Ocurrió un error'
-									) || !isPremium()
+									) ||
+									!isPremium()
 								"
 							>
 								<mat-icon>download</mat-icon> Descargar
@@ -360,7 +365,7 @@ import { loadCurrentSubscription } from '../../../store';
 	changeDetection: ChangeDetectionStrategy.OnPush, // Use OnPush for performance with signals
 })
 export class ReflectionGeneratorComponent {
-	#store = inject(Store)
+	#store = inject(Store);
 	#aiService = inject(AiService);
 	#snackBar = inject(MatSnackBar);
 
@@ -375,7 +380,7 @@ export class ReflectionGeneratorComponent {
 	estaGenerando = signal<boolean>(false);
 	mostrarReflexion = signal<boolean>(false);
 
-	isPremium = this.#store.selectSignal(selectIsPremium)
+	isPremium = this.#store.selectSignal(selectIsPremium);
 
 	// --- Configuration Data ---
 	readonly niveles = ['Primaria', 'Secundaria'];

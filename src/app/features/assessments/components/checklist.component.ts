@@ -11,58 +11,58 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 				<h2 style="text-align: center">{{ list.activityType }}</h2>
 				<h3 style="text-align: center">Lista de Cotejo</h3>
 				<p><b>Competencias Fundamentales</b>: {{ compNames }}</p>
-					<p><b>Competencias Específicas</b>:</p>
-					<ul>
-						@for (comp of list.competence; track comp) {
-							@for (entry of comp.entries; track entry) {
-								<li>{{ entry }}</li>
-							}
+				<p><b>Competencias Específicas</b>:</p>
+				<ul>
+					@for (comp of list.competence; track comp) {
+						@for (entry of comp.entries; track entry) {
+							<li>{{ entry }}</li>
 						}
-					</ul>
-					<p><b>Indicadores de Logro</b>:</p>
-					<ul>
-						@for (
-							indicator of list.contentBlock.achievement_indicators;
-							track indicator
-						) {
-							<li>{{ indicator }}</li>
-						}
-					</ul>
-					<p><b>Evidencia</b>: {{ list.activity }}</p>
-					<div style="display: flex">
-						<span style="margin-right: 12px"><b>Nombre</b>:</span>
-						<span
-							style="border-bottom: 1px solid #424242; flex: 1 1 auto"
-						></span>
-						<span style="margin: 0 12px"><b>Curso</b>: </span>
-						<span
-							style="border-bottom: 1px solid #424242; flex: 1 1 auto"
-						></span>
-						<span style="margin: 0 12px"><b>Fecha</b>: </span>
-						<span
-							style="border-bottom: 1px solid #424242; flex: 1 1 auto"
-						></span>
-					</div>
-					<table class="table">
-						<thead>
+					}
+				</ul>
+				<p><b>Indicadores de Logro</b>:</p>
+				<ul>
+					@for (
+						indicator of list.contentBlock.achievement_indicators;
+						track indicator
+					) {
+						<li>{{ indicator }}</li>
+					}
+				</ul>
+				<p><b>Evidencia</b>: {{ list.activity }}</p>
+				<div style="display: flex">
+					<span style="margin-right: 12px"><b>Nombre</b>:</span>
+					<span
+						style="border-bottom: 1px solid #424242; flex: 1 1 auto"
+					></span>
+					<span style="margin: 0 12px"><b>Curso</b>: </span>
+					<span
+						style="border-bottom: 1px solid #424242; flex: 1 1 auto"
+					></span>
+					<span style="margin: 0 12px"><b>Fecha</b>: </span>
+					<span
+						style="border-bottom: 1px solid #424242; flex: 1 1 auto"
+					></span>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Criterio de Evaluación</th>
+							<th>Si</th>
+							<th>No</th>
+							<th>Observaciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (row of list.criteria; track row) {
 							<tr>
-								<th>Criterio de Evaluación</th>
-								<th>Si</th>
-								<th>No</th>
-								<th>Observaciones</th>
+								<td>{{ row }}</td>
+								<td></td>
+								<td></td>
+								<td></td>
 							</tr>
-						</thead>
-						<tbody>
-							@for (row of list.criteria; track row) {
-								<tr>
-									<td>{{ row }}</td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-							}
-						</tbody>
-					</table>
+						}
+					</tbody>
+				</table>
 			</div>
 		}
 	`,

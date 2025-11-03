@@ -1,12 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { EstimationScaleService } from '../../../core/services/estimation-scale.service'
-import { EstimationScale } from '../../../core'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { MatTableModule } from '@angular/material/table'
-import { RouterLink } from '@angular/router'
-import { PretifyPipe } from '../../../shared'
+import { Component, inject, OnInit } from '@angular/core';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { EstimationScaleService } from '../../../core/services/estimation-scale.service';
+import { EstimationScale } from '../../../core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { RouterLink } from '@angular/router';
+import { PretifyPipe } from '../../../shared';
 
 @Component({
 	selector: 'app-estimation-scales',
@@ -19,9 +19,14 @@ import { PretifyPipe } from '../../../shared'
 		PretifyPipe,
 	],
 	template: `
-		<div style="display: flex; justify-content: space-between; align-items: center;">
+		<div
+			style="display: flex; justify-content: space-between; align-items: center;"
+		>
 			<h2>Escala de Estimaci&oacute;n</h2>
-			<button mat-flat-button routerLink="/assessments/estimation-scale-generator">
+			<button
+				mat-flat-button
+				routerLink="/assessments/estimation-scale-generator"
+			>
 				<mat-icon>add</mat-icon>
 				Agregar Nueva Escala
 			</button>

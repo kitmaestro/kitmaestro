@@ -103,7 +103,9 @@ import { loadCurrentSubscription } from '../../../store';
 											section of sections();
 											track section._id
 										) {
-											<mat-option [value]="section._id">{{ section.name }}</mat-option>
+											<mat-option [value]="section._id">{{
+												section.name
+											}}</mat-option>
 										}
 										@if (
 											!sections().length &&
@@ -208,7 +210,8 @@ import { loadCurrentSubscription } from '../../../store';
 									</div>
 								} @else {
 									<ng-container>
-										<mat-icon>history_edu</mat-icon> Generar Poesía
+										<mat-icon>history_edu</mat-icon> Generar
+										Poesía
 									</ng-container>
 								}
 							</button>
@@ -219,15 +222,12 @@ import { loadCurrentSubscription } from '../../../store';
 				@if (showResult()) {
 					<div class="poem-result">
 						<h3>Poema Generado:</h3>
-						<div class="poem-result-content" >
+						<div class="poem-result-content">
 							<markdown [data]="generatedPoem()" />
 						</div>
 
 						<div class="result-actions">
-							<button
-								mat-button
-								(click)="goBack()"
-							>
+							<button mat-button (click)="goBack()">
 								<mat-icon>arrow_back</mat-icon> Volver
 							</button>
 							<button
@@ -235,7 +235,9 @@ import { loadCurrentSubscription } from '../../../store';
 								(click)="downloadDocx()"
 								[disabled]="
 									!generatedPoem() ||
-									generatedPoem().startsWith('Ocurrió un error') ||
+									generatedPoem().startsWith(
+										'Ocurrió un error'
+									) ||
 									!isPremium()
 								"
 							>
@@ -321,7 +323,7 @@ import { loadCurrentSubscription } from '../../../store';
 	encapsulation: ViewEncapsulation.None,
 })
 export class PoemGeneratorComponent implements OnInit, OnDestroy {
-	#store = inject(Store)
+	#store = inject(Store);
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
@@ -355,7 +357,7 @@ export class PoemGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- OnInit ---
 	ngOnInit(): void {
-		this.#store.dispatch(loadCurrentSubscription())
+		this.#store.dispatch(loadCurrentSubscription());
 		this.#loadSections();
 	}
 

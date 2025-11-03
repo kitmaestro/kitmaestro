@@ -15,9 +15,7 @@ import { DatePipe } from '@angular/common';
 					<div style="margin-bottom: 24px; margin-top: 24px">
 						<div>
 							<div class="page" id="guide-{{ $index }}">
-								<h2>
-									Gu&iacute;a de Observaci&oacute;n
-								</h2>
+								<h2>Gu&iacute;a de Observaci&oacute;n</h2>
 								<div
 									[style]="
 										guide.date === ''
@@ -131,9 +129,7 @@ import { DatePipe } from '@angular/common';
 				<div style="margin-top: 24px">
 					<div style="border: 1px solid #eee;">
 						<div class="page" id="guide">
-							<h2>
-								Gu&iacute;a de Observaci&oacute;n
-							</h2>
+							<h2>Gu&iacute;a de Observaci&oacute;n</h2>
 							<h3>{{ guide.title }}</h3>
 							<div
 								[style]="
@@ -153,7 +149,9 @@ import { DatePipe } from '@angular/common';
 										&nbsp;
 									</div>
 								} @else {
-									{{ dateify(guide.date) | date: 'dd/MM/yyyy' }}
+									{{
+										dateify(guide.date) | date: 'dd/MM/yyyy'
+									}}
 								}
 							</div>
 							<div>
@@ -263,6 +261,6 @@ export class ObservationGuideComponent {
 	@Input() students: Student[] = [];
 
 	dateify(dateStr: string) {
-		return new Date(dateStr)
+		return new Date(dateStr);
 	}
 }

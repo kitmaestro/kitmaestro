@@ -1,21 +1,31 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core'
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms'
-import { MatButtonModule } from '@angular/material/button'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatInputModule } from '@angular/material/input'
-import { MatSelectModule } from '@angular/material/select'
-import { MatCheckboxModule } from '@angular/material/checkbox'
-import { MatIconModule } from '@angular/material/icon'
-import { ObservationGuideComponent } from '../../../shared/ui/observation-guide.component'
-import { ObservationGuide } from '../../../core'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { Router, RouterLink } from '@angular/router'
-import { PdfService } from '../../../core/services/pdf.service'
-import { Store } from '@ngrx/store'
-import { Actions, ofType } from '@ngrx/effects'
-import { createGuide, createGuideSuccess, loadEntries, loadSections, loadStudentsBySection, selectAiIsGenerating, selectAllClassSections, selectAllCompetenceEntries, selectAuthUser } from '../../../store'
-import { selectSectionStudents } from '../../../store/students/students.selectors'
-import { Subject, takeUntil } from 'rxjs'
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { ObservationGuideComponent } from '../../../shared/ui/observation-guide.component';
+import { ObservationGuide } from '../../../core';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router, RouterLink } from '@angular/router';
+import { PdfService } from '../../../core/services/pdf.service';
+import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
+import {
+	createGuide,
+	createGuideSuccess,
+	loadEntries,
+	loadSections,
+	loadStudentsBySection,
+	selectAiIsGenerating,
+	selectAllClassSections,
+	selectAllCompetenceEntries,
+	selectAuthUser,
+} from '../../../store';
+import { selectSectionStudents } from '../../../store/students/students.selectors';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'app-observation-sheet',
@@ -33,7 +43,9 @@ import { Subject, takeUntil } from 'rxjs'
 	],
 	template: `
 		<div style="margin-bottom: 24px">
-			<div style="margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between">
+			<div
+				style="margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between"
+			>
 				<h2>Generar Gu&iacute;a de Observaci&oacute;n</h2>
 				<button mat-button routerLink="/assessments/observation-sheets">
 					<mat-icon>arrow_back</mat-icon>
@@ -125,7 +137,10 @@ import { Subject, takeUntil } from 'rxjs'
 							>
 								<mat-form-field appearance="outline">
 									<mat-label>Asignatura(s)</mat-label>
-									<mat-select formControlName="subject" (selectionChange)="onSubjectSelect()">
+									<mat-select
+										formControlName="subject"
+										(selectionChange)="onSubjectSelect()"
+									>
 										@for (
 											subject of gradeSubjects;
 											track $index
@@ -169,9 +184,10 @@ import { Subject, takeUntil } from 'rxjs'
 											option of compentenceOptions();
 											track $index
 										) {
-											<mat-option [value]="option.value">{{
-												option.label
-											}}</mat-option>
+											<mat-option
+												[value]="option.value"
+												>{{ option.label }}</mat-option
+											>
 										}
 									</mat-select>
 								</mat-form-field>
@@ -225,7 +241,9 @@ import { Subject, takeUntil } from 'rxjs'
 							<button
 								[disabled]="sheetForm.invalid"
 								mat-button
-								[color]="observationSheet ? 'accent' : 'primary'"
+								[color]="
+									observationSheet ? 'accent' : 'primary'
+								"
 								type="submit"
 							>
 								<mat-icon>bolt</mat-icon>
@@ -277,24 +295,28 @@ import { Subject, takeUntil } from 'rxjs'
 	`,
 })
 export class ObservationSheetGeneratorComponent implements OnInit {
-	#store = inject(Store)
-	#actions$ = inject(Actions)
-	private fb = inject(FormBuilder)
-	private pdfService = inject(PdfService)
-	private router = inject(Router)
-	private sb = inject(MatSnackBar)
+	#store = inject(Store);
+	#actions$ = inject(Actions);
+	private fb = inject(FormBuilder);
+	private pdfService = inject(PdfService);
+	private router = inject(Router);
+	private sb = inject(MatSnackBar);
 
-	#destroy$ = new Subject<void>()
-	
-	user = this.#store.selectSignal(selectAuthUser)
-	teacherName = computed(() => this.user() ? `${this.user()?.title}. ${this.user()?.firstname} ${this.user()?.lastname}` : '')
-	schoolName = computed(() => this.user() ? this.user()?.schoolName : '')
+	#destroy$ = new Subject<void>();
 
-	groups = this.#store.selectSignal(selectAllClassSections)
-	competenceCol = this.#store.selectSignal(selectAllCompetenceEntries)
-	students = this.#store.selectSignal(selectSectionStudents)
-	compentenceOptions = signal<{ value: string; label: string }[]>([])
-	generating = this.#store.selectSignal(selectAiIsGenerating)
+	user = this.#store.selectSignal(selectAuthUser);
+	teacherName = computed(() =>
+		this.user()
+			? `${this.user()?.title}. ${this.user()?.firstname} ${this.user()?.lastname}`
+			: '',
+	);
+	schoolName = computed(() => (this.user() ? this.user()?.schoolName : ''));
+
+	groups = this.#store.selectSignal(selectAllClassSections);
+	competenceCol = this.#store.selectSignal(selectAllCompetenceEntries);
+	students = this.#store.selectSignal(selectSectionStudents);
+	compentenceOptions = signal<{ value: string; label: string }[]>([]);
+	generating = this.#store.selectSignal(selectAiIsGenerating);
 
 	aspects = [
 		'Interacción entre los estudiantes',
@@ -308,7 +330,7 @@ export class ObservationSheetGeneratorComponent implements OnInit {
 		'Interacción con el espacio',
 		'Uso de recursos y referentes del espacio de aprendizaje',
 		'Solidaridad y colaboración entre pares',
-	]
+	];
 
 	durationOptions = [
 		'45 minutos',
@@ -316,9 +338,9 @@ export class ObservationSheetGeneratorComponent implements OnInit {
 		'1 día',
 		'1 semana',
 		'1 mes',
-	]
+	];
 
-	observationSheet: ObservationGuide | null = null
+	observationSheet: ObservationGuide | null = null;
 
 	sheetForm = this.fb.group({
 		blankDate: [false],
@@ -332,31 +354,31 @@ export class ObservationSheetGeneratorComponent implements OnInit {
 		subject: ['', Validators.required],
 		aspects: [['Interacción entre los estudiantes'], Validators.required],
 		customAspects: [''],
-	})
+	});
 
 	ngOnInit() {
-		this.#store.dispatch(loadSections())
-		this.loadCompetences()
+		this.#store.dispatch(loadSections());
+		this.loadCompetences();
 	}
 
 	ngOnDestroy() {
-		this.#destroy$.next()
-		this.#destroy$.complete()
+		this.#destroy$.next();
+		this.#destroy$.complete();
 	}
 
 	onGradeSelect(event?: any) {
-		const id: string | undefined = event.value
-		this.loadStudents(id)
-		this.loadCompetences(id)
-		this.compentenceOptions.set(this.getCompentenceOptions(id))
+		const id: string | undefined = event.value;
+		this.loadStudents(id);
+		this.loadCompetences(id);
+		this.compentenceOptions.set(this.getCompentenceOptions(id));
 	}
 
 	onSubjectSelect() {
-		this.loadCompetences()
+		this.loadCompetences();
 	}
 
 	onSubmit() {
-		this.observationSheet = null
+		this.observationSheet = null;
 		const {
 			customAspects,
 			blankDate,
@@ -369,20 +391,20 @@ export class ObservationSheetGeneratorComponent implements OnInit {
 			competence,
 			duration,
 			description,
-		} = this.sheetForm.value as any
+		} = this.sheetForm.value as any;
 		const comps = this.competenceCol().filter(
 			(c) => c.subject === subject && competence?.includes(c.name),
-		)
+		);
 
 		const competenceMap = competence.map((s: string) => {
-			const items = comps.find((c) => c.name === s)?.entries || []
+			const items = comps.find((c) => c.name === s)?.entries || [];
 
 			return {
 				fundamental: s,
 				items,
-			}
-		})
-		const section = this.groups().find((g) => g._id === group)
+			};
+		});
+		const section = this.groups().find((g) => g._id === group);
 		const guide: any = {
 			user: this.user()?._id,
 			date: blankDate ? '' : new Date(date),
@@ -401,22 +423,23 @@ export class ObservationSheetGeneratorComponent implements OnInit {
 							.filter((s: string) => s.length),
 					]
 				: aspects,
-		}
+		};
 
-		this.observationSheet = guide
+		this.observationSheet = guide;
 	}
 
 	onSave() {
-		const guide: any = this.observationSheet
-		this.#store.dispatch(createGuide({ guide }))
-		this.#actions$.pipe(ofType(createGuideSuccess), takeUntil(this.#destroy$)).subscribe(({ guide }) => {
-			this.router
-				.navigate([
+		const guide: any = this.observationSheet;
+		this.#store.dispatch(createGuide({ guide }));
+		this.#actions$
+			.pipe(ofType(createGuideSuccess), takeUntil(this.#destroy$))
+			.subscribe(({ guide }) => {
+				this.router.navigate([
 					'/assessments',
 					'observation-sheets',
 					guide._id,
-			])
-		})
+				]);
+			});
 	}
 
 	getObservedGroupSentence(groupId: string) {
@@ -426,13 +449,13 @@ export class ObservationSheetGeneratorComponent implements OnInit {
 			'Alumnado de ',
 			'Estudiantado de ',
 			'',
-		]
+		];
 
-		const index = Math.round(Math.random() * (starting.length - 1))
-		const group = this.groups().find((g) => g._id === groupId)
-		if (!group) return ''
+		const index = Math.round(Math.random() * (starting.length - 1));
+		const group = this.groups().find((g) => g._id === groupId);
+		if (!group) return '';
 
-		return starting[index] + group.name
+		return starting[index] + group.name;
 	}
 
 	subjectLabel(subject: string): string {
@@ -449,8 +472,8 @@ export class ObservationSheetGeneratorComponent implements OnInit {
 				value: 'FORMACION_HUMANA',
 				label: 'Formación Integral Humana y Religiosa',
 			},
-		]
-		return subjects.find((s) => s.value === subject)?.label || ''
+		];
+		return subjects.find((s) => s.value === subject)?.label || '';
 	}
 
 	print() {
@@ -458,84 +481,107 @@ export class ObservationSheetGeneratorComponent implements OnInit {
 			'Guardando como PDF!, por favor espera un momento.',
 			undefined,
 			{ duration: 5000 },
-		)
+		);
 		if (this.sheetForm.get('individual')?.value) {
 			this.students().forEach((student, i) => {
 				setTimeout(() => {
 					this.pdfService.createAndDownloadFromHTML(
 						'guide-' + i,
 						`Guia de Observación ${student.firstname} ${student.lastname}`,
-					)
-				}, 1000 * i)
-			})
+					);
+				}, 1000 * i);
+			});
 		} else {
 			this.pdfService.createAndDownloadFromHTML(
 				'guide',
 				`Guia de Observación`,
-			)
+			);
 		}
 	}
 
 	loadCompetences(id: string = '') {
-		const sectionId = id || this.sheetForm.value.group
-		if (!sectionId) return
-		
-		const section = this.groups().find((g) => g._id === sectionId)
-		if (!section) return
-		const grade = section.year
-		const level = section.level
-		
-		const subject = this.sheetForm.get('subject')?.value
-		if (!subject) return
+		const sectionId = id || this.sheetForm.value.group;
+		if (!sectionId) return;
 
-		this.#store.dispatch(loadEntries({ filters: { grade, level, subject } }))
+		const section = this.groups().find((g) => g._id === sectionId);
+		if (!section) return;
+		const grade = section.year;
+		const level = section.level;
+
+		const subject = this.sheetForm.get('subject')?.value;
+		if (!subject) return;
+
+		this.#store.dispatch(
+			loadEntries({ filters: { grade, level, subject } }),
+		);
 	}
 
 	loadStudents(id?: string) {
-		const section = id || this.sheetForm.get('grade')?.value
-		if (!section) return
+		const section = id || this.sheetForm.get('grade')?.value;
+		if (!section) return;
 
-		this.#store.dispatch(loadStudentsBySection({ sectionId: section }))
+		this.#store.dispatch(loadStudentsBySection({ sectionId: section }));
 	}
 
 	getCompentenceOptions(id?: string): { value: string; label: string }[] {
 		const primary = [
 			{ value: 'Comunicativa', label: 'Comunicativa' },
-			{ value: 'Pensamiento Logico', label: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica' },
-			{ value: 'Etica Y Ciudadana', label: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud' },
-		]
+			{
+				value: 'Pensamiento Logico',
+				label: 'Pensamiento Lógico, Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica',
+			},
+			{
+				value: 'Etica Y Ciudadana',
+				label: 'Ética y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud',
+			},
+		];
 		const secondary = [
 			{ value: 'Comunicativa', label: 'Comunicativa' },
-			{ value: 'Pensamiento Logico', label: 'Pensamiento Lógico, Creativo y Crítico' },
-			{ value: 'Resolucion De Problemas', label: 'Resolución de Problemas' },
-			{ value: 'Ciencia Y Tecnologia', label: 'Tecnológica y Científica' },
+			{
+				value: 'Pensamiento Logico',
+				label: 'Pensamiento Lógico, Creativo y Crítico',
+			},
+			{
+				value: 'Resolucion De Problemas',
+				label: 'Resolución de Problemas',
+			},
+			{
+				value: 'Ciencia Y Tecnologia',
+				label: 'Tecnológica y Científica',
+			},
 			{ value: 'Etica Y Ciudadana', label: 'Ética y Ciudadana' },
-			{ value: 'Desarrollo Personal Y Espiritual', label: 'Desarrollo Personal y Espiritual' },
-			{ value: 'Ambiental Y De La Salud', label: 'Ambiental y de la Salud' },
-		]
-		const sectionId = id || this.sheetForm.get('grade')?.value
+			{
+				value: 'Desarrollo Personal Y Espiritual',
+				label: 'Desarrollo Personal y Espiritual',
+			},
+			{
+				value: 'Ambiental Y De La Salud',
+				label: 'Ambiental y de la Salud',
+			},
+		];
+		const sectionId = id || this.sheetForm.get('grade')?.value;
 		if (!sectionId) {
-			return secondary
+			return secondary;
 		}
 
-		const section = this.groups().find((g) => g._id === sectionId)
+		const section = this.groups().find((g) => g._id === sectionId);
 		if (!section) {
-			return secondary
+			return secondary;
 		}
 
 		if (section.level === 'PRIMARIA') {
-			return primary
+			return primary;
 		}
 
-		return secondary
+		return secondary;
 	}
 
 	get gradeSubjects(): string[] {
 		const grade = this.groups().find(
 			(g) => g._id === this.sheetForm.get('group')?.value,
-		)
-		if (!grade) return []
+		);
+		if (!grade) return [];
 
-		return grade.subjects as any
+		return grade.subjects as any;
 	}
 }

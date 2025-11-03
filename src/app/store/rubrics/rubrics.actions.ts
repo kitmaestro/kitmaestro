@@ -77,7 +77,9 @@ export const downloadRubric = createAction(
 	'[Rubrics] Download Rubric',
 	props<{ rubric: Rubric }>(),
 );
-export const downloadRubricSuccess = createAction('[Rubrics] Download Rubric Success');
+export const downloadRubricSuccess = createAction(
+	'[Rubrics] Download Rubric Success',
+);
 export const downloadRubricFailed = createAction(
 	'[Rubrics] Download Rubric Failed',
 	props<{ error: string }>(),

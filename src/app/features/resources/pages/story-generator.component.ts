@@ -100,7 +100,9 @@ import { MarkdownComponent } from 'ngx-markdown';
 											section of sections();
 											track section._id
 										) {
-											<mat-option [value]="section._id">{{ section.name }}</mat-option>
+											<mat-option [value]="section._id">{{
+												section.name
+											}}</mat-option>
 										}
 										@if (
 											!sections().length &&
@@ -197,7 +199,11 @@ import { MarkdownComponent } from 'ngx-markdown';
 								[disabled]="storyForm.invalid || isGenerating()"
 							>
 								<mat-icon>auto_stories</mat-icon>
-								{{ isGenerating() ? 'Generando...' : 'Generar Cuento' }}
+								{{
+									isGenerating()
+										? 'Generando...'
+										: 'Generar Cuento'
+								}}
 							</button>
 						</div>
 					</form>
@@ -226,7 +232,8 @@ import { MarkdownComponent } from 'ngx-markdown';
 									!generatedStory() ||
 									generatedStory().startsWith(
 										'Ocurrió un error'
-									) || !isPremium()
+									) ||
+									!isPremium()
 								"
 							>
 								<mat-icon>download</mat-icon> Descargar
@@ -310,7 +317,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 	encapsulation: ViewEncapsulation.None,
 })
 export class StoryGeneratorComponent implements OnInit, OnDestroy {
-	#store = inject(Store)
+	#store = inject(Store);
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
@@ -343,7 +350,7 @@ export class StoryGeneratorComponent implements OnInit, OnDestroy {
 	// --- OnInit ---
 	ngOnInit(): void {
 		this.#loadSections();
-		this.#store.dispatch(loadCurrentSubscription())
+		this.#store.dispatch(loadCurrentSubscription());
 	}
 
 	// --- OnDestroy ---

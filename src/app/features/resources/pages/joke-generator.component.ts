@@ -41,7 +41,7 @@ import { ClassSectionService } from '../../../core/services/class-section.servic
 import { ClassSection } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { Store } from '@ngrx/store';
-import { MarkdownComponent } from 'ngx-markdown'
+import { MarkdownComponent } from 'ngx-markdown';
 
 // --- DOCX Generation ---
 import {
@@ -255,7 +255,8 @@ import { loadCurrentSubscription } from '../../../store';
 									!generatedJokes() ||
 									generatedJokes().startsWith(
 										'Ocurrió un error'
-									) || !isPremium()
+									) ||
+									!isPremium()
 								"
 							>
 								<mat-icon>download</mat-icon> Descargar
@@ -340,7 +341,7 @@ import { loadCurrentSubscription } from '../../../store';
 	encapsulation: ViewEncapsulation.None,
 })
 export class JokeGeneratorComponent implements OnInit, OnDestroy {
-	#store = inject(Store)
+	#store = inject(Store);
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
@@ -378,7 +379,7 @@ export class JokeGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- OnInit ---
 	ngOnInit(): void {
-		this.#store.dispatch(loadCurrentSubscription())
+		this.#store.dispatch(loadCurrentSubscription());
 		this.#loadSections();
 	}
 

@@ -49,7 +49,11 @@ import {
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { Store } from '@ngrx/store';
-import { loadCurrentSubscription, loadSections, selectAllClassSections } from '../../../store';
+import {
+	loadCurrentSubscription,
+	loadSections,
+	selectAllClassSections,
+} from '../../../store';
 import { selectIsPremium } from '../../../store/user-subscriptions/user-subscriptions.selectors';
 
 @Component({
@@ -254,7 +258,9 @@ import { selectIsPremium } from '../../../store/user-subscriptions/user-subscrip
 								(click)="downloadDocx()"
 								[disabled]="
 									!generatedArticle() ||
-									generatedArticle().startsWith('Ocurrió un error') ||
+									generatedArticle().startsWith(
+										'Ocurrió un error'
+									) ||
 									!isPremium()
 								"
 							>
@@ -373,7 +379,7 @@ export class ExpositoryArticleGeneratorComponent implements OnInit, OnDestroy {
 
 	// --- OnInit ---
 	ngOnInit(): void {
-		this.#store.dispatch(loadCurrentSubscription())
+		this.#store.dispatch(loadCurrentSubscription());
 		this.#loadSections();
 	}
 

@@ -532,10 +532,12 @@ export class ClassPlanGeneratorComponent implements OnInit {
 					next: (response) => {
 						this.generating = false;
 						const date = this.planForm.value.date;
-						const extract = response.response.slice(
-							response.response.indexOf('{'),
-							response.response.lastIndexOf('}') + 1,
-						).replaceAll('**', '');
+						const extract = response.response
+							.slice(
+								response.response.indexOf('{'),
+								response.response.lastIndexOf('}') + 1,
+							)
+							.replaceAll('**', '');
 						const plan: any = JSON.parse(extract);
 						plan.user = this.user()?._id;
 						plan.section = this.section()?._id;

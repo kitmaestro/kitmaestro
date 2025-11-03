@@ -18,7 +18,9 @@ export class UnitPlansEffects {
 			ofType(UnitPlansActions.loadUnitPlan),
 			switchMap(({ id }) =>
 				this.#unitPlanService.findOne(id).pipe(
-					map((plan) => UnitPlansActions.loadUnitPlanSuccess({ plan })),
+					map((plan) =>
+						UnitPlansActions.loadUnitPlanSuccess({ plan }),
+					),
 					catchError((error) => {
 						this.#sb.open(
 							'Error al cargar el plan de unidad',

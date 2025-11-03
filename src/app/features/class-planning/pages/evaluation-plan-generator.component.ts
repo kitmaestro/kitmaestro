@@ -5,25 +5,35 @@ import {
 	OnDestroy,
 	signal,
 	effect,
-} from '@angular/core'
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar'
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSelectChange, MatSelectModule } from '@angular/material/select'
-import { MatInputModule } from '@angular/material/input'
-import { MatChipsModule } from '@angular/material/chips'
-import { RouterModule } from '@angular/router'
-import { Subject } from 'rxjs'
-import { Store } from '@ngrx/store'
-import { selectAuthUser } from '../../../store/auth/auth.selectors'
-import { selectAllClassSections, selectIsLoadingSections } from '../../../store/class-sections/class-sections.selectors'
-import { loadSections } from '../../../store/class-sections/class-sections.actions'
-import { askGemini, loadPlans, selectAiIsGenerating, selectAiSerializedResult, selectAllUnitPlans, selectUnitPlanIsLoading } from '../../../store'
-import { ClassSection, EvaluationPlanService, UnitPlan } from '../../../core'
-import { EvaluationPlan } from '../../../core/models/evaluation-plan'
-import { EvaluationPlanComponent } from '../components'
+} from '@angular/core';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { RouterModule } from '@angular/router';
+import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import {
+	selectAllClassSections,
+	selectIsLoadingSections,
+} from '../../../store/class-sections/class-sections.selectors';
+import { loadSections } from '../../../store/class-sections/class-sections.actions';
+import {
+	askGemini,
+	loadUnitPlans,
+	selectAiIsGenerating,
+	selectAiSerializedResult,
+	selectAllUnitPlans,
+	selectUnitPlanIsLoading,
+} from '../../../store';
+import { ClassSection, EvaluationPlanService, UnitPlan } from '../../../core';
+import { EvaluationPlan } from '../../../core/models/evaluation-plan';
+import { EvaluationPlanComponent } from '../components';
 
 @Component({
 	selector: 'app-evaluation-plan-generator',
@@ -76,7 +86,11 @@ import { EvaluationPlanComponent } from '../components'
 					</mat-form-field>
 
 					<mat-form-field appearance="outline">
-						<mat-label>{{ isLoadingPlans() ? 'Cargando...' : 'Unidad de Aprendizaje' }}</mat-label>
+						<mat-label>{{
+							isLoadingPlans()
+								? 'Cargando...'
+								: 'Unidad de Aprendizaje'
+						}}</mat-label>
 						<mat-select
 							formControlName="plan"
 							required
@@ -98,7 +112,11 @@ import { EvaluationPlanComponent } from '../components'
 				<div class="cols-2">
 					<mat-form-field appearance="outline">
 						<mat-label>Tipos de Evaluación</mat-label>
-						<mat-select formControlName="evaluationTypes" multiple required>
+						<mat-select
+							formControlName="evaluationTypes"
+							multiple
+							required
+						>
 							<mat-option value="Diagnóstica"
 								>Diagnóstica</mat-option
 							>
@@ -145,7 +163,7 @@ import { EvaluationPlanComponent } from '../components'
 						[disabled]="!generatedPlan()"
 						(click)="downloadAsDocx()"
 						style="margin-right: 8px"
-						>
+					>
 						<mat-icon>file_download</mat-icon>
 						Descargar DOCX
 					</button>
@@ -207,37 +225,44 @@ import { EvaluationPlanComponent } from '../components'
 	`,
 })
 export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
-	private store = inject(Store)
-	private fb = inject(FormBuilder)
-	private sb = inject(MatSnackBar)
-	private epService = inject(EvaluationPlanService)
+	private store = inject(Store);
+	private fb = inject(FormBuilder);
+	private sb = inject(MatSnackBar);
+	private epService = inject(EvaluationPlanService);
 
-	user = this.store.selectSignal(selectAuthUser)
-	classSections = this.store.selectSignal(selectAllClassSections)
-	isLoadingSections = this.store.selectSignal(selectIsLoadingSections)
-	isLoadingPlans = this.store.selectSignal(selectUnitPlanIsLoading)
-	unitPlans = this.store.selectSignal(selectAllUnitPlans)
+	user = this.store.selectSignal(selectAuthUser);
+	classSections = this.store.selectSignal(selectAllClassSections);
+	isLoadingSections = this.store.selectSignal(selectIsLoadingSections);
+	isLoadingPlans = this.store.selectSignal(selectUnitPlanIsLoading);
+	unitPlans = this.store.selectSignal(selectAllUnitPlans);
 
-	generating = this.store.selectSignal(selectAiIsGenerating)
-	generatedEvaluationEntries = this.store.selectSignal(selectAiSerializedResult)
-	generatedPlan = signal<EvaluationPlan | null>(null)
-	destroy$ = new Subject<void>()
-	selectedPlan = signal<UnitPlan | null>(null)
+	generating = this.store.selectSignal(selectAiIsGenerating);
+	generatedEvaluationEntries = this.store.selectSignal(
+		selectAiSerializedResult,
+	);
+	generatedPlan = signal<EvaluationPlan | null>(null);
+	destroy$ = new Subject<void>();
+	selectedPlan = signal<UnitPlan | null>(null);
 
 	basicInfoForm = this.fb.group({
 		classSection: ['', Validators.required],
 		plan: ['', Validators.required],
 		evaluationTypes: [[] as string[], Validators.required],
 		evaluationParticipants: [[] as string[], Validators.required],
-	})
+	});
 
 	constructor() {
 		effect(() => {
-			const user = this.user()
-			const { evaluationEntries } = this.generatedEvaluationEntries()
-			const classSection = this.classSections().find((cs) => cs._id == this.basicInfoForm.value.classSection)
-			const unitPlan = this.unitPlans().find((p) => p._id == this.basicInfoForm.value.plan)
-			if (!user || !classSection || !unitPlan || !evaluationEntries) return
+			const user = this.user();
+			const { evaluationEntries } = this.generatedEvaluationEntries();
+			const classSection = this.classSections().find(
+				(cs) => cs._id == this.basicInfoForm.value.classSection,
+			);
+			const unitPlan = this.unitPlans().find(
+				(p) => p._id == this.basicInfoForm.value.plan,
+			);
+			if (!user || !classSection || !unitPlan || !evaluationEntries)
+				return;
 
 			const plan: EvaluationPlan = {
 				_id: '',
@@ -246,36 +271,39 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 				user,
 				classSection,
 				unitPlan,
-				evaluationTypes: this.basicInfoForm.value.evaluationTypes as string[],
-				evaluationParticipants: this.basicInfoForm.value.evaluationParticipants as string[],
+				evaluationTypes: this.basicInfoForm.value
+					.evaluationTypes as string[],
+				evaluationParticipants: this.basicInfoForm.value
+					.evaluationParticipants as string[],
 				competence: unitPlan.competence,
 				contentBlocks: unitPlan.contents,
 				evaluationEntries,
-			}
+			};
 
-			this.generatedPlan.set(plan)
-			console.log(plan)
-		})
+			this.generatedPlan.set(plan);
+			console.log(plan);
+		});
 	}
 
 	ngOnInit() {
-		this.store.dispatch(loadSections())
+		this.store.dispatch(loadSections());
 	}
 
 	ngOnDestroy() {
-		this.destroy$.next()
-		this.destroy$.complete()
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 
 	generateEvaluationPlan() {
-		const formData = this.basicInfoForm.getRawValue()
+		const formData = this.basicInfoForm.getRawValue();
 		const classSection = this.classSections().find(
 			(cs) => cs._id == formData.classSection,
-		)
-		const plan = this.unitPlans().find((p) => p._id == formData.plan)
-		const evaluationParticipants = formData.evaluationParticipants as string[]
-		const evaluationTypes = formData.evaluationTypes as string[]
-		const user = this.user()
+		);
+		const plan = this.unitPlans().find((p) => p._id == formData.plan);
+		const evaluationParticipants =
+			formData.evaluationParticipants as string[];
+		const evaluationTypes = formData.evaluationTypes as string[];
+		const user = this.user();
 
 		if (
 			!plan ||
@@ -284,64 +312,70 @@ export class EvaluationPlanGeneratorComponent implements OnInit, OnDestroy {
 			!evaluationParticipants.length ||
 			!evaluationTypes.length
 		)
-			return
+			return;
 
 		const data: {
-			classSection: ClassSection
-			plan: UnitPlan
-			evaluationParticipants: string
-			evaluationTypes: string
+			classSection: ClassSection;
+			plan: UnitPlan;
+			evaluationParticipants: string;
+			evaluationTypes: string;
 		} = {
 			classSection,
 			plan,
 			evaluationParticipants: evaluationParticipants.join(', '),
 			evaluationTypes: evaluationTypes.join(', '),
-		}
+		};
 
-		const prompt = this.epService.buildEvaluationPlanPrompt(data)
-		this.store.dispatch(askGemini({ question: prompt }))
+		const prompt = this.epService.buildEvaluationPlanPrompt(data);
+		this.store.dispatch(askGemini({ question: prompt }));
 	}
 
 	onSectionChange(event: MatSelectChange) {
-		this.basicInfoForm.get('plan')?.reset()
-		const sectionId = event.value
-		this.store.dispatch(loadPlans({ filters: { section: sectionId } }))
+		this.basicInfoForm.get('plan')?.reset();
+		const sectionId = event.value;
+		this.store.dispatch(loadUnitPlans({ filters: { section: sectionId } }));
 	}
 
 	onPlanChange() {
-		const plan = this.unitPlans().find((plan) => plan._id === this.basicInfoForm.value.plan)
+		const plan = this.unitPlans().find(
+			(plan) => plan._id === this.basicInfoForm.value.plan,
+		);
 		if (plan) {
-			this.selectedPlan.set(plan)
+			this.selectedPlan.set(plan);
 		}
 	}
 
 	async downloadAsDocx(): Promise<void> {
-		const plan = this.generatedPlan()
-		if (!plan) return
-		const result = await this.epService.downloadAsDocx(plan)
+		const plan = this.generatedPlan();
+		if (!plan) return;
+		const result = await this.epService.downloadAsDocx(plan);
 		if (result)
-			this.sb.open('Plan descargado correctamente', 'Ok', { duration: 3000 })
+			this.sb.open('Plan descargado correctamente', 'Ok', {
+				duration: 3000,
+			});
 		else
-			this.sb.open('Error al descargar el plan', 'Ok', { duration: 3000 })
+			this.sb.open('Error al descargar el plan', 'Ok', {
+				duration: 3000,
+			});
 	}
 
 	savePlan() {
-		if (!this.generatedPlan()) return
+		if (!this.generatedPlan()) return;
 
 		// TODO: Implementar guardado en base de datos cuando esté disponible el backend
 		this.sb.open('Funcionalidad de guardado pronto disponible', 'Ok', {
 			duration: 3000,
-		})
+		});
 	}
 
 	async copyToClipboard(): Promise<void> {
-		const plan = this.generatedPlan()
-		if (!plan) return
-		await this.epService.copyToClipboard(plan)
+		const plan = this.generatedPlan();
+		if (!plan) return;
+		await this.epService.copyToClipboard(plan);
 	}
 
 	get selectedSection() {
-		const sectionId = this.basicInfoForm.value.classSection
-		return this.classSections().find((s) => s._id === sectionId)
+		const sectionId = this.basicInfoForm.value.classSection;
+		return this.classSections().find((s) => s._id === sectionId);
 	}
 }

@@ -1,3 +1,4 @@
+export * from './activity-resource-type.enum';
 export * from './class-plan-template-version.enum';
 export * from './grade.enum';
 export * from './grading-activity-type.enum';

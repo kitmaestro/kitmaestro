@@ -23,7 +23,7 @@ import { MatTableModule } from '@angular/material/table';
 			<div
 				style="justify-content: space-between; align-items: center; display: flex;"
 			>
-				<h2>Mis R&uacute;bricas </h2>
+				<h2>Mis R&uacute;bricas</h2>
 				<button
 					mat-flat-button
 					type="button"
@@ -41,7 +41,9 @@ import { MatTableModule } from '@angular/material/table';
 			>
 				<ng-container matColumnDef="title">
 					<th mat-header-cell *matHeaderCellDef>T&iacute;tulo</th>
-					<td mat-cell *matCellDef="let element">{{ element.title }}</td>
+					<td mat-cell *matCellDef="let element">
+						{{ element.title }}
+					</td>
 				</ng-container>
 				<ng-container matColumnDef="section">
 					<th mat-header-cell *matHeaderCellDef>Curso</th>
@@ -82,7 +84,11 @@ import { MatTableModule } from '@angular/material/table';
 								<mat-icon>edit</mat-icon>
 							</button> -->
 						<button
-							[routerLink]="['/assessments', 'rubrics', element._id]"
+							[routerLink]="[
+								'/assessments',
+								'rubrics',
+								element._id,
+							]"
 							color="primary"
 							mat-icon-button
 						>
@@ -99,7 +105,10 @@ import { MatTableModule } from '@angular/material/table';
 				</ng-container>
 
 				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+				<tr
+					mat-row
+					*matRowDef="let row; columns: displayedColumns"
+				></tr>
 			</table>
 		</div>
 	`,

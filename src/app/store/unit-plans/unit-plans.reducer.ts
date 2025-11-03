@@ -13,10 +13,14 @@ export const unitPlansReducer = createReducer(
 		...state,
 		status: UnitPlanStateStatus.LOADING_PLAN,
 	})),
-	on(UnitPlansActions.loadUnitPlans, UnitPlansActions.countUnitPlans, (state) => ({
-		...state,
-		status: UnitPlanStateStatus.LOADING_PLANS,
-	})),
+	on(
+		UnitPlansActions.loadUnitPlans,
+		UnitPlansActions.countUnitPlans,
+		(state) => ({
+			...state,
+			status: UnitPlanStateStatus.LOADING_PLANS,
+		}),
+	),
 	on(UnitPlansActions.createUnitPlan, (state) => ({
 		...state,
 		status: UnitPlanStateStatus.CREATING_PLAN,

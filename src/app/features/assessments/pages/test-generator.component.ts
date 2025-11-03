@@ -1,23 +1,35 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core'
-import { MatButtonModule } from '@angular/material/button'
-import { MatCardModule } from '@angular/material/card'
-import { MatIconModule } from '@angular/material/icon'
-import { MatSelectModule } from '@angular/material/select'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatInputModule } from '@angular/material/input'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { Router, RouterLink } from '@angular/router'
-import { ClassSection } from '../../../core'
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
-import { PretifyPipe } from '../../../shared/pipes/pretify.pipe'
-import { MarkdownComponent } from 'ngx-markdown'
-import { Test } from '../../../core'
-import { IsPremiumComponent } from '../../../shared/ui/is-premium.component'
-import { Store } from '@ngrx/store'
-import { askGemini, askGeminiFailure, createTest, createTestFailed, createTestSuccess, loadSections, selectAiIsGenerating, selectAiResult, selectAllClassSections, selectAuthUser, selectIsLoadingSections } from '../../../store'
-import { selectIsCreating } from '../../../store/tests/tests.selectors'
-import { filter, Subject, takeUntil } from 'rxjs'
-import { Actions, ofType } from '@ngrx/effects'
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { Router, RouterLink } from '@angular/router';
+import { ClassSection } from '../../../core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
+import { MarkdownComponent } from 'ngx-markdown';
+import { Test } from '../../../core';
+import { IsPremiumComponent } from '../../../shared/ui/is-premium.component';
+import { Store } from '@ngrx/store';
+import {
+	askGemini,
+	askGeminiFailure,
+	createTest,
+	createTestFailed,
+	createTestSuccess,
+	loadSections,
+	selectAiIsGenerating,
+	selectAiResult,
+	selectAllClassSections,
+	selectAuthUser,
+	selectIsLoadingSections,
+} from '../../../store';
+import { selectIsCreating } from '../../../store/tests/tests.selectors';
+import { filter, Subject, takeUntil } from 'rxjs';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
 	selector: 'app-test-generator',
@@ -146,7 +158,9 @@ import { Actions, ofType } from '@ngrx/effects'
 									></textarea>
 								</mat-form-field>
 							</div>
-							<div style="display: flex; gap: 12px; justify-content: flex-end">
+							<div
+								style="display: flex; gap: 12px; justify-content: flex-end"
+							>
 								<button
 									mat-flat-button
 									[disabled]="!test || saving()"
@@ -157,11 +171,19 @@ import { Actions, ofType } from '@ngrx/effects'
 								</button>
 								<button
 									mat-button
-									[disabled]="testForm.invalid || generating()"
+									[disabled]="
+										testForm.invalid || generating()
+									"
 									type="submit"
 								>
 									<mat-icon>bolt</mat-icon>
-									{{ generating() ? 'Generando...' : test ? 'Regenerar' : 'Generar' }}
+									{{
+										generating()
+											? 'Generando...'
+											: test
+												? 'Regenerar'
+												: 'Generar'
+									}}
 								</button>
 							</div>
 						</form>
@@ -195,23 +217,23 @@ import { Actions, ofType } from '@ngrx/effects'
 })
 export class TestGeneratorComponent implements OnInit {
 	#store = inject(Store);
-	#actions$ = inject(Actions)
-	private router = inject(Router)
-	private sb = inject(MatSnackBar)
-	private fb = inject(FormBuilder)
+	#actions$ = inject(Actions);
+	private router = inject(Router);
+	private sb = inject(MatSnackBar);
+	private fb = inject(FormBuilder);
 
-	loadingSections = this.#store.selectSignal(selectIsLoadingSections)
-	generating = this.#store.selectSignal(selectAiIsGenerating)
-	saving = this.#store.selectSignal(selectIsCreating)
+	loadingSections = this.#store.selectSignal(selectIsLoadingSections);
+	generating = this.#store.selectSignal(selectAiIsGenerating);
+	saving = this.#store.selectSignal(selectIsCreating);
 
-	sections = this.#store.selectSignal(selectAllClassSections)
-	user = this.#store.selectSignal(selectAuthUser)
-	subjects: string[] = []
-	section = signal<ClassSection | null>(null)
-	result = this.#store.selectSignal(selectAiResult)
-	test: Test | null = null
+	sections = this.#store.selectSignal(selectAllClassSections);
+	user = this.#store.selectSignal(selectAuthUser);
+	subjects: string[] = [];
+	section = signal<ClassSection | null>(null);
+	result = this.#store.selectSignal(selectAiResult);
+	test: Test | null = null;
 
-	destroy$ = new Subject<void>()
+	destroy$ = new Subject<void>();
 
 	itemTypes: string[] = [
 		'Selección múltiple',
@@ -225,7 +247,7 @@ export class TestGeneratorComponent implements OnInit {
 		'Interpretación de texto',
 		'Ordena la oración',
 		'Resolución de problemas',
-	]
+	];
 
 	testForm = this.fb.group({
 		section: ['', Validators.required],
@@ -240,13 +262,13 @@ export class TestGeneratorComponent implements OnInit {
 			30,
 			[Validators.required, Validators.min(1), Validators.max(100)],
 		],
-	})
+	});
 
 	constructor() {
 		effect(() => {
-			const result = this.result()
-			const user = this.user()?._id
-			const section = this.section()?._id
+			const result = this.result();
+			const user = this.user()?._id;
+			const section = this.section()?._id;
 
 			if (result && user && section) {
 				const test: any = {
@@ -255,45 +277,46 @@ export class TestGeneratorComponent implements OnInit {
 					section,
 					subject: this.testForm.value.subject,
 					user,
-				}
-				this.test = test as Test
+				};
+				this.test = test as Test;
 			}
-		})
+		});
 	}
 
 	ngOnInit() {
-		this.#store.dispatch(loadSections())
+		this.#store.dispatch(loadSections());
 	}
 
 	ngOnDestroy() {
-		this.destroy$.next()
-		this.destroy$.complete()
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 
 	onSectionSelect(event: any) {
-		const sectionId: string = event.value
-		const section = this.sections().find((s) => s._id === sectionId) || null
+		const sectionId: string = event.value;
+		const section =
+			this.sections().find((s) => s._id === sectionId) || null;
 		if (section) {
-			this.section.set(section)
-			this.subjects = section.subjects
+			this.section.set(section);
+			this.subjects = section.subjects;
 		}
 	}
 
 	pretify(str: string) {
-		return new PretifyPipe().transform(str)
+		return new PretifyPipe().transform(str);
 	}
 
 	generate(formData: any) {
-		const section = this.section()
-		const user = this.user()
-		if (!section || !user) return
+		const section = this.section();
+		const user = this.user();
+		if (!section || !user) return;
 
-		const d = new Date()
-		const currentYear = d.getFullYear()
+		const d = new Date();
+		const currentYear = d.getFullYear();
 		const schoolYear =
 			d.getMonth() > 7
 				? `${currentYear} - ${currentYear + 1}`
-				: `${currentYear - 1} - ${currentYear}`
+				: `${currentYear - 1} - ${currentYear}`;
 		const question = `Eres un docente de ${this.pretify(section.year)} grado de ${this.pretify(section.level)}. Tienes que diseñar un examen de ${this.pretify(formData.subject)} para tus alumnos. Los tipos de itemes que vas a incluir en el examen son exactamente estos:
 - ${formData.items.join('\n- ')}
 
@@ -309,32 +332,60 @@ Luego mi nombre: ## ${user.title}. ${user.firstname} ${user.lastname}.
 En la tercera linea, el grado en cuestion y el año escolar: ### ${this.pretify(section.name)} - año escolar ${schoolYear}
 Y finalmente un espacio para que el alumno coloque su nombre y uno para la fecha.
 
-Al final del examen, incluye un mensaje sencillo pero alentador o un 'Buena suerte'`
-		this.#store.dispatch(askGemini({ question }))
-		this.#actions$.pipe(ofType(askGeminiFailure),filter(e => !!e), takeUntil(this.destroy$)).subscribe((e) => {
-			this.sb.open(e.error || 'Ha ocurrido un error al generar el examen.', 'Ok', { duration: 2500 })
-		})
+Al final del examen, incluye un mensaje sencillo pero alentador o un 'Buena suerte'`;
+		this.#store.dispatch(askGemini({ question }));
+		this.#actions$
+			.pipe(
+				ofType(askGeminiFailure),
+				filter((e) => !!e),
+				takeUntil(this.destroy$),
+			)
+			.subscribe((e) => {
+				this.sb.open(
+					e.error || 'Ha ocurrido un error al generar el examen.',
+					'Ok',
+					{ duration: 2500 },
+				);
+			});
 	}
 
 	onSubmit() {
-		this.generate(this.testForm.value)
+		this.generate(this.testForm.value);
 	}
 
 	save() {
-		const test: any = this.test
-		if (!test) return
-		this.#store.dispatch(createTest({ test }))
-		this.#actions$.pipe(ofType(createTestFailed),filter(e => !!e), takeUntil(this.destroy$)).subscribe(({ error }) => {
-			this.sb.open(error || 'Ha ocurrido un error al guardar el examen.', 'Ok', { duration: 2500 })
-		})
-		this.#actions$.pipe(ofType(createTestSuccess),filter(e => !!e), takeUntil(this.destroy$)).subscribe(({ test }) => {
+		const test: any = this.test;
+		if (!test) return;
+		this.#store.dispatch(createTest({ test }));
+		this.#actions$
+			.pipe(
+				ofType(createTestFailed),
+				filter((e) => !!e),
+				takeUntil(this.destroy$),
+			)
+			.subscribe(({ error }) => {
+				this.sb.open(
+					error || 'Ha ocurrido un error al guardar el examen.',
+					'Ok',
+					{ duration: 2500 },
+				);
+			});
+		this.#actions$
+			.pipe(
+				ofType(createTestSuccess),
+				filter((e) => !!e),
+				takeUntil(this.destroy$),
+			)
+			.subscribe(({ test }) => {
 				if (test && test._id) {
-					this.router.navigate(['/assessments', 'tests', test._id]).then(() => {
-						this.sb.open('El examen ha sido guardado.', 'Ok', {
-							duration: 2500,
-						})
-					})
+					this.router
+						.navigate(['/assessments', 'tests', test._id])
+						.then(() => {
+							this.sb.open('El examen ha sido guardado.', 'Ok', {
+								duration: 2500,
+							});
+						});
 				}
-			})
+			});
 	}
 }

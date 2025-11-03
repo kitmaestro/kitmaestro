@@ -25,7 +25,11 @@ import { MatCardModule } from '@angular/material/card';
 				<h3>Dias Trabajados</h3>
 				<div class="form-container">
 					<div>
-						<button mat-icon-button color="primary" (click)="less()">
+						<button
+							mat-icon-button
+							color="primary"
+							(click)="less()"
+						>
 							<mat-icon>remove</mat-icon>
 						</button>
 					</div>
@@ -36,7 +40,11 @@ import { MatCardModule } from '@angular/material/card';
 						[formControl]="days"
 					/>
 					<div>
-						<button mat-icon-button color="primary" (click)="plus()">
+						<button
+							mat-icon-button
+							color="primary"
+							(click)="plus()"
+						>
 							<mat-icon>add</mat-icon>
 						</button>
 					</div>
@@ -53,7 +61,9 @@ import { MatCardModule } from '@angular/material/card';
 			>
 				<ng-container matColumnDef="attendance">
 					<th mat-header-cell *matHeaderCellDef>Asistencia</th>
-					<td mat-cell *matCellDef="let element">{{ element.qty }}</td>
+					<td mat-cell *matCellDef="let element">
+						{{ element.qty }}
+					</td>
 				</ng-container>
 
 				<ng-container matColumnDef="percentage">
@@ -67,7 +77,9 @@ import { MatCardModule } from '@angular/material/card';
 					<th mat-header-cell *matHeaderCellDef>
 						Ajustado (Redondeo hacia arriba)
 					</th>
-					<td mat-cell *matCellDef="let element">{{ element.fixed }}</td>
+					<td mat-cell *matCellDef="let element">
+						{{ element.fixed }}
+					</td>
 				</ng-container>
 
 				<tr mat-header-row *matHeaderRowDef="labels"></tr>

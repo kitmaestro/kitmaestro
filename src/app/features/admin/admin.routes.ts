@@ -34,6 +34,14 @@ export default [
 		title: 'Secuencia Didáctica',
 	},
 	{
+		path: 'didactic-sequence-plans/:id',
+		loadComponent: () =>
+			import('./pages/didactic-plan.component').then(
+				(mod) => mod.DidacticPlanComponent,
+			),
+		title: 'Plan Didáctico',
+	},
+	{
 		path: 'content-blocks',
 		loadComponent: () =>
 			import('./pages/content-blocks-management.component').then(

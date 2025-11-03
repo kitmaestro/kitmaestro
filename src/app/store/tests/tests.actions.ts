@@ -77,7 +77,9 @@ export const downloadTest = createAction(
 	'[Tests] Download Test',
 	props<{ test: Test }>(),
 );
-export const downloadTestSuccess = createAction('[Tests] Download Test Success');
+export const downloadTestSuccess = createAction(
+	'[Tests] Download Test Success',
+);
 export const downloadTestFailed = createAction(
 	'[Tests] Download Test Failed',
 	props<{ error: string }>(),

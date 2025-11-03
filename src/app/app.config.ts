@@ -39,6 +39,8 @@ import {
 	UserSubscriptionsEffects,
 	AiEffects,
 	DidacticSequencesEffects,
+	DidacticPlansEffects,
+	DidacticActivitiesEffects,
 } from './store';
 import { ChecklistsEffects } from './store/checklists/checklists.effects';
 import { provideRouterStore } from '@ngrx/router-store';
@@ -95,7 +97,9 @@ export const appConfig: ApplicationConfig = {
 			UserSubscriptionsEffects,
 			MainThemesEffects,
 			DidacticSequencesEffects,
+			DidacticPlansEffects,
 			AiEffects,
+			DidacticActivitiesEffects,
 		),
 		provideRouterStore(),
 	],

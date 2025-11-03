@@ -1,54 +1,54 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store'
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
-    DidacticSequencePlansState,
-    DidacticSequencePlanStateStatus,
-} from './didactic-sequence-plans.models'
+	DidacticPlansState,
+	DidacticPlanStateStatus,
+} from './didactic-sequence-plans.models';
 
-export const selectDidacticSequencePlansState =
-    createFeatureSelector<DidacticSequencePlansState>('didacticSequencePlans')
+export const selectDidacticPlansState =
+	createFeatureSelector<DidacticPlansState>('DidacticPlans');
 
 export const selectAllPlans = createSelector(
-    selectDidacticSequencePlansState,
-    state => state.plans,
-)
+	selectDidacticPlansState,
+	(state) => state.plans,
+);
 
 export const selectCurrentPlan = createSelector(
-    selectDidacticSequencePlansState,
-    state => state.selectedPlan,
-)
+	selectDidacticPlansState,
+	(state) => state.selectedPlan,
+);
 
 export const selectPlansStatus = createSelector(
-    selectDidacticSequencePlansState,
-    state => state.status,
-)
+	selectDidacticPlansState,
+	(state) => state.status,
+);
 
 export const selectPlansError = createSelector(
-    selectDidacticSequencePlansState,
-    state => state.error,
-)
+	selectDidacticPlansState,
+	(state) => state.error,
+);
 
 // Selectores de estado booleanos
-export const selectIsLoadingMany = createSelector(
-    selectPlansStatus,
-    status => status === DidacticSequencePlanStateStatus.LOADING_PLANS,
-)
+export const selectIsLoadingManySequencePlans = createSelector(
+	selectPlansStatus,
+	(status) => status === DidacticPlanStateStatus.LOADING_PLANS,
+);
 
-export const selectIsLoadingOne = createSelector(
-    selectPlansStatus,
-    status => status === DidacticSequencePlanStateStatus.LOADING_PLAN,
-)
+export const selectIsLoadingOneSequencePlan = createSelector(
+	selectPlansStatus,
+	(status) => status === DidacticPlanStateStatus.LOADING_PLAN,
+);
 
-export const selectIsCreating = createSelector(
-    selectPlansStatus,
-    status => status === DidacticSequencePlanStateStatus.CREATING_PLAN,
-)
+export const selectIsCreatingSequencePlan = createSelector(
+	selectPlansStatus,
+	(status) => status === DidacticPlanStateStatus.CREATING_PLAN,
+);
 
-export const selectIsUpdating = createSelector(
-    selectPlansStatus,
-    status => status === DidacticSequencePlanStateStatus.UPDATING_PLAN,
-)
+export const selectIsUpdatingSequencePlan = createSelector(
+	selectPlansStatus,
+	(status) => status === DidacticPlanStateStatus.UPDATING_PLAN,
+);
 
-export const selectIsDeleting = createSelector(
-    selectPlansStatus,
-    status => status === DidacticSequencePlanStateStatus.DELETING_PLAN,
-)
+export const selectIsDeletingSequencePlan = createSelector(
+	selectPlansStatus,
+	(status) => status === DidacticPlanStateStatus.DELETING_PLAN,
+);

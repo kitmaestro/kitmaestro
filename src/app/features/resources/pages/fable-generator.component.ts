@@ -247,7 +247,9 @@ import { MarkdownComponent } from 'ngx-markdown';
 								(click)="downloadDocx()"
 								[disabled]="
 									!generatedFable() ||
-									generatedFable().startsWith('Ocurrió un error') ||
+									generatedFable().startsWith(
+										'Ocurrió un error'
+									) ||
 									!isPremium()
 								"
 							>
@@ -341,7 +343,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 	encapsulation: ViewEncapsulation.None,
 })
 export class FableGeneratorComponent implements OnInit, OnDestroy {
-	#store = inject(Store)
+	#store = inject(Store);
 	#fb = inject(FormBuilder);
 	#aiService = inject(AiService);
 	#sectionService = inject(ClassSectionService);
@@ -375,7 +377,7 @@ export class FableGeneratorComponent implements OnInit, OnDestroy {
 	// --- OnInit ---
 	ngOnInit(): void {
 		this.#loadSections();
-		this.#store.dispatch(loadCurrentSubscription())
+		this.#store.dispatch(loadCurrentSubscription());
 	}
 
 	// --- OnDestroy ---

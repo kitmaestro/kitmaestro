@@ -6,7 +6,13 @@ import { Checklist } from '../../../core';
 import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { deleteChecklist, downloadChecklist, loadChecklists, loadCurrentSubscription, selectAllChecklists } from '../../../store';
+import {
+	deleteChecklist,
+	downloadChecklist,
+	loadChecklists,
+	loadCurrentSubscription,
+	selectAllChecklists,
+} from '../../../store';
 import { selectCurrentSubscription } from '../../../store/user-subscriptions/user-subscriptions.selectors';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -23,19 +29,25 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 	template: `
 		<div>
 			<div>
-				<div style="align-items: center; justify-content: space-between; display: flex;">
+				<div
+					style="align-items: center; justify-content: space-between; display: flex;"
+				>
 					<h2>Mis Listas de Cotejo</h2>
 					<a
 						mat-flat-button
 						routerLink="/assessments/checklist-generator"
-						>
+					>
 						Crear Nueva
 					</a>
 				</div>
 			</div>
 
 			@if (checklists().length) {
-				<table style="margin-top: 24px" mat-table [dataSource]="checklists()">
+				<table
+					style="margin-top: 24px"
+					mat-table
+					[dataSource]="checklists()"
+				>
 					<ng-container matColumnDef="classSection">
 						<th mat-header-cell *matHeaderCellDef>Curso</th>
 						<td mat-cell *matCellDef="let checklist">
@@ -76,7 +88,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 								>
 									<mat-icon>delete</mat-icon>
 								</button>
-								<div [matTooltip]="isPremium() ? 'Descargar' : 'Necesitas una suscripcion para descargar'">
+								<div
+									[matTooltip]="
+										isPremium()
+											? 'Descargar'
+											: 'Necesitas una suscripcion para descargar'
+									"
+								>
 									<button
 										(click)="download(checklist)"
 										[disabled]="!isPremium()"
@@ -86,15 +104,40 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 									</button>
 								</div>
 								<a
-									routerLink="/assessments/checklists/{{ checklist._id }}"
+									routerLink="/assessments/checklists/{{
+										checklist._id
+									}}"
 									mat-icon-button
 									><mat-icon>open_in_new</mat-icon></a
 								>
 							</div>
 						</td>
 					</ng-container>
-					<tr mat-header-row *matHeaderRowDef="['classSection', 'subject', 'unit', 'title', 'activity', 'actions']"></tr>
-					<tr mat-row *matRowDef="let checklist; columns: ['classSection', 'subject', 'unit', 'title', 'activity', 'actions'];"></tr>
+					<tr
+						mat-header-row
+						*matHeaderRowDef="[
+							'classSection',
+							'subject',
+							'unit',
+							'title',
+							'activity',
+							'actions',
+						]"
+					></tr>
+					<tr
+						mat-row
+						*matRowDef="
+							let checklist;
+							columns: [
+								'classSection',
+								'subject',
+								'unit',
+								'title',
+								'activity',
+								'actions',
+							]
+						"
+					></tr>
 				</table>
 			} @else {
 				<div style="margin-top: 24px">
@@ -102,7 +145,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 						<p style="padding: 24px; text-align: center">
 							No tienes ninguna lista de cotejo todavia. Empieza
 							por
-							<a mat-button routerLink="/assessments/checklist-generator"
+							<a
+								mat-button
+								routerLink="/assessments/checklist-generator"
 								>crear una lista</a
 							>
 							ahora.
@@ -153,20 +198,20 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 	`,
 })
 export class ChecklistsComponent implements OnInit {
-	#store = inject(Store)
-	isPremium = this.#store.selectSignal(selectCurrentSubscription)
-	checklists = this.#store.selectSignal(selectAllChecklists)
-	
+	#store = inject(Store);
+	isPremium = this.#store.selectSignal(selectCurrentSubscription);
+	checklists = this.#store.selectSignal(selectAllChecklists);
+
 	ngOnInit() {
-		this.#store.dispatch(loadChecklists())
-		this.#store.dispatch(loadCurrentSubscription())
+		this.#store.dispatch(loadChecklists());
+		this.#store.dispatch(loadCurrentSubscription());
 	}
 
 	download(checklist: Checklist) {
-		this.#store.dispatch(downloadChecklist({ checklist }))
+		this.#store.dispatch(downloadChecklist({ checklist }));
 	}
 
 	delete(id: string) {
-		this.#store.dispatch(deleteChecklist({ id }))
+		this.#store.dispatch(deleteChecklist({ id }));
 	}
 }

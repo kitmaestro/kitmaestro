@@ -1,13 +1,18 @@
-import { Component, effect, inject } from '@angular/core'
-import { MatCardModule } from '@angular/material/card'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
-import { MatListModule } from '@angular/material/list'
-import { MatTooltipModule } from '@angular/material/tooltip'
-import { RouterLink } from '@angular/router'
-import { DatePipe } from '@angular/common'
-import { Store } from '@ngrx/store'
-import { deleteEvaluation, loadEvaluations, selectAllEvaluations, selectAuthUser } from '../../../store'
+import { Component, effect, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import {
+	deleteEvaluation,
+	loadEvaluations,
+	selectAllEvaluations,
+	selectAuthUser,
+} from '../../../store';
 
 @Component({
 	selector: 'app-diagnostic-evaluations',
@@ -23,9 +28,7 @@ import { deleteEvaluation, loadEvaluations, selectAllEvaluations, selectAuthUser
 	template: `
 		<div>
 			<div class="header">
-				<h2 class="title">
-					Mis Evaluaciones Diagnósticas
-				</h2>
+				<h2 class="title">Mis Evaluaciones Diagnósticas</h2>
 				<a
 					mat-flat-button
 					color="primary"
@@ -161,22 +164,24 @@ import { deleteEvaluation, loadEvaluations, selectAllEvaluations, selectAuthUser
 	`,
 })
 export class DiagnosticEvaluationsComponent {
-	#store = inject(Store)
-	user = this.#store.selectSignal(selectAuthUser)
-	evaluations = this.#store.selectSignal(selectAllEvaluations)
+	#store = inject(Store);
+	user = this.#store.selectSignal(selectAuthUser);
+	evaluations = this.#store.selectSignal(selectAllEvaluations);
 
 	constructor() {
 		effect(() => {
-			const user = this.user()
-			if (!user) return
-			this.#store.dispatch(loadEvaluations({ filters: { user: user._id } }))
-		})
+			const user = this.user();
+			if (!user) return;
+			this.#store.dispatch(
+				loadEvaluations({ filters: { user: user._id } }),
+			);
+		});
 	}
 
 	deleteEvaluation(id: string) {
 		if (!confirm('¿Estás seguro de que deseas eliminar esta evaluación?')) {
-			return
+			return;
 		}
-		this.#store.dispatch(deleteEvaluation({ id }))
+		this.#store.dispatch(deleteEvaluation({ id }));
 	}
 }

@@ -70,16 +70,11 @@ import { Student } from '../../../core';
 			</button>
 		</mat-dialog-actions>
 	`,
-	imports: [
-		MatDialogModule,
-		MatButtonModule,
-		MatIconModule,
-		DatePipe,
-	],
+	imports: [MatDialogModule, MatButtonModule, MatIconModule, DatePipe],
 })
 export class LogRegistryEntryDetailsComponent implements OnInit {
-	dialogRef = inject(MatDialogRef<LogRegistryEntryDetailsComponent>)
-	private data = inject<LogRegistryEntry>(MAT_DIALOG_DATA)
+	dialogRef = inject(MatDialogRef<LogRegistryEntryDetailsComponent>);
+	private data = inject<LogRegistryEntry>(MAT_DIALOG_DATA);
 	entry: LogRegistryEntry | null = null;
 	loading = true;
 

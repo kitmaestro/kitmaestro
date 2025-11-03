@@ -70,7 +70,15 @@ import { ClassPlan } from '../../../core';
 									}}
 									Minutos)
 								</td>
-								<td [attr.rowspan]="plan.supplementary.activities.length > 0 ? 4 : 3">{{ plan.competence }}</td>
+								<td
+									[attr.rowspan]="
+										plan.supplementary.activities.length > 0
+											? 4
+											: 3
+									"
+								>
+									{{ plan.competence }}
+								</td>
 								<td>
 									<ul
 										style="margin: 0; padding: 0; list-style: none"
@@ -80,7 +88,14 @@ import { ClassPlan } from '../../../core';
 												.activities;
 											track actividad
 										) {
-											<li>{{ actividad.replaceAll('**', '') }}</li>
+											<li>
+												{{
+													actividad.replaceAll(
+														'**',
+														''
+													)
+												}}
+											</li>
 										}
 									</ul>
 								</td>
@@ -114,7 +129,14 @@ import { ClassPlan } from '../../../core';
 											actividad of plan.main.activities;
 											track actividad
 										) {
-											<li>{{ actividad.replaceAll('**', '') }}</li>
+											<li>
+												{{
+													actividad.replaceAll(
+														'**',
+														''
+													)
+												}}
+											</li>
 										}
 									</ul>
 								</td>
@@ -158,7 +180,9 @@ import { ClassPlan } from '../../../core';
 									<td><b>Actividades Complementarias</b></td>
 									<td>
 										<app-simple-list
-											[items]="plan.supplementary.activities"
+											[items]="
+												plan.supplementary.activities
+											"
 										/>
 									</td>
 									<td>

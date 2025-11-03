@@ -1,14 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { ActivatedRoute, Router, RouterLink } from '@angular/router'
-import { PdfService } from '../../../core/services/pdf.service'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatIconModule } from '@angular/material/icon'
-import { MatButtonModule } from '@angular/material/button'
-import { EstimationScaleComponent } from '../components/estimation-scale.component'
-import { Store } from '@ngrx/store'
-import { Actions, ofType } from '@ngrx/effects'
-import { Subject, take, takeUntil } from 'rxjs'
-import { deleteScale, deleteScaleSuccess, loadScale, loadScaleFailed, selectCurrentScale } from '../../../store'
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { PdfService } from '../../../core/services/pdf.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { EstimationScaleComponent } from '../components/estimation-scale.component';
+import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
+import { Subject, take, takeUntil } from 'rxjs';
+import {
+	deleteScale,
+	deleteScaleSuccess,
+	loadScale,
+	loadScaleFailed,
+	selectCurrentScale,
+} from '../../../store';
 
 @Component({
 	selector: 'app-estimation-scale-detail',
@@ -22,7 +28,9 @@ import { deleteScale, deleteScaleSuccess, loadScale, loadScaleFailed, selectCurr
 	template: `
 		@if (estimationScale(); as scale) {
 			<div>
-				<div style="display: flex; justify-content: space-between; align-items: center;">
+				<div
+					style="display: flex; justify-content: space-between; align-items: center;"
+				>
 					<h2>{{ scale.title }}</h2>
 					<span style="flex: 1 1 auto"></span>
 					<a
@@ -44,10 +52,7 @@ import { deleteScale, deleteScaleSuccess, loadScale, loadScaleFailed, selectCurr
 					<!-- <a target="_blank" routerLink="/print-activities/{{id}}" mat-icon-button color="link" style="margin-right: 8px;">
 							<mat-icon>print</mat-icon>
 						</a> -->
-					<button
-						(click)="print()"
-						mat-flat-button
-					>
+					<button (click)="print()" mat-flat-button>
 						<mat-icon>download</mat-icon>
 						Descargar
 					</button>
@@ -102,48 +107,53 @@ import { deleteScale, deleteScaleSuccess, loadScale, loadScaleFailed, selectCurr
 	`,
 })
 export class EstimationScaleDetailComponent implements OnInit {
-	#store = inject(Store)
-	#actions$ = inject(Actions)
-	private pdfService = inject(PdfService)
-	private router = inject(Router)
-	private route = inject(ActivatedRoute)
-	private sb = inject(MatSnackBar)
-	private id = this.route.snapshot.paramMap.get('id') || ''
+	#store = inject(Store);
+	#actions$ = inject(Actions);
+	private pdfService = inject(PdfService);
+	private router = inject(Router);
+	private route = inject(ActivatedRoute);
+	private sb = inject(MatSnackBar);
+	private id = this.route.snapshot.paramMap.get('id') || '';
 
-	public estimationScale = this.#store.selectSignal(selectCurrentScale)
+	public estimationScale = this.#store.selectSignal(selectCurrentScale);
 
-	#destroy$ = new Subject<void>()
+	#destroy$ = new Subject<void>();
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadScale({ id: this.id }))
-		this.#actions$.pipe(ofType(loadScaleFailed), take(1), takeUntil(this.#destroy$)).subscribe(({ error }) => {
-			this.router.navigate(['/assessments/estimation-scales'])
-		})
+		this.#store.dispatch(loadScale({ id: this.id }));
+		this.#actions$
+			.pipe(ofType(loadScaleFailed), take(1), takeUntil(this.#destroy$))
+			.subscribe(({ error }) => {
+				this.router.navigate(['/assessments/estimation-scales']);
+			});
 	}
 
 	ngOnDestroy() {
-		this.#destroy$.next()
-		this.#destroy$.complete()
+		this.#destroy$.next();
+		this.#destroy$.complete();
 	}
 
 	deleteInstrument() {
-		this.#store.dispatch(deleteScale({ id: this.id }))
-		this.#actions$.pipe(ofType(deleteScaleSuccess), take(1), takeUntil(this.#destroy$)).subscribe(() => {
-			this.router.navigate(['/assessments/estimation-scales'])
-		})
+		this.#store.dispatch(deleteScale({ id: this.id }));
+		this.#actions$
+			.pipe(
+				ofType(deleteScaleSuccess),
+				take(1),
+				takeUntil(this.#destroy$),
+			)
+			.subscribe(() => {
+				this.router.navigate(['/assessments/estimation-scales']);
+			});
 	}
 
 	print() {
-		const scale = this.estimationScale()
-		if (!scale) return
+		const scale = this.estimationScale();
+		if (!scale) return;
 		this.sb.open(
 			'Ya estamos exportando tu instrumento. Espera un momento.',
 			'Ok',
 			{ duration: 2500 },
-		)
-		this.pdfService.exportTableToPDF(
-			'estimation-scale',
-			scale.title || '',
-		)
+		);
+		this.pdfService.exportTableToPDF('estimation-scale', scale.title || '');
 	}
 }

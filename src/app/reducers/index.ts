@@ -56,6 +56,10 @@ import {
 	mainThemesReducer,
 	DidacticSequencesState,
 	didacticSequencesReducer,
+	DidacticPlansReducer,
+	DidacticPlansState,
+	didacticActivitiesReducer,
+	DidacticActivitiesState,
 } from '../store'
 
 export interface State {
@@ -87,6 +91,8 @@ export interface State {
 	mainThemes: MainThemesState
 	ai: AiState
 	didacticSequences: DidacticSequencesState
+	DidacticPlans: DidacticPlansState
+	didacticActivities: DidacticActivitiesState
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -118,6 +124,8 @@ export const reducers: ActionReducerMap<State> = {
 	mainThemes: mainThemesReducer,
 	ai: aiReducer,
 	didacticSequences: didacticSequencesReducer,
+	DidacticPlans: DidacticPlansReducer,
+	didacticActivities: didacticActivitiesReducer,
 }
 
 export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : []

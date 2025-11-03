@@ -119,8 +119,13 @@ import { loadCurrentSubscription } from '../../../store';
 									>Estrategias y técnicas de
 									enseñanza-aprendizaje</b
 								>:
-								<ul style="margin: 0; padding: 0; list-style: none">
-									@for(strategy of plan.strategies; track strategy) {
+								<ul
+									style="margin: 0; padding: 0; list-style: none"
+								>
+									@for (
+										strategy of plan.strategies;
+										track strategy
+									) {
 										<li>- {{ strategy }}</li>
 									}
 								</ul>
@@ -148,7 +153,15 @@ import { loadCurrentSubscription } from '../../../store';
 								<b>Inicio</b> ({{ plan.introduction.duration }}
 								Minutos)
 							</td>
-							<td [attr.rowspan]="plan.supplementary.activities.length > 0 ? 4 : 3">{{ plan.competence }}</td>
+							<td
+								[attr.rowspan]="
+									plan.supplementary.activities.length > 0
+										? 4
+										: 3
+								"
+							>
+								{{ plan.competence }}
+							</td>
 							<td>
 								<ul
 									style="margin: 0; padding: 0; list-style: none"
@@ -158,7 +171,9 @@ import { loadCurrentSubscription } from '../../../store';
 											.activities;
 										track actividad
 									) {
-										<li>{{ actividad.replaceAll('**', '') }}</li>
+										<li>
+											{{ actividad.replaceAll('**', '') }}
+										</li>
 									}
 								</ul>
 							</td>
@@ -191,7 +206,9 @@ import { loadCurrentSubscription } from '../../../store';
 										actividad of plan.main.activities;
 										track actividad
 									) {
-										<li>{{ actividad.replaceAll('**', '') }}</li>
+										<li>
+											{{ actividad.replaceAll('**', '') }}
+										</li>
 									}
 								</ul>
 							</td>
@@ -224,7 +241,9 @@ import { loadCurrentSubscription } from '../../../store';
 										actividad of plan.closing.activities;
 										track actividad
 									) {
-										<li>{{ actividad.replaceAll('**', '') }}</li>
+										<li>
+											{{ actividad.replaceAll('**', '') }}
+										</li>
 									}
 								</ul>
 							</td>
@@ -256,7 +275,14 @@ import { loadCurrentSubscription } from '../../../store';
 												.activities;
 											track actividad
 										) {
-											<li>{{ actividad.replaceAll('**', '') }}</li>
+											<li>
+												{{
+													actividad.replaceAll(
+														'**',
+														''
+													)
+												}}
+											</li>
 										}
 									</ul>
 								</td>
@@ -268,7 +294,8 @@ import { loadCurrentSubscription } from '../../../store';
 										style="margin: 0; padding: 0; list-style: none"
 									>
 										@for (
-											recurso of plan.supplementary.resources;
+											recurso of plan.supplementary
+												.resources;
 											track recurso
 										) {
 											<li>- {{ recurso }}</li>
@@ -349,7 +376,7 @@ export class ClassPlanDetailComponent {
 	plan: ClassPlan | null = null;
 	printing = false;
 
-	isPremium = this.#store.selectSignal(selectIsPremium)
+	isPremium = this.#store.selectSignal(selectIsPremium);
 
 	pretify = new PretifyPipe().transform;
 
@@ -357,7 +384,7 @@ export class ClassPlanDetailComponent {
 
 	ngOnInit() {
 		this.#store.dispatch(loadClassPlan({ planId: this.planId }));
-		this.#store.dispatch(loadCurrentSubscription())
+		this.#store.dispatch(loadCurrentSubscription());
 	}
 
 	printPlan() {

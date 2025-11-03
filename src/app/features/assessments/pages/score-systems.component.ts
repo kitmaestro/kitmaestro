@@ -23,7 +23,9 @@ import { StudentsService } from '../../../core/services/students.service';
 	],
 	template: `
 		<div>
-			<div style="display: flex; justify-content: space-between; align-items: center;">
+			<div
+				style="display: flex; justify-content: space-between; align-items: center;"
+			>
 				<h2>Sistemas de Calificaci&oacute;n</h2>
 				<button
 					style="margin-left: auto"
@@ -99,7 +101,9 @@ import { StudentsService } from '../../../core/services/students.service';
 					<a
 						type="button"
 						mat-icon-button
-						routerLink="/assessments/grading-systems/{{element._id}}"
+						routerLink="/assessments/grading-systems/{{
+							element._id
+						}}"
 						color="primary"
 					>
 						<mat-icon>open_in_new</mat-icon>

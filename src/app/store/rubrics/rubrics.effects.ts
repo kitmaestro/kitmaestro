@@ -1,17 +1,17 @@
-import { inject, Injectable } from '@angular/core'
-import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { catchError, switchMap, map, of, tap, take } from 'rxjs'
-import { MatSnackBar } from '@angular/material/snack-bar'
-import { RubricService } from '../../core/services'
-import * as RubricsActions from './rubrics.actions'
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, switchMap, map, of, tap, take } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { RubricService } from '../../core/services';
+import * as RubricsActions from './rubrics.actions';
 
-const timing = { duration: 2500 }
+const timing = { duration: 2500 };
 
 @Injectable()
 export class RubricsEffects {
-	#actions$ = inject(Actions)
-	#rubricService = inject(RubricService)
-	#sb = inject(MatSnackBar)
+	#actions$ = inject(Actions);
+	#rubricService = inject(RubricService);
+	#sb = inject(MatSnackBar);
 
 	loadRubric$ = createEffect(() =>
 		this.#actions$.pipe(
@@ -26,17 +26,17 @@ export class RubricsEffects {
 							'Error al cargar la rúbrica',
 							'Ok',
 							timing,
-						)
+						);
 						return of(
 							RubricsActions.loadRubricFailed({
 								error: error.message,
 							}),
-						)
+						);
 					}),
 				),
 			),
 		),
-	)
+	);
 
 	loadRubrics$ = createEffect(() =>
 		this.#actions$.pipe(
@@ -51,17 +51,17 @@ export class RubricsEffects {
 							'Error al cargar las rúbricas',
 							'Ok',
 							timing,
-						)
+						);
 						return of(
 							RubricsActions.loadRubricsFailed({
 								error: error.message,
 							}),
-						)
+						);
 					}),
 				),
 			),
 		),
-	)
+	);
 
 	createRubric$ = createEffect(() =>
 		this.#actions$.pipe(
@@ -73,27 +73,27 @@ export class RubricsEffects {
 							'La rúbrica ha sido creada',
 							'Ok',
 							timing,
-						)
+						);
 						return RubricsActions.createRubricSuccess({
 							rubric: newRubric,
-						})
+						});
 					}),
 					catchError((error) => {
 						this.#sb.open(
 							'Error al crear la rúbrica',
 							'Ok',
 							timing,
-						)
+						);
 						return of(
 							RubricsActions.createRubricFailed({
 								error: error.message,
 							}),
-						)
+						);
 					}),
 				),
 			),
 		),
-	)
+	);
 
 	updateRubric$ = createEffect(() =>
 		this.#actions$.pipe(
@@ -105,27 +105,27 @@ export class RubricsEffects {
 							'La rúbrica fue actualizada',
 							'Ok',
 							timing,
-						)
+						);
 						return RubricsActions.updateRubricSuccess({
 							rubric: updatedRubric,
-						})
+						});
 					}),
 					catchError((error) => {
 						this.#sb.open(
 							'Error al actualizar la rúbrica',
 							'Ok',
 							timing,
-						)
+						);
 						return of(
 							RubricsActions.updateRubricFailed({
 								error: error.message,
 							}),
-						)
+						);
 					}),
 				),
 			),
 		),
-	)
+	);
 
 	deleteRubric$ = createEffect(() =>
 		this.#actions$.pipe(
@@ -137,39 +137,43 @@ export class RubricsEffects {
 							'La rúbrica ha sido eliminada',
 							'Ok',
 							timing,
-						)
-						return RubricsActions.deleteRubricSuccess({ id })
+						);
+						return RubricsActions.deleteRubricSuccess({ id });
 					}),
 					catchError((error) => {
 						this.#sb.open(
 							'Error al eliminar la rúbrica',
 							'Ok',
 							timing,
-						)
+						);
 						return of(
 							RubricsActions.deleteRubricFailed({
 								error: error.message,
 							}),
-						)
+						);
 					}),
 				),
 			),
 		),
-	)
+	);
 
 	downloadRubric$ = createEffect(() =>
 		this.#actions$.pipe(
 			ofType(RubricsActions.downloadRubric),
 			take(1),
 			tap(({ rubric }) => {
-				this.#rubricService.download(rubric)
-				this.#sb.open('La rúbrica ha sido descargada', 'Ok', timing)
-				return RubricsActions.downloadRubricSuccess()
+				this.#rubricService.download(rubric);
+				this.#sb.open('La rúbrica ha sido descargada', 'Ok', timing);
+				return RubricsActions.downloadRubricSuccess();
 			}),
 			catchError((error) => {
-				this.#sb.open('Error al descargar la rúbrica', 'Ok', timing)
-				return of(RubricsActions.downloadRubricFailed({ error: error.message }))
+				this.#sb.open('Error al descargar la rúbrica', 'Ok', timing);
+				return of(
+					RubricsActions.downloadRubricFailed({
+						error: error.message,
+					}),
+				);
 			}),
 		),
-	)
+	);
 }

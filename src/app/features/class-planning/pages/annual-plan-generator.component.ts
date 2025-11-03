@@ -63,9 +63,7 @@ import {
 				<div
 					style="display: flex; justify-content: space-between; align-items: center;"
 				>
-					<h2 class="title">
-						Generador de Planificación Anual
-					</h2>
+					<h2 class="title">Generador de Planificación Anual</h2>
 					<button
 						class="title-button"
 						mat-button
@@ -327,7 +325,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	});
 
 	ngOnInit(): void {
-		this.#store.dispatch(loadUnitPlans({ }));
+		this.#store.dispatch(loadUnitPlans({}));
 		this.#store.dispatch(loadSections());
 		const res = localStorage.getItem('available-resources') as string;
 		const resources = res ? JSON.parse(res) : null;

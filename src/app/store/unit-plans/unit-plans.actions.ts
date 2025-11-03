@@ -28,7 +28,10 @@ export const countUnitPlansFailed = createAction(
 );
 
 // Load all plans
-export const loadUnitPlans = createAction('[Unit Plans] Load Plans', props<{ filters?: any }>());
+export const loadUnitPlans = createAction(
+	'[Unit Plans] Load Plans',
+	props<{ filters?: any }>(),
+);
 export const loadUnitPlansSuccess = createAction(
 	'[Unit Plans] Load Plans Success',
 	props<{ plans: UnitPlan[] }>(),

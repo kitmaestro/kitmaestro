@@ -33,9 +33,7 @@ import { MatIconModule } from '@angular/material/icon';
 		<app-is-premium>
 			<div>
 				<div>
-					<h2>
-						Generador de Conversaciones en Ingl&eacute;s
-					</h2>
+					<h2>Generador de Conversaciones en Ingl&eacute;s</h2>
 				</div>
 				<div>
 					<form [formGroup]="generatorForm" (ngSubmit)="onSubmit()">
