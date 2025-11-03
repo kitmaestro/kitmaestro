@@ -1,4 +1,5 @@
 export * from './ai.service';
+export * from './activity-resource.service';
 export * from './attendance.service';
 export * from './auth.service';
 export * from './checklist.service';

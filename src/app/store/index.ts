@@ -1,3 +1,4 @@
+export * from './activity-resources';
 export * from './ai';
 export * from './auth';
 export * from './checklists';

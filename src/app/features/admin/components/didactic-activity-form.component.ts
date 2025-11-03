@@ -1,5 +1,5 @@
 // src/app/features/admin/components/didactic-activity-form.component.ts
-import { Component, inject, output, OnDestroy, signal, OnInit, input } from '@angular/core';
+import { Component, inject, output, OnDestroy, OnInit, input } from '@angular/core';
 import {
     ReactiveFormsModule,
     FormBuilder,
@@ -82,24 +82,24 @@ export interface DidacticActivityFormData {
 						<div class="form-row">
 							<mat-form-field appearance="outline">
 								<mat-label>Orden en el Bloque</mat-label>
-								<input 
-									matInput 
-									type="number" 
-									formControlName="orderInBlock" 
-									min="1" 
-									required 
+								<input
+									matInput
+									type="number"
+									formControlName="orderInBlock"
+									min="1"
+									required
 								/>
 								<mat-error>Este campo es requerido</mat-error>
 							</mat-form-field>
 
 							<mat-form-field appearance="outline">
 								<mat-label>Duración (minutos)</mat-label>
-								<input 
-									matInput 
-									type="number" 
-									formControlName="durationInMinutes" 
-									min="1" 
-									required 
+								<input
+									matInput
+									type="number"
+									formControlName="durationInMinutes"
+									min="1"
+									required
 								/>
 								<mat-error>Este campo es requerido</mat-error>
 							</mat-form-field>
@@ -108,24 +108,24 @@ export interface DidacticActivityFormData {
 						<div class="form-row">
 							<mat-form-field appearance="outline">
 								<mat-label>Página Inicial</mat-label>
-								<input 
-									matInput 
-									type="number" 
-									formControlName="startingPage" 
-									min="1" 
-									required 
+								<input
+									matInput
+									type="number"
+									formControlName="startingPage"
+									min="1"
+									required
 								/>
 								<mat-error>Este campo es requerido</mat-error>
 							</mat-form-field>
 
 							<mat-form-field appearance="outline">
 								<mat-label>Página Final</mat-label>
-								<input 
-									matInput 
-									type="number" 
-									formControlName="endingPage" 
-									min="1" 
-									required 
+								<input
+									matInput
+									type="number"
+									formControlName="endingPage"
+									min="1"
+									required
 								/>
 								<mat-error>Este campo es requerido</mat-error>
 							</mat-form-field>
@@ -242,14 +242,14 @@ export interface DidacticActivityFormData {
 											<h4>Datos de la Tabla</h4>
 											<mat-form-field appearance="outline" class="full-width">
 												<mat-label>Encabezados (separados por coma)</mat-label>
-												<input 
-													matInput 
+												<input
+													matInput
 													[value]="getTableHeadersAsString(i)"
 													(change)="updateTableHeaders(i, $event)"
 													placeholder="Ej: Nombre, Edad, Ciudad"
 												/>
 											</mat-form-field>
-											
+
 											<h4>Filas</h4>
 											<div formArrayName="tableData">
 												<div formArrayName="rows">
