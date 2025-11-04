@@ -8,7 +8,7 @@ export interface DidacticActivityDto {
 	title: string;
 	description: string;
 	teacherNote: string;
-	resources: ActivityResource[];
+	resources: string[];
 	startingPage: number;
 	endingPage: number;
 	durationInMinutes: number;

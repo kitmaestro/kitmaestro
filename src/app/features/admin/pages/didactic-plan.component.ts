@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,18 +9,20 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
+import { MarkdownComponent } from 'ngx-markdown'
 
 import {
 	deleteSequence,
 	fromDidacticPlans,
-	loadActivities,
 	loadDidacticActivities,
 	loadSequencePlan,
 } from '../../../store';
-import { ConfirmationDialogComponent, PretifyPipe } from '../../../shared';
+import { ActivityCardComponent, ConfirmationDialogComponent, PretifyPipe } from '../../../shared';
 import { selectCurrentPlan } from '../../../store/didactic-sequence-plans/didactic-sequence-plans.selectors';
 import { DidacticActivityFormComponent } from '../components/didactic-activity-form.component';
-import { selectAllActivities, selectCurrentActivity } from '../../../store/didactic-activities/didactic-activities.selectors';
+import { ActivityResourceFormComponent } from '../components/activity-resource-form.component';
+import { selectAllActivities } from '../../../store/didactic-activities/didactic-activities.selectors';
+import { ActivityResource } from '../../../core/models';
 const { selectIsLoadingOneSequencePlan, selectIsDeletingSequencePlan } =
 	fromDidacticPlans;
 
@@ -38,6 +40,9 @@ const { selectIsLoadingOneSequencePlan, selectIsDeletingSequencePlan } =
 		MatListModule,
 		PretifyPipe,
 		DidacticActivityFormComponent,
+		ActivityResourceFormComponent,
+		MarkdownComponent,
+		ActivityCardComponent,
 	],
 	template: `
 		<div class="container">
@@ -92,7 +97,7 @@ const { selectIsLoadingOneSequencePlan, selectIsDeletingSequencePlan } =
 						<h3>{{ plan.title }}</h3>
 						<div>
 							<h3>Descripción:</h3>
-							<p [innerHTML]="plan.description.replaceAll('\n', '<br><br>')"></p>
+							<markdown [data]="plan.description" />
 
 							<h3>
 								Competencias Específicas:
@@ -118,20 +123,29 @@ const { selectIsLoadingOneSequencePlan, selectIsDeletingSequencePlan } =
 									</mat-list-item>
 								}
 							</mat-list>
-							<h3>Actividades Didacticas</h3>
+							<h3>Actividades Didácticas</h3>
 							<div>
 								@for (activity of activities(); track $index) {
-									<div class="activity-item">
-										<h4>{{ $index + 1 }}. {{ activity.title }} ({{ activity.durationInMinutes }} minutos)</h4>
-										<p [innerHTML]="activity.description.replaceAll('\n', '<br><br>')"></p>
-									</div>
+									<app-activity-card (viewActivityResources)="viewActivityResources($event)" [activity]="activity" [index]="$index+1" />
 								}
 							</div>
 						</div>
 					</div>
-					<div>
-						<app-didactic-activity-form [plan]="plan" />
+					
+					<!-- Sección para crear nueva actividad -->
+					<div class="form-section">
+						<h3>Crear Nueva Actividad</h3>
+						<app-didactic-activity-form 
+							[plan]="plan" 
+							(activityCreated)="onActivityCreated()"
+							(activityUpdated)="onActivityUpdated()"
+						/>
 					</div>
+					<app-activity-resource-form
+						(resourceCreated)="onResourceCreated($event)"
+						(resourceUpdated)="onResourceUpdated($event)"
+						(cancelled)="onResourceCancelled()"
+					/>
 				</div>
 			} @else {
 				<div>
@@ -188,9 +202,67 @@ const { selectIsLoadingOneSequencePlan, selectIsDeletingSequencePlan } =
 		}
 
 		.activity-item {
-			margin-left: 16px;
-			border-left: 3px solid #ff9800;
-			padding-left: 16px;
+			border: 1px solid #e0e0e0;
+			border-radius: 8px;
+			padding: 16px;
+			background-color: #fafafa;
+			margin-bottom: 16px;
+		}
+
+		.activity-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 12px;
+		}
+
+		.activity-actions {
+			display: flex;
+			gap: 8px;
+		}
+
+		.teacher-note {
+			background-color: #fff3e0;
+			border-left: 4px solid #ff9800;
+			padding: 12px;
+			margin: 12px 0;
+			border-radius: 4px;
+		}
+
+		.activity-meta {
+			display: flex;
+			gap: 16px;
+			margin: 12px 0;
+			font-size: 14px;
+			color: rgba(0, 0, 0, 0.6);
+		}
+
+		.resources-preview {
+			margin-top: 12px;
+		}
+
+		.resources-list {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			margin-top: 8px;
+		}
+
+		.resource-tag {
+			background-color: #e3f2fd;
+			color: #1976d2;
+			padding: 4px 8px;
+			border-radius: 16px;
+			font-size: 12px;
+			border: 1px solid #bbdefb;
+		}
+
+		.form-section {
+			margin-top: 32px;
+			padding: 24px;
+			border: 1px solid #e0e0e0;
+			border-radius: 8px;
+			background-color: white;
 		}
 
 		.not-found {
@@ -216,6 +288,21 @@ const { selectIsLoadingOneSequencePlan, selectIsDeletingSequencePlan } =
 		strong {
 			color: rgba(0, 0, 0, 0.87);
 		}
+
+		mat-dialog-container {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background: white;
+			padding: 24px;
+			border-radius: 8px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+			z-index: 1000;
+			max-width: 90vw;
+			max-height: 90vh;
+			overflow-y: auto;
+		}
 	`,
 })
 export class DidacticPlanComponent implements OnDestroy {
@@ -226,10 +313,14 @@ export class DidacticPlanComponent implements OnDestroy {
 	#destroy$ = new Subject<void>();
 	#pretify = new PretifyPipe().transform;
 
+	// Signals para el estado del diálogo de recursos
+	showResourceDialog = signal(false);
+	selectedResourceId = signal<string | null>(null);
+	selectedActivityId = signal<string | null>(null);
+
 	isLoading = this.#store.selectSignal(selectIsLoadingOneSequencePlan);
 	isDeleting = this.#store.selectSignal(selectIsDeletingSequencePlan);
 	didacticPlan = this.#store.selectSignal(selectCurrentPlan);
-
 	activities = this.#store.selectSignal(selectAllActivities);
 
 	constructor() {
@@ -239,7 +330,7 @@ export class DidacticPlanComponent implements OnDestroy {
 			return;
 		}
 		this.#store.dispatch(loadSequencePlan({ id }));
-		this.#store.dispatch(loadDidacticActivities({ filters: { plan: id } }))
+		this.#store.dispatch(loadDidacticActivities({ filters: { plan: id } }));
 	}
 
 	onDelete() {
@@ -255,11 +346,82 @@ export class DidacticPlanComponent implements OnDestroy {
 
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result) {
-				const sequence = plan.didacticSequence._id
+				const sequence = plan.didacticSequence._id;
 				this.#store.dispatch(deleteSequence({ id: plan._id }));
-				this.#router.navigate(['/admin','didactic-sequences', sequence]);
+				this.#router.navigate(['/admin', 'didactic-sequences', sequence]);
 			}
 		});
+	}
+
+	// Métodos para manejar recursos
+	viewActivityResources(activity: any) {
+		// Aquí podrías implementar la visualización de recursos existentes
+		// o la creación de nuevos recursos para esta actividad
+		this.selectedActivityId.set(activity._id);
+		this.openResourceDialog();
+	}
+
+	openResourceDialog(resourceId: string | null = null) {
+		this.selectedResourceId.set(resourceId);
+		this.showResourceDialog.set(true);
+	}
+
+	closeResourceDialog() {
+		this.showResourceDialog.set(false);
+		this.selectedResourceId.set(null);
+		this.selectedActivityId.set(null);
+	}
+
+	onResourceCreated(resource: ActivityResource) {
+		// Aquí puedes manejar el recurso creado
+		// Por ejemplo, asociarlo a la actividad seleccionada
+		console.log('Recurso creado:', resource);
+		this.closeResourceDialog();
+
+		// Mostrar mensaje de éxito
+		this.#dialog.open(ConfirmationDialogComponent, {
+			data: {
+				title: 'Recurso Creado',
+				message: `El recurso "${resource.title}" ha sido creado exitosamente.`,
+				showCancel: false,
+				confirmText: 'Aceptar'
+			},
+		});
+	}
+
+	onResourceUpdated(resource: ActivityResource) {
+		// Manejar recurso actualizado
+		console.log('Recurso actualizado:', resource);
+		this.closeResourceDialog();
+
+		this.#dialog.open(ConfirmationDialogComponent, {
+			data: {
+				title: 'Recurso Actualizado',
+				message: `El recurso "${resource.title}" ha sido actualizado exitosamente.`,
+				showCancel: false,
+				confirmText: 'Aceptar'
+			},
+		});
+	}
+
+	onResourceCancelled() {
+		this.closeResourceDialog();
+	}
+
+	onActivityCreated() {
+		// Recargar actividades cuando se crea una nueva
+		const plan = this.didacticPlan();
+		if (plan) {
+			this.#store.dispatch(loadDidacticActivities({ filters: { plan: plan._id } }));
+		}
+	}
+
+	onActivityUpdated() {
+		// Recargar actividades cuando se actualiza una
+		const plan = this.didacticPlan();
+		if (plan) {
+			this.#store.dispatch(loadDidacticActivities({ filters: { plan: plan._id } }));
+		}
 	}
 
 	ngOnDestroy() {

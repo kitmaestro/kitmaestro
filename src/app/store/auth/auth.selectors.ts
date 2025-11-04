@@ -57,3 +57,9 @@ export const selectCheckingAuth = createSelector(
 	selectAuthState,
 	(state) => state.status.checkingAuth,
 );
+
+export const selectAuthUserSettings = createSelector(
+	selectAuthUser,
+	(user) => user ? user.settings || {
+		complementaryActivitiesInClassPlans: true, achievementIndicatorInClassPlans: true, preferredUnitPlanScheme: 'unitplan1', preferredClassPlanScheme: 'classplan1' } : null
+);

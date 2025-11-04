@@ -24,5 +24,5 @@ export interface User extends BaseModel {
 	likedResources: string[];
 	dislikedResources: string[];
 	bookmarks: string[];
-	settings: Map<string, any>;
+	settings: Record<string, boolean | string | number>;
 }

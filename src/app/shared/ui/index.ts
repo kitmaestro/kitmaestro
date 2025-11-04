@@ -1,3 +1,4 @@
+export * from './activity-card.component';
 export * from './app-tile.component';
 export * from './bank-account.component';
 export * from './bi-icon.component';

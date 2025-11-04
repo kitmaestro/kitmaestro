@@ -99,23 +99,17 @@ import { Actions, ofType } from '@ngrx/effects';
 					<mat-icon>analytics</mat-icon>
 					<span>Mis Rubricas</span>
 				</button>
-				<button routerLink="/tutorials" mat-menu-item>
+				<a target="_blank" href="https://www.youtube.com/@KitMaestroOfficial" mat-menu-item>
 					<mat-icon>video_library</mat-icon>
 					<span>Tutoriales</span>
-				</button>
-				@if (subscription()?.subscriptionType === 'Plan Premium') {
-					<button
-						routerLink="/referrals"
-						mat-menu-item
-						style="display: none"
-					>
-						<mat-icon>people_circle</mat-icon>
-						<span>Mis Referidos</span>
-					</button>
-				}
+				</a>
 				<button routerLink="/users/me" mat-menu-item>
 					<mat-icon>person_circle</mat-icon>
 					<span>Mi Perfil</span>
+				</button>
+				<button routerLink="/settings" mat-menu-item>
+					<mat-icon>settings</mat-icon>
+					<span>Ajustes</span>
 				</button>
 				<button (click)="logout()" mat-menu-item>
 					<mat-icon>logout</mat-icon>

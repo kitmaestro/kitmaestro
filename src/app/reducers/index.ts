@@ -60,6 +60,8 @@ import {
 	DidacticPlansState,
 	didacticActivitiesReducer,
 	DidacticActivitiesState,
+	ActivityResourcesState,
+	activityResourcesReducer,
 } from '../store'
 
 export interface State {
@@ -93,6 +95,7 @@ export interface State {
 	didacticSequences: DidacticSequencesState
 	DidacticPlans: DidacticPlansState
 	didacticActivities: DidacticActivitiesState
+	activityResources: ActivityResourcesState
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -126,6 +129,7 @@ export const reducers: ActionReducerMap<State> = {
 	didacticSequences: didacticSequencesReducer,
 	DidacticPlans: DidacticPlansReducer,
 	didacticActivities: didacticActivitiesReducer,
+	activityResources: activityResourcesReducer,
 }
 
 export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : []

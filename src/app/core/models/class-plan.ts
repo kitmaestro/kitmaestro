@@ -8,6 +8,7 @@ export interface ClassPlan extends BaseModel {
 	section: ClassSection;
 	subject: string;
 	unitPlan: string;
+	achievementIndicator: string;
 	objective: string;
 	strategies: string[];
 	introduction: {

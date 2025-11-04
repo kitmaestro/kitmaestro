@@ -1,7 +1,7 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { PretifyPipe } from '../../../shared/pipes';
-import { selectAuthUser } from '../../../store';
+import { selectAuthUser, selectAuthUserSettings } from '../../../store';
 import { Store } from '@ngrx/store';
 import { SimpleList } from '../../../shared/ui';
 import { ClassPlan } from '../../../core';
@@ -51,10 +51,21 @@ import { ClassPlan } from '../../../core';
 								</td>
 							</tr>
 							<tr>
+								<td colspan="5">
+									<b>Competencia Específica</b>:
+									{{ plan.competence }}
+								</td>
+							</tr>
+							@if (achievementIndicatorInClassPlans() && plan.achievementIndicator) {
+								<tr>
+									<td colspan="5">
+										<b>Indicador de Logro</b>:
+										{{ plan.achievementIndicator }}
+									</td>
+								</tr>
+							}
+							<tr>
 								<th>Momento / Duración</th>
-								<th style="width: 18%">
-									Competencias Especificas
-								</th>
 								<th>Actividades</th>
 								<th style="width: 18%">
 									Organización de los Estudiantes
@@ -69,15 +80,6 @@ import { ClassPlan } from '../../../core';
 										plan.introduction.duration
 									}}
 									Minutos)
-								</td>
-								<td
-									[attr.rowspan]="
-										plan.supplementary.activities.length > 0
-											? 4
-											: 3
-									"
-								>
-									{{ plan.competence }}
 								</td>
 								<td>
 									<ul
@@ -175,7 +177,7 @@ import { ClassPlan } from '../../../core';
 									/>
 								</td>
 							</tr>
-							@if (plan.supplementary.activities.length > 0) {
+							@if (complementaryActivitiesInClassPlans() && plan.supplementary.activities.length > 0) {
 								<tr>
 									<td><b>Actividades Complementarias</b></td>
 									<td>
@@ -298,5 +300,14 @@ import { ClassPlan } from '../../../core';
 export class ClassPlanComponent {
 	#store = inject(Store);
 	user = this.#store.selectSignal(selectAuthUser);
+	settings = this.#store.selectSignal(selectAuthUserSettings);
+	complementaryActivitiesInClassPlans = computed(() => {
+		const settings = this.settings()
+		return settings ? settings['complementaryActivitiesInClassPlans'] : false
+	})
+	achievementIndicatorInClassPlans = computed(() => {
+		const settings = this.settings()
+		return settings ? settings['achievementIndicatorInClassPlans'] : false
+	})
 	plan = input<ClassPlan | null>(null);
 }

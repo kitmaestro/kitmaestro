@@ -423,6 +423,7 @@ La respuesta debe ser un JSON válido con esta interfaz:
 Es MUY IMPORTANTE que los instrumentos listados en el array "instruments" se mencionen explícitamente en las descripciones de las "evaluation_activities".`;
 
 export const classPlanPrompt = `Escribe un plan de clases, enfocado en el desarrollo de competencias, de class_subject de class_duration minutos para impartir class_topics en class_year grado de class_level. Esta es la interfaz de la planificacion:
+type AchievementIndicator = achivement_indicators
 
 interface Plan {
   "objective": string, // proposito
@@ -451,6 +452,7 @@ interface Plan {
     "layout": string, // class layout
   },
   "vocabulary": string[],
+  "achievementIndicator": AchievementIndicator,
   "readings": string, // usualmente un material o libro relacionado con el tema
   "competence": string, // Competencia a trabajar (elige la mas apropiadas de las que menciono al final)
 }
@@ -460,6 +462,8 @@ Los recursos disponibles son:
 
 Las competencias a desarrollorar debe ser una de estas:
 - plan_compentece
+
+El indicador de logo (achievementIndicator) debe ser el mas apropiado (de las opciones disponibles en el curriculo, las del type AchivementIndicator) para esta sesion de clase, incluso si solo encaja parcial o infimamente con el contenido de la leccion
 
 Importante: se especifico (es decir, que necesito que siempre digas explicitamente el contenido o actividad que se va a trabajar para que no quede lugar a dudas), planea la clase para que se imparta con un estilo teaching_style, de ser posible incluye algo de metacognicion (que aprendimos, como lo aprendimos, que ha resultado mas facil, mas dificil, mas novedoso, para que nos puede servir, como podemos mejorar, etc) en el cierre de la clase, toma en cuenta que mis estudiantes no son los mas brillantes, asi que la clase no puede ser muy abarcadora, las actividades deben tener tiempo de sobra, y ten en cuenta que habran otros dias, asi que en lugar de muchas actividades y querer impartir todo sobre el tema en un solo dia, prefiero llevarlo suave y en su lugar, dar clases significativas que abarquen poco contenido academico, relativamente hablando, pero que sean una pocas actividades muy significativas y que le permitan al estudiante repetir hasta perpetuar, no utilices markup de markdown/html y tu respuesta debe ser un json totalmente valido.`;
 

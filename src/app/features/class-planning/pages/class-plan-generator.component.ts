@@ -11,7 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AiService } from '../../../core/services/ai.service';
 import { PdfService } from '../../../core/services/pdf.service';
 import { MatChipsModule } from '@angular/material/chips';
-import { ClassPlan } from '../../../core';
+import { ClassPlan, SchoolLevel, SchoolSubject, SchoolYear } from '../../../core';
 import { Router, RouterModule } from '@angular/router';
 import { CompetenceService } from '../../../core/services/competence.service';
 import { ClassSection } from '../../../core';
@@ -23,10 +23,13 @@ import { PretifyPipe } from '../../../shared/pipes/pretify.pipe';
 import { Store } from '@ngrx/store';
 import {
 	ClassSectionStateStatus,
+	ContentBlockDto,
 	createClassPlan,
 	createClassPlanSuccess,
+	loadBlocks,
 	loadClassPlans,
 	loadSections,
+	selectAllAchievementIndicators,
 	selectAllClassSections,
 	selectAuthUser,
 	selectClassPlans,
@@ -257,6 +260,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 	datePipe = new DatePipe('en');
 
 	classPlans = this.#store.select(selectClassPlans);
+	achievementIndicators = this.#store.selectSignal(selectAllAchievementIndicators);
 	todayDate = new Date(Date.now() - 4 * 60 * 60 * 1000)
 		.toISOString()
 		.split('T')[0];
@@ -456,6 +460,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 			} else {
 				this.section.set(null);
 			}
+			this.planForm.patchValue({ subject: '' })
 		}, 0);
 	}
 
@@ -472,6 +477,12 @@ export class ClassPlanGeneratorComponent implements OnInit {
 			const { level, year } = section;
 			const { subject } = this.planForm.value;
 			if (!level || !year || !subject) return;
+			const filters: Partial<ContentBlockDto> = {
+				subject: subject as SchoolSubject,
+				level: level as SchoolLevel,
+				year: year as SchoolYear,
+			}
+			this.#store.dispatch(loadBlocks({ filters }))
 			this.compService
 				.findAll({ subject, level, grade: year })
 				.subscribe({
@@ -524,6 +535,7 @@ export class ClassPlanGeneratorComponent implements OnInit {
 					)
 					.replace('class_year', sectionYear)
 					.replace('class_level', sectionLevel)
+					.replace('achievement_indicators', this.achievementIndicators().map(s => `"${s}"`).join(' | '))
 					.replace('teaching_style', teachingStyle || 'tradicional')
 					.replace('plan_resources', resources.join(', '))
 					.replace('plan_compentece', competence_string);

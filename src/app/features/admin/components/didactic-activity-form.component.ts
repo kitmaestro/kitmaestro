@@ -4,9 +4,6 @@ import {
     ReactiveFormsModule,
     FormBuilder,
     Validators,
-    FormArray,
-    FormGroup,
-    FormControl,
 } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,7 +24,8 @@ import {
     selectCurrentActivity
 } from '../../../store/didactic-activities/didactic-activities.selectors';
 import { DidacticPlan } from '../../../core/models/didactic-sequence-plan';
-import { ActivityResource } from '../../../core/models';
+import { selectAllResources } from '../../../store/activity-resources/activity-resources.selectors';
+import { loadResources } from '../../../store/activity-resources/activity-resources.actions';
 
 export interface DidacticActivityFormData {
     plan: string;
@@ -36,7 +34,7 @@ export interface DidacticActivityFormData {
     title: string;
     description: string;
     teacherNote: string;
-    resources: ActivityResource[];
+    resources: string[];
     startingPage: number;
     endingPage: number;
     durationInMinutes: number;
@@ -151,167 +149,15 @@ export interface DidacticActivityFormData {
 							></textarea>
 						</mat-form-field>
 
-						<!-- Recursos de la actividad -->
-						<h3>Recursos de la Actividad</h3>
-						<div formArrayName="resources">
-							@for (
-								resource of resources.controls;
-								track resource;
-								let i = $index
-							) {
-								<div [formGroup]="resource" class="resource-form">
-									<mat-form-field appearance="outline">
-										<mat-label>Tipo de Recurso</mat-label>
-										<mat-select formControlName="type" required>
-											<mat-option value="VIDEO">Video</mat-option>
-											<mat-option value="IMAGE">Imagen</mat-option>
-											<mat-option value="TEXT_CONTENT">Texto</mat-option>
-											<mat-option value="TOPIC_LIST">Lista de Temas</mat-option>
-											<mat-option value="TABLE">Tabla</mat-option>
-										</mat-select>
-										<mat-error>Este campo es requerido</mat-error>
-									</mat-form-field>
-
-									<mat-form-field appearance="outline" class="full-width">
-										<mat-label>Título del Recurso</mat-label>
-										<input matInput formControlName="title" required />
-										<mat-error>Este campo es requerido</mat-error>
-									</mat-form-field>
-
-									<!-- Campos específicos según el tipo de recurso -->
-									@if (resource.get('type')?.value === 'VIDEO' || resource.get('type')?.value === 'IMAGE') {
-										<mat-form-field appearance="outline" class="full-width">
-											<mat-label>URL</mat-label>
-											<input matInput formControlName="url" required />
-											<mat-error>Este campo es requerido</mat-error>
-										</mat-form-field>
-									}
-
-									@if (resource.get('type')?.value === 'TEXT_CONTENT') {
-										<mat-form-field appearance="outline" class="full-width">
-											<mat-label>Contenido</mat-label>
-											<textarea
-												matInput
-												formControlName="content"
-												rows="3"
-												required
-											></textarea>
-											<mat-error>Este campo es requerido</mat-error>
-										</mat-form-field>
-									}
-
-									@if (resource.get('type')?.value === 'TOPIC_LIST') {
-										<div class="items-container">
-											<h4>Elementos de la Lista</h4>
-											<div formArrayName="items">
-												@for (
-													item of getResourceItems(resource).controls;
-													track item;
-													let j = $index
-												) {
-													<div class="item-row">
-														<mat-form-field appearance="outline" class="full-width">
-															<mat-label>Elemento {{ j + 1 }}</mat-label>
-															<input matInput [formControl]="item" required />
-															<mat-error>Este campo es requerido</mat-error>
-														</mat-form-field>
-														<button
-															mat-icon-button
-															color="warn"
-															type="button"
-															(click)="removeResourceItem(i, j)"
-														>
-															<mat-icon>delete</mat-icon>
-														</button>
-													</div>
-												}
-											</div>
-											<button
-												mat-button
-												type="button"
-												(click)="addResourceItem(i)"
-											>
-												<mat-icon>add</mat-icon>
-												Agregar Elemento
-											</button>
-										</div>
-									}
-
-									@if (resource.get('type')?.value === 'TABLE') {
-										<div class="table-container">
-											<h4>Datos de la Tabla</h4>
-											<mat-form-field appearance="outline" class="full-width">
-												<mat-label>Encabezados (separados por coma)</mat-label>
-												<input
-													matInput
-													[value]="getTableHeadersAsString(i)"
-													(change)="updateTableHeaders(i, $event)"
-													placeholder="Ej: Nombre, Edad, Ciudad"
-												/>
-											</mat-form-field>
-
-											<h4>Filas</h4>
-											<div formArrayName="tableData">
-												<div formArrayName="rows">
-													@for (
-														row of getTableRows(resource).controls;
-														track row;
-														let j = $index
-													) {
-														<div class="table-row" formGroupName="{{row}}">
-															@for (
-																header of getTableHeaders(resource);
-																track header;
-																let k = $index
-															) {
-																<mat-form-field appearance="outline">
-																	<mat-label>{{ header }}</mat-label>
-																	<input matInput [formControlName]="k" required />
-																</mat-form-field>
-															}
-															<button
-																mat-icon-button
-																color="warn"
-																type="button"
-																(click)="removeTableRow(i, j)"
-															>
-																<mat-icon>delete</mat-icon>
-															</button>
-														</div>
-													}
-												</div>
-											</div>
-											<button
-												mat-button
-												type="button"
-												(click)="addTableRow(i)"
-											>
-												<mat-icon>add</mat-icon>
-												Agregar Fila
-											</button>
-										</div>
-									}
-
-									<button
-										mat-icon-button
-										color="warn"
-										type="button"
-										(click)="removeResource(i)"
-									>
-										<mat-icon>delete</mat-icon>
-									</button>
-								</div>
-							}
-						</div>
-
-						<button
-							mat-button
-							type="button"
-							(click)="addResource()"
-						>
-							<mat-icon>add</mat-icon>
-							Agregar Recurso
-						</button>
+						<mat-form-field appearance="outline">
+							<mat-label>Recursos</mat-label>
+							<mat-select formControlName="resources" multiple>
+								@for (resource of resourceOptions(); track resource._id) {
+									<mat-option [value]="resource._id">{{ resource.title }}</mat-option>
+								}
+							</mat-select>
+							<mat-error>Este campo es requerido</mat-error>
+						</mat-form-field>
 					</div>
 
 					<div class="form-actions">
@@ -420,6 +266,7 @@ export class DidacticActivityFormComponent implements OnInit, OnDestroy {
     isCreating = this.#store.selectSignal(selectIsCreating);
     isUpdating = this.#store.selectSignal(selectIsUpdating);
     currentActivity = this.#store.selectSignal(selectCurrentActivity);
+	resourceOptions = this.#store.selectSignal(selectAllResources);
 
     form = this.#fb.group({
         plan: ['', Validators.required],
@@ -428,19 +275,16 @@ export class DidacticActivityFormComponent implements OnInit, OnDestroy {
         title: ['', Validators.required],
         description: ['', Validators.required],
         teacherNote: [''],
-        resources: this.#fb.array([]),
+        resources: [[] as string[]],
         startingPage: [1, [Validators.required, Validators.min(1)]],
         endingPage: [1, [Validators.required, Validators.min(1)]],
         durationInMinutes: [15, [Validators.required, Validators.min(1)]],
     });
 
-    get resources() {
-        return this.form.get('resources') as FormArray<FormGroup>;
-    }
-
     ngOnInit(): void {
         // Establecer el plan en el formulario
         this.form.get('plan')?.setValue(this.plan()._id);
+		this.#store.dispatch(loadResources({ filters: {} }))
 
         // Si hay un activityId, cargar los datos de la actividad
         if (this.activityId()) {
@@ -462,126 +306,8 @@ export class DidacticActivityFormComponent implements OnInit, OnDestroy {
                 startingPage: activity.startingPage,
                 endingPage: activity.endingPage,
                 durationInMinutes: activity.durationInMinutes,
+				resources: activity.resources.map(r => r._id)
             });
-
-            // Cargar recursos
-            this.resources.clear();
-            activity.resources.forEach(resource => {
-                this.addResource(resource);
-            });
-        }
-    }
-
-    // Métodos para gestionar recursos
-    addResource(existingResource?: ActivityResource): void {
-        const resourceGroup = this.#fb.group({
-            type: [existingResource?.type || '', Validators.required],
-            title: [existingResource?.title || '', Validators.required],
-            url: [existingResource?.url || ''],
-            content: [existingResource?.content || ''],
-            items: this.#fb.array(existingResource?.items?.map(item => this.#fb.control(item)) || []),
-            tableData: this.#fb.group({
-                headers: this.#fb.array(existingResource?.tableData?.headers?.map(header => this.#fb.control(header)) || []),
-                rows: this.#fb.array(existingResource?.tableData?.rows?.map(row =>
-                    this.#fb.array(row.map(cell => this.#fb.control(cell)))
-                ) || [])
-            })
-        });
-
-        this.resources.push(resourceGroup);
-    }
-
-    removeResource(index: number): void {
-        this.resources.removeAt(index);
-    }
-
-    // Métodos para gestionar items de lista
-    getResourceItems(resourceGroup: FormGroup): FormArray<FormControl> {
-        return resourceGroup.get('items') as FormArray<FormControl>;
-    }
-
-    addResourceItem(resourceIndex: number): void {
-        const itemsArray = this.getResourceItems(this.resources.at(resourceIndex));
-        itemsArray.push(this.#fb.control('', Validators.required));
-    }
-
-    removeResourceItem(resourceIndex: number, itemIndex: number): void {
-        const itemsArray = this.getResourceItems(this.resources.at(resourceIndex));
-        itemsArray.removeAt(itemIndex);
-    }
-
-    // Métodos para gestionar tablas
-    getTableHeaders(resourceGroup: FormGroup): string[] {
-        const headersArray = resourceGroup.get('tableData.headers') as FormArray;
-        return headersArray.value || [];
-    }
-
-    getTableHeadersAsString(resourceIndex: number): string {
-        const headers = this.getTableHeaders(this.resources.at(resourceIndex));
-        return headers.join(', ');
-    }
-
-    updateTableHeaders(resourceIndex: number, event: any): void {
-        const headersString = event.target.value;
-        const headersArray = headersString.split(',').map((header: string) => header.trim()).filter(Boolean);
-
-        const resourceGroup = this.resources.at(resourceIndex);
-        const currentHeadersArray = resourceGroup.get('tableData.headers') as FormArray;
-
-        // Limpiar y actualizar headers
-        currentHeadersArray.clear();
-        headersArray.forEach((header: string) => {
-            currentHeadersArray.push(this.#fb.control(header));
-        });
-
-        // Actualizar estructura de rows para coincidir con los nuevos headers
-        this.updateTableRowsStructure(resourceIndex);
-    }
-
-    getTableRows(resourceGroup: FormGroup) {
-        const tableData = resourceGroup.get('tableData') as FormGroup;
-        return tableData.get('rows') as FormArray;
-    }
-
-    addTableRow(resourceIndex: number): void {
-        const resourceGroup = this.resources.at(resourceIndex);
-        const rowsArray = this.getTableRows(resourceGroup);
-        const headersCount = this.getTableHeaders(resourceGroup).length;
-
-        const newRow: FormArray = this.#fb.array(
-            Array(headersCount).fill('').map(() => this.#fb.control('', Validators.required))
-        );
-
-        rowsArray.push(newRow);
-    }
-
-    removeTableRow(resourceIndex: number, rowIndex: number): void {
-        const resourceGroup = this.resources.at(resourceIndex);
-        const rowsArray = this.getTableRows(resourceGroup);
-        rowsArray.removeAt(rowIndex);
-    }
-
-    updateTableRowsStructure(resourceIndex: number): void {
-        const resourceGroup = this.resources.at(resourceIndex);
-        const rowsArray = this.getTableRows(resourceGroup);
-        const headersCount = this.getTableHeaders(resourceGroup).length;
-
-        // Actualizar cada fila existente para que tenga el número correcto de columnas
-        for (let i = 0; i < rowsArray.length; i++) {
-            const row = rowsArray.at(i) as FormArray;
-            const currentColumns = row.length;
-
-            if (currentColumns < headersCount) {
-                // Agregar columnas faltantes
-                for (let j = currentColumns; j < headersCount; j++) {
-                    row.push(this.#fb.control('', Validators.required));
-                }
-            } else if (currentColumns > headersCount) {
-                // Remover columnas excedentes
-                for (let j = currentColumns - 1; j >= headersCount; j--) {
-                    row.removeAt(j);
-                }
-            }
         }
     }
 
@@ -612,8 +338,8 @@ export class DidacticActivityFormComponent implements OnInit, OnDestroy {
                     startingPage: 1,
                     endingPage: 1,
                     durationInMinutes: 15,
+					resources: []
                 });
-                this.resources.clear();
             }
         } else {
             this.#snackBar.open(

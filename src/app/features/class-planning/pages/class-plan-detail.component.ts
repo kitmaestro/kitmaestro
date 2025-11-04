@@ -1,7 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ClassPlansService } from '../../../core/services/class-plans.service';
-import { UserService } from '../../../core/services/user.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PdfService } from '../../../core/services/pdf.service';
 import { MatCardModule } from '@angular/material/card';
@@ -13,7 +11,7 @@ import { UserSubscriptionService } from '../../../core/services';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { selectSelectedClassPlan } from '../../../store/class-plans/class-plans.selectors';
-import { selectAuthUser } from '../../../store/auth/auth.selectors';
+import { selectAuthUser, selectAuthUserSettings } from '../../../store/auth/auth.selectors';
 import {
 	deleteClassPlan,
 	downloadClassPlan,
@@ -114,7 +112,7 @@ import { loadCurrentSubscription } from '../../../store';
 							</tr>
 						}
 						<tr>
-							<td colspan="5">
+							<td colspan="4">
 								<b
 									>Estrategias y técnicas de
 									enseñanza-aprendizaje</b
@@ -132,14 +130,27 @@ import { loadCurrentSubscription } from '../../../store';
 							</td>
 						</tr>
 						<tr>
-							<td colspan="5">
+							<td colspan="4">
 								<b>Intencion Pedag&oacute;gica</b>:
 								{{ plan.objective }}
 							</td>
 						</tr>
 						<tr>
+							<td colspan="4">
+								<b>Competencia Específica</b>:
+								{{ plan.competence }}
+							</td>
+						</tr>
+						@if (achievementIndicatorInClassPlans() && plan.achievementIndicator) {
+							<tr>
+								<td colspan="4">
+									<b>Indicador de Logro</b>:
+									{{ plan.achievementIndicator }}
+								</td>
+							</tr>
+						}
+						<tr>
 							<th>Momento / Duración</th>
-							<th style="width: 18%">Competencias Especificas</th>
 							<th>Actividades</th>
 							<th style="width: 18%">
 								Organización de los Estudiantes
@@ -152,15 +163,6 @@ import { loadCurrentSubscription } from '../../../store';
 							<td>
 								<b>Inicio</b> ({{ plan.introduction.duration }}
 								Minutos)
-							</td>
-							<td
-								[attr.rowspan]="
-									plan.supplementary.activities.length > 0
-										? 4
-										: 3
-								"
-							>
-								{{ plan.competence }}
 							</td>
 							<td>
 								<ul
@@ -263,7 +265,7 @@ import { loadCurrentSubscription } from '../../../store';
 								</ul>
 							</td>
 						</tr>
-						@if (plan.supplementary.activities.length > 0) {
+						@if (complementaryActivitiesInClassPlans() && plan.supplementary.activities.length > 0) {
 							<tr>
 								<td><b>Actividades Complementarias</b></td>
 								<td>
@@ -305,20 +307,20 @@ import { loadCurrentSubscription } from '../../../store';
 							</tr>
 						}
 						<tr>
-							<td colspan="5">
+							<td colspan="4">
 								<b>Vocabulario del día/de la semana</b>:
 								{{ plan.vocabulary.join(', ') }}
 							</td>
 						</tr>
 						<tr>
-							<td colspan="5">
+							<td colspan="4">
 								<b>Lecturas recomendadas o libro de la semana</b
 								>:
 								{{ plan.readings }}
 							</td>
 						</tr>
 						<tr>
-							<td colspan="5"><b>Observaciones</b>:</td>
+							<td colspan="4"><b>Observaciones</b>:</td>
 						</tr>
 					</tbody>
 				</table>
@@ -372,6 +374,15 @@ export class ClassPlanDetailComponent {
 	settings$ = this.#store.select(selectAuthUser);
 	userSubscriptionService = inject(UserSubscriptionService);
 	sb = inject(MatSnackBar);
+	settings = this.#store.selectSignal(selectAuthUserSettings);
+	complementaryActivitiesInClassPlans = computed(() => {
+		const settings = this.settings()
+		return settings ? settings['complementaryActivitiesInClassPlans'] : false
+	})
+	achievementIndicatorInClassPlans = computed(() => {
+		const settings = this.settings()
+		return settings ? settings['achievementIndicatorInClassPlans'] : false
+	})
 	pdfService = inject(PdfService);
 	plan: ClassPlan | null = null;
 	printing = false;

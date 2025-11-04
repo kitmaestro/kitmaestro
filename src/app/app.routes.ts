@@ -17,6 +17,7 @@ import activitiesRoutes from './features/activities/activities.routes';
 import registryRoutes from './features/registry/registry.routes';
 import sectionsRoutes from './features/class-sections/sections.routes';
 import assessmentsRoutes from './features/assessments/assessment.routes';
+import settingsRoutes from './features/settings/settings.routes';
 
 export const routes: Routes = [
 	{
@@ -60,6 +61,7 @@ export const routes: Routes = [
 			{ path: 'activities', children: activitiesRoutes },
 			{ path: 'resources', children: resourcesRoutes },
 			{ path: 'assessments', children: assessmentsRoutes },
+			{ path: 'settings', children: settingsRoutes },
 		],
 	},
 

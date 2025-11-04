@@ -103,9 +103,10 @@ export class AuthEffects {
 			ofType(AuthActions.updateProfile),
 			switchMap(({ data }) =>
 				this.#authService.update(data).pipe(
-					map((response) =>
-						AuthActions.updateProfileSuccess({ user: response }),
-					),
+					map((response) => {
+						this.#sb.open('Se ha actualizado el perfil', 'Ok', { duration: 2500 })
+						return AuthActions.updateProfileSuccess({ user: response })
+					}),
 					catchError((error) =>
 						of(
 							AuthActions.updateProfileFailure({

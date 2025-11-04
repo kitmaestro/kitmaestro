@@ -1,17 +1,17 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-import { AuthService, UserSubscriptionService } from '../../../core/services';
-import { UserSubscription, User } from '../../../core/models';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { forkJoin } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectCurrentSubscription } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { selectAuthUser, updateProfile } from '../../../store';
 
 @Component({
 	selector: 'app-user-profile',
@@ -21,7 +21,6 @@ import { forkJoin } from 'rxjs';
 		MatFormFieldModule,
 		MatSelectModule,
 		MatInputModule,
-		MatSnackBarModule,
 		RouterLink,
 		MatIconModule,
 		DatePipe,
@@ -220,18 +219,20 @@ import { forkJoin } from 'rxjs';
 		}
 	`,
 })
-export class UserProfileComponent implements OnInit {
-	private authService = inject(AuthService);
-	private userSubscriptionService = inject(UserSubscriptionService);
-	private fb = inject(FormBuilder);
-	private sb = inject(MatSnackBar);
-	public user: User | null = null;
+export class UserProfileComponent implements OnInit, OnDestroy {
+	#fb = inject(FormBuilder);
+	#store = inject(Store);
+	user = this.#store.selectSignal(selectAuthUser)
 
-	public alreadyCode = false;
-	userSubscription = signal<UserSubscription | null>(null);
-	subscriptionIsOver = signal(false);
+	userSubscription = this.#store.selectSignal(selectCurrentSubscription);
+	subscriptionIsOver = computed(() => {
+		const sub = this.userSubscription();
+		if (!sub || sub.subscriptionType == 'FREE')
+			return false;
+		return new Date(sub.endDate) < new Date();
+	});
 
-	userForm = this.fb.group({
+	userForm = this.#fb.group({
 		title: ['', [Validators.required]],
 		firstname: ['', [Validators.required]],
 		lastname: ['', [Validators.required]],
@@ -239,7 +240,6 @@ export class UserProfileComponent implements OnInit {
 		email: ['', [Validators.required, Validators.email]],
 		gender: ['Hombre'],
 		phone: ['', [Validators.required]],
-		refCode: [''],
 		regional: ['', [Validators.required]],
 		district: ['', [Validators.required]],
 		schoolName: ['', [Validators.required]],
@@ -261,31 +261,23 @@ export class UserProfileComponent implements OnInit {
 		],
 	};
 
+	#destroy$ = new Subject<void>()
+
 	ngOnInit() {
-		forkJoin([
-			this.userSubscriptionService.checkSubscription(),
-			this.authService.profile(),
-		]).subscribe({
-			next: ([sub, user]) => {
-				this.userSubscription.set(sub);
-				if (new Date(sub.endDate) < new Date()) {
-					this.subscriptionIsOver.set(true);
-				}
-				this.user = user;
+		this.#store.select(selectAuthUser).pipe(filter(user => !!user), takeUntil(this.#destroy$)).subscribe({
+			next: (user) => {
 				const {
 					title = '',
 					firstname = '',
 					lastname = '',
 					username = '',
 					email = '',
-					gender = '',
+					gender = 'Hombre',
 					phone = '',
-					refCode = '',
 					schoolName = '',
 					regional = '',
 					district = '',
 				} = user;
-				this.userForm.get('gender')?.setValue(gender || 'Hombre');
 				this.userForm.setValue({
 					title,
 					firstname,
@@ -294,33 +286,22 @@ export class UserProfileComponent implements OnInit {
 					email,
 					gender,
 					phone,
-					refCode,
 					schoolName,
 					regional,
 					district,
 				});
-				if (user.refCode) {
-					this.userForm.get('refCode')?.disable();
-				}
 			},
 		});
 	}
 
+	ngOnDestroy(): void {
+		this.#destroy$.next()
+		this.#destroy$.complete()
+	}
+
 	onSubmit() {
-		const profile: any = this.userForm.value;
-		this.authService.update(profile).subscribe({
-			next: (res) => {
-				this.sb.open('Perfil actualizado con exito', 'Ok', {
-					duration: 2500,
-				});
-			},
-			error: (err) => {
-				console.log(err);
-				this.sb.open('Hubo un error al guardar', 'Ok', {
-					duration: 2500,
-				});
-			},
-		});
+		const data: any = this.userForm.value;
+		this.#store.dispatch(updateProfile({ data }))
 	}
 
 	get titles() {

@@ -23,3 +23,8 @@ export const selectContentBlocksError = createSelector(
 	selectContentBlocksState,
 	(state) => state.error,
 );
+
+export const selectAllAchievementIndicators = createSelector(
+	selectAllContentBlocks,
+	blocks => blocks ? blocks.flatMap(block => block.achievement_indicators).filter((indicator, i, arr) => arr.indexOf(indicator) === i) : []
+);

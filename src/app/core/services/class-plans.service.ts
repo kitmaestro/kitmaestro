@@ -66,7 +66,7 @@ export class ClassPlansService {
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -79,7 +79,7 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
+							columnSpan: 5,
 							children: [
 								new Paragraph({
 									text: plan.user.schoolName,
@@ -178,7 +178,7 @@ export class ClassPlansService {
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -191,19 +191,15 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
-							children: [
-								new Paragraph({
-									text: plan.strategies.join(', '),
-								}),
-							],
+							columnSpan: 5,
+							children: plan.strategies.map(st => new Paragraph({ text: st, bullet: { level: 0 }})),
 						}),
 					],
 				}),
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -216,8 +212,50 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
+							columnSpan: 5,
 							children: [new Paragraph({ text: plan.objective })],
+						}),
+					],
+				}),
+				new TableRow({
+					children: [
+						new TableCell({
+							columnSpan: 1,
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Competencia Específica:',
+											bold: true,
+										}),
+									],
+								}),
+							],
+						}),
+						new TableCell({
+							columnSpan: 5,
+							children: [new Paragraph({ text: plan.competence })],
+						}),
+					],
+				}),
+				new TableRow({
+					children: [
+						new TableCell({
+							columnSpan: 1,
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Indicador de Logro:',
+											bold: true,
+										}),
+									],
+								}),
+							],
+						}),
+						new TableCell({
+							columnSpan: 5,
+							children: [new Paragraph({ text: plan.achievementIndicator || '' })],
 						}),
 					],
 				}),
@@ -240,25 +278,13 @@ export class ClassPlansService {
 								new Paragraph({
 									children: [
 										new TextRun({
-											text: 'Competencias Específicas',
-											bold: true,
-										}),
-									],
-								}),
-							],
-						}),
-						new TableCell({
-							children: [
-								new Paragraph({
-									children: [
-										new TextRun({
 											text: 'Actividades',
 											bold: true,
 										}),
 									],
 								}),
 							],
-							columnSpan: 2,
+							columnSpan: 3,
 						}),
 						new TableCell({
 							children: [
@@ -304,17 +330,11 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							children: [
-								new Paragraph({ text: plan.competence }),
-							],
-							rowSpan: 4,
-						}),
-						new TableCell({
 							children: plan.introduction.activities.map(
 								(activity) =>
 									new Paragraph({ text: '- ' + activity }),
 							),
-							columnSpan: 2,
+							columnSpan: 3,
 						}),
 						new TableCell({
 							children: [
@@ -352,7 +372,7 @@ export class ClassPlansService {
 								(activity) =>
 									new Paragraph({ text: '- ' + activity }),
 							),
-							columnSpan: 2,
+							columnSpan: 3,
 						}),
 						new TableCell({
 							children: [
@@ -388,7 +408,7 @@ export class ClassPlansService {
 								(activity) =>
 									new Paragraph({ text: '- ' + activity }),
 							),
-							columnSpan: 2,
+							columnSpan: 3,
 						}),
 						new TableCell({
 							children: [
@@ -421,7 +441,7 @@ export class ClassPlansService {
 								(activity) =>
 									new Paragraph({ text: '- ' + activity }),
 							),
-							columnSpan: 2,
+							columnSpan: 3,
 						}),
 						new TableCell({
 							children: [
@@ -440,7 +460,7 @@ export class ClassPlansService {
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -453,7 +473,7 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
+							columnSpan: 5,
 							children: [
 								new Paragraph(plan.vocabulary.join(', ')),
 							],
@@ -463,7 +483,7 @@ export class ClassPlansService {
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -476,7 +496,7 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
+							columnSpan: 5,
 							children: [new Paragraph(plan.readings || '')],
 						}),
 					],
@@ -484,7 +504,7 @@ export class ClassPlansService {
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -497,7 +517,7 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
+							columnSpan: 5,
 							children: [new Paragraph('')],
 						}),
 					],
