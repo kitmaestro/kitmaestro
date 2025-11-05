@@ -92,7 +92,7 @@ export class UnitPlanService {
 		return value;
 	}
 
-	async download(plan: UnitPlan, classPlans: ClassPlan[] = [], user: User) {
+	private async fetchLogo(): Promise<ImageRun> {
 		const logo = await fetch(this.#apiService.getApiUrl() + 'logo-minerd');
 		const { data } = await logo.json();
 
@@ -104,6 +104,43 @@ export class UnitPlanService {
 				height: 233,
 			},
 		});
+
+		return logoMinerd
+	}
+
+	private createTablelessPlanDocx(plan: UnitPlan, user: User, logo: ImageRun) {
+		const sections: { title: string, content: string | string[] }[] = [
+			{ title: 'Situación de Aprendizaje', content: plan.learningSituation },
+			{ title: 'Competencias Fundamentales', content: plan.competence.map(c => c.name) },
+			{ title: 'Competencias Específicas del Grado', content: plan.competence.flatMap(c => c.entries) },
+			{ title: 'Criterios de Evaluación', content: plan.competence.flatMap(c => c.criteria) },
+			{ title: 'Eje transversal: ' + plan.mainThemeCategory, content: plan.mainThemes.flatMap(t => t.topics) },
+			{ title: 'Asignaturas', content: plan.subjects.map(s => this.#pretify(s)) },
+			{ title: 'Estrategias de Enseñanza-Aprendizaje', content: plan.strategies },
+			{ title: 'Indicadores de Logro', content: plan.contents.flatMap(c => c.achievement_indicators) },
+			{ title: 'Contenidos', content: [] },
+			{ title: 'Conceptuales', content: plan.contents.flatMap(c => c.concepts) },
+			{ title: 'Procedimentales', content: plan.contents.flatMap(c => c.procedures) },
+			{ title: 'Actitudinales', content: plan.contents.flatMap(c => c.attitudes) },
+			{ title: 'Actividades de Enseñanza', content: plan.teacherActivities },
+			{ title: 'Actividades de Aprendizaje', content: plan.studentActivities },
+			{ title: 'Actividades de Evaluación', content: plan.evaluationActivities },
+		]
+	}
+
+	async download(plan: UnitPlan, classPlans: ClassPlan[] = [], user: User, unitPlanTemplate: 'unitplan1' | 'unitplan2' | 'unitplan3' = 'unitplan1', classPlanTemplate: 'classplan1' | 'classplan2' = 'classplan1') {
+		const logoMinerd = await this.fetchLogo();
+		switch (unitPlanTemplate) {
+			case 'unitplan1':
+				break;
+			case 'unitplan2':
+				break;
+			case 'unitplan3':
+				this.createTablelessPlanDocx(plan, user, logoMinerd);
+				break;
+			default:
+				break;
+		}
 		const contentsTable = new Table({
 			width: {
 				size: 100,

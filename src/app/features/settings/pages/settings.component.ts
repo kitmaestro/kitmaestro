@@ -122,7 +122,7 @@ export class SettingsComponent {
 		{
 			value: 'unitplan1',
 			label: 'Plan de Unidad v1',
-			previewUrl: '//picsum.photos/seed/unitplan1/512',
+			previewUrl: '/assets/unitplan1.png',
 		},
 		{
 			value: 'unitplan2',
@@ -133,14 +133,14 @@ export class SettingsComponent {
 		{
 			value: 'unitplan3',
 			label: 'Plan de Unidad Sin Tablas',
-			previewUrl: '//picsum.photos/seed/unitplan3/512',
+			previewUrl: '/assets/Plantilla-sin-tablas.png',
 		},
 	];
 	classPlanSchemes = [
 		{
 			value: 'classplan1',
 			label: 'Plan Diario v1',
-			previewUrl: '//picsum.photos/seed/classplan1/512',
+			previewUrl: '/assets/classplan1.png',
 		},
 		{
 			value: 'classplan2',
@@ -148,11 +148,7 @@ export class SettingsComponent {
 			previewUrl:
 				'https://firebasestorage.googleapis.com/v0/b/kit-maestro.appspot.com/o/assets%2FScreenshot%202025-11-04%20at%2009-26-45%20ESQUEMA%20DE%20PLANIFICACI%C3%93N%20POR%20UNIDAD%201.pdf.png?alt=media&token=4ec7c38f-68a6-4451-990e-ee5667f963f6',
 		},
-		{
-			value: 'classplan3',
-			label: 'Plan Diario Sin Tablas',
-			previewUrl: '//picsum.photos/seed/classplan3/512',
-		},
+		// { value: 'classplan3', label: 'Plan Diario Sin Tablas', previewUrl: '//picsum.photos/seed/classplan3/512', },
 	];
 
 	settingsForm = this.#fb.group({
