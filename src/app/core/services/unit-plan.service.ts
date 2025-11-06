@@ -13,6 +13,7 @@ import {
 	HeadingLevel,
 	Packer,
 	Document,
+	ISectionOptions,
 } from 'docx';
 import saveAs from 'file-saver';
 import { PretifyPipe } from '../../shared/pipes';
@@ -20,11 +21,13 @@ import { ApiDeleteResponse } from '../interfaces';
 import { ApiService } from './api.service';
 import { User, ClassPlan, UnitPlan } from '../models';
 import { UnitPlanDto } from '../../store/unit-plans/unit-plans.models';
+import { MarkdownService } from 'ngx-markdown';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UnitPlanService {
+	#markdown = inject(MarkdownService);
 	#apiService = inject(ApiService);
 	#endpoint = 'unit-plans/';
 	#pretify = new PretifyPipe().transform;
@@ -108,35 +111,334 @@ export class UnitPlanService {
 		return logoMinerd
 	}
 
-	private createTablelessPlanDocx(plan: UnitPlan, user: User, logo: ImageRun) {
-		const sections: { title: string, content: string | string[] }[] = [
-			{ title: 'Situación de Aprendizaje', content: plan.learningSituation },
-			{ title: 'Competencias Fundamentales', content: plan.competence.map(c => c.name) },
-			{ title: 'Competencias Específicas del Grado', content: plan.competence.flatMap(c => c.entries) },
-			{ title: 'Criterios de Evaluación', content: plan.competence.flatMap(c => c.criteria) },
+	#documentProperties(vertical: boolean): any {
+		if (vertical) {
+			return {
+				page: {
+					size: {
+						orientation: PageOrientation.PORTRAIT,
+						height: '279mm',
+						width: '216mm',
+					},
+				},
+			}
+		} else {
+			return {
+				page: {
+					size: {
+						orientation: PageOrientation.LANDSCAPE,
+						height: '279mm',
+						width: '216mm',
+					},
+				},
+			}
+		}
+	}
+
+	#createHeader(level: 1 | 2 | 3 | 4, text: string, center = true) {
+		const children = [new TextRun({ text })];
+		const alignment = center ? AlignmentType.CENTER : AlignmentType.LEFT;
+		let heading: any = null
+		switch (level) {
+			case 1:
+				heading = HeadingLevel.HEADING_1;
+				break;
+			case 2:
+				heading = HeadingLevel.HEADING_2;
+				break;
+			case 3:
+				heading = HeadingLevel.HEADING_3;
+				break;
+			case 4:
+				heading = HeadingLevel.HEADING_4;
+				break;
+			default:
+				heading = HeadingLevel.HEADING_1;
+				break;
+		}
+		return new Paragraph({
+			children,
+			heading,
+			alignment,
+		})
+	}
+
+	#createPresentationSheet(plan: UnitPlan, user: User, logo: ImageRun): ISectionOptions {
+		const subjects = plan.subjects.map((s, i, arr) => (arr.length > 1 && i === arr.length - 1 ? 'y ' : '') + this.#pretify(s)).join(', ')
+		const sections = plan.sections.length > 0 ? plan.sections.map(section => section.name).join(', ') : this.#pretify(plan.section.year) + ' de ' + this.#pretify(plan.section.level)
+		return {
+			properties: this.#documentProperties(true),
+			children: [
+				new Paragraph({ children: [logo], alignment: AlignmentType.CENTER }),
+				this.#createHeader(1, user.schoolName),
+				this.#createHeader(2, 'Año Escolar 2025 - 2026'),
+				this.#createHeader(2, sections),
+				this.#createHeader(2, 'Docente:'),
+				this.#createHeader(3, `${plan.user.title}. ${plan.user.firstname} ${plan.user.lastname}`),
+				this.#createHeader(2, 'Unidad de Aprendizaje'),
+				this.#createHeader(3, '" ' + plan.title + ' "'),
+				this.#createHeader(2, 'Asignatura' + (plan.subjects.length > 1 ? 's:' : ':')),
+				this.#createHeader(3, subjects),
+				this.#createHeader(2, 'Eje Transversal:'),
+				this.#createHeader(3, plan.mainThemeCategory),
+				this.#createHeader(2, 'Duración Aproximada:'),
+				this.#createHeader(3, plan.duration + ' Semanas'),
+			],
+		}
+	}
+
+	#markdownCleanUp(str: string) {
+		return str.replaceAll('**', '')
+	}
+
+	#createTablelessPlanContent(plan: UnitPlan, classPlans: ClassPlan[]): ISectionOptions {
+		const classPlanSections: { title: string, list?: boolean, content: string | string[] }[] = classPlans.length > 0 ? [
+			{ title: 'Secuencia Didactica', content: [] },
+			...classPlans.map((cp, index) => ({
+				title: 'Clase #' + (index + 1),
+				content: [
+					'Fecha: ' + (new Date(cp.date).toISOString().split('T')[0].split('-').reverse().join('-')),
+					'Intención pedagógica:',
+					cp.objective,
+					'Competencia Específica:',
+					cp.competence,
+					'Actividades de Enseñanza',
+					'Inicio:',
+					...cp.introduction.activities.map(this.#markdownCleanUp).map(s => '- ' + s),
+					'Desarrollo:',
+					...cp.main.activities.map(this.#markdownCleanUp).map(s => '- ' + s),
+					'Cierre:',
+					...cp.closing.activities.map(this.#markdownCleanUp).map(s => '- ' + s),
+					'Recursos:',
+					...[cp.introduction.resources, cp.main.resources, cp.closing.resources].flat().filter((r, i, arr) => arr.indexOf(r) === i),
+				]
+			}))
+		] :[
+			{ title: 'Actividades de Enseñanza', content: [] },
+			...plan.teacherActivities.map(a => ({ title: this.#pretify(a.subject), list: true, content: a.activities.map(this.#markdownCleanUp) })),
+			{ title: 'Actividades de Aprendizaje', content: [] },
+			...plan.studentActivities.map(a => ({ title: this.#pretify(a.subject), list: true, content: a.activities.map(this.#markdownCleanUp) })),
+			{ title: 'Actividades de Evaluación', content: [] },
+			...plan.evaluationActivities.map(a => ({ title: this.#pretify(a.subject), list: true, content: a.activities.map(this.#markdownCleanUp) })),
+		]
+		const sections: { title: string, list?: boolean, content: string | string[] }[] = [
+			{ title: 'Situación de Aprendizaje', content: this.#markdownCleanUp(plan.learningSituation) },
+			{ title: 'Competencias Fundamentales', content: plan.competence.map(c => c.name), list: true },
+			{ title: 'Competencias Específicas del Grado', content: plan.competence.flatMap(c => c.entries), list: true },
+			{ title: 'Criterios de Evaluación', content: plan.competence.flatMap(c => c.criteria), list: true },
 			{ title: 'Eje transversal: ' + plan.mainThemeCategory, content: plan.mainThemes.flatMap(t => t.topics) },
-			{ title: 'Asignaturas', content: plan.subjects.map(s => this.#pretify(s)) },
-			{ title: 'Estrategias de Enseñanza-Aprendizaje', content: plan.strategies },
-			{ title: 'Indicadores de Logro', content: plan.contents.flatMap(c => c.achievement_indicators) },
+			{ title: 'Asignaturas', content: plan.subjects.map(s => this.#pretify(s)), list: true },
+			{ title: 'Estrategias de Enseñanza-Aprendizaje', content: plan.strategies, list: true },
+			{ title: 'Indicadores de Logro', content: plan.contents.flatMap(c => c.achievement_indicators), list: true },
 			{ title: 'Contenidos', content: [] },
-			{ title: 'Conceptuales', content: plan.contents.flatMap(c => c.concepts) },
-			{ title: 'Procedimentales', content: plan.contents.flatMap(c => c.procedures) },
-			{ title: 'Actitudinales', content: plan.contents.flatMap(c => c.attitudes) },
-			{ title: 'Actividades de Enseñanza', content: plan.teacherActivities },
-			{ title: 'Actividades de Aprendizaje', content: plan.studentActivities },
-			{ title: 'Actividades de Evaluación', content: plan.evaluationActivities },
+			{ title: 'Conceptuales', content: plan.contents.flatMap(c => c.concepts), list: true },
+			{ title: 'Procedimentales', content: plan.contents.flatMap(c => c.procedures), list: true },
+			{ title: 'Actitudinales', content: plan.contents.flatMap(c => c.attitudes), list: true },
+			...classPlanSections,
+			{ title: 'Instrumentos De Evaluación', content: plan.instruments, list: true },
+			{ title: 'Recursos', content: plan.resources, list: true },
+			{ title: 'Tiempo Asignado', content: `${plan.duration} Semanas` },
+		]
+
+		return {
+			properties: this.#documentProperties(true),
+			children: sections.flatMap(section => {
+				const title = this.#createHeader(section.title == 'Secuencia Didactica' ? 2 : 3, section.title, false)
+				if (Array.isArray(section.content)) {
+					return [title, ...section.content.map(c => new Paragraph({ children: [new TextRun({ text: c, bold: ['Intención pedagógica:', 'Competencia Específica:', 'Actividades de Enseñanza', 'Inicio:', 'Desarrollo:', 'Cierre:', 'Recursos:'].includes(c) || c.startsWith('Fecha:') })], bullet: section.list ? { level: 0 } : undefined }))]
+				}
+				return [title, new Paragraph({ children: [new TextRun({ text: section.content })] })]
+			})
+		}
+	}
+
+	#createSection(plan: UnitPlan) {
+		return [
+			// body
+			{
+				properties: {
+					page: {
+						size: {
+							orientation: PageOrientation.LANDSCAPE,
+							height: '279mm',
+							width: '216mm',
+						},
+					},
+				},
+				children: [
+					new Paragraph({
+						children: [
+							new TextRun({
+								text: 'Situación de Aprendizaje',
+							}),
+						],
+						heading: HeadingLevel.HEADING_3,
+					}),
+					new Paragraph({
+						children: [
+							new TextRun({
+								text: plan.learningSituation,
+							}),
+						],
+					}),
+					new Paragraph({
+						text: 'Competencias Fundamentales',
+						heading: HeadingLevel.HEADING_3,
+					}),
+					...plan.competence.map(
+						(c) =>
+							new Paragraph({
+								text: this.#pretifyCompetence(
+									c.name,
+									plan.section.level || 'PRIMARIA',
+								),
+								bullet: {
+									level: 0,
+								},
+							}),
+					),
+					new Paragraph({
+						text: 'Competencias Específicas del Grado',
+						heading: HeadingLevel.HEADING_3,
+					}),
+					...plan.competence.flatMap((c) =>
+						c.entries.map(
+							(entry) =>
+								new Paragraph({
+									text: entry,
+									bullet: {
+										level: 0,
+									},
+								}),
+						),
+					),
+					new Paragraph({
+						text: 'Criterios de Evaluación',
+						heading: HeadingLevel.HEADING_3,
+					}),
+					...plan.competence.flatMap((c) =>
+						c.criteria.map(
+							(entry) =>
+								new Paragraph({
+									text: entry,
+									bullet: {
+										level: 0,
+									},
+								}),
+						),
+					),
+					new Paragraph({
+						text:
+							(plan.subjects.length > 1
+								? 'Ejes Transversales: '
+								: 'Eje Transversal: ') +
+							plan.mainThemeCategory,
+						heading: HeadingLevel.HEADING_3,
+					}),
+					...plan.mainThemes.flatMap((theme) =>
+						theme.topics.map(
+							(entry) =>
+								new Paragraph({
+									text: entry,
+									bullet: {
+										level: 0,
+									},
+								}),
+						),
+					),
+					new Paragraph({
+						text:
+							plan.subjects.length > 1
+								? 'Asignaturas'
+								: 'Asignatura',
+						heading: HeadingLevel.HEADING_3,
+					}),
+					...plan.subjects.flatMap(
+						(subject) =>
+							new Paragraph({
+								text: this.#pretify(subject),
+								bullet: {
+									level: 0,
+								},
+							}),
+					),
+					new Paragraph({
+						text: 'Estrategias de Enseñanza y Aprendizaje',
+						heading: HeadingLevel.HEADING_3,
+					}),
+					...plan.strategies.flatMap(
+						(strategy) =>
+							new Paragraph({
+								text: strategy,
+								bullet: {
+									level: 0,
+								},
+							}),
+					),
+					new Paragraph({
+						text: 'Indicadores de Logro',
+						heading: HeadingLevel.HEADING_3,
+					}),
+					...plan.contents.flatMap((content) =>
+						content.achievement_indicators.map(
+							(indicator) =>
+								new Paragraph({
+									text: indicator,
+									bullet: {
+										level: 0,
+									},
+								}),
+						),
+					),
+					new Paragraph(''),
+					// contentsTable,
+					new Paragraph(''),
+					// activitiesTable,
+					new Paragraph(''),
+					new Paragraph({
+						text: 'Técnicas e Instrumentos de Evaluación',
+						heading: HeadingLevel.HEADING_3,
+					}),
+					...plan.instruments.map(
+						(instrument) =>
+							new Paragraph({
+								text: instrument,
+								bullet: { level: 0 },
+							}),
+					),
+					new Paragraph({
+						text: 'Medios y Recursos',
+						heading: HeadingLevel.HEADING_3,
+					}),
+					...plan.resources.map(
+						(resource) =>
+							new Paragraph({
+								text: resource,
+								bullet: { level: 0 },
+							}),
+					),
+				],
+			},
 		]
 	}
 
-	async download(plan: UnitPlan, classPlans: ClassPlan[] = [], user: User, unitPlanTemplate: 'unitplan1' | 'unitplan2' | 'unitplan3' = 'unitplan1', classPlanTemplate: 'classplan1' | 'classplan2' = 'classplan1') {
+	async download(plan: UnitPlan, classPlans: ClassPlan[] = [], user: User, unitPlanTemplate: 'unitplan1' | 'unitplan2' | 'unitplan3' = 'unitplan3', classPlanTemplate: 'classplan1' | 'classplan2' = 'classplan1') {
 		const logoMinerd = await this.fetchLogo();
+		const config: { vertical: boolean, sections: ISectionOptions[] } = {
+			vertical: false,
+			sections: []
+		}
 		switch (unitPlanTemplate) {
 			case 'unitplan1':
 				break;
 			case 'unitplan2':
 				break;
 			case 'unitplan3':
-				this.createTablelessPlanDocx(plan, user, logoMinerd);
+				config.vertical = true;
+				config.sections = [
+					this.#createPresentationSheet(plan, user, logoMinerd),
+					this.#createTablelessPlanContent(plan, classPlans),
+				];
 				break;
 			default:
 				break;
@@ -513,334 +815,7 @@ export class UnitPlanService {
 			],
 		});
 		const doc = new Document({
-			sections: [
-				// presentation
-				{
-					properties: {
-						page: {
-							size: {
-								orientation: PageOrientation.PORTRAIT,
-								height: '279mm',
-								width: '216mm',
-							},
-						},
-					},
-					children: [
-						new Paragraph({
-							children: [logoMinerd],
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text: user.schoolName,
-								}),
-							],
-							heading: HeadingLevel.HEADING_1,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text: 'Año Escolar 2025 - 2026',
-								}),
-							],
-							heading: HeadingLevel.HEADING_2,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text:
-										this.#pretify(plan.section.year) +
-										' de ' +
-										this.#pretify(plan.section.level),
-								}),
-							],
-							heading: HeadingLevel.HEADING_2,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text: 'Docente:',
-								}),
-							],
-							heading: HeadingLevel.HEADING_2,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text: `${plan.user.title}. ${plan.user.firstname} ${plan.user.lastname}`,
-								}),
-							],
-							heading: HeadingLevel.HEADING_3,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text: 'Unidad de Aprendizaje',
-								}),
-							],
-							heading: HeadingLevel.HEADING_2,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text: '" ' + plan.title + ' "',
-								}),
-							],
-							heading: HeadingLevel.HEADING_3,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text:
-										'Asignatura' +
-										(plan.subjects.length > 1 ? 's:' : ':'),
-								}),
-							],
-							heading: HeadingLevel.HEADING_2,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text: plan.subjects
-										.map(
-											(s, i, arr) =>
-												(arr.length > 1 &&
-												i === arr.length - 1
-													? 'y '
-													: '') + this.#pretify(s),
-										)
-										.join(', '),
-								}),
-							],
-							heading: HeadingLevel.HEADING_3,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text: 'Eje Transversal:',
-								}),
-							],
-							heading: HeadingLevel.HEADING_2,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text: plan.mainThemeCategory,
-								}),
-							],
-							heading: HeadingLevel.HEADING_3,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text: 'Duración Aproximada:',
-								}),
-							],
-							heading: HeadingLevel.HEADING_2,
-							alignment: AlignmentType.CENTER,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									// color: '#000000',
-									text: plan.duration + ' Semanas',
-								}),
-							],
-							heading: HeadingLevel.HEADING_3,
-							alignment: AlignmentType.CENTER,
-						}),
-					],
-				},
-				// body
-				{
-					properties: {
-						page: {
-							size: {
-								orientation: PageOrientation.LANDSCAPE,
-								height: '279mm',
-								width: '216mm',
-							},
-						},
-					},
-					children: [
-						new Paragraph({
-							children: [
-								new TextRun({
-									text: 'Situación de Aprendizaje',
-								}),
-							],
-							heading: HeadingLevel.HEADING_3,
-						}),
-						new Paragraph({
-							children: [
-								new TextRun({
-									text: plan.learningSituation,
-								}),
-							],
-						}),
-						new Paragraph({
-							text: 'Competencias Fundamentales',
-							heading: HeadingLevel.HEADING_3,
-						}),
-						...plan.competence.map(
-							(c) =>
-								new Paragraph({
-									text: this.#pretifyCompetence(
-										c.name,
-										plan.section.level || 'PRIMARIA',
-									),
-									bullet: {
-										level: 0,
-									},
-								}),
-						),
-						new Paragraph({
-							text: 'Competencias Específicas del Grado',
-							heading: HeadingLevel.HEADING_3,
-						}),
-						...plan.competence.flatMap((c) =>
-							c.entries.map(
-								(entry) =>
-									new Paragraph({
-										text: entry,
-										bullet: {
-											level: 0,
-										},
-									}),
-							),
-						),
-						new Paragraph({
-							text: 'Criterios de Evaluación',
-							heading: HeadingLevel.HEADING_3,
-						}),
-						...plan.competence.flatMap((c) =>
-							c.criteria.map(
-								(entry) =>
-									new Paragraph({
-										text: entry,
-										bullet: {
-											level: 0,
-										},
-									}),
-							),
-						),
-						new Paragraph({
-							text:
-								(plan.subjects.length > 1
-									? 'Ejes Transversales: '
-									: 'Eje Transversal: ') +
-								plan.mainThemeCategory,
-							heading: HeadingLevel.HEADING_3,
-						}),
-						...plan.mainThemes.flatMap((theme) =>
-							theme.topics.map(
-								(entry) =>
-									new Paragraph({
-										text: entry,
-										bullet: {
-											level: 0,
-										},
-									}),
-							),
-						),
-						new Paragraph({
-							text:
-								plan.subjects.length > 1
-									? 'Asignaturas'
-									: 'Asignatura',
-							heading: HeadingLevel.HEADING_3,
-						}),
-						...plan.subjects.flatMap(
-							(subject) =>
-								new Paragraph({
-									text: this.#pretify(subject),
-									bullet: {
-										level: 0,
-									},
-								}),
-						),
-						new Paragraph({
-							text: 'Estrategias de Enseñanza y Aprendizaje',
-							heading: HeadingLevel.HEADING_3,
-						}),
-						...plan.strategies.flatMap(
-							(strategy) =>
-								new Paragraph({
-									text: strategy,
-									bullet: {
-										level: 0,
-									},
-								}),
-						),
-						new Paragraph({
-							text: 'Indicadores de Logro',
-							heading: HeadingLevel.HEADING_3,
-						}),
-						...plan.contents.flatMap((content) =>
-							content.achievement_indicators.map(
-								(indicator) =>
-									new Paragraph({
-										text: indicator,
-										bullet: {
-											level: 0,
-										},
-									}),
-							),
-						),
-						new Paragraph(''),
-						contentsTable,
-						new Paragraph(''),
-						activitiesTable,
-						new Paragraph(''),
-						new Paragraph({
-							text: 'Técnicas e Instrumentos de Evaluación',
-							heading: HeadingLevel.HEADING_3,
-						}),
-						...plan.instruments.map(
-							(instrument) =>
-								new Paragraph({
-									text: instrument,
-									bullet: { level: 0 },
-								}),
-						),
-						new Paragraph({
-							text: 'Medios y Recursos',
-							heading: HeadingLevel.HEADING_3,
-						}),
-						...plan.resources.map(
-							(resource) =>
-								new Paragraph({
-									text: resource,
-									bullet: { level: 0 },
-								}),
-						),
-					],
-				},
-			],
+			sections: config.sections,
 		});
 		const blob = await Packer.toBlob(doc);
 		saveAs(blob, `${plan.title}.docx`);

@@ -178,11 +178,12 @@ export class UnitPlanListComponent implements OnInit {
 
 	async download(plan: UnitPlan) {
 		const user = this.user();
+		console.log(this.classPlans())
 		const classPlans = this.classPlans().filter(
 			(c) =>
-				(typeof c.unitPlan === 'string'
+				c.unitPlan ? (typeof c.unitPlan === 'string'
 					? c.unitPlan
-					: (c.unitPlan as UnitPlan)._id) === plan._id,
+					: (c.unitPlan as UnitPlan)._id) === plan._id : false,
 		);
 		if (!user) return;
 		this.#store.dispatch(downloadUnitPlan({ plan, classPlans, user }));
