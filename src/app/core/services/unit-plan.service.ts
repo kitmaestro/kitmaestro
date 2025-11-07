@@ -58,43 +58,6 @@ export class UnitPlanService {
 		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
-	#pretifyCompetence(value: string, level: string) {
-		if (level === 'PRIMARIA') {
-			if (value === 'Comunicativa') {
-				return 'Comunicativa';
-			}
-			if (value.includes('Pensamiento')) {
-				return 'Pensamiento Lógico Creativo y Crítico; Resolución de Problemas; Tecnológica y Científica';
-			}
-			if (value.includes('Ciudadana')) {
-				return 'Ética Y Ciudadana; Desarrollo Personal y Espiritual; Ambiental y de la Salud';
-			}
-		} else {
-			if (value === 'Comunicativa') {
-				return 'Comunicativa';
-			}
-			if (value === 'Pensamiento Logico') {
-				return 'Pensamiento Lógico, Creativo y Crítico';
-			}
-			if (value === 'Resolucion De Problemas') {
-				return 'Resolución de Problemas';
-			}
-			if (value === 'Ciencia Y Tecnologia') {
-				return 'Tecnológica y Científica';
-			}
-			if (value === 'Etica Y Ciudadana') {
-				return 'Ética y Ciudadana';
-			}
-			if (value === 'Desarrollo Personal Y Espiritual') {
-				return 'Desarrollo Personal y Espiritual';
-			}
-			if (value === 'Ambiental Y De La Salud') {
-				return 'Ambiental y de la Salud';
-			}
-		}
-		return value;
-	}
-
 	private async fetchLogo(): Promise<ImageRun> {
 		const logo = await fetch(this.#apiService.getApiUrl() + 'logo-minerd');
 		const { data } = await logo.json();
@@ -223,7 +186,7 @@ export class UnitPlanService {
 		]
 		const sections: { title: string, list?: boolean, content: string | string[] }[] = [
 			{ title: 'Situación de Aprendizaje', content: this.#markdownCleanUp(plan.learningSituation) },
-			{ title: 'Competencias Fundamentales', content: plan.competence.map(c => c.name), list: true },
+			{ title: 'Competencias Fundamentales', content: plan.competence.map(c => this.#pretify(c.name)), list: true },
 			{ title: 'Competencias Específicas del Grado', content: plan.competence.flatMap(c => c.entries), list: true },
 			{ title: 'Criterios de Evaluación', content: plan.competence.flatMap(c => c.criteria), list: true },
 			{ title: 'Eje transversal: ' + plan.mainThemeCategory, content: plan.mainThemes.flatMap(t => t.topics) },
@@ -237,7 +200,7 @@ export class UnitPlanService {
 			...classPlanSections,
 			{ title: 'Instrumentos De Evaluación', content: plan.instruments, list: true },
 			{ title: 'Recursos', content: plan.resources, list: true },
-			{ title: 'Tiempo Asignado', content: `${plan.duration} Semanas` },
+			{ title: 'Tiempo Asignado', content: `${plan.duration} Semana${plan.duration > 1 ? 's' : ''}` },
 		]
 
 		return {
@@ -288,10 +251,7 @@ export class UnitPlanService {
 					...plan.competence.map(
 						(c) =>
 							new Paragraph({
-								text: this.#pretifyCompetence(
-									c.name,
-									plan.section.level || 'PRIMARIA',
-								),
+								text: this.#pretify(c.name, plan.section.level || 'PRIMARIA'),
 								bullet: {
 									level: 0,
 								},
@@ -422,7 +382,220 @@ export class UnitPlanService {
 		]
 	}
 
-	async download(plan: UnitPlan, classPlans: ClassPlan[] = [], user: User, unitPlanTemplate: 'unitplan1' | 'unitplan2' | 'unitplan3' = 'unitplan3', classPlanTemplate: 'classplan1' | 'classplan2' = 'classplan1') {
+	#createEmptyCell(columnSpan: number = 1, rowSpan: number = 1) {
+		return new TableCell({
+			children: [new Paragraph('')],
+			columnSpan,
+			rowSpan,
+		})
+	}
+
+	#createCell(text: string, columnSpan: number = 1, rowSpan: number = 1) {
+		return new TableCell({
+			children: [new Paragraph({ children: [new TextRun({ text })] })],
+			columnSpan,
+			rowSpan,
+		})
+	}
+
+	#createCellWithList(list: string[], columnSpan: number = 1, rowSpan: number = 1) {
+		return new TableCell({
+			children: list.map(item => new Paragraph({ children: [new TextRun({ text: `- ${item}` })] })),
+			columnSpan,
+			rowSpan,
+		})
+	}
+
+	#createHeaderCell(text: string, columnSpan: number = 1, rowSpan: number = 1, center = false) {
+		return new TableCell({
+			children: [new Paragraph({ children: [new TextRun({ text, bold: true })], alignment: center ? AlignmentType.CENTER : AlignmentType.LEFT })],
+			columnSpan,
+			rowSpan,
+		})
+	}
+
+	#createUnitPlanV1(plan: UnitPlan, classPlans: ClassPlan[], user: User): ISectionOptions {
+		const isPrimary = (plan.sections.length ? plan.sections[0] : plan.section).level === 'PRIMARIA'
+		const compCat = isPrimary ? ['Comunicativa', 'Pensamiento Logico', 'Etica Y Ciudadana'] : ['Comunicativa', 'Pensamiento Logico', 'Resolucion De Problemas', 'Ciencia Y Tecnologia', 'Etica Y Ciudadana', 'Desarrollo Personal Y Espiritual', 'Ambiental Y De La Salud'];
+		const activityRows: TableRow[] = []
+		if (classPlans.length) {
+			const headers = new TableRow({
+				children: [
+					this.#createHeaderCell('Fecha'),
+					this.#createHeaderCell('Actividades de Aprendizaje', 2),
+					this.#createHeaderCell('Evidencia'),
+					this.#createHeaderCell('Técnicas e Instrumentos de Evaluación'),
+					this.#createHeaderCell('Metacognición'),
+					this.#createHeaderCell('Recursos')
+				]
+			})
+			activityRows.push(headers)
+			for (let session of classPlans) {
+				activityRows.push(new TableRow({
+					children: [
+						this.#createCell(new Date(session.date).toISOString().split('T')[0].split('-').reverse().join('-')),
+						new TableCell({
+							children: [
+								new Paragraph({ children: [new TextRun({ text: 'Inicio', bold: true })] }),
+								...session.introduction.activities.map(activity => new Paragraph({ text: `- ${activity}` })),
+								new Paragraph({ children: [new TextRun({ text: 'Desarrollo', bold: true })] }),
+								...session.main.activities.map(activity => new Paragraph({ text: `- ${activity}` })),
+								new Paragraph({ children: [new TextRun({ text: 'Cierre', bold: true })] }),
+								...session.closing.activities.map(activity => new Paragraph({ text: `- ${activity}` })),
+							], columnSpan: 2,
+						}),
+						this.#createCell(''),
+						this.#createCell(''),
+						this.#createCellWithList([
+							'¿Qué te aprendiste de este tema hoy?',
+							'¿Qué tan importante es este tema a lo largo de sus vidas?',
+							'¿Qué te pareció el tema del día de hoy?',
+							'¿Cómo aprendí estos conocimientos?',
+							'¿Cuál fue la parte que más te intereso?',
+							'¿Como nos beneficiamos de los conocimientos aprendido hoy?',
+							'¿En qué nos ayuda para convivir mejor este tema?'
+						]),
+						this.#createCellWithList(session.introduction.resources),
+					]
+				}))
+			}
+		} else {
+			activityRows.push(new TableRow({ children: [
+				this.#createHeaderCell('Actividades de Enseñanza', 2, 1, true),
+				this.#createHeaderCell('Actividades de Aprendizaje', 3, 1, true),
+				this.#createHeaderCell('Actividades de Evaluación', 2, 1, true)]
+			}))
+			activityRows.push(new TableRow({ children: [
+				new TableCell({ children: plan.teacherActivities.flatMap(block => {
+					return [
+						new Paragraph({ children: [new TextRun({ text: this.#pretify(block.subject), bold: true })] }),
+						...block.activities.map(activity => new Paragraph({ text: '- ' + this.#markdownCleanUp(activity) }))
+					]
+		 		}), columnSpan: 2 }),
+				new TableCell({ children: plan.studentActivities.flatMap(block => {
+					return [
+						new Paragraph({ children: [new TextRun({ text: this.#pretify(block.subject), bold: true })] }),
+						...block.activities.map(activity => new Paragraph({ text: '- ' + this.#markdownCleanUp(activity) }))
+					]
+		 		}), columnSpan: 3 }),
+				new TableCell({ children: plan.evaluationActivities.flatMap(block => {
+					return [
+						new Paragraph({ children: [new TextRun({ text: this.#pretify(block.subject), bold: true })] }),
+						...block.activities.map(activity => new Paragraph({ text: '- ' + this.#markdownCleanUp(activity) }))
+					]
+		 		}), columnSpan: 2 }),
+			]}))
+			activityRows.push(new TableRow({ children: [
+				this.#createHeaderCell('Técnicas e Instrumentos de Evaluación', 5),
+				this.#createHeaderCell('Medios y Recursos', 2)
+			] }))
+			activityRows.push(new TableRow({ children: [
+				this.#createCellWithList(plan.instruments, 5),
+				this.#createCellWithList(plan.resources, 2),
+			] }))
+		}
+		const table = new Table({
+			width: {
+				size: '100%',
+				type: WidthType.PERCENTAGE,
+			},
+			columnWidths: [
+				100/7,
+				100/7,
+				100/7,
+				100/7,
+				100/7,
+				100/7,
+				100/7,
+			],
+			rows: [
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Centro Educativo'),
+						this.#createCell(user.schoolName, 3),
+						this.#createHeaderCell('Grado y Sección'),
+						this.#createCell(plan.sections.length ? plan.sections.map(s => `${this.#pretify(s.year)} de ${this.#pretify(s.level)}`).join(', ') : plan.section.name, 2),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Docente'),
+						this.#createCell(`${user.title}. ${user.firstname} ${user.lastname}`, 3),
+						this.#createHeaderCell('Tiempo Asignado'),
+						this.#createCell(`${plan.duration} Semana${plan.duration > 1 ? 's' : ''}`, 2),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Situación de Aprendizaje'),
+						this.#createCell(plan.learningSituation, 6),
+					]
+				}),
+				new TableRow({ children: [this.#createHeaderCell('Competencias Fundamentales', 7, 1, true)] }),
+				new TableRow({ children: isPrimary ?
+					compCat.map((c, i) => this.#createCell(this.#pretify(c), i === 1 ? 3 : 2)) :
+					plan.competence.map((c) => this.#createCell(this.#pretify(c.name, 'SECUNDARIA')))
+				}),
+				new TableRow({ children: [this.#createHeaderCell('Competencias Específicas del Grado', 7, 1, true)] }),
+				new TableRow({ children: isPrimary ?
+					compCat.map((cat, i) => this.#createCellWithList(plan.competence.filter(e => e.name == cat).flatMap(c => c.entries), i === 1 ? 3 : 2)) :
+					plan.competence.map((c) => this.#createCellWithList(c.entries))
+				}),
+				new TableRow({ children: [this.#createHeaderCell('Criterios de Evaluación', 7, 1, true)] }),
+				new TableRow({ children: isPrimary ?
+					compCat.map((cat, i) => this.#createCellWithList(plan.competence.filter(e => e.name == cat).flatMap(c => c.criteria), i === 1 ? 3 : 2)) :
+					plan.competence.map((c) => this.#createCellWithList(c.criteria))
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Eje Transversal'),
+						this.#createCell(`${plan.mainThemeCategory}: ${plan.mainThemes.flatMap(t => t.topics).join(', ')}`, 6),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell(`Área${plan.subjects.length > 1 ? 's' : ''} Curricular${plan.subjects.length > 1 ? 'es' : ''}`),
+						this.#createCellWithList(plan.subjects.map(s => this.#pretify(s)), 6),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Estrategias de Enseñanza y Aprendizaje'),
+						this.#createCellWithList(plan.strategies, 6),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Indicadores de Logro'),
+						this.#createCellWithList(plan.contents.flatMap(c => c.achievement_indicators), 6),
+					]
+				}),
+				new TableRow({ children: [this.#createHeaderCell('Contenidos', 7, 1, true)] }),
+				new TableRow({ children: [
+					this.#createHeaderCell('Conceptuales', 2, 1 ,true),
+					this.#createHeaderCell('Procedimentales', 3, 1 ,true),
+					this.#createHeaderCell('Actitudinales', 2, 1 ,true)
+				] }),
+				new TableRow({ children: [
+					this.#createCellWithList(plan.contents.flatMap(c => c.concepts), 2),
+					this.#createCellWithList(plan.contents.flatMap(c => c.procedures), 3),
+					this.#createCellWithList(plan.contents.flatMap(c => c.attitudes), 2)
+				] }),
+				new TableRow({ children: [this.#createHeaderCell('Actividades', 7, 1, true)] }),
+				...activityRows,
+			]
+		})
+		const section = {
+			properties: this.#documentProperties(false),
+			children: [
+				table
+			]
+		}
+		console.log(section)
+		return section
+	}
+
+	async download(plan: UnitPlan, classPlans: ClassPlan[] = [], user: User, unitPlanTemplate: 'unitplan1' | 'unitplan2' | 'unitplan3' = 'unitplan1', classPlanTemplate: 'classplan1' | 'classplan2' = 'classplan1') {
 		const logoMinerd = await this.fetchLogo();
 		const config: { vertical: boolean, sections: ISectionOptions[] } = {
 			vertical: false,
@@ -430,6 +603,9 @@ export class UnitPlanService {
 		}
 		switch (unitPlanTemplate) {
 			case 'unitplan1':
+				config.sections = [
+					this.#createUnitPlanV1(plan, classPlans, user),
+				]
 				break;
 			case 'unitplan2':
 				break;
@@ -817,6 +993,7 @@ export class UnitPlanService {
 		const doc = new Document({
 			sections: config.sections,
 		});
+		console.log(doc, config)
 		const blob = await Packer.toBlob(doc);
 		saveAs(blob, `${plan.title}.docx`);
 	}
