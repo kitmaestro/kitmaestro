@@ -41,6 +41,9 @@ import {
 	loadSections,
 	selectAllClassSections,
 } from '../../../store/class-sections';
+import { loadBlocks, loadCurrentSubscription, loadEntries, loadEntriesSuccess, loadThemes, selectAllCompetenceEntries, selectAllContentBlocks } from '../../../store';
+import { selectAllThemes } from '../../../store/main-themes/main-themes.selectors';
+import { selectCurrentSubscription } from '../../../store/user-subscriptions/user-subscriptions.selectors';
 
 @Component({
 	selector: 'app-annual-plan-generator',
@@ -285,18 +288,14 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
 	#store = inject(Store);
-	public userSubscriptionService = inject(UserSubscriptionService);
-	private contentBlockService = inject(ContentBlockService);
-	private competenceService = inject(CompetenceService);
-	private mainThemeService = inject(MainThemeService);
 	private router = inject(Router);
 	private pretifyPipe = new PretifyPipe();
 
-	user: User | null = null;
+	user = this.#store.selectSignal(selectAuthUser);
 	classSections = this.#store.selectSignal(selectAllClassSections);
-	contentBlocks: ContentBlock[] = [];
-	competence: CompetenceEntry[] = [];
-	mainThemes: MainTheme[] = [];
+	contentBlocks = this.#store.selectSignal(selectAllContentBlocks);
+	competence = this.#store.selectSignal(selectAllCompetenceEntries);
+	mainThemes = this.#store.selectSignal(selectAllThemes);
 
 	generating = false;
 	plansGenerated = 0;
@@ -315,7 +314,6 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	yearlyPlanForm = this.fb.group({
 		classSection: ['', Validators.required],
 		subject: ['', Validators.required],
-		mainTheme: ['Salud y Bienestar', Validators.required],
 		environment: ['Salón de clases', Validators.required],
 		situationType: ['fiction', Validators.required],
 		reality: ['Falta de disciplina', Validators.required],
@@ -327,19 +325,18 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	ngOnInit(): void {
 		this.#store.dispatch(loadUnitPlans({}));
 		this.#store.dispatch(loadSections());
+		this.#store.dispatch(loadCurrentSubscription());
 		const res = localStorage.getItem('available-resources') as string;
 		const resources = res ? JSON.parse(res) : null;
 		if (resources && Array.isArray(resources) && resources.length > 0) {
 			this.yearlyPlanForm.get('resources')?.setValue(resources);
 		}
 		forkJoin({
-			settings: this.#store.select(selectAuthUser),
 			sections: this.#store.select(selectAllClassSections),
 			unitPlans: this.#store.select(selectAllUnitPlans),
-			subscription: this.userSubscriptionService.checkSubscription(),
+			subscription: this.#store.select(selectCurrentSubscription),
 		}).subscribe({
-			next: ({ settings, sections, unitPlans, subscription }) => {
-				this.user = settings;
+			next: ({ sections, unitPlans, subscription }) => {
 				if (!sections.length) {
 					this.router.navigateByUrl('/sections').then(() => {
 						this.sb.open(
@@ -351,7 +348,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 					return;
 				}
 				const unitPlanLimits =
-					subscription.subscriptionType == 'Plan Premium'
+					subscription?.subscriptionType == 'Plan Premium'
 						? sections.length *
 							sections.flatMap((s) => s.subjects).length *
 							12
@@ -387,48 +384,36 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	onSectionOrSubjectChange(): void {
 		const { classSection: sectionId, subject } = this.yearlyPlanForm.value;
 		if (!sectionId || !subject) {
-			this.contentBlocks = [];
+			this.#store.dispatch(loadEntriesSuccess({ entries: [] }));
 			return;
 		}
-
-		const selectedSection = this.classSections().find(
-			(s) => s._id === sectionId,
-		);
-		if (selectedSection) {
-			this.competenceService
-				.findAll({
-					grade: selectedSection.year,
-					level: selectedSection.level,
-					subject,
-				})
-				.subscribe({
-					next: (value) => {
-						if (value.length) {
-							this.competence = value;
-						}
-					},
-				});
-			this.mainThemeService
-				.findAll({
-					level: selectedSection.level,
-					year: selectedSection.year,
-					subject,
-				})
-				.subscribe((themes) => {
-					this.mainThemes = themes;
-				});
-			this.contentBlockService
-				.findAll({
-					level: selectedSection.level,
-					year: selectedSection.year,
-					subject,
-				})
-				.subscribe((blocks) => {
-					this.contentBlocks = blocks.sort(
-						(a, b) => a.order - b.order,
-					);
-				});
+		
+		const section = this.classSections().find((s) => s._id === sectionId);
+		if (!section) {
+			this.#store.dispatch(loadEntriesSuccess({ entries: [] }));
+			return;
 		}
+		this.#store.dispatch(loadEntries({
+			filters: {
+				grade: section.year,
+				level: section.level,
+				subject,
+			}
+		}))
+		this.#store.dispatch(loadThemes({
+			filters: {
+				level: section.level,
+				year: section.year,
+				subject,
+			}
+		}))
+		this.#store.dispatch(loadBlocks({
+			filters: {
+				level: section.level,
+				year: section.year,
+				subject,
+			}
+		}))
 	}
 
 	async generateYearlyPlan(): Promise<void> {
@@ -453,10 +438,12 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			this.generating = false;
 			return;
 		}
+		const mainThemes: string[] = [...this.mainThemes().map(t => `${t.category}: ${t.topics.join(' ')}`), `${this.mainThemes()[0].category}: ${this.mainThemes()[0].topics.join(' ')}`]
 
 		for (const unitContents of contentUnits) {
 			try {
-				await this.generateAndSaveUnitPlan(unitContents);
+				const theme = mainThemes.pop() || ''
+				await this.generateAndSaveUnitPlan(unitContents, theme);
 				this.plansGenerated++;
 			} catch (error) {
 				console.error('Error generando una unidad:', error);
@@ -478,7 +465,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 	}
 
 	private divideContentIntoUnits(): ContentBlock[][] {
-		const totalContents = this.contentBlocks.length;
+		const totalContents = this.contentBlocks().length;
 		const units = 6;
 		if (totalContents === 0) return [];
 
@@ -491,7 +478,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			let contentsInThisUnit =
 				baseContentsPerUnit + (remainder > 0 ? 1 : 0);
 			result.push(
-				this.contentBlocks.slice(
+				this.contentBlocks().slice(
 					currentIndex,
 					currentIndex + contentsInThisUnit,
 				),
@@ -507,15 +494,16 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 
 	private async generateAndSaveUnitPlan(
 		unitContents: ContentBlock[],
+		mainTheme: string,
 	): Promise<void> {
 		const {
 			environment,
 			situationType,
 			reality,
-			mainTheme,
 			resources,
 			subject,
 		} = this.yearlyPlanForm.value;
+
 		if (resources && resources.length > 0) {
 			localStorage.setItem(
 				'available-resources',
@@ -567,17 +555,17 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 			activitiesResponse?.response || '{}',
 		);
 
-		const competence = this.competence.map((c) => c._id);
+		const competence = this.competence().map((c) => c._id);
 		// 3. Construir y Guardar el Plan
 		const plan: Partial<UnitPlanDto> = {
-			user: this.user?._id,
+			user: this.user()?._id,
 			section: classSection._id,
 			duration: 6, // Duración por defecto
 			learningSituation: learningSituationContent,
 			title: title,
 			competence,
 			mainThemeCategory: mainTheme,
-			mainThemes: this.mainThemes
+			mainThemes: this.mainThemes()
 				.filter((t) => t.category === mainTheme)
 				.map((t) => t._id),
 			subjects: [subject],
@@ -601,7 +589,7 @@ export class AnnualPlanGeneratorComponent implements OnInit {
 		mainTheme: string,
 	): string {
 		const contentStr = this.formatContentsForPrompt(contents);
-		const user = this.user;
+		const user = this.user();
 		return generateLearningSituationPrompt
 			.replace(
 				'nivel_y_grado',
