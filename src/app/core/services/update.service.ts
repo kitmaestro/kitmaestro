@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Update } from '../models';
 import { ApiDeleteResponse } from '../interfaces';
 import { ApiService } from './api.service';
+import { UpdateDto } from '../../store';
 
 @Injectable({
 	providedIn: 'root',
@@ -19,11 +20,11 @@ export class UpdateService {
 		return this.#apiService.get<Update>(this.#endpoint + id);
 	}
 
-	create(update: Partial<Update>): Observable<Update> {
+	create(update: Partial<UpdateDto>): Observable<Update> {
 		return this.#apiService.post<Update>(this.#endpoint, update);
 	}
 
-	update(id: string, update: Partial<Update>): Observable<Update> {
+	update(id: string, update: Partial<UpdateDto>): Observable<Update> {
 		return this.#apiService.patch<Update>(this.#endpoint + id, update);
 	}
 

@@ -22,15 +22,19 @@ import { ApiService } from './api.service';
 import { User, ClassPlan, UnitPlan } from '../models';
 import { UnitPlanDto } from '../../store/unit-plans/unit-plans.models';
 import { MarkdownService } from 'ngx-markdown';
+import { Store } from '@ngrx/store';
+import { selectAuthUserSettings } from '../../store/auth/auth.selectors';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UnitPlanService {
 	#markdown = inject(MarkdownService);
+	#store = inject(Store);
 	#apiService = inject(ApiService);
 	#endpoint = 'unit-plans/';
 	#pretify = new PretifyPipe().transform;
+	settings = this.#store.selectSignal(selectAuthUserSettings);
 
 	countPlans(): Observable<{ plans: number }> {
 		return this.#apiService.get<{ plans: number }>(
@@ -382,7 +386,7 @@ export class UnitPlanService {
 		]
 	}
 
-	#createEmptyCell(columnSpan: number = 1, rowSpan: number = 1) {
+	#createEmptyCell(columnSpan = 1, rowSpan = 1) {
 		return new TableCell({
 			children: [new Paragraph('')],
 			columnSpan,
@@ -390,7 +394,7 @@ export class UnitPlanService {
 		})
 	}
 
-	#createCell(text: string, columnSpan: number = 1, rowSpan: number = 1) {
+	#createCell(text: string, columnSpan = 1, rowSpan = 1) {
 		return new TableCell({
 			children: [new Paragraph({ children: [new TextRun({ text })] })],
 			columnSpan,
@@ -398,7 +402,7 @@ export class UnitPlanService {
 		})
 	}
 
-	#createCellWithList(list: string[], columnSpan: number = 1, rowSpan: number = 1) {
+	#createCellWithList(list: string[], columnSpan = 1, rowSpan = 1) {
 		return new TableCell({
 			children: list.map(item => new Paragraph({ children: [new TextRun({ text: `- ${item}` })] })),
 			columnSpan,
@@ -406,7 +410,7 @@ export class UnitPlanService {
 		})
 	}
 
-	#createHeaderCell(text: string, columnSpan: number = 1, rowSpan: number = 1, center = false) {
+	#createHeaderCell(text: string, columnSpan = 1, rowSpan = 1, center = false) {
 		return new TableCell({
 			children: [new Paragraph({ children: [new TextRun({ text, bold: true })], alignment: center ? AlignmentType.CENTER : AlignmentType.LEFT })],
 			columnSpan,
@@ -430,7 +434,7 @@ export class UnitPlanService {
 				]
 			})
 			activityRows.push(headers)
-			for (let session of classPlans) {
+			for (const session of classPlans) {
 				activityRows.push(new TableRow({
 					children: [
 						this.#createCell(new Date(session.date).toISOString().split('T')[0].split('-').reverse().join('-')),

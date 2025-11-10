@@ -1,4 +1,4 @@
-export type SchoolSubject =
+export type TSchoolSubject =
 	| 'LENGUA_ESPANOLA'
 	| 'MATEMATICA'
 	| 'CIENCIAS_SOCIALES'

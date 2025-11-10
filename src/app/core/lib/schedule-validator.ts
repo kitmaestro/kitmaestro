@@ -267,7 +267,7 @@ export function validateSchedule(schedule: Schedule): ValidationResult {
 	}
 
 	// 2. Validar la carga horaria semanal por asignatura
-	const weeklySubjectTotals: { [key in SCHOOL_SUBJECT]?: number } = {};
+	const weeklySubjectTotals: Partial<Record<SCHOOL_SUBJECT, number>> = {};
 
 	for (const day of dailySchedule) {
 		for (const block of day.blocks) {

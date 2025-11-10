@@ -4,7 +4,6 @@ import { User } from './user';
 export interface UserSubscription extends BaseModel {
 	user: User;
 	subscriptionType: string;
-	name: string;
 	status: string;
 	startDate: Date;
 	endDate: Date;

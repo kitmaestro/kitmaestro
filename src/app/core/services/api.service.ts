@@ -19,7 +19,7 @@ export class ApiService {
 		return this.#baseUrl;
 	}
 
-	#createHeaders(customHeaders?: { [header: string]: string }): HttpHeaders {
+	#createHeaders(customHeaders?: Record<string, string>): HttpHeaders {
 		let headers = new HttpHeaders({
 			'Content-Type': 'application/json',
 			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
@@ -36,9 +36,9 @@ export class ApiService {
 
 	get<T>(
 		endpoint: string,
-		paramsObj?: { [param: string]: string | string[] },
-		customHeaders?: { [header: string]: string },
-		retryCount: number = 1,
+		paramsObj?: Record<string, number | string | string[]>,
+		customHeaders?: Record<string, string>,
+		retryCount = 1,
 	): Observable<T> {
 		const url = `${this.#baseUrl}${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
@@ -51,8 +51,8 @@ export class ApiService {
 	post<T>(
 		endpoint: string,
 		body: any,
-		customHeaders?: { [header: string]: string },
-		retryCount: number = 1,
+		customHeaders?: Record<string, string>,
+		retryCount = 1,
 	): Observable<T> {
 		const url = `${this.#baseUrl}${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
@@ -64,8 +64,8 @@ export class ApiService {
 	put<T>(
 		endpoint: string,
 		body: any,
-		customHeaders?: { [header: string]: string },
-		retryCount: number = 1,
+		customHeaders?: Record<string, string>,
+		retryCount = 1,
 	): Observable<T> {
 		const url = `${this.#baseUrl}${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
@@ -77,8 +77,8 @@ export class ApiService {
 	patch<T>(
 		endpoint: string,
 		body: any,
-		customHeaders?: { [header: string]: string },
-		retryCount: number = 1,
+		customHeaders?: Record<string, string>,
+		retryCount = 1,
 	): Observable<T> {
 		const url = `${this.#baseUrl}${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);
@@ -89,8 +89,8 @@ export class ApiService {
 
 	delete<T>(
 		endpoint: string,
-		customHeaders?: { [header: string]: string },
-		retryCount: number = 1,
+		customHeaders?: Record<string, string>,
+		retryCount = 1,
 	): Observable<T> {
 		const url = `${this.#baseUrl}${endpoint}`;
 		const headers = this.#createHeaders(customHeaders);

@@ -1,11 +1,11 @@
-import { SchoolLevel, SchoolSubject, SchoolYear } from '../types';
+import { SchoolLevel, TSchoolSubject, SchoolYear } from '../types';
 import { BaseModel } from './base-model';
 
 export interface ContentBlock extends BaseModel {
 	title: string;
 	level: SchoolLevel;
 	year: SchoolYear;
-	subject: SchoolSubject;
+	subject: TSchoolSubject;
 	order: number;
 	concepts: string[];
 	procedures: string[];

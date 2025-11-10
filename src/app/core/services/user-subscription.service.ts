@@ -64,8 +64,8 @@ export class UserSubscriptionService {
 		amount: number,
 		user?: string,
 	): Observable<UserSubscription> {
-		const subscription = {
-			user: user ? user : undefined,
+		const subscription: UserSubscriptionDto = {
+			user,
 			subscriptionType,
 			status: 'active',
 			startDate: new Date(),
@@ -80,26 +80,5 @@ export class UserSubscriptionService {
 			this.#endpoint,
 			subscription,
 		);
-	}
-
-	addReferral(referral: UserSubscription): Observable<UserSubscription> {
-		return this.#apiService.post<UserSubscription>(
-			this.#endpoint,
-			referral,
-		);
-	}
-
-	updateReferral(
-		id: string,
-		referral: Partial<UserSubscriptionDto>,
-	): Observable<UserSubscription> {
-		return this.#apiService.patch<UserSubscription>(
-			this.#endpoint + id,
-			referral,
-		);
-	}
-
-	deleteReferral(id: string): Observable<ApiDeleteResponse> {
-		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 }

@@ -21,6 +21,7 @@ export * from './main-theme';
 export * from './multigrade-class-plan';
 export * from './observation-guide';
 export * from './reading-activity';
+export * from './recovery-plan';
 export * from './referral';
 export * from './rubric';
 export * from './score-system';

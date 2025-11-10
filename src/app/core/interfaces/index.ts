@@ -1,3 +1,4 @@
+export * from './actor';
 export * from './anniversary';
 export * from './api-response';
 export * from './app-entry';
@@ -38,3 +39,5 @@ export * from './universal-activity-requirement';
 export * from './universal-activity';
 export * from './vocabulary-entry';
 export * from './word-entry';
+export * from './improvement-plan';
+export * from './intervention-activity';
