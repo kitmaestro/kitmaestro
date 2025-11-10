@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SCHOOL_SUBJECT } from '../../core/enums/school-subject.enum';
+import { SchoolSubject } from '../../core/enums/school-subject.enum';
 
 @Pipe({
 	name: 'pretify',
@@ -7,38 +7,38 @@ import { SCHOOL_SUBJECT } from '../../core/enums/school-subject.enum';
 })
 export class PretifyPipe implements PipeTransform {
 	transform(
-		value: string | SCHOOL_SUBJECT,
-		level: string = 'PRIMARIA',
+		value: string | SchoolSubject,
+		level = 'PRIMARIA',
 	): string {
 		switch (value) {
-			case SCHOOL_SUBJECT.LENGUA_ESPANOLA:
+			case SchoolSubject.LENGUA_ESPANOLA:
 			case 'LENGUA_ESPANOLA':
 				return 'Lengua Española';
-			case SCHOOL_SUBJECT.MATEMATICA:
+			case SchoolSubject.MATEMATICA:
 			case 'MATEMATICA':
 				return 'Matemática';
-			case SCHOOL_SUBJECT.CIENCIAS_SOCIALES:
+			case SchoolSubject.CIENCIAS_SOCIALES:
 			case 'CIENCIAS_SOCIALES':
 				return 'Ciencias Sociales';
-			case SCHOOL_SUBJECT.CIENCIAS_NATURALES:
+			case SchoolSubject.CIENCIAS_NATURALES:
 			case 'CIENCIAS_NATURALES':
 				return 'Ciencias de la Naturaleza';
-			case SCHOOL_SUBJECT.INGLES:
+			case SchoolSubject.INGLES:
 			case 'INGLES':
 				return 'Inglés';
-			case SCHOOL_SUBJECT.FRANCES:
+			case SchoolSubject.FRANCES:
 			case 'FRANCES':
 				return 'Francés';
-			case SCHOOL_SUBJECT.FORMACION_HUMANA:
+			case SchoolSubject.FORMACION_HUMANA:
 			case 'FORMACION_HUMANA':
 				return 'Formación Integral Humana y Religiosa';
-			case SCHOOL_SUBJECT.EDUCACION_FISICA:
+			case SchoolSubject.EDUCACION_FISICA:
 			case 'EDUCACION_FISICA':
 				return 'Educación Física';
-			case SCHOOL_SUBJECT.EDUCACION_ARTISTICA:
+			case SchoolSubject.EDUCACION_ARTISTICA:
 			case 'EDUCACION_ARTISTICA':
 				return 'Educación Artística';
-			case SCHOOL_SUBJECT.TALLERES_OPTATIVOS:
+			case SchoolSubject.TALLERES_OPTATIVOS:
 			case 'TALLERES_OPTATIVOS':
 				return 'Talleres Optativos';
 			case 'MANUALES':

@@ -1,4 +1,4 @@
-import { Component, Inject, inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, inject, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -200,7 +200,7 @@ import { Subject, takeUntil } from 'rxjs';
 	`,
 	styles: 'mat-form-field {width: 100%;}',
 })
-export class LogRegistryEntryEditFormComponent implements OnInit {
+export class LogRegistryEntryEditFormComponent implements OnInit, OnDestroy {
 	#store = inject(Store);
 	#actions$ = inject(Actions);
 	private dialogRef = inject(MatDialogRef<LogRegistryEntryEditFormComponent>);

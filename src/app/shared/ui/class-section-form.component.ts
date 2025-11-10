@@ -1,4 +1,4 @@
-import { Component, computed, Inject, inject } from '@angular/core';
+import { Component, computed, Inject, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -93,7 +93,7 @@ import { Subject } from 'rxjs';
 	`,
 	styles: 'mat-form-field {width: 100%}',
 })
-export class ClassSectionFormComponent {
+export class ClassSectionFormComponent implements OnDestroy, OnInit {
 	private fb = inject(FormBuilder);
 	private dialogRef = inject(MatDialogRef<ClassSectionFormComponent>);
 	#store = inject(Store);
