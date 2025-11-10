@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal, OnInit } from '@angular/core';
 import {
 	DiagnosticEvaluationService,
 	UserService,
@@ -317,7 +317,7 @@ import { saveAs } from 'file-saver';
 		}
 	`,
 })
-export class DiagnosticEvaluationDetailComponent {
+export class DiagnosticEvaluationDetailComponent implements OnInit {
 	private diagnosticEvaluationService = inject(DiagnosticEvaluationService);
 	private route = inject(ActivatedRoute);
 	private router = inject(Router);

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
@@ -226,7 +226,7 @@ import {
 		}
 	`,
 })
-export class ImprovementPlanGeneratorComponent implements OnInit {
+export class ImprovementPlanGeneratorComponent implements OnInit, OnDestroy {
 	#store = inject(Store);
 	#actions$ = inject(Actions);
 	private sb = inject(MatSnackBar);

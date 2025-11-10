@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
@@ -153,7 +153,7 @@ import { HttpClient } from '@angular/common/http';
 		}
 	`,
 })
-export class AdminDashboardComponent {
+export class AdminDashboardComponent implements OnInit {
 	#userService = inject(UserService);
 	#unitPlanService = inject(UnitPlanService);
 	#classPlanService = inject(ClassPlansService);

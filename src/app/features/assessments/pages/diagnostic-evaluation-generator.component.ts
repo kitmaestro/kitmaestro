@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal, OnDestroy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
@@ -366,7 +366,7 @@ import { Subject, takeUntil } from 'rxjs';
 		}
 	`,
 })
-export class DiagnosticEvaluationGeneratorComponent implements OnInit {
+export class DiagnosticEvaluationGeneratorComponent implements OnInit, OnDestroy {
 	// Inyección de dependencias
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
@@ -677,7 +677,7 @@ Asegúrate de que las preguntas sean apropiadas para el nivel académico de ${gr
 	}
 
 	prevGrade(section: ClassSection): { year: string; level: string } {
-		const yearMap: { [key: string]: string } = {
+		const yearMap: Record<string, string> = {
 			PRIMERO: 'SEXTO',
 			SEGUNDO: 'PRIMERO',
 			TERCERO: 'SEGUNDO',

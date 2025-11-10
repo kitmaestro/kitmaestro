@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit, OnDestroy } from '@angular/core';
 import {
 	FormArray,
 	FormBuilder,
@@ -295,7 +295,7 @@ import { PretifyPipe } from '../../../shared';
 		}
 	`,
 })
-export class EstimationScaleGeneratorComponent implements OnInit {
+export class EstimationScaleGeneratorComponent implements OnInit, OnDestroy {
 	#store = inject(Store);
 	#actions$ = inject(Actions);
 	private pdfService = inject(PdfService);

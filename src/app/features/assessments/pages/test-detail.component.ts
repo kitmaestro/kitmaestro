@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -82,7 +82,7 @@ import { Subject, takeUntil } from 'rxjs';
 		}
 	`,
 })
-export class TestDetailComponent implements OnInit {
+export class TestDetailComponent implements OnInit, OnDestroy {
 	#store = inject(Store);
 	#actions$ = inject(Actions);
 	private route = inject(ActivatedRoute);

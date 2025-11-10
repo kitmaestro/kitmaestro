@@ -42,6 +42,8 @@ import {
 	DidacticPlansEffects,
 	DidacticActivitiesEffects,
 	ActivityResourcesEffects,
+	ImprovementPlansEffects,
+	RecoveryPlansEffects,
 } from './store';
 import { ChecklistsEffects } from './store/checklists/checklists.effects';
 import { provideRouterStore } from '@ngrx/router-store';
@@ -102,6 +104,8 @@ export const appConfig: ApplicationConfig = {
 			AiEffects,
 			DidacticActivitiesEffects,
 			ActivityResourcesEffects,
+			ImprovementPlansEffects,
+			RecoveryPlansEffects,
 		),
 		provideRouterStore(),
 	],

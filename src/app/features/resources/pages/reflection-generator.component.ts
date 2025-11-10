@@ -3,7 +3,7 @@ import {
 	signal,
 	inject,
 	computed,
-	ChangeDetectionStrategy,
+	ChangeDetectionStrategy, OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // Needed for ngModel with signals
 
@@ -364,7 +364,7 @@ import { loadCurrentSubscription } from '../../../store';
 	`,
 	changeDetection: ChangeDetectionStrategy.OnPush, // Use OnPush for performance with signals
 })
-export class ReflectionGeneratorComponent {
+export class ReflectionGeneratorComponent implements OnInit {
 	#store = inject(Store);
 	#aiService = inject(AiService);
 	#snackBar = inject(MatSnackBar);

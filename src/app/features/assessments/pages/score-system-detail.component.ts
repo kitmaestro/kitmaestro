@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GradingActivity, GroupedGradingActivity } from '../../../core';
 import { MatButtonModule } from '@angular/material/button';
@@ -70,7 +70,7 @@ import { selectIsPremium } from '../../../store/user-subscriptions/user-subscrip
 		</div>
 	`,
 })
-export class ScoreSystemDetailComponent implements OnInit {
+export class ScoreSystemDetailComponent implements OnInit, OnDestroy {
 	#store = inject(Store);
 	#actions$ = inject(Actions);
 	private route = inject(ActivatedRoute);

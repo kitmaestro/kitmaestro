@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -62,7 +62,7 @@ import { updateTodo } from '../../../store';
 		</mat-dialog-content>
 	`,
 })
-export class TodoFormComponent {
+export class TodoFormComponent implements OnInit {
 	#store = inject(Store);
 	private fb = inject(FormBuilder);
 	private data = inject<Todo>(MAT_DIALOG_DATA);

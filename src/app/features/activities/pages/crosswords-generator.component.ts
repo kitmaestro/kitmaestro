@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { GamesService } from '../../../core/services/games.service';
 import { CrossWordLayout } from '../../../core/lib';
 import { MatButtonModule } from '@angular/material/button';
@@ -447,7 +447,7 @@ import { filter, Subject, takeUntil } from 'rxjs';
 		}
 	`,
 })
-export class CrosswordsGeneratorComponent implements OnInit {
+export class CrosswordsGeneratorComponent implements OnInit, OnDestroy {
 	gamesService = inject(GamesService);
 	fb = inject(FormBuilder);
 	pdfService = inject(PdfService);

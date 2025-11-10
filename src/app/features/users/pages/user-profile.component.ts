@@ -164,7 +164,7 @@ import { selectAuthUser, updateProfile } from '../../../store';
 						{{
 							subscriptionIsOver()
 								? 'Expirada'
-								: userSubscription()?.status == 'active'
+								: userSubscription()?.status === 'active'
 									? 'Activa'
 									: 'Inactiva'
 						}}
@@ -188,7 +188,7 @@ import { selectAuthUser, updateProfile } from '../../../store';
 						<mat-icon>rocket</mat-icon>
 						{{
 							!userSubscription() ||
-							userSubscription()?.subscriptionType == 'FREE'
+							userSubscription()?.subscriptionType === 'FREE'
 								? 'Adquirir Suscripci&oacute;n'
 								: 'Cambiar mi Plan'
 						}}

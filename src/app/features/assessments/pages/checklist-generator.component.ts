@@ -4,7 +4,7 @@ import {
 	effect,
 	inject,
 	OnInit,
-	signal,
+	signal, OnDestroy,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -273,7 +273,7 @@ import { Subject, takeUntil } from 'rxjs';
 		}
 	`,
 })
-export class ChecklistGeneratorComponent implements OnInit {
+export class ChecklistGeneratorComponent implements OnInit, OnDestroy {
 	private fb = inject(FormBuilder);
 	private sb = inject(MatSnackBar);
 	private router = inject(Router);

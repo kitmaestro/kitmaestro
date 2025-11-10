@@ -11,7 +11,7 @@ import supportRoutes from './features/support/support.routes';
 import publicRoutes from './features/public/public.routes';
 import { PrintLayoutComponent } from './layouts/print-layout.component';
 import { PublicLayoutComponent } from './layouts/public-layout.component';
-import classPlanningRoutes from './features/class-planning/class-planning.routes';
+import planningRoutes from './features/planning/planning.routes';
 import usersRoutes from './features/users/users.routes';
 import activitiesRoutes from './features/activities/activities.routes';
 import registryRoutes from './features/registry/registry.routes';
@@ -54,7 +54,7 @@ export const routes: Routes = [
 			},
 			{ path: 'users', children: usersRoutes },
 			{ path: 'profile', redirectTo: '/users/me' },
-			{ path: 'planning', children: classPlanningRoutes },
+			{ path: 'planning', children: planningRoutes },
 			{ path: 'support', children: supportRoutes },
 			{ path: 'sections', children: sectionsRoutes },
 			{ path: 'registry', children: registryRoutes },
@@ -74,21 +74,14 @@ export const routes: Routes = [
 
 	{
 		path: '',
-		component: MainLayoutComponent,
-		canActivate: [authGuard],
-		children: classPlanningRoutes,
-	},
-
-	{
-		path: '',
 		component: PrintLayoutComponent,
 		children: [
 			{
 				path: 'print-unit-plan/:id',
 				loadComponent: () =>
-					import(
-						'./features/class-planning/pages/unit-plan-detail.component'
-					).then((mod) => mod.UnitPlanDetailComponent),
+					import('./features/planning/pages/unit-plan-detail.component').then(
+						(mod) => mod.UnitPlanDetailComponent,
+					),
 				title: 'Plan de Unidad',
 			},
 		],

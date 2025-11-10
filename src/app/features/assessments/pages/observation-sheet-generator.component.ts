@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal, OnDestroy } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -294,7 +294,7 @@ import { Subject, takeUntil } from 'rxjs';
 		}
 	`,
 })
-export class ObservationSheetGeneratorComponent implements OnInit {
+export class ObservationSheetGeneratorComponent implements OnInit, OnDestroy {
 	#store = inject(Store);
 	#actions$ = inject(Actions);
 	private fb = inject(FormBuilder);
@@ -499,7 +499,7 @@ export class ObservationSheetGeneratorComponent implements OnInit {
 		}
 	}
 
-	loadCompetences(id: string = '') {
+	loadCompetences(id = '') {
 		const sectionId = id || this.sheetForm.value.group;
 		if (!sectionId) return;
 

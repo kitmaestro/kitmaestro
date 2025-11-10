@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PdfService } from '../../../core/services/pdf.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -106,7 +106,7 @@ import {
 		}
 	`,
 })
-export class EstimationScaleDetailComponent implements OnInit {
+export class EstimationScaleDetailComponent implements OnInit, OnDestroy {
 	#store = inject(Store);
 	#actions$ = inject(Actions);
 	private pdfService = inject(PdfService);

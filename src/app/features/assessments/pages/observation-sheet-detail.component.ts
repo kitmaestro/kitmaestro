@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -67,7 +67,7 @@ import { Subject, takeUntil } from 'rxjs';
 		}
 	`,
 })
-export class ObservationSheetDetailComponent implements OnInit {
+export class ObservationSheetDetailComponent implements OnInit, OnDestroy {
 	#store = inject(Store);
 	#actions$ = inject(Actions);
 	private pdfService = inject(PdfService);

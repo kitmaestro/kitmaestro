@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectIsAuthenticated } from '../store/auth/auth.selectors';
@@ -65,7 +65,7 @@ import { selectIsAuthenticated } from '../store/auth/auth.selectors';
 		}
 	`,
 })
-export class AuthLayoutComponent {
+export class AuthLayoutComponent implements OnInit {
 	#router = inject(Router);
 	#store = inject(Store);
 	#isAuthenticated = this.#store.select(selectIsAuthenticated);

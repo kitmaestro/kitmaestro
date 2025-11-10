@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, OnInit } from '@angular/core';
+import { Component, effect, inject, input, OnInit, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
@@ -392,7 +392,7 @@ import { selectSectionStudents } from '../../../store/students/students.selector
 		}
 	`,
 })
-export class RubricGeneratorComponent implements OnInit {
+export class RubricGeneratorComponent implements OnInit, OnDestroy {
 	#store = inject(Store);
 	#actions$ = inject(Actions);
 	private sb = inject(MatSnackBar);

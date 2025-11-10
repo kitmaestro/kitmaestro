@@ -22,7 +22,7 @@ import {
 	MatDialog,
 	MatDialogModule,
 } from '@angular/material/dialog';
-import { SCHOOL_SUBJECT } from '../../../core/enums/school-subject.enum';
+import { SchoolSubject } from '../../../core/enums/school-subject.enum';
 import { Store } from '@ngrx/store';
 import { loadUser, updateUser } from '../../../store/users/users.actions';
 import { selectAuthUser } from '../../../store/auth/auth.selectors';
@@ -92,7 +92,7 @@ import { UserSubscriptionDto } from '../../../store/user-subscriptions/user-subs
 		`,
 	],
 })
-class SectionCreatorComponent {
+class SectionCreatorComponent implements OnInit {
 	private dialogRef = inject(MatDialogRef<SectionCreatorComponent>);
 	private data = inject<ClassSection>(MAT_DIALOG_DATA);
 
@@ -110,7 +110,7 @@ class SectionCreatorComponent {
 		{ value: 'QUINTO', label: 'Quinto' },
 		{ value: 'SEXTO', label: 'Sexto' },
 	];
-	subjectOptions = Object.values(SCHOOL_SUBJECT);
+	subjectOptions = Object.values(SchoolSubject);
 
 	ngOnInit() {
 		if (this.data.user) this.user.set(this.data.user._id);

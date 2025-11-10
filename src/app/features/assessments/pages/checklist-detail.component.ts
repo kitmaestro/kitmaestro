@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { ChecklistComponent } from '../components/checklist.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -69,7 +69,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 		</div>
 	`,
 })
-export class ChecklistDetailComponent implements OnInit {
+export class ChecklistDetailComponent implements OnInit, OnDestroy {
 	#store = inject(Store);
 	#actions$ = inject(Actions);
 	private route = inject(ActivatedRoute);

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loadAuthUser } from './store/auth';
@@ -8,7 +8,7 @@ import { loadAuthUser } from './store/auth';
 	imports: [RouterOutlet],
 	template: '<router-outlet />',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 	#store = inject(Store);
 
 	ngOnInit() {

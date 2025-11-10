@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ClassSection } from '../../../core';
@@ -222,7 +222,7 @@ const uniq = <T>(arr: T[]) => [...new Set(arr)];
 		}
 	`,
 })
-export class ScoreSystemGeneratorComponent implements OnInit {
+export class ScoreSystemGeneratorComponent implements OnInit, OnDestroy {
 	#store = inject(Store);
 	#actions$ = inject(Actions);
 	private sb = inject(MatSnackBar);

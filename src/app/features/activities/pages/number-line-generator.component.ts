@@ -44,7 +44,7 @@ import { saveAs } from 'file-saver';
 // Note: Buffer might be needed for ImageRun depending on environment/setup.
 // If running in Node-like env, Buffer is global. In browser, polyfills might be needed or use alternative methods if Buffer isn't available.
 // Assuming Buffer is available for simplicity here.
-declare var Buffer: any; // Declare Buffer if not globally recognized by TS
+declare let Buffer: any; // Declare Buffer if not globally recognized by TS
 
 // --- Constants ---
 const PIXELS_PER_CM = 37.8; // Approximate pixels per cm (assuming ~96 DPI)
