@@ -67,7 +67,7 @@ export class UpdatesEffects {
 		this.#actions$.pipe(
 			ofType(UpdatesActions.createUpdate),
 			switchMap(({ update }) =>
-				this.#updateService.create(update as any).pipe(
+				this.#updateService.create(update).pipe(
 					map((newUpdate) => {
 						this.#sb.open(
 							'La actualización ha sido creada',
@@ -99,7 +99,7 @@ export class UpdatesEffects {
 		this.#actions$.pipe(
 			ofType(UpdatesActions.updateUpdate),
 			switchMap(({ id, data }) =>
-				this.#updateService.update(id, data as any).pipe(
+				this.#updateService.update(id, data).pipe(
 					map((updatedUpdate) => {
 						this.#sb.open(
 							'La actualización fue actualizada',

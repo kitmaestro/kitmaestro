@@ -1,11 +1,11 @@
 import { DidacticSequence } from '../../core/models';
 import { TableOfContentsItem } from '../../core';
-import { SchoolLevel, SchoolSubject, SchoolYear } from '../../core/types';
+import { SchoolLevel, TSchoolSubject, SchoolYear } from '../../core/types';
 
 export interface DidacticSequenceDto {
 	level: SchoolLevel;
 	year: SchoolYear;
-	subject: SchoolSubject;
+	subject: TSchoolSubject;
 	tableOfContents: TableOfContentsItem[];
 }
 

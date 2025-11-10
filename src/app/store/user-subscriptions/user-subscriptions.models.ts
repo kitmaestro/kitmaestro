@@ -1,9 +1,8 @@
 import { UserSubscription } from '../../core/models';
 
 export interface UserSubscriptionDto {
-	user: string;
+	user?: string;
 	subscriptionType: string;
-	name: string;
 	status: string;
 	startDate: Date;
 	endDate: Date;

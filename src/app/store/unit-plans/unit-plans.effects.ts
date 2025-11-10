@@ -45,7 +45,7 @@ export class UnitPlansEffects {
 				this.#unitPlanService.findAll(filters).pipe(
 					map((plans) =>
 						UnitPlansActions.loadUnitPlansSuccess({
-							plans: plans as any[],
+							plans,
 						}),
 					),
 					catchError((error) => {

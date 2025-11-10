@@ -1,11 +1,11 @@
 import { ContentBlock } from '../../core/models';
-import { SchoolLevel, SchoolSubject, SchoolYear } from '../../core/types';
+import { SchoolLevel, TSchoolSubject, SchoolYear } from '../../core';
 
 export interface ContentBlockDto {
 	title: string;
 	level: SchoolLevel;
 	year: SchoolYear;
-	subject: SchoolSubject;
+	subject: TSchoolSubject;
 	order: number;
 	concepts: string[];
 	procedures: string[];
