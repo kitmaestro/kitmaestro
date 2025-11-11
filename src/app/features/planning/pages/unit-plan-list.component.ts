@@ -178,7 +178,6 @@ export class UnitPlanListComponent implements OnInit {
 
 	async download(plan: UnitPlan) {
 		const user = this.user();
-		console.log(this.classPlans())
 		const classPlans = this.classPlans().filter(
 			(c) =>
 				c.unitPlan ? (typeof c.unitPlan === 'string'

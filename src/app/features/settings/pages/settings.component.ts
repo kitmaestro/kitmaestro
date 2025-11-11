@@ -40,28 +40,90 @@ import { MatRadioModule } from "@angular/material/radio";
 			</div>
 			<div style="margin-bottom: 12px;">
 				<mat-label class="title"
+					>Color de Plantilla Preferido</mat-label
+				>
+				<mat-radio-group
+					formControlName="preferredTemplateColor"
+					class="radio-group"
+				>
+					<div
+						style="
+							display: grid;
+							gap: 12px;
+							align-items: center;
+							margin-top: 12px;
+							grid-template-columns: repeat(8, 1fr);
+						"
+					>
+						@for (
+							templateColor of templateColors;
+							track templateColor.value
+						) {
+							<mat-radio-button
+								[value]="templateColor.value"
+								class="radio-button"
+							>
+								<div
+									style="
+										display: flex;
+										align-items: center;
+										gap: 12px;
+									"
+								>
+									<div
+										style="
+											border: 2px solid #ccc;
+											width: 48px;
+											height: 48px;
+											border-radius: 50%;
+											background-color: {{
+												templateColor.value
+											}};
+											display: inline-block;
+											vertical-align: middle;
+										"
+										[title]="templateColor.label"
+									></div>
+								</div>
+							</mat-radio-button>
+						}
+					</div>
+				</mat-radio-group>
+			</div>
+			<div style="margin-bottom: 12px;">
+				<mat-label class="title"
 					>Esquema de Plan de Unidad Preferido</mat-label
 				>
-				<mat-radio-group formControlName="preferredUnitPlanScheme">
+				<mat-radio-group
+					formControlName="preferredUnitPlanScheme"
+					class="radio-group"
+				>
 					<div
-						style="display: grid; gap: 12px; align-items: center; margin-top: 12px; grid-template-columns: 1fr;"
+						style="
+							display: grid;
+							gap: 12px;
+							align-items: center;
+							margin-top: 12px;
+						"
 					>
 						@for (
 							unitPlanScheme of unitPlanSchemes;
 							track unitPlanScheme.value
 						) {
-							<div>
-								<mat-radio-button
-									[value]="unitPlanScheme.value"
-								>
-									<img
-										[alt]="unitPlanScheme.label"
-										[src]="unitPlanScheme.previewUrl"
-										style="max-height: 512px; object-fit: cover;"
-									/>
-									<div>{{ unitPlanScheme.label }}</div>
-								</mat-radio-button>
-							</div>
+							<mat-radio-button
+								[value]="unitPlanScheme.value"
+								class="radio-button"
+							>
+								<img
+									[alt]="unitPlanScheme.label"
+									[src]="unitPlanScheme.previewUrl"
+									style="
+										max-height: 256px;
+										object-fit: cover;
+									"
+								/>
+								<div>{{ unitPlanScheme.label }}</div>
+							</mat-radio-button>
 						}
 					</div>
 				</mat-radio-group>
@@ -70,31 +132,45 @@ import { MatRadioModule } from "@angular/material/radio";
 				<mat-label class="title"
 					>Esquema de Plan Diario Preferido</mat-label
 				>
-				<mat-radio-group formControlName="preferredClassPlanScheme">
+				<mat-radio-group
+					formControlName="preferredClassPlanScheme"
+					class="radio-group"
+				>
 					<div
-						style="display: grid; gap: 12px; align-items: center; margin-top: 12px; grid-template-columns: 1fr;"
+						style="
+							display: grid;
+							gap: 12px;
+							align-items: center;
+							margin-top: 12px;
+							grid-template-columns: repeat(
+								auto-fill,
+								minmax(150px, 1fr)
+							);
+						"
 					>
 						@for (
 							classPlanScheme of classPlanSchemes;
 							track classPlanScheme.value
 						) {
-							<div>
-								<mat-radio-button
-									[value]="classPlanScheme.value"
-								>
-									<img
-										[alt]="classPlanScheme.label"
-										[src]="classPlanScheme.previewUrl"
-										style="max-height: 512px; object-fit: cover;"
-									/>
-									<div>{{ classPlanScheme.label }}</div>
-								</mat-radio-button>
-							</div>
+							<mat-radio-button
+								[value]="classPlanScheme.value"
+								class="radio-button"
+							>
+								<img
+									[alt]="classPlanScheme.label"
+									[src]="classPlanScheme.previewUrl"
+									style="
+										max-height: 256px;
+										object-fit: cover;
+									"
+								/>
+								<div>{{ classPlanScheme.label }}</div>
+							</mat-radio-button>
 						}
 					</div>
 				</mat-radio-group>
 			</div>
-			<div style="text-align: end">
+			<div style="text-align: end; padding-bottom: 42px;">
 				<button
 					mat-flat-button
 					type="submit"
@@ -110,6 +186,16 @@ import { MatRadioModule } from "@angular/material/radio";
 	styles: `
 		mat-label.title {
 			font-weight: bold;
+		}
+
+		.radio-group {
+			display: contents;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.radio-button {
+			padding-block: 12px;
 		}
 	`,
 })
@@ -142,20 +228,32 @@ export class SettingsComponent {
 			label: 'Plan Diario v1',
 			previewUrl: '/assets/classplan1.png',
 		},
-		{
-			value: 'classplan2',
-			label: 'Plan Diario v2',
-			previewUrl:
-				'https://firebasestorage.googleapis.com/v0/b/kit-maestro.appspot.com/o/assets%2FScreenshot%202025-11-04%20at%2009-26-45%20ESQUEMA%20DE%20PLANIFICACI%C3%93N%20POR%20UNIDAD%201.pdf.png?alt=media&token=4ec7c38f-68a6-4451-990e-ee5667f963f6',
-		},
+		// {
+		// 	value: 'classplan2',
+		// 	label: 'Plan Diario v2',
+		// 	previewUrl:
+		// 		'https://firebasestorage.googleapis.com/v0/b/kit-maestro.appspot.com/o/assets%2FScreenshot%202025-11-04%20at%2009-26-45%20ESQUEMA%20DE%20PLANIFICACI%C3%93N%20POR%20UNIDAD%201.pdf.png?alt=media&token=4ec7c38f-68a6-4451-990e-ee5667f963f6',
+		// },
 		// { value: 'classplan3', label: 'Plan Diario Sin Tablas', previewUrl: '//picsum.photos/seed/classplan3/512', },
 	];
+
+	templateColors = [
+		{ value: '#00b0ff', label: 'Azul Claro' },
+		{ value: '#ff4081', label: 'Rosado' },
+		{ value: '#673ab7', label: 'Morado Intenso' },
+		{ value: '#4caf50', label: 'Verde' },
+		{ value: '#ff9800', label: 'Naranja' },
+		{ value: '#9e9e9e', label: 'Gris' },
+		{ value: '#000000', label: 'Negro' },
+		{ value: '#ffffff', label: 'Blaco' },
+	]
 
 	settingsForm = this.#fb.group({
 		complementaryActivitiesInClassPlans: [true],
 		achievementIndicatorInClassPlans: [true],
 		preferredUnitPlanScheme: ['unitplan1'],
 		preferredClassPlanScheme: ['classplan1'],
+		preferredTemplateColor: ['#00b0ff'],
 	});
 
 	constructor() {
@@ -167,31 +265,27 @@ export class SettingsComponent {
 					achievementIndicatorInClassPlans,
 					preferredUnitPlanScheme,
 					preferredClassPlanScheme,
+					preferredTemplateColor,
 				} = settings;
 				this.settingsForm.patchValue({
-					complementaryActivitiesInClassPlans:
-						complementaryActivitiesInClassPlans as boolean,
-					achievementIndicatorInClassPlans:
-						achievementIndicatorInClassPlans as boolean,
+					complementaryActivitiesInClassPlans: complementaryActivitiesInClassPlans as boolean,
+					achievementIndicatorInClassPlans: achievementIndicatorInClassPlans as boolean,
 					preferredUnitPlanScheme: preferredUnitPlanScheme as string,
-					preferredClassPlanScheme:
-						preferredClassPlanScheme as string,
+					preferredClassPlanScheme: preferredClassPlanScheme as string,
+					preferredTemplateColor:
+						(preferredTemplateColor as string) ?? '#00b0ff',
 				});
 			}
 		});
 	}
 
 	onSubmit() {
-		const settings: {
+		const settings = this.settingsForm.getRawValue() as {
 			complementaryActivitiesInClassPlans: boolean;
 			achievementIndicatorInClassPlans: boolean;
 			preferredUnitPlanScheme: string;
 			preferredClassPlanScheme: string;
-		} = this.settingsForm.getRawValue() as {
-			complementaryActivitiesInClassPlans: boolean;
-			achievementIndicatorInClassPlans: boolean;
-			preferredUnitPlanScheme: string;
-			preferredClassPlanScheme: string;
+			preferredTemplateColor: string;
 		};
 		this.#store.dispatch(updateProfile({ data: { settings } }));
 	}

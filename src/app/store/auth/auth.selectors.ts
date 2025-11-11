@@ -61,5 +61,10 @@ export const selectCheckingAuth = createSelector(
 export const selectAuthUserSettings = createSelector(
 	selectAuthUser,
 	(user) => user ? user.settings || {
-		complementaryActivitiesInClassPlans: true, achievementIndicatorInClassPlans: true, preferredUnitPlanScheme: 'unitplan1', preferredClassPlanScheme: 'classplan1' } : null
+		complementaryActivitiesInClassPlans: true,
+		achievementIndicatorInClassPlans: true,
+		preferredUnitPlanScheme: 'unitplan1',
+		preferredClassPlanScheme: 'classplan1',
+		preferredTemplateColor: '#00b0ff'
+	} : null
 );

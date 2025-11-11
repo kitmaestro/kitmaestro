@@ -14,6 +14,8 @@ import {
 	Packer,
 	Document,
 	ISectionOptions,
+	ShadingType,
+	VerticalAlign,
 } from 'docx';
 import saveAs from 'file-saver';
 import { PretifyPipe } from '../../shared/pipes';
@@ -127,6 +129,10 @@ export class UnitPlanService {
 			children,
 			heading,
 			alignment,
+			spacing: {
+				before: 2,
+				after: 2,
+			}
 		})
 	}
 
@@ -411,11 +417,214 @@ export class UnitPlanService {
 	}
 
 	#createHeaderCell(text: string, columnSpan = 1, rowSpan = 1, center = false) {
+		const settings = this.settings()
+		const fill = (settings?.['preferredTemplateColor'] as string).slice(1) ?? '00b0ff';
 		return new TableCell({
-			children: [new Paragraph({ children: [new TextRun({ text, bold: true })], alignment: center ? AlignmentType.CENTER : AlignmentType.LEFT })],
+			children: [new Paragraph({ children: [new TextRun({ text, bold: true })], alignment: center ? AlignmentType.CENTER : AlignmentType.LEFT, spacing: { before: 2, after: 2 } })],
 			columnSpan,
 			rowSpan,
+			verticalAlign: VerticalAlign.CENTER,
+			shading: { fill, color: 'auto', type: ShadingType.CLEAR },
 		})
+	}
+
+	#createUnitPlanV2(plan: UnitPlan, classPlans: ClassPlan[], user: User): ISectionOptions {
+		const isPrimary = (plan.sections.length ? plan.sections[0] : plan.section).level === 'PRIMARIA'
+		const compCat = isPrimary ? ['Comunicativa', 'Pensamiento Logico', 'Etica Y Ciudadana'] : ['Comunicativa', 'Pensamiento Logico', 'Resolucion De Problemas', 'Ciencia Y Tecnologia', 'Etica Y Ciudadana', 'Desarrollo Personal Y Espiritual', 'Ambiental Y De La Salud'];
+		const unitPlanTable = new Table({
+			width: {
+				size: '100%',
+				type: WidthType.PERCENTAGE,
+			},
+			columnWidths: [
+				12.5,
+				12.5,
+				12.5,
+				12.5,
+				12.5,
+				12.5,
+				12.5,
+				12.5,
+			],
+			rows: [
+				//identification
+				new TableRow({ children: [
+					this.#createHeaderCell('Competencias Fundamentales', 1, 1, true),
+					...(isPrimary ?
+					compCat.map((c, i) => this.#createCell(this.#pretify(c), i === 1 ? 3 : 2)) :
+					plan.competence.map((c) => this.#createCell(this.#pretify(c.name, 'SECUNDARIA'))))
+				] }),
+				new TableRow({ children: [
+					this.#createHeaderCell('Competencias Específicas del Grado', 1, 1, true),
+					...(isPrimary ?
+						compCat.map((cat, i) => this.#createCellWithList(plan.competence.filter(e => e.name == cat).flatMap(c => c.entries), i === 1 ? 3 : 2)) :
+						plan.competence.map((c) => this.#createCellWithList(c.entries)))
+				] }),
+				new TableRow({ children: [
+					this.#createHeaderCell('Criterios de Evaluación', 1, 1, true),
+					...(isPrimary ?
+						compCat.map((cat, i) => this.#createCellWithList(plan.competence.filter(e => e.name == cat).flatMap(c => c.criteria), i === 1 ? 3 : 2)) :
+						plan.competence.map((c) => this.#createCellWithList(c.criteria)))
+				] }),
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Eje Transversal'),
+						this.#createCell(`${plan.mainThemeCategory}: ${plan.mainThemes.flatMap(t => t.topics).join(', ')}`, 7),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell(`Área${plan.subjects.length > 1 ? 's' : ''} Articulada${plan.subjects.length > 1 ? 's' : ''}`),
+						this.#createCellWithList(plan.subjects.map(s => this.#pretify(s)), 7),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Estrategias de Enseñanza y Aprendizaje'),
+						this.#createCellWithList(plan.strategies, 7),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Situación de Aprendizaje'),
+						this.#createCell(this.#markdownCleanUp(plan.learningSituation), 7),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Contenidos', 6, 1, true),
+						this.#createHeaderCell('Criterios de evaluación', 1, 2, true),
+						this.#createHeaderCell('Indicadores de Logro', 1, 2, true),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Conceptuales', 2, 1, true),
+						this.#createHeaderCell('Procedimentales', 2, 1, true),
+						this.#createHeaderCell('Actitudinales', 2, 1, true),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createCellWithList(plan.contents.flatMap(c => c.concepts), 2),
+						this.#createCellWithList(plan.contents.flatMap(c => c.procedures), 2),
+						this.#createCellWithList(plan.contents.flatMap(c => c.attitudes), 2),
+						this.#createCellWithList(plan.competence.flatMap(c => c.criteria).filter((v, i, a) => a.indexOf(v) === i)),
+						this.#createCellWithList(plan.contents.flatMap(c => c.achievement_indicators).filter((v, i, a) => a.indexOf(v) === i)),
+					]
+				}),
+				new TableRow({
+					children: [
+						this.#createHeaderCell('Actividades (de enseñanza, de aprendizaje y de evaluación)', 6, 1, true),
+						this.#createHeaderCell('Evaluación: Técnicas e instrumentos', 1, 1, true),
+						this.#createHeaderCell('Medios y Recursos', 1, 1, true),
+					]
+				}),
+				new TableRow({
+					children: [
+						new TableCell({ children: [
+							new Paragraph({ children: [new TextRun({ text: 'De enseñanza', bold: true })] }),
+							...plan.teacherActivities.flatMap(block => {
+								return [
+									new Paragraph({ children: plan.subjects.length == 1 ? [] : [new TextRun({ text: this.#pretify(block.subject), bold: true })] }),
+									...block.activities.map(activity => new Paragraph({ text: '- ' + this.#markdownCleanUp(activity) }))
+								]
+							}),
+							new Paragraph(''),
+							new Paragraph({ children: [new TextRun({ text: 'De aprendizaje', bold: true })] }),
+							...plan.studentActivities.flatMap(block => {
+								return [
+									new Paragraph({ children: plan.subjects.length == 1 ? [] : [new TextRun({ text: this.#pretify(block.subject), bold: true })] }),
+									...block.activities.map(activity => new Paragraph({ text: '- ' + this.#markdownCleanUp(activity) }))
+								]
+							}),
+							new Paragraph(''),
+							new Paragraph({ children: [new TextRun({ text: 'De evaluación', bold: true })] }),
+							...plan.evaluationActivities.flatMap(block => {
+								return [
+									new Paragraph({ children: plan.subjects.length == 1 ? [] : [new TextRun({ text: this.#pretify(block.subject), bold: true })] }),
+									...block.activities.map(activity => new Paragraph({ text: '- ' + this.#markdownCleanUp(activity) }))
+								]
+							}),
+						],
+						columnSpan: 6,
+					}),
+					this.#createCellWithList(plan.instruments),
+					this.#createCellWithList(plan.resources),
+					]
+				}),
+			]
+		})
+		const classPlanTables: Table[] = []
+		let sessionNumber = 1
+		for (const classPlan of classPlans) {
+			const date = new Date(classPlan.date).toISOString().split('T')[0].split('-').reverse().join('-')
+			const classPlanTable = new Table({
+				width: {
+					size: '100%',
+					type: WidthType.PERCENTAGE,
+				},
+				columnWidths: [20, 20, 20, 20, 20],
+				rows: [
+					new TableRow({
+						children: [
+							this.#createHeaderCell('#'),
+							this.#createHeaderCell('Fecha: ' + date),
+							this.#createHeaderCell('Área: ' + this.#pretify(classPlan.subject)),
+							this.#createHeaderCell(`Docente: ${user.title}. ${user.firstname} ${user.lastname}`),
+							this.#createHeaderCell('Grado y Sección: ' + classPlan.section.name),
+						]
+					}),
+					new TableRow({
+						children: [
+							this.#createHeaderCell('Intención Pedagógica'),
+							this.#createCell(classPlan.objective, 4),
+						]
+					}),
+					new TableRow({
+						children: [
+							this.#createHeaderCell('Indicador de Logro'),
+							this.#createCell(classPlan.achievementIndicator, 4),
+						]
+					}),
+					new TableRow({
+						children: [
+							this.#createHeaderCell('Competencias específicas del grado ', 2),
+							this.#createHeaderCell('Momentos/Actividades/Duración', 2),
+							this.#createHeaderCell('Recursos'),
+						]
+					}),
+					new TableRow({
+						children: [
+							this.#createCell(classPlan.competence, 2),
+							new TableCell({
+								children: [
+									new Paragraph({ children: [new TextRun({ text: `Inicio (${classPlan.introduction.duration} minutos):`, bold: true })]}),
+									...classPlan.introduction.activities.map((activity, i) => new Paragraph({ text: `Actividad ${i + 1}: ${this.#markdownCleanUp(activity)}` })),
+									new Paragraph({ children: [new TextRun({ text: `Desarrollo (${classPlan.main.duration} minutos):`, bold: true })]}),
+									...classPlan.main.activities.map((activity, i) => new Paragraph({ text: `Actividad ${i + 1}: ${this.#markdownCleanUp(activity)}` })),
+									new Paragraph({ children: [new TextRun({ text: `Cierre (${classPlan.closing.duration} minutos):`, bold: true })]}),
+									...classPlan.closing.activities.map((activity, i) => new Paragraph({ text: `Actividad ${i + 1}: ${this.#markdownCleanUp(activity)}` })),
+								],
+								columnSpan: 2,
+							}),
+							this.#createCellWithList([classPlan.introduction.resources, classPlan.main.resources, classPlan.closing.resources].flat()),
+						]
+					}),
+				]
+			})
+			classPlanTables.push(classPlanTable)
+			sessionNumber++
+		}
+		const section = {
+			properties: this.#documentProperties(false),
+			children: [
+				unitPlanTable,
+				new Paragraph(''),
+				...classPlanTables.flatMap(t => [t, new Paragraph('')])
+			]
+		}
+		return section
 	}
 
 	#createUnitPlanV1(plan: UnitPlan, classPlans: ClassPlan[], user: User): ISectionOptions {
@@ -532,7 +741,7 @@ export class UnitPlanService {
 				new TableRow({
 					children: [
 						this.#createHeaderCell('Situación de Aprendizaje'),
-						this.#createCell(plan.learningSituation, 6),
+						this.#createCell(this.#markdownCleanUp(plan.learningSituation), 6),
 					]
 				}),
 				new TableRow({ children: [this.#createHeaderCell('Competencias Fundamentales', 7, 1, true)] }),
@@ -595,11 +804,14 @@ export class UnitPlanService {
 				table
 			]
 		}
-		console.log(section)
 		return section
 	}
 
-	async download(plan: UnitPlan, classPlans: ClassPlan[] = [], user: User, unitPlanTemplate: 'unitplan1' | 'unitplan2' | 'unitplan3' = 'unitplan1', classPlanTemplate: 'classplan1' | 'classplan2' = 'classplan1') {
+	async download(plan: UnitPlan, classPlans: ClassPlan[] = [], user: User) {
+		const settings = this.settings();
+		if (!settings) return;
+		const unitPlanTemplate = settings['preferredUnitPlanScheme'] || 'unitplan1';
+		const classPlanTemplate = settings['preferredClassPlanScheme'] || 'classplan1';
 		const logoMinerd = await this.fetchLogo();
 		const config: { vertical: boolean, sections: ISectionOptions[] } = {
 			vertical: false,
@@ -612,6 +824,9 @@ export class UnitPlanService {
 				]
 				break;
 			case 'unitplan2':
+				config.sections = [
+					this.#createUnitPlanV2(plan, classPlans, user),
+				]
 				break;
 			case 'unitplan3':
 				config.vertical = true;
@@ -997,7 +1212,6 @@ export class UnitPlanService {
 		const doc = new Document({
 			sections: config.sections,
 		});
-		console.log(doc, config)
 		const blob = await Packer.toBlob(doc);
 		saveAs(blob, `${plan.title}.docx`);
 	}
