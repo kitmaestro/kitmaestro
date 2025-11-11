@@ -17,6 +17,14 @@ export default [
 		title: 'Generador de Planes de Recuperación',
 	},
 	{
+		path: 'recovery-plans',
+		loadComponent: () =>
+			import('./pages/recovery-plan-list.component').then(
+				(mod) => mod.RecoveryPlanListComponent,
+			),
+		title: 'Mis Planes de Recuperación',
+	},
+	{
 		path: 'recovery-plans/:id',
 		loadComponent: () =>
 			import('./pages/recovery-plan-detail.component').then(

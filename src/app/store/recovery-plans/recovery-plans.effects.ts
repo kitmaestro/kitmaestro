@@ -161,4 +161,34 @@ export class RecoveryPlansEffects {
 			),
 		),
 	);
+
+	downloadRecoveryPlan$ = createEffect(() =>
+		this.#actions$.pipe(
+			ofType(RecoveryPlansActions.downloadRecoveryPlan),
+			switchMap(({ recoveryPlan }) =>
+				of(this.#recoveryPlanService.download(recoveryPlan)).pipe(
+					map(() => {
+						this.#sb.open(
+							'El plan de recuperación ha sido descargado',
+							'Ok',
+							timing,
+						);
+						return RecoveryPlansActions.downloadRecoveryPlanSuccess();
+					}),
+					catchError((error) => {
+						this.#sb.open(
+							'Error al descargar el plan de recuperación',
+							'Ok',
+							timing,
+						);
+						return of(
+							RecoveryPlansActions.downloadRecoveryPlanFailure({
+								error: error.message,
+							}),
+						);
+					}),
+				),
+			),
+		),
+	);
 }

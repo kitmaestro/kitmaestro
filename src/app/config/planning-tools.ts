@@ -85,13 +85,13 @@ export const planningTools: AppEntry[] = [
 		icon: '/assets/undraw_studying_n5uj.svg',
 		tier: 3,
 	},
-	{
-		name: 'Generador de Plan de Mejora',
-		description: 'Crea planes de mejora personalizados.',
-		link: '/planning/improvement-plan-generator',
-		icon: '/assets/undraw_ideas_41b9.svg',
-		tier: 3,
-	},
+	// {
+	// 	name: 'Generador de Plan de Mejora',
+	// 	description: 'Crea planes de mejora personalizados.',
+	// 	link: '/planning/improvement-plan-generator',
+	// 	icon: '/assets/undraw_ideas_41b9.svg',
+	// 	tier: 3,
+	// },
 	{
 		name: 'Generador de Plan de Recuperación',
 		description: 'Crea planes de recuperación personalizados.',

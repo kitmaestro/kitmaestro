@@ -17,7 +17,7 @@ export const loadStudentFailed = createAction(
 );
 
 // Load all students (findAll)
-export const loadStudents = createAction('[Students] Load Students');
+export const loadStudents = createAction('[Students] Load Students', props<{ filters: Partial<StudentDto> }>());
 export const loadStudentsSuccess = createAction(
 	'[Students] Load Students Success',
 	props<{ students: Student[] }>(),

@@ -72,3 +72,16 @@ export const deleteRecoveryPlanFailed = createAction(
 	'[Recovery Plans] Delete Recovery Plan Failed',
 	props<{ error: string }>(),
 );
+
+// Download a recovery plan
+export const downloadRecoveryPlan = createAction(
+	'[Recovery Plans] Download Recovery Plan',
+	props<{ recoveryPlan: RecoveryPlan }>(),
+);
+export const downloadRecoveryPlanSuccess = createAction(
+	'[Recovery Plans] Download Recovery Plan Success',
+);
+export const downloadRecoveryPlanFailure = createAction(
+	'[Recovery Plans] Download Recovery Plan Failure',
+	props<{ error: string }>(),
+);

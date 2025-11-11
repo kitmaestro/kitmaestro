@@ -29,6 +29,10 @@ export const recoveryPlansReducer = createReducer(
 		...state,
 		status: RecoveryPlanStateStatus.DELETING_RECOVERY_PLAN,
 	})),
+	on(RecoveryPlansActions.downloadRecoveryPlan, (state) => ({
+		...state,
+		status: RecoveryPlanStateStatus.DOWNLOADING_RECOVERY_PLAN,
+	})),
 
 	// Handle failure cases
 	on(
@@ -37,6 +41,7 @@ export const recoveryPlansReducer = createReducer(
 		RecoveryPlansActions.createRecoveryPlanFailed,
 		RecoveryPlansActions.updateRecoveryPlanFailed,
 		RecoveryPlansActions.deleteRecoveryPlanFailed,
+		RecoveryPlansActions.downloadRecoveryPlanFailure,
 		(state, { error }) => ({
 			...state,
 			status: RecoveryPlanStateStatus.IDLING,
@@ -45,21 +50,30 @@ export const recoveryPlansReducer = createReducer(
 	),
 
 	// Handle success cases
-	on(RecoveryPlansActions.loadRecoveryPlanSuccess, (state, { recoveryPlan }) => ({
-		...state,
-		status: RecoveryPlanStateStatus.IDLING,
-		selectedRecoveryPlan: recoveryPlan,
-	})),
-	on(RecoveryPlansActions.loadRecoveryPlansSuccess, (state, { recoveryPlans }) => ({
-		...state,
-		status: RecoveryPlanStateStatus.IDLING,
-		recoveryPlans,
-	})),
-	on(RecoveryPlansActions.createRecoveryPlanSuccess, (state, { recoveryPlan }) => ({
-		...state,
-		status: RecoveryPlanStateStatus.IDLING,
-		recoveryPlans: [recoveryPlan, ...state.recoveryPlans],
-	})),
+	on(
+		RecoveryPlansActions.loadRecoveryPlanSuccess,
+		(state, { recoveryPlan }) => ({
+			...state,
+			status: RecoveryPlanStateStatus.IDLING,
+			selectedRecoveryPlan: recoveryPlan,
+		}),
+	),
+	on(
+		RecoveryPlansActions.loadRecoveryPlansSuccess,
+		(state, { recoveryPlans }) => ({
+			...state,
+			status: RecoveryPlanStateStatus.IDLING,
+			recoveryPlans,
+		}),
+	),
+	on(
+		RecoveryPlansActions.createRecoveryPlanSuccess,
+		(state, { recoveryPlan }) => ({
+			...state,
+			status: RecoveryPlanStateStatus.IDLING,
+			recoveryPlans: [recoveryPlan, ...state.recoveryPlans],
+		}),
+	),
 	on(
 		RecoveryPlansActions.updateRecoveryPlanSuccess,
 		(state, { recoveryPlan: updatedRecoveryPlan }) => ({
@@ -78,7 +92,13 @@ export const recoveryPlansReducer = createReducer(
 		...state,
 		status: RecoveryPlanStateStatus.IDLING,
 		selectedRecoveryPlan:
-			state.selectedRecoveryPlan?._id === id ? null : state.selectedRecoveryPlan,
+			state.selectedRecoveryPlan?._id === id
+				? null
+				: state.selectedRecoveryPlan,
 		recoveryPlans: state.recoveryPlans.filter((e) => e._id !== id),
+	})),
+	on(RecoveryPlansActions.downloadRecoveryPlanSuccess, (state) => ({
+		...state,
+		status: RecoveryPlanStateStatus.IDLING,
 	})),
 );
