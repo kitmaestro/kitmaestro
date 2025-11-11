@@ -30,3 +30,4 @@ export * from './updates';
 export * from './user-subscriptions';
 export * from './users';
 export * from './improvement-plans';
+export * from './global.selectors';

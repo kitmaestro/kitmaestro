@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { UsersState } from './users.models';
+import { UsersState, UserStateStatus } from './users.models';
 
 export const selectUsersState = createFeatureSelector<UsersState>('users');
 
@@ -21,4 +21,14 @@ export const selectUsersUsers = createSelector(
 export const selectUsersError = createSelector(
 	selectUsersState,
 	(state) => state.error,
+);
+
+export const selectUserLoading = createSelector(
+	selectUsersStatus,
+	(state) => state === UserStateStatus.LOADING_USER,
+);
+
+export const selectUsersLoading = createSelector(
+	selectUsersStatus,
+	(state) => state === UserStateStatus.LOADING_USERS,
 );

@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { DiagnosticEvaluationsState } from './diagnostic-evaluations.models';
+import { DiagnosticEvaluationsState, DiagnosticEvaluationStateStatus } from './diagnostic-evaluations.models';
 
 export const selectDiagnosticEvaluationsState =
 	createFeatureSelector<DiagnosticEvaluationsState>('diagnosticEvaluations');
@@ -22,4 +22,14 @@ export const selectEvaluationsStatus = createSelector(
 export const selectEvaluationsError = createSelector(
 	selectDiagnosticEvaluationsState,
 	(state) => state.error,
+);
+
+export const selectEvaluationsLoading = createSelector(
+	selectEvaluationsStatus,
+	(state) => state === DiagnosticEvaluationStateStatus.LOADING_EVALUATIONS,
+);
+
+export const selectEvaluationLoading = createSelector(
+	selectEvaluationsStatus,
+	(state) => state === DiagnosticEvaluationStateStatus.LOADING_EVALUATION,
 );

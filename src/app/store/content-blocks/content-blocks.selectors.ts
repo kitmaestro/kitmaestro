@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ContentBlocksState } from './content-blocks.models';
+import { ContentBlocksState, ContentBlockStateStatus } from './content-blocks.models';
 
 export const selectContentBlocksState =
 	createFeatureSelector<ContentBlocksState>('contentBlocks');
@@ -28,3 +28,14 @@ export const selectAllAchievementIndicators = createSelector(
 	selectAllContentBlocks,
 	blocks => blocks ? blocks.flatMap(block => block.achievement_indicators).filter((indicator, i, arr) => arr.indexOf(indicator) === i) : []
 );
+
+export const selectContentBlocksLoading = createSelector(
+	selectContentBlocksStatus,
+	(state) => state === ContentBlockStateStatus.LOADING_BLOCKS,
+);
+
+export const selectContentBlockLoading = createSelector(
+	selectContentBlocksStatus,
+	(state) => state === ContentBlockStateStatus.LOADING_BLOCK,
+);
+
