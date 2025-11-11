@@ -447,7 +447,13 @@ export class UnitPlanService {
 				12.5,
 			],
 			rows: [
-				//identification
+				new TableRow({ children: [this.#createHeaderCell(plan.title, 8, 1, true)] }),
+				new TableRow({ children: [
+					this.#createHeaderCell('Centro Educativo: ' + user.schoolName, 2),
+					this.#createHeaderCell(`Docente: ${user.title}. ${user.firstname} ${user.lastname}`, 2),
+					this.#createHeaderCell('Grados: ' + plan.sections.length ? plan.sections.map(s => `${this.#pretify(s.year)} ${this.#pretify(s.level)}`).join(', ') : plan.section.name, 2),
+					this.#createHeaderCell('Duración: ' + plan.duration + ' semanas', 2),
+				] }),
 				new TableRow({ children: [
 					this.#createHeaderCell('Competencias Fundamentales', 1, 1, true),
 					...(isPrimary ?
