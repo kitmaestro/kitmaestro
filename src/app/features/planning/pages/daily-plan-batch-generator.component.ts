@@ -45,6 +45,8 @@ Basado en lo anterior, genera un plan de clases detallado con la siguiente estru
 {
   "objective": "Intención pedagógica clara para ESTA sesión de clase.",
   "strategies": ["Estrategia de Enseñanza-Aprendizaje 1", "Estrategia 2"],
+  "achievementIndicator": available_indicators, (solo uno de estos, el mas indicado para esta clase
+  )
   "introduction": { "duration": 10, "activities": ["Actividad de inicio..."], "resources": ["Recurso 1"], "layout": "Organización de estudiantes" },
   "main": { "duration": 60, "activities": ["Actividad de desarrollo principal..."], "resources": ["Recurso 2"], "layout": "Organización" },
   "closing": { "duration": 20, "activities": ["Actividad de cierre..."], "resources": [], "layout": "Organización" },
@@ -417,6 +419,8 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 			activitiesForThisClass.length > 0
 				? activitiesForThisClass.map((a) => `- ${a}`).join('\n')
 				: 'Desarrollar actividades introductorias sobre el tema de la unidad.';
+		
+		const availableIndicators = unitPlan.contents.flatMap(c => c.achievement_indicators.map(i => `"${i}"`)).join(' | ')
 
 		const prompt = classPlanPrompt
 			.replace('class_subject', this.pretifyPipe(planInfo.subject))
@@ -433,6 +437,10 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 			.replace(
 				'[plan_sequence]',
 				`Este es el plan numero ${this.plansGenerated + 1} de ${this.totalPlansToGenerate}. Toma en cuenta los planes previos para mantener coherencia.`,
+			)
+			.replace(
+				'available_indicators',
+				availableIndicators,
 			);
 
 		const aiResponse = await this.aiService.geminiAi(prompt).toPromise();
