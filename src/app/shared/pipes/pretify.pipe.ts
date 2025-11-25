@@ -1,30 +1,44 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { SchoolSubject } from '../../core/enums/school-subject.enum';
 
 @Pipe({
 	name: 'pretify',
 	standalone: true,
 })
 export class PretifyPipe implements PipeTransform {
-	transform(value: string, level?: string): string {
+	transform(
+		value: string | SchoolSubject,
+		level = 'PRIMARIA',
+	): string {
 		switch (value) {
+			case SchoolSubject.LENGUA_ESPANOLA:
 			case 'LENGUA_ESPANOLA':
 				return 'Lengua Española';
+			case SchoolSubject.MATEMATICA:
 			case 'MATEMATICA':
 				return 'Matemática';
+			case SchoolSubject.CIENCIAS_SOCIALES:
 			case 'CIENCIAS_SOCIALES':
 				return 'Ciencias Sociales';
+			case SchoolSubject.CIENCIAS_NATURALES:
 			case 'CIENCIAS_NATURALES':
 				return 'Ciencias de la Naturaleza';
+			case SchoolSubject.INGLES:
 			case 'INGLES':
 				return 'Inglés';
+			case SchoolSubject.FRANCES:
 			case 'FRANCES':
 				return 'Francés';
+			case SchoolSubject.FORMACION_HUMANA:
 			case 'FORMACION_HUMANA':
 				return 'Formación Integral Humana y Religiosa';
+			case SchoolSubject.EDUCACION_FISICA:
 			case 'EDUCACION_FISICA':
 				return 'Educación Física';
+			case SchoolSubject.EDUCACION_ARTISTICA:
 			case 'EDUCACION_ARTISTICA':
 				return 'Educación Artística';
+			case SchoolSubject.TALLERES_OPTATIVOS:
 			case 'TALLERES_OPTATIVOS':
 				return 'Talleres Optativos';
 			case 'MANUALES':
@@ -62,7 +76,7 @@ export class PretifyPipe implements PipeTransform {
 			case 'creation':
 				return 'Crear';
 			case 'Comunicativa':
-				return level === 'SECUNDARIA' ? 'Comunicativa' : 'Comunicativa';
+				return 'Comunicativa';
 			case 'Pensamiento Logico':
 				return level === 'SECUNDARIA'
 					? 'Pensamiento Lógico, Creativo y Crítico'

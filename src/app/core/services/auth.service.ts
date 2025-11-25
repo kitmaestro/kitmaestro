@@ -1,83 +1,68 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserSettings } from '../interfaces/user-settings';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { environment } from '../../../environments/environment';
+import { User } from '../models';
+import { ApiService } from './api.service';
+import {
+	LoginDto,
+	LoginOrSignupResponse,
+	LogoutResponse,
+	PasswordRecoverResponse,
+	PasswordResetDto,
+	PasswordResetResponse,
+	SignupDto,
+} from '../../store/auth/auth.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class AuthService {
-	private http = inject(HttpClient);
-	private apiUrl = environment.apiUrl + 'auth/';
+	#api = inject(ApiService);
+	#endpoint = 'auth/';
 
-	login(
-		email: string,
-		password: string,
-	): Observable<{
-		user: UserSettings;
-		access_token: string;
-		error?: string;
-	}> {
-		return this.http.post<{ user: UserSettings; access_token: string }>(
-			this.apiUrl + 'login',
-			{
-				email,
-				password,
-			},
-			{ withCredentials: true },
-		);
-	}
-
-	signup(body: {
-		email: string;
-		password: string;
-		plan?: string;
-		ref?: string;
-	}): Observable<{ user: UserSettings; access_token: string }> {
-		return this.http.post<{ user: UserSettings; access_token: string }>(
-			this.apiUrl + 'signup',
-			body,
-			{ withCredentials: true },
-		);
-	}
-
-	logout(): Observable<{ message: string }> {
-		return this.http.post<{ message: string }>(
-			this.apiUrl + 'logout',
-			{},
-			{ withCredentials: true },
-		);
-	}
-
-	profile(): Observable<UserSettings> {
-		return this.http.get<UserSettings>(this.apiUrl + 'profile', {
-			withCredentials: true,
+	login({
+		email,
+		password,
+		remember,
+	}: LoginDto): Observable<LoginOrSignupResponse> {
+		return this.#api.post<LoginOrSignupResponse>(this.#endpoint + 'login', {
+			email,
+			password,
+			remember,
 		});
 	}
 
-	update(data: UserSettings): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiUrl + 'profile',
-			data,
-			{ withCredentials: true },
+	signup({ email, password }: SignupDto): Observable<LoginOrSignupResponse> {
+		return this.#api.post<LoginOrSignupResponse>(
+			this.#endpoint + 'signup',
+			{ email, password },
 		);
 	}
 
-	recover(email: string) {
-		return this.http.post(
-			this.apiUrl + 'recover',
+	logout(): Observable<LogoutResponse> {
+		return this.#api.post<LogoutResponse>(this.#endpoint + 'logout', {});
+	}
+
+	profile(): Observable<User> {
+		return this.#api.get<User>(this.#endpoint + 'profile');
+	}
+
+	update(data: Partial<User>): Observable<User> {
+		return this.#api.patch<User>(this.#endpoint + 'profile', data);
+	}
+
+	recover(email: string): Observable<PasswordRecoverResponse> {
+		return this.#api.post<PasswordRecoverResponse>(
+			this.#endpoint + 'recover',
 			{ email },
-			{ withCredentials: true },
 		);
 	}
 
-	resetPassword(email: string, token: string, password: string) {
-		return this.http.post(
-			this.apiUrl + 'reset-password',
-			{ email, token, password },
-			{ withCredentials: true },
+	resetPassword(
+		payload: PasswordResetDto,
+	): Observable<PasswordResetResponse> {
+		return this.#api.post<PasswordRecoverResponse>(
+			this.#endpoint + 'reset-password',
+			payload,
 		);
 	}
 }

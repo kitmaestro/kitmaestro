@@ -33,8 +33,10 @@ import { environment } from '../../../../environments/environment';
 		<div class="flex-wrapper">
 			<mat-card class="signup-card">
 				<mat-card-header>
-					<div style="display: flex; justify-content: center; width: 100%">
-						<h2 mat-card-title>Reg&iacute;strate</h2>
+					<div
+						style="display: flex; justify-content: center; width: 100%"
+					>
+						<h2>Reg&iacute;strate</h2>
 					</div>
 				</mat-card-header>
 				<mat-card-content>
@@ -46,7 +48,11 @@ import { environment } from '../../../../environments/environment';
 					<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
 						<mat-form-field appearance="outline">
 							<mat-label>Email</mat-label>
-							<input type="email" matInput formControlName="email" />
+							<input
+								type="email"
+								matInput
+								formControlName="email"
+							/>
 						</mat-form-field>
 						<mat-form-field appearance="outline">
 							<mat-label>Contrase&ntilde;a</mat-label>
@@ -80,12 +86,17 @@ import { environment } from '../../../../environments/environment';
 								href="https://kitmaestro.com/privacy-policy.html"
 								target="_blank"
 								>pol&iacute;tica de privacidad</a
-							> de KitMaestro</mat-checkbox
+							>
+							de KitMaestro</mat-checkbox
 						>
-						<div style="margin: 12px 0; display: flex; flex-direction: column; gap: 12px;">
+						<div
+							style="margin: 12px 0; display: flex; flex-direction: column; gap: 12px;"
+						>
 							<button
 								[disabled]="
-									loading || signupForm.invalid || !validConfirmation
+									loading ||
+									signupForm.invalid ||
+									!validConfirmation
 								"
 								mat-flat-button
 								color="primary"
@@ -95,7 +106,10 @@ import { environment } from '../../../../environments/environment';
 							</button>
 							<a
 								mat-button
-								[href]="apiUrl + (referrer ? '?ref=' + referrer : '')"
+								[href]="
+									apiUrl +
+									(referrer ? '?ref=' + referrer : '')
+								"
 								><bi-icon icon="google"></bi-icon> Continuar con
 								Google</a
 							>
@@ -106,16 +120,20 @@ import { environment } from '../../../../environments/environment';
 								(click)="signupWithFacebook()"
 								type="button"
 							>
-								<bi-icon icon="facebook"></bi-icon> Continuar con
-								Facebook
+								<bi-icon icon="facebook"></bi-icon> Continuar
+								con Facebook
 							</button>
 						</div>
 					</form>
 				</mat-card-content>
 				<mat-card-actions>
-					<div style="width: 100%; padding: 0 6px; text-align: center">
+					<div
+						style="width: 100%; padding: 0 6px; text-align: center"
+					>
 						Ya tienes cuenta?
-						<a [routerLink]="['/auth', 'login']">Inicia Sesi&oacute;n</a>
+						<a [routerLink]="['/auth', 'login']"
+							>Inicia Sesi&oacute;n</a
+						>
 					</div>
 					<!-- <a mat-flat-button style="margin-right: auto;" color="accent" target="_blank" href="https://wa.me/+18094659650?text=Hola!+Quiero+solicitar+una+cuenta+de+KitMaestro.+Me+puedes+dar+más+información?">Solicitar Cuenta</a> -->
 				</mat-card-actions>
@@ -132,7 +150,7 @@ import { environment } from '../../../../environments/environment';
 			bottom: 0;
 			justify-content: center;
 			align-items: center;
-			background-image: url("/assets/teacher.jpg");
+			background-image: url('/assets/teacher.jpg');
 			background-attachment: fixed;
 			background-position: center;
 			background-repeat: no-repeat;
@@ -259,7 +277,7 @@ export class SignupComponent implements OnInit {
 			if (email && password) {
 				this.authService
 					.signup({
-						email,
+						email: email.trim().toLowerCase(),
 						password,
 						ref: this.referrer ? this.referrer : undefined,
 						plan: this.plan ? this.plan : undefined,

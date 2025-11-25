@@ -1,10 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
-import { Rubric } from '../interfaces/rubric';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { environment } from '../../../environments/environment';
+import { Rubric, Student } from '../models';
+import { ApiDeleteResponse } from '../interfaces';
+import { ApiService } from './api.service';
+import { StudentsService } from './students.service';
 import {
 	Document,
 	HeadingLevel,
@@ -18,50 +17,35 @@ import {
 	TextRun,
 	WidthType,
 } from 'docx';
-import { StudentsService } from './students.service';
 import { saveAs } from 'file-saver';
-import { Student } from '../interfaces/student';
+import { RubricDto } from '../../store/rubrics/rubrics.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class RubricService {
-	private http = inject(HttpClient);
-	private studentService = inject(StudentsService);
-	private apiBaseUrl = environment.apiUrl + 'rubrics/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService);
+	#studentService = inject(StudentsService);
+	#endpoint = 'rubrics/';
 
-	findAll(): Observable<Rubric[]> {
-		return this.http.get<Rubric[]>(this.apiBaseUrl, this.config);
+	findAll(filter?: any): Observable<Rubric[]> {
+		return this.#apiService.get<Rubric[]>(this.#endpoint, filter);
 	}
 
 	find(id: string): Observable<Rubric> {
-		return this.http.get<Rubric>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<Rubric>(this.#endpoint + id);
 	}
 
-	create(plan: Rubric): Observable<Rubric> {
-		return this.http.post<Rubric>(this.apiBaseUrl, plan, this.config);
+	create(plan: Partial<RubricDto>): Observable<Rubric> {
+		return this.#apiService.post<Rubric>(this.#endpoint, plan);
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			plan,
-			this.config,
-		);
+	update(id: string, plan: Partial<RubricDto>): Observable<Rubric> {
+		return this.#apiService.patch<Rubric>(this.#endpoint + id, plan);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
 	async download(rubric: Rubric) {
@@ -75,7 +59,7 @@ export class RubricService {
 			},
 		};
 		const students = await lastValueFrom(
-			this.studentService.findBySection(rubric.section._id),
+			this.#studentService.findBySection(rubric.section._id),
 		);
 		const sections: ISectionOptions[] = [];
 		const title = new Paragraph({
@@ -366,6 +350,27 @@ export class RubricService {
 		} else {
 			if (rubric.rubricType !== 'SINTETICA') {
 				table.content = rubric.criteria.flatMap((indicator) => {
+					const emptyRowsAmount = 45;
+					const emptyRowsCells = Array.from({
+						length: rubric.progressLevels.length + 1,
+					}).map(
+						() =>
+							new TableCell({
+								children: [
+									new Paragraph({
+										children: [
+											new TextRun({
+												size: 12,
+												text: '',
+											}),
+										],
+									}),
+								],
+							}),
+					);
+					const emptyRows = Array.from({
+						length: emptyRowsAmount,
+					}).map(() => new TableRow({ children: emptyRowsCells }));
 					return new Table({
 						width: {
 							size: 100,
@@ -442,16 +447,7 @@ export class RubricService {
 										}),
 								),
 							}),
-							...new Array(45).map(
-								() =>
-									new TableRow({
-										children: [
-											new TableCell({
-												children: [new Paragraph('')],
-											}),
-										],
-									}),
-							),
+							...emptyRows,
 						],
 					});
 				});

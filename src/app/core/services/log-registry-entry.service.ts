@@ -1,66 +1,49 @@
-import { Injectable, inject, isDevMode } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { LogRegistryEntry } from '../interfaces/log-registry-entry';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { environment } from '../../../environments/environment';
+import { ApiDeleteResponse } from '../interfaces';
+import { LogRegistryEntry } from '../models';
+import { ApiService } from './api.service';
+import { LogRegistryEntryDto } from '../../store/log-registry-entries/log-registry-entries.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class LogRegistryEntryService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'log-registry-entries/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService);
+	#endpoint = 'log-registry-entries/';
 
 	findAll(): Observable<LogRegistryEntry[]> {
-		return this.http.get<LogRegistryEntry[]>(this.apiBaseUrl, this.config);
+		return this.#apiService.get<LogRegistryEntry[]>(this.#endpoint);
 	}
 
 	find(id: string): Observable<LogRegistryEntry> {
-		return this.http.get<LogRegistryEntry>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.get<LogRegistryEntry>(this.#endpoint + id);
 	}
 
-	create(plan: LogRegistryEntry): Observable<LogRegistryEntry> {
-		return this.http.post<LogRegistryEntry>(
-			this.apiBaseUrl,
-			plan,
-			this.config,
-		);
+	create(plan: Partial<LogRegistryEntryDto>): Observable<LogRegistryEntry> {
+		return this.#apiService.post<LogRegistryEntry>(this.#endpoint, plan);
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
+	update(
+		id: string,
+		plan: Partial<LogRegistryEntryDto>,
+	): Observable<LogRegistryEntry> {
+		return this.#apiService.patch<LogRegistryEntry>(
+			this.#endpoint + id,
 			plan,
-			this.config,
 		);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
 	download(
 		id: string,
 		format: 'docx' | 'pdf' = 'pdf',
 	): Observable<{ pdf: string }> {
-		return this.http.get<{ pdf: string }>(
-			this.apiBaseUrl + id + '/' + format,
-			this.config,
+		return this.#apiService.get<{ pdf: string }>(
+			this.#endpoint + id + '/' + format,
 		);
 	}
 }

@@ -23,7 +23,7 @@ import { Component, input } from '@angular/core';
 			bottom: 0;
 			left: 0;
 			right: 0;
-			z-index: 2000;
+			z-index: 20000;
 			justify-content: center;
 			align-items: center;
 		}

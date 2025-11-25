@@ -1,10 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { Observable } from 'rxjs';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { Checklist } from '../interfaces/checklist';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { ApiDeleteResponse } from '../interfaces';
+import { Checklist } from '../models';
+import { ApiService } from './api.service';
 import {
 	AlignmentType,
 	Document,
@@ -20,55 +18,33 @@ import {
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
+import { ChecklistDto } from '../../store/checklists/checklists.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ChecklistService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'checklists/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService);
+	#endpoint = 'checklists/';
 
 	findAll(filters?: any): Observable<Checklist[]> {
-		let params = new HttpParams();
-		if (filters) {
-			Object.keys(filters).forEach((key) => {
-				params = params.set(key, filters[key]);
-			});
-		}
-		return this.http.get<Checklist[]>(this.apiBaseUrl, {
-			...this.config,
-			params,
-		});
+		return this.#apiService.get<Checklist[]>(this.#endpoint, filters);
 	}
 
 	find(id: string): Observable<Checklist> {
-		return this.http.get<Checklist>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<Checklist>(this.#endpoint + id);
 	}
 
-	create(idea: Checklist): Observable<Checklist> {
-		return this.http.post<Checklist>(this.apiBaseUrl, idea, this.config);
+	create(idea: Partial<ChecklistDto>): Observable<Checklist> {
+		return this.#apiService.post<Checklist>(this.#endpoint, idea);
 	}
 
-	update(id: string, idea: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			idea,
-			this.config,
-		);
+	update(id: string, idea: Partial<ChecklistDto>): Observable<Checklist> {
+		return this.#apiService.patch<Checklist>(this.#endpoint + id, idea);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
 	private pretify(str: string) {

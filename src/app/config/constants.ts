@@ -100,6 +100,8 @@ export const classroomProblems = [
 export const schoolEnvironments = [
 	'Salón de clases',
 	'Patio',
+	'Cancha',
+	'Polideportivo',
 	'Biblioteca',
 	'Laboratorio de ciencias',
 	'Laboratorio de computación',
@@ -329,6 +331,8 @@ Genera una situación de aprendizaje para el siguiente contexto:
 - Aprendizajes requeridos: contenido_especifico
 - Eje transversal: theme_axis
 
+[secuencia], asi que el titulo debe ser apropiado y significativo.
+
 La situación de aprendizaje debe ser clara, relevante y adecuada para el nivel educativo especificado. Debe priorizar el desarrollo de los temas a abordar y en segundo lugar el problema o situacion a resolver; de ser posible, el problema deberia ser resueldo utilizando las competencias que se han de adquirir durante el desarrollo de la unidad. La situacion de aprendizaje debe estar contenida en 1 a 3, debe ser narrada, como en los ejemplos, en primera o tercera persona del plural como si estuviera a punto de pasar, como si esta pasando o si va a pasar en el futuro cercano.
 Aunque es opcional, es totalmente valido identificar el curso como 'los estudiantes de x grado de la escuela x' o 'los estudiantes de section_name'. La situacion de aprendizaje DEBE priorizar el contenido sobre la situacion (muy importante), de manera que lo que debe quedar en segundo plano, es el problema que se esta abordando.
 La respuesta debe ser json valido, coherente con esta interfaz:
@@ -354,7 +358,72 @@ Solo necesito el nombre de la estrategia, por ejemplo:
 La lista no debe contener menos de 3 ni mas de 6 estrategias, lo ideal es 4-5, maximo 6
 La respuesta debe ser un array de cadenas en formato json valido`;
 
+export const generateMultigradeLearningSituationPrompt = `Una situación de aprendizaje debe ser un texto coherente que conecte los conocimientos a adquirir con un contexto real o simulado.
+
+Genera una situación de aprendizaje COHESIVA y UNIFICADA para los siguientes grados: niveles_y_grados.
+El objetivo es crear un único escenario o proyecto que pueda ser abordado por todos los grados, pero con diferentes niveles de profundidad y complejidad según sus capacidades. La situación de aprendizaje debe ser narrada como si estuviera a punto de pasar o ya estuviera sucediendo.
+
+Considera el siguiente contexto:
+- Ambiente Operativo: ambiente_operativo
+- Situación o Problema Central: situacion_o_problema
+- Eje transversal: theme_axis
+- Aprendizajes requeridos (diferenciados por grado):
+---
+contenido_especifico_por_grado
+---
+
+La situación de aprendizaje generada debe:
+1.  Ser clara, relevante y motivadora para todos los grados involucrados.
+2.  Priorizar la integración de los contenidos de cada grado dentro de un proyecto o problema común.
+3.  Permitir que cada grupo de estudiantes (por grado) pueda contribuir a la solución del problema desde el nivel de sus competencias y contenidos.
+4.  Estar contenida en 1 a 3 párrafos.
+
+La respuesta debe ser un JSON válido con esta interfaz:
+{
+  "title": string; // Un título creativo para la situación de aprendizaje multigrado.
+  "content": string; // El texto de la situación de aprendizaje.
+  "strategies": string[]; // Una lista de 4 a 6 estrategias de enseñanza y aprendizaje recomendadas para un entorno multigrado, como "Aprendizaje Basado en Proyectos (ABP)", "Trabajo Cooperativo por Estaciones", "Tutoría entre Iguales", etc.
+}`;
+
+export const generateMultigradeActivitySequencePrompt = `Quiero crear una secuencia didáctica para una clase multigrado que incluye: niveles_y_grados.
+La unidad durará unit_duration semanas (3 sesiones de 45 minutos por semana). La asignatura común es subject_name.
+
+Los contenidos a impartir, diferenciados por grado, son:
+---
+content_list_por_grado
+---
+
+La situación de aprendizaje que guiará la unidad es:
+"learning_situation"
+
+Información adicional:
+- Recursos disponibles: resource_list
+- Metodología de enseñanza principal: teaching_style
+- Eje transversal: theme_axis
+
+Tu tarea es elaborar una secuencia de actividades diferenciadas para cada grado, pero que se desarrollen de manera cohesiva bajo el mismo proyecto o situación de aprendizaje. Las actividades deben seguir una progresión lógica (inicio, desarrollo, cierre) y escalar en complejidad según la taxonomía de Bloom a lo largo de las semanas.
+
+Para cada grado, debes generar:
+-   **Actividades de enseñanza:** Lo que hará el docente. Deben ser oraciones completas que inicien con "El docente", "El maestro", etc. y representar una sesión de clase general.
+-   **Actividades de aprendizaje:** Lo que harán los estudiantes. Deben ser oraciones completas que inicien con "Los estudiantes", "Los alumnos", etc. y ser la contraparte de las actividades del docente.
+-   **Actividades de evaluación:** Deben incluir evaluación formativa y sumativa, especificando la técnica o instrumento a usar (ej. "observación directa usando una lista de cotejo", "revisión de portafolios con una rúbrica").
+
+La respuesta debe ser un JSON válido con esta interfaz:
+{
+  "activities_by_grade": {
+    "grade_level": string; // Ej: "1er Grado de Primaria"
+    "teacher_activities": string[];
+    "student_activities": string[];
+    "evaluation_activities": string[];
+  }[];
+  "instruments": string[]; // Lista de TODAS las técnicas e instrumentos de evaluación mencionados en las actividades (ej: "Rúbrica", "Lista de Cotejo", "Diario Reflexivo", "Metacognición").
+  "resources": string[]; // Lista de recursos necesarios para TODA la unidad multigrado.
+}
+
+Es MUY IMPORTANTE que los instrumentos listados en el array "instruments" se mencionen explícitamente en las descripciones de las "evaluation_activities".`;
+
 export const classPlanPrompt = `Escribe un plan de clases, enfocado en el desarrollo de competencias, de class_subject de class_duration minutos para impartir class_topics en class_year grado de class_level. Esta es la interfaz de la planificacion:
+type AchievementIndicator = achivement_indicators
 
 interface Plan {
   "objective": string, // proposito
@@ -383,6 +452,7 @@ interface Plan {
     "layout": string, // class layout
   },
   "vocabulary": string[],
+  "achievementIndicator": AchievementIndicator,
   "readings": string, // usualmente un material o libro relacionado con el tema
   "competence": string, // Competencia a trabajar (elige la mas apropiadas de las que menciono al final)
 }
@@ -393,7 +463,9 @@ Los recursos disponibles son:
 Las competencias a desarrollorar debe ser una de estas:
 - plan_compentece
 
-Importante: se especifico (es decir, que necesito que siempre digas explicitamente el contenido o actividad que se va a trabajar para que no quede lugar a dudas), planea la clase para que se imparta con un estilo teaching_style, de ser posible incluye algo de metacognicion (que aprendimos, como lo aprendimos, que ha resultado mas facil, mas dificil, mas novedoso, para que nos puede servir, como podemos mejorar, etc) en el cierre de la clase, y tu respuesta debe ser un json totalmente valido.`;
+El indicador de logo (achievementIndicator) debe ser el mas apropiado (de las opciones disponibles en el curriculo, las del type AchivementIndicator) para esta sesion de clase, incluso si solo encaja parcial o infimamente con el contenido de la leccion
+
+Importante: se especifico (es decir, que necesito que siempre digas explicitamente el contenido o actividad que se va a trabajar para que no quede lugar a dudas), planea la clase para que se imparta con un estilo teaching_style, de ser posible incluye algo de metacognicion (que aprendimos, como lo aprendimos, que ha resultado mas facil, mas dificil, mas novedoso, para que nos puede servir, como podemos mejorar, etc) en el cierre de la clase, toma en cuenta que mis estudiantes no son los mas brillantes, asi que la clase no puede ser muy abarcadora, las actividades deben tener tiempo de sobra, y ten en cuenta que habran otros dias, asi que en lugar de muchas actividades y querer impartir todo sobre el tema en un solo dia, prefiero llevarlo suave y en su lugar, dar clases significativas que abarquen poco contenido academico, relativamente hablando, pero que sean una pocas actividades muy significativas y que le permitan al estudiante repetir hasta perpetuar, no utilices markup de markdown/html y tu respuesta debe ser un json totalmente valido.`;
 
 export const emiClassPlanPrompt = `Escribe un plan de clases en formato JSON, enfocado en el desarrollo de competencias, de class_subject de class_duration minutos para la clase que voy a impartir. Tengo un aula multigrado, es decir que tiene más de un grado al mismo tiempo. Los grados que tengo funcionando en mi aula son class_years de class_level. El dia de hoy la clase sera sobre class_topics. Esta es la interfaz de la planificacion:
 

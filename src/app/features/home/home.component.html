@@ -1,76 +1,97 @@
 <div class="container">
-	<div style="text-align: center; margin-top: 24px">
-		<img
-			src="/assets/logo KitMaestro.png"
-			alt="Logo KitMaestro"
-			style="margin: 0 auto; display: block; width: 128px"
-		/>
-		<h2 style="margin-bottom: 0; margin-top: 0">KitMaestro</h2>
-		<p style="margin-top: 0; margin-bottom: 12px">
-			La caja de herramientas definitiva
-		</p>
-		@if (user && user.firstname) {
-			<p>
-				¡{{ user.gender === "Mujer" ? "Bienvenida" : "Bienvenido" }},
-				{{ user.firstname }}!
+	@if (user; as profile) {
+		@if (!profile.firstname) {
+			<p
+				style="
+					padding: 24px;
+					text-align: center;
+					background-color: #f44336;
+					color: #fff;
+				"
+			>
+				Tu perfil esta incompleto, recuerda completar los datos de tu
+				<a style="color: #fff; font-weight: bold" routerLink="/profile"
+					>perfil</a
+				>
 			</p>
 		} @else {
-			<p>
-				Tu perfil esta incompleto, recuerda completar los datos de tu
-				<a routerLink="/profile">perfil</a>
-			</p>
+			@if (sections().length === 0) {
+				<p
+					style="
+						padding: 24px;
+						text-align: center;
+						background-color: #f44336;
+						color: #fff;
+					"
+				>
+					Recuerda que debes crear al menos una secci&oacute;n para
+					poder utilizar todas las herramientas de KitMaestro. Crea tu
+					primera secci&oacute;n desde
+					<a
+						style="color: #fff; font-weight: bold"
+						routerLink="/sections"
+						>aqu&iacute;</a
+					>
+				</p>
+			}
 		}
-		<div class="search-container">
-			<mat-form-field appearance="outline">
-				<mat-label>Buscar</mat-label>
-				<input
-					type="search"
-					[formControl]="search"
-					placeholder="Buscar Herramienta"
-					matInput
-					(keyup)="onSearch()"
-				/>
-			</mat-form-field>
-		</div>
-	</div>
+	}
 	<div>
-		<h3>Categorías</h3>
-		<mat-chip-listbox
-			[formControl]="catFilter"
-			multiple
-			(change)="onCategoriesChange()"
-		>
-			@for (category of categories; track category) {
-				<mat-chip-option>{{ category }}</mat-chip-option>
-			}
-		</mat-chip-listbox>
-	</div>
-	<!-- @if (
-		search.value === "" || (catFilter.value && catFilter.value.length > 0)
-	) {
-		<h3>Herramientas Favoritas</h3>
-		<div class="apps-grid">
-			@for (app of filteredFavorites; track $index) {
-				<app-tile
-					[isFav]="true"
-					[app]="app"
-					(markFavorite)="unmarkFavorite($event)"
-				/>
-			} @empty {
-				<app-tile [app]="emptyApp" />
-			}
-		</div>
-	} -->
-	<!-- <h3>Todas las Herramientas</h3> -->
-	<div class="apps-grid">
-		@for (app of filteredApps; track $index) {
-			<app-tile [app]="app" [isFav]="favorites.includes(app)" />
-		} @empty {
-			<p style="padding: 24px; text-align: center">
-				No tenemos esa herramienta.<br />Considera
-				<a mat-button routerLink="/ideas">Proponer la Idea</a> para que
-				la integremos a la plataforma.
-			</p>
-		}
+		<mat-tab-group>
+			<mat-tab label="Planificación">
+				<div class="container">
+					<app-tool-gallery
+						[tools]="planningTools"
+						category="Planificación"
+						message="Selecciona una herramienta para comenzar a planificar tus clases"
+					/>
+				</div>
+			</mat-tab>
+			<mat-tab label="Evaluación">
+				<div class="container">
+					<app-tool-gallery
+						[tools]="assessmentTools"
+						category="Evaluación"
+						message="Selecciona una herramienta para preparar tus evaluaciones"
+					/>
+				</div>
+			</mat-tab>
+			<mat-tab label="Recursos">
+				<div class="container">
+					<app-tool-gallery
+						[tools]="resourcesTools"
+						category="Recursos"
+						message="Selecciona una herramienta para generar recursos para tus clases"
+					/>
+				</div>
+			</mat-tab>
+			<mat-tab label="Registro">
+				<div class="container">
+					<app-tool-gallery
+						[tools]="registryTools"
+						category="Registro"
+						message="Selecciona una herramienta para trabajar tu registro de grado"
+					/>
+				</div>
+			</mat-tab>
+			<mat-tab label="Actividades">
+				<div class="container">
+					<app-tool-gallery
+						[tools]="activitiesTools"
+						category="Actividades"
+						message="Selecciona una herramienta para planificar actividades"
+					/>
+				</div>
+			</mat-tab>
+			<mat-tab label="Apoyo y Soporte">
+				<div class="container">
+					<app-tool-gallery
+						[tools]="supportTools"
+						category="Apoyo y Soporte"
+						message="Conviertete en mejor docente con nuestras herramientas"
+					/>
+				</div>
+			</mat-tab>
+		</mat-tab-group>
 	</div>
 </div>

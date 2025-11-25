@@ -1,49 +1,33 @@
 import { inject, Injectable } from '@angular/core';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { Observable } from 'rxjs';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { TodoList } from '../interfaces/todo-list';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { ApiDeleteResponse } from '../interfaces';
+import { TodoList } from '../models';
+import { ApiService } from './api.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class TodoListService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'todo-lists/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService);
+	#endpoint = 'todo-lists/';
 
 	findAll(): Observable<TodoList[]> {
-		return this.http.get<TodoList[]>(this.apiBaseUrl, this.config);
+		return this.#apiService.get<TodoList[]>(this.#endpoint);
 	}
 
 	findOne(id: string): Observable<TodoList> {
-		return this.http.get<TodoList>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<TodoList>(this.#endpoint + id);
 	}
 
-	create(plan: any): Observable<TodoList> {
-		return this.http.post<TodoList>(this.apiBaseUrl, plan, this.config);
+	create(plan: Partial<TodoList>): Observable<TodoList> {
+		return this.#apiService.post<TodoList>(this.#endpoint, plan);
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			plan,
-			this.config,
-		);
+	update(id: string, plan: Partial<TodoList>): Observable<TodoList> {
+		return this.#apiService.patch<TodoList>(this.#endpoint + id, plan);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 }

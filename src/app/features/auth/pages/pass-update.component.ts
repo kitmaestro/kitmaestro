@@ -24,7 +24,7 @@ import { AuthService } from '../../../core/services/auth.service';
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<h2 mat-card-title>Recuperar Contrase&ntilde;a</h2>
+				<h2>Recuperar Contrase&ntilde;a</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<img src="/assets/teach.svg" class="teach-svg" alt="" />
@@ -35,11 +35,19 @@ import { AuthService } from '../../../core/services/auth.service';
 					</mat-form-field>
 					<mat-form-field appearance="outline">
 						<mat-label>Nueva Contrase&ntilde;a</mat-label>
-						<input type="password" matInput [formControl]="password" />
+						<input
+							type="password"
+							matInput
+							[formControl]="password"
+						/>
 					</mat-form-field>
 					<mat-form-field appearance="outline">
 						<mat-label>Confirma tu Contrase&ntilde;a</mat-label>
-						<input type="password" matInput [formControl]="confirmation" />
+						<input
+							type="password"
+							matInput
+							[formControl]="confirmation"
+						/>
 					</mat-form-field>
 					<div
 						style="
@@ -117,7 +125,7 @@ export class PassUpdateComponent implements OnInit {
 
 		this.loading = true;
 
-		this.authService.resetPassword(email, token, password).subscribe({
+		this.authService.resetPassword({ email, token, password }).subscribe({
 			next: (res: any) => {
 				if (res.message === 'Invalid token') {
 					this.router.navigate(['/auth', 'login']).then(() => {

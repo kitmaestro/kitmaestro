@@ -1,4 +1,11 @@
-import { Component, computed, EventEmitter, inject, Output, signal } from '@angular/core';
+import {
+	Component,
+	EventEmitter,
+	inject,
+	OnInit,
+	Output,
+	signal,
+} from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -7,14 +14,18 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';
-import { lastValueFrom, Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { filter, map, shareReplay, tap } from 'rxjs/operators';
 import { Router, RouterModule } from '@angular/router';
 import { QuoteDialogComponent } from '../../shared/ui/quote-dialog.component';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { AuthService } from '../../core/services/auth.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserSubscriptionService } from '../../core/services/user-subscription.service';
+import { UserSubscription } from '../../core/models';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../store/auth/auth.selectors';
+import { signOut, signOutSuccess } from '../../store/auth/auth.actions';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
 	selector: 'app-navigation',
@@ -40,27 +51,21 @@ import { UserSubscriptionService } from '../../core/services/user-subscription.s
 					<mat-icon>settings</mat-icon>
 				</button>
 			}
-			<button
-				mat-icon-button
-				color="primary"
-				[routerLink]="['/tutorials']"
-				style="margin-right: 6px; color: #005cbb"
-			>
-				<mat-icon>video_library</mat-icon>
-			</button>
-			<button
-				mat-icon-button
-				color="primary"
-				[routerLink]="['/updates']"
-				style="margin-right: 6px; color: #005cbb"
-			>
-				<mat-icon
-					matBadge="1"
-					matBadgeOverlap="true"
-					matBadgeColor="accent"
-					>notifications</mat-icon
+			@if ((subscription$ | async) === false) {
+				<button
+					mat-icon-button
+					color="primary"
+					[routerLink]="['/buy']"
+					style="margin-right: 6px; color: #005cbb"
 				>
-			</button>
+					<mat-icon
+						matBadge="1"
+						matBadgeOverlap="true"
+						matBadgeColor="accent"
+						>rocket</mat-icon
+					>
+				</button>
+			}
 			<button
 				[matMenuTriggerFor]="menu"
 				mat-icon-button
@@ -78,19 +83,33 @@ import { UserSubscriptionService } from '../../core/services/user-subscription.s
 					<mat-icon>class</mat-icon>
 					<span>Mis Secciones</span>
 				</button>
-				<button routerLink="/my-resources" mat-menu-item>
-					<mat-icon>analytics</mat-icon>
-					<span>Mis Recursos</span>
+				<button routerLink="/planning/unit-plans/list" mat-menu-item>
+					<mat-icon>schema</mat-icon>
+					<span>Mis Unidades</span>
 				</button>
-				@if (subscription$ | async) {
-					<button routerLink="/referrals" mat-menu-item>
-						<mat-icon>people_circle</mat-icon>
-						<span>Mis Referidos</span>
-					</button>
-				}
-				<button routerLink="/profile" mat-menu-item>
+				<button routerLink="/planning/class-plans/list" mat-menu-item>
+					<mat-icon>assignment</mat-icon>
+					<span>Mis Planes Diarios</span>
+				</button>
+				<button routerLink="/assessments/checklists" mat-menu-item>
+					<mat-icon>list</mat-icon>
+					<span>Mis Listas de Cotejo</span>
+				</button>
+				<button routerLink="/assessments/rubrics" mat-menu-item>
+					<mat-icon>analytics</mat-icon>
+					<span>Mis Rubricas</span>
+				</button>
+				<a target="_blank" href="https://www.youtube.com/@KitMaestroOfficial" mat-menu-item>
+					<mat-icon>video_library</mat-icon>
+					<span>Tutoriales</span>
+				</a>
+				<button routerLink="/users/me" mat-menu-item>
 					<mat-icon>person_circle</mat-icon>
 					<span>Mi Perfil</span>
+				</button>
+				<button routerLink="/settings" mat-menu-item>
+					<mat-icon>settings</mat-icon>
+					<span>Ajustes</span>
 				</button>
 				<button (click)="logout()" mat-menu-item>
 					<mat-icon>logout</mat-icon>
@@ -152,13 +171,13 @@ import { UserSubscriptionService } from '../../core/services/user-subscription.s
 		RouterModule,
 	],
 })
-export class NavigationComponent {
-	private authService = inject(AuthService);
+export class NavigationComponent implements OnInit {
+	private store = inject(Store);
 	private userSubscriptionService = inject(UserSubscriptionService);
 	private breakpointObserver = inject(BreakpointObserver);
 	private dialog = inject(MatDialog);
-	private sb = inject(MatSnackBar);
 	private router = inject(Router);
+	private actions$ = inject(Actions);
 
 	public isPrintView = window.location.href.includes('print');
 
@@ -170,100 +189,41 @@ export class NavigationComponent {
 			map((result) => result.matches),
 			shareReplay(),
 		);
-	userSettings$ = this.authService.profile();
-	subscription$ = this.userSubscriptionService
-		.checkSubscription()
-		.pipe(
-			map(
-				(sub) =>
-					sub.status === 'active' &&
-					sub.subscriptionType.toLowerCase().includes('premium') &&
-					+new Date(sub.endDate) > +new Date(),
-			),
-		);
+	user$ = this.store.select(selectAuthUser);
+	subscription = signal<UserSubscription | null>(null);
+	subscription$ = this.userSubscriptionService.checkSubscription().pipe(
+		map((sub) => {
+			if (sub.subscriptionType.toLowerCase() == 'free') {
+				return false;
+			}
+			return (
+				sub.status == 'active' && +new Date(sub.endDate) > +new Date()
+			);
+		}),
+	);
 
 	showNames = true;
 
 	userIsAdmin = signal<boolean>(false);
 
-	sidebarLinks: {
-		label: string;
-		route: string;
-		icon: string;
-		activeIf: string;
-	}[] = [
-		{ activeIf: 'none', route: '/', icon: 'dashboard', label: 'Inicio' },
-		{
-			activeIf: 'unit-plans',
-			route: '/unit-plans/list',
-			icon: 'menu_book',
-			label: 'Unidades de Aprendizaje',
-		},
-		{
-			activeIf: 'class-plans',
-			route: '/class-plans/list',
-			icon: 'library_books',
-			label: 'Planes Diarios',
-		},
-		{
-			activeIf: 'assessments',
-			route: '/assessments/list',
-			icon: 'history_edu',
-			label: 'Instrumentos',
-		},
-		{
-			activeIf: 'activities',
-			route: '/activities',
-			icon: 'school',
-			label: 'Actividades',
-		},
-		{
-			activeIf: 'grading-systems',
-			route: '/grading-systems/list',
-			icon: 'scoreboard',
-			label: 'Sistemas de Calificacion',
-		},
-		{
-			activeIf: 'sections',
-			route: '/sections',
-			icon: 'class',
-			label: 'Secciones',
-		},
-		{
-			activeIf: 'schedules',
-			route: '/schedules',
-			icon: 'calendar_month',
-			label: 'Horario',
-		},
-		{
-			activeIf: 'log-registry',
-			route: '/log-registry-generator',
-			icon: 'edit_note',
-			label: 'Registro Anecdótico',
-		},
-		{
-			activeIf: 'todos',
-			route: '/todos',
-			icon: 'list',
-			label: 'Pendientes',
-		},
-		// { route: "/settings", icon: "settings", label: "Ajustes", },
-		{
-			activeIf: 'my-resources',
-			route: '/my-resources',
-			icon: 'analytics',
-			label: 'Mis Recursos',
-		},
-		{
-			activeIf: 'profile',
-			route: '/profile',
-			icon: 'person_circle',
-			label: 'Perfil',
-		},
-	];
-
 	ngOnInit() {
-		this.userSettings$.pipe(map(user => ['orgalay.dev@gmail.com'].includes(user.email))).subscribe(res => this.userIsAdmin.set(res));
+		this.user$
+			.pipe(
+				filter((user) => !!user),
+				map((user) => ['orgalay.dev@gmail.com'].includes(user.email)),
+			)
+			.subscribe((res) => this.userIsAdmin.set(res));
+		this.userSubscriptionService.checkSubscription().subscribe((sub) => {
+			this.subscription.set(sub);
+		});
+		this.actions$
+			.pipe(
+				ofType(signOutSuccess),
+				tap(() => {
+					this.router.navigate(['/auth', 'login']);
+				}),
+			)
+			.subscribe();
 	}
 
 	toggleNames() {
@@ -275,18 +235,7 @@ export class NavigationComponent {
 	}
 
 	logout() {
-		this.authService.logout().subscribe((result) => {
-			if (result.message === 'Logout successful') {
-				this.signOut.emit(true);
-				this.router.navigate(['/auth', 'login']).then(() => {
-					this.sb.open(
-						'Se ha cerrado la sesion, nos vemos pronto!',
-						'Ok',
-						{ duration: 2500 },
-					);
-				});
-			}
-		});
+		this.store.dispatch(signOut());
 	}
 
 	get activatedRoute() {

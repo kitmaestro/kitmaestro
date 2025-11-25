@@ -5,13 +5,17 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BiIconComponent } from '../../../shared/ui/bi-icon.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RecoverComponent } from './recover.component';
 import { environment } from '../../../../environments/environment';
-import { AuthService } from '../../../core/services/auth.service';
+import { Store } from '@ngrx/store';
+import { signIn } from '../../../store/auth/auth.actions';
+import { LoginDto } from '../../../store/auth/auth.models';
+import { selectSigningIn } from '../../../store/auth/auth.selectors';
 
 @Component({
 	selector: 'app-login',
@@ -21,6 +25,7 @@ import { AuthService } from '../../../core/services/auth.service';
 		MatSnackBarModule,
 		MatFormFieldModule,
 		MatInputModule,
+		MatCheckboxModule,
 		MatButtonModule,
 		MatIconModule,
 		MatDialogModule,
@@ -31,20 +36,27 @@ import { AuthService } from '../../../core/services/auth.service';
 		<div class="flex-wrapper">
 			<mat-card class="login-card">
 				<mat-card-header>
-					<div style="display: flex; justify-content: center; width: 100%">
-						<h2 mat-card-title>Inicia Sesi&oacute;n</h2>
+					<div
+						style="display: flex; justify-content: center; width: 100%"
+					>
+						<h2>Inicia Sesi&oacute;n</h2>
 					</div>
 				</mat-card-header>
 				<mat-card-content>
 					<img
 						src="/assets/base.png"
+						alt="Logo KitMaestro"
 						style="display: block; margin: 0 auto 12px; width: 96px"
 					/>
 					<!-- <img src="/assets/teach.svg" class="teach-svg" alt=""> -->
 					<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 						<mat-form-field appearance="outline">
 							<mat-label>Email</mat-label>
-							<input type="email" matInput formControlName="email" />
+							<input
+								type="email"
+								matInput
+								formControlName="email"
+							/>
 						</mat-form-field>
 						<mat-form-field appearance="outline">
 							<mat-label>Contrase&ntilde;a</mat-label>
@@ -54,6 +66,9 @@ import { AuthService } from '../../../core/services/auth.service';
 								formControlName="password"
 							/>
 						</mat-form-field>
+						<mat-checkbox formControlName="remember"
+							>Recordarme</mat-checkbox
+						>
 						<div
 							style="
 								margin: 12px 0;
@@ -62,10 +77,22 @@ import { AuthService } from '../../../core/services/auth.service';
 								gap: 12px;
 							"
 						>
-							<button [disabled]="loading || loginForm.invalid" mat-flat-button color="primary" type="submit">
+							<button
+								[disabled]="loading() || loginForm.invalid"
+								mat-flat-button
+								color="primary"
+								type="submit"
+							>
 								Entrar
 							</button>
-							<a mat-button color="link" [href]="apiUrl + (referrer ? '?ref=' + referrer : '')">
+							<a
+								mat-button
+								color="link"
+								[href]="
+									apiUrl +
+									(referrer ? '?ref=' + referrer : '')
+								"
+							>
 								<bi-icon icon="google"></bi-icon>
 								Iniciar con Google
 							</a>
@@ -104,7 +131,7 @@ import { AuthService } from '../../../core/services/auth.service';
 			bottom: 0;
 			justify-content: center;
 			align-items: center;
-			background-image: url("/assets/teacher.jpg");
+			background-image: url('/assets/teacher.jpg');
 			background-attachment: fixed;
 			background-position: center;
 			background-repeat: no-repeat;
@@ -150,7 +177,7 @@ import { AuthService } from '../../../core/services/auth.service';
 	`,
 })
 export class LoginComponent implements OnInit {
-	private authService = inject(AuthService);
+	private store = inject(Store);
 	sb = inject(MatSnackBar);
 	fb = inject(FormBuilder);
 	modal = inject(MatDialog);
@@ -158,21 +185,22 @@ export class LoginComponent implements OnInit {
 	route = inject(ActivatedRoute);
 	apiUrl = environment.apiUrl + 'auth/google';
 
-	loading = false;
+	loading = this.store.selectSignal(selectSigningIn);
 	referrer = '';
 
 	loginForm = this.fb.group({
 		email: ['', [Validators.required, Validators.email]],
 		password: ['', Validators.required],
+		remember: [false],
 	});
 
 	ngOnInit() {
 		const jwt = this.route.snapshot.paramMap.get('jwt');
 		if (jwt) {
 			localStorage.setItem('access_token', jwt);
-			// const next = this.route.snapshot.queryParamMap.get('next');
+			// const next = this.route.snapshot.queryParamMap.get('next')
 			// this.router.navigate([...next?.split('/') || '/'], { queryParamsHandling: 'preserve' }).then(() => {
-			// this.sb.open('Bienvenid@ a KitMaestro', 'Ok', { duration: 2500 });
+			// this.sb.open('Bienvenid@ a KitMaestro', 'Ok', { duration: 2500 })
 			// })
 		}
 		const referrer =
@@ -197,53 +225,16 @@ export class LoginComponent implements OnInit {
 				: '';
 	}
 
-	loginWithFacebook() {}
-
 	onSubmit() {
 		if (this.loginForm.valid) {
-			const { email, password } = this.loginForm.value;
-			this.loading = true;
+			const { email, password, remember } = this.loginForm.value;
 			if (email && password) {
-				this.authService.login(email, password).subscribe({
-					next: (result) => {
-						if (result.error) {
-							this.sb.open(
-								'Error al iniciar sesion: ' + result.error ===
-									"Cannot read properties of null (reading 'passwordHash')"
-									? 'El usuario no existe'
-									: 'Error en el usuario o contraseña.',
-								'ok',
-								{ duration: 2500 },
-							);
-							this.loading = false;
-						} else {
-							this.router
-								.navigate(
-									this.route.snapshot.queryParamMap
-										.get('next')
-										?.split('/') || ['/'],
-									{ queryParamsHandling: 'preserve' },
-								)
-								.then(() => {
-									this.sb.open(
-										`Bienvenid@ a KitMaestro!`,
-										undefined,
-										{ duration: 2500 },
-									);
-									this.loading = false;
-								});
-						}
-					},
-					error: (err) => {
-						console.log(err);
-						this.sb.open(
-							'Error al iniciar sesion. Inténtalo de nuevo por favor.',
-							'Ok',
-							{ duration: 2500 },
-						);
-						this.loading = false;
-					},
-				});
+				const credentials: LoginDto = {
+					email: email.trim().toLowerCase(),
+					password,
+					remember: remember || false,
+				};
+				this.store.dispatch(signIn({ credentials }));
 			}
 		}
 	}

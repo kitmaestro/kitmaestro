@@ -1,56 +1,33 @@
 import { inject, Injectable } from '@angular/core';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
 import { Observable } from 'rxjs';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { MainTheme } from '../interfaces/main-theme';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { MainTheme } from '../models';
+import { ApiDeleteResponse } from '../interfaces';
+import { ApiService } from './api.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class MainThemeService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'main-themes/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService);
+	#endpoint = 'main-themes/';
 
 	findAll(filters: any): Observable<MainTheme[]> {
-		let params = new HttpParams();
-		Object.keys(filters).forEach((key) => {
-			params = params.set(key, filters[key]);
-		});
-		return this.http.get<MainTheme[]>(this.apiBaseUrl, {
-			...this.config,
-			params,
-		});
+		return this.#apiService.get<MainTheme[]>(this.#endpoint, filters);
 	}
 
 	find(id: string): Observable<MainTheme> {
-		return this.http.get<MainTheme>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<MainTheme>(this.#endpoint + id);
 	}
 
-	create(theme: MainTheme): Observable<MainTheme> {
-		return this.http.post<MainTheme>(this.apiBaseUrl, theme, this.config);
+	create(theme: Partial<MainTheme>): Observable<MainTheme> {
+		return this.#apiService.post<MainTheme>(this.#endpoint, theme);
 	}
 
-	update(id: string, theme: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			theme,
-			this.config,
-		);
+	update(id: string, theme: Partial<MainTheme>): Observable<MainTheme> {
+		return this.#apiService.patch<MainTheme>(this.#endpoint + id, theme);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 }

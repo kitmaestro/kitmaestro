@@ -15,7 +15,7 @@
     "declaration": false,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
@@ -23,7 +23,12 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@core/*": [ "./src/app/core/*" ],
+      "@shared/*": [ "./src/app/shared/*" ],
+      "@store/*": [ "./src/app/store/*" ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

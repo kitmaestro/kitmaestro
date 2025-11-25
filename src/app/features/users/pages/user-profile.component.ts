@@ -1,0 +1,314 @@
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { filter, Subject, takeUntil } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectCurrentSubscription } from '../../../store/user-subscriptions/user-subscriptions.selectors';
+import { selectAuthUser, updateProfile } from '../../../store';
+
+@Component({
+	selector: 'app-user-profile',
+	imports: [
+		MatCardModule,
+		MatButtonModule,
+		MatFormFieldModule,
+		MatSelectModule,
+		MatInputModule,
+		RouterLink,
+		MatIconModule,
+		DatePipe,
+		ReactiveFormsModule,
+		MatIconModule,
+	],
+	template: `
+		<h2>Mi Perfil</h2>
+		<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+			<h3>Informaci&oacute;n Personal</h3>
+			<div class="cols-2">
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Sexo</mat-label>
+						<mat-select
+							(valueChange)="
+								userForm
+									.get('title')
+									?.setValue(
+										gender.value === 'Mujer'
+											? 'Licda'
+											: 'Licdo'
+									)
+							"
+							formControlName="gender"
+							#gender
+						>
+							<mat-option value="Hombre">Hombre</mat-option>
+							<mat-option value="Mujer">Mujer</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>T&iacute;tulo Alcanzado</mat-label>
+						<mat-select formControlName="title">
+							@for (title of titles; track $index) {
+								<mat-option [value]="title.value">{{
+									title.label
+								}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
+				</div>
+			</div>
+			<div class="cols-2">
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Nombre(s)</mat-label>
+						<input
+							type="text"
+							formControlName="firstname"
+							matInput
+						/>
+					</mat-form-field>
+				</div>
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Apellido(s)</mat-label>
+						<input
+							type="text"
+							formControlName="lastname"
+							matInput
+						/>
+					</mat-form-field>
+				</div>
+			</div>
+			<div class="cols-2">
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Email</mat-label>
+						<input type="text" matInput formControlName="email" />
+					</mat-form-field>
+				</div>
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Tel&eacute;fono</mat-label>
+						<input type="text" matInput formControlName="phone" />
+					</mat-form-field>
+				</div>
+			</div>
+			<div style="display: none">
+				<mat-form-field appearance="outline">
+					<mat-label>C&oacute;digo de Referencia</mat-label>
+					<input type="text" matInput formControlName="refCode" />
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field appearance="outline">
+					<mat-label>Nombre de la Escuela</mat-label>
+					<input type="text" formControlName="schoolName" matInput />
+				</mat-form-field>
+			</div>
+			<div class="cols-2">
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Regional</mat-label>
+						<input
+							type="text"
+							formControlName="regional"
+							matInput
+						/>
+					</mat-form-field>
+				</div>
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Distrito</mat-label>
+						<input
+							type="text"
+							formControlName="district"
+							matInput
+						/>
+					</mat-form-field>
+				</div>
+			</div>
+			<div style="text-align: end">
+				<button
+					mat-flat-button
+					type="submit"
+					[disabled]="userForm.invalid"
+					color="primary"
+				>
+					<mat-icon>save</mat-icon>
+					Guardar
+				</button>
+			</div>
+		</form>
+
+		<mat-card class="profile-card">
+			<mat-card-header>
+				<h2>Mi Suscripci&oacute;n</h2>
+			</mat-card-header>
+			<mat-card-content>
+				<div style="margin-top: 12px">
+					<p>
+						<b>Plan Actual:</b>
+						{{ userSubscription()?.subscriptionType }}
+					</p>
+					<p>
+						<b>Estado:</b>
+						{{
+							subscriptionIsOver()
+								? 'Expirada'
+								: userSubscription()?.status === 'active'
+									? 'Activa'
+									: 'Inactiva'
+						}}
+					</p>
+					<p>
+						<b>Miembro desde:</b>
+						{{ userSubscription()?.startDate | date }}
+					</p>
+					<p>
+						<b>Proximo Pago:</b>
+						{{ userSubscription()?.endDate | date }}
+					</p>
+				</div>
+				<div style="margin-top: 12px">
+					<button
+						type="button"
+						routerLink="/buy"
+						color="accent"
+						mat-flat-button
+					>
+						<mat-icon>rocket</mat-icon>
+						{{
+							!userSubscription() ||
+							userSubscription()?.subscriptionType === 'FREE'
+								? 'Adquirir Suscripci&oacute;n'
+								: 'Cambiar mi Plan'
+						}}
+					</button>
+				</div>
+			</mat-card-content>
+		</mat-card>
+		<div style="height: 48px"></div>
+	`,
+	styles: `
+		.profile-card {
+			margin: 24px auto;
+		}
+
+		.card-actions {
+			display: grid;
+			grid-template-columns: 1fr;
+		}
+
+		mat-form-field {
+			width: 100%;
+		}
+
+		.cols-2 {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 16px;
+		}
+	`,
+})
+export class UserProfileComponent implements OnInit, OnDestroy {
+	#fb = inject(FormBuilder);
+	#store = inject(Store);
+	user = this.#store.selectSignal(selectAuthUser)
+
+	userSubscription = this.#store.selectSignal(selectCurrentSubscription);
+	subscriptionIsOver = computed(() => {
+		const sub = this.userSubscription();
+		if (!sub || sub.subscriptionType == 'FREE')
+			return false;
+		return new Date(sub.endDate) < new Date();
+	});
+
+	userForm = this.#fb.group({
+		title: ['', [Validators.required]],
+		firstname: ['', [Validators.required]],
+		lastname: ['', [Validators.required]],
+		username: [''],
+		email: ['', [Validators.required, Validators.email]],
+		gender: ['Hombre'],
+		phone: ['', [Validators.required]],
+		regional: ['', [Validators.required]],
+		district: ['', [Validators.required]],
+		schoolName: ['', [Validators.required]],
+	});
+
+	titleOptions: {
+		Hombre: { value: string; label: string }[];
+		Mujer: { value: string; label: string }[];
+	} = {
+		Hombre: [
+			{ value: 'Licdo', label: 'Licenciado' },
+			{ value: 'Mtro', label: 'Maestro' },
+			{ value: 'Dr', label: 'Doctor' },
+		],
+		Mujer: [
+			{ value: 'Licda', label: 'Licenciada' },
+			{ value: 'Mtra', label: 'Maestra' },
+			{ value: 'Dra', label: 'Doctora' },
+		],
+	};
+
+	#destroy$ = new Subject<void>()
+
+	ngOnInit() {
+		this.#store.select(selectAuthUser).pipe(filter(user => !!user), takeUntil(this.#destroy$)).subscribe({
+			next: (user) => {
+				const {
+					title = '',
+					firstname = '',
+					lastname = '',
+					username = '',
+					email = '',
+					gender = 'Hombre',
+					phone = '',
+					schoolName = '',
+					regional = '',
+					district = '',
+				} = user;
+				this.userForm.setValue({
+					title,
+					firstname,
+					lastname,
+					username,
+					email,
+					gender,
+					phone,
+					schoolName,
+					regional,
+					district,
+				});
+			},
+		});
+	}
+
+	ngOnDestroy(): void {
+		this.#destroy$.next()
+		this.#destroy$.complete()
+	}
+
+	onSubmit() {
+		const data: any = this.userForm.value;
+		this.#store.dispatch(updateProfile({ data }))
+	}
+
+	get titles() {
+		const gender = this.userForm.get('gender')?.value;
+		if (gender === 'Hombre') {
+			return this.titleOptions.Hombre;
+		}
+		return this.titleOptions.Mujer;
+	}
+}

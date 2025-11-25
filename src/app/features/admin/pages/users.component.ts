@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { UserSettingsService } from '../../../core/services/user-settings.service';
+import { Component, inject, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { UserSubscriptionService } from '../../../core/services/user-subscription.service';
 import { UnitPlanService } from '../../../core/services/unit-plan.service';
 import { ClassPlansService } from '../../../core/services/class-plans.service';
@@ -9,11 +9,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { User } from '../../../core';
+import { selectUsersUsers } from '../../../store/users/users.selectors';
+import {
+	createUser,
+	deleteUser,
+	loadUsers,
+} from '../../../store/users/users.actions';
+import { UserDto } from '../../../store/users/users.models';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
 	selector: 'app-users',
@@ -27,77 +35,96 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 		ReactiveFormsModule,
 		MatSelectModule,
 		MatFormFieldModule,
-		MatSnackBarModule,
 		MatInputModule,
+		MatExpansionModule,
 	],
 	template: `
-		<mat-card>
-			<mat-card-header>
-				<mat-card-title>Crear Usuario</mat-card-title>
-			</mat-card-header>
-			<mat-card-content>
-				<form [formGroup]="userForm" (ngSubmit)="createUser()">
-					<div class="grid">
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Nombre(s)</mat-label>
-								<input
-									type="text"
-									matInput
-									formControlName="firstname"
-								/>
-							</mat-form-field>
+		<mat-expansion-panel>
+			<mat-expansion-panel-header>
+				<h2>Crear Usuario</h2>
+			</mat-expansion-panel-header>
+
+			<div>
+				<div>
+					<form [formGroup]="userForm" (ngSubmit)="createUser()">
+						<div class="grid">
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Nombre(s)</mat-label>
+									<input
+										type="text"
+										matInput
+										formControlName="firstname"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Apellido(s)</mat-label>
+									<input
+										type="text"
+										matInput
+										formControlName="lastname"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Sexo</mat-label>
+									<mat-select formControlName="gender">
+										<mat-option value="Hombre"
+											>Hombre</mat-option
+										>
+										<mat-option value="Mujer"
+											>Mujer</mat-option
+										>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Teléfono</mat-label>
+									<input
+										type="text"
+										matInput
+										formControlName="phone"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Email</mat-label>
+									<input
+										type="email"
+										matInput
+										formControlName="email"
+									/>
+								</mat-form-field>
+							</div>
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Contraseña</mat-label>
+									<input
+										type="password"
+										matInput
+										formControlName="password"
+									/>
+								</mat-form-field>
+							</div>
 						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Apellido(s)</mat-label>
-								<input
-									type="text"
-									matInput
-									formControlName="lastname"
-								/>
-							</mat-form-field>
+						<div style="text-align: end">
+							<button
+								mat-flat-button
+								color="primary"
+								type="submit"
+							>
+								Guardar
+							</button>
 						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Sexo</mat-label>
-								<mat-select formControlName="gender">
-									<mat-option value="Hombre">Hombre</mat-option>
-									<mat-option value="Mujer">Mujer</mat-option>
-								</mat-select>
-							</mat-form-field>
-						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Teléfono</mat-label>
-								<input type="text" matInput formControlName="phone" />
-							</mat-form-field>
-						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Email</mat-label>
-								<input type="email" matInput formControlName="email" />
-							</mat-form-field>
-						</div>
-						<div>
-							<mat-form-field appearance="outline">
-								<mat-label>Contraseña</mat-label>
-								<input
-									type="password"
-									matInput
-									formControlName="password"
-								/>
-							</mat-form-field>
-						</div>
-					</div>
-					<div style="text-align: end">
-						<button mat-flat-button color="primary" type="submit">
-							Guardar
-						</button>
-					</div>
-				</form>
-			</mat-card-content>
-		</mat-card>
+					</form>
+				</div>
+			</div>
+		</mat-expansion-panel>
 
 		<h2>Usuarios del Sistema</h2>
 
@@ -109,7 +136,11 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 		>
 			<ng-container matColumnDef="name">
 				<th mat-header-cell *matHeaderCellDef>Nombre</th>
-				<td mat-cell *matCellDef="let user" routerLink="/users/{{ user._id }}">
+				<td
+					mat-cell
+					*matCellDef="let user"
+					routerLink="/admin/users/{{ user._id }}"
+				>
 					{{ user.firstname }} {{ user.lastname }}
 				</td>
 			</ng-container>
@@ -122,13 +153,9 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 			<ng-container matColumnDef="phone">
 				<th mat-header-cell *matHeaderCellDef>Teléfono</th>
 				<td mat-cell *matCellDef="let user">
-					<a
-						target="_blank"
-						href="https://wa.me/+1{{
-							user.phone?.trim()?.replaceAll('-', '')?.replaceAll(' ', '')
-						}}"
-						>{{ user.phone }}</a
-					>
+					<a target="_blank" [href]="waLink(user)">{{
+						user.phone
+					}}</a>
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="sex">
@@ -138,26 +165,29 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 			<ng-container matColumnDef="memberSince">
 				<th mat-header-cell *matHeaderCellDef>Miembro desde</th>
 				<td mat-cell *matCellDef="let user">
-					{{ user.createdAt | date: "dd/MM/YYYY" }}
+					{{ user.createdAt | date: 'd/M/yyyy, h:mm a' }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="actions">
 				<th mat-header-cell *matHeaderCellDef>Acciones</th>
 				<td mat-cell *matCellDef="let user">
-					<button (click)="deleteUser(user._id)" mat-mini-fab>
+					<button (click)="removeUser(user._id)" mat-icon-button>
 						<mat-icon>delete</mat-icon>
 					</button>
 					<a
-						routerLink="/users/{{ user._id }}"
+						routerLink="/admin/users/{{ user._id }}"
 						style="margin-left: 12px"
-						mat-mini-fab
+						mat-icon-button
 						><mat-icon>open_in_new</mat-icon></a
 					>
 				</td>
 			</ng-container>
 
 			<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-			<tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+			<tr
+				mat-row
+				*matRowDef="let myRowData; columns: columnsToDisplay"
+			></tr>
 		</table>
 	`,
 	styles: `
@@ -184,13 +214,12 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 		}
 	`,
 })
-export class UsersComponent {
-	private userService = inject(UserSettingsService);
+export class UsersComponent implements OnInit {
+	private store = inject(Store);
 	private subscriptionService = inject(UserSubscriptionService);
 	private unitPlanService = inject(UnitPlanService);
 	private classPlanService = inject(ClassPlansService);
 	private fb = inject(FormBuilder);
-	private sb = inject(MatSnackBar);
 
 	columnsToDisplay = [
 		'name',
@@ -201,7 +230,7 @@ export class UsersComponent {
 		'actions',
 	];
 
-	users$ = this.userService.findAll();
+	users$ = this.store.select(selectUsersUsers);
 	subscriptions$ = this.subscriptionService.findAll();
 	unitPlans$ = this.unitPlanService.findAll();
 	classPlans$ = this.classPlanService.findAll();
@@ -215,27 +244,40 @@ export class UsersComponent {
 		phone: [''],
 	});
 
-	deleteUser(id: string) {
-		this.userService.delete(id).subscribe({
-			next: (res) => {
-				if (res.deletedCount > 0) {
-					this.users$ = this.userService.findAll();
-				}
-			},
-		});
+	ngOnInit() {
+		this.store.dispatch(loadUsers());
+	}
+
+	waLink(user: User): string {
+		if (!user.phone || !user.firstname) return '#';
+		const phone = user.phone.replace(/\D+/g, ''); // elimina todo lo que no sea dígito
+		if (!/^\d{6,15}$/.test(phone)) {
+			console.error(
+				'Número de teléfono inválido después de limpiar caracteres.',
+			);
+			return '#';
+		}
+
+		const name = (user.firstname || '').trim();
+		const messageLines = [
+			`Hola${name ? ' ' + name : ''}, ¿todo bien con KitMaestro?
+Veo que creaste una cuenta y quería confirmar si pudiste ingresar y crear tu primera planificación.
+Si te da algún error o no sabes por dónde empezar, dime y te lo resuelvo en 2 minutos por aquí.
+¿Pudiste probarla o quieres que te guíe?`,
+		];
+		const message = messageLines.join(' ');
+		const encoded = encodeURIComponent(message);
+
+		return `https://wa.me/${phone.startsWith('809') || phone.startsWith('809') || phone.startsWith('849') ? '+1' + phone : phone}?text=${encoded}`;
+	}
+
+	removeUser(userId: string) {
+		this.store.dispatch(deleteUser({ userId }));
 	}
 
 	createUser() {
-		this.userService.create(this.userForm.value as any).subscribe({
-			next: (res) => {
-				if (res._id) {
-					this.users$ = this.userService.findAll();
-				}
-			},
-			error: (err) => {
-				this.sb.open('Usuario no guardado.', 'Ok', { duration: 2500 });
-				console.log(err.message);
-			},
-		});
+		const user: UserDto = this.userForm.getRawValue() as UserDto;
+
+		this.store.dispatch(createUser({ user }));
 	}
 }

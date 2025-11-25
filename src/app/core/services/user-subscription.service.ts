@@ -1,63 +1,60 @@
-import { Injectable, inject, isDevMode } from '@angular/core';
-import { Observable } from 'rxjs';
-import { UserSubscription } from '../interfaces/user-subscription';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { environment } from '../../../environments/environment';
+import { Injectable, inject } from '@angular/core';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { UserSubscription } from '../models/user-subscription';
+import { ApiDeleteResponse } from '../interfaces';
 import { ApiService } from './api.service';
+import { UserSubscriptionDto } from '../../store/user-subscriptions/user-subscriptions.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UserSubscriptionService {
 	#apiService = inject(ApiService);
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'user-subscriptions/';
+	#endpoint = 'user-subscriptions/';
+	#subscriptionSubject = new BehaviorSubject<UserSubscription | null>(null);
 
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	public subscription$ = this.#subscriptionSubject.asObservable();
+
+	constructor() {
+		this.checkSubscription().subscribe();
+	}
+
+	get subscription(): UserSubscription | null {
+		return this.#subscriptionSubject.value;
+	}
+
+	private setSubscription(subscription: UserSubscription | null) {
+		this.#subscriptionSubject.next(subscription);
+	}
 
 	countSubscriptions(): Observable<{ subscriptions: number }> {
-		return this.#apiService.get<{ subscriptions: number }>('user-subscriptions/count');
-	}
-
-	findAll(): Observable<UserSubscription[]> {
-		return this.http.get<UserSubscription[]>(this.apiBaseUrl, this.config);
-	}
-
-	find(id: string): Observable<UserSubscription> {
-		return this.http.get<UserSubscription>(
-			this.apiBaseUrl + id,
-			this.config,
+		return this.#apiService.get<{ subscriptions: number }>(
+			'user-subscriptions/count',
 		);
 	}
 
+	findAll(): Observable<UserSubscription[]> {
+		return this.#apiService.get<UserSubscription[]>(this.#endpoint);
+	}
+
+	find(id: string): Observable<UserSubscription> {
+		return this.#apiService.get<UserSubscription>(this.#endpoint + id);
+	}
+
 	findByUser(id: string): Observable<UserSubscription> {
-		return this.http.get<UserSubscription>(
-			this.apiBaseUrl + 'by-user/' + id,
-			this.config,
+		return this.#apiService.get<UserSubscription>(
+			this.#endpoint + 'by-user/' + id,
 		);
 	}
 
 	checkSubscription(): Observable<UserSubscription> {
-		return this.http.get<UserSubscription>(
-			this.apiBaseUrl + 'me',
-			this.config,
-		);
+		return this.#apiService
+			.get<UserSubscription>(this.#endpoint + 'me')
+			.pipe(tap((subscription) => this.setSubscription(subscription)));
 	}
 
-	create(data: any) {
-		return this.http.post<UserSubscription>(
-			this.apiBaseUrl,
-			data,
-			this.config,
-		);
+	create(data: Partial<UserSubscriptionDto>) {
+		return this.#apiService.post<UserSubscription>(this.#endpoint, data);
 	}
 
 	subscribe(
@@ -67,8 +64,8 @@ export class UserSubscriptionService {
 		amount: number,
 		user?: string,
 	): Observable<UserSubscription> {
-		const subscription = {
-			user: user ? user : undefined,
+		const subscription: UserSubscriptionDto = {
+			user,
 			subscriptionType,
 			status: 'active',
 			startDate: new Date(),
@@ -79,51 +76,9 @@ export class UserSubscriptionService {
 			amount,
 		};
 
-		return this.http.post<UserSubscription>(
-			this.apiBaseUrl,
+		return this.#apiService.post<UserSubscription>(
+			this.#endpoint,
 			subscription,
-			this.config,
-		);
-	}
-
-	getEvaluationSubscription(user?: string): Observable<UserSubscription> {
-		const subscription = {
-			user: user ? user : undefined,
-			subscriptionType: 'Premium Evaluation',
-			status: 'active',
-			startDate: new Date(),
-			endDate: new Date(new Date().valueOf() + 3 * 24 * 60 * 60 * 1000),
-			method: 'none',
-			amount: 0,
-		};
-
-		return this.http.post<UserSubscription>(
-			this.apiBaseUrl,
-			subscription,
-			this.config,
-		);
-	}
-
-	addReferral(referral: UserSubscription): Observable<UserSubscription> {
-		return this.http.post<UserSubscription>(
-			this.apiBaseUrl,
-			referral,
-			this.config,
-		);
-	}
-
-	updateReferral(id: string, referral: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			referral,
-			this.config,
-		);
-	}
-
-	deleteReferral(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
 		);
 	}
 }

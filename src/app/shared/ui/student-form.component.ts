@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -9,7 +9,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { StudentsService } from '../../core/services/students.service';
 
@@ -51,7 +51,7 @@ import { StudentsService } from '../../core/services/students.service';
 				<div style="margin-top: 20px">
 					<button
 						type="submit"
-						style="margin-left: auto; display: block"
+						style="margin-left: auto display: block"
 						mat-raised-button
 						color="primary"
 					>
@@ -69,9 +69,9 @@ import { StudentsService } from '../../core/services/students.service';
 })
 export class StudentFormComponent {
 	private fb = inject(FormBuilder);
-	private sb = inject(MatSnackBar);
 	private dialogRef = inject(MatDialogRef<StudentFormComponent>);
 	private studentService = inject(StudentsService);
+	private data = inject<any>(MAT_DIALOG_DATA);
 
 	id = '';
 
@@ -84,10 +84,8 @@ export class StudentFormComponent {
 		section: ['', Validators.required],
 	});
 
-	constructor(
-		@Inject(MAT_DIALOG_DATA)
-		public data: any,
-	) {
+	constructor() {
+		const data = this.data;
 		if (data._id) {
 			this.id = data._id;
 			this.studentForm.get('firstname')?.setValue(data.firstname);

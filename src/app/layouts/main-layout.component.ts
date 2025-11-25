@@ -1,10 +1,13 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { delay, filter, finalize, of, switchMap, take } from 'rxjs';
-import { AuthService } from '../core/services/auth.service';
-import { User } from '../core/interfaces/user';
+import { filter } from 'rxjs';
 import { NavigationComponent } from './components/navigation.component';
 import { LoadingComponent } from '../shared/ui/loading.component';
+import { Store } from '@ngrx/store';
+import {
+	selectAuthLoading,
+	selectAuthUser,
+} from '../store/auth/auth.selectors';
 
 @Component({
 	selector: 'app-main-layout',
@@ -12,7 +15,7 @@ import { LoadingComponent } from '../shared/ui/loading.component';
 	standalone: true,
 	template: `
 		<app-loading [loading]="loading()"></app-loading>
-		<app-navigation (signOut)="reset()"></app-navigation>
+		<app-navigation></app-navigation>
 		<div class="main-container">
 			<router-outlet></router-outlet>
 		</div>
@@ -65,16 +68,15 @@ import { LoadingComponent } from '../shared/ui/loading.component';
 		}
 	`,
 })
-export class MainLayoutComponent {
-	#authService = inject(AuthService);
+export class MainLayoutComponent implements OnInit {
+	#store = inject(Store);
 	#router = inject(Router);
 
-	user = signal<User | null>(null);
-	loading = signal(true);
+	user = this.#store.selectSignal(selectAuthUser);
+	loading = this.#store.selectSignal(selectAuthLoading);
 
 	redirectToLogin() {
 		const next = location.pathname;
-		this.loading.set(false);
 		if (!next.includes('auth')) {
 			this.#router.navigate(['/auth', 'login'], {
 				queryParams: { next },
@@ -82,32 +84,19 @@ export class MainLayoutComponent {
 		}
 	}
 
-	reset() {
-		this.loading.set(true);
-		this.user.set(null);
-		setTimeout(() => {
-			this.loading.set(false);
-		}, 1300);
-	}
-
 	ngOnInit() {
-		this.#authService.profile().pipe(
-				switchMap(() => this.#authService.profile()),
-				filter((event) => event instanceof NavigationEnd),
-				finalize(() => this.loading.set(false)),
-			)
+		this.#store
+			.select(selectAuthUser)
+			.pipe(filter((event) => event instanceof NavigationEnd))
 			.subscribe({
 				next: (user) => {
 					if (!user) {
 						return this.redirectToLogin();
 					}
-					this.user.set(user);
-					this.loading.set(false);
 				},
 				error: (err) => {
 					this.redirectToLogin();
 					console.log(err.message);
-					this.loading.set(false);
 				},
 			});
 	}

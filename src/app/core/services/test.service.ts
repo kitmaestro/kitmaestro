@@ -1,10 +1,7 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { Test } from '../interfaces/test';
+import { ApiDeleteResponse } from '../interfaces';
+import { Test } from '../models/test';
 import {
 	Document,
 	HeadingLevel,
@@ -18,56 +15,35 @@ import {
 	WidthType,
 } from 'docx';
 import { saveAs } from 'file-saver';
-import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
+import { PretifyPipe } from '../../shared';
+import { ApiService } from './api.service';
+import { TestDto } from '../../store/tests/tests.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class TestService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'tests/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService);
+	#enpoint = 'tests/';
 
 	findAll(filters?: any): Observable<Test[]> {
-		let params = new HttpParams();
-		if (filters) {
-			Object.keys(filters).forEach((key) => {
-				params = params.set(key, filters[key]);
-			});
-		}
-		return this.http.get<Test[]>(this.apiBaseUrl, {
-			params,
-			...this.config,
-		});
+		return this.#apiService.get<Test[]>(this.#enpoint, filters);
 	}
 
 	find(id: string): Observable<Test> {
-		return this.http.get<Test>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<Test>(this.#enpoint + id);
 	}
 
-	create(plan: any): Observable<Test> {
-		return this.http.post<Test>(this.apiBaseUrl, plan, this.config);
+	create(plan: Partial<TestDto>): Observable<Test> {
+		return this.#apiService.post<Test>(this.#enpoint, plan);
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			plan,
-			this.config,
-		);
+	update(id: string, plan: Partial<TestDto>): Observable<Test> {
+		return this.#apiService.patch<Test>(this.#enpoint + id, plan);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#enpoint + id);
 	}
 
 	async download(test: Test) {

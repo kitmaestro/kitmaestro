@@ -1,10 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ClassPlan } from '../interfaces/class-plan';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
-import { environment } from '../../../environments/environment';
+import { ClassPlan } from '../models';
+import { ApiDeleteResponse } from '../interfaces';
 import {
 	Document,
 	Packer,
@@ -19,53 +16,38 @@ import {
 import { saveAs } from 'file-saver';
 import { PretifyPipe } from '../../shared/pipes/pretify.pipe';
 import { ApiService } from './api.service';
+import { ClassPlanDto } from '../../store/class-plans/class-plans.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ClassPlansService {
 	#apiService = inject(ApiService);
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'class-plans/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
-	private pretify = new PretifyPipe().transform;
-
+	#endpoint = 'class-plans/';
+	#pretify = new PretifyPipe().transform;
 
 	countPlans(): Observable<{ plans: number }> {
 		return this.#apiService.get<{ plans: number }>('class-plans/count');
 	}
 
-	findAll(): Observable<ClassPlan[]> {
-		return this.http.get<ClassPlan[]>(this.apiBaseUrl, this.config);
+	findAll(filters?: any): Observable<ClassPlan[]> {
+		return this.#apiService.get<ClassPlan[]>(this.#endpoint, filters);
 	}
 
 	find(id: string): Observable<ClassPlan> {
-		return this.http.get<ClassPlan>(this.apiBaseUrl + id, this.config);
+		return this.#apiService.get<ClassPlan>(this.#endpoint + id);
 	}
 
-	addPlan(plan: ClassPlan): Observable<ClassPlan> {
-		return this.http.post<ClassPlan>(this.apiBaseUrl, plan, this.config);
+	addPlan(plan: Partial<ClassPlanDto>): Observable<ClassPlan> {
+		return this.#apiService.post<ClassPlan>(this.#endpoint, plan);
 	}
 
-	updatePlan(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
-			plan,
-			this.config,
-		);
+	updatePlan(id: string, plan: any): Observable<ClassPlan> {
+		return this.#apiService.patch<ClassPlan>(this.#endpoint + id, plan);
 	}
 
 	deletePlan(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
 	async download(plan: ClassPlan) {
@@ -84,7 +66,7 @@ export class ClassPlansService {
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -97,10 +79,10 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
+							columnSpan: 5,
 							children: [
 								new Paragraph({
-									text: plan.section.school.name,
+									text: plan.user.schoolName,
 								}),
 							],
 						}),
@@ -125,9 +107,9 @@ export class ClassPlansService {
 							children: [
 								new Paragraph({
 									text:
-										this.pretify(plan.section.year) +
+										this.#pretify(plan.section.year) +
 										' de ' +
-										this.pretify(plan.section.level),
+										this.#pretify(plan.section.level),
 								}),
 							],
 						}),
@@ -147,7 +129,7 @@ export class ClassPlansService {
 							columnSpan: 2,
 							children: [
 								new Paragraph({
-									text: this.pretify(plan.subject),
+									text: this.#pretify(plan.subject),
 								}),
 							],
 						}),
@@ -196,7 +178,7 @@ export class ClassPlansService {
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -209,19 +191,15 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
-							children: [
-								new Paragraph({
-									text: plan.strategies.join(', '),
-								}),
-							],
+							columnSpan: 5,
+							children: plan.strategies.map(st => new Paragraph({ text: st, bullet: { level: 0 }})),
 						}),
 					],
 				}),
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -234,8 +212,50 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
+							columnSpan: 5,
 							children: [new Paragraph({ text: plan.objective })],
+						}),
+					],
+				}),
+				new TableRow({
+					children: [
+						new TableCell({
+							columnSpan: 1,
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Competencia Específica:',
+											bold: true,
+										}),
+									],
+								}),
+							],
+						}),
+						new TableCell({
+							columnSpan: 5,
+							children: [new Paragraph({ text: plan.competence })],
+						}),
+					],
+				}),
+				new TableRow({
+					children: [
+						new TableCell({
+							columnSpan: 1,
+							children: [
+								new Paragraph({
+									children: [
+										new TextRun({
+											text: 'Indicador de Logro:',
+											bold: true,
+										}),
+									],
+								}),
+							],
+						}),
+						new TableCell({
+							columnSpan: 5,
+							children: [new Paragraph({ text: plan.achievementIndicator || '' })],
 						}),
 					],
 				}),
@@ -258,25 +278,13 @@ export class ClassPlansService {
 								new Paragraph({
 									children: [
 										new TextRun({
-											text: 'Competencias Específicas',
-											bold: true,
-										}),
-									],
-								}),
-							],
-						}),
-						new TableCell({
-							children: [
-								new Paragraph({
-									children: [
-										new TextRun({
 											text: 'Actividades',
 											bold: true,
 										}),
 									],
 								}),
 							],
-							columnSpan: 2,
+							columnSpan: 3,
 						}),
 						new TableCell({
 							children: [
@@ -322,17 +330,11 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							children: [
-								new Paragraph({ text: plan.competence }),
-							],
-							rowSpan: 4,
-						}),
-						new TableCell({
 							children: plan.introduction.activities.map(
 								(activity) =>
 									new Paragraph({ text: '- ' + activity }),
 							),
-							columnSpan: 2,
+							columnSpan: 3,
 						}),
 						new TableCell({
 							children: [
@@ -370,7 +372,7 @@ export class ClassPlansService {
 								(activity) =>
 									new Paragraph({ text: '- ' + activity }),
 							),
-							columnSpan: 2,
+							columnSpan: 3,
 						}),
 						new TableCell({
 							children: [
@@ -406,7 +408,7 @@ export class ClassPlansService {
 								(activity) =>
 									new Paragraph({ text: '- ' + activity }),
 							),
-							columnSpan: 2,
+							columnSpan: 3,
 						}),
 						new TableCell({
 							children: [
@@ -439,7 +441,7 @@ export class ClassPlansService {
 								(activity) =>
 									new Paragraph({ text: '- ' + activity }),
 							),
-							columnSpan: 2,
+							columnSpan: 3,
 						}),
 						new TableCell({
 							children: [
@@ -458,7 +460,7 @@ export class ClassPlansService {
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -471,7 +473,7 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
+							columnSpan: 5,
 							children: [
 								new Paragraph(plan.vocabulary.join(', ')),
 							],
@@ -481,7 +483,7 @@ export class ClassPlansService {
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -494,15 +496,15 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
-							children: [new Paragraph(plan.readings)],
+							columnSpan: 5,
+							children: [new Paragraph(plan.readings || '')],
 						}),
 					],
 				}),
 				new TableRow({
 					children: [
 						new TableCell({
-							columnSpan: 2,
+							columnSpan: 1,
 							children: [
 								new Paragraph({
 									children: [
@@ -515,7 +517,7 @@ export class ClassPlansService {
 							],
 						}),
 						new TableCell({
-							columnSpan: 4,
+							columnSpan: 5,
 							children: [new Paragraph('')],
 						}),
 					],
@@ -552,7 +554,7 @@ export class ClassPlansService {
 		const blob = await Packer.toBlob(doc);
 		saveAs(
 			blob,
-			`Plan diario - ${this.pretify(plan.subject)} - ${date}.docx`,
+			`Plan diario - ${this.#pretify(plan.subject)} - ${date}.docx`,
 		);
 	}
 }

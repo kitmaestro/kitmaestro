@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { UserSettings } from '../../../core/interfaces/user-settings';
+import { User } from '../../../core';
 import { UpdateService } from '../../../core/services/update.service';
 
 @Component({
@@ -28,7 +28,7 @@ import { UpdateService } from '../../../core/services/update.service';
 	template: `
 		<mat-card>
 			<mat-card-header>
-				<mat-card-title>Actualizaciones</mat-card-title>
+				<h2>Actualizaciones</h2>
 			</mat-card-header>
 			<mat-card-content>
 				<div style="margin-top: 12px">
@@ -37,9 +37,14 @@ import { UpdateService } from '../../../core/services/update.service';
 						<div style="display: flex; gap: 12px; margin-top: 24px">
 							<div style="flex: 1 1 auto">
 								<mat-form-field appearance="outline">
-									<mat-label>Tipo de Publicaci&oacute;n</mat-label>
+									<mat-label
+										>Tipo de Publicaci&oacute;n</mat-label
+									>
 									<mat-select formControlName="type">
-										@for (option of postType; track $index) {
+										@for (
+											option of postType;
+											track $index
+										) {
 											<mat-option [value]="option.id">{{
 												option.label
 											}}</mat-option>
@@ -61,7 +66,11 @@ import { UpdateService } from '../../../core/services/update.service';
 						<div>
 							<mat-form-field appearance="outline">
 								<mat-label>T&iacute;tulo</mat-label>
-								<input type="text" matInput formControlName="title" />
+								<input
+									type="text"
+									matInput
+									formControlName="title"
+								/>
 							</mat-form-field>
 						</div>
 						<div>
@@ -118,7 +127,9 @@ import { UpdateService } from '../../../core/services/update.service';
 									<div>
 										<mat-form-field appearance="outline">
 											<mat-label>Es externo?</mat-label>
-											<mat-select formControlName="external">
+											<mat-select
+												formControlName="external"
+											>
 												<mat-option [value]="true"
 													>Si</mat-option
 												>
@@ -228,7 +239,7 @@ export class UpdateCreatorComponent implements OnInit {
 	private fb = inject(FormBuilder);
 	private router = inject(Router);
 	private sb = inject(MatSnackBar);
-	private user: UserSettings | null = null;
+	private user: User | null = null;
 	private route = inject(ActivatedRoute);
 	private updateId = this.route.snapshot.paramMap.get('id') || '';
 
@@ -295,15 +306,11 @@ export class UpdateCreatorComponent implements OnInit {
 		const data: any = this.form.value;
 		if (this.updateId) {
 			this.updateService.update(this.updateId, data).subscribe((res) => {
-				if (res.modifiedCount > 0) {
-					this.router.navigateByUrl('/updates').then(() => {
-						this.sb.open(
-							'Se ha publicado la actualizacion!',
-							'Ok',
-							{ duration: 2500 },
-						);
+				this.router.navigateByUrl('/updates').then(() => {
+					this.sb.open('Se ha publicado la actualizacion!', 'Ok', {
+						duration: 2500,
 					});
-				}
+				});
 			});
 		} else {
 			this.updateService.create(data).subscribe((res) => {

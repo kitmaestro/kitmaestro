@@ -12,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 					<h2>No hay datos todavía</h2>
 					<p>¡Empieza ahora!</p>
 					<button
-						mat-raised-button
+						mat-flat-button
 						(click)="createRequest()"
 						color="primary"
 					>

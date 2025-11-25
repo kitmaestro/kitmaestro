@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, computed, Inject, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -9,12 +9,18 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ClassSectionService } from '../../core/services';
-import { ClassSection } from '../../core/interfaces';
-import { SchoolService } from '../../core/services';
-import { School } from '../../core/interfaces';
+import { ClassSection } from '../../core/models';
+import { Store } from '@ngrx/store';
+import {
+	ClassSectionDto,
+	ClassSectionStateStatus,
+	createSection,
+	selectClassSectionsStatus,
+	updateSection,
+} from '../../store/class-sections';
+import { Actions } from '@ngrx/effects';
+import { Subject } from 'rxjs';
 
 @Component({
 	selector: 'app-class-section-form',
@@ -26,22 +32,11 @@ import { School } from '../../core/interfaces';
 		MatFormFieldModule,
 		MatSelectModule,
 		MatSnackBarModule,
-		CommonModule,
 	],
 	template: `
 		<h2 mat-dialog-title>{{ data ? 'Editar' : 'Crear' }} Seccion</h2>
 		<mat-dialog-content>
 			<form (ngSubmit)="onSubmit()" [formGroup]="sectionForm">
-				<mat-form-field>
-					<mat-label>Escuela</mat-label>
-					<mat-select formControlName="school">
-						@for (school of schools; track school._id) {
-							<mat-option [value]="school._id">{{
-								school.name
-							}}</mat-option>
-						}
-					</mat-select>
-				</mat-form-field>
 				<mat-form-field>
 					<mat-label>Nivel</mat-label>
 					<mat-select formControlName="level">
@@ -66,11 +61,11 @@ import { School } from '../../core/interfaces';
 				<mat-form-field>
 					<mat-label>Asignaturas</mat-label>
 					<mat-select multiple formControlName="subjects">
-						<mat-option
-							*ngFor="let subject of subjectOptions"
-							[value]="subject.value"
-							>{{ subject.label }}</mat-option
-						>
+						@for (subject of subjectOptions; track subject.value) {
+							<mat-option [value]="subject.value">{{
+								subject.label
+							}}</mat-option>
+						}
 					</mat-select>
 				</mat-form-field>
 				<mat-form-field>
@@ -83,9 +78,9 @@ import { School } from '../../core/interfaces';
 						matInput
 					/>
 				</mat-form-field>
-				<div style="text-align: end; margin-top: 32px">
+				<div style="text-align: end margin-top: 32px">
 					<button
-						[disabled]="saving || sectionForm.invalid"
+						[disabled]="saving() || sectionForm.invalid"
 						type="submit"
 						mat-raised-button
 						color="primary"
@@ -96,21 +91,24 @@ import { School } from '../../core/interfaces';
 			</form>
 		</mat-dialog-content>
 	`,
-	styles: 'mat-form-field {width: 100%;}',
+	styles: 'mat-form-field {width: 100%}',
 })
-export class ClassSectionFormComponent {
+export class ClassSectionFormComponent implements OnDestroy, OnInit {
 	private fb = inject(FormBuilder);
 	private dialogRef = inject(MatDialogRef<ClassSectionFormComponent>);
-	private classSectionService = inject(ClassSectionService);
-	private schoolService = inject(SchoolService);
+	#store = inject(Store);
+	#actions$ = inject(Actions);
 	sb = inject(MatSnackBar);
-	saving = false;
+	data = inject<ClassSection | null>(MAT_DIALOG_DATA);
+	#status = this.#store.selectSignal(selectClassSectionsStatus);
+	saving = computed(
+		() =>
+			this.#status() === ClassSectionStateStatus.CREATING_SECTION ||
+			this.#status() === ClassSectionStateStatus.UPDATING_SECTION,
+	);
 	id = '';
 
-	schools: School[] = [];
-
 	sectionForm = this.fb.group({
-		school: ['', Validators.required],
 		name: ['', Validators.required],
 		level: ['', Validators.required],
 		year: ['', Validators.required],
@@ -133,15 +131,14 @@ export class ClassSectionFormComponent {
 		{ value: 'TALLERES_OPTATIVOS', label: 'Talleres Optativos' },
 	];
 
-	constructor(
-		@Inject(MAT_DIALOG_DATA)
-		public data: ClassSection,
-	) {
+	destroy$ = new Subject<void>();
+
+	constructor() {
+		const data = this.data;
 		if (data) {
-			const { school, name, level, year, subjects, _id: id } = data;
+			const { name, level, year, subjects, _id: id } = data;
 
 			this.sectionForm.setValue({
-				school: school ? school._id : '',
 				name: name ? name : '',
 				level: level ? level : '',
 				year: year ? year : '',
@@ -150,46 +147,30 @@ export class ClassSectionFormComponent {
 
 			this.id = id || '';
 		}
-		this.schoolService
-			.findAll()
-			.subscribe((schools) => (this.schools = schools));
+	}
+
+	ngOnDestroy() {
+		this.destroy$.next();
+		this.destroy$.complete();
+	}
+
+	ngOnInit() {
+		this.#actions$.pipe().subscribe();
 	}
 
 	onSubmit() {
 		if (this.sectionForm.valid) {
-			this.saving = true;
-			const { school, name, level, year, subjects } =
-				this.sectionForm.value;
+			const { name, level, year, subjects } = this.sectionForm.value;
+			if (!name || !level || !year || !subjects?.length) return;
 			if (this.data) {
-				this.classSectionService
-					.updateSection(this.id, {
-						school,
-						name,
-						level,
-						year,
-						subjects,
-					})
-					.subscribe((res) => {
-						if (res.modifiedCount === 1) {
-							this.sb.open(
-								'Sección actualizada con éxito.',
-								'Ok',
-								{ duration: 2500 },
-							);
-							this.dialogRef.close(res);
-						}
-					});
+				const id = this.data._id;
+				const data: ClassSectionDto = { name, level, year, subjects };
+				this.#store.dispatch(updateSection({ id, data }));
 			} else {
-				const section: any = { school, name, level, year, subjects };
-				this.classSectionService
-					.addSection(section)
-					.subscribe((result) => {
-						this.sb.open('Sección creada con éxito.', 'Ok', {
-							duration: 2500,
-						});
-						this.dialogRef.close(result);
-					});
+				const section: any = { name, level, year, subjects };
+				this.#store.dispatch(createSection({ section }));
 			}
+			this.dialogRef.close();
 		}
 	}
 }

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Update } from '../../../core/interfaces/update';
+import { Update } from '../../../core';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,11 +25,11 @@ import { AuthService } from '../../../core/services/auth.service';
 	template: `
 		<mat-card style="margin-bottom: 42px">
 			<mat-card-header>
-				<h2 mat-card-title>Notificaciones</h2>
+				<h2>Notificaciones</h2>
 				@if (authorUser) {
 					<span style="flex: 1 1 auto"></span>
 					<button
-						mat-mini-fab
+						mat-icon-button
 						type="button"
 						routerLink="/updates/new"
 						color="primary"
@@ -51,19 +51,32 @@ import { AuthService } from '../../../core/services/auth.service';
 					<p>
 						<b>{{ update.author }}</b
 						><br />
-						{{ update.date | date: "dd/MM/YYYY" }}
+						{{ update.date | date: 'dd/MM/yyyy' }}
 						<br /><br />
-						@if (update.type === "notice") {
+						@if (update.type === 'notice') {
 							<i>Actualizaci&oacute;n</i>
-						} @else if (update.type === "feature") {
+						} @else if (update.type === 'feature') {
 							<i>¡Nueva Funci&oacute;n Disponible!</i>
 						} @else {
 							<i>¡Error Arreglado!</i>
 						}
 						<br /><br />
-						@for (paragraph of update.content.split("\n"); track $index) {
+						@for (
+							paragraph of update.content.split(
+								'
+'
+							);
+							track $index
+						) {
 							{{ paragraph }}
-							@if ($index < update.content.split("\n").length - 1) {
+							@if (
+								$index <
+								update.content.split(
+									'
+'
+								).length -
+									1
+							) {
 								<br /><br />
 							}
 						}

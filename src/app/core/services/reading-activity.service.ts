@@ -1,10 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { ReadingActivity } from '../interfaces/reading-activity';
 import { Observable } from 'rxjs';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
+import { ReadingActivity } from '../models';
+import { ApiDeleteResponse } from '../interfaces';
+import { ApiService } from './api.service';
 import {
 	AlignmentType,
 	Document,
@@ -16,57 +14,43 @@ import {
 	TextRun,
 } from 'docx';
 import { saveAs } from 'file-saver';
+import { ReadingActivityDto } from '../../store/reading-activities/reading-activities.models';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ReadingActivityService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'reading-activities/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService);
+	#endpoint = 'reading-activities/';
 
 	findAll(): Observable<ReadingActivity[]> {
-		return this.http.get<ReadingActivity[]>(this.apiBaseUrl, this.config);
+		return this.#apiService.get<ReadingActivity[]>(this.#endpoint);
 	}
 
 	find(id: string): Observable<ReadingActivity> {
-		return this.http.get<ReadingActivity>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.get<ReadingActivity>(this.#endpoint + id);
 	}
 
-	create(plan: ReadingActivity): Observable<ReadingActivity> {
-		return this.http.post<ReadingActivity>(
-			this.apiBaseUrl,
-			plan,
-			this.config,
-		);
+	create(plan: Partial<ReadingActivityDto>): Observable<ReadingActivity> {
+		return this.#apiService.post<ReadingActivity>(this.#endpoint, plan);
 	}
 
-	update(id: string, plan: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl + id,
+	update(
+		id: string,
+		plan: Partial<ReadingActivityDto>,
+	): Observable<ReadingActivity> {
+		return this.#apiService.patch<ReadingActivity>(
+			this.#endpoint + id,
 			plan,
-			this.config,
 		);
 	}
 
 	delete(id: string): Observable<ApiDeleteResponse> {
-		return this.http.delete<ApiDeleteResponse>(
-			this.apiBaseUrl + id,
-			this.config,
-		);
+		return this.#apiService.delete<ApiDeleteResponse>(this.#endpoint + id);
 	}
 
 	async download(activity: ReadingActivity) {
-		const logo = await fetch(environment.apiUrl + 'logo-minerd');
+		const logo = await fetch(this.#apiService.getApiUrl() + 'logo-minerd');
 		const { data } = await logo.json();
 
 		const logoMinerd = new ImageRun({
@@ -98,7 +82,7 @@ export class ReadingActivityService {
 							children: [
 								new TextRun({
 									color: '#000000',
-									text: activity.section.school.name,
+									text: activity.user.schoolName,
 								}),
 							],
 							heading: HeadingLevel.HEADING_1,

@@ -24,8 +24,8 @@ import { AuthService } from '../../../core/services/auth.service';
 		<h2 mat-dialog-title>Recuperar Contrase&ntilde;a</h2>
 		<mat-dialog-content>
 			<p>
-				Ingresa tu email debajo, si lo tenemos registrado, te enviaremos un
-				correo para que restablezcas tu contrase&ntilde;a.
+				Ingresa tu email debajo, si lo tenemos registrado, te enviaremos
+				un correo para que restablezcas tu contrase&ntilde;a.
 			</p>
 			<mat-form-field style="margin: 12px 0; width: 100%; display: block">
 				<mat-label>Email</mat-label>
@@ -45,7 +45,7 @@ import { AuthService } from '../../../core/services/auth.service';
 				</button>
 			</div>
 		</mat-dialog-content>
-	`
+	`,
 })
 export class RecoverComponent {
 	private fb = inject(FormBuilder);
@@ -59,7 +59,7 @@ export class RecoverComponent {
 		const email = this.email.value;
 		if (!email) return;
 
-		this.authService.recover(email.trim()).subscribe({
+		this.authService.recover(email.trim().toLowerCase()).subscribe({
 			next: (res) => {
 				console.log(res);
 				this.sb.open(

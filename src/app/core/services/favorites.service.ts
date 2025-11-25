@@ -1,45 +1,32 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { AppEntry } from '../interfaces/app-entry';
+import { AppEntry } from '../interfaces';
 import { Observable } from 'rxjs';
-import { ApiUpdateResponse } from '../interfaces/api-update-response';
-import { ApiDeleteResponse } from '../interfaces/api-delete-response';
+import { ApiService } from './api.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class FavoritesService {
-	private http = inject(HttpClient);
-	private apiBaseUrl = environment.apiUrl + 'favorite-tools/';
-	private config = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-		}),
-	};
+	#apiService = inject(ApiService);
+	#endpoint = 'favorite-tools/';
 
 	findAll(): Observable<{ user: string; tools: AppEntry[] }> {
-		return this.http.get<{ user: string; tools: AppEntry[] }>(
-			this.apiBaseUrl,
-			this.config,
+		return this.#apiService.get<{ user: string; tools: AppEntry[] }>(
+			this.#endpoint,
 		);
 	}
 
 	create(data: AppEntry[]): Observable<{ user: string; tools: AppEntry[] }> {
-		return this.http.post<{ user: string; tools: AppEntry[] }>(
-			this.apiBaseUrl,
+		return this.#apiService.post<{ user: string; tools: AppEntry[] }>(
+			this.#endpoint,
 			data,
-			this.config,
 		);
 	}
 
-	update(data: any): Observable<ApiUpdateResponse> {
-		return this.http.patch<ApiUpdateResponse>(
-			this.apiBaseUrl,
+	update(data: any): Observable<{ user: string; tools: AppEntry }> {
+		return this.#apiService.patch<{ user: string; tools: AppEntry }>(
+			this.#endpoint,
 			data,
-			this.config,
 		);
 	}
 }

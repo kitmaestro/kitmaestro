@@ -1,4 +1,5 @@
-export interface ApiCreationResponse {
+export interface ApiCreationResponse<T> {
+	data: T;
 }
 
 export interface ApiDeleteResponse {
