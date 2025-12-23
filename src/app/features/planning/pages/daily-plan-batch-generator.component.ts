@@ -298,23 +298,50 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 			(p) => p._id === this.generatorForm.value.unitPlan,
 		);
 
-		if (!selectedUnitPlan || !selectedUnitPlan.section) {
+		const targetSections =
+			selectedUnitPlan?.sections && selectedUnitPlan.sections.length > 0
+				? selectedUnitPlan.sections
+				: selectedUnitPlan?.section
+					? [selectedUnitPlan.section]
+					: [];
+
+		if (!selectedUnitPlan || targetSections.length === 0) {
 			this.handleError(
-				'La unidad de aprendizaje seleccionada es inválida.',
+				'La unidad de aprendizaje seleccionada es inválida o no tiene secciones asignadas.',
 			);
 			return;
 		}
 
-		const plansToGenerate = this.calculateRequiredPlans(
-			selectedUnitPlan,
-			selectedUnitPlan.section,
-		);
-		const sequencedActivities = this.sequenceActivitiesForUnit(
-			selectedUnitPlan,
-			plansToGenerate,
-		);
+		// Pre-calcular planes para todas las secciones
+		const generationQueue: {
+			section: ClassSection;
+			plans: PlanToGenerate[];
+			activitiesMap: Map<string, string[][]>;
+		}[] = [];
 
-		if (plansToGenerate.length === 0) {
+		let totalPlans = 0;
+
+		for (const section of targetSections) {
+			const plansToGenerate = this.calculateRequiredPlans(
+				selectedUnitPlan,
+				section,
+			);
+			const sequencedActivities = this.sequenceActivitiesForUnit(
+				selectedUnitPlan,
+				plansToGenerate,
+			);
+
+			if (plansToGenerate.length > 0) {
+				generationQueue.push({
+					section,
+					plans: plansToGenerate,
+					activitiesMap: sequencedActivities,
+				});
+				totalPlans += plansToGenerate.length;
+			}
+		}
+
+		if (totalPlans === 0) {
 			this.sb.open(
 				'No se requieren planes diarios para esta unidad.',
 				'Ok',
@@ -325,32 +352,37 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 
 		this.isGenerating = true;
 		this.#store.dispatch(askGeminiStart());
-		this.totalPlansToGenerate = plansToGenerate.length;
+		this.totalPlansToGenerate = totalPlans;
 		this.plansGenerated = 0;
-		let currentDate = new Date();
-		const subjectCounters = new Map<string, number>();
 
-		for (const planInfo of plansToGenerate) {
-			try {
-				const counter = subjectCounters.get(planInfo.subject) || 0;
-				const activitiesForThisClass =
-					sequencedActivities.get(planInfo.subject)?.[counter] || [];
+		for (const task of generationQueue) {
+			let currentDate = new Date();
+			const subjectCounters = new Map<string, number>();
 
-				await this.generateAndSaveSinglePlan(
-					planInfo,
-					currentDate,
-					selectedUnitPlan,
-					activitiesForThisClass,
-				);
+			for (const planInfo of task.plans) {
+				try {
+					const counter = subjectCounters.get(planInfo.subject) || 0;
+					const activitiesForThisClass =
+						task.activitiesMap.get(planInfo.subject)?.[counter] ||
+						[];
 
-				this.plansGenerated++;
-				subjectCounters.set(planInfo.subject, counter + 1);
-				currentDate = this.getNextWorkDay(currentDate);
-				await new Promise((resolve) => setTimeout(resolve, 2000));
-			} catch {
-				this.handleError(
-					`Error al generar plan para ${this.pretifyPipe(planInfo.subject)}.`,
-				);
+					await this.generateAndSaveSinglePlan(
+						planInfo,
+						currentDate,
+						selectedUnitPlan,
+						activitiesForThisClass,
+						task.section,
+					);
+
+					this.plansGenerated++;
+					subjectCounters.set(planInfo.subject, counter + 1);
+					currentDate = this.getNextWorkDay(currentDate);
+					await new Promise((resolve) => setTimeout(resolve, 2000));
+				} catch {
+					this.handleError(
+						`Error al generar plan para ${this.pretifyPipe(planInfo.subject)}.`,
+					);
+				}
 			}
 		}
 
@@ -405,9 +437,10 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 		date: Date,
 		unitPlan: UnitPlan,
 		activitiesForThisClass: string[],
+		section: ClassSection,
 	): Promise<void> {
 		const { teachingStyle, resources } = this.generatorForm.value;
-		if (!unitPlan.section || !this.user() || !teachingStyle || !resources)
+		if (!section || !this.user() || !teachingStyle || !resources)
 			throw new Error('Datos de formulario insuficientes.');
 
 		const subjectContents = unitPlan.contents
@@ -419,15 +452,17 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 			activitiesForThisClass.length > 0
 				? activitiesForThisClass.map((a) => `- ${a}`).join('\n')
 				: 'Desarrollar actividades introductorias sobre el tema de la unidad.';
-		
-		const availableIndicators = unitPlan.contents.flatMap(c => c.achievement_indicators.map(i => `"${i}"`)).join(' | ')
+
+		const availableIndicators = unitPlan.contents
+			.flatMap((c) => c.achievement_indicators.map((i) => `"${i}"`))
+			.join(' | ');
 
 		const prompt = classPlanPrompt
 			.replace('class_subject', this.pretifyPipe(planInfo.subject))
 			.replace('class_duration', planInfo.duration.toString())
 			.replace('class_topics', activitiesText)
-			.replace('class_year', unitPlan.section.year)
-			.replace('class_level', unitPlan.section.level)
+			.replace('class_year', section.year)
+			.replace('class_level', section.level)
 			.replace('teaching_style', teachingStyle)
 			.replace('plan_resources', (resources as string[]).join(', '))
 			.replace(
@@ -438,10 +473,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 				'[plan_sequence]',
 				`Este es el plan numero ${this.plansGenerated + 1} de ${this.totalPlansToGenerate}. Toma en cuenta los planes previos para mantener coherencia.`,
 			)
-			.replace(
-				'available_indicators',
-				availableIndicators,
-			);
+			.replace('available_indicators', availableIndicators);
 
 		const aiResponse = await this.aiService.geminiAi(prompt).toPromise();
 		if (!aiResponse?.response)
@@ -454,7 +486,7 @@ export class DailyPlanBatchGeneratorComponent implements OnInit, OnChanges {
 		const newPlan: Partial<ClassPlan> = {
 			...planJson,
 			user: this.user()?._id,
-			section: unitPlan.section._id,
+			section: section._id,
 			date: date,
 			subject: planInfo.subject,
 			duration: planInfo.duration,

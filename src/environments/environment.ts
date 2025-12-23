@@ -4,4 +4,5 @@ export const environment = {
 	apiUrl: isDevMode()
 		? 'http://localhost:3000/'
 		: 'https://api.kitmaestro.com/',
+	recaptchaSiteKey: 'YOUR_SITE_KEY_HERE',
 };

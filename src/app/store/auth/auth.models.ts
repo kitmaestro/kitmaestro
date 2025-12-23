@@ -27,6 +27,7 @@ export interface SignupDto {
 	password: string;
 	ref?: string;
 	plan?: string;
+	recaptchaToken?: string;
 }
 
 export interface PasswordResetDto {

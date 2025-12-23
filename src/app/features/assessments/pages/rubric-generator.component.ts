@@ -515,28 +515,32 @@ export class RubricGeneratorComponent implements OnInit, OnDestroy {
 		this.#store.dispatch(loadSections());
 		const unitPlan = this.unitPlan();
 		if (unitPlan) {
-			this.rubricForm.patchValue({
-				section: unitPlan.section._id,
-				subject: unitPlan.subjects[0] || '',
-				content: unitPlan.contents.length
-					? unitPlan.contents[0].concepts.length
-						? unitPlan.contents[0].concepts[0]
-						: ''
-					: '',
-				activity: `Evaluación del plan de unidad: ${unitPlan.title}`,
-				achievementIndicators: unitPlan.contents.flatMap(
-					(c) => c.achievement_indicators,
-				),
-			});
-			this.onSelectSection({ value: unitPlan.section._id });
-			this.onSubjectSelect({ value: unitPlan.subjects[0] });
-			if (
-				unitPlan.contents.length &&
-				unitPlan.contents[0].concepts.length
-			)
-				this.onConceptSelect({
-					value: unitPlan.contents[0].concepts[0],
+			const sectionId =
+				unitPlan.section?._id || unitPlan.sections?.[0]?._id;
+			if (sectionId) {
+				this.rubricForm.patchValue({
+					section: sectionId,
+					subject: unitPlan.subjects[0] || '',
+					content: unitPlan.contents.length
+						? unitPlan.contents[0].concepts.length
+							? unitPlan.contents[0].concepts[0]
+							: ''
+						: '',
+					activity: `Evaluación del plan de unidad: ${unitPlan.title}`,
+					achievementIndicators: unitPlan.contents.flatMap(
+						(c) => c.achievement_indicators,
+					),
 				});
+				this.onSelectSection({ value: sectionId });
+				this.onSubjectSelect({ value: unitPlan.subjects[0] });
+				if (
+					unitPlan.contents.length &&
+					unitPlan.contents[0].concepts.length
+				)
+					this.onConceptSelect({
+						value: unitPlan.contents[0].concepts[0],
+					});
+			}
 		}
 	}
 

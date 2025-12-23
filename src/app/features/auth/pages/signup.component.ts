@@ -1,4 +1,4 @@
-import { Component, inject, isDevMode, OnInit } from '@angular/core';
+import { Component, inject, isDevMode, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -13,6 +13,11 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RecoverComponent } from './recover.component';
 import { AuthService } from '../../../core/services/auth.service';
 import { environment } from '../../../../environments/environment';
+import {
+	RecaptchaComponent,
+	RecaptchaFormsModule,
+	RecaptchaModule,
+} from 'ng-recaptcha';
 
 @Component({
 	selector: 'app-signup',
@@ -28,6 +33,8 @@ import { environment } from '../../../../environments/environment';
 		RouterModule,
 		MatCheckboxModule,
 		MatDialogModule,
+		RecaptchaModule,
+		RecaptchaFormsModule,
 	],
 	template: `
 		<div class="flex-wrapper">
@@ -46,6 +53,12 @@ import { environment } from '../../../../environments/environment';
 					/>
 					<!-- <img src="/assets/teach.svg" class="teach-svg" alt=""> -->
 					<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+						<re-captcha
+							#captcha
+							size="invisible"
+							[siteKey]="recaptchaSiteKey"
+							(resolved)="onCaptchaResolved($event)"
+						></re-captcha>
 						<mat-form-field appearance="outline">
 							<mat-label>Email</mat-label>
 							<input
@@ -205,6 +218,9 @@ export class SignupComponent implements OnInit {
 	public user$ = this.authService.profile();
 	private plan = this.route.snapshot.queryParamMap.get('plan');
 	apiUrl = environment.apiUrl + 'auth/google';
+	recaptchaSiteKey = environment.recaptchaSiteKey;
+
+	@ViewChild('captcha') captcha!: RecaptchaComponent;
 
 	loading = false;
 
@@ -270,10 +286,11 @@ export class SignupComponent implements OnInit {
 		);
 	}
 
-	onSubmit() {
-		if (this.signupForm.valid) {
+	onCaptchaResolved(token: string | null) {
+		if (token && this.signupForm.valid) {
 			const { email, password } = this.signupForm.value;
 			this.loading = true;
+
 			if (email && password) {
 				this.authService
 					.signup({
@@ -281,9 +298,11 @@ export class SignupComponent implements OnInit {
 						password,
 						ref: this.referrer ? this.referrer : undefined,
 						plan: this.plan ? this.plan : undefined,
+						recaptchaToken: token,
 					})
 					.subscribe({
 						next: () => {
+							this.captcha.reset();
 							const next =
 								this.route.snapshot.queryParamMap.get('next');
 							this.router
@@ -304,6 +323,7 @@ export class SignupComponent implements OnInit {
 						},
 						error: (err) => {
 							console.log(err);
+							this.captcha.reset();
 							this.sb.open(
 								'Error al registrarte. Inténtalo de nuevo por favor.',
 								'Ok',
@@ -313,6 +333,15 @@ export class SignupComponent implements OnInit {
 						},
 					});
 			}
+		} else {
+			this.loading = false;
+		}
+	}
+
+	onSubmit() {
+		if (this.signupForm.valid) {
+			this.loading = true;
+			this.captcha.execute();
 		}
 	}
 }

@@ -31,10 +31,10 @@ export class AuthService {
 		});
 	}
 
-	signup({ email, password }: SignupDto): Observable<LoginOrSignupResponse> {
+	signup({ email, password, recaptchaToken }: SignupDto): Observable<LoginOrSignupResponse> {
 		return this.#api.post<LoginOrSignupResponse>(
 			this.#endpoint + 'signup',
-			{ email, password },
+			{ email, password, recaptchaToken },
 		);
 	}
 

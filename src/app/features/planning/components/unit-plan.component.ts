@@ -1385,7 +1385,9 @@ import { filter } from 'rxjs';
 													.activities;
 												track activity
 											) {
-												<li>- {{ activity }}</li>
+												<li>
+													<markdown [data]="activity" />
+												</li>
 											}
 										</ul>
 										<ul
@@ -1401,7 +1403,7 @@ import { filter } from 'rxjs';
 													.activities;
 												track activity
 											) {
-												<li>- {{ activity }}</li>
+												<li><markdown [data]="activity" /></li>
 											}
 										</ul>
 										<ul
@@ -1417,7 +1419,7 @@ import { filter } from 'rxjs';
 													.activities;
 												track activity
 											) {
-												<li>- {{ activity }}</li>
+												<li><markdown [data]="activity" /></li>
 											}
 										</ul>
 									</td>
@@ -1839,16 +1841,23 @@ export class UnitPlanComponent implements OnInit {
 				}
 			});
 		setTimeout(() => {
-			this.unitPlan?.competence.sort(
-				(a, b) =>
-					this.subjectValue(a.subject) - this.subjectValue(b.subject),
-			);
-			this.unitPlan?.contents.sort(
-				(a, b) =>
-					this.subjectValue(a.subject) - this.subjectValue(b.subject),
-			);
-			// join all contents and indicators of the same subject
 			if (this.unitPlan) {
+				// Clone the unitPlan to avoid mutating the frozen store object
+				const clonedPlan: UnitPlan = JSON.parse(
+					JSON.stringify(this.unitPlan),
+				);
+
+				clonedPlan.competence.sort(
+					(a, b) =>
+						this.subjectValue(a.subject) -
+						this.subjectValue(b.subject),
+				);
+				clonedPlan.contents.sort(
+					(a, b) =>
+						this.subjectValue(a.subject) -
+						this.subjectValue(b.subject),
+				);
+
 				const found: string[] = [];
 				const reduceContents = (
 					prev: ContentBlock[],
@@ -1882,10 +1891,13 @@ export class UnitPlanComponent implements OnInit {
 					}
 					return prev;
 				};
-				this.unitPlan.contents = this.unitPlan.contents.reduce(
+
+				clonedPlan.contents = clonedPlan.contents.reduce(
 					reduceContents,
 					[] as ContentBlock[],
 				);
+
+				this.unitPlan = clonedPlan;
 			}
 		}, 0);
 	}

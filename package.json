@@ -46,6 +46,7 @@
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "marked": "^16.4.1",
+    "ng-recaptcha": "^13.2.1",
     "ng2-adsense": "^14.0.0",
     "ng2-charts": "^8.0.0",
     "ngx-markdown": "^20.1.0",

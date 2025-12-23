@@ -50,6 +50,7 @@ import {
 	selectAllContentBlocks,
 } from '../../../store';
 import { selectAllThemes } from '../../../store/main-themes/main-themes.selectors';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
 	selector: 'app-multigrade-unit-plan-generator',
@@ -66,6 +67,7 @@ import { selectAllThemes } from '../../../store/main-themes/main-themes.selector
 		MatChipsModule,
 		IsPremiumComponent,
 		RouterModule,
+		MarkdownComponent,
 	],
 	template: `
 		<app-is-premium>
@@ -492,7 +494,7 @@ import { selectAllThemes } from '../../../store/main-themes/main-themes.selector
 															track activity
 														) {
 															<li>
-																{{ activity }}
+																<markdown [data]="activity" />
 															</li>
 														}
 													</ul>
@@ -510,7 +512,7 @@ import { selectAllThemes } from '../../../store/main-themes/main-themes.selector
 															track activity
 														) {
 															<li>
-																{{ activity }}
+																<markdown [data]="activity" />
 															</li>
 														}
 													</ul>
@@ -528,7 +530,7 @@ import { selectAllThemes } from '../../../store/main-themes/main-themes.selector
 															track activity
 														) {
 															<li>
-																{{ activity }}
+																<markdown [data]="activity" />
 															</li>
 														}
 													</ul>
@@ -783,9 +785,7 @@ export class MultigradeUnitPlanGeneratorComponent implements OnInit, OnDestroy {
 			.pipe(
 				ofType(createUnitPlanSuccess),
 				takeUntil(this.destroy$),
-				switchMap(() => this.#store.select(selectCurrentPlan)),
-				filter((plan) => !!plan),
-				tap((plan) => {
+				tap(({ plan }) => {
 					this.router
 						.navigate(['/planning', 'unit-plans', plan._id])
 						.then(() => {
